@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE script:module PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "module.dtd">
+<script:module xmlns:script="http://openoffice.org/2000/script" script:name="Templates" script:language="StarBasic">&apos; This module contains template related functions and sub routines
+&apos; The Template Editor functions and sub routines are found in the second
+&apos; half of this module
+
+Option Explicit
+
+Const sStartTagHead = &quot;%{OOoLilyPond&quot;
+Const sStartTagTail = &quot;%}&quot;
+Const sEndTag = &quot;%{OOoLilyPondEnd%}&quot;
+
+
+Function ApplyTemplate() As Boolean
+	&apos; Insert the OOoLilyPond data into the fields in the template
+	&apos; Input from sTemplateCode, OOoLilyPond data vars
+	&apos; Output into sLilyPondCode
+
+	Dim iTagPos As Integer
+	Dim sFieldName As String &apos; Code, StaffSize, LineWidth, Custom1 or Custom2
+	Dim sTemplateFile As String &apos; path to template file
+	Dim sCodeToParse As String &apos; copy of sTemplateCode
+
+	sCodeToParse = sTemplateCode
+
+	iTagPos = InStr(sCodeToParse, sStartTagHead)
+	If iTagPos = 0 Then
+		MsgBox(&quot;No OOoLilyPond tags found in the template!&quot;, iMsgBox_E, &quot;Error&quot;)
+		ApplyTemplate = False
+		Exit Function
+	End If
+
+	sLilyPondCode=&quot;&quot; &apos; Reset Code
+	Do
+		sLilyPondCode = sLilyPondCode &amp; Left(sCodeToParse, iTagPos-1)
+		sCodeToParse = Mid(sCodeToParse, iTagPos + Len(sStartTagHead))
+		iTagPos = InStr(sCodeToParse, sStartTagTail)
+		sFieldName = Left(sCodeToParse, iTagPos-1)
+		sCodeToParse = Mid(sCodeToParse, iTagPos + Len(sStartTagTail))
+
+		Select Case sFieldName
+
+		Case &quot;Code&quot;
+			&apos; Remember start and end of code snippet within sLilyPondCode (for finding error position)
+			iCodeStartPos = Len(sLilyPondCode) + 1
+			sLilyPondCode = sLilyPondCode &amp; sCode
+		Case &quot;LineWidth&quot;
+			iLineWidthStartPos = Len(sLilyPondCode) + 1
+			sLilyPondCode = sLilyPondCode &amp; sLineWidth
+		Case &quot;StaffSize&quot;
+			iStaffSizeStartPos = Len(sLilyPondCode) + 1
+			sLilyPondCode = sLilyPondCode &amp; sStaffSize
+		Case &quot;Custom1&quot;
+			iCustom1StartPos = Len(sLilyPondCode) + 1
+			sLilyPondCode = sLilyPondCode &amp; sCustom1
+		Case &quot;Custom2&quot;
+			iCustom2StartPos = Len(sLilyPondCode) + 1
+			sLilyPondCode = sLilyPondCode &amp; sCustom2
+		End Select
+
+		&apos; Skip template code until end tag
+		iTagPos = InStr(sCodeToParse, sEndTag)
+		If iTagPos = 0 Then
+			MsgBox(&quot;Template error: missing end tag &quot; &amp; Chr(10) &amp; Chr(34) &amp; sEndTag &amp; Chr(34) &amp; Chr(10) &amp; &quot; for tag &quot; &amp; Chr(10) &amp; Chr(34) &amp; sStartTagHead &amp; sFieldName &amp; sStartTagTail &amp; Chr(34) &amp; &quot;.&quot;, iMsgBox_E, &quot;Error&quot;)
+			ApplyTemplate = False
+			Exit Function
+		End If
+		sCodeToParse = Mid(sCodeToParse, iTagPos + Len(sEndTag))
+
+		&apos; Look for next start tag
+		iTagPos = InStr(sCodeToParse, sStartTagHead)
+		
+	Loop Until iTagPos = 0
+
+	sLilyPondCode = sLilyPondCode &amp; sCodeToParse
+
+	ApplyTemplate = True
+
+End Function
+
+
+Function ListOfTemplates(oComboBox) As Integer
+	&apos; Fills the ComboBox with the list of Templates
+	&apos; Returns
+	&apos; 0 If everything worked ok
+	&apos; 1 If no templates are found
+	&apos; 2 If the template path does not exist
+
+	Dim sItemArray(1000) As String
+	Dim t As String
+	Dim i As Integer
+
+	&apos;Clear list
+	oComboBox.removeItems(0, oComboBox.getItemCount)
+	If Not oFileAccess.isFolder(sTemplatePath) Then
+		ListOfTemplates=2
+	Else
+		i=0
+		t=Dir(sTemplatePath)
+		Do While t&lt;&gt;&quot;&quot;
+			If Right(t,3)=&quot;.ly&quot; Then
+				sItemArray(i)=Left(t, Len(t)-3)
+				i=i+1
+			End If
+			t=Dir
+		Loop
+		If i=0 Then
+			ListOfTemplates=1
+		Else
+			ReDim Preserve sItemArray(i-1) As String
+			SortStringArray(sItemArray)
+			oComboBox.addItems(sItemArray,0)
+			ListOfTemplates=0
+		End If
+	EndIf
+End Function
+
+
+Function ReadTemplate() As Boolean
+	&apos; Reads the template file into sTemplateCode
+	&apos; Extracts the content between the OOoLilyPond Start end End tags
+	&apos; for beeing used as template specific default values.
+
+	Dim sDefaultValue As String
+	Dim iTagPos As Integer
+	Dim sFieldName As String &apos; Code, StaffSize, LineWidth, Custom1 or Custom2
+	Dim sTemplateFile As String &apos; path to template file
+	Dim sCodeToParse As String &apos; copy of sTemplateCode
+	Dim sStaffSizeFromTemplate As String	
+	Dim sLineWidthFromTemplate As String
+	Dim bCodeFieldExists As Boolean
+
+	
+	sTemplateFile = sTemplatePath &amp; sTemplate &amp; &quot;.ly&quot;
+
+	If Not StringFromFile(sTemplateCode, sTemplateFile) Then
+		MsgBox(&quot;Cannot open the template file:&quot; &amp; Chr(10) &amp; ConvertFromURL(sTemplateFile), iMsgBox_E, &quot;Error&quot;)
+		ReadTemplate=False
+		Exit Function
+	End If
+	sCodeToParse = sTemplateCode
+
+	bCodeFieldExists = False
+	bLineWidthFieldExists = False
+	bStaffSizeFieldExists = False
+	bCustom1FieldExists = False
+	bCustom2FieldExists = False
+
+	iTagPos = InStr(sCodeToParse, sStartTagHead)
+
+	While iTagPos &gt; 0
+		sCodeToParse = Mid(sCodeToParse, iTagPos + Len(sStartTagHead))
+		iTagPos = InStr(sCodeToParse, sStartTagTail)
+		sFieldName = Left(sCodeToParse, iTagPos-1)
+		sCodeToParse = Mid(sCodeToParse, iTagPos + Len(sStartTagTail))
+
+		&apos; Read the template code until end tag
+		&apos; (this can be used as default value the corresponding)
+		iTagPos = InStr(sCodeToParse, sEndTag)
+		If iTagPos = 0 Then
+			MsgBox(&quot;Template error: missing end tag &quot; &amp; Chr(10) &amp; Chr(34) &amp; sEndTag &amp; Chr(34) &amp; Chr(10) &amp; &quot; for tag &quot; &amp; Chr(10) &amp; Chr(34) &amp; sStartTagHead &amp; sFieldName &amp; sStartTagTail &amp; Chr(34) &amp; &quot;.&quot;, iMsgBox_E, &quot;Error&quot;)
+			ApplyTemplate = False
+			Exit Function
+		End If
+
+		sDefaultValue=Left(sCodeToParse, iTagPos-1)
+		sCodeToParse = Mid(sCodeToParse, iTagPos + Len(sEndTag))
+		
+		If CBool(InStr(sDefaultValue, sStartTagHead)) Then
+			MsgBox(&quot;Template error:&quot; &amp; Chr(34) &amp; &quot;corresponding end tag for &quot; &amp; Chr(10) &amp; Chr(34) &amp; sStartTagHead &amp; sFieldName &amp; sStartTagTail &amp; Chr(34) &amp; Chr(10) &amp; &quot; is missing or misspelled.&quot;, iMsgBox_E, &quot;Error&quot;)
+			ApplyTemplate = False
+			Exit Function
+		End If
+
+		Select Case sFieldName
+			Case &quot;Code&quot;
+				sDefaultCode = sDefaultValue
+				bCodeFieldExists = True
+			Case &quot;LineWidth&quot;
+				sLineWidthFromTemplate = sDefaultValue
+				bLineWidthFieldExists = True
+			Case &quot;StaffSize&quot;
+				sStaffSizeFromTemplate = sDefaultValue
+				bStaffSizeFieldExists = True
+			Case &quot;Custom1&quot;
+				sDefaultCustom1 = sDefaultValue
+				bCustom1FieldExists = True
+			Case &quot;Custom2&quot;
+				sDefaultCustom2 = sDefaultValue
+				bCustom2FieldExists = True
+		End Select
+
+		&apos; Look for next start tag
+		iTagPos = InStr(sCodeToParse, sStartTagHead)
+		
+	Wend
+
+	If bUseLineWidthFromTemplate Then
+		sDefaultLineWidth = sLineWidthFromTemplate
+	End If
+	If bUseStaffSizeFromTemplate Then
+		sDefaultStaffSize = sStaffSizeFromTemplate
+	EndIf
+		
+	If Not bCodeFieldExists Then
+		MsgBox(&quot;The selected Template does not have an OOoLilyPondCode tag.&quot; &amp; Chr(10) &amp; &quot;Please correct the template.&quot;, iMsgBox_E, &quot;Error&quot;)
+		ReadTemplate = False
+		Exit Function
+	End If
+
+	ReadTemplate = True
+
+End Function
+
+
+&apos; ****************************
+&apos;    Template Editor Dialog
+&apos; ****************************
+
+Sub TmplDialog
+	&apos;Initialize and open the template editor dialog
+
+	&apos; Load the library OOoLilyPond...
+	DialogLibraries.LoadLibrary( &quot;OOoLilyPond&quot; )
+	
+	&apos; Create the dialog object
+	oTemplateEditorDialog = createUnoDialog( DialogLibraries.GetByName(&quot;OOoLilyPond&quot;).GetByName(&quot;GUI_Tmpl&quot;) )
+
+	&apos; Set title
+	oTemplateEditorDialog.setTitle( sTemplate &amp; &quot;.ly - Template Editor&quot; )
+
+	&apos; Fill in template code
+	oTemplateEditorDialog.getControl(&quot;sTemplateCode&quot;).setText(sTemplateCode)
+
+    oTemplateEditorDialog.Execute()
+
+End Sub
+
+
+&apos; *************
+&apos;    Buttons
+&apos; *************
+
+Sub TmplCancelButton
+	oTemplateEditorDialog.endExecute()
+End Sub
+
+
+Sub TmplDeleteButton
+	&apos; Called from Delete button
+	&apos; Not yet handled errors:
+	&apos; File deletion not possible (permissions or so)
+
+	Dim sFile As String
+	sFile = sTemplatePath &amp; sTemplate &amp; &quot;.ly&quot;
+
+	If oFileAccess.exists( sFile ) Then
+		oFileAccess.kill(sFile )
+		oTemplateEditorDialog.endExecute()
+	Else
+		MsgBox(&quot;Cannot delete the template file &quot; &amp; Chr(34) &amp; ConvertFromURL(sTemplate) &amp; Chr(34), iMsgBox_O, &quot;Error&quot;)
+	End If
+
+	If sTemplate=sWriterDefaultTemplate or sTemplate=sImpressDefaultTemplate Then
+		MsgBox(&quot;You have deleted a default template. Please choose another default template in the configuration dialogue&quot;)
+		ConfigDialog()
+	EndIf
+
+	&apos; Use the default template
+	sTemplate=IIf(bInWriter, sWriterDefaultTemplate, sImpressDefaultTemplate)
+
+End Sub
+
+
+Sub TmplSaveAsButton
+	&apos; Is called when pressing the &quot;Save As&quot; button
+	&apos; Asks for a new name and writes the template code to the new file
+
+	&apos; Not yet handled errors:
+	&apos; - Forbidden charachters in template name.
+	
+	&apos; Not implemented ye:
+	&apos; Check whether file already exists
+
+	Dim sFile As String
+	Dim sReply As String
+	
+	sReply = InputBox ( &quot;Please enter a new template name and click OK.&quot; , &quot;New template name&quot;, sTemplate)
+	If sReply = &quot;&quot; Then
+		Exit Sub
+	End If
+	
+	sFile = sTemplatePath &amp; sReply &amp; &quot;.ly&quot;
+	
+	If StringToFile(oTemplateEditorDialog.getControl(&quot;sTemplateCode&quot;).getText(), sFile) Then
+		sTemplate = sReply
+		oTemplateEditorDialog.endExecute()
+	Else
+		MsgBox(&quot;Cannot write to file &quot; &amp; Chr(34) &amp; ConvertFromURL(sFile) &amp; Chr(34), iMsgBox_O, &quot;Error&quot;)
+	End If
+
+End Sub
+
+
+Sub TmplSaveButton
+	&apos; Is called from the &quot;Save&quot; button
+
+	Dim sFile As String
+	
+	sFile = sTemplatePath &amp; sTemplate &amp; &quot;.ly&quot;
+	
+	If StringToFile(oTemplateEditorDialog.getControl(&quot;sTemplateCode&quot;).getText(), sFile) Then
+		oTemplateEditorDialog.endExecute()
+	Else
+		MsgBox(&quot;Cannot write to file &quot; &amp; Chr(34) &amp; ConvertFromURL(sFile) &amp; Chr(34),, iMsgBox_O, &quot;Error&quot;)
+	End If
+	
+End Sub
+
+
+
+</script:module>
