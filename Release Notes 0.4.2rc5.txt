@@ -99,14 +99,15 @@ It works fine with OpenOffice 4.1.3, even if the graphics are not visible in the
 SVG will only work with LibreOffice and *not* with OpenOffice. 
 For SVG use, some more things have to be considered: 
 
-* Most OOoLilyTemplates use "lilypond-book-preamble.ly" which *only* works with EPS or PNG format, and *not* with SVG (in that case, no graphics output file is produced). 
+* Most OOoLilyPond templates use "lilypond-book-preamble.ly" which *only* works with EPS or PNG format, and *not* with SVG (in that case, no graphics output file is produced). 
 
 * You can use the templates "SVG Default" and "SVG Direct to LilyPond" with SVG format. 
 However, without lilypond-book-preamble.ly, there is no automatic cropping of the resulting image. 
 Therefore, you must specify the "paper" size for your LilyPond snippet in advance. As line-width must be given anyway, only the paper height would have to be found by trial-and-error. So maybe this isn't as bad as is sounds... 
 By the way: in LibreOffice, you can manually crop the image after inserting. 
 
-* If you edit an existing snippet, you can now choose to keep its size and crop settings. The default behaviour for that can be adjusted in the config dialog (independent settings for Writer and Impress/Draw).
+* If you edit an existing snippet, you can now choose to keep its size and crop settings. The default behaviour for that can be adjusted in the config dialog (independent settings for Writer and Impress/Draw). 
+(By some unknown magic, png graphics appear auto-cropped even without lilypond-book-preamble. Therefore, switching between different graphic formats can mess up the image size when keeping size&crop settings.)
 
 * If LilyPond uses fonts that are not installed on your system, they won't show up correctly in the resulting SVG image. Therefore, the two SVG templates have some preparation to replace LilyPond's default fonts. 
 
@@ -127,7 +128,7 @@ In 0.4.2 both methods are offered. The option dialog lets you define which metho
 What if I get an error "There is no EPS/PNG/SVG output"?
 ---------------------------------------------------------
 
-You can read LilyPond's compiler messages by clicking the "Ly Output" button. 
+For further information about what has occured, you can read LilyPond's compiler messages by clicking the "Ly Output" button. 
 
 * Do you have severe errors in your LilyPond code that prevented successful compiling?
 You can also jump to the reported errors with the "arrow" buttons at the bottom left of the editor window.
