@@ -11,12 +11,23 @@ Option Explicit
 
 Sub EditorDialog()
 
+	Dim oFieldModel As Object							&apos; %%%%% Added KB
+	Dim myFont As New com.sun.star.awt.FontDescriptor	&apos; %%%%% Added KB
+
 	&apos; Load the library OOoLilyPond...
-	DialogLibraries.LoadLibrary( &quot;OOoLilyPond&quot; )
+	DialogLibraries.LoadLibrary( constOLyLibraryName )
 	
 	&apos; Create the dialog object
-	oEditorDialog = createUnoDialog( DialogLibraries.GetByName(&quot;OOoLilyPond&quot;).GetByName(&quot;GUI_Editor&quot;) )
+	oEditorDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Editor&quot;) )
 
+	&apos; %%%%% Added by KB: Change the font of the editor pane
+	oFieldModel = oEditorDialog.getControl(&quot;sCode&quot;).getModel()
+	MyFont.Name = sEditorFontName
+	&apos; MyFont.StyleName = &quot;Fett&quot;  &apos; bad idea...
+	MyFont.Height = sEditorFontSize
+	oFieldModel.FontDescriptor = MyFont
+    &apos; %%%%% 
+  
 	&apos; Fill in the values
 	If bUseDefaultCode Then
 		sCode=&quot;&quot;
@@ -52,7 +63,7 @@ Sub EditorDialog()
 	&apos; Fill the Template Combobox
 	Select Case ListOfTemplates(oEditorDialog.getControl(&quot;sTemplate&quot;))
 	Case 1
-		MsgBox(&quot;No templates are found at the path: &quot; &amp;  Chr(10) &amp; Chr(34) &amp; ConvertFromURL(sTemplatePath) &amp; Chr(34) &amp; &quot;.&quot; &amp; Chr(10) &amp; &quot;OOoLilyPond will not work without a template.&quot;)
+		MsgBox(&quot;No templates are found at the path: &quot; &amp;  Chr(10) &amp; Chr(34) &amp; ConvertFromURL(sTemplatePath) &amp; Chr(34) &amp; &quot;.&quot; &amp; Chr(10) &amp; constOLyLibraryName &amp; &quot; will not work without a template.&quot;)
 	Case 2
 		MsgBox(&quot;The template path &quot; &amp;  Chr(10) &amp; Chr(34) &amp; ConvertFromURL(sTemplatePath) &amp; Chr(34) &amp; &quot; is not found.&quot;) &apos; Should never happen here.
 	End Select
@@ -66,6 +77,8 @@ Sub EditorDialog()
 	If iWrap = com.sun.star.text.WrapTextMode.NONE Then oEditorDialog.getControl(&quot;NoWrap&quot;).setState(true)
 	If iWrap = com.sun.star.text.WrapTextMode.DYNAMIC Then oEditorDialog.getControl(&quot;OptimalPageWrap&quot;).setState(true)
 	If iWrap = com.sun.star.text.WrapTextMode.THROUGHT Then oEditorDialog.getControl(&quot;WrapThrough&quot;).setState(true)	
+	
+	oEditorDialog.getControl(&quot;bKeepCrop&quot;).setState (BoolToCheckBoxState(bKeepCrop And bShapeIsSelected))
 
 	&apos; grey out inactive control elements
 	GreyOut()
@@ -91,11 +104,14 @@ Sub GreyOut()
 	oEditorDialog.getControl(&quot;AnchorToParagraph&quot;).setEnable(bInWriter)
 	oEditorDialog.getControl(&quot;AnchorToPage&quot;).setEnable(bInWriter)
 
-	&apos; grey out Wrap radio butttons when Anchor is &quot;as Character&quot;
+	&apos; grey out Wrap radio buttons when Anchor is &quot;as Character&quot;
 	oEditorDialog.getControl(&quot;WrapFrameControl&quot;).setEnable(bWrapSettings)
 	oEditorDialog.getControl(&quot;NoWrap&quot;).setEnable(bWrapSettings)
 	oEditorDialog.getControl(&quot;OptimalPageWrap&quot;).setEnable(bWrapSettings)
 	oEditorDialog.getControl(&quot;WrapThrough&quot;).setEnable(bWrapSettings)
+
+	&apos; grey out KeepCrop checkbox when no current OLy object is selected
+	oEditorDialog.getControl(&quot;bKeepCrop&quot;).setEnable(bShapeIsSelected)
 
 	&apos; grey out Input Fields
 	oEditorDialog.getControl(&quot;sLineWidth&quot;).setEnable(bLineWidthFieldExists)
@@ -206,16 +222,44 @@ Sub ShowLilyPondOutput()
 	Dim oOutputDialog As Object
 	Dim sOutput As String
 
-	If StringFromFile(sOutput, sTmpPath &amp; &quot;OOoLilyPond.out&quot;) Then
+	If StringFromFile(sOutput, sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;) Then
 
-		DialogLibraries.LoadLibrary( &quot;OOoLilyPond&quot; )
-		oOutputDialog = createUnoDialog( DialogLibraries.GetByName(&quot;OOoLilyPond&quot;).GetByName(&quot;GUI_Out&quot;) )
+		DialogLibraries.LoadLibrary( constOlyLibraryName )
+		oOutputDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Out&quot;) )
 		oOutputDialog.getControl(&quot;sOutput&quot;).setText(sOutput)
 		oOutputDialog.Execute()
 	
 	Else
 		MsgBox(&quot;There is no LilyPond output.&quot;)
 	End If
+End Sub
+
+Sub CallExtEditor()	&apos; %%%%% Added by KB
+
+	Dim sCommand As String
+	Dim sParam As String
+	
+	If sOSType = &quot;Unix&quot; Then
+		sCommand=&quot;cd &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; Chr(34) &amp; &quot;; &quot; _
+		&amp; Chr(34) &amp; sExtEditorExecutable &amp; Chr(34) &amp; &quot; &quot; &amp; constOLyFileName &amp; &quot;Temp.ly; if [ $? -ge 126 ]; then touch ExtEditor-cannot_execute; fi&quot; &apos; not found -&gt; 127, denied -&gt;126
+		BashCommand(sCommand)
+	ElseIf sOSType = &quot;Windows&quot; Then
+		
+		If Not oFileAccess.exists(sExtEditorExecutable) Then
+ 			MsgBox(&quot;No valid file name / path for External Editor is specified.&quot;, 0, &quot;Error&quot;)
+  			Exit Sub
+ 		End If
+		
+		sCommand = sExtEditorExecutable
+		sParam = ConvertFromURL(sTmpPath) &amp; &quot;\&quot; &amp; constOLyFileName &amp; &quot;Temp.ly&quot;
+		&apos; ----------------------------------------------------------------------
+		  Shell (sCommand, 1, sParam, False)  								&apos;	|
+		&apos; If you get a BASIC runtime error like &quot;file not found&quot; right here,	|	
+		&apos; your &quot;External Editor Path&quot; setting 									|
+		&apos; probably points to an existing file that is NOT an executable file. 	|
+		&apos; ----------------------------------------------------------------------
+	End If
+
 End Sub
 
 
@@ -252,7 +296,7 @@ End Sub
 
 Sub LilyPondButton()
 
-	&apos; all values except for the Anchor and Wrap settings should already be updated
+	&apos; all values except for the Anchor, Wrap and Size/Crop settings should already be updated
 	if oEditorDialog.getControl(&quot;AnchorAsCharacter&quot;).getState() then iAnchor = com.sun.star.text.TextContentAnchorType.AS_CHARACTER
 	if oEditorDialog.getControl(&quot;AnchorToParagraph&quot;).getState() then iAnchor = com.sun.star.text.TextContentAnchorType.AT_PARAGRAPH
 	if oEditorDialog.getControl(&quot;AnchorToPage&quot;).getState() then iAnchor = com.sun.star.text.TextContentAnchorType.AT_PAGE
@@ -260,10 +304,44 @@ Sub LilyPondButton()
 	if oEditorDialog.getControl(&quot;NoWrap&quot;).getState() then iWrap = com.sun.star.text.WrapTextMode.NONE
 	if oEditorDialog.getControl(&quot;OptimalPageWrap&quot;).getState() then iWrap = com.sun.star.text.WrapTextMode.DYNAMIC
 	if oEditorDialog.getControl(&quot;WrapThrough&quot;).getState() then iWrap = com.sun.star.text.WrapTextMode.THROUGHT
+	
+	bKeepCrop = CheckBoxStateToBool (oEditorDialog.getControl(&quot;bKeepCrop&quot;).getState())
 
 	&apos; Create the LilyPond music and insert it...
 	Make()
 
+End Sub
+
+Sub ExtEditorButton()	&apos; %%%%% Added by KB
+
+	If Not ApplyTemplate() Then Exit Sub
+	CleanUp()
+	If Not WriteTempLyFile() Then Exit Sub
+	CallExtEditor()
+	
+End Sub
+
+Sub ImportButton()	&apos; %%%%% Added by KB
+
+	If Not ReadTempLyFile() Then Exit Sub
+	oEditorDialog.getControl(&quot;sCode&quot;).setText(sCode)
+	
+	If bLineWidthFieldExists Then
+		oEditorDialog.getControl(&quot;sLineWidth&quot;).setText(sLineWidth)
+	End if
+	
+	If bStaffSizeFieldExists Then
+		oEditorDialog.getControl(&quot;sStaffSize&quot;).setText(sStaffSize)
+	End If
+	
+	If bCustom1FieldExists Then
+		oEditorDialog.getControl(&quot;sCustom1&quot;).setText(sCustom1)
+	End If
+	
+	If bCustom2FieldExists Then
+		oEditorDialog.getControl(&quot;sCustom2&quot;).setText(sCustom2)
+	End If
+	
 End Sub
 
 &apos; ***************************

@@ -4,6 +4,17 @@
 
 Option Explicit
 
+Sub RemoveSpaces (s as String)	&apos; %%%%% Added by KB
+&apos; If there are whitespaces at the beginning or end of s, remove them:
+	While Left(s, 1) = &quot; &quot;
+		s = Right (s, Len(s)-1)
+	Wend	
+	While Right(s, 1) = &quot; &quot;
+		s = Left (s, Len(s)-1)
+	Wend
+End Sub
+	
+
 Function AddSlash( sPath as String) as String
 	&apos; Add a slash if necessary
 	&apos; Folder paths in OOoLilyPond always should have a slash at the end
@@ -39,7 +50,13 @@ Function RowColToPos(sText As String, iRow, iCol As Integer) As Integer
 	
 	&apos; If row is 0 or negative put curser to the start
 	If iRow &lt; 1 Then
-		CurserPosition=1
+	&apos; %%%%% Modified KB:
+	&apos;	CurserPosition=1	&apos;replaced by:
+		RowColToPos=1
+		&apos; A variable named CurserPosition is nowhere else to be found.
+		&apos; I guess this should have been renamed to RowColToPos (the return value of the function we&apos;re in) 
+		&apos; and simply has been forgotten.
+		&apos; -KB
 		Exit Function
 	End If
 	
@@ -86,7 +103,7 @@ Sub ImportGraphicIntoClipboard(cURL)
 	Dim oDrawDocCtrl As Object
 	Dim oDrawPage As Object
 	Dim oImportShape As Object
-	Dim oShapeSize As Object
+	&apos; Dim oShapeSize As Object
 	Dim arg1(0) As New com.sun.star.beans.PropertyValue
 
 	oDispatcher = createUnoService( &quot;com.sun.star.frame.DispatchHelper&quot; )
@@ -102,20 +119,169 @@ Sub ImportGraphicIntoClipboard(cURL)
     oImportShape = oDrawPage(0)
 	
 	&apos; Get the dimension of the image...
-	oShapeSize = oImportShape.Size()
+	&apos; oShapeSize = oImportShape.Size()
 	
 	&apos; Strange bug with the eps and emf format... correction of the size
-	if sFormat = &quot;eps&quot; then oShapeSize.Width = oShapeSize.Width * 0.99
-	if sFormat = &quot;eps&quot; then oShapeSize.Height = oShapeSize.Height * 0.91
-	if sFormat = &quot;emf&quot; then oShapeSize.Width = oShapeSize.Width * 1.13
-	if sFormat = &quot;emf&quot; then oShapeSize.Height = oShapeSize.Height * 1.1
-
+	&apos; if sFormat = &quot;eps&quot; then oShapeSize.Width = oShapeSize.Width * 0.99
+	&apos; if sFormat = &quot;eps&quot; then oShapeSize.Height = oShapeSize.Height * 0.91
+	&apos; if sFormat = &quot;emf&quot; then oShapeSize.Width = oShapeSize.Width * 1.13
+	&apos; if sFormat = &quot;emf&quot; then oShapeSize.Height = oShapeSize.Height * 1.1
+	
+	if bKeepCrop Then
+		oImportShape.setSize (oShapeSize)							&apos; apply size of old graphics object
+		oImportShape.setPropertyValue (&quot;GraphicCrop&quot;, oShapeCrop)	&apos; apply crop settings of old graphics object
+	Else
+				&apos; do nothing, the new image just keeps its correct settings
+	End If
+	
 	&apos; Copy the image to clipboard and close the draw document
 	oDrawDocCtrl.select(oImportShape)
 	Dim Array()
 	oDispatcher.executeDispatch( oDrawDocCtrl.Frame, &quot;.uno:Copy&quot;, &quot;&quot;, 0, Array() )
 	oDrawDoc.dispose()
 End Sub
+
+
+Function ImportBitmapIntoDraw(sURL As String, Optional oGraphicShape) As Object
+	&apos; Imports a bitmap into Draw or Impress
+	Dim oDrawPage As Object
+	Dim oBitmaps As Object
+	Dim sNewUrl As String
+	Dim oSize As Object
+	Dim oShape As Object
+	Dim oDoc As Object
+	Dim oDocCtrl As Object
+	Dim oCrop As new com.sun.star.text.GraphicCrop	&apos; %%%%% Added KB
+	Const INCH = 2540
+	Const VECTORDPI = 96	&apos; Correction factor for vector graphics as they don&apos;t use PNG&apos;s dpi values
+							&apos; It seems that 96 dpi is assumed
+
+	oDoc = ThisComponent
+	oDocCtrl = oDoc.getCurrentController
+	
+	oBitmaps = oDoc.createInstance(&quot;com.sun.star.drawing.BitmapTable&quot;)
+	If oBitmaps.hasByName( &quot;OOoLilyPond&quot; ) Then
+		oBitmaps.removeByName( &quot;OOoLilyPond&quot; )
+	End If
+	oBitmaps.insertByName( &quot;OOoLilyPond&quot;, ConvertToURL(sURL) )
+	sNewURL = oBitmaps.getByName( &quot;OOoLilyPond&quot; )
+
+	&apos;Insert the Bitmap
+	If IsMissing(oGraphicShape) Then
+		oDrawPage=oDocCtrl.getCurrentPage()
+		oGraphicShape = oDoc.createInstance(&quot;com.sun.star.drawing.GraphicObjectShape&quot;)
+		oGraphicShape.graphicURL=sNewURL
+		oDrawPage.add(oGraphicShape)
+	Else
+		oGraphicShape.graphicURL=sNewURL
+	End If
+		
+	&apos;Set the correct Size
+	oSize = createUnoStruct( &quot;com.sun.star.awt.Size&quot; )
+	If sFormat = &quot;png&quot; Then
+		oSize.width = oGraphicShape.Graphic.Size.Width/iGraphicDPI*INCH
+		oSize.height = oGraphicShape.Graphic.Size.Height/iGraphicDPI*INCH
+	Else	&apos; svg or eps
+		oSize.width = oGraphicShape.Graphic.Size.Width/VECTORDPI*INCH
+		oSize.height = oGraphicShape.Graphic.Size.Height/VECTORDPI*INCH
+ 	End If
+&apos;%%	oGraphicShape.setSize(oSize)
+	&apos; oGraphicShape.GraphicCrop = oCrop
+
+	&apos; remove the Bitmap from the table
+	&apos; (otherwise the Bitmaps of deleted Objects will still be referenced and saved)
+	oBitmaps.removeByName( &quot;OOoLilyPond&quot; )
+
+	&apos; refresh the view
+	oDocCtrl.restoreViewData(oDocCtrl.getViewData)	
+	
+	&apos; %%%%% Added by KB: remove Cropping
+&apos;	oCrop = createUnoStruct( &quot;com.sun.star.text.GraphicCrop&quot; )
+&apos;	oCrop.Left = 0
+&apos;	oCrop.Right = 0
+&apos;	oCrop.Top = 0
+&apos;	oCrop.Bottom = 0
+&apos;%%	oGraphicShape.setPropertyValue (&quot;GraphicCrop&quot;, oCrop)
+	&apos; %%%%%
+	
+	
+	
+	If bKeepCrop Then
+		oGraphicShape.setSize (oShapeSize)		&apos; apply size of old graphics object
+												&apos; Crop settings are already present, no need to do anything
+	Else
+		oGraphicShape.setSize(oSize)							&apos; apply size as calculated above
+		oGraphicShape.setPropertyValue (&quot;GraphicCrop&quot;, oCrop)	&apos; overwrite old Crop settings
+	End If
+	
+	
+	
+	
+	
+	&apos; return the shape
+	ImportBitmapIntoDraw = oGraphicShape
+
+End Function
+
+
+Function ImportBitmapIntoWriter(sFile As String, oTextGraphicOrCursor As Object) As Object
+	&apos; Imports a bitmap into Writer
+	&apos; Inserts at given Cursor Position
+	&apos; or replaces given TextGraphicObject
+
+	Dim oBitmaps As Object
+	Dim sNewUrl As String
+	Dim oDoc As Object
+	Dim oCursor As Object
+	Dim oText As Object
+	Dim oTextGraphic As Object
+	Dim oCrop As new com.sun.star.text.GraphicCrop	&apos; %%%%% Added KB
+
+	oDoc = ThisComponent
+	
+	&apos; Load the image into the internal bitmap table
+	oBitmaps = oDoc.createInstance(&quot;com.sun.star.drawing.BitmapTable&quot;)
+	If oBitmaps.hasByName( &quot;OOoLilyPond&quot; ) Then
+		oBitmaps.removeByName( &quot;OOoLilyPond&quot; )
+	End If
+	
+	oBitmaps.insertByName( &quot;OOoLilyPond&quot;, ConvertToURL(sFile) )
+	sNewURL = oBitmaps.getByName( &quot;OOoLilyPond&quot; )
+
+	&apos; Create a new TextGraphic Object, if needed
+	Select Case oTextGraphicOrCursor.getImplementationName()
+	Case &quot;SwXTextCursor&quot;
+		oTextGraphic = oDoc.createInstance(&quot;com.sun.star.text.GraphicObject&quot;)
+		oTextGraphic.GraphicURL = sNewURL
+		oTextGraphic.AnchorType = com.sun.star.text.TextContentAnchorType.AS_CHARACTER
+		oDoc.Text.insertTextContent( oTextGraphicOrCursor, oTextGraphic, False )
+	Case &quot;SwXTextGraphicObject&quot;
+		oTextGraphic = oTextGraphicOrCursor
+		oTextGraphic.GraphicURL = sNewURL
+	Case Else &apos; Should never happen in OOoLilyPond, just notify in case
+		MsgBox &quot;ImportBitmapIntoWriter: the second argument must be either a TextCursor or a TextGraphic.&quot;
+	End Select
+
+	&apos; remove the Bitmap from the table
+	&apos; (otherwise the Bitmaps of deleted Objects will still be referenced and saved)
+	oBitmaps.removeByName( &quot;OOoLilyPond&quot; )
+
+	&apos; this triggers the updating of the property &quot;ActualSize&quot;
+	&apos; see http://www.openoffice.org/issues/show_bug.cgi?id=85105
+	oTextGraphic.getPropertyValue(&quot;IsPixelContour&quot;)
+	&apos; set the original graphic size
+	
+	If bKeepCrop Then
+		oTextGraphic.setSize (oShapeSize)		&apos; apply size of old graphics object
+												&apos; Crop settings are already present, no need to do anything
+	Else
+		oTextGraphic.setSize(oTextGraphic.ActualSize)			&apos; apply ActualSize of newly created graphic
+		oTextGraphic.setPropertyValue (&quot;GraphicCrop&quot;, oCrop)	&apos; overwrite old Crop settings
+	End If
+
+	&apos;return the TextGraphic object
+	ImportBitmapIntoWriter = oTextGraphic	
+End Function
 
 
 Sub SortStringArray(StringArray As Variant)
