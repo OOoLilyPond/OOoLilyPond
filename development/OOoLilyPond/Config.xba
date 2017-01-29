@@ -44,7 +44,7 @@ Sub ConfigDialogUpdate()
 	&apos; Set the contents of the template combo boxes
 	&apos; To do: don&apos;t read the template list twice
 	&apos; just copy it instead.
-	oConfigDialog.getControl(&quot;sFormat&quot;).addItems(Array(&quot;png&quot;,&quot;eps&quot;,&quot;svg&quot;),0)	&apos;%%%%% Modified KB
+	oConfigDialog.getControl(&quot;sFormat&quot;).addItems(Array(&quot;png&quot;,&quot;eps&quot;,&quot;svg&quot;),0)
 	ListOfTemplates(oConfigDialog.getControl(&quot;sWriterDefaultTemplate&quot;))
 	ListOfTemplates(oConfigDialog.getControl(&quot;sImpressDefaultTemplate&quot;))
 
@@ -53,10 +53,10 @@ Sub ConfigDialogUpdate()
 	oConfigDialog.getControl(&quot;sLilyPondExecutable&quot;).setText(ConvertFromURL(sLilyPondExecutable))
 	oConfigDialog.getControl(&quot;sFormat&quot;).setText(sFormat)
 	oConfigDialog.getControl(&quot;iGraphicDPI&quot;).setValue(iGraphicDPI)
-	oConfigDialog.getControl(&quot;sEditorFontName&quot;).setText(sEditorFontName)							&apos; %%%%% Added by KB
-	oConfigDialog.getControl(&quot;sEditorFontSize&quot;).setText(sEditorFontSize)							&apos; %%%%% Added by KB
-	oConfigDialog.getControl(&quot;sExtEditorExecutable&quot;).setText(ConvertFromURL(sExtEditorExecutable))	&apos; %%%%% Added by KB
-	oConfigDialog.getControl(&quot;sIncludeStatement&quot;).setText(sIncludeStatement)						&apos; %%%%% Added by KB
+	oConfigDialog.getControl(&quot;sEditorFontName&quot;).setText(sEditorFontName)
+	oConfigDialog.getControl(&quot;sEditorFontSize&quot;).setText(sEditorFontSize)
+	oConfigDialog.getControl(&quot;sExtEditorExecutable&quot;).setText(ConvertFromURL(sExtEditorExecutable))
+	oConfigDialog.getControl(&quot;sIncludeStatement&quot;).setText(sIncludeStatement)
 
 	&apos; Writer configuration
 	oConfigDialog.getControl(&quot;sWriterDefaultTemplate&quot;).setText(sWriterDefaultTemplate)
@@ -72,7 +72,7 @@ Sub ConfigDialogUpdate()
 	If iWriterDefaultWrap = com.sun.star.text.WrapTextMode.NONE Then oConfigDialog.getControl(&quot;WriterNoWrap&quot;).setState(true)
 	If iWriterDefaultWrap = com.sun.star.text.WrapTextMode.DYNAMIC Then oConfigDialog.getControl(&quot;WriterOptimalPageWrap&quot;).setState(true)
 	If iWriterDefaultWrap = com.sun.star.text.WrapTextMode.THROUGHT Then oConfigDialog.getControl(&quot;WriterWrapThrough&quot;).setState(true)
-	If bWriterInsertViaClipboard Then 		&apos; %%%%% Added by KB
+	If bWriterInsertViaClipboard Then
 		oConfigDialog.getControl(&quot;WriterInsertViaClipboard&quot;).setState(true)
 	Else
 		oConfigDialog.getControl(&quot;WriterInsertDirect&quot;).setState(true)
@@ -85,7 +85,7 @@ Sub ConfigDialogUpdate()
 	oConfigDialog.getControl(&quot;bImpressUseLineWidthFromTemplate&quot;).setState(BoolToCheckBoxState(bImpressUseLineWidthFromTemplate))
 	oConfigDialog.getControl(&quot;bImpressUseStaffSizeFromTemplate&quot;).setState(BoolToCheckBoxState(bImpressUseStaffSizeFromTemplate))
 	oConfigDialog.getControl(&quot;bImpressKeepCrop&quot;).setState(BoolToCheckBoxState(bImpressKeepCrop))
-	If bImpressInsertViaClipboard Then 		&apos; %%%%% Added by KB
+	If bImpressInsertViaClipboard Then
 		oConfigDialog.getControl(&quot;ImpressInsertViaClipboard&quot;).setState(true)
 	Else
 		oConfigDialog.getControl(&quot;ImpressInsertDirect&quot;).setState(true)
@@ -197,8 +197,8 @@ Sub ApplyConfig
 	&apos; Read the configuration from the dialog and
 	&apos; save it into the variables
 	
-	Dim oFieldModel As Object							&apos; %%%%% Added KB
-	Dim myFont As New com.sun.star.awt.FontDescriptor	&apos; %%%%% Added KB
+	Dim oFieldModel As Object
+	Dim myFont As New com.sun.star.awt.FontDescriptor
 
 	&apos; General settings
 	sLilyPondExecutable = oConfigDialog.getControl(&quot;sLilyPondExecutable&quot;).getText()
@@ -206,11 +206,11 @@ Sub ApplyConfig
 	sFormat = oConfigDialog.getControl(&quot;sFormat&quot;).getText()
 	iGraphicDPI = oConfigDialog.getControl(&quot;iGraphicDPI&quot;).getValue()
 	bIgnoreWarnings = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bIgnoreWarnings&quot;).getState())
-	sEditorFontName = oConfigDialog.getControl(&quot;sEditorFontName&quot;).getText()				&apos; %%%%% Added by KB
-	sEditorFontSize = oConfigDialog.getControl(&quot;sEditorFontSize&quot;).getText()				&apos; %%%%% Added by KB
-	sExtEditorExecutable = oConfigDialog.getControl(&quot;sExtEditorExecutable&quot;).getText()	&apos; %%%%% Added by KB
-	sIncludeStatement = oConfigDialog.getControl(&quot;sIncludeStatement&quot;).getText()			&apos; %%%%% Added by KB
-	While InStr (sIncludeStatement, &quot;\&quot;) &gt; 0	&apos; %%%%% Added by KB: replace &quot;\&quot; by &quot;/&quot;, even in Windows LilyPond expects paths to be written with forward slashes
+	sEditorFontName = oConfigDialog.getControl(&quot;sEditorFontName&quot;).getText()
+	sEditorFontSize = oConfigDialog.getControl(&quot;sEditorFontSize&quot;).getText()
+	sExtEditorExecutable = oConfigDialog.getControl(&quot;sExtEditorExecutable&quot;).getText()
+	sIncludeStatement = oConfigDialog.getControl(&quot;sIncludeStatement&quot;).getText()
+	While InStr (sIncludeStatement, &quot;\&quot;) &gt; 0	&apos;  replace &quot;\&quot; by &quot;/&quot;, even in Windows LilyPond expects paths to be written with forward slashes
 		Mid (sIncludeStatement, InStr (sIncludeStatement, &quot;\&quot;), 1, &quot;/&quot;)
 	Wend
 	
@@ -230,7 +230,7 @@ Sub ApplyConfig
 	if oConfigDialog.getControl(&quot;WriterOptimalPageWrap&quot;).getState() then iWriterDefaultWrap = com.sun.star.text.WrapTextMode.DYNAMIC
 	if oConfigDialog.getControl(&quot;WriterWrapThrough&quot;).getState() then iWriterDefaultWrap = com.sun.star.text.WrapTextMode.THROUGHT
 	
-	bWriterInsertViaClipboard = oConfigDialog.getControl(&quot;WriterInsertViaClipboard&quot;).getState()		&apos; %%%%% Added by KB
+	bWriterInsertViaClipboard = oConfigDialog.getControl(&quot;WriterInsertViaClipboard&quot;).getState()
 
 	&apos; Impress specific settings
 	sImpressDefaultTemplate =  oConfigDialog.getControl(&quot;sImpressDefaultTemplate&quot;).getText()
@@ -240,17 +240,16 @@ Sub ApplyConfig
 	bImpressUseStaffSizeFromTemplate = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bImpressUseStaffSizeFromTemplate&quot;).getState())
 	bImpressKeepCrop = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bImpressKeepCrop&quot;).getState())
 	
-	bImpressInsertViaClipboard = oConfigDialog.getControl(&quot;ImpressInsertViaClipboard&quot;).getState()		&apos; %%%%% Added by KB
+	bImpressInsertViaClipboard = oConfigDialog.getControl(&quot;ImpressInsertViaClipboard&quot;).getState()
 	
 	SetDocTypeSpecificDefaults()
 	
-	&apos; %%%%% Added by KB: Change the font of the editor pane
+	&apos;  Change the font of the editor pane:
 	oFieldModel = oEditorDialog.getControl(&quot;sCode&quot;).getModel()
 	MyFont.Name = sEditorFontName
 	&apos; MyFont.StyleName = &quot;Fett&quot;  &apos; bad idea...
 	MyFont.Height = sEditorFontSize
 	oFieldModel.FontDescriptor = MyFont
-    &apos; %%%%% 
 
 End Sub
 
@@ -275,8 +274,8 @@ Sub DefaultConfig()
 		sTemplatePath = ConvertToURL(Environ(&quot;HOME&quot;)) &amp; &quot;/OOoLilyPond-Templates/&quot;
 	 	&apos; LilyPond Executable (not an URL)
  		sLilyPondExecutable = &quot;lilypond&quot;
- 		sExtEditorExecutable = &quot;frescobaldi&quot;											&apos; %%%%% Added by KB
-		sIncludeStatement = &quot;-I&quot; &amp; Chr(34) &amp; ConvertFromURL(Environ(&quot;HOME&quot;)) &amp; Chr(34)	&apos; %%%%% Added by KB
+ 		sExtEditorExecutable = &quot;frescobaldi&quot;
+		sIncludeStatement = &quot;-I&quot; &amp; Chr(34) &amp; ConvertFromURL(Environ(&quot;HOME&quot;)) &amp; Chr(34)
 	Else
 		&apos;Operating System is Windows
 		&apos; Create Folder %APPDATA%\OOoLilyPond if it does not exist
@@ -292,9 +291,9 @@ Sub DefaultConfig()
 		sTemplatePath = ConvertToURL(Environ(&quot;APPDATA&quot;) &amp; &quot;/&quot; &amp; constOLyWinConfigFolderName &amp; &quot;/Templates/&quot;
 	 	&apos; LilyPond Executable (not an URL)
 		sLilyPondExecutable = Environ(&quot;ProgramFiles&quot;) &amp; &quot;\LilyPond\usr\bin\lilypond.exe&quot;
-		sExtEditorExecutable = Environ(&quot;ProgramFiles&quot;) &amp; &quot;\Frescobaldi\frescobaldi.exe&quot;					&apos; %%%%% Added by KB
-		sIncludeStatement = &quot;-I&quot; &amp; Chr(34) &amp; ConvertFromURL(Environ(&quot;USERPROFILE&quot;)) &amp; &quot;/&quot; &amp; Chr(34) &amp; &quot; -I&quot; &amp; Chr(34) &amp; ConvertFromURL(Environ(&quot;ProgramFiles&quot;)) &amp; &quot;/&quot; &amp; Chr(34)	&apos; %%%%% Added by KB
-		While InStr (sIncludeStatement, &quot;\&quot;) &gt; 0	&apos; %%%%% Added by KB: replace &quot;\&quot; by &quot;/&quot;, even in Windows LilyPond expects paths to be written with forward slashes
+		sExtEditorExecutable = Environ(&quot;ProgramFiles&quot;) &amp; &quot;\Frescobaldi\frescobaldi.exe&quot;
+		sIncludeStatement = &quot;-I&quot; &amp; Chr(34) &amp; ConvertFromURL(Environ(&quot;USERPROFILE&quot;)) &amp; &quot;/&quot; &amp; Chr(34) &amp; &quot; -I&quot; &amp; Chr(34) &amp; ConvertFromURL(Environ(&quot;ProgramFiles&quot;)) &amp; &quot;/&quot; &amp; Chr(34)
+		While InStr (sIncludeStatement, &quot;\&quot;) &gt; 0	&apos; replace &quot;\&quot; by &quot;/&quot;, even in Windows LilyPond expects paths to be written with forward slashes
 			Mid (sIncludeStatement, InStr (sIncludeStatement, &quot;\&quot;), 1, &quot;/&quot;)
 		Wend
  	End If
@@ -308,8 +307,8 @@ Sub DefaultConfig()
 	bWriterUseStaffSizeFromTemplate = False
 	sWriterDefaultLineWidth = &quot;17.5\cm&quot;
 	bWriterUseLineWidthFromTemplate = False
-	bWriterInsertViaClipboard = True	&apos; %%%%% Added by KB
-	bWriterKeepCrop = False				&apos; %%%%% Added by KB
+	bWriterInsertViaClipboard = True
+	bWriterKeepCrop = False
 
 
 	&apos; Impress specific settings
@@ -318,15 +317,15 @@ Sub DefaultConfig()
 	bImpressUseStaffSizeFromTemplate = False
 	sImpressDefaultLineWidth = &quot;19.5\cm&quot;
 	bImpressuseLineWidthFromTemplate = False
-	bImpressInsertViaClipboard = True	&apos; %%%%% Added by KB
-	bImpressKeepCrop = False			&apos; %%%%% Added by KB
+	bImpressInsertViaClipboard = True
+	bImpressKeepCrop = False
 
 
 	&apos; General Settings
 	sFormat = &quot;png&quot;
 	iGraphicDPI = 300
-	sEditorFontName = &quot;Courier&quot;	&apos; %%%%% Added by KB
-	sEditorFontSize = &quot;8&quot;		&apos; %%%%% Added by KB
+	sEditorFontName = &quot;Courier&quot;
+	sEditorFontSize = &quot;8&quot;
 	
 	bIgnoreWarnings = False
 	
@@ -374,13 +373,13 @@ Sub ReadConfig()
 				sLilyPondVersionMinor = sValue
 			Case &quot;sTemplatePath&quot;
 				sTemplatePath = AddSlash(sValue)
-			Case &quot;sEditorFontName&quot;				&apos; %%%%% Added by KB
+			Case &quot;sEditorFontName&quot;
 				sEditorFontName = sValue
-			Case &quot;sEditorFontSize&quot;				&apos; %%%%% Added by KB
+			Case &quot;sEditorFontSize&quot;
 				sEditorFontSize = sValue
-			Case &quot;sExtEditorExecutable&quot;			&apos; %%%%% Added by KB
+			Case &quot;sExtEditorExecutable&quot;
 				sExtEditorExecutable = sValue
-			Case &quot;sIncludeStatement&quot;			&apos; %%%%% Added by KB
+			Case &quot;sIncludeStatement&quot;
 				sIncludeStatement = sValue
 			Case &quot;iGraphicDPI&quot;
 				iGraphicDPI = sValue
@@ -404,9 +403,9 @@ Sub ReadConfig()
 				iWriterDefaultAnchor = CInt(sValue)
 			Case &quot;iWriterDefaultWrap&quot;
 				iWriterDefaultWrap = CInt(sValue)
-			Case &quot;bWriterInsertViaClipboard&quot;	&apos; %%%%% Added by KB
+			Case &quot;bWriterInsertViaClipboard&quot;
 				bWriterInsertViaClipboard = StringToBool(sValue)
-			Case &quot;bWriterKeepCrop&quot;				&apos; %%%%% Added by KB
+			Case &quot;bWriterKeepCrop&quot;
 				bWriterKeepCrop = StringToBool(sValue)
 		
 			
@@ -421,9 +420,9 @@ Sub ReadConfig()
 				bImpressUseLineWidthFromTemplate = StringToBool(sValue)
 			Case &quot;bImpressUseStaffSizeFromTemplate&quot;
 				bImpressUseStaffSizeFromTemplate = StringToBool(sValue)
-			Case &quot;bImpressInsertViaClipboard&quot;	&apos; %%%%% Added by KB
+			Case &quot;bImpressInsertViaClipboard&quot;
 				bImpressInsertViaClipboard = StringToBool(sValue)
-			Case &quot;bImpressKeepCrop&quot;				&apos; %%%%% Added by KB
+			Case &quot;bImpressKeepCrop&quot;
 				bImpressKeepCrop = StringToBool(sValue)
 			End Select
 		end if
@@ -456,10 +455,10 @@ Sub SaveConfig
 	oTextOutputStream.writeString(&quot;iGraphicDPI=&quot; &amp; iGraphicDPI &amp; Chr(10))
 	oTextOutputStream.writeString(&quot;sFormat=&quot; &amp; sFormat &amp; Chr(10))	
 	oTextOutputStream.writeString(&quot;bIgnoreWarnings=&quot; &amp; BoolToString(bIgnoreWarnings) &amp; Chr(10))	
-	oTextOutputStream.writeString(&quot;sEditorFontName=&quot; &amp; sEditorFontName &amp; Chr(10) )				&apos; %%%%% Added by KB
-	oTextOutputStream.writeString(&quot;sEditorFontSize=&quot; &amp; sEditorFontSize &amp; Chr(10) )				&apos; %%%%% Added by KB
-	oTextOutputStream.writeString(&quot;sExtEditorExecutable=&quot; &amp; sExtEditorExecutable &amp; Chr(10) )	&apos; %%%%% Added by KB
-	oTextOutputStream.writeString(&quot;sIncludeStatement=&quot; &amp; sIncludeStatement &amp; Chr(10) )			&apos; %%%%% Added by KB
+	oTextOutputStream.writeString(&quot;sEditorFontName=&quot; &amp; sEditorFontName &amp; Chr(10) )
+	oTextOutputStream.writeString(&quot;sEditorFontSize=&quot; &amp; sEditorFontSize &amp; Chr(10) )
+	oTextOutputStream.writeString(&quot;sExtEditorExecutable=&quot; &amp; sExtEditorExecutable &amp; Chr(10) )
+	oTextOutputStream.writeString(&quot;sIncludeStatement=&quot; &amp; sIncludeStatement &amp; Chr(10) )
 	
 	&apos; Writer specific
 	oTextOutputStream.writeString(&quot;sWriterDefaultTemplate=&quot; &amp; sWriterDefaultTemplate &amp; Chr(10))
@@ -481,7 +480,7 @@ Sub SaveConfig
 	oTextOutputStream.writeString(&quot;bImpressInsertViaClipboard=&quot; &amp; BoolToString(bImpressInsertViaClipboard) &amp; Chr(10))
 	oTextOutputStream.writeString(&quot;bImpressKeepCrop=&quot; &amp; BoolToString(bImpressKeepCrop) &amp; Chr(10))
 	
-	oTextOutputStream.writeString(&quot;*** End of configuration file ***&quot; &amp; Chr(10) )   &apos; %%%%% Added by KB
+	oTextOutputStream.writeString(&quot;*** End of configuration file ***&quot; &amp; Chr(10) )
 		
 	oTextOutputStream.closeOutput()
 End Sub

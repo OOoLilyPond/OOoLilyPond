@@ -99,12 +99,12 @@ Sub OOoLilyPond()
 		
 		Select Case oSelection.getImplementationName()
 		
-		Case &quot;com.sun.star.drawing.SvxShapeCollection&quot; 	&apos; %%%%%  inserted into Writer via Clipboard OR inserted into Draw/Impress
+		Case &quot;com.sun.star.drawing.SvxShapeCollection&quot; 	&apos; inserted into Writer via Clipboard OR inserted into Draw/Impress
 			oShape = oSelection.getByIndex(0)
 			If bInWriter Then &apos; OLy &lt; 0.4 in Writer
-&apos;				oCursor = oDoc.Text.createTextCursorByRange(oSelection(0).getAnchor())
+				&apos; oCursor = oDoc.Text.createTextCursorByRange(oSelection(0).getAnchor())
 				If Not ReadAttributes(oShape) Then Exit Sub &apos;Read the OLy fields from the Object Attributes
-&apos;				oSelection(0).getParent().remove(oSelection(0)) &apos; Delete old OLyObject
+				&apos; oSelection(0).getParent().remove(oSelection(0)) &apos; Delete old OLyObject
 			Else &apos; OLy object in Draw / Impress
 				If Not ReadAttributes(oShape) Then Exit Sub &apos;Read the OLy fields from the Object Attributes
 			End If
@@ -154,15 +154,6 @@ sub Make()
 
   	ParseOutput(sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;)
  	
-	&apos;%%%%% Modified KB:
- 	
-&apos;	&apos;If there is no eps output
-&apos;	If Not oFileAccess.exists(sTmpPath &amp; &quot;OOoLilyPond.eps&quot;) Then &apos; LilyPond error.
-&apos;  		iErrNum = 1
-&apos;  		DisplayError()
-&apos;  		Exit Sub
-&apos;  	End If
-
 	&apos;If there is no eps output
  	If sFormat = &quot;eps&quot; And (Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.eps&quot;)) Then
  		MsgBox(&quot;No eps output is found&quot;, 0, &quot;Error&quot;)
@@ -175,8 +166,6 @@ sub Make()
   		Exit Sub
  	End If
  	
- 	&apos;%%%%% end of KB&apos;s modifications...
-
 	&apos;If there is no png output
  	If sFormat = &quot;png&quot; And (Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.png&quot;)) Then
  		MsgBox(&quot;No png output is found&quot;, 0, &quot;Error&quot;)
@@ -184,7 +173,6 @@ sub Make()
  	End If
  
  
-	&apos; InsertOOoLilyPondObject()	&apos; %%%%% replaced by:
 	If bInWriter Then	&apos; We are in Writer...
 		If bWriterInsertViaClipboard Then
 			InsertOOoLilyPondObjectViaClipboard()
@@ -387,8 +375,9 @@ End Sub
 Function ReadAttributes( oShape As Object ) As Boolean
 	Dim sLyAttributes As Variant &apos;Output of Split Function
 	
-	oShapeCrop = oShape.GraphicCrop	&apos; %%%%% Added KB
-	oShapeSize = oShape.Size		&apos; %%%%% Added KB
+	&apos; Read the graphic&apos;s size and crop settings:
+	oShapeCrop = oShape.GraphicCrop
+	oShapeSize = oShape.Size
 
 	If bInWriter Then
 		iAnchor=oShape.AnchorType
@@ -398,7 +387,7 @@ Function ReadAttributes( oShape As Object ) As Boolean
 		iWrap=-1
 	End IF
 
-	If oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondArgs&quot;) Then		&apos; %%%%% BASIC-Laufzeitfehler: Objektvariable nicht belegt
+	If oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondArgs&quot;) Then
 		&apos;Object created by OOoLilyPond Versions &lt;= 0.2.1
 		sLyAttributes=oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondArgs&quot;).Value
 		sLyAttributes=Split(oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondArgs&quot;).Value, &quot;§&quot;, 4)

@@ -9,16 +9,15 @@ Option Explicit
 Const sStartTagHead = &quot;%{OOoLilyPond&quot;
 Const sStartTagTail = &quot;%}&quot;
 Const sEndTag = &quot;%{OOoLilyPondEnd%}&quot;
-&apos; %%%%%  Added by KB: same stuff in Scheme Block Comment syntax, used for set-global-staff-size:
+&apos; same stuff in Scheme Block Comment syntax, used for set-global-staff-size:
 Const sStartTagHeadScm = &quot;#!OOoLilyPond&quot;
 Const sStartTagTailScm = &quot;!#&quot;
 Const sEndTagScm = &quot;#!OOoLilyPondEnd!#&quot;
 &apos; (must have the same length as their siblings above in order to avoid problems in ApplyTemplate)
-&apos; %%%%%
 
 
-Function TagPos(sText, sA, sB As String) As Integer	&apos; %%%%% Added by KB
-	&apos; indicates the nearest position of a sA or sB in sText.
+Function TagPos(sText, sA, sB As String) As Integer
+	&apos; indicates the nearest position of either argument &quot;sA&quot; or &quot;sB&quot; in &quot;sText&quot;.
 	&apos; Will be used for locating both versions of a start/end tag
 	
 	Dim posA As Integer
@@ -61,13 +60,11 @@ Function ApplyTemplate() As Boolean
 
 	Dim iTagPos As Integer
 	Dim sFieldName As String &apos; Code, StaffSize, LineWidth, Custom1 or Custom2
-	&apos; Dim sTemplateFile As String &apos; path to template file	&apos; %%%%% Modified KB (local variable unused, therefore commented out)
 	Dim sCodeToParse As String &apos; copy of sTemplateCode
 
 	sCodeToParse = sTemplateCode
 
-	&apos; iTagPos = InStr(sCodeToParse, sStartTagHead)
-	iTagPos = TagPos(sCodeToParse, sStartTagHead, sStartTagHeadScm)	&apos; %%%%% Modified KB
+	iTagPos = TagPos(sCodeToParse, sStartTagHead, sStartTagHeadScm)
 	If iTagPos = 0 Then
 		MsgBox(&quot;No &quot; &amp; constOLyLibraryName &amp; &quot; tags found in the template!&quot;, iMsgBox_E, &quot;Error&quot;)
 		ApplyTemplate = False
@@ -78,55 +75,54 @@ Function ApplyTemplate() As Boolean
 	Do
 		sLilyPondCode = sLilyPondCode &amp; Left(sCodeToParse, iTagPos-1)
 		sCodeToParse = Mid(sCodeToParse, iTagPos + Len(sStartTagHead))
-		&apos; iTagPos = InStr(sCodeToParse, sStartTagTail)
-		iTagPos = TagPos(sCodeToParse, sStartTagTail, sStartTagTailScm)	&apos; %%%%% Modified KB
+		iTagPos = TagPos(sCodeToParse, sStartTagTail, sStartTagTailScm)
 		sFieldName = Left(sCodeToParse, iTagPos-1)
 		sCodeToParse = Mid(sCodeToParse, iTagPos + Len(sStartTagTail))
 
+		&apos; Remember start and end of code snippet within sLilyPondCode (for finding error position)
+		&apos; In some cases (comments at the beginning of &quot;Code&quot; field?) the error position is not correct 
+		&apos; ToDo: find the mistake ;-)
 		Select Case sFieldName
 
 		Case &quot;Code&quot;
-			&apos; Remember start and end of code snippet within sLilyPondCode (for finding error position)
 			&apos; iCodeStartPos = Len(sLilyPondCode) + 1
 			&apos; sLilyPondCode = sLilyPondCode &amp; sCode
 			iCodeStartPos = Len(sLilyPondCode) + 1 + Len(sStartTagHead) + Len(sStartTagTail) + 4	&apos; equals to Len(&quot;Code&quot;)
-			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Code&quot; &amp; sStartTagTail &amp; sCode &amp; sEndTag &apos; %%%%% Modified KB
+			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Code&quot; &amp; sStartTagTail &amp; sCode &amp; sEndTag
 		Case &quot;LineWidth&quot;
 			&apos; iLineWidthStartPos = Len(sLilyPondCode) + 1
 			&apos; sLilyPondCode = sLilyPondCode &amp; sLineWidth
 			iLineWidthStartPos = Len(sLilyPondCode) + 1 + Len(sStartTagHead) + Len(sStartTagTail) + 9	&apos; equals to Len(&quot;LineWidth&quot;)
-			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;LineWidth&quot; &amp; sStartTagTail &amp; sLineWidth &amp; sEndTag &apos; %%%%% Modified KB
+			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;LineWidth&quot; &amp; sStartTagTail &amp; sLineWidth &amp; sEndTag
 		Case &quot;StaffSize&quot;
 			&apos; iStaffSizeStartPos = Len(sLilyPondCode) + 1
 			&apos; sLilyPondCode = sLilyPondCode &amp; sStaffSize
 			iStaffSizeStartPos = Len(sLilyPondCode) + 1 + Len(sStartTagHead) + Len(sStartTagTail) + 11	&apos; equals to Len(&quot;StaffSize&quot;) plus two whitespaces
-			sLilyPondCode = sLilyPondCode &amp; sStartTagHeadScm &amp; &quot;StaffSize&quot; &amp; sStartTagTailScm &amp; &quot; &quot; &amp; sStaffSize &amp; &quot; &quot; &amp; sEndTagScm	&apos; %%% Modified KB
+			sLilyPondCode = sLilyPondCode &amp; sStartTagHeadScm &amp; &quot;StaffSize&quot; &amp; sStartTagTailScm &amp; &quot; &quot; &amp; sStaffSize &amp; &quot; &quot; &amp; sEndTagScm
 		Case &quot;Custom1&quot;
 			&apos; iCustom1StartPos = Len(sLilyPondCode) + 1
 			&apos; sLilyPondCode = sLilyPondCode &amp; sCustom1
 			iCustom1StartPos = Len(sLilyPondCode) + 1 + Len(sStartTagHead) + Len(sStartTagTail) + 7	&apos; equals to Len(&quot;Custom1&quot;)
-			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Custom1&quot; &amp; sStartTagTail &amp; sCustom1 &amp; sEndTag &apos; %%%%% Modified KB
+			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Custom1&quot; &amp; sStartTagTail &amp; sCustom1 &amp; sEndTag
 		Case &quot;Custom2&quot;
 			&apos; iCustom2StartPos = Len(sLilyPondCode) + 1
 			&apos; sLilyPondCode = sLilyPondCode &amp; sCustom2
 			iCustom2StartPos = Len(sLilyPondCode) + 1 + Len(sStartTagHead) + Len(sStartTagTail) + 7	&apos; equals to Len(&quot;Custom2&quot;)
-			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Custom2&quot; &amp; sStartTagTail &amp; sCustom2 &amp; sEndTag &apos; %%%%% Modified KB
+			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Custom2&quot; &amp; sStartTagTail &amp; sCustom2 &amp; sEndTag
 		End Select
 
 		&apos; Skip template code until end tag
 		&apos; iTagPos = InStr(sCodeToParse, sEndTag)
-		iTagPos = TagPos(sCodeToParse, sEndTag, sEndTagScm)	&apos; %%%%% Modified KB
+		iTagPos = TagPos(sCodeToParse, sEndTag, sEndTagScm)
 		If iTagPos = 0 Then
-		&apos;	MsgBox(&quot;Template error: missing end tag &quot; &amp; Chr(10) &amp; Chr(34) &amp; sEndTag &amp; Chr(34) &amp; Chr(10) &amp; &quot; for tag &quot; &amp; Chr(10) &amp; Chr(34) &amp; sStartTagHead &amp; sFieldName &amp; sStartTagTail &amp; Chr(34) &amp; &quot;.&quot;, iMsgBox_E, &quot;Error&quot;)
-			MsgBox(&quot;Template error: missing end tag &quot; &amp; Chr(10) &amp; Chr(34) &amp; sEndTag &amp; Chr(34) &amp; Chr(10) &amp; &quot; for tag &quot; &amp; Chr(10) &amp; Chr(34) &amp;                 sFieldName &amp;                 Chr(34) &amp; &quot;.&quot;, iMsgBox_E, &quot;Error&quot;)	&apos; %%%%% Modified KB
+			MsgBox(&quot;Template error: missing end tag &quot; &amp; Chr(10) &amp; Chr(34) &amp; sEndTag &amp; Chr(34) &amp; Chr(10) &amp; &quot; for tag &quot; &amp; Chr(10) &amp; Chr(34) &amp;                 sFieldName &amp;                 Chr(34) &amp; &quot;.&quot;, iMsgBox_E, &quot;Error&quot;)
 			ApplyTemplate = False
 			Exit Function
 		End If
 		sCodeToParse = Mid(sCodeToParse, iTagPos + Len(sEndTag))
 
 		&apos; Look for next start tag
-		&apos; iTagPos = InStr(sCodeToParse, sStartTagHead)
-		iTagPos = TagPos(sCodeToParse, sStartTagHead, sStartTagHeadScm)	&apos; %%%%% Modified KB
+		iTagPos = TagPos(sCodeToParse, sStartTagHead, sStartTagHeadScm)
 		
 	Loop Until iTagPos = 0
 
@@ -204,24 +200,20 @@ Function ReadTemplate() As Boolean
 	bCustom1FieldExists = False
 	bCustom2FieldExists = False
 
-	&apos; iTagPos = InStr(sCodeToParse, sStartTagHead)
-	iTagPos = TagPos(sCodeToParse, sStartTagHead, sStartTagHeadScm)	&apos; %%%%% Modified KB
+	iTagPos = TagPos(sCodeToParse, sStartTagHead, sStartTagHeadScm)
 
 	While iTagPos &gt; 0
 		sCodeToParse = Mid(sCodeToParse, iTagPos + Len(sStartTagHead))
-		&apos; iTagPos = InStr(sCodeToParse, sStartTagTail)
-		iTagPos = TagPos(sCodeToParse, sStartTagTail, sStartTagTailScm)	&apos; %%%%% Modified KB
+		iTagPos = TagPos(sCodeToParse, sStartTagTail, sStartTagTailScm)
 		sFieldName = Left(sCodeToParse, iTagPos-1)
 		sCodeToParse = Mid(sCodeToParse, iTagPos + Len(sStartTagTail))
 
 		&apos; Read the template code until end tag
 		&apos; (this can be used as default value the corresponding)
 		
-		&apos; iTagPos = InStr(sCodeToParse, sEndTag)
-		iTagPos = TagPos(sCodeToParse, sEndTag, sEndTagScm)	&apos; %%%%% Modified KB
+		iTagPos = TagPos(sCodeToParse, sEndTag, sEndTagScm)
 		If iTagPos = 0 Then
-		&apos;	MsgBox(&quot;Template error: missing end tag &quot; &amp; Chr(10) &amp; Chr(34) &amp; sEndTag &amp; Chr(34) &amp; Chr(10) &amp; &quot; for tag &quot; &amp; Chr(10) &amp; Chr(34) &amp; sStartTagHead &amp; sFieldName &amp; sStartTagTail &amp; Chr(34) &amp; &quot;.&quot;, iMsgBox_E, &quot;Error&quot;)
-			MsgBox(&quot;Template error: missing end tag &quot; &amp; Chr(10) &amp; Chr(34) &amp; sEndTag &amp; Chr(34) &amp; Chr(10) &amp; &quot; for tag &quot; &amp; Chr(10) &amp; Chr(34) &amp;                 sFieldName &amp;                 Chr(34) &amp; &quot;.&quot;, iMsgBox_E, &quot;Error&quot;)	&apos; %%%%% Modified KB
+			MsgBox(&quot;Template error: missing end tag &quot; &amp; Chr(10) &amp; Chr(34) &amp; sEndTag &amp; Chr(34) &amp; Chr(10) &amp; &quot; for tag &quot; &amp; Chr(10) &amp; Chr(34) &amp;                 sFieldName &amp;                 Chr(34) &amp; &quot;.&quot;, iMsgBox_E, &quot;Error&quot;)
 			&apos; ApplyTemplate = False
 			ReadTemplate = False	&apos; %%%%% Modified KB (maybe forgotten?)
 			Exit Function
@@ -231,9 +223,8 @@ Function ReadTemplate() As Boolean
 		sCodeToParse = Mid(sCodeToParse, iTagPos + Len(sEndTag))
 				
 		&apos; If CBool(InStr(sDefaultValue, sStartTagHead)) Then
-		If CBool(TagPos(sDefaultValue, sStartTagHead, sStartTagHeadScm)) Then	&apos; %%%%% Modified KB
-		&apos;	MsgBox(&quot;Template error:&quot; &amp; Chr(34) &amp; &quot;corresponding end tag for &quot; &amp; Chr(10) &amp; Chr(34) &amp; sStartTagHead &amp; sFieldName &amp; sStartTagTail &amp; Chr(34) &amp; Chr(10) &amp; &quot; is missing or misspelled.&quot;, iMsgBox_E, &quot;Error&quot;)
-			MsgBox(&quot;Template error:&quot; &amp; Chr(34) &amp; &quot;corresponding end tag for &quot; &amp; Chr(10) &amp; Chr(34) &amp;                 sFieldName &amp;                 Chr(34) &amp; Chr(10) &amp; &quot; is missing or misspelled.&quot;, iMsgBox_E, &quot;Error&quot;)
+		If CBool(TagPos(sDefaultValue, sStartTagHead, sStartTagHeadScm)) Then
+			MsgBox(&quot;Template error:&quot; &amp; Chr(34) &amp; &quot;corresponding end tag for &quot; &amp; Chr(10) &amp; Chr(34) &amp; sFieldName &amp; Chr(34) &amp; Chr(10) &amp; &quot; is missing or misspelled.&quot;, iMsgBox_E, &quot;Error&quot;)
 			&apos; ApplyTemplate = False
 			ReadTemplate = False	&apos; %%%%% Modified KB (maybe forgotten?)
 			Exit Function
@@ -244,26 +235,25 @@ Function ReadTemplate() As Boolean
 				sDefaultCode = sDefaultValue
 				bCodeFieldExists = True
 			Case &quot;LineWidth&quot;
-				RemoveSpaces (sDefaultValue)	&apos; %%%%% Added by KB
+				RemoveSpaces (sDefaultValue)
 				sLineWidthFromTemplate = sDefaultValue
 				bLineWidthFieldExists = True
 			Case &quot;StaffSize&quot;
-				RemoveSpaces (sDefaultValue)	&apos; %%%%% Added by KB
+				RemoveSpaces (sDefaultValue)
 				sStaffSizeFromTemplate = sDefaultValue
 				bStaffSizeFieldExists = True
 			Case &quot;Custom1&quot;
-				RemoveSpaces (sDefaultValue)	&apos; %%%%% Added by KB
+				RemoveSpaces (sDefaultValue)
 				sDefaultCustom1 = sDefaultValue
 				bCustom1FieldExists = True
 			Case &quot;Custom2&quot;
-				RemoveSpaces (sDefaultValue)	&apos; %%%%% Added by KB
+				RemoveSpaces (sDefaultValue)
 				sDefaultCustom2 = sDefaultValue
 				bCustom2FieldExists = True
 		End Select
 
 		&apos; Look for next start tag
-		&apos; iTagPos = InStr(sCodeToParse, sStartTagHead)
-		iTagPos = TagPos(sCodeToParse, sStartTagHead, sStartTagHeadScm)	&apos; %%%%% Modified KB
+		iTagPos = TagPos(sCodeToParse, sStartTagHead, sStartTagHeadScm)
 		
 	Wend
 
@@ -284,7 +274,7 @@ Function ReadTemplate() As Boolean
 
 End Function
 
-Function ReadTempLyFile() As Boolean	&apos; %%%%% Added by KB
+Function ReadTempLyFile() As Boolean
 	&apos; Reads the temporary LY file, possibly changed by an external editor
 	&apos; Extracts the content between the OOoLilyPond Start end End tags
 	&apos; and updates the values in the OLy editor window.
@@ -309,24 +299,20 @@ Function ReadTempLyFile() As Boolean	&apos; %%%%% Added by KB
 
 	bCodeFieldExists = False
 
-	&apos; iTagPos = InStr(sCodeToParse, sStartTagHead)
-	iTagPos = TagPos(sCodeToParse, sStartTagHead, sStartTagHeadScm)	&apos; %%%%% Modified KB
+	iTagPos = TagPos(sCodeToParse, sStartTagHead, sStartTagHeadScm)
 
 	While iTagPos &gt; 0
 		sCodeToParse = Mid(sCodeToParse, iTagPos + Len(sStartTagHead))
-		&apos; iTagPos = InStr(sCodeToParse, sStartTagTail)
-		iTagPos = TagPos(sCodeToParse, sStartTagTail, sStartTagTailScm)	&apos; %%%%% Modified KB
+		iTagPos = TagPos(sCodeToParse, sStartTagTail, sStartTagTailScm)
 		sFieldName = Left(sCodeToParse, iTagPos-1)
 		sCodeToParse = Mid(sCodeToParse, iTagPos + Len(sStartTagTail))
 
 		&apos; Read the template code until end tag
 		&apos; (this can be used as default value the corresponding)
 		
-		&apos; iTagPos = InStr(sCodeToParse, sEndTag)
-		iTagPos = TagPos(sCodeToParse, sEndTag, sEndTagScm)	&apos; %%%%% Modified KB
+		iTagPos = TagPos(sCodeToParse, sEndTag, sEndTagScm)
 		If iTagPos = 0 Then
-		&apos;	MsgBox(&quot;Template error: missing end tag &quot; &amp; Chr(10) &amp; Chr(34) &amp; sEndTag &amp; Chr(34) &amp; Chr(10) &amp; &quot; for tag &quot; &amp; Chr(10) &amp; Chr(34) &amp; sStartTagHead &amp; sFieldName &amp; sStartTagTail &amp; Chr(34) &amp; &quot;.&quot;, iMsgBox_E, &quot;Error&quot;)
-			MsgBox(&quot;Template error: missing end tag &quot; &amp; Chr(10) &amp; Chr(34) &amp; sEndTag &amp; Chr(34) &amp; Chr(10) &amp; &quot; for tag &quot; &amp; Chr(10) &amp; Chr(34) &amp;                 sFieldName &amp;                 Chr(34) &amp; &quot;.&quot;, iMsgBox_E, &quot;Error&quot;)	&apos; %%%%% Modified KB
+			MsgBox(&quot;Template error: missing end tag &quot; &amp; Chr(10) &amp; Chr(34) &amp; sEndTag &amp; Chr(34) &amp; Chr(10) &amp; &quot; for tag &quot; &amp; Chr(10) &amp; Chr(34) &amp; sFieldName &amp; Chr(34) &amp; &quot;.&quot;, iMsgBox_E, &quot;Error&quot;)
 			ReadTempLyFile = False
 			Exit Function
 		End If
@@ -334,10 +320,8 @@ Function ReadTempLyFile() As Boolean	&apos; %%%%% Added by KB
 		sDefaultValue=Left(sCodeToParse, iTagPos-1)
 		sCodeToParse = Mid(sCodeToParse, iTagPos + Len(sEndTag))
 		
-		&apos; If CBool(InStr(sDefaultValue, sStartTagHead)) Then
-		If CBool(TagPos(sDefaultValue, sStartTagHead, sStartTagHeadScm)) Then	&apos; %%%%% Modified KB
-		&apos;	MsgBox(&quot;Template error:&quot; &amp; Chr(34) &amp; &quot;corresponding end tag for &quot; &amp; Chr(10) &amp; Chr(34) &amp; sStartTagHead &amp; sFieldName &amp; sStartTagTail &amp; Chr(34) &amp; Chr(10) &amp; &quot; is missing or misspelled.&quot;, iMsgBox_E, &quot;Error&quot;)
-			MsgBox(&quot;Template error:&quot; &amp; Chr(34) &amp; &quot;corresponding end tag for &quot; &amp; Chr(10) &amp; Chr(34) &amp;                 sFieldName &amp;                 Chr(34) &amp; Chr(10) &amp; &quot; is missing or misspelled.&quot;, iMsgBox_E, &quot;Error&quot;)
+		If CBool(TagPos(sDefaultValue, sStartTagHead, sStartTagHeadScm)) Then
+			MsgBox(&quot;Template error:&quot; &amp; Chr(34) &amp; &quot;corresponding end tag for &quot; &amp; Chr(10) &amp; Chr(34) &amp; sFieldName &amp; Chr(34) &amp; Chr(10) &amp; &quot; is missing or misspelled.&quot;, iMsgBox_E, &quot;Error&quot;)
 			ReadTempLyFile = False
 			Exit Function
 		End If
@@ -361,8 +345,7 @@ Function ReadTempLyFile() As Boolean	&apos; %%%%% Added by KB
 		End Select
 
 		&apos; Look for next start tag
-		&apos; iTagPos = InStr(sCodeToParse, sStartTagHead)
-		iTagPos = TagPos(sCodeToParse, sStartTagHead, sStartTagHeadScm)	&apos; %%%%% Modified KB
+		iTagPos = TagPos(sCodeToParse, sStartTagHead, sStartTagHeadScm)
 		
 	Wend
 		
@@ -384,8 +367,8 @@ End Function
 Sub TmplDialog
 	&apos;Initialize and open the template editor dialog
 
-	Dim oTempFieldModel As Object							&apos; %%%%% Added KB
-	Dim myTempFont As New com.sun.star.awt.FontDescriptor	&apos; %%%%% Added KB
+	Dim oTempFieldModel As Object
+	Dim myTempFont As New com.sun.star.awt.FontDescriptor
 
 	&apos; Load the library OOoLilyPond...
 	DialogLibraries.LoadLibrary( constOLyLibraryName )
@@ -399,13 +382,12 @@ Sub TmplDialog
 	&apos; Fill in template code
 	oTemplateEditorDialog.getControl(&quot;sTemplateCode&quot;).setText(sTemplateCode)
 	
-	&apos; %%%%% Added by KB: Change the font of the editor pane
+	&apos; Change the font of the editor pane
 	oTempFieldModel = oTemplateEditorDialog.getControl(&quot;sTemplateCode&quot;).getModel()
 	MyTempFont.Name = sEditorFontName
 	&apos; MyFont.StyleName = &quot;Fett&quot;  &apos; bad idea...
 	MyTempFont.Height = sEditorFontSize
 	oTempFieldModel.FontDescriptor = MyTempFont
-    &apos; %%%%% 
 
 
     oTemplateEditorDialog.Execute()

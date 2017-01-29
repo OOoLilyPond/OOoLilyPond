@@ -11,8 +11,8 @@ Option Explicit
 
 Sub EditorDialog()
 
-	Dim oFieldModel As Object							&apos; %%%%% Added KB
-	Dim myFont As New com.sun.star.awt.FontDescriptor	&apos; %%%%% Added KB
+	Dim oFieldModel As Object
+	Dim myFont As New com.sun.star.awt.FontDescriptor
 
 	&apos; Load the library OOoLilyPond...
 	DialogLibraries.LoadLibrary( constOLyLibraryName )
@@ -20,13 +20,12 @@ Sub EditorDialog()
 	&apos; Create the dialog object
 	oEditorDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Editor&quot;) )
 
-	&apos; %%%%% Added by KB: Change the font of the editor pane
+	&apos; Change the font of the editor pane
 	oFieldModel = oEditorDialog.getControl(&quot;sCode&quot;).getModel()
 	MyFont.Name = sEditorFontName
 	&apos; MyFont.StyleName = &quot;Fett&quot;  &apos; bad idea...
 	MyFont.Height = sEditorFontSize
 	oFieldModel.FontDescriptor = MyFont
-    &apos; %%%%% 
   
 	&apos; Fill in the values
 	If bUseDefaultCode Then
@@ -234,7 +233,7 @@ Sub ShowLilyPondOutput()
 	End If
 End Sub
 
-Sub CallExtEditor()	&apos; %%%%% Added by KB
+Sub CallExtEditor()
 
 	Dim sCommand As String
 	Dim sParam As String
@@ -312,7 +311,7 @@ Sub LilyPondButton()
 
 End Sub
 
-Sub ExtEditorButton()	&apos; %%%%% Added by KB
+Sub ExtEditorButton()
 
 	If Not ApplyTemplate() Then Exit Sub
 	CleanUp()
@@ -321,7 +320,7 @@ Sub ExtEditorButton()	&apos; %%%%% Added by KB
 	
 End Sub
 
-Sub ImportButton()	&apos; %%%%% Added by KB
+Sub ImportButton()
 
 	If Not ReadTempLyFile() Then Exit Sub
 	oEditorDialog.getControl(&quot;sCode&quot;).setText(sCode)

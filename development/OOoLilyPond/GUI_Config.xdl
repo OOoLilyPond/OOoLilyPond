@@ -85,9 +85,9 @@
    <dlg:radio dlg:id="WriterInsertViaClipboard" dlg:tab-index="15" dlg:left="9" dlg:top="133" dlg:width="111" dlg:height="12" dlg:help-text="Insert Images via Clipboard. Recommended for OpenOffice." dlg:value="Via Clipboard (OpenOffice)"/>
    <dlg:radio dlg:id="WriterInsertDirect" dlg:tab-index="16" dlg:left="9" dlg:top="145" dlg:width="111" dlg:height="12" dlg:help-text="Insert Images without Clipboard use. Recommended for LibreOffice." dlg:value="Direct (LibreOffice)"/>
   </dlg:radiogroup>
-  <dlg:text dlg:id="Label12" dlg:tab-index="49" dlg:left="156" dlg:top="222" dlg:width="144" dlg:height="8" dlg:value="eps: Only with OpenOffice" dlg:tabstop="false"/>
-  <dlg:text dlg:id="Label13" dlg:tab-index="50" dlg:left="156" dlg:top="235" dlg:width="144" dlg:height="8" dlg:value="svg: Only with LibreOffice, use Template"/>
-  <dlg:text dlg:id="Label14" dlg:tab-index="52" dlg:left="172" dlg:top="243" dlg:width="128" dlg:height="8" dlg:value="without lilypond-book-preamble.ly"/>
+  <dlg:text dlg:id="Label12" dlg:tab-index="49" dlg:left="156" dlg:top="222" dlg:width="144" dlg:height="8" dlg:value="eps: Only with OpenOffice" dlg:tabstop="false" dlg:nolabel="true"/>
+  <dlg:text dlg:id="Label13" dlg:tab-index="50" dlg:left="156" dlg:top="235" dlg:width="144" dlg:height="8" dlg:value="svg: Only with LibreOffice, use Template" dlg:nolabel="true"/>
+  <dlg:text dlg:id="Label14" dlg:tab-index="52" dlg:left="172" dlg:top="243" dlg:width="128" dlg:height="8" dlg:value="without lilypond-book-preamble.ly" dlg:nolabel="true"/>
   <dlg:radiogroup>
    <dlg:radio dlg:id="ImpressInsertViaClipboard" dlg:tab-index="29" dlg:left="9" dlg:top="267" dlg:width="111" dlg:height="12" dlg:help-text="Insert Images via Clipboard. Recommended for OpenOffice." dlg:value="Via Clipboard (OpenOffice)"/>
    <dlg:radio dlg:id="ImpressInsertDirect" dlg:tab-index="30" dlg:left="9" dlg:top="279" dlg:width="111" dlg:height="12" dlg:help-text="Insert Images without Clipboard use. Recommended for LibreOffice." dlg:value="Direct (LibreOffice)"/>

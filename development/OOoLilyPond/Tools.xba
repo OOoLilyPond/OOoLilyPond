@@ -4,8 +4,8 @@
 
 Option Explicit
 
-Sub RemoveSpaces (s as String)	&apos; %%%%% Added by KB
-&apos; If there are whitespaces at the beginning or end of s, remove them:
+Sub RemoveSpaces (s as String)
+&apos; If there are whitespaces at the beginning or end of &quot;s&quot;, remove them:
 	While Left(s, 1) = &quot; &quot;
 		s = Right (s, Len(s)-1)
 	Wend	
@@ -50,7 +50,6 @@ Function RowColToPos(sText As String, iRow, iCol As Integer) As Integer
 	
 	&apos; If row is 0 or negative put curser to the start
 	If iRow &lt; 1 Then
-	&apos; %%%%% Modified KB:
 	&apos;	CurserPosition=1	&apos;replaced by:
 		RowColToPos=1
 		&apos; A variable named CurserPosition is nowhere else to be found.
@@ -151,7 +150,7 @@ Function ImportBitmapIntoDraw(sURL As String, Optional oGraphicShape) As Object
 	Dim oShape As Object
 	Dim oDoc As Object
 	Dim oDocCtrl As Object
-	Dim oCrop As new com.sun.star.text.GraphicCrop	&apos; %%%%% Added KB
+	Dim oCrop As new com.sun.star.text.GraphicCrop
 	Const INCH = 2540
 	Const VECTORDPI = 96	&apos; Correction factor for vector graphics as they don&apos;t use PNG&apos;s dpi values
 							&apos; It seems that 96 dpi is assumed
@@ -185,26 +184,13 @@ Function ImportBitmapIntoDraw(sURL As String, Optional oGraphicShape) As Object
 		oSize.width = oGraphicShape.Graphic.Size.Width/VECTORDPI*INCH
 		oSize.height = oGraphicShape.Graphic.Size.Height/VECTORDPI*INCH
  	End If
-&apos;%%	oGraphicShape.setSize(oSize)
-	&apos; oGraphicShape.GraphicCrop = oCrop
 
 	&apos; remove the Bitmap from the table
 	&apos; (otherwise the Bitmaps of deleted Objects will still be referenced and saved)
 	oBitmaps.removeByName( &quot;OOoLilyPond&quot; )
 
 	&apos; refresh the view
-	oDocCtrl.restoreViewData(oDocCtrl.getViewData)	
-	
-	&apos; %%%%% Added by KB: remove Cropping
-&apos;	oCrop = createUnoStruct( &quot;com.sun.star.text.GraphicCrop&quot; )
-&apos;	oCrop.Left = 0
-&apos;	oCrop.Right = 0
-&apos;	oCrop.Top = 0
-&apos;	oCrop.Bottom = 0
-&apos;%%	oGraphicShape.setPropertyValue (&quot;GraphicCrop&quot;, oCrop)
-	&apos; %%%%%
-	
-	
+	oDocCtrl.restoreViewData(oDocCtrl.getViewData)		
 	
 	If bKeepCrop Then
 		oGraphicShape.setSize (oShapeSize)		&apos; apply size of old graphics object
@@ -213,10 +199,6 @@ Function ImportBitmapIntoDraw(sURL As String, Optional oGraphicShape) As Object
 		oGraphicShape.setSize(oSize)							&apos; apply size as calculated above
 		oGraphicShape.setPropertyValue (&quot;GraphicCrop&quot;, oCrop)	&apos; overwrite old Crop settings
 	End If
-	
-	
-	
-	
 	
 	&apos; return the shape
 	ImportBitmapIntoDraw = oGraphicShape
@@ -235,7 +217,7 @@ Function ImportBitmapIntoWriter(sFile As String, oTextGraphicOrCursor As Object)
 	Dim oCursor As Object
 	Dim oText As Object
 	Dim oTextGraphic As Object
-	Dim oCrop As new com.sun.star.text.GraphicCrop	&apos; %%%%% Added KB
+	Dim oCrop As new com.sun.star.text.GraphicCrop
 
 	oDoc = ThisComponent
 	
