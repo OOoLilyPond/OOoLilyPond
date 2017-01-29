@@ -6,7 +6,7 @@
 
 	<identifier value="net.sourceforge.ooolilypond"/>
 
-	<version value="0.4.0"/>
+	<version value="0.4.2rc5"/>
 
 	<dependencies>
 		<OpenOffice.org-minimal-version value="2.3" dep:name="OpenOffice.org 2.3"/>
@@ -18,7 +18,7 @@
 
 	<publisher>
 		<name xlink:href="http://ooolilypond.sourceforge.net" 
-		lang="en">Samuel Hartmann</name>
+		lang="en">Samuel Hartmann et al.</name>
 	</publisher>
 
 	<update-information>

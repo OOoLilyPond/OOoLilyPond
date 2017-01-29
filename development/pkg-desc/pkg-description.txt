@@ -1,7 +1,7 @@
 OOoLilyPond automizes the inclusion of music notation
-in OpenOffice.org Writer, Draw and Impress documents.
+in OpenOffice.org or LibreOffice Writer, Draw and Impress documents.
 The music expression is entered as a text code and then
-translated to an image (png or eps) using LilyPond.
+translated to an image (png, eps or svg) using LilyPond.
 
 http://ooolilypond.sf.net
 http://www.lilypond.org
