@@ -1,14 +1,56 @@
 # German translation for OOoLilyPond extension
-Default Code: Standard
+
+# main window
+Default Code: Zurücksetzen
 Anchor: Verankerung
 As Character: Als Zeichen
-To Paragraph: Am Paragraph
-To Page: An der Seite
+To Paragraph: Am Absatz
+To Page: An Seite
+Wrap: Textumlauf
+No Wrap: kein Umlauf
+Optimal Page Wrap: beide Seiten
+Wrap Through: durchlaufend
 Template: Vorlage
-Edit: Bearbeiten
+Edit: Bearb.
 LineWidth: Zeilenbreite
-Staff size: Größe
+Staff Size: Größe
+Custom 1: Extra 1
+Custom 2: Extra 2
 Default: Standard
 Ly Output: Ausgabe
-Config: Einstellungen
+Config: Optionen
+Open as temp. file in Ext. Editor: In externem Editor öffnen
+Import from temp. file: Import aus externer Datei
+Keep Size &amp; Crop Settings: Größe und Zuschnitt beibehalten
 
+Reset all values to default: Alle Einstellungen zurücksetzen
+Reset to Default: Zurücksetzen
+Restore Templates: Vorlagen wiederherstellen
+Template Path: Vorlagenpfad
+Resolution (png): Auflösung (png)
+Default template to use for OOoLilyPond objects in Writer documents: Standardvorlage für Noten in Textdokumenten (Writer)
+Insert Images via Clipboard. Recommended for OpenOffice.: Noten über Zwischenablage einfügen (empfohlen für OpenOffice).
+Insert Images without Clipboard use. Recommended for LibreOffice.: Noten ohne Zwischenablage einfügen (empfohlen für LibreOffice).
+Direct (LibreOffice): Direkt (LibreOffice)
+Via Clipboard (OpenOffice): Über Zwischenablage (OpenOffice)
+
+# template editor
+Save: Speichern
+Save As: Speichern unter
+Delete: Löschen
+Cancel: Abbrechen
+
+# help text
+The OOoLilyPond object is inserted into the Text like a character.: Die Noten werden wie ein Schriftzeichen eingefügt und damit fest im Text positioniert.
+The OOoLilyPond object is inserted like an image and can be placed freely. The object keeps the position relative to the paragraph.: Die Noten werden wie ein Bild eingefügt und können frei positioniert werden. Sie behalten ihre Position relativ zum Absatz.
+The OOoLilyPond object is inserted like an image and can be placed freely. The object keeps the position relative to the page.: Die Noten werden wie ein Bild eingefügt und können frei positioniert werden. Sie behalten ihre Position relativ zur Seite.
+The text is not flowing around the OOoLilyPond object.: Der Text umfließt die Noten nicht.
+The text is flowing on the right or left side of the OOoLIlyPond object.: Der Text umfließt die Noten links oder rechts.
+The text is flowing through the OOoLilyPond object.: Der Text fließt durch die Noten.
+Open the configuration dialog.: Einstellungen öffnen.
+Previous error or warning: Vorherige Fehlermeldung oder Warnung
+Next error or warning: Nächste Fehlermeldung oder Warnung
+You can create your own templates using a text editor.: Eigene Templates erstellen.
+Open the current code as temoprary .LY file in external editor: Den aktuellen Code als temporäre .ly-Datei in externem Editor öffnen
+Import the temporary file from the external editor: Die Datei im externen Editor übernehmen.
+When editing/replacing an existing object, preserve its current size and crop settings: Aktuelle Größe und aktuellen Zuschnitt der eingefügten Noten beibehalten auch wenn der Inhalt sich ändert.
