@@ -1,3 +1,8 @@
+# To build the extension, please run `make`
+# make clean: Uninstalls the current extension
+# make zip: Rebuilds the extension
+# make install: Install the extension
+
 VERSION := $(shell git describe --abbrev=0)
 
 all:	clean zip install
