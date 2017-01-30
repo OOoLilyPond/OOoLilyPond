@@ -11,29 +11,35 @@ import os
 import yaml
 
 
-pattern1 = 'dlg:value="%s"'
-pattern2 = 'dlg:value="%s:"'
-filename = "OOoLilyPond/GUI_Editor.xdl"
-fileorig = filename + '.orig'
+patterns = ['dlg:value="%s"', 'dlg:value="%s:"', 'dlg:help-text="%s"']
+filenames = ["OOoLilyPond/GUI_Editor.xdl", "OOoLilyPond/GUI_Config.xdl"]
 language = sys.argv[1]
-if language == 'en':
-    if os.path.exists(fileorig):
-        os.rename(fileorig, filename)
+
+def translatefile(filename, language):
+    # reset to original file
+    orig = filename + '.orig'
+    if os.path.exists(orig):
+        os.rename(orig, filename)
     else:
-        print("File %s does not exist. Please use git checkout." % fileorig)
-    exit(0)
+        print("File %s does not exist. Please use git checkout." % orig)
 
-with open(language + '.yaml') as f:
-    dictionary = yaml.load(f)
+    if language == 'en':
+        exit(0)
 
-with open(filename) as f:
-    text = f.read()
-with open(fileorig, 'w') as f:
-    f.write(text)
+    with open(language + '.yaml') as f:
+        dictionary = yaml.load(f)
 
-for original, translation in dictionary.items():
-    text = text.replace(pattern1 % original, pattern1 % translation)
-    text = text.replace(pattern2 % original, pattern2 % translation)
+    with open(filename) as f:
+        text = f.read()
+    with open(orig, 'w') as f:
+        f.write(text)
 
-with open(filename, 'w') as f:
-    f.write(text)
+    for original, translation in dictionary.items():
+        for pattern in patterns:
+            text = text.replace(pattern % original, pattern % translation)
+
+    with open(filename, 'w') as f:
+        f.write(text)
+
+for filename in filenames:
+    translatefile(filename, language)
