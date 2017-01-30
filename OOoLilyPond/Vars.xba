@@ -2,11 +2,21 @@
 <!DOCTYPE script:module PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "module.dtd">
 <script:module xmlns:script="http://openoffice.org/2000/script" script:name="Vars" script:language="StarBasic">Option Explicit
 
+&apos; Constants for general file names, will be defined in PrivateConstants()
+Private constOLyFileName As String					&apos; beginning of File Name for temporary files
+Private constOLyLibraryName As String				&apos; name of the macro library among the OpenOffice / LibreOffice macros
+Private constOLyWinConfigFileName As String			&apos; Config file name for Windows version
+Private constOLyWinConfigFolderName As String		&apos; Folder name where Config file and the Template subfolder are located (Windows version)
+
 &apos; Paths
 Private sConfigFile As String
 Private sTmpPath As String
 Private sLilyPondExecutable As String
 Private sTemplatePath As String
+Private sExtEditorExecutable As String
+Private sIncludeStatement As String
+Private sEditorFontName As String
+Private sEditorFontSize As String
 
 &apos; Settings
 Private sFormat As String
@@ -16,6 +26,10 @@ Private sImpressDefaultTemplate As String
 Private iWriterDefaultAnchor As Integer
 Private iWriterDefaultWrap As Integer
 Private bIgnoreWarnings As Boolean
+Private bWriterInsertViaClipboard As Boolean
+Private bImpressInsertViaClipboard As Boolean
+Private bWriterKeepCrop As Boolean
+Private bImpressKeepCrop As Boolean
 
 &apos; Environment
 Private sOSType As String
@@ -29,8 +43,8 @@ Private oTemplateEditorDialog As Object &apos; Template Editor Dialog
 Private oConfigDialog As Object &apos; Configuration Dialog
 
 &apos; OOoLilyPond object data
-Private sTemplate As String  &apos; The name of the template used
-Private sCode As String  &apos; The LilyPond code snippet
+Private sTemplate As String		&apos; The name of the template used
+Private sCode As String			&apos; The LilyPond code snippet
 Private sLineWidth As String
 Private sStaffSize As String
 Private sCustom1 As String
@@ -67,6 +81,7 @@ Private oShapeSize As Object
 Private oShapePosition As Object
 Private oShapeCrop As Object
 Private bShapeIsSelected As Boolean
+Private bKeepCrop As Boolean
 
 &apos; SimpleFileAccess Service
 Private oFileAccess As Object
@@ -84,6 +99,8 @@ Private bLineWidthFieldExists As Boolean
 Private bStaffSizeFieldExists As Boolean
 Private bCustom1FieldExists As Boolean
 Private bCustom2FieldExists As Boolean
+
+Private oSelection As Object
 
 &apos; PrivateConstants do not exist therefore use variables instead
 &apos; and set the values by calling this function in Main().
@@ -112,6 +129,15 @@ Sub PrivateConstants()
 	iAnswer_Ignore=5
 	iAnswer_Yes=6
 	iAnswer_No=7
+	
+	&apos; Constants for general file names:
+	constOLyFileName = &quot;LoLilyPond&quot;					&apos; beginning of File Name for temporary files
+	&apos; constOLyFileName = &quot;OOoLilyPond&quot;					&apos; beginning of File Name for temporary files
+	constOLyLibraryName = &quot;OOoLilyPond&quot;					&apos; name of the macro library among the OpenOffice / LibreOffice macros
+	constOLyWinConfigFileName = &quot;lolilypond-config&quot;	&apos; Config file name for Windows version
+	&apos; constOLyWinConfigFileName = &quot;ooolilypond-config&quot;	&apos; Config file name for Windows version
+	constOLyWinConfigFolderName = &quot;OOoLilyPond&quot;			&apos; Folder name where Config file and the Template subfolder are located (Windows version)
+
 End Sub
 
 </script:module>

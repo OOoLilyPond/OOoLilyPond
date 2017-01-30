@@ -12,15 +12,23 @@ Function CallLilyPond() As Boolean
 	If 	Val(sLilyPondVersionMajor)=2 and Val(sLilyPondVersionMinor)&lt;=10 Then
 		sBackendOpt=&quot;-b eps&quot;
 	End If
+	If sFormat=&quot;svg&quot; Then
+		sBackendOpt=&quot;-dbackend=svg&quot;
+	End If
 	
 	If sOSType = &quot;Unix&quot; Then
 
 		sCommand=&quot;cd &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; Chr(34) &amp; &quot;; &quot; _
 		&amp; Chr(34) &amp; sLilyPondExecutable &amp; Chr(34)
+		If Len(sIncludeStatement) &gt; 0 Then
+			sCommand = sCommand &amp; &quot; &quot; &amp; sIncludeStatement
+		End If
 		If sFormat=&quot;png&quot; Then
-			sCommand = sCommand &amp; &quot; &quot; &amp; sBackendOpt &amp; &quot; -f png -dresolution=&quot; &amp; iGraphicDPI &amp; &quot; OOoLilyPond.ly &gt;OOoLilyPond.out 2&gt;&amp;1; &quot;
+			sCommand = sCommand &amp; &quot; -dno-delete-intermediate-files --png &quot; &amp; sBackendOpt &amp; &quot; -dresolution=&quot; &amp; iGraphicDPI &amp; &quot; &quot; &amp; constOLyFileName &amp; &quot;.ly &gt;&quot; &amp; constOLyFileName &amp; &quot;.out 2&gt;&amp;1; &quot;
 		ElseIf sFormat=&quot;eps&quot; Then
-			sCommand = sCommand &amp; &quot; &quot; &amp; sBackendOpt &amp; &quot; -f eps OOoLilyPond.ly &gt;OOoLilyPond.out 2&gt;&amp;1; &quot;
+			sCommand = sCommand &amp; &quot; &quot; &amp; sBackendOpt &amp; &quot; -f eps &quot; &amp; constOLyFileName &amp; &quot;.ly &gt;&quot; &amp; constOLyFileName &amp; &quot;.out 2&gt;&amp;1; &quot;
+		ElseIf sFormat=&quot;svg&quot; Then
+			sCommand = sCommand &amp; &quot; &quot; &amp; sBackendOpt &amp; &quot; &quot; &amp; constOLyFileName &amp; &quot;.ly &gt;&quot; &amp; constOLyFileName &amp; &quot;.out 2&gt;&amp;1; &quot;
 		End If
 		sCommand=sCommand &amp; &quot;if [ $? -ge 126 ]; then touch LilyPond-cannot_execute; fi&quot; &apos; not found -&gt; 127, denied -&gt;126
 		BashCommand(sCommand)
@@ -29,10 +37,15 @@ Function CallLilyPond() As Boolean
 
 		sCommand = &quot;cd /d &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; Chr(34) &amp; Chr(10) _
 		&amp; Chr(34) &amp; sLilyPondExecutable &amp; Chr(34)
+		If Len(sIncludeStatement) &gt; 0 Then
+			sCommand = sCommand &amp; &quot; &quot; &amp; sIncludeStatement
+		End If
 		If sFormat=&quot;png&quot; Then
-			sCommand = sCommand &amp; &quot; &quot; &amp; sBackendOpt &amp; &quot; -f png -dresolution=&quot; &amp; iGraphicDPI &amp; &quot; OOoLilyPond.ly &gt;OOoLilyPond.out 2&gt;&amp;1&quot; &amp;Chr(10)
+			sCommand = sCommand &amp; &quot; -dno-delete-intermediate-files --png &quot; &amp; sBackendOpt &amp; &quot; -dresolution=&quot; &amp; iGraphicDPI &amp; &quot; &quot; &amp; constOLyFileName &amp; &quot;.ly &gt;&quot; &amp; constOLyFileName &amp; &quot;.out 2&gt;&amp;1&quot; &amp;Chr(10)
 		ElseIf sFormat=&quot;eps&quot; Then
-			sCommand = sCommand &amp; &quot; &quot; &amp; sBackendOpt &amp; &quot; -f eps OOoLilyPond.ly &gt;OOoLilyPond.out 2&gt;&amp;1&quot; &amp; Chr(10)
+			sCommand = sCommand &amp; &quot; &quot; &amp; sBackendOpt &amp; &quot; -f eps &quot; &amp; constOLyFileName &amp; &quot;.ly &gt;&quot; &amp; constOLyFileName &amp; &quot;.out 2&gt;&amp;1&quot; &amp; Chr(10)
+		ElseIf sFormat=&quot;svg&quot; Then
+			sCommand = sCommand &amp; &quot; &quot; &amp; sBackendOpt &amp; &quot; &quot; &amp; constOLyFileName &amp; &quot;.ly &gt;&quot; &amp; constOLyFileName &amp; &quot;.out 2&gt;&amp;1&quot; &amp; Chr(10)
 		End If
 		sCommand=sCommand &amp; &quot;if errorlevel 9009 echo cannot execute &gt;LilyPond-cannot_execute&quot; &apos;ToDo: 9009 OK? Other errors? Wrong Permissions?
 		WindowsCommand(sCommand)
@@ -54,13 +67,15 @@ End Function
 Sub CleanUp()
 	If 	oFileAccess.exists(sTmpPath &amp; &quot;LilyPond-version.out&quot;) Then oFileAccess.kill(sTmpPath &amp; &quot;LilyPond-version.out&quot;)
 	If 	oFileAccess.exists(sTmpPath &amp; &quot;LilyPond-cannot_execute&quot;) Then oFileAccess.kill(sTmpPath &amp; &quot;LilyPond-cannot_execute&quot;)
-	If 	oFileAccess.exists(sTmpPath &amp; &quot;OOoLilyPond.out&quot;) Then oFileAccess.kill(sTmpPath &amp; &quot;OOoLilyPond.out&quot;)
-	If 	oFileAccess.exists(sTmpPath &amp; &quot;OOoLilyPond.eps&quot;) Then oFileAccess.kill(sTmpPath &amp; &quot;OOoLilyPond.eps&quot;)
-	If 	oFileAccess.exists(sTmpPath &amp; &quot;OOoLilyPond-1.eps&quot;) Then oFileAccess.kill(sTmpPath &amp; &quot;OOoLilyPond-1.eps&quot;)
-	If 	oFileAccess.exists(sTmpPath &amp; &quot;OOoLilyPond-systems.tex&quot;) Then oFileAccess.kill(sTmpPath &amp; &quot;OOoLilyPond-systems.tex&quot;)
-	If 	oFileAccess.exists(sTmpPath &amp; &quot;OOoLilyPond-systems.texi&quot;) Then oFileAccess.kill(sTmpPath &amp; &quot;OOoLilyPond-systems.texi&quot;)
-	If 	oFileAccess.exists(sTmpPath &amp; &quot;OOoLilyPond.ly&quot;) Then oFileAccess.kill(sTmpPath &amp; &quot;OOoLilyPond.ly&quot;)
-	If 	oFileAccess.exists(sTmpPath &amp; &quot;OOoLilyPond.png&quot;) Then oFileAccess.kill(sTmpPath &amp; &quot;OOoLilyPond.png&quot;)
+	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;)
+	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.eps&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;.eps&quot;)
+	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;-1.eps&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;-1.eps&quot;)
+	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;-systems.tex&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;-systems.tex&quot;)
+	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;-systems.texi&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;-systems.texi&quot;)
+	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.ly&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;.ly&quot;)
+	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;Temp.ly&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;Temp.ly&quot;)
+	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.png&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;.png&quot;)
+	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.svg&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;.svg&quot;)
 End Sub
 
 
@@ -77,14 +92,14 @@ Function LilyPondVersion() As Boolean
 	If sOSType = &quot;Unix&quot; Then
 
 		sCommand=&quot;cd &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; Chr(34) &amp; &quot;; &quot; _
-		&amp; Chr(34) &amp; sLilyPondExecutable &amp; Chr(34) &amp; &quot; --version &gt;OOoLilyPond.out; &quot; _
+		&amp; Chr(34) &amp; sLilyPondExecutable &amp; Chr(34) &amp; &quot; --version &gt;&quot; &amp; constOLyFileName &amp; &quot;.out; &quot; _
 		&amp; &quot;if [ $? -ge 126 ]; then touch LilyPond-cannot_execute; fi&quot; &apos; not found -&gt; 127, denied -&gt;126
 		BashCommand(sCommand)
 
 	ElseIf sOSType = &quot;Windows&quot; Then &apos;ToDo: create Windows command (now wrong command, copied from standard LilyPond Call)
 
 		sCommand = &quot;cd /d &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; Chr(34) &amp; Chr(10) _
-		&amp; Chr(34) &amp; sLilyPondExecutable &amp; Chr(34) &amp; &quot; --version &gt;OOoLilyPond.out 2&gt;&amp;1&quot; &amp; Chr(10) _
+		&amp; Chr(34) &amp; sLilyPondExecutable &amp; Chr(34) &amp; &quot; --version &gt;&quot; &amp; constOLyFileName &amp; &quot;.out 2&gt;&amp;1&quot; &amp; Chr(10) _
 		&amp; &quot;if errorlevel 9009 echo cannot execute &gt;LilyPond-cannot_execute&quot; &apos;ToDo: 9009 OK? Other errors? Wrong Permissions?
 		WindowsCommand(sCommand)
 
@@ -101,7 +116,7 @@ Function LilyPondVersion() As Boolean
 		&apos; read first line of output
 		&apos; Open input stream
 		oTextInputStream  = createUnoService(&quot;com.sun.star.io.TextInputStream&quot;)
-    	oTextInputStream.setInputStream(oFileAccess.openFileRead(sTmpPath &amp; &quot;OOoLilyPond.out&quot;))
+    	oTextInputStream.setInputStream(oFileAccess.openFileRead(sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;))
 		sLine = oTextInputStream.readLine()
 		oTextInputStream.closeInput()
 		
@@ -131,7 +146,7 @@ Sub ParseOutput(sFile as String)
 	iNErr = 0 &apos;Number of Errors
 	
 	oTextInputStream  = createUnoService(&quot;com.sun.star.io.TextInputStream&quot;)
-   	oTextInputStream.setInputStream(oFileAccess.openFileRead(sTmpPath &amp; &quot;OOoLilyPond.out&quot;))
+   	oTextInputStream.setInputStream(oFileAccess.openFileRead(sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;))
 
  	While not oTextInputStream.isEof()
 
@@ -142,11 +157,11 @@ Sub ParseOutput(sFile as String)
 		If isArray(vArray) Then
 			If UBound(vArray)&gt;=LBound(vArray) Then
 			
-				If vArray(LBound(vArray)) = &quot;OOoLilyPond.ly&quot; Then
+				If vArray(LBound(vArray)) = constOLyFileName &amp; &quot;.ly&quot; Then
 					iNErr = iNErr + 1
 					iErrRow(iNErr) = Val(vArray(LBound(vArray)+1))
 					iErrCol(iNErr) = Val(vArray(LBound(vArray)+2))
-					If vArray(LBound(vArray)+3) = &quot; error&quot; Then
+					If (vArray(LBound(vArray)+3) = &quot; error&quot;) Or (vArray(LBound(vArray)+3) = &quot; Fehler&quot;) Then  &apos; ToDo: What if LilyPond&apos;s error message is in another language?
 						iErrClass(iNErr)=2 &apos;Error
 					Else
 						iErrClass(iNErr)=1 &apos;Warning
@@ -171,10 +186,12 @@ Function WriteLyFile() As Boolean
 	Dim oTextStream As Object
 	Dim sLyFile As String
 
+	WriteLyFile=False
+
 	&apos; Open output stream
 	oTextStream  = createUnoService(&quot;com.sun.star.io.TextOutputStream&quot;)
 
-	sLyFile = sTmpPath &amp; &quot;OOoLilyPond.ly&quot;
+	sLyFile = sTmpPath &amp; constOLyFileName &amp; &quot;.ly&quot;
 	If oFileAccess.exists( sLyFile ) Then oFileAccess.kill(sLyFile )	
     oTextStream.setOutputStream(oFileAccess.openFileWrite(sLyFile))
  
@@ -184,6 +201,30 @@ Function WriteLyFile() As Boolean
 	oTextStream.closeOutput()
 
 	WriteLyFile=True
+	
+End Function
+
+
+Function WriteTempLyFile() As Boolean
+
+	Dim oTextStream As Object
+	Dim sLyFile As String
+	
+	WriteTempLyFile=False
+
+	&apos; Open output stream
+	oTextStream  = createUnoService(&quot;com.sun.star.io.TextOutputStream&quot;)
+
+	sLyFile = sTmpPath &amp; constOLyFileName &amp; &quot;Temp.ly&quot;
+	If oFileAccess.exists( sLyFile ) Then oFileAccess.kill(sLyFile )	
+    oTextStream.setOutputStream(oFileAccess.openFileWrite(sLyFile))
+ 
+	&apos; Write LilyPond Code
+    oTextStream.writeString(sLilyPondCode)
+
+	oTextStream.closeOutput()
+
+	WriteTempLyFile=True
 	
 End Function
 
