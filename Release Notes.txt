@@ -1,6 +1,6 @@
 
-  OooLilyPond 0.4.2rc5 Release Notes  (January 2017)
-=====================================================
+OooLilyPond 0.4.2rc7 Release Notes  (February 2017)
+====================================================
 
 
 This release is based on the two most recent versions that have been published by the original developer Samuel Hartmann.
