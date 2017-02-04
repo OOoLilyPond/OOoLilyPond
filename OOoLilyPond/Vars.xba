@@ -131,11 +131,11 @@ Sub PrivateConstants()
 	iAnswer_No=7
 	
 	&apos; Constants for general file names:
-	constOLyFileName = &quot;LoLilyPond&quot;					&apos; beginning of File Name for temporary files
-	&apos; constOLyFileName = &quot;OOoLilyPond&quot;					&apos; beginning of File Name for temporary files
+	&apos; constOLyFileName = &quot;LoLilyPond&quot;					&apos; beginning of File Name for temporary files
+	constOLyFileName = &quot;OOoLilyPond&quot;					&apos; beginning of File Name for temporary files
 	constOLyLibraryName = &quot;OOoLilyPond&quot;					&apos; name of the macro library among the OpenOffice / LibreOffice macros
-	constOLyWinConfigFileName = &quot;lolilypond-config&quot;	&apos; Config file name for Windows version
-	&apos; constOLyWinConfigFileName = &quot;ooolilypond-config&quot;	&apos; Config file name for Windows version
+	&apos; constOLyWinConfigFileName = &quot;lolilypond-config&quot;	&apos; Config file name for Windows version
+	constOLyWinConfigFileName = &quot;ooolilypond-config&quot;	&apos; Config file name for Windows version
 	constOLyWinConfigFolderName = &quot;OOoLilyPond&quot;			&apos; Folder name where Config file and the Template subfolder are located (Windows version)
 
 End Sub
