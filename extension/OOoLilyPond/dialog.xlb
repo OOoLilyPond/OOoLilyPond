@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE library:library PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "library.dtd">
+<library:library xmlns:library="http://openoffice.org/2000/library" library:name="OOoLilyPond" library:readonly="false" library:passwordprotected="false">
+ <library:element library:name="GUI_Config"/>
+ <library:element library:name="GUI_Editor"/>
+ <library:element library:name="GUI_Tmpl"/>
+ <library:element library:name="GUI_Out"/>
+ <library:element library:name="Process"/>
+ <library:element library:name="Ask"/>
+</library:library>
