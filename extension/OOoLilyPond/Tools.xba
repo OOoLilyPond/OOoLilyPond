@@ -152,8 +152,11 @@ Function ImportBitmapIntoDraw(sURL As String, Optional oGraphicShape) As Object
 	Dim oDocCtrl As Object
 	Dim oCrop As new com.sun.star.text.GraphicCrop
 	Const INCH = 2540
-	Const VECTORDPI = 96	&apos; Correction factor for vector graphics as they don&apos;t use PNG&apos;s dpi values
-							&apos; It seems that 96 dpi is assumed
+	&apos; Const VECTORDPI = 120	&apos; Correction factor for vector graphics as they don&apos;t use PNG&apos;s dpi values
+							&apos; It seems that 120 dpi is assumed.
+							&apos; Update: sometimes it looks like 96 is assumed 
+							&apos; ToDo: Find out what the hell is going on here...
+							&apos; Workaround: Use a better method   ;-)
 
 	oDoc = ThisComponent
 	oDocCtrl = oDoc.getCurrentController
@@ -181,8 +184,12 @@ Function ImportBitmapIntoDraw(sURL As String, Optional oGraphicShape) As Object
 		oSize.width = oGraphicShape.Graphic.Size.Width/iGraphicDPI*INCH
 		oSize.height = oGraphicShape.Graphic.Size.Height/iGraphicDPI*INCH
 	Else	&apos; svg or eps
-		oSize.width = oGraphicShape.Graphic.Size.Width/VECTORDPI*INCH
-		oSize.height = oGraphicShape.Graphic.Size.Height/VECTORDPI*INCH
+		&apos; Let&apos;s better not rely on any mysterious dpi values:
+		&apos; oSize.width = oGraphicShape.Graphic.Size.Width/VECTORDPI*INCH
+		&apos; oSize.height = oGraphicShape.Graphic.Size.Height/VECTORDPI*INCH
+		&apos; instead, reset to original size:
+		oSize.width =  oGraphicShape.Graphic.Size100thMM.Width
+		oSize.height = oGraphicShape.Graphic.Size100thMM.Height
  	End If
 
 	&apos; remove the Bitmap from the table
