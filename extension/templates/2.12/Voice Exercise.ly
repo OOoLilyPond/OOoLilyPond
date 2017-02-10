@@ -1,23 +1,3 @@
-% use relative input mode
-% Custom1: absolute pitch used as reference for first relative note
-
-\include "lilypond-book-preamble.ly"
-#(set-global-staff-size %{OOoLilyPondStaffSize%}20%{OOoLilyPondEnd%})
-
-\paper {
-  #(define dump-extents #t)
-  ragged-right = ##t
-  line-width = %{OOoLilyPondLineWidth%}17\cm%{OOoLilyPondEnd%}
-}
-
-\layout {
-  indent = #0
-  \context {
-    \Score
-    \remove "Bar_number_engraver"
-  }
-}
-
 \transpose %{OOoLilyPondCustom1%}c c%{OOoLilyPondEnd%}
 {
 %{OOoLilyPondCode%}% Example for music notation with lyrics.
@@ -44,16 +24,23 @@
 \addlyrics {
  a a a a a a
  a __ "" ""
-}%{OOoLilyPondEnd%}
+}
+%{OOoLilyPondEnd%}
 }
 
+\include "lilypond-book-preamble.ly"
+#(set-global-staff-size %{OOoLilyPondStaffSize%}20%{OOoLilyPondEnd%})
 
+\paper {
+  #(define dump-extents #t)
+  ragged-right = ##t
+  line-width = %{OOoLilyPondLineWidth%}17\cm%{OOoLilyPondEnd%}
+}
 
-
-
-
-
-
-
-
-
+\layout {
+  indent = #0
+  \context {
+    \Score
+    \remove "Bar_number_engraver"
+  }
+}
