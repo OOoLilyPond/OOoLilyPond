@@ -53,7 +53,7 @@
   <dlg:textfield dlg:style-id="1" dlg:id="sCode" dlg:tab-index="0" dlg:left="3" dlg:top="6" dlg:width="318" dlg:height="148" dlg:hide-inactive-selection="false" dlg:hard-linebreaks="true" dlg:vscroll="true" dlg:multiline="true">
    <script:event script:event-name="on-textchange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.CodeModified?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:textfield>
-  <dlg:combobox dlg:id="sTemplate" dlg:tab-index="13" dlg:left="187" dlg:top="180" dlg:width="114" dlg:height="12" dlg:help-text="You can create your own templates using a text editor." dlg:spin="true" dlg:linecount="16">
+  <dlg:combobox dlg:id="sTemplate" dlg:tab-index="13" dlg:left="187" dlg:top="180" dlg:width="114" dlg:height="12" dlg:help-text="You can create your own templates using a text editor." dlg:spin="true" dlg:linecount="24">
    <script:event script:event-name="on-textchange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.TemplateChanged?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:combobox>
   <dlg:textfield dlg:id="sLineWidth" dlg:tab-index="19" dlg:left="154" dlg:top="211" dlg:width="38" dlg:height="12">

@@ -43,7 +43,7 @@
   <dlg:text dlg:id="LabelWriterStaffSize" dlg:tab-index="22" dlg:left="9" dlg:top="56" dlg:width="32" dlg:height="10" dlg:value="Staff Size:"/>
   <dlg:text dlg:id="LabelImpressStaffSize" dlg:tab-index="34" dlg:left="9" dlg:top="239" dlg:width="32" dlg:height="10" dlg:value="Staff Size:"/>
   <dlg:text dlg:id="LabelImpressLineWidth" dlg:tab-index="33" dlg:left="9" dlg:top="223" dlg:width="31" dlg:height="8" dlg:value="LineWidth:"/>
-  <dlg:combobox dlg:id="sWriterDefaultTemplate" dlg:tab-index="2" dlg:left="41" dlg:top="19" dlg:width="96" dlg:height="12" dlg:help-text="Default template to use for OOoLilyPond objects in Writer documents" dlg:spin="true"/>
+  <dlg:combobox dlg:id="sWriterDefaultTemplate" dlg:tab-index="2" dlg:left="41" dlg:top="19" dlg:width="96" dlg:height="12" dlg:help-text="Default template to use for OOoLilyPond objects in Writer documents" dlg:spin="true" dlg:linecount="24"/>
   <dlg:textfield dlg:id="sWriterDefaultLineWidth" dlg:tab-index="3" dlg:left="41" dlg:top="38" dlg:width="38" dlg:height="12"/>
   <dlg:textfield dlg:id="sWriterDefaultStaffSize" dlg:tab-index="5" dlg:left="41" dlg:top="55" dlg:width="38" dlg:height="12"/>
   <dlg:checkbox dlg:id="bWriterUseLineWidthFromTemplate" dlg:tab-index="4" dlg:left="84" dlg:top="40" dlg:width="55" dlg:height="10" dlg:value="From Template" dlg:checked="false">
@@ -52,7 +52,7 @@
   <dlg:checkbox dlg:id="bWriterUseStaffSizeFromTemplate" dlg:tab-index="6" dlg:left="84" dlg:top="56" dlg:width="55" dlg:height="10" dlg:value="From Template" dlg:checked="false">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.ConfigDialogGrayOut?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
-  <dlg:combobox dlg:id="sImpressDefaultTemplate" dlg:tab-index="24" dlg:left="41" dlg:top="203" dlg:width="96" dlg:height="12" dlg:help-text="Default template to use for OOoLilyPond objects in Impress and Draw documents" dlg:spin="true"/>
+  <dlg:combobox dlg:id="sImpressDefaultTemplate" dlg:tab-index="24" dlg:left="41" dlg:top="203" dlg:width="96" dlg:height="12" dlg:help-text="Default template to use for OOoLilyPond objects in Impress and Draw documents" dlg:spin="true" dlg:linecount="24"/>
   <dlg:textfield dlg:id="sImpressDefaultLineWidth" dlg:tab-index="25" dlg:left="41" dlg:top="221" dlg:width="38" dlg:height="12"/>
   <dlg:textfield dlg:id="sImpressDefaultStaffSize" dlg:tab-index="27" dlg:left="41" dlg:top="238" dlg:width="38" dlg:height="12"/>
   <dlg:checkbox dlg:id="bImpressUseLineWidthFromTemplate" dlg:tab-index="26" dlg:left="84" dlg:top="223" dlg:width="52" dlg:height="10" dlg:value="From Template" dlg:checked="false">
