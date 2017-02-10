@@ -1,29 +1,10 @@
-\include "lilypond-book-preamble.ly"
-#(set-global-staff-size %{OOoLilyPondStaffSize%}20%{OOoLilyPondEnd%})
-
 \include "predefined-guitar-fretboards.ly"
-
 \include "deutsch.ly"
 
 % add your own diagrams here:
 % \storePredefinedDiagram \chordmode {c:9}
 %                            #guitar-tuning
 %                            #"x;3-2;2-1;3-3;3-4;x;"
-
-\paper {
-  #(define dump-extents #t)
-  ragged-right = ##t
-  line-width = %{OOoLilyPondLineWidth%}17\cm%{OOoLilyPondEnd%}
-}
-
-\layout {
-  indent = #0
-  \context {
-    \Score
-    \remove "Bar_number_engraver"
-  }
-}
-
 
 mychords = \chordmode{
 %{OOoLilyPondCode%}%% Für Dokumentation zu Bund-Diagrammen siehe:
@@ -42,3 +23,22 @@ g:7 a:maj h:m7%{OOoLilyPondEnd%}
     \mychords
   }
 >>
+
+
+
+\include "lilypond-book-preamble.ly"
+#(set-global-staff-size %{OOoLilyPondStaffSize%}20%{OOoLilyPondEnd%})
+
+\paper {
+  #(define dump-extents #t)
+  ragged-right = ##t
+  line-width = %{OOoLilyPondLineWidth%}17\cm%{OOoLilyPondEnd%}
+}
+
+\layout {
+  indent = #0
+  \context {
+    \Score
+    \remove "Bar_number_engraver"
+  }
+}
