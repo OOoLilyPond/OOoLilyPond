@@ -58,39 +58,42 @@ Important: Only those five fields are updated. Changes to other parts of the tem
 (If necessary, you can create your own templates or modify existing ones.) 
 
 
-4.) Support for EPS/PNG/SVG graphics format / image size / crop settings 
--------------------------------------------------------------------------
+4.) Support for EPS/PNG/SVG graphics format, image size & crop settings, new templates 
+---------------------------------------------------------------------------------------
 
 In the config dialog, OOoLilyPond lets you choose whether to use EPS, PNG or SVG graphics format. 
 However, there are some restrictions:
 
-
+PNG
+----
 PNG should work fine with both office versions (OpenOffice, LibreOffice) on both platforms (Linux, Windows). But as PNG is a bitmap format, it does not look as good as EPS or SVG when printed on paper. 
 
-
+EPS
+----
 EPS does *not* work with LibreOffice. (Maybe this can be fixed in LibreOffice versions later than 5.2.4.2 - who knows...) 
-On Windows, you will see no graphic at all. On Linux, in you document a graphic will show up which, however, has the same quality drawbacks as a PNG graphic. 
+On Windows, you will see no graphic at all. On Linux, in your document a graphic will show up which, however, has the same quality drawbacks as a PNG graphic. 
 EPS works fine with OpenOffice 4.1.3, even if the graphics are not visible in the OpenOffice window. If you "print" your document with a suitable pdf printer, e.g. FreePDF ( http://freepdfxp.de/index_en.html ), the resulting pdf output file will be correct. 
 
-
+SVG
+----
 SVG will only work with LibreOffice and *not* with OpenOffice. 
 For SVG use, some more things have to be considered: 
 
-* Most OOoLilyPond templates use "lilypond-book-preamble.ly" which *only* works with EPS or PNG format, and *not* with SVG (in that case, no graphics output file is produced). 
+* OOoLilyPond templates from versions 0.4.0 and 0.4.1 use "lilypond-book-preamble.ly" which *only* works with EPS or PNG format, and *not* with SVG (in that case, no graphics output file is produced). 
 
-* You can use the templates "SVG Default" and "SVG Direct to LilyPond" with SVG format. 
+* For the use with SVG format, you will find [SVG] versions of all templates which you can use instead. They don't use "lilypond-book.preamble.ly". (Such a template change should work fine, even when editing existing snippets. Just be sure not to have your code replaced by default code.)
 However, without lilypond-book-preamble.ly, there is no automatic cropping of the resulting image. 
-Therefore, you must specify the "paper" size for your LilyPond snippet in advance. As line-width must be given anyway, only the paper height would have to be found by trial-and-error. So maybe this isn't as bad as is sounds... 
+Therefore, you must specify the "paper" size for your LilyPond snippet before compiling. As line-width must be given anyway, only the paper height would have to be found by trial-and-error. So maybe this isn't as bad as is sounds... 
 By the way: in LibreOffice, you can manually crop the image after inserting. 
 
 * If you edit an existing snippet, you can now choose to keep its size and crop settings. The default behaviour for that can be adjusted in the config dialog (independent settings for Writer and Impress/Draw). 
-(By some unknown magic, png graphics appear auto-cropped even without lilypond-book-preamble. Therefore, switching between different graphic formats can mess up the image size when keeping size&crop settings.)
+(By some unknown magic, png graphics appear auto-cropped even without lilypond-book-preamble. Therefore, switching between different graphic formats can mess up the image size when keeping size&crop settings. If that happened, de-select this option and compile your snippet again.)
 
-* If LilyPond uses fonts that are not installed on your system, they won't show up correctly in the resulting SVG image. Therefore, the two SVG templates have some preparation to replace LilyPond's default fonts. 
+* If LilyPond uses fonts that are not installed on your system, they won't show up correctly in the resulting SVG image. Therefore, the [SVG] templates have some preparation to replace LilyPond's default fonts. 
 When editing the templates, in the \paper block you will find some code with a "define fonts" statement. Remove the block comment sign (opening brace followed by a percent sign) and adjust the font name according to your needs.
 
 
-By the way: Up to 0.4.2rc4, when importing vector graphics (EPS, SVG) into OpenOffice Draw or LibreOffice Draw, the image had only about 40% of its original size. This has been fixed now.
+By the way: Up to 0.4.2rc4, when importing vector graphics (EPS, SVG) into OpenOffice Draw or LibreOffice Draw, images had the wrong size. This has been fixed now.
 
 
 5.) Two different ways to import graphic into document 
