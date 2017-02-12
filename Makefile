@@ -1,7 +1,5 @@
-# To build the extension, please run `make`
-# make clean: Uninstalls the current extension
-# make zip: Rebuilds the extension
-# make install: Install the extension
+# Make file for the extension
+# Please type `make help` for usage information.
 
 VERSION := $(shell git describe --abbrev=0 --tags)
 
@@ -24,4 +22,12 @@ install:
 
 installde:
 	unopkg add ooolilypond-$(VERSION)-de.oxt
+
+help:
+	@echo "make             reinstall extension from working directory"
+	@echo "make clean       uninstall all installed ooolilypond extensions"
+	@echo "make oxt         build oxt file"
+	@echo "make install     install oxt file in LibreOffice"
+	@echo "make oxtde       translate and build German oxt file"
+	@echo "make installde   install German oxt file in LibreOffice"
 
