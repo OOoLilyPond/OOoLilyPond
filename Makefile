@@ -8,10 +8,11 @@ VERSION := $(shell git describe --abbrev=0 --tags)
 all:	clean zip install
 
 clean:
-	unopkg remove ooolilypond-$(VERSION).oxt || exit 0
+	unopkg remove ooolilypond*.oxt || exit 0
 	rm -f ooolilypond*.oxt
+	rm -rf translation/extension-*
 
-zip:
+oxt:
 	cd extension && zip -r ../ooolilypond-$(VERSION).oxt *
 
 install:
