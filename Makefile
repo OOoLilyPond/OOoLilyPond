@@ -12,10 +12,7 @@ clean:
 	rm -f ooolilypond*.oxt
 
 zip:
-	zip -r ooolilypond-$(VERSION).oxt \
-		Addons.xcu description.xml META-INF \
-		Office OOoLilyPond pkg-desc templates
-#	cp ooolilypond.oxt ooolilypond-$(VERSION).oxt
+	cd extension && zip -r ../ooolilypond-$(VERSION).oxt *
 
 install:
 	unopkg add ooolilypond-$(VERSION).oxt
