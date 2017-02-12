@@ -1,7 +1,3 @@
-#(ly:set-option (quote no-point-and-click)) 
-  % Remove or comment out this command above if you use an external editor 
-  % that supports point-and-click
-                                              
 \include "italiano.ly"
 \transpose %{OOoLilyPondCustom1%}do do'%{OOoLilyPondEnd%}
 {

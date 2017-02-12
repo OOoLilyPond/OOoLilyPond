@@ -1,7 +1,3 @@
-#(ly:set-option (quote no-point-and-click)) 
-  % Remove or comment out this command above if you use an external editor 
-  % that supports point-and-click
-                                              
 \transpose %{OOoLilyPondCustom1%}c c%{OOoLilyPondEnd%}
 \relative %{OOoLilyPondCustom2%}g,%{OOoLilyPondEnd%} {
 %{OOoLilyPondCode%}% This templates lets you enter notes in relative mode.
