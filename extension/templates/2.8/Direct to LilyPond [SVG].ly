@@ -1,7 +1,3 @@
-#(ly:set-option (quote no-point-and-click)) 
-  % Remove or comment out this command above if you use an external editor 
-  % that supports point-and-click
-                                              
 %{OOoLilyPondCode%}% By using this template you can use the full power of LilyPond.
 % For more information plase read the LilyPond documentation:
 % http://lilypond.org/doc/v2.12/Documentation/index.html (english)

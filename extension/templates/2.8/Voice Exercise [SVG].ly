@@ -1,7 +1,3 @@
-#(ly:set-option (quote no-point-and-click)) 
-  % Remove or comment out this command above if you use an external editor 
-  % that supports point-and-click
-                                              
 \transpose %{OOoLilyPondCustom1%}c c%{OOoLilyPondEnd%}
 {
 %{OOoLilyPondCode%}% Example for music notation with lyrics.

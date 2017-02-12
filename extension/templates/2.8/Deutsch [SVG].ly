@@ -1,7 +1,3 @@
-#(ly:set-option (quote no-point-and-click)) 
-  % Diese erste Zeile entfernen oder auskommentieren, wenn Sie einen externen
-  % Editor verwenden, der Point-and-click unterstützt
-                                              
 \include "deutsch.ly"
 \transpose %{OOoLilyPondCustom1%}c c'%{OOoLilyPondEnd%}
 {
