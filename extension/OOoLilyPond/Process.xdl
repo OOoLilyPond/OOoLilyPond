@@ -4,10 +4,10 @@
  <dlg:bulletinboard>
   <dlg:radiogroup>
    <dlg:radio dlg:id="SearchCode" dlg:tab-index="0" dlg:left="14" dlg:top="17" dlg:width="38" dlg:height="8" dlg:value="Code"/>
-   <dlg:radio dlg:id="SearchLineWidth" dlg:tab-index="1" dlg:left="14" dlg:top="26" dlg:width="38" dlg:height="8" dlg:value="LineWidth"/>
-   <dlg:radio dlg:id="SearchStaffSize" dlg:tab-index="2" dlg:left="14" dlg:top="36" dlg:width="40" dlg:height="8" dlg:value="StaffSize"/>
-   <dlg:radio dlg:id="SearchCustom1" dlg:tab-index="3" dlg:left="60" dlg:top="18" dlg:width="46" dlg:height="8" dlg:value="Custom1"/>
-   <dlg:radio dlg:id="SearchCustom2" dlg:tab-index="4" dlg:left="60" dlg:top="28" dlg:width="46" dlg:height="8" dlg:value="Custom2"/>
+   <dlg:radio dlg:id="SearchLineWidth" dlg:tab-index="1" dlg:left="14" dlg:top="26" dlg:width="38" dlg:height="8" dlg:value="Line Width"/>
+   <dlg:radio dlg:id="SearchStaffSize" dlg:tab-index="2" dlg:left="14" dlg:top="36" dlg:width="40" dlg:height="8" dlg:value="Staff Size"/>
+   <dlg:radio dlg:id="SearchCustom1" dlg:tab-index="3" dlg:left="60" dlg:top="18" dlg:width="46" dlg:height="8" dlg:value="Custom 1"/>
+   <dlg:radio dlg:id="SearchCustom2" dlg:tab-index="4" dlg:left="60" dlg:top="28" dlg:width="46" dlg:height="8" dlg:value="Custom 2"/>
    <dlg:radio dlg:id="ConditionContains" dlg:tab-index="5" dlg:left="14" dlg:top="86" dlg:width="35" dlg:height="8" dlg:value="contains:"/>
    <dlg:radio dlg:id="ConditionIs" dlg:tab-index="6" dlg:left="55" dlg:top="87" dlg:width="14" dlg:height="8" dlg:value="is:"/>
    <dlg:radio dlg:id="ReplaceWholeField" dlg:tab-index="7" dlg:left="13" dlg:top="154" dlg:width="75" dlg:height="8" dlg:value="Replace whole field by:"/>

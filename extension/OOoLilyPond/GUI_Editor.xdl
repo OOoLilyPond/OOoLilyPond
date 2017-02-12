@@ -46,7 +46,7 @@
   <dlg:button dlg:id="EditTemplate" dlg:tab-index="18" dlg:left="305" dlg:top="178" dlg:width="15" dlg:height="14" dlg:value="Edit">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.EditTemplateButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
-  <dlg:text dlg:id="LabelLineWidth" dlg:tab-index="21" dlg:left="154" dlg:top="201" dlg:width="34" dlg:height="8" dlg:value="LineWidth:"/>
+  <dlg:text dlg:id="LabelLineWidth" dlg:tab-index="21" dlg:left="154" dlg:top="201" dlg:width="34" dlg:height="8" dlg:value="Line Width:"/>
   <dlg:text dlg:id="LabelStaffSize" dlg:tab-index="24" dlg:left="197" dlg:top="201" dlg:width="33" dlg:height="8" dlg:value="Staff Size:"/>
   <dlg:text dlg:id="LabelCustom1" dlg:tab-index="25" dlg:left="238" dlg:top="201" dlg:width="35" dlg:height="8" dlg:value="Custom 1:"/>
   <dlg:text dlg:id="LabelCustom2" dlg:tab-index="26" dlg:left="280" dlg:top="201" dlg:width="32" dlg:height="8" dlg:value="Custom 2:"/>

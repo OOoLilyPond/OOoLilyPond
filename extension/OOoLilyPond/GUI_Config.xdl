@@ -39,10 +39,10 @@
   <dlg:text dlg:id="Label8" dlg:tab-index="36" dlg:left="154" dlg:top="148" dlg:width="61" dlg:height="8" dlg:value="LilyPond Executable:"/>
   <dlg:text dlg:id="Label9" dlg:tab-index="37" dlg:left="155" dlg:top="192" dlg:width="27" dlg:height="8" dlg:value="Format:"/>
   <dlg:text dlg:id="Label10" dlg:tab-index="38" dlg:left="190" dlg:top="192" dlg:width="50" dlg:height="8" dlg:value="Resolution (png):"/>
-  <dlg:text dlg:id="LabelWriterLineWidth" dlg:tab-index="21" dlg:left="9" dlg:top="40" dlg:width="31" dlg:height="8" dlg:value="LineWidth:"/>
+  <dlg:text dlg:id="LabelWriterLineWidth" dlg:tab-index="21" dlg:left="9" dlg:top="40" dlg:width="31" dlg:height="8" dlg:value="Line Width:"/>
   <dlg:text dlg:id="LabelWriterStaffSize" dlg:tab-index="22" dlg:left="9" dlg:top="56" dlg:width="32" dlg:height="10" dlg:value="Staff Size:"/>
   <dlg:text dlg:id="LabelImpressStaffSize" dlg:tab-index="34" dlg:left="9" dlg:top="239" dlg:width="32" dlg:height="10" dlg:value="Staff Size:"/>
-  <dlg:text dlg:id="LabelImpressLineWidth" dlg:tab-index="33" dlg:left="9" dlg:top="223" dlg:width="31" dlg:height="8" dlg:value="LineWidth:"/>
+  <dlg:text dlg:id="LabelImpressLineWidth" dlg:tab-index="33" dlg:left="9" dlg:top="223" dlg:width="31" dlg:height="8" dlg:value="Line Width:"/>
   <dlg:combobox dlg:id="sWriterDefaultTemplate" dlg:tab-index="2" dlg:left="41" dlg:top="19" dlg:width="96" dlg:height="12" dlg:help-text="Default template to use for OOoLilyPond objects in Writer documents" dlg:spin="true" dlg:linecount="24"/>
   <dlg:textfield dlg:id="sWriterDefaultLineWidth" dlg:tab-index="3" dlg:left="41" dlg:top="38" dlg:width="38" dlg:height="12"/>
   <dlg:textfield dlg:id="sWriterDefaultStaffSize" dlg:tab-index="5" dlg:left="41" dlg:top="55" dlg:width="38" dlg:height="12"/>
@@ -74,7 +74,7 @@
   <dlg:text dlg:id="Label6" dlg:tab-index="44" dlg:left="155" dlg:top="8" dlg:width="64" dlg:height="7" dlg:value="Editor Font Name:"/>
   <dlg:text dlg:id="Label11" dlg:tab-index="45" dlg:left="263" dlg:top="8" dlg:width="32" dlg:height="7" dlg:value="Size:"/>
   <dlg:textfield dlg:id="sEditorFontName" dlg:tab-index="42" dlg:left="154" dlg:top="19" dlg:width="102" dlg:height="12" dlg:help-text="Specify the font name for the editor pane"/>
-  <dlg:textfield dlg:id="sEditorFontSize" dlg:tab-index="43" dlg:left="262" dlg:top="19" dlg:width="35" dlg:height="12" dlg:help-text="Specify the font siez for the editor pane"/>
+  <dlg:textfield dlg:id="sEditorFontSize" dlg:tab-index="43" dlg:left="262" dlg:top="19" dlg:width="35" dlg:height="12" dlg:help-text="Specify the font size for the editor pane"/>
   <dlg:titledbox dlg:id="FrameControl2" dlg:tab-index="29" dlg:left="8" dlg:top="256" dlg:width="130" dlg:height="40">
    <dlg:title dlg:value="Insert Images"/>
   </dlg:titledbox>
