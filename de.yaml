@@ -1,5 +1,13 @@
 # German translation for OOoLilyPond extension
 
+# Ask
+Yes: Ja
+CommandButton1: Befehl1
+No: Nein
+Abort: Abbrechen
+All: Alles
+Do you want to process this object?: Möchten Sie dieses Objekt verarbeiten?
+
 # main window
 Default Code: Zurücksetzen
 Anchor: Verankerung
@@ -12,7 +20,7 @@ Optimal Page Wrap: beide Seiten
 Wrap Through: durchlaufend
 Template: Vorlage
 Edit: Bearb.
-LineWidth: Zeilenbreite
+Line Width: Zeilenbreite
 Staff Size: Größe
 Custom 1: Extra 1
 Custom 2: Extra 2
@@ -27,12 +35,14 @@ Reset all values to default: Alle Einstellungen zurücksetzen
 Reset to Default: Zurücksetzen
 Restore Templates: Vorlagen wiederherstellen
 Template Path: Vorlagenpfad
+Format: Format
 Resolution (png): Auflösung (png)
 Default template to use for OOoLilyPond objects in Writer documents: Standardvorlage für Noten in Textdokumenten (Writer)
 Insert Images via Clipboard. Recommended for OpenOffice.: Noten über Zwischenablage einfügen (empfohlen für OpenOffice).
 Insert Images without Clipboard use. Recommended for LibreOffice.: Noten ohne Zwischenablage einfügen (empfohlen für LibreOffice).
 Direct (LibreOffice): Direkt (LibreOffice)
 Via Clipboard (OpenOffice): Über Zwischenablage (OpenOffice)
+From Template: Aus Vorlage
 
 # template editor
 Save: Speichern
@@ -52,5 +62,32 @@ Previous error or warning: Vorherige Fehlermeldung oder Warnung
 Next error or warning: Nächste Fehlermeldung oder Warnung
 You can create your own templates using a text editor.: Eigene Templates erstellen.
 Open the current code as temoprary .LY file in external editor: Den aktuellen Code als temporäre .ly-Datei in externem Editor öffnen
-Import the temporary file from the external editor: Die Datei im externen Editor übernehmen.
+Import the temporary file from the external editor: Die Datei aus externem Editor übernehmen.
 When editing/replacing an existing object, preserve its current size and crop settings: Aktuelle Größe und aktuellen Zuschnitt der eingefügten Noten beibehalten auch wenn der Inhalt sich ändert.
+
+# GUI Config
+Default Values for Writer: Standardeinstellungen für Writer
+Default Values for Impress and Draw: Standardeinstellungen für Impress und Draw
+Apply and save configuration to file: Einstellungen anwenden und speichern
+The path where OOoLiliyPond looks for templates.: Der Pfad in dem die Erweiterung nach Vorlagen sucht.
+The LilyPond executable with or without path.: Das LilyPond-Programm (mit oder ohne Pfad).
+Resolution for pixel based (png-format) OOoLilyPond objects.: Auflösung für Noten im PNG-Format.
+The png format looks better on the screen. The eps and svg formats are optimized for printing.: Das PNG-Format sieht auf dem Bildschirm besser aus. Das EPS- und SVG-Format ist für den Druck optimiert.
+Don&apos;t list warnings along with LilyPond&apos;s error messages: Keine Warnungen anzeigen, nur Fehlermeldungen.
+Ext. Editor Executable: Externer Editor
+The external Editor&apos;s executable with or without path.: Die Programmdatei des externen Editors (mit oder ohne Pfad).
+Include statement(s): Include statement(s)
+The path(s) where LilyPond looks for include files (multiple statements possible): Der Pfad, in dem LilyPond nach Dateien zum Einbinden sucht (mehrere möglich)
+-I&quot;path1&quot; -I&quot;path2&quot; ... : '-I&quot;pfad1&quot; -I&quot;pfad2&quot; ...'
+Editor Font Name: Editor-Schriftart
+Size: Größe
+Specify the font name for the editor pane: Name der Schriftart im Editorfenster
+Specify the font size for the editor pane: Größe der Schriftart im Editorfenster
+Insert Images: Bilder einfügen
+'eps: Only with OpenOffice': 'EPS: Nur mit OpenOffice'
+'svg: Only with LibreOffice, use Template': 'SVG: Nur mit LibreOffice'
+
+# Process
+Code: Code
+Process: Prozess
+
