@@ -1,38 +1,39 @@
 #!/usr/bin/env python3
 """
+Translation tool for the LilyPond LibreOffice extension
 
-Usage: translate.py language
-Example: translate.py de
+Usage:   translation/translate.py <language>
+Example: translation/translate.py de
 """
 
-import sys
+import glob
 import re
-import os
+import shutil
+import sys
 import yaml
 
 
-patterns = ['dlg:value="%s"', 'dlg:value="%s:"', 'dlg:help-text="%s"']
-filenames = ["OOoLilyPond/GUI_Editor.xdl", "OOoLilyPond/GUI_Config.xdl"]
-language = sys.argv[1]
+def translate(language):
+    """translate the current extension code to the given language"""
+    # create a copy of the extension folder for the given language
+    langdir = 'translation/extension-%s' % language
+    shutil.rmtree(langdir, ignore_errors=True)
+    shutil.copytree('extension', langdir)
+
+    # replace english strings with translated strings in this copy
+    for filename in glob.glob('%s/OOoLilyPond/*.xdl' % langdir):
+        translatefile(filename, language)
+
 
 def translatefile(filename, language):
-    # reset to original file
-    orig = filename + '.orig'
-    if os.path.exists(orig):
-        os.rename(orig, filename)
-    else:
-        print("File %s does not exist. Please use git checkout." % orig)
+    """translate a file using the dictionary in <language>.yaml"""
+    patterns = ['dlg:value="%s"', 'dlg:value="%s:"', 'dlg:help-text="%s"']
 
-    if language == 'en':
-        exit(0)
-
-    with open(language + '.yaml') as f:
+    with open('translation/%s.yaml' % language) as f:
         dictionary = yaml.load(f)
 
     with open(filename) as f:
         text = f.read()
-    with open(orig, 'w') as f:
-        f.write(text)
 
     for original, translation in dictionary.items():
         for pattern in patterns:
@@ -41,5 +42,5 @@ def translatefile(filename, language):
     with open(filename, 'w') as f:
         f.write(text)
 
-for filename in filenames:
-    translatefile(filename, language)
+
+translate(language=sys.argv[1])
