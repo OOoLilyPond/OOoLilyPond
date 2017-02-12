@@ -3,7 +3,7 @@
 # make zip: Rebuilds the extension
 # make install: Install the extension
 
-VERSION := $(shell git describe --abbrev=0)
+VERSION := $(shell git describe --abbrev=0 --tags)
 
 all:	clean zip install
 
