@@ -19,7 +19,7 @@ Function CallLilyPond() As Boolean
 	If sOSType = &quot;Unix&quot; Then
 
 		sCommand=&quot;cd &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; Chr(34) &amp; &quot;; &quot; _
-		&amp; Chr(34) &amp; sLilyPondExecutable &amp; Chr(34)
+		&amp; Chr(34) &amp; sLilyPondExecutable &amp; Chr(34) &amp; &quot; -dno-point-and-click&quot;
 		If Len(sIncludeStatement) &gt; 0 Then
 			sCommand = sCommand &amp; &quot; &quot; &amp; sIncludeStatement
 		End If
@@ -36,7 +36,7 @@ Function CallLilyPond() As Boolean
 	ElseIf sOSType = &quot;Windows&quot; Then
 
 		sCommand = &quot;cd /d &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; Chr(34) &amp; Chr(10) _
-		&amp; Chr(34) &amp; sLilyPondExecutable &amp; Chr(34)
+		&amp; Chr(34) &amp; sLilyPondExecutable &amp; Chr(34) &amp; &quot; -dno-point-and-click&quot;
 		If Len(sIncludeStatement) &gt; 0 Then
 			sCommand = sCommand &amp; &quot; &quot; &amp; sIncludeStatement
 		End If
