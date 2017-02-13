@@ -24,3 +24,8 @@ It uses the translation given in the file *language-code*.yaml in the [yaml] for
     original English text: translated text
 
 After running the script, the translated version of the extension code will be located at the translation/extension-*language* subdirectory. It can be zipped to build a translated extension just like the original extenion.
+
+The whole process is automated in the [Makefile]:
+
+    make de
+
