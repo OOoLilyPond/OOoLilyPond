@@ -48,7 +48,6 @@ def translatedescription(filename, language):
     """Translate description file"""
     with open('translation/%s.yaml' % language) as f:
         dictionary = yaml.load(f)
-    print(dictionary.keys())
 
     with open(filename, 'w') as f:
         f.write(dictionary['description'])
