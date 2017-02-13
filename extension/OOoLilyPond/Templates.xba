@@ -265,7 +265,7 @@ Function ReadTemplate() As Boolean
 	EndIf
 		
 	If Not bCodeFieldExists Then
-		MsgBox(&quot;The selected Template does not have an OOoLilyPondCode tag.&quot; &amp; Chr(10) &amp; &quot;Please correct the template.&quot;, iMsgBox_E, &quot;Error&quot;)
+		MsgBox(&quot;The selected template does not have an OOoLilyPondCode tag.&quot; &amp; Chr(10) &amp; &quot;Please correct the template.&quot;, iMsgBox_E, &quot;Error&quot;)
 		ReadTemplate = False
 		Exit Function
 	End If
@@ -470,7 +470,7 @@ Sub TmplSaveButton
 	If StringToFile(oTemplateEditorDialog.getControl(&quot;sTemplateCode&quot;).getText(), sFile) Then
 		oTemplateEditorDialog.endExecute()
 	Else
-		MsgBox(&quot;Cannot write to file &quot; &amp; Chr(34) &amp; ConvertFromURL(sFile) &amp; Chr(34),, iMsgBox_O, &quot;Error&quot;)
+		MsgBox(&quot;Cannot write to file &quot; &amp; Chr(34) &amp; ConvertFromURL(sFile) &amp; Chr(34), iMsgBox_O, &quot;Error&quot;)
 	End If
 	
 End Sub
