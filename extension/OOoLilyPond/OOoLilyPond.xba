@@ -2,7 +2,7 @@
 <!DOCTYPE script:module PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "module.dtd">
 <script:module xmlns:script="http://openoffice.org/2000/script" script:name="OOoLilyPond" script:language="StarBasic">&apos;	 OOoLilyPond - using LilyPond in OpenOffice.org
 &apos;	
-&apos;    Copyright (C) 2005  geoffroy piroux
+&apos;    Copyright (C) 2005  Geoffroy Piroux
 &apos;    Copyright (C) 2009  Samuel Hartmann
 &apos;
 &apos;    This program is free software; you can redistribute it and/or modify
@@ -69,7 +69,8 @@ Sub OOoLilyPond()
 			CopyTemplates()
 			SaveConfig()
 		Else
-			MsgBox(&quot;LilyPond can not be found please check whether LilyPond is properly installed and the specified path to the LilPond executable is correct.&quot;, iMsgBox_E)
+			MsgBox(&quot;LilyPond can not be found. Please check whether LilyPond is properly installed&quot; &amp; Chr(10) _
+                               &amp; &quot;and the specified path to the LilyPond executable is correct.&quot;, iMsgBox_E)
 		End If
 	Else &apos; LilyPond has already once been called successfully
 		If Not oFileAccess.isFolder(sTemplatePath) Then CopyTemplates() &apos; For some reason the templates are not there
@@ -401,7 +402,7 @@ Function ReadAttributes( oShape As Object ) As Boolean
 	If oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondCode&quot;) Then
 		sCode=oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondCode&quot;).Value
 	Else
-		Msgbox (&quot;The selected object is not an &quot; &amp; constOLyFileName &amp; &quot; object ...&quot;, 0, &quot;Error&quot;)
+		Msgbox (&quot;The selected object is not an OLy object ...&quot;, 0, &quot;Error&quot;)
 		ReadAttributes = False
 		Exit Function
 	End If
