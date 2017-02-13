@@ -139,7 +139,7 @@ Sub ParseOutput(sFile as String)
 	Dim i As Integer
 	
 	if Not oFileAccess.exists(sFile) then
-		Msgbox(&quot;Error the LilyPond output file does not exist:&quot; &amp; Chr(10) &amp; sFile, iMsgBoxE, &quot;Error&quot;)
+		Msgbox(&quot;The LilyPond output file does not exist:&quot; &amp; Chr(10) &amp; sFile, iMsgBoxE, &quot;Error&quot;)
 		exit sub
 	end if
 
