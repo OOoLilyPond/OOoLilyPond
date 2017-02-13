@@ -10,19 +10,19 @@ The tool requires *Python 3* including these packages: *glob*, *shutil* and *yam
 
 ## Usage
 
-The translation tool is run from the root directory. A [language code] must be provided as argument:
+The translation tool is run from the root directory. A [language code] *lang* must be provided as argument:
 
-    translation/translate.py <language-code>
+    translation/translate.py <lang>
 
 For example:
 
     translation/translate.py de
 
-It uses the translation given in the file *language-code*.yaml in the [yaml] format. For the translation purposes this format is simply:
+It uses the translation given in the file *lang*.yaml in the [yaml] format. For the translation purposes this format is simply:
 
     original English text: translated text
 
-After running the script, the translated version of the extension code will be located at the translation/extension-*language* subdirectory. It can be zipped to build a translated extension just like the original extenion.
+After running the script, the translated version of the extension code will be located at the translation/extension-*lang* subdirectory. It can be zipped to build a translated extension just like the original extenion.
 
 The whole process is automated in the [Makefile]:
 
@@ -34,5 +34,5 @@ For new translations, just copy [de.yaml] to *language-code*.yaml and replace th
 
 [language code]: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 [yaml]: https://en.wikipedia.org/wiki/YAML
-[Makefile]: Makefile
-[de.yaml]: translation/de.yaml
+[Makefile]: ../Makefile
+[de.yaml]: de.yaml
