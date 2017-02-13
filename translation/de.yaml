@@ -1,4 +1,15 @@
 # German translation for OOoLilyPond extension
+description: |-
+  OOoLilyPond ermöglicht es musikalische Noten in OpenOffice.org oder
+  LibreOffice Writer-, Draw- und Impress-Documenten einzubinden.
+  Der musikalische Ausdruck wird as Text eingegeben und dann mit LilyPond
+  in ein Grafikobjekt (png, eps oder svg) umgewandelt und eingebunden.
+
+  http://ooolilypond.sf.net
+  http://lilypond.org
+
+  Copyright (c) 2006-2009 Samuel Hartmann (samuel_hartmann@users.sourceforge.net)
+  Copyright (c) 2017 Klaus Blum
 
 # Ask
 Yes: Ja
