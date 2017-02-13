@@ -37,6 +37,8 @@ def translatefile(filename, language):
         text = f.read()
 
     for original, translation in dictionary.items():
+        if not isinstance(original, str):
+            print("Warning: bad type %r for entry: %s" % (type(original), original))
         for pattern in patterns:
             text = text.replace(pattern % original, pattern % translation)
 
