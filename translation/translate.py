@@ -23,6 +23,7 @@ def translate(language):
     # replace english strings with translated strings in this copy
     for filename in glob.glob('%s/OOoLilyPond/*.xdl' % langdir):
         translatefile(filename, language)
+    translatedescription('%s/pkg-desc/pkg-description.txt' % langdir, language)
 
 
 def translatefile(filename, language):
@@ -42,5 +43,14 @@ def translatefile(filename, language):
     with open(filename, 'w') as f:
         f.write(text)
 
+
+def translatedescription(filename, language):
+    """Translate description file"""
+    with open('translation/%s.yaml' % language) as f:
+        dictionary = yaml.load(f)
+    print(dictionary.keys())
+
+    with open(filename, 'w') as f:
+        f.write(dictionary['description'])
 
 translate(language=sys.argv[1])
