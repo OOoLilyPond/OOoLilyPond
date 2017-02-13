@@ -35,8 +35,8 @@
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.RestoreTemplatesButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
   <dlg:text dlg:id="Label4" dlg:tab-index="23" dlg:left="9" dlg:top="21" dlg:width="29" dlg:height="8" dlg:value="Template:"/>
-  <dlg:text dlg:id="Label7" dlg:tab-index="35" dlg:left="154" dlg:top="121" dlg:width="53" dlg:height="8" dlg:value="Template Path:"/>
-  <dlg:text dlg:id="Label8" dlg:tab-index="36" dlg:left="154" dlg:top="148" dlg:width="61" dlg:height="8" dlg:value="LilyPond Executable:"/>
+  <dlg:text dlg:id="Label7" dlg:tab-index="35" dlg:left="154" dlg:top="121" dlg:width="53" dlg:height="9" dlg:value="Template Path:"/>
+  <dlg:text dlg:id="Label8" dlg:tab-index="36" dlg:left="154" dlg:top="148" dlg:width="61" dlg:height="9" dlg:value="LilyPond Executable:"/>
   <dlg:text dlg:id="Label9" dlg:tab-index="37" dlg:left="155" dlg:top="192" dlg:width="27" dlg:height="8" dlg:value="Format:"/>
   <dlg:text dlg:id="Label10" dlg:tab-index="38" dlg:left="190" dlg:top="192" dlg:width="50" dlg:height="8" dlg:value="Resolution (png):"/>
   <dlg:text dlg:id="LabelWriterLineWidth" dlg:tab-index="21" dlg:left="9" dlg:top="40" dlg:width="31" dlg:height="8" dlg:value="Line Width:"/>
@@ -66,11 +66,11 @@
   <dlg:numericfield dlg:id="iGraphicDPI" dlg:tab-index="54" dlg:left="189" dlg:top="203" dlg:width="20" dlg:height="12" dlg:help-text="Resolution for pixel based (png-format) OOoLilyPond objects." dlg:decimal-accuracy="0" dlg:value="300" dlg:value-min="75" dlg:value-max="2400" dlg:value-step="0"/>
   <dlg:combobox dlg:id="sFormat" dlg:tab-index="52" dlg:left="155" dlg:top="203" dlg:width="25" dlg:height="12" dlg:help-text="The png format looks better on the screen. The eps and svg formats are optimized for printing." dlg:spin="true"/>
   <dlg:checkbox dlg:id="bIgnoreWarnings" dlg:tab-index="55" dlg:left="154" dlg:top="270" dlg:width="63" dlg:height="10" dlg:help-text="Don&apos;t list warnings along with LilyPond&apos;s error messages" dlg:value="Ignore Warnings" dlg:checked="false"/>
-  <dlg:text dlg:id="Label2" dlg:tab-index="39" dlg:left="154" dlg:top="67" dlg:width="64" dlg:height="8" dlg:value="Ext. Editor Executable:"/>
+  <dlg:text dlg:id="Label2" dlg:tab-index="39" dlg:left="154" dlg:top="67" dlg:width="64" dlg:height="9" dlg:value="Ext. Editor Executable:"/>
   <dlg:textfield dlg:id="sExtEditorExecutable" dlg:tab-index="47" dlg:left="154" dlg:top="79" dlg:width="143" dlg:height="12" dlg:help-text="The external Editor&apos;s executable with or without path."/>
-  <dlg:text dlg:id="Label3" dlg:tab-index="40" dlg:left="154" dlg:top="39" dlg:width="64" dlg:height="8" dlg:value="Include statement(s):"/>
+  <dlg:text dlg:id="Label3" dlg:tab-index="40" dlg:left="154" dlg:top="39" dlg:width="64" dlg:height="9" dlg:value="Include statement(s):"/>
   <dlg:textfield dlg:id="sIncludeStatement" dlg:tab-index="46" dlg:left="154" dlg:top="51" dlg:width="143" dlg:height="12" dlg:help-text="The path(s) where LilyPond looks for include files (multiple statements possible)"/>
-  <dlg:text dlg:id="Label5" dlg:tab-index="41" dlg:left="230" dlg:top="39" dlg:width="68" dlg:height="8" dlg:value="-I&quot;path1&quot; -I&quot;path2&quot; ..." dlg:align="right" dlg:nolabel="true"/>
+  <dlg:text dlg:id="Label5" dlg:tab-index="41" dlg:left="230" dlg:top="39" dlg:width="68" dlg:height="9" dlg:value="-I&quot;path1&quot; -I&quot;path2&quot; ..." dlg:align="right" dlg:nolabel="true"/>
   <dlg:text dlg:id="Label6" dlg:tab-index="44" dlg:left="155" dlg:top="8" dlg:width="64" dlg:height="7" dlg:value="Editor Font Name:"/>
   <dlg:text dlg:id="Label11" dlg:tab-index="45" dlg:left="263" dlg:top="8" dlg:width="32" dlg:height="7" dlg:value="Size:"/>
   <dlg:textfield dlg:id="sEditorFontName" dlg:tab-index="42" dlg:left="154" dlg:top="19" dlg:width="102" dlg:height="12" dlg:help-text="Specify the font name for the editor pane"/>
@@ -85,9 +85,9 @@
    <dlg:radio dlg:id="WriterInsertViaClipboard" dlg:tab-index="16" dlg:left="9" dlg:top="133" dlg:width="111" dlg:height="12" dlg:help-text="Insert Images via Clipboard. Recommended for OpenOffice." dlg:value="Via Clipboard (OpenOffice)"/>
    <dlg:radio dlg:id="WriterInsertDirect" dlg:tab-index="17" dlg:left="9" dlg:top="145" dlg:width="111" dlg:height="12" dlg:help-text="Insert Images without Clipboard use. Recommended for LibreOffice." dlg:value="Direct (LibreOffice)"/>
   </dlg:radiogroup>
-  <dlg:text dlg:id="Label12" dlg:tab-index="50" dlg:left="156" dlg:top="222" dlg:width="144" dlg:height="8" dlg:value="eps: Only with OpenOffice" dlg:tabstop="false" dlg:nolabel="true"/>
-  <dlg:text dlg:id="Label13" dlg:tab-index="51" dlg:left="156" dlg:top="235" dlg:width="144" dlg:height="8" dlg:value="svg: Only with LibreOffice, use Template" dlg:nolabel="true"/>
-  <dlg:text dlg:id="Label14" dlg:tab-index="53" dlg:left="172" dlg:top="243" dlg:width="128" dlg:height="8" dlg:value="without lilypond-book-preamble.ly" dlg:nolabel="true"/>
+  <dlg:text dlg:id="Label12" dlg:tab-index="50" dlg:left="156" dlg:top="222" dlg:width="144" dlg:height="9" dlg:value="eps: Only with OpenOffice" dlg:tabstop="false" dlg:nolabel="true"/>
+  <dlg:text dlg:id="Label13" dlg:tab-index="51" dlg:left="156" dlg:top="235" dlg:width="144" dlg:height="9" dlg:value="svg: Only with LibreOffice, use Template" dlg:nolabel="true"/>
+  <dlg:text dlg:id="Label14" dlg:tab-index="53" dlg:left="172" dlg:top="243" dlg:width="128" dlg:height="9" dlg:value="without lilypond-book-preamble.ly" dlg:nolabel="true"/>
   <dlg:radiogroup>
    <dlg:radio dlg:id="ImpressInsertViaClipboard" dlg:tab-index="30" dlg:left="9" dlg:top="267" dlg:width="111" dlg:height="12" dlg:help-text="Insert Images via Clipboard. Recommended for OpenOffice." dlg:value="Via Clipboard (OpenOffice)"/>
    <dlg:radio dlg:id="ImpressInsertDirect" dlg:tab-index="31" dlg:left="9" dlg:top="279" dlg:width="111" dlg:height="12" dlg:help-text="Insert Images without Clipboard use. Recommended for LibreOffice." dlg:value="Direct (LibreOffice)"/>
