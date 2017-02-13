@@ -70,7 +70,7 @@
   <dlg:textfield dlg:id="sExtEditorExecutable" dlg:tab-index="47" dlg:left="154" dlg:top="79" dlg:width="143" dlg:height="12" dlg:help-text="The external Editor&apos;s executable with or without path."/>
   <dlg:text dlg:id="Label3" dlg:tab-index="40" dlg:left="154" dlg:top="39" dlg:width="64" dlg:height="8" dlg:value="Include statement(s):"/>
   <dlg:textfield dlg:id="sIncludeStatement" dlg:tab-index="46" dlg:left="154" dlg:top="51" dlg:width="143" dlg:height="12" dlg:help-text="The path(s) where LilyPond looks for include files (multiple statements possible)"/>
-  <dlg:text dlg:id="Label5" dlg:tab-index="41" dlg:left="230" dlg:top="39" dlg:width="68" dlg:height="8" dlg:value="-I&quot;path1&quot; -I&quot;path2&quot; ... " dlg:align="right" dlg:nolabel="true"/>
+  <dlg:text dlg:id="Label5" dlg:tab-index="41" dlg:left="230" dlg:top="39" dlg:width="68" dlg:height="8" dlg:value="-I&quot;path1&quot; -I&quot;path2&quot; ..." dlg:align="right" dlg:nolabel="true"/>
   <dlg:text dlg:id="Label6" dlg:tab-index="44" dlg:left="155" dlg:top="8" dlg:width="64" dlg:height="7" dlg:value="Editor Font Name:"/>
   <dlg:text dlg:id="Label11" dlg:tab-index="45" dlg:left="263" dlg:top="8" dlg:width="32" dlg:height="7" dlg:value="Size:"/>
   <dlg:textfield dlg:id="sEditorFontName" dlg:tab-index="42" dlg:left="154" dlg:top="19" dlg:width="102" dlg:height="12" dlg:help-text="Specify the font name for the editor pane"/>

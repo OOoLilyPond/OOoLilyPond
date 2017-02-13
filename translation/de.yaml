@@ -13,9 +13,9 @@ description: |-
   Übersetzung: Joram Berger
 
 # Ask
-Yes: Ja
+'Yes': Ja
 CommandButton1: Befehl1
-No: Nein
+'No': Nein
 Abort: Abbrechen
 All: Alles
 Do you want to process this object?: Möchten Sie dieses Objekt verarbeiten?
@@ -90,7 +90,7 @@ Ext. Editor Executable: Externer Editor
 The external Editor&apos;s executable with or without path.: Die Programmdatei des externen Editors (mit oder ohne Pfad).
 Include statement(s): Include statement(s)
 The path(s) where LilyPond looks for include files (multiple statements possible): Der Pfad, in dem LilyPond nach Dateien zum Einbinden sucht (mehrere möglich)
--I&quot;path1&quot; -I&quot;path2&quot; ... : '-I&quot;pfad1&quot; -I&quot;pfad2&quot; ...'
+-I&quot;path1&quot; -I&quot;path2&quot; ...: '-I&quot;pfad1&quot; -I&quot;pfad2&quot; ...'
 Editor Font Name: Editor-Schriftart
 Size: Größe
 Specify the font name for the editor pane: Name der Schriftart im Editorfenster
