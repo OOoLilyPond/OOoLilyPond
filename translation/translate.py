@@ -21,14 +21,16 @@ def translate(language):
     shutil.copytree('extension', langdir)
 
     # replace english strings with translated strings in this copy
-    for filename in glob.glob('%s/OOoLilyPond/*.xdl' % langdir):
+    for filename in glob.glob('%s/OOoLilyPond/*.x??' % langdir):
         translatefile(filename, language)
     translatedescription('%s/pkg-desc/pkg-description.txt' % langdir, language)
 
 
 def translatefile(filename, language):
     """translate a file using the dictionary in <language>.yaml"""
-    patterns = ['dlg:value="%s"', 'dlg:value="%s:"', 'dlg:help-text="%s"']
+    patterns = ['dlg:value="%s"', 'dlg:value="%s:"', 'dlg:help-text="%s"',
+        '&quot;%s&quot;', '&quot;%s &quot;', '&quot; %s&quot;', '&quot; %s &quot;',
+        '&quot;%s:&quot;','&quot;%s: &quot;']
 
     with open('translation/%s.yaml' % language) as f:
         dictionary = yaml.load(f)
