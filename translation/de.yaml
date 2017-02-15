@@ -103,3 +103,76 @@ Insert Images: Bilder einfügen
 Code: Code
 Process: Prozess
 
+# Messages
+The folder: Der Ordner
+is created: wurde erstellt
+It contains the &quot; &amp; constOLyLibraryName &amp; &quot; templates you can modify: Er beinhaltet die &quot; &amp; constOLyLibraryName &amp; &quot;-Vorlagen, die Sie abändern können.
+The original templates can always be restored while your modified templates are backed up: Die ursprünglichen Vorlagen können jederzeit wiederhergestellt werden, wobei von Ihren abgeänderten Vorlagen eine Sicherungskopie erstellt wird
+For this use the &quot; &amp; Chr(34) &amp; &quot;restore templates&quot; &amp; Chr(34) &amp; &quot; button in the configuration dialog: Nutzen Sie hierfür den &quot; &amp; Chr(34) &amp; &quot;Vorlagen wiederherstellen&quot; &amp; Chr(34) &amp; &quot;-Knopf im Optionen-Dialog
+
+The specified path for templates does not exist and cannot be created: Der angegebene Pfad für die Vorlagen existiert nicht und konnte auch nicht erstellt werden
+Please adjust the path in the configuration dialog: Bitte geben Sie im Optionen-Dialog den richtigen Pfad an
+
+Your old templates are backed up under: Eine Sicherungskopie Ihrer bisherigen Vorlagen befindet sich jetzt in
+Templates Backup: Sicherungskopie der Vorlagen
+No templates are found at the path: Im angegebenen Pfad wurden keine Vorlagen gefunden
+will not work without a template: wird ohne Vorlage nicht funktionieren
+
+The template path: Der Vorlagenordner
+is not found: wurde nicht gefunden
+
+sText = &quot;Warning: sText = &quot;Warnung
+sText = &quot;Error: sText = &quot;Fehler
+
+&quot;Error&quot;): &quot;Fehler&quot;)
+No valid file name / path for External Editor is specified: Für den externen Editor wurde kein gültiger Dateiname / Pfad angegeben
+
+Are you sure: Sind Sie sicher
+Do you really want to reset your code to the default: Möchten Sie wirklich Ihren Code auf die Standardvorgabe zurücksetzen
+
+LilyPond cannot be executed: LilyPond kann nicht ausgeführt werden
+Check the path specified for the lilypond executable in the configuration dialog,: Überprüfen Sie den Pfad, der im Optionen-Dialog für die LilyPond-Programmdatei angegeben ist,
+your LilyPond installation and permissions: die LilyPond-Installation und Ihre Berechtigungen
+
+The LilyPond output file does not exist: Die LilyPond-Ausgabedatei existiert nicht
+document type not supported by: Dokumente dieses Typs werden nicht unterstützt von
+
+LilyPond can not be found. Please check whether LilyPond is properly installed: LilyPond kann nicht gefunden werden. Bitte überprüfen Sie, ob LilyPond richtig istalliert ist
+and the specified path to the LilyPond executable is correct: und ob der angegebene Pfad zur Programmdatei korrekt ist
+
+The selected object is not an OLy object: Das ausgewählte Objekt ist kein OLy-Objekt
+
+Enter LilyPond code: Geben Sie Code für LilyPond ein
+
+No eps output is found: Keine eps-Ausgabedatei gefunden
+No png output is found: Keine png-Ausgabedatei gefunden
+No svg output is found: Keine svg-Ausgabedatei gefunden
+No pdf output is found: Keine pdf-Ausgabedatei gefunden
+
+MsgBox(&quot;No &quot: MsgBox(&quot;Keine &quot
+&quot; tags found in the template: &quot;-Tags in der Vorlage gefunden
+
+Template error: Fehler in der Vorlage
+missing end tag: fehlender End-Tag
+for tag: für Tag
+
+Cannot open the template file: Kann die Vorlage nicht öffnen
+
+corresponding end tag for: Der entsprechende End-Tag für
+is missing or misspelled: fehlt oder ist falsch geschrieben
+
+The selected template does not have an OOoLilyPondCode tag: Die gewählte Vorlage hat keinen OOoLilyPondCode-Tag
+Please correct the template: Bitte korrigieren Sie die Vorlage
+
+Cannot open the temporary file: Kann die temporäre Datei nicht öffnen
+The temporary file does not have an OOoLilyPondCode tag: Die temporäre Datei hat keinen OOoLilyPondCode-Tag
+
+Cannot delete the template file: Kann Vorlagen-Datei nicht löschen
+You have deleted a default template. Please choose another default template in the configuration dialogue: Sie haben eine Standardvorlage gelöscht. Bitte wählen Sie im Optionen-Dialog eine andere Standardvorlage
+
+New template name: Neuer Name für Vorlage
+Please enter a new template name and click OK: Bitte geben Sie für die Vorlage einen neuen Namen ein, und klicken Sie OK
+
+Cannot write to file: Fehler beim Schreiben in die Datei
+
+the second argument must be either a TextCursor or a TextGraphic: Das zweite Argument muss entweder TextCursor oder TextGraphic sein
