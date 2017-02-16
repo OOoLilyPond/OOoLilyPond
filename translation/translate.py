@@ -22,9 +22,8 @@ def translate(language):
 
     # replace english strings with translated strings in this copy
     translatedescription('%s/pkg-desc/pkg-description.txt' % langdir, language)
-    notfound = False
+    notfound = None
     for filename in glob.glob('%s/OOoLilyPond/*.x??' % langdir):
-        print(filename)
         notfound = translatefile(filename, language, notfound)
 
     # show replacement strings which were not found
@@ -32,9 +31,9 @@ def translate(language):
     if notfound:
         print("Warning: These strings were not found:")
         for line in notfound:
-            print(" ", line)
+            print("  %r" % line)
 
-def translatefile(filename, language, notfound=[]):
+def translatefile(filename, language, notfound):
     """translate a file using the dictionary in <language>.yaml"""
     patterns = ['dlg:value="%s"', 'dlg:value="%s:"', 'dlg:help-text="%s"',
         '&quot;%s&quot;', '&quot;%s &quot;', '&quot; %s&quot;', '&quot; %s &quot;',
@@ -43,7 +42,7 @@ def translatefile(filename, language, notfound=[]):
     with open('translation/%s.yaml' % language) as f:
         dictionary = yaml.load(f)
 
-    if not notfound:
+    if notfound is None:
         notfound = list(dictionary.keys())
     with open(filename) as f:
         text = f.read()
@@ -52,7 +51,7 @@ def translatefile(filename, language, notfound=[]):
         if not isinstance(original, str):
             print("Warning: bad type %r for entry: %s" % (type(original), original))
         for pattern in patterns:
-            if pattern % original in text and original in notfound:
+            if (pattern % original) in text and original in notfound:
                 notfound.remove(original)
             text = text.replace(pattern % original, pattern % translation)
 
