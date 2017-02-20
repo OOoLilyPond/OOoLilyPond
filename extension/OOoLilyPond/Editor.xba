@@ -62,9 +62,11 @@ Sub EditorDialog()
 	&apos; Fill the Template Combobox
 	Select Case ListOfTemplates(oEditorDialog.getControl(&quot;sTemplate&quot;))
 	Case 1
-		MsgBox(&quot;No templates are found at the path: &quot; &amp;  Chr(10) &amp; Chr(34) &amp; ConvertFromURL(sTemplatePath) &amp; Chr(34) &amp; &quot;.&quot; &amp; Chr(10) &amp; constOLyLibraryName &amp; &quot; will not work without a template.&quot;)
+		&apos; MsgBox(&quot;No templates are found at the path: &quot; &amp;  Chr(10) &amp; Chr(34) &amp; ConvertFromURL(sTemplatePath) &amp; Chr(34) &amp; &quot;.&quot; &amp; Chr(10) &amp; constOLyLibraryName &amp; &quot; will not work without a template.&quot;)
+		MsgBox(sMsgNoTemplatesFound1 &amp; ConvertFromURL(sTemplatePath) &amp; sMsgNoTemplatesFound2, iMsgBox_E, sCaptionError)
 	Case 2
-		MsgBox(&quot;The template path &quot; &amp;  Chr(10) &amp; Chr(34) &amp; ConvertFromURL(sTemplatePath) &amp; Chr(34) &amp; &quot; is not found.&quot;) &apos; Should never happen here.
+		&apos; MsgBox(&quot;The template path &quot; &amp;  Chr(10) &amp; Chr(34) &amp; ConvertFromURL(sTemplatePath) &amp; Chr(34) &amp; &quot; is not found.&quot;) &apos; Should never happen here.
+		MsgBox(sMsgTemplatePathNotFound1 &amp; ConvertFromURL(sTemplatePath) &amp; sMsgTemplatePathNotFound2, iMsgBox_E, sCaptionError) &apos; Should never happen here.
 	End Select
 	oEditorDialog.getControl(&quot;sTemplate&quot;).setText(sTemplate)
 
@@ -154,9 +156,11 @@ End Sub
 Sub DisplayError()
 	Dim sText as String
 	If iErrClass(iErrNum) = 1 Then &apos; Warning
-		sText = &quot;Warning: &quot; &amp; sErrMsg(iErrNum)
+		&apos; sText = &quot;Warning: &quot; &amp; sErrMsg(iErrNum)
+		sText = sErrClassWarning &amp; sErrMsg(iErrNum)
 	ElseIf	iErrClass(iErrNum) = 2 Then &apos; Error
-		sText = &quot;Error: &quot; &amp; sErrMsg(iErrNum)
+		&apos; sText = &quot;Error: &quot; &amp; sErrMsg(iErrNum)
+		sText = sErrClassError &amp; sErrMsg(iErrNum)
 	End If
 	oEditorDialog.getControl(&quot;sErrMsg&quot;).setText(sText)
 	GotoError(iErrNum)
@@ -218,7 +222,7 @@ End Sub
 
 
 Sub ShowLilyPondOutput()
-	Dim oOutputDialog As Object
+
 	Dim sOutput As String
 
 	If StringFromFile(sOutput, sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;) Then
@@ -229,7 +233,8 @@ Sub ShowLilyPondOutput()
 		oOutputDialog.Execute()
 	
 	Else
-		MsgBox(&quot;There is no LilyPond output.&quot;)
+		&apos; MsgBox(&quot;There is no LilyPond output.&quot;)
+		MsgBox (sMsgNoLyOutput, iMsgBox_E, sCaptionError)
 	End If
 End Sub
 
@@ -245,7 +250,8 @@ Sub CallExtEditor()
 	ElseIf sOSType = &quot;Windows&quot; Then
 		
 		If Not oFileAccess.exists(sExtEditorExecutable) Then
- 			MsgBox(&quot;No valid file name / path for External Editor is specified.&quot;, 0, &quot;Error&quot;)
+ 			&apos; MsgBox(&quot;No valid file name / path for External Editor is specified.&quot;, 0, &quot;Error&quot;)
+ 			MsgBox(sMsgExtEditorPathFail, iMsgBox_E, sCaptionError)
   			Exit Sub
  		End If
 		
@@ -410,7 +416,8 @@ Sub UseDefaultCode()
 		If sCode=&quot;&quot; Or sCode=sDefaultCode Then &apos; Dont&apos;s ask whether to overwrite the code if there is no code or the code is not changed
 			bYesDoItPlease=True
 		Else
-			bYesDoItPlease= (MsgBox(&quot;Do you really want to reset your code to the default?&quot;, iMsgBox_YN, &quot;Are you sure?&quot;) = iAnswer_Yes )
+			&apos; bYesDoItPlease= (MsgBox(&quot;Do you really want to reset your code to the default?&quot;, iMsgBox_YN, &quot;Are you sure?&quot;) = iAnswer_Yes )
+			bYesDoItPlease= (MsgBox(sMsgResetCode, iMsgBox_YN+iMsgBox_Q, sCaptionRUSure) = iAnswer_Yes )
 		End If
 
 		If bYesDoItPlease Then

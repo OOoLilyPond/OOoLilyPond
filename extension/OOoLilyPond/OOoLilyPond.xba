@@ -35,10 +35,11 @@ Sub OOoLilyPond()
 
 	Dim oDoc As Object
 	Dim oDocCtrl As Object
-	
+	Dim bWrongDocumentType As Boolean
 	Dim oShape As Object
 
 	PrivateConstants()
+	DefaultMessageStrings()
 
 	&apos; Create SimpleFileAccess Service (private object variable)
 	oFileAccess = createUnoService(&quot;com.sun.star.ucb.SimpleFileAccess&quot;)
@@ -48,20 +49,27 @@ Sub OOoLilyPond()
 	oDocCtrl = oDoc.getCurrentController()
 
 	&apos; Test if we are in OOoWriter or OOoImpress
+	bWrongDocumentType = False
 	If oDoc.getImplementationName() =  &quot;SwXTextDocument&quot; Then
 		bInWriter = True
 	Elseif oDoc.getImplementationName() = &quot;SdXImpressDocument&quot; Then
 		bInWriter = False
 	Else
-		Msgbox(oDoc.getImplementationName() &amp; &quot;: document type not supported by &quot; &amp; constOLyLibraryName, 0, &quot;Error&quot;)
+	    bWrongDocumentType = True
+		&apos; before displaying the error message, first care about config and translation stuff...
 		Exit Sub
 	End If
 
 	&apos; Set configuration to &quot;factory default&quot;, is overwritten by settings from configuration file
 	DefaultConfig()
 
-	&apos; Read confuguration file
+	&apos; Read configuration file
 	If oFileAccess.exists( sConfigFile ) Then ReadConfig()
+	
+	If bWrongDocumentType Then
+		&apos; Msgbox(oDoc.getImplementationName() &amp; &quot;: document type not supported by &quot; &amp; constOLyLibraryName, 0, &quot;Error&quot;)
+		Msgbox(sMsgDocTypeNotSupported1 &amp; oDoc.getImplementationName() &amp; sMsgDocTypeNotSupported2, iMsgBox_E, sCaptionError)
+	End If
 
 	&apos; Copy Templates If needed
 	If sLilyPondVersionMajor=&quot;&quot; Then &apos; LilyPond has never been (successfully) called yet
@@ -69,8 +77,9 @@ Sub OOoLilyPond()
 			CopyTemplates()
 			SaveConfig()
 		Else
-			MsgBox(&quot;LilyPond can not be found. Please check whether LilyPond is properly installed&quot; &amp; Chr(10) _
-                               &amp; &quot;and the specified path to the LilyPond executable is correct.&quot;, iMsgBox_E)
+			&apos; MsgBox(&quot;LilyPond can not be found. Please check whether LilyPond is properly installed&quot; &amp; Chr(10) _
+            &apos;                   &amp; &quot;and the specified path to the LilyPond executable is correct.&quot;, iMsgBox_E)
+            MsgBox(sMsgLilypondNotFound, iMsgBox_E, sCaptionError)
 		End If
 	Else &apos; LilyPond has already once been called successfully
 		If Not oFileAccess.isFolder(sTemplatePath) Then CopyTemplates() &apos; For some reason the templates are not there
@@ -120,7 +129,8 @@ Sub OOoLilyPond()
 &apos;			oCursor = oDoc.Text.createTextCursorByRange(oSelection(0))
 			
 		Case Else
-			Msgbox (&quot;The selected object is not an OLy object ...&quot;, 0, &quot;Error&quot;)
+			&apos; Msgbox (&quot;The selected object is not an OLy object ...&quot;, 0, &quot;Error&quot;)
+			Msgbox (sMsgNoOlyObject, iMsgBox_E, sCaptionError)
 			Exit Sub
 			
 		End Select
@@ -141,7 +151,8 @@ sub Make()
 
 	&apos; Test if there is LilyPond code
 	If sCode = &quot;&quot; then 
-		Msgbox (&quot;Enter LilyPond code...&quot;, 0, &quot;Error&quot;)
+		&apos; Msgbox (&quot;Enter LilyPond code...&quot;, iMsgBox_E, &quot;Error&quot;)
+		Msgbox (sMsgEnterLyCode, iMsgBox_E, sCaptionError)
 		exit sub
 	end if
 
@@ -157,19 +168,22 @@ sub Make()
  	
 	&apos;If there is no eps output
  	If sFormat = &quot;eps&quot; And (Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.eps&quot;)) Then
- 		MsgBox(&quot;No eps output is found&quot;, 0, &quot;Error&quot;)
+ 		&apos; MsgBox(&quot;No eps output is found&quot;, 0, &quot;Error&quot;)
+ 		MsgBox(sMsgNoEpsOutputFound, iMsgBox_E, sCaptionError)
   		Exit Sub
  	End If
  
 	&apos;If there is no svg output
  	If sFormat = &quot;svg&quot; And (Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.svg&quot;)) Then
- 		MsgBox(&quot;No svg output is found&quot;, 0, &quot;Error&quot;)
+ 		&apos; MsgBox(&quot;No svg output is found&quot;, 0, &quot;Error&quot;)
+ 		MsgBox(sMsgNoSvgOutputFound, iMsgBox_E, sCaptionError)
   		Exit Sub
  	End If
  	
 	&apos;If there is no png output
  	If sFormat = &quot;png&quot; And (Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.png&quot;)) Then
- 		MsgBox(&quot;No png output is found&quot;, 0, &quot;Error&quot;)
+ 		&apos; MsgBox(&quot;No png output is found&quot;, 0, &quot;Error&quot;)
+ 		MsgBox(sMsgNoPngOutputFound, iMsgBox_E, sCaptionError)
   		Exit Sub
  	End If
  
@@ -402,7 +416,8 @@ Function ReadAttributes( oShape As Object ) As Boolean
 	If oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondCode&quot;) Then
 		sCode=oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondCode&quot;).Value
 	Else
-		Msgbox (&quot;The selected object is not an OLy object ...&quot;, 0, &quot;Error&quot;)
+		&apos; Msgbox (&quot;The selected object is not an OLy object ...&quot;, 0, &quot;Error&quot;)
+		Msgbox (sMsgNoOlyObject, iMsgBox_E, sCaptionError)
 		ReadAttributes = False
 		Exit Function
 	End If

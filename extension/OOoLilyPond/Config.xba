@@ -27,6 +27,17 @@ Sub ConfigDialog( )
 
 	&apos; Create the dialog object
 	oConfigDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Config&quot;) )
+	
+	&apos; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	&apos; Just a test. Remove this stuff before someone finds it:
+	&apos; oConfigDialog.getControl(&quot;Label7&quot;).setText (&quot;Blahblah&quot;)
+	&apos; oConfigDialog.getControl(&quot;WriterNoWrap&quot;).setLabel (&quot;click here&quot;)
+	&apos; oConfigDialog.getModel().getByName(&quot;FrameControl9&quot;).Label = &quot;yeah&quot;
+	&apos; oConfigDialog.getControl(&quot;bWriterKeepCrop&quot;).setLabel (&quot;click here&quot;)
+	&apos; oConfigDialog.getControl(&quot;OKButton&quot;).setLabel (&quot;LetsGo&quot;)
+	&apos; oConfigDialog.getModel().Title = &quot;Here is the title&quot;
+	
+	&apos; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 	&apos; Update the values
 	ConfigDialogUpdate()
@@ -57,6 +68,7 @@ Sub ConfigDialogUpdate()
 	oConfigDialog.getControl(&quot;sEditorFontSize&quot;).setText(sEditorFontSize)
 	oConfigDialog.getControl(&quot;sExtEditorExecutable&quot;).setText(ConvertFromURL(sExtEditorExecutable))
 	oConfigDialog.getControl(&quot;sIncludeStatement&quot;).setText(sIncludeStatement)
+	oConfigDialog.getControl(&quot;sLanguageFileName&quot;).setText(sLanguageFileName)
 
 	&apos; Writer configuration
 	oConfigDialog.getControl(&quot;sWriterDefaultTemplate&quot;).setText(sWriterDefaultTemplate)
@@ -133,11 +145,14 @@ Sub CopyTemplates()
 	If Not oFileAccess.isFolder(sTemplatePath) Then
 		oFileAccess.createFolder(sTemplatePath)
 		&apos; Display a message
-		MsgBox (&quot;The folder &quot; &amp; Chr(34) &amp; ConvertFromURL(sTemplatePath) &amp; Chr(34) &amp; &quot; is created.&quot; &amp; Chr(10) &amp; &quot;It contains the &quot; &amp; constOLyLibraryName &amp; &quot; templates you can modify. The original templates can always be restored while your modified templates are backed up. For this use the &quot; &amp; Chr(34) &amp; &quot;restore templates&quot; &amp; Chr(34) &amp; &quot; button in the configuration dialog.&quot;, iMsgBox_I)
+		&apos; MsgBox (&quot;The folder &quot; &amp; Chr(34) &amp; ConvertFromURL(sTemplatePath) &amp; Chr(34) &amp; &quot; is created.&quot; &amp; Chr(10) &amp; &quot;It contains the &quot; &amp; constOLyLibraryName &amp; &quot; templates you can modify. The original templates can always be restored while your modified templates are backed up. For this use the &quot; &amp; Chr(34) &amp; &quot;restore templates&quot; &amp; Chr(34) &amp; &quot; button in the configuration dialog.&quot;, iMsgBox_I)
+		MsgBox (sMsgTemplateFolderCreated1 &amp; ConvertFromURL(sTemplatePath) &amp; sMsgTemplateFolderCreated2, iMsgBox_I, sCaptionInfo)
 	End If
 
 	If Not oFileAccess.isFolder(sTemplatePath) Then
-		MsgBox(&quot;The specified path for templates does not exist and cannot be created: &quot; &amp; Chr(10) &amp; Chr(34) &amp; ConvertFromURL(sTemplatePath) &amp; Chr(34) &amp; &quot;.&quot; &amp; Chr(10) &amp; &quot;Please adjust the path in the configuration dialog.&quot;)
+		&apos; MsgBox(&quot;The specified path for templates does not exist and cannot be created: &quot; &amp; Chr(10) &amp; Chr(34) &amp; ConvertFromURL(sTemplatePath) &amp; Chr(34) &amp; &quot;.&quot; &amp; Chr(10) &amp; &quot;Please adjust the path in the configuration dialog.&quot;)
+		MsgBox(sMsgTemplatePathFail1 &amp; ConvertFromURL(sTemplatePath) &amp; sMsgTemplatePathFail2, iMsgBox_E, sCaptionError)
+		sMsgTemplatePathFail1
 		Exit Sub
 	End If
 
@@ -149,7 +164,9 @@ Sub CopyTemplates()
 		If Right(sFiles(i),3)=&quot;.ly&quot; Then
 			If Not oFileAccess.isFolder(sBackupPath) Then
 				oFileAccess.createFolder(sBackupPath)
-				MsgBox(&quot;Your old templates are backed up under &quot; &amp; Chr(34) &amp; ConvertFromURL(sBackupPath) &amp; Chr(34) &amp; &quot;.&quot;, iMsgBox_I, &quot;Templates Backup&quot;)
+				&apos; MsgBox(&quot;Your old templates are backed up under &quot; &amp; Chr(34) &amp; ConvertFromURL(sBackupPath) &amp; Chr(34) &amp; &quot;.&quot;, iMsgBox_I, &quot;Templates Backup&quot;)
+				MsgBox(sMsgTemplatesBackedUp1 &amp; ConvertFromURL(sBackupPath) &amp; sMsgTemplatesBackedUp2, iMsgBox_I, sCaptionTemplatesBackup)
+				
 			End If
 			oFileAccess.copy( sFiles(i), sBackupPath &amp; GetLastFromURL(sFiles(i)) )
 		End If
@@ -209,6 +226,7 @@ Sub ApplyConfig
 	sEditorFontName = oConfigDialog.getControl(&quot;sEditorFontName&quot;).getText()
 	sEditorFontSize = oConfigDialog.getControl(&quot;sEditorFontSize&quot;).getText()
 	sExtEditorExecutable = oConfigDialog.getControl(&quot;sExtEditorExecutable&quot;).getText()
+	sLanguageFileName = oConfigDialog.getControl(&quot;sLanguageFileName&quot;).getText()
 	sIncludeStatement = oConfigDialog.getControl(&quot;sIncludeStatement&quot;).getText()
 	While InStr (sIncludeStatement, &quot;\&quot;) &gt; 0	&apos;  replace &quot;\&quot; by &quot;/&quot;, even in Windows LilyPond expects paths to be written with forward slashes
 		Mid (sIncludeStatement, InStr (sIncludeStatement, &quot;\&quot;), 1, &quot;/&quot;)
@@ -244,12 +262,14 @@ Sub ApplyConfig
 	
 	SetDocTypeSpecificDefaults()
 	
-	&apos;  Change the font of the editor pane:
+	&apos; Change the font of the editor pane:
 	oFieldModel = oEditorDialog.getControl(&quot;sCode&quot;).getModel()
 	MyFont.Name = sEditorFontName
 	&apos; MyFont.StyleName = &quot;Fett&quot;  &apos; bad idea...
 	MyFont.Height = sEditorFontSize
 	oFieldModel.FontDescriptor = MyFont
+	
+	ReadLanguageFile()
 
 End Sub
 
@@ -272,6 +292,9 @@ Sub DefaultConfig()
 		sTmpPath = ConvertToURL(Environ(&quot;HOME&quot;)) &amp; &quot;/.ooolilypond-tmp/&quot;
 		If Not oFileAccess.exists(sTmpPath) then oFileAccess.createFolder(sTmpPath)
 		sTemplatePath = ConvertToURL(Environ(&quot;HOME&quot;)) &amp; &quot;/OOoLilyPond-Templates/&quot;
+		sLanguagePath = ConvertToURL(Environ(&quot;HOME&quot;)) &amp; &quot;/OOoLilyPond-Language/&quot;
+		&apos; Create Folder sLanguagePath if it does not exist:
+		If Not oFileAccess.exists(sLanguagePath) then oFileAccess.createFolder(sLanguagePath)
 	 	&apos; LilyPond Executable (not an URL)
  		sLilyPondExecutable = &quot;lilypond&quot;
  		sExtEditorExecutable = &quot;frescobaldi&quot;
@@ -289,6 +312,11 @@ Sub DefaultConfig()
 		sConfigFile = ConvertToURL(Environ(&quot;APPDATA&quot;)) &amp; &quot;/&quot; &amp; constOLyWinConfigFolderName &amp; &quot;/&quot; &amp; constOLyWinConfigFileName
 		sTmpPath = ConvertToURL(Environ(&quot;temp&quot;)) &amp; &quot;/&quot;
 		sTemplatePath = ConvertToURL(Environ(&quot;APPDATA&quot;) &amp; &quot;/&quot; &amp; constOLyWinConfigFolderName &amp; &quot;/Templates/&quot;
+		sLanguagePath = ConvertToURL(Environ(&quot;APPDATA&quot;) &amp; &quot;/&quot; &amp; constOLyWinConfigFolderName &amp; &quot;/Language/&quot;
+		&apos; Create Folder sLanguagePath if it does not exist:
+		If Not oFileAccess.isFolder( sLanguagePath ) Then
+			oFileAccess.createFolder( sLanguagePath )
+		End If
 	 	&apos; LilyPond Executable (not an URL)
 		sLilyPondExecutable = Environ(&quot;ProgramFiles&quot;) &amp; &quot;\LilyPond\usr\bin\lilypond.exe&quot;
 		sExtEditorExecutable = Environ(&quot;ProgramFiles&quot;) &amp; &quot;\Frescobaldi\frescobaldi.exe&quot;
@@ -328,6 +356,7 @@ Sub DefaultConfig()
 	sEditorFontSize = &quot;8&quot;
 	
 	bIgnoreWarnings = False
+	sLanguageFileName = &quot;&quot;
 	
 	SetDocTypeSpecificDefaults()
 	
@@ -365,6 +394,8 @@ Sub ReadConfig()
 			Select Case sName
 				
 			&apos; general settings
+			Case &quot;sLanguageFileName&quot;
+				sLanguageFileName = sValue
 			Case &quot;sLilyPondExecutable&quot;
 				sLilyPondExecutable = sValue
 			Case &quot;sLilyPondVersionMajor&quot;
@@ -431,6 +462,7 @@ Sub ReadConfig()
 	oTextInputStream.closeInput()
 
 	SetDocTypeSpecificDefaults()
+	ReadLanguageFile()
 	
 End Sub
 
@@ -448,6 +480,7 @@ Sub SaveConfig
 
     oTextOutputStream.writeString(&quot;*** Configuration file of &quot; &amp; constOLyLibraryName &amp; &quot; ***&quot; &amp; Chr(10) )
 	&apos; general settings
+	oTextOutputStream.writeString(&quot;sLanguageFileName=&quot; &amp; sLanguageFileName &amp; Chr(10) )
 	oTextOutputStream.writeString(&quot;sLilyPondExecutable=&quot; &amp; sLilyPondExecutable &amp; Chr(10) )
 	oTextOutputStream.writeString(&quot;sLilyPondVersionMajor=&quot; &amp; sLilyPondVersionMajor &amp; Chr(10) )
 	oTextOutputStream.writeString(&quot;sLilyPondVersionMinor=&quot; &amp; sLilyPondVersionMinor &amp; Chr(10) )

@@ -248,7 +248,8 @@ Function ImportBitmapIntoWriter(sFile As String, oTextGraphicOrCursor As Object)
 		oTextGraphic = oTextGraphicOrCursor
 		oTextGraphic.GraphicURL = sNewURL
 	Case Else &apos; Should never happen in OOoLilyPond, just notify in case
-		MsgBox &quot;ImportBitmapIntoWriter: the second argument must be either a TextCursor or a TextGraphic.&quot;
+		&apos; MsgBox (&quot;ImportBitmapIntoWriter: the second argument must be either a TextCursor or a TextGraphic.&quot;, iMsgBox_E, sCaptionError)
+		MsgBox (sMsgImportBitmapError, iMsgBox_E, sCaptionError)
 	End Select
 
 	&apos; remove the Bitmap from the table
@@ -356,6 +357,8 @@ Function StringToFile(sString As String, sFile As String) As Boolean
 
 	&apos; Open file for writing
     oTextStream.setOutputStream(oFileAccess.openFileWrite(sFile))
+    &apos; In case of Runtime error: Did you specify a valid file name?
+    &apos; ------------------------------------------------------------------
  
 	&apos; Write String
     oTextStream.writeString(sString)

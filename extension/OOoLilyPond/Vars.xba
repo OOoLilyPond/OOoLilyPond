@@ -13,6 +13,7 @@ Private sConfigFile As String
 Private sTmpPath As String
 Private sLilyPondExecutable As String
 Private sTemplatePath As String
+Private sLanguagePath As String
 Private sExtEditorExecutable As String
 Private sIncludeStatement As String
 Private sEditorFontName As String
@@ -30,6 +31,7 @@ Private bWriterInsertViaClipboard As Boolean
 Private bImpressInsertViaClipboard As Boolean
 Private bWriterKeepCrop As Boolean
 Private bImpressKeepCrop As Boolean
+Private sLanguageFileName As String
 
 &apos; Environment
 Private sOSType As String
@@ -41,6 +43,7 @@ Private sLilyPondVersionMinor As String
 Private oEditorDialog As Object &apos; OOoLilyPond Editor Dialog (Main Dialog)
 Private oTemplateEditorDialog As Object &apos; Template Editor Dialog
 Private oConfigDialog As Object &apos; Configuration Dialog
+Private oOutputDialog As Object &apos; LilyPond Output Dialog
 
 &apos; OOoLilyPond object data
 Private sTemplate As String		&apos; The name of the template used
@@ -69,6 +72,7 @@ Private bUseStaffSizeFromTemplate As String
 
 &apos; Code related strings
 Private sTemplateCode As String &apos; String containing the template 
+Private sLanguageCode As String	&apos; String containing the language file
 Private sLilyPondCode As String &apos; The input sent to LilyPond
 Private iCodeStartPos As Integer &apos; Position of Code Snipped within sLilyPondCode
 Private iLineWidthStartPos As Integer
