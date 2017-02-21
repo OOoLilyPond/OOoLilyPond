@@ -403,7 +403,8 @@ Sub TmplDialog
 	DialogLibraries.LoadLibrary( constOLyLibraryName )
 	
 	&apos; Create the dialog object
-	oTemplateEditorDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Tmpl&quot;) )
+	&apos; --- too late...
+	&apos; oTemplateEditorDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Tmpl&quot;) )
 
 	&apos; Set title
 	oTemplateEditorDialog.setTitle( sTemplate &amp; &quot;.ly - Template Editor&quot; )

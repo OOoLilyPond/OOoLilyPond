@@ -472,6 +472,62 @@ Sub ReadMessageStrings()	&apos; Called from ReadLanguageFile() if the following 
 End Sub
 
 
+Sub ReadDialogStrings (oDialog As Object)	&apos; Called from ReadLanguageFile() if the following contents of sLanguageCode belongs to the dialog 
+											&apos; specified in the [xxxDialog] section command
+											&apos; ToDo: Wrong identifiers in sName will cause Runtime error: NoSuchElementException
+											&apos; Is there a way to catch them?
+
+	Dim iLineEndPos As Integer		&apos; position of the first sign that terminates a line from the text file. Can be Chr(13) or Chr(10) or both.
+	Dim iEqPos As Integer			&apos; position of the first &quot;equal&quot; sign
+	Dim iDotPos As Integer			&apos; position of the first dot in sKey
+	Dim iBreakPos As Integer		&apos; position of intended line break in strings
+	Dim sCodeToParse As String		&apos; the current line that has been read out of sLanguageCode (the file contents)
+	Dim sKey, sValue, sName, sPart As String
+	
+	iLineEndPos = TagPos (sLanguageCode, Chr(13), Chr(10))	&apos; indicates the line end character(s)
+	While iLineEndPos &gt; 0 
+		sCodeToParse = Trim (Left (sLanguageCode, iLineEndPos - 1))	&apos; copy the line out of sLanguageCode
+		If Left (sCodeToParse, 1) = &quot;[&quot; Then		&apos; beginning of a new section
+			Exit Sub								&apos; Return to ReadLanguageFile() before section name is removed from sLanguageCode
+		End If
+		sLanguageCode = Mid (sLanguageCode, iLineEndPos)			&apos; remove the line from the beginning of sLanguageCode
+		Skip()		
+		If Len (sCodeToParse) &gt; 0 And Left (sCodeToParse, 1) &lt;&gt; &quot;&apos;&quot; Then	&apos; neither a comment nor an empty line
+			&apos; split up sCodeToParse into sKey and sValue if it contains an &quot;equal&quot; sign
+			iEqPos = InStr (sCodeToParse, &quot;=&quot;)
+			If iEqPos &gt; 0 Then
+				sKey = Left (sCodeToParse, iEqPos-1)
+				sValue = Right (sCodeToParse, Len(sCodeToParse)-iEqPos
+				&apos; split up sKey into sName and sPart if it contains a dot
+				iDotPos = InStr (sKey, &quot;.&quot;)
+				if iDotPos &gt; 0 Then
+					sName = Left (sKey, iDotPos-1)
+					sPart = Right (sKey, Len(sKey)-iDotPos)
+					&apos; as long as sValue contains the sequence &quot;%10&quot;, replace it with Chr(10):
+					iBreakPos = InStr (sValue, &quot;%10&quot;)
+					While iBreakPos &gt; 0 
+						Mid (sValue, iBreakPos, 3, Chr(10))
+						iBreakPos = InStr (sValue, &quot;%10&quot;)
+					Wend
+					Select Case sPart
+						Case &quot;label&quot;
+							oDialog.getModel().getByName(sName).Label = sValue
+						Case &quot;helptext&quot;
+							oDialog.getModel().getByName(sName).helptext = sValue
+					End Select
+				Else
+					If sKey = &quot;DialogTitle&quot; Then
+						oDialog.getModel().Title = sValue
+					End If				
+				End If
+			End If
+		End If		
+		iLineEndPos = TagPos (sLanguageCode, Chr(13), Chr(10))
+	WEnd
+
+End Sub
+
+
 Sub ReadLanguageFile()	&apos; If a language file is specified, read out its contents to replace the message strings, dialog labels etc.
 
 	Dim sLanguageFile As String		&apos; path and file name
@@ -501,6 +557,8 @@ Sub ReadLanguageFile()	&apos; If a language file is specified, read out its cont
 			Select Case sCodeToParse				
 			Case &quot;[Messages]&quot;
 				ReadMessageStrings()
+			Case &quot;[EditorDialog]&quot;
+				ReadDialogStrings (oEditorDialog)
 			End Select			
 		End If		
 		iLineEndPos = TagPos (sLanguageCode, Chr(13), Chr(10))

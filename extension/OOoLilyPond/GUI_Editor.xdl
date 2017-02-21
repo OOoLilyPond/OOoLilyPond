@@ -10,7 +10,6 @@
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.ConfigButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
   <dlg:textfield dlg:id="TextField2" dlg:tab-index="7" dlg:left="262" dlg:top="-42" dlg:width="4" dlg:height="0"/>
-  <dlg:text dlg:id="Template Label" dlg:tab-index="8" dlg:left="154" dlg:top="182" dlg:width="31" dlg:height="10" dlg:value="Template:"/>
   <dlg:radiogroup>
    <dlg:radio dlg:id="AnchorAsCharacter" dlg:tab-index="1" dlg:left="8" dlg:top="186" dlg:width="48" dlg:height="12" dlg:help-text="The OOoLilyPond object is inserted into the Text like a character." dlg:value="As Character" dlg:checked="true">
     <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.AnchorButton?language=Basic&amp;location=application" script:language="Script"/>
@@ -43,7 +42,7 @@
   <dlg:button dlg:id="LilyPondButton" dlg:tab-index="4" dlg:left="290" dlg:top="245" dlg:width="30" dlg:height="14" dlg:help-text="Call LilyPond to render the code into music notation." dlg:default="true" dlg:value="LilyPond">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.LilyPondButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
-  <dlg:button dlg:id="EditTemplate" dlg:tab-index="18" dlg:left="305" dlg:top="178" dlg:width="15" dlg:height="14" dlg:value="Edit">
+  <dlg:button dlg:id="EditTemplate" dlg:tab-index="18" dlg:left="299" dlg:top="178" dlg:width="21" dlg:height="14" dlg:value="Edit">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.EditTemplateButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
   <dlg:text dlg:id="LabelLineWidth" dlg:tab-index="21" dlg:left="154" dlg:top="201" dlg:width="34" dlg:height="8" dlg:value="Line Width:"/>
@@ -53,7 +52,7 @@
   <dlg:textfield dlg:style-id="1" dlg:id="sCode" dlg:tab-index="0" dlg:left="3" dlg:top="6" dlg:width="318" dlg:height="148" dlg:hide-inactive-selection="false" dlg:hard-linebreaks="true" dlg:vscroll="true" dlg:multiline="true">
    <script:event script:event-name="on-textchange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.CodeModified?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:textfield>
-  <dlg:combobox dlg:id="sTemplate" dlg:tab-index="13" dlg:left="187" dlg:top="180" dlg:width="114" dlg:height="12" dlg:help-text="You can create your own templates using a text editor." dlg:spin="true" dlg:linecount="24">
+  <dlg:combobox dlg:id="sTemplate" dlg:tab-index="13" dlg:left="187" dlg:top="180" dlg:width="107" dlg:height="12" dlg:help-text="You can create your own templates using a text editor." dlg:spin="true" dlg:linecount="24">
    <script:event script:event-name="on-textchange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.TemplateChanged?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:combobox>
   <dlg:textfield dlg:id="sLineWidth" dlg:tab-index="19" dlg:left="154" dlg:top="211" dlg:width="38" dlg:height="12">
@@ -71,28 +70,29 @@
   <dlg:checkbox dlg:id="bUseDefaultCode" dlg:tab-index="31" dlg:left="6" dlg:top="159" dlg:width="52" dlg:height="10" dlg:value="Default Code" dlg:checked="true">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.UseDefaultCode?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
-  <dlg:checkbox dlg:id="bUseDefaultLineWidth" dlg:tab-index="27" dlg:left="154" dlg:top="226" dlg:width="32" dlg:height="8" dlg:value="Default" dlg:checked="true">
+  <dlg:checkbox dlg:id="bUseDefaultLineWidth" dlg:tab-index="27" dlg:left="154" dlg:top="226" dlg:width="40" dlg:height="8" dlg:value="Default" dlg:checked="true">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.UseDefaultLineWidth?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
-  <dlg:checkbox dlg:id="bUseDefaultStaffSize" dlg:tab-index="28" dlg:left="196" dlg:top="226" dlg:width="35" dlg:height="8" dlg:value="Default" dlg:checked="true">
+  <dlg:checkbox dlg:id="bUseDefaultStaffSize" dlg:tab-index="28" dlg:left="196" dlg:top="226" dlg:width="40" dlg:height="8" dlg:value="Default" dlg:checked="true">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.UseDefaultStaffSize?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
-  <dlg:checkbox dlg:id="bUseDefaultCustom1" dlg:tab-index="29" dlg:left="238" dlg:top="226" dlg:width="36" dlg:height="8" dlg:value="Default" dlg:checked="true">
+  <dlg:checkbox dlg:id="bUseDefaultCustom1" dlg:tab-index="29" dlg:left="238" dlg:top="226" dlg:width="40" dlg:height="8" dlg:value="Default" dlg:checked="true">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.UseDefaultCustom1?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
-  <dlg:checkbox dlg:id="bUseDefaultCustom2" dlg:tab-index="30" dlg:left="280" dlg:top="226" dlg:width="35" dlg:height="8" dlg:value="Default" dlg:checked="true">
+  <dlg:checkbox dlg:id="bUseDefaultCustom2" dlg:tab-index="30" dlg:left="280" dlg:top="226" dlg:width="38" dlg:height="8" dlg:value="Default" dlg:checked="true">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.UseDefaultCustom2?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
-  <dlg:button dlg:id="LyOutput" dlg:tab-index="32" dlg:left="220" dlg:top="245" dlg:width="34" dlg:height="14" dlg:help-text="Open the configuration dialog." dlg:value="Ly Output">
+  <dlg:button dlg:id="LyOutput" dlg:tab-index="32" dlg:left="220" dlg:top="245" dlg:width="34" dlg:height="14" dlg:help-text="Show LilyPond&apos;s Output message from its last call" dlg:value="Ly Output">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.ShowLilyPondOutput?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
   <dlg:text dlg:id="sErrMsg" dlg:tab-index="17" dlg:left="48" dlg:top="242" dlg:width="168" dlg:height="18" dlg:multiline="true"/>
   <dlg:button dlg:id="ExtEditorButton" dlg:tab-index="33" dlg:left="72" dlg:top="159" dlg:width="111" dlg:height="14" dlg:help-text="Open the current code as temoprary .LY file in external editor" dlg:value="Open as temp. file in Ext. Editor">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.ExtEditorButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
-  <dlg:button dlg:id="ImportButton" dlg:tab-index="34" dlg:left="188" dlg:top="159" dlg:width="112" dlg:height="14" dlg:help-text="Import the temporary file from the external editor" dlg:value="Import from temp. file">
+  <dlg:button dlg:id="ImportButton" dlg:tab-index="34" dlg:left="188" dlg:top="159" dlg:width="106" dlg:height="14" dlg:help-text="Open the current code as temoprary .LY file in external editor" dlg:value="Import from temp. file">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.ImportButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
   <dlg:checkbox dlg:id="bKeepCrop" dlg:tab-index="35" dlg:left="7" dlg:top="226" dlg:width="128" dlg:height="9" dlg:help-text="When editing/replacing an existing object, preserve its current size and crop settings" dlg:value="Keep Size &amp; Crop Settings" dlg:checked="false"/>
+  <dlg:text dlg:id="TemplateLabel" dlg:tab-index="8" dlg:left="154" dlg:top="182" dlg:width="31" dlg:height="10" dlg:value="Template:"/>
  </dlg:bulletinboard>
 </dlg:window>

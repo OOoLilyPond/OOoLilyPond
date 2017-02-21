@@ -26,18 +26,8 @@ Sub ConfigDialog( )
 	DialogLibraries.LoadLibrary( constOLyLibraryName )
 
 	&apos; Create the dialog object
-	oConfigDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Config&quot;) )
-	
-	&apos; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	&apos; Just a test. Remove this stuff before someone finds it:
-	&apos; oConfigDialog.getControl(&quot;Label7&quot;).setText (&quot;Blahblah&quot;)
-	&apos; oConfigDialog.getControl(&quot;WriterNoWrap&quot;).setLabel (&quot;click here&quot;)
-	&apos; oConfigDialog.getModel().getByName(&quot;FrameControl9&quot;).Label = &quot;yeah&quot;
-	&apos; oConfigDialog.getControl(&quot;bWriterKeepCrop&quot;).setLabel (&quot;click here&quot;)
-	&apos; oConfigDialog.getControl(&quot;OKButton&quot;).setLabel (&quot;LetsGo&quot;)
-	&apos; oConfigDialog.getModel().Title = &quot;Here is the title&quot;
-	
-	&apos; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	&apos; --- too late...
+	&apos; oConfigDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Config&quot;) )
 
 	&apos; Update the values
 	ConfigDialogUpdate()
