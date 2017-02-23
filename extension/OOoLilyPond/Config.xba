@@ -142,7 +142,6 @@ Sub CopyTemplates()
 	If Not oFileAccess.isFolder(sTemplatePath) Then
 		&apos; MsgBox(&quot;The specified path for templates does not exist and cannot be created: &quot; &amp; Chr(10) &amp; Chr(34) &amp; ConvertFromURL(sTemplatePath) &amp; Chr(34) &amp; &quot;.&quot; &amp; Chr(10) &amp; &quot;Please adjust the path in the configuration dialog.&quot;)
 		MsgBox(sMsgTemplatePathFail1 &amp; ConvertFromURL(sTemplatePath) &amp; sMsgTemplatePathFail2, iMsgBox_E, sCaptionError)
-		sMsgTemplatePathFail1
 		Exit Sub
 	End If
 
@@ -167,6 +166,69 @@ Sub CopyTemplates()
 	For i=LBound(sFiles) To UBound(sFiles)
 		If Right(sFiles(i),3)=&quot;.ly&quot; Then
 			FileCopy( sFiles(i), sTemplatePath &amp; GetLastFromURL(sFiles(i)) )
+		End If
+	Next
+
+End Sub
+
+
+Sub CopyLanguageFiles()
+	&apos; Copy original language files to the user language dir.
+	&apos; User language files are backed up in a subfolder.
+	&apos; This function is built upon CopyTemplates()
+
+	Dim sPkgPath As String &apos; Path to the OOoLilyPond extension package
+	Dim sLanguageSourcePath As String &apos; Path within sPkgPath where the original language files are located
+	Dim sBackupPath As String &apos; Backup Dir for existing user language files
+	Dim sFiles As Variant &apos; String Array, output of oFileAccess.getFolderContents()
+	Dim i As Integer
+
+   	&apos; Get the package path
+   	sPkgPath=GetPackagePath(&quot;net.sourceforge.ooolilypond&quot;)
+
+	&apos; Expand env variables in path using MacroExpander...
+	Dim oCtx as object
+	Dim oMacroExpander as object
+	oCtx = getProcessServiceManager().DefaultContext
+	oMacroExpander = oCtx.getValueByName(&quot;/singletons/com.sun.star.util.theMacroExpander&quot;)
+	sPkgPath = AddSlash(oMacroExpander.ExpandMacros(sPkgPath))
+
+	&apos;Set the language source path
+	sLanguageSourcePath = sPkgPath &amp; &quot;language/&quot;
+
+	&apos; Check the destination language path, try to create it.
+	If Not oFileAccess.isFolder(sLanguagePath) Then
+		oFileAccess.createFolder(sLanguagePath)
+		&apos; Display a message: Folder for language files created
+		MsgBox (sMsgLanguageFolderCreated1 &amp; ConvertFromURL(sLanguagePath) &amp; sMsgLanguageFolderCreated2, iMsgBox_I, sCaptionInfo)
+	End If
+
+	If Not oFileAccess.isFolder(sLanguagePath) Then
+		&apos; MsgBox &quot;The specified path for language files does not exist and cannot be created&quot; 
+		MsgBox(sMsgLanguagePathFail1 &amp; ConvertFromURL(sLanguagePath) &amp; sMsgLanguagePathFail2, iMsgBox_E, sCaptionError)
+		Exit Sub
+	End If
+
+	&apos; Backup .ini files
+	&apos; Subdir named according to actual date and time in format YYYYMMDDhhmmss
+	sBackupPath = sLanguagePath &amp; CDateToISO(Now) &amp; Left(TimeValue(Now),2) &amp; Mid(TimeValue(Now),4,2) &amp; Right(TimeValue(Now),2) &amp; &quot;/&quot;
+	sFiles = oFileAccess.getFolderContents(sLanguagePath, False)
+	For i=LBound(sFiles) To UBound(sFiles)
+		If Right(sFiles(i),4)=&quot;.ini&quot; Then
+			If Not oFileAccess.isFolder(sBackupPath) Then
+				oFileAccess.createFolder(sBackupPath)
+				&apos; MsgBox &quot;Your old language files are backed up under ...&quot;
+				MsgBox(sMsgLanguageFilesBackedUp1 &amp; ConvertFromURL(sBackupPath) &amp; sMsgLanguageFilesBackedUp2, iMsgBox_I, sCaptionInfo)
+			End If
+			oFileAccess.copy( sFiles(i), sBackupPath &amp; GetLastFromURL(sFiles(i)) )
+		End If
+	Next
+
+	&apos; Copy .ini files
+	sFiles=oFileAccess.getFolderContents(sLanguageSourcePath, False)
+	For i=LBound(sFiles) To UBound(sFiles)
+		If Right(sFiles(i),4)=&quot;.ini&quot; Then
+			FileCopy( sFiles(i), sLanguagePath &amp; GetLastFromURL(sFiles(i)) )
 		End If
 	Next
 
@@ -283,8 +345,13 @@ Sub DefaultConfig()
 		If Not oFileAccess.exists(sTmpPath) then oFileAccess.createFolder(sTmpPath)
 		sTemplatePath = ConvertToURL(Environ(&quot;HOME&quot;)) &amp; &quot;/OOoLilyPond-Templates/&quot;
 		sLanguagePath = ConvertToURL(Environ(&quot;HOME&quot;)) &amp; &quot;/OOoLilyPond-Language/&quot;
-		&apos; Create Folder sLanguagePath if it does not exist:
-		If Not oFileAccess.exists(sLanguagePath) then oFileAccess.createFolder(sLanguagePath)
+		&apos; Create Folder sLanguagePath and copy language files if it does not exist:
+		If Not oFileAccess.isFolder(sLanguagePath) Then
+			oFileAccess.createFolder(sLanguagePath)
+			&apos; Display a message: Folder for language files created
+			MsgBox (sMsgLanguageFolderCreated1 &amp; ConvertFromURL(sLanguagePath) &amp; sMsgLanguageFolderCreated2, iMsgBox_I, sCaptionInfo)
+			CopyLanguageFiles()
+		End If
 	 	&apos; LilyPond Executable (not an URL)
  		sLilyPondExecutable = &quot;lilypond&quot;
  		sExtEditorExecutable = &quot;frescobaldi&quot;
@@ -303,9 +370,12 @@ Sub DefaultConfig()
 		sTmpPath = ConvertToURL(Environ(&quot;temp&quot;)) &amp; &quot;/&quot;
 		sTemplatePath = ConvertToURL(Environ(&quot;APPDATA&quot;) &amp; &quot;/&quot; &amp; constOLyWinConfigFolderName &amp; &quot;/Templates/&quot;
 		sLanguagePath = ConvertToURL(Environ(&quot;APPDATA&quot;) &amp; &quot;/&quot; &amp; constOLyWinConfigFolderName &amp; &quot;/Language/&quot;
-		&apos; Create Folder sLanguagePath if it does not exist:
-		If Not oFileAccess.isFolder( sLanguagePath ) Then
-			oFileAccess.createFolder( sLanguagePath )
+		&apos; Create Folder sLanguagePath and copy language files if it does not exist:
+		If Not oFileAccess.isFolder(sLanguagePath) Then
+			oFileAccess.createFolder(sLanguagePath)
+			&apos; Display a message: Folder for language files created
+			MsgBox (sMsgLanguageFolderCreated1 &amp; ConvertFromURL(sLanguagePath) &amp; sMsgLanguageFolderCreated2, iMsgBox_I, sCaptionInfo)
+			CopyLanguageFiles()
 		End If
 	 	&apos; LilyPond Executable (not an URL)
 		sLilyPondExecutable = Environ(&quot;ProgramFiles&quot;) &amp; &quot;\LilyPond\usr\bin\lilypond.exe&quot;

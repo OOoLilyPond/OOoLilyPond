@@ -13,6 +13,9 @@ Private sCaptionTemplatesBackup, sCaptionError, sCaptionInfo, sCaptionRUSure, sC
 Private sMsgTemplateFolderCreated1, sMsgTemplateFolderCreated2 As String
 Private sMsgTemplatePathFail1, sMsgTemplatePathFail2 As String
 Private sMsgTemplatesBackedUp1, sMsgTemplatesBackedUp2 As String
+Private sMsgLanguageFolderCreated1, sMsgLanguageFolderCreated2 As String
+Private sMsgLanguagePathFail1, sMsgLanguagePathFail2 As String
+Private sMsgLanguageFilesBackedUp1, sMsgLanguageFilesBackedUp2 As String
 &apos; &quot;Editor&quot; module:
 Private sMsgNoTemplatesFound1, sMsgNoTemplatesFound2 As String
 Private sMsgTemplatePathNotFound1, sMsgTemplatePathNotFound2 As String
@@ -101,6 +104,32 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   &apos; &quot;sBackupPath&quot;
   sMsgTemplatesBackedUp2 = Chr(34) &amp; &quot;.&quot;
   
+  
+  &apos; The following three messages regarding language folder/files will not be translated in the language files, 
+  &apos; because they are needed BEFORE any language file is read:
+  
+  &apos; The template folder has successfully been created:
+  
+  sMsgLanguageFolderCreated1 = &quot;The folder&quot; &amp; Chr(10) &amp; Chr(34) 
+  &apos; &quot;sLanguagePath&quot; is inserted here
+  sMsgLanguageFolderCreated2 = Chr(34) &amp; Chr(10) &amp; &quot;has been created. It contains the OOoLilyPond language files you can modify using an external text editor.&quot; &amp; Chr(10) &amp; _
+    &quot;The original language files can always be restored while your modified ones are backed up. &quot; 
+    &apos; &amp; _
+    &apos; &quot;For this use the &quot; &amp; Chr(34) &amp; &quot;restore lang. files&quot; &amp; Chr(34) &amp; &quot; button in the configuration dialog.&quot;
+
+  &apos; The language folder does not exist and cannot be created:
+  
+  sMsgLanguagePathFail1 = &quot;The specified path for language files does not exist and cannot be created: &quot; &amp; Chr(10) &amp; Chr(34)
+  &apos; &quot;sLanguagePath&quot;
+  sMsgLanguagePathFail2 = Chr(34) &amp; &quot;.&quot;
+  
+  &apos; Old language files just have been backed up:
+  
+  sMsgLanguageFilesBackedUp1 = &quot;Your old language files are backed up under &quot; &amp; Chr(34) 
+  &apos; &quot;sBackupPath&quot;
+  sMsgLanguageFilesBackedUp2 = Chr(34) &amp; &quot;.&quot;
+ 
+
   
   &apos; &quot;Editor&quot; module
   &apos; ----------------
