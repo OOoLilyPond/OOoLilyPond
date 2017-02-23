@@ -487,8 +487,9 @@ Sub ReadDialogStrings (oDialog As Object)	&apos; Called from ReadLanguageFile() 
 	iLineEndPos = TagPos (sLanguageCode, Chr(13), Chr(10))	&apos; indicates the line end character(s)
 	While iLineEndPos &gt; 0 
 		sCodeToParse = Trim (Left (sLanguageCode, iLineEndPos - 1))	&apos; copy the line out of sLanguageCode
-		If Left (sCodeToParse, 1) = &quot;[&quot; Then		&apos; beginning of a new section
-			Exit Sub								&apos; Return to ReadLanguageFile() before section name is removed from sLanguageCode
+		If Left (sCodeToParse, 1) = &quot;[&quot; Then					&apos; beginning of a new section
+			oConfigDialog.getControl(&quot;DebugLabel&quot;).setText(&quot;&quot;)	&apos; Clear DebugLabel
+			Exit Sub											&apos; Return to ReadLanguageFile() before section name is removed from sLanguageCode
 		End If
 		sLanguageCode = Mid (sLanguageCode, iLineEndPos)			&apos; remove the line from the beginning of sLanguageCode
 		Skip()		
@@ -511,7 +512,10 @@ Sub ReadDialogStrings (oDialog As Object)	&apos; Called from ReadLanguageFile() 
 					Wend
 					Select Case sPart
 						Case &quot;label&quot;
-							oDialog.getModel().getByName(sName).Label = sValue
+ 							oDialog.getModel().getByName(sName).Label = sValue
+							&apos; oConfigDialog.getControl(&quot;DebugLabel&quot;).setText(sName)							
+							&apos; If you get a &quot;NoSuchElementException&quot; here, uncomment the line above (containing &quot;DebugLabel&quot;).
+							&apos; In the Config Dialog, a label above the buttons will show the dialog element name that has not been found in the dialog.
 						Case &quot;helptext&quot;
 							oDialog.getModel().getByName(sName).helptext = sValue
 					End Select
@@ -524,6 +528,7 @@ Sub ReadDialogStrings (oDialog As Object)	&apos; Called from ReadLanguageFile() 
 		End If		
 		iLineEndPos = TagPos (sLanguageCode, Chr(13), Chr(10))
 	WEnd
+	oConfigDialog.getControl(&quot;DebugLabel&quot;).setText(&quot;&quot;)	&apos; Clear DebugLabel
 
 End Sub
 
@@ -559,6 +564,12 @@ Sub ReadLanguageFile()	&apos; If a language file is specified, read out its cont
 				ReadMessageStrings()
 			Case &quot;[EditorDialog]&quot;
 				ReadDialogStrings (oEditorDialog)
+			Case &quot;[TemplateEditorDialog]&quot;
+				ReadDialogStrings (oTemplateEditorDialog)
+			Case &quot;[ConfigDialog]&quot;
+				ReadDialogStrings (oConfigDialog)
+			Case &quot;[OutputDialog]&quot;
+				ReadDialogStrings (oOutputDialog)
 			End Select			
 		End If		
 		iLineEndPos = TagPos (sLanguageCode, Chr(13), Chr(10))
