@@ -87,7 +87,7 @@
   <dlg:text dlg:id="LabelGraphicDPIResolution" dlg:tab-index="38" dlg:left="190" dlg:top="192" dlg:width="89" dlg:height="9" dlg:value="Resolution (png):"/>
   <dlg:text dlg:id="LabelFormatInfo1" dlg:tab-index="51" dlg:left="156" dlg:top="222" dlg:width="144" dlg:height="9" dlg:value="eps: Only with OpenOffice" dlg:tabstop="false" dlg:nolabel="true"/>
   <dlg:text dlg:id="LabelFormatInfo2a" dlg:tab-index="52" dlg:left="156" dlg:top="235" dlg:width="144" dlg:height="9" dlg:value="svg: Only with LibreOffice, use Template" dlg:nolabel="true"/>
-  <dlg:text dlg:id="LabelFormatInfo2b" dlg:tab-index="54" dlg:left="156" dlg:top="243" dlg:width="144" dlg:height="9" dlg:value="       without lilypond-book-preamble.ly" dlg:nolabel="true"/>
+  <dlg:text dlg:id="LabelFormatInfo2b" dlg:tab-index="54" dlg:left="156" dlg:top="244" dlg:width="144" dlg:height="9" dlg:value="       without lilypond-book-preamble.ly" dlg:nolabel="true"/>
   <dlg:text dlg:id="LabelImpressDefaultTemplate" dlg:tab-index="60" dlg:left="9" dlg:top="205" dlg:width="29" dlg:height="8" dlg:value="Template:"/>
   <dlg:titledbox dlg:id="ImpressDefaultsFrame" dlg:tab-index="20" dlg:left="6" dlg:top="189" dlg:width="134" dlg:height="126">
    <dlg:title dlg:value="Default Values for Impress and Draw"/>
@@ -95,6 +95,5 @@
   <dlg:titledbox dlg:id="ImpressInsertImagesFrame" dlg:tab-index="29" dlg:left="8" dlg:top="256" dlg:width="130" dlg:height="40">
    <dlg:title dlg:value="Insert Images"/>
   </dlg:titledbox>
-  <dlg:text dlg:id="DebugLabel" dlg:tab-index="61" dlg:left="154" dlg:top="289" dlg:width="142" dlg:height="9"/>
  </dlg:bulletinboard>
 </dlg:window>

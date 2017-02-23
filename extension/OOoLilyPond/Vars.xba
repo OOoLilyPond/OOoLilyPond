@@ -97,6 +97,9 @@ Private iErrClass(1000) As Integer &apos;1 = waring, 2 = error
 Private sErrMsg(1000) As String &apos;error messages
 Private iNErr As Integer &apos;number of errors
 Private iErrNum As Integer &apos;number of error actually displayed
+Private sLanguageEntryErrors As String 	&apos; collection of errors while reading a language file
+Private iLanguageEntryErrors As Integer &apos; number of errors while reading a language file
+
 
 &apos; Flags used for graying out the input fields
 Private bLineWidthFieldExists As Boolean
@@ -110,6 +113,7 @@ Private oSelection As Object
 &apos; and set the values by calling this function in Main().
 Private iMsgBox_O, iMsgBox_OC, iMsgBox_AR, iMsgBox_YNC, iMsgBox_YN, iMsgBox_RC, iMsgBox_S, iMsgBox_Q, iMsgBox_E, iMsgBox_I, iMsgBox_1, iMsgBox_2, iMsgBox_3 As Integer
 Private iAnswer_OK, iAnswer_Cancel, iAnswer_Abort, iAnswer_Retry, iAnswer_Ignore, iAnswer_Yes, iAnswer_No
+Private iMaxLanguageEntryError As Integer
 Sub PrivateConstants()
 	&apos; MsgBox Options
 	iMsgBox_O = 0 &apos; Display OK button only.
@@ -141,6 +145,8 @@ Sub PrivateConstants()
 	&apos; constOLyWinConfigFileName = &quot;lolilypond-config&quot;	&apos; Config file name for Windows version
 	constOLyWinConfigFileName = &quot;ooolilypond-config&quot;	&apos; Config file name for Windows version
 	constOLyWinConfigFolderName = &quot;OOoLilyPond&quot;			&apos; Folder name where Config file and the Template subfolder are located (Windows version)
+	
+	iMaxLanguageEntryError = 6		&apos; maximal number of Language file entry errors to be displayed in message box
 
 End Sub
 

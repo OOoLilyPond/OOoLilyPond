@@ -30,6 +30,8 @@ Private sMsgLyOutputFileMissing1, sMsgLyOutputFileMissing2 As String
 Private sErrorKeyWord1, sErrorKeyWord2 As String
 &apos; &quot;Messages&quot; module:
 Private sMsgLanguageFileNotFound1, sMsgLanguageFileNotFound2 As String
+Private sMsgLanguageEntryErrors1, sMsgLanguageEntryErrors2, sMsgLanguageEntryErrors3 As String
+Private sMsgSurplusLanguageErrors1, sMsgSurplusLanguageErrors2 As String
 &apos; &quot;OOoLilyPond&quot; module:
 Private sMsgDocTypeNotSupported1, sMsgDocTypeNotSupported2 As String
 Private sMsgLilypondNotFound As String
@@ -204,6 +206,20 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   &apos; (file name)
   sMsgLanguageFileNotFound2 = Chr(34) &amp; Chr(10) &amp; &quot;has not been found.&quot;
   
+  &apos; Invalid entries caused errors while reading the language file:
+  
+  sMsgLanguageEntryErrors1 = &quot;Please correct the language file or choose another one.&quot; &amp; Chr(10) &amp; &quot;The language file &quot; + Chr(34) 
+  &apos; sLanguageFile (file name)
+  sMsgLanguageEntryErrors2 = Chr(34) &amp; &quot; contains &quot;
+  &apos; iLanguageEntryErrors (number of errors)
+  sMsgLanguageEntryErrors3 = &quot; entry line(s) that caused the following error message(s):&quot;
+  
+  &apos; There were more (language file entry) errors than would fit into a message box:
+  
+  sMsgSurplusLanguageErrors1 = &quot;...+&quot;
+  &apos; iMaxLanguageEntryError (maximal number to be displayed)
+  sMsgSurplusLanguageErrors2 = &quot; additional message(s)...&quot;
+  
   
   &apos; &quot;OOoLilyPond&quot; module
   &apos; ---------------------
@@ -333,7 +349,7 @@ Sub ReadMessageStrings()	&apos; Called from ReadLanguageFile() if the following 
 	
 	iLineEndPos = TagPos (sLanguageCode, Chr(13), Chr(10))	&apos; indicates the line end character(s)
 	While iLineEndPos &gt; 0 
-		sCodeToParse = Trim (Left (sLanguageCode, iLineEndPos - 1))	&apos; copy the line out of sLanguageCode
+		sCodeToParse = LTrim (Left (sLanguageCode, iLineEndPos - 1))	&apos; copy the line out of sLanguageCode
 		If Left (sCodeToParse, 1) = &quot;[&quot; Then		&apos; beginning of a new section
 			Exit Sub								&apos; Return to ReadLanguageFile() before section name is removed from sLanguageCode
 		End If
@@ -424,6 +440,16 @@ Sub ReadMessageStrings()	&apos; Called from ReadLanguageFile() if the following 
 				sMsgLanguageFileNotFound1 = sValue
 			Case &quot;sMsgLanguageFileNotFound2&quot;
 				sMsgLanguageFileNotFound2 = sValue
+			Case &quot;sMsgLanguageEntryErrors1&quot;
+				sMsgLanguageEntryErrors1 = sValue
+			Case &quot;sMsgLanguageEntryErrors2&quot;
+				sMsgLanguageEntryErrors2 = sValue
+			Case &quot;sMsgLanguageEntryErrors3&quot;
+				sMsgLanguageEntryErrors3 = sValue
+			Case &quot;sMsgSurplusLanguageErrors1&quot;
+				sMsgSurplusLanguageErrors1 = sValue
+			Case &quot;sMsgSurplusLanguageErrors2&quot;
+				sMsgSurplusLanguageErrors2 = sValue
 			&apos; &quot;OOoLilyPond&quot; module
 			Case &quot;sMsgDocTypeNotSupported1&quot;
 				sMsgDocTypeNotSupported1 = sValue
@@ -514,10 +540,10 @@ Sub ReadDialogStrings (oDialog As Object)	&apos; Called from ReadLanguageFile() 
 	Dim sKey, sValue, sName, sPart As String
 	
 	iLineEndPos = TagPos (sLanguageCode, Chr(13), Chr(10))	&apos; indicates the line end character(s)
+	On Error Goto LocalErrorHandler
 	While iLineEndPos &gt; 0 
-		sCodeToParse = Trim (Left (sLanguageCode, iLineEndPos - 1))	&apos; copy the line out of sLanguageCode
+		sCodeToParse = LTrim (Left (sLanguageCode, iLineEndPos - 1))	&apos; copy the line out of sLanguageCode
 		If Left (sCodeToParse, 1) = &quot;[&quot; Then					&apos; beginning of a new section
-			oConfigDialog.getControl(&quot;DebugLabel&quot;).setText(&quot;&quot;)	&apos; Clear DebugLabel
 			Exit Sub											&apos; Return to ReadLanguageFile() before section name is removed from sLanguageCode
 		End If
 		sLanguageCode = Mid (sLanguageCode, iLineEndPos)			&apos; remove the line from the beginning of sLanguageCode
@@ -542,9 +568,6 @@ Sub ReadDialogStrings (oDialog As Object)	&apos; Called from ReadLanguageFile() 
 					Select Case sPart
 						Case &quot;label&quot;
  							oDialog.getModel().getByName(sName).Label = sValue
-							&apos; oConfigDialog.getControl(&quot;DebugLabel&quot;).setText(sName)							
-							&apos; If you get a &quot;NoSuchElementException&quot; here, uncomment the line above (containing &quot;DebugLabel&quot;).
-							&apos; In the Config Dialog, a label above the buttons will show the dialog element name that has not been found in the dialog.
 						Case &quot;helptext&quot;
 							oDialog.getModel().getByName(sName).helptext = sValue
 					End Select
@@ -557,7 +580,14 @@ Sub ReadDialogStrings (oDialog As Object)	&apos; Called from ReadLanguageFile() 
 		End If		
 		iLineEndPos = TagPos (sLanguageCode, Chr(13), Chr(10))
 	WEnd
-	oConfigDialog.getControl(&quot;DebugLabel&quot;).setText(&quot;&quot;)	&apos; Clear DebugLabel
+	Exit Sub
+	
+	LocalErrorHandler: 
+		iLanguageEntryErrors = iLanguageEntryErrors + 1
+		If iLanguageEntryErrors &lt;= iMaxLanguageEntryError Then
+			sLanguageEntryErrors = sLanguageEntryErrors &amp; Chr (10) &amp; Chr (10) &amp; sCodeToParse &amp; Chr(10) &amp; Error
+		End If
+	Resume Next
 
 End Sub
 
@@ -579,6 +609,9 @@ Sub ReadLanguageFile()	&apos; If a language file is specified, read out its cont
 		Exit Sub
 	End If
 	sLanguageCode = sLanguageCode &amp; Chr(13) &amp; Chr(10)		&apos; append a line break at the end
+	
+	iLanguageEntryErrors = 0
+	
 	
 	iLineEndPos = TagPos (sLanguageCode, Chr(13), Chr(10))	&apos; indicates the line end character(s)
 	While iLineEndPos &gt; 0 
@@ -603,6 +636,13 @@ Sub ReadLanguageFile()	&apos; If a language file is specified, read out its cont
 		End If		
 		iLineEndPos = TagPos (sLanguageCode, Chr(13), Chr(10))
 	WEnd
+	
+	If iLanguageEntryErrors &gt; 0 Then
+		If iLanguageEntryErrors &gt; iMaxLanguageEntryError Then
+			sLanguageEntryErrors = sLanguageEntryErrors &amp; Chr(10) &amp; Chr(10) &amp; sMsgSurplusLanguageErrors1 &amp; iLanguageEntryErrors - iMaxLanguageEntryError &amp; sMsgSurplusLanguageErrors2
+		End If
+		MsgBox (sMsgLanguageEntryErrors1 &amp; sLanguageFileName &amp; sMsgLanguageEntryErrors2 &amp; iLanguageEntryErrors &amp; sMsgLanguageEntryErrors3 &amp; sLanguageEntryErrors, iMsgBox_E, sCaptionError)
+	End If
 
 End Sub
 
