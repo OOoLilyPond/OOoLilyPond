@@ -6,7 +6,7 @@
 Option Explicit
 
 Dim sWriterDefaultStaffSize As String
-Dim sWriterDefaultLineWidth As String
+Dim sWriterDefaultStaffSize As String
 Dim bWriterUseStaffSizeFromTemplate As Boolean
 Dim bWriterUseLineWidthFromTemplate As Boolean
 Dim	sImpressDefaultStaffSize As String

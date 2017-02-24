@@ -106,11 +106,17 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   &apos; &quot;sBackupPath&quot;
   sMsgTemplatesBackedUp2 = Chr(34) &amp; &quot;.&quot;
   
+  &apos; Old language files just have been backed up:
   
-  &apos; The following three messages regarding language folder/files will not be translated in the language files, 
+  sMsgLanguageFilesBackedUp1 = &quot;Your old language files are backed up under &quot; &amp; Chr(34) 
+  &apos; &quot;sBackupPath&quot;
+  sMsgLanguageFilesBackedUp2 = Chr(34) &amp; &quot;.&quot;
+ 
+  
+  &apos; The following two messages regarding language folder/files will not be translated in the language files, 
   &apos; because they are needed BEFORE any language file is read:
   
-  &apos; The template folder has successfully been created:
+  &apos; The &quot;Language&quot; folder has successfully been created:
   
   sMsgLanguageFolderCreated1 = &quot;The folder&quot; &amp; Chr(10) &amp; Chr(34) 
   &apos; &quot;sLanguagePath&quot; is inserted here
@@ -125,12 +131,6 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   &apos; &quot;sLanguagePath&quot;
   sMsgLanguagePathFail2 = Chr(34) &amp; &quot;.&quot;
   
-  &apos; Old language files just have been backed up:
-  
-  sMsgLanguageFilesBackedUp1 = &quot;Your old language files are backed up under &quot; &amp; Chr(34) 
-  &apos; &quot;sBackupPath&quot;
-  sMsgLanguageFilesBackedUp2 = Chr(34) &amp; &quot;.&quot;
- 
 
   
   &apos; &quot;Editor&quot; module
@@ -405,7 +405,10 @@ Sub ReadMessageStrings()	&apos; Called from ReadLanguageFile() if the following 
 				sMsgTemplatesBackedUp1 = sValue
 			Case &quot;sMsgTemplatesBackedUp2&quot;
 				sMsgTemplatesBackedUp2 = sValue
-			&apos; &quot;Editor&quot; module
+			Case &quot;sMsgLanguageFilesBackedUp1&quot;
+				sMsgLanguageFilesBackedUp1 = sValue
+			Case &quot;sMsgLanguageFilesBackedUp2&quot;
+				sMsgLanguageFilesBackedUp2 = sValue
 			Case &quot;sMsgNoTemplatesFound1&quot;
 				sMsgNoTemplatesFound1 = sValue
 			Case &quot;sMsgNoTemplatesFound2&quot;
