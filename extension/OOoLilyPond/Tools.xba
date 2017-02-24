@@ -335,6 +335,7 @@ Function GetPackagePath(sPackageIdentifier) As String
 	GetPackagePath = oPIP.getPackageLocation(sPackageIdentifier)
 End Function
 
+
 Function StringToFile(sString As String, sFile As String) As Boolean
 	&apos; Possible problems:
 	&apos; Different line break characters under Windows and Linux
@@ -355,10 +356,9 @@ Function StringToFile(sString As String, sFile As String) As Boolean
 	&apos; Kill existing file
 	If oFileAccess.exists( sFile ) Then oFileAccess.kill(sFile )
 
+	On Error GoTo ErrorHandler
 	&apos; Open file for writing
     oTextStream.setOutputStream(oFileAccess.openFileWrite(sFile))
-    &apos; In case of Runtime error: Did you specify a valid file name?
-    &apos; ------------------------------------------------------------------
  
 	&apos; Write String
     oTextStream.writeString(sString)
@@ -367,6 +367,15 @@ Function StringToFile(sString As String, sFile As String) As Boolean
 	oTextStream.closeOutput()
 
 	StringToFile = True	
+	Exit Function
+	
+	&apos; -----------------------------
+	ErrorHandler:
+		MsgBox(sMsgCouldNotWriteToFile1 &amp; ConvertFromURL(sFile) &amp; sMsgCouldNotWriteToFile2 &amp; Error, iMsgBox_E, sCaptionError)
+		StringToFile = False
+		Exit Function
+	Resume Next
+	
 End Function
 
 

@@ -486,8 +486,7 @@ Sub TmplSaveAsButton
 		sTemplate = sReply
 		oTemplateEditorDialog.endExecute()
 	Else
-		&apos; MsgBox(&quot;Cannot write to file &quot; &amp; Chr(34) &amp; ConvertFromURL(sFile) &amp; Chr(34), iMsgBox_E, &quot;Error&quot;)
-		MsgBox(sMsgCouldNotWriteToFile1 &amp; ConvertFromURL(sFile) &amp; sMsgCouldNotWriteToFile2, iMsgBox_E, sCaptionError)
+		&apos; Nothing. Error Message is now produced in StringToFile()
 	End If
 
 End Sub
@@ -503,8 +502,7 @@ Sub TmplSaveButton
 	If StringToFile(oTemplateEditorDialog.getControl(&quot;sTemplateCode&quot;).getText(), sFile) Then
 		oTemplateEditorDialog.endExecute()
 	Else
-		&apos; MsgBox(&quot;Cannot write to file &quot; &amp; Chr(34) &amp; ConvertFromURL(sFile) &amp; Chr(34), iMsgBox_E, &quot;Error&quot;)
-		MsgBox(sMsgCouldNotWriteToFile1 &amp; ConvertFromURL(sFile) &amp; sMsgCouldNotWriteToFile2, iMsgBox_E, sCaptionError)
+		&apos; Nothing. Error Message is now produced in StringToFile()
 	End If
 	
 End Sub

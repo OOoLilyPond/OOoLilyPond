@@ -324,7 +324,7 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   
   sMsgCouldNotWriteToFile1 = &quot;Cannot write to file&quot; &amp; Chr(10) &amp; Chr(34)
   &apos; (file name)
-  sMsgCouldNotWriteToFile2 = Chr(34)
+  sMsgCouldNotWriteToFile2 = Chr(34) &amp; Chr(10) &amp; Chr(10)
   
   
   &apos; &quot;Tools&quot; module
@@ -544,8 +544,6 @@ End Sub
 
 Sub ReadDialogStrings (oDialog As Object)	&apos; Called from ReadLanguageFile() if the following contents of sLanguageCode belongs to the dialog 
 											&apos; specified in the [xxxDialog] section command
-											&apos; ToDo: Wrong identifiers in sName will cause Runtime error: NoSuchElementException
-											&apos; Is there a way to catch them?
 
 	Dim iLineEndPos As Integer		&apos; position of the first sign that terminates a line from the text file. Can be Chr(13) or Chr(10) or both.
 	Dim iEqPos As Integer			&apos; position of the first &quot;equal&quot; sign
