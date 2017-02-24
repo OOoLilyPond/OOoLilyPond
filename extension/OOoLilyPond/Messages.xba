@@ -409,6 +409,7 @@ Sub ReadMessageStrings()	&apos; Called from ReadLanguageFile() if the following 
 				sMsgLanguageFilesBackedUp1 = sValue
 			Case &quot;sMsgLanguageFilesBackedUp2&quot;
 				sMsgLanguageFilesBackedUp2 = sValue
+			&apos; &quot;Editor&quot; module
 			Case &quot;sMsgNoTemplatesFound1&quot;
 				sMsgNoTemplatesFound1 = sValue
 			Case &quot;sMsgNoTemplatesFound2&quot;
