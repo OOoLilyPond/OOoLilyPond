@@ -24,6 +24,7 @@ Private sMsgExtEditorPathFail As String
 Private sMsgResetCode As String
 Private sMsgEnterLyCode As String
 Private sMsgEnterNewTemplateName As String
+Private sMsgNoValidExecutable1, sMsgNoValidExecutable2 As String
 &apos; &quot;LilyPond&quot; module:
 Private sMsgLilypondCannotExecute As String
 Private sMsgLyOutputFileMissing1, sMsgLyOutputFileMissing2 As String
@@ -155,6 +156,12 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   &apos; Specified path to External Editor file not valid:
   
   sMsgExtEditorPathFail = &quot;No valid file name / path for External Editor is specified.&quot;
+  
+  &apos; The specified file for the External Editor exists, but is not an executable file:
+  
+  sMsgNoValidExecutable1 = &quot;The specified file&quot; &amp; Chr(10) &amp; Chr(34) 
+  &apos; sExtEditorExecutable
+  sMsgNoValidExecutable2 = Chr(34) &amp; Chr(10) &amp; &quot;is not a valid executable file.&quot;
   
   &apos; When checkbox &quot;Reset Code&quot; is clicked, ask if current code is to be replaced by default code:
   
@@ -422,6 +429,10 @@ Sub ReadMessageStrings()	&apos; Called from ReadLanguageFile() if the following 
 				sMsgNoLyOutput = sValue
 			Case &quot;sMsgExtEditorPathFail&quot;
 				sMsgExtEditorPathFail = sValue
+			Case &quot;sMsgNoValidExecutable1&quot;
+				sMsgNoValidExecutable1 = sValue
+			Case &quot;sMsgNoValidExecutable2&quot;
+				sMsgNoValidExecutable2 = sValue
 			Case &quot;sMsgResetCode&quot;
 				sMsgResetCode = sValue
 			Case &quot;sMsgEnterLyCode&quot;

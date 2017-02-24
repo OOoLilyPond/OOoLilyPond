@@ -253,19 +253,20 @@ Sub CallExtEditor()
 		
 		If Not oFileAccess.exists(sExtEditorExecutable) Then
  			&apos; MsgBox(&quot;No valid file name / path for External Editor is specified.&quot;, 0, &quot;Error&quot;)
- 			MsgBox(sMsgExtEditorPathFail, iMsgBox_E, sCaptionError)
+ 			MsgBox (sMsgExtEditorPathFail, iMsgBox_E, sCaptionError)
   			Exit Sub
  		End If
 		
 		sCommand = sExtEditorExecutable
 		sParam = ConvertFromURL(sTmpPath) &amp; &quot;\&quot; &amp; constOLyFileName &amp; &quot;Temp.ly&quot;
-		&apos; ----------------------------------------------------------------------
-		  Shell (sCommand, 1, sParam, False)  								&apos;	|
-		&apos; If you get a BASIC runtime error like &quot;file not found&quot; right here,	|	
-		&apos; your &quot;External Editor Path&quot; setting 									|
-		&apos; probably points to an existing file that is NOT an executable file. 	|
-		&apos; ----------------------------------------------------------------------
+		On Error GoTo ErrorHandler
+	 	Shell (sCommand, 1, sParam, False)
 	End If
+	Exit Sub
+	
+	ErrorHandler:
+		MsgBox (sMsgNoValidExecutable1 &amp; ConvertFromURL (sExtEditorExecutable) &amp;sMsgNoValidExecutable2, iMsgBox_E, sCaptionError)
+	Resume Next
 
 End Sub
 
