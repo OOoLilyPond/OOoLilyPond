@@ -323,7 +323,7 @@ Sub WindowsCommand(sCommand as String)
 	Open sBatFile For Output As #iNumber
 	Print #iNumber, sCommand
 	Close #iNumber
-	Shell(sBatFile,1,&quot;&quot;,True)
+	Shell (sBatFile, 1, &quot;&quot;, True)
 	Kill(sBatFile)
 End Sub
 
