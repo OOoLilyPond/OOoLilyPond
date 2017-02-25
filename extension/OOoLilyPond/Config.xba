@@ -196,7 +196,7 @@ Sub CopyLanguageFiles()
 	sPkgPath = AddSlash(oMacroExpander.ExpandMacros(sPkgPath))
 
 	&apos;Set the language source path
-	sLanguageSourcePath = sPkgPath &amp; &quot;language/&quot;
+	sLanguageSourcePath = sPkgPath &amp; &quot;Language/&quot;
 
 	&apos; Check the destination language path, try to create it.
 	If Not oFileAccess.isFolder(sLanguagePath) Then
