@@ -75,6 +75,7 @@ End Function
 Sub CleanUp()
 	If 	oFileAccess.exists(sTmpPath &amp; &quot;LilyPond-version.out&quot;) Then oFileAccess.kill(sTmpPath &amp; &quot;LilyPond-version.out&quot;)
 	If 	oFileAccess.exists(sTmpPath &amp; &quot;LilyPond-cannot_execute&quot;) Then oFileAccess.kill(sTmpPath &amp; &quot;LilyPond-cannot_execute&quot;)
+	If 	oFileAccess.exists(sTmpPath &amp; &quot;ExtEditor-cannot_execute&quot;) Then oFileAccess.kill(sTmpPath &amp; &quot;ExtEditor-cannot_execute&quot;)
 	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;)
 	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.eps&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;.eps&quot;)
 	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;-1.eps&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;-1.eps&quot;)
