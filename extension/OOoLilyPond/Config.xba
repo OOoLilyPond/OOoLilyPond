@@ -48,6 +48,8 @@ Sub ConfigDialogUpdate()
 	oConfigDialog.getControl(&quot;sFormat&quot;).addItems(Array(&quot;png&quot;,&quot;eps&quot;,&quot;svg&quot;),0)
 	ListOfTemplates(oConfigDialog.getControl(&quot;sWriterDefaultTemplate&quot;))
 	ListOfTemplates(oConfigDialog.getControl(&quot;sImpressDefaultTemplate&quot;))
+	
+	ListOfLanguageFiles(oConfigDialog.getControl(&quot;sLanguageFileName&quot;))
 
 	&apos; general settings
 	oConfigDialog.getControl(&quot;sTemplatePath&quot;).setText(ConvertFromURL(sTemplatePath))
@@ -194,7 +196,7 @@ Sub CopyLanguageFiles()
 	sPkgPath = AddSlash(oMacroExpander.ExpandMacros(sPkgPath))
 
 	&apos;Set the language source path
-	sLanguageSourcePath = sPkgPath &amp; &quot;Language/&quot;
+	sLanguageSourcePath = sPkgPath &amp; &quot;language/&quot;
 
 	&apos; Check the destination language path, try to create it.
 	If Not oFileAccess.isFolder(sLanguagePath) Then
@@ -416,7 +418,7 @@ Sub DefaultConfig()
 	sEditorFontSize = &quot;8&quot;
 	
 	bIgnoreWarnings = False
-	sLanguageFileName = &quot;&quot;
+	sLanguageFileName = &quot;-----&quot;
 	
 	SetDocTypeSpecificDefaults()
 	

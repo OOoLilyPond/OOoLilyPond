@@ -610,8 +610,8 @@ Sub ReadLanguageFile()	&apos; If a language file is specified, read out its cont
 	Dim iLineEndPos As Integer		&apos; position of the first sign that terminates a line from the text file. Can be Chr(13) or Chr(10) or both.
 	Dim sCodeToParse As String		&apos; the current line that has been read out of sLanguageCode (the file contents)
 	
-	If sLanguageFileName = &quot;&quot; Then	&apos; If no language file name is specified...
-		Exit Sub					&apos;   ... simply do nothing
+	If Right (sLanguageFileName, 4) &lt;&gt; &quot;.ini&quot; Then	&apos; If no valid &quot;*.ini&quot; file name is specified...
+		Exit Sub									&apos;   ... simply do nothing
 	End If
 
 	sLanguageFile = sLanguagePath &amp; sLanguageFileName

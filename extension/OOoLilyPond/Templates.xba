@@ -144,7 +144,7 @@ Function ApplyTemplate() As Boolean
 End Function
 
 
-Function ListOfTemplates(oComboBox) As Integer
+Function ListOfTemplates (oComboBox) As Integer
 	&apos; Fills the ComboBox with the list of Templates
 	&apos; Returns
 	&apos; 0 If everything worked ok
@@ -176,6 +176,47 @@ Function ListOfTemplates(oComboBox) As Integer
 			SortStringArray(sItemArray)
 			oComboBox.addItems(sItemArray,0)
 			ListOfTemplates=0
+		End If
+	EndIf
+End Function
+
+
+Function ListOfLanguageFiles (oComboBox) As Integer
+	&apos; Fills the ComboBox with the list of Language files
+	&apos; Returns
+	&apos; 0 If everything worked ok
+	&apos; 1 If no templates are found
+	&apos; 2 If the template path does not exist
+	&apos; (adapted version of ListOfTemplates() function)
+	&apos; Unlike in ListOfTemplates, the entries will keep their &quot;.ini&quot; extension
+
+	Dim sItemArray(1000) As String
+	Dim t As String
+	Dim i As Integer
+
+	&apos;Clear list
+	oComboBox.removeItems(0, oComboBox.getItemCount)
+	If Not oFileAccess.isFolder(sLanguagePath) Then
+		ListOfTemplates=2
+	Else
+		i=0
+		t=Dir(sLanguagePath)
+		Do While t&lt;&gt;&quot;&quot;
+			If Right(t,4)=&quot;.ini&quot; Then
+				sItemArray(i)=t
+				i=i+1
+			End If
+			t=Dir
+		Loop
+		If i=0 Then
+			ListOfTemplates=1
+		Else
+			sItemArray(i)=&quot;-----&quot;	&apos; provide an entry for &quot;none&quot;
+			i=i+1
+			ReDim Preserve sItemArray(i-1) As String
+			SortStringArray(sItemArray)
+			oComboBox.addItems(sItemArray,0)
+			ListOfLanguageFiles=0
 		End If
 	EndIf
 End Function
