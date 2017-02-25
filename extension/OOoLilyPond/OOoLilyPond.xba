@@ -64,6 +64,7 @@ Sub OOoLilyPond()
 	DefaultConfig()
 	
 	&apos; Create all Dialog objects
+	DialogLibraries.LoadLibrary (constOLyLibraryName)
 	oEditorDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Editor&quot;) )
 	oConfigDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Config&quot;) )
 	oTemplateEditorDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Tmpl&quot;) )

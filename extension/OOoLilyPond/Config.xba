@@ -19,11 +19,11 @@ Dim bImpressUseLineWidthFromTemplate As Boolean
 &apos;    Open and update the dialogue
 &apos; **********************************
 
-Sub ConfigDialog( )
+Sub ConfigDialog()
 	&apos; Initializes and opens the configuration dialog
 
 	&apos; Load the library OOoLilyPond...
-	DialogLibraries.LoadLibrary( constOLyLibraryName )
+	&apos; DialogLibraries.LoadLibrary (constOLyLibraryName)
 
 	&apos; Create the dialog object
 	&apos; --- too late...

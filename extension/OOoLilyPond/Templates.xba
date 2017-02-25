@@ -400,7 +400,7 @@ Sub TmplDialog
 	Dim myTempFont As New com.sun.star.awt.FontDescriptor
 
 	&apos; Load the library OOoLilyPond...
-	DialogLibraries.LoadLibrary( constOLyLibraryName )
+	&apos; DialogLibraries.LoadLibrary (constOLyLibraryName)
 	
 	&apos; Create the dialog object
 	&apos; --- too late...
