@@ -182,8 +182,7 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   &apos; LilyPond could not be executed (calling the specified executable was not successful):
   
   sMsgLilypondCannotExecute = &quot;LilyPond cannot be executed.&quot; &amp; Chr(10) _
-		&amp; &quot;Check the path specified for the lilypond executable in the configuration dialog,&quot; &amp; Chr(10) _
-		&amp; &quot;your LilyPond installation and permissions.&quot;
+		&amp; &quot;Please check the path specified for the lilypond executable in the configuration dialog, your LilyPond installation and permissions.&quot;
   
   &apos; The LilyPond output (message) file does not exist:
   
