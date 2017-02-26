@@ -337,6 +337,8 @@ Sub InsertOOoLilyPondObject()
 	oDoc = ThisComponent
 	oDocCtrl = oDoc.getCurrentController
 
+	On Error GoTo ErrorHandler
+
 	&apos; insert the Bitmap
 	If bInWriter Then
 
@@ -388,7 +390,18 @@ Sub InsertOOoLilyPondObject()
 	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultLineWidth&quot;, BoolToString(bUseDefaultLineWidth))
 	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultStaffSize&quot;, BoolToString(bUseDefaultStaffSize))
 	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultCustom1&quot;, BoolToString(bUseDefaultCustom1))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultCustom2&quot;, BoolToString(bUseDefaultCustom2))
+	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultCustom2&quot;, BoolToString(bUseDefaultCustom2)
+	Exit Sub
+	
+	ErrorHandler:
+		Select Case Err
+		Case 1	&apos; 	&quot;End of content node doesn&apos;t have the proper start node&quot;
+			Msgbox (Error &amp; Chr(10) &amp; Chr(10) &amp; MsgNoStartNode, iMsgBox_E, sCaptionError)
+				&apos; MsgNoStartNode
+		Case Else
+			Msgbox (Error, iMsgBox_E, sCaptionError)
+		End Select
+	Exit Sub
 
 End Sub
 

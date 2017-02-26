@@ -38,6 +38,7 @@ Private sMsgDocTypeNotSupported1, sMsgDocTypeNotSupported2 As String
 Private sMsgLilypondNotFound As String
 Private sMsgNoOlyObject As String
 Private sMsgNoEpsOutputFound, sMsgNoSvgOutputFound, sMsgNoPngOutputFound As String
+Private MsgNoStartNode As String
 &apos; &quot;Templates&quot; module:
 Private sMsgNoTagsInTemplate1, sMsgNoTagsInTemplate2 As String
 Private sMsgMissingEndTag1, sMsgMissingEndTag2, sMsgMissingEndTag3, sMsgMissingEndTag4 As String
@@ -250,6 +251,13 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   sMsgNoEpsOutputFound = &quot;No eps output is found.&quot;
   sMsgNoSvgOutputFound = &quot;No svg output is found.&quot;
   sMsgNoPngOutputFound = &quot;No png output is found.&quot;
+  
+  &apos; InsertOOoLilyPondObject caused runtime error 1: &quot;End of content node doesn&apos;t have the proper start node&quot;
+  
+  MsgNoStartNode = &quot;Hint: If you failed to edit/create an object inside a table, try the following:&quot; &amp; Chr(10) &amp; Chr(10) _
+  					&amp; &quot;1.) If you want to edit an existing object, copy it to a place outside the table.&quot; &amp; Chr(10) &amp; Chr(10) _
+  					&amp; &quot;2.) Edit/create the object outside the table.&quot; &amp; Chr(10) &amp; Chr(10) _
+  					&amp; &quot;3.) Copy the object to its destination inside the table.&quot; &amp; Chr(10)
   
   
   &apos; &quot;Templates&quot; module
@@ -479,6 +487,8 @@ Sub ReadMessageStrings()	&apos; Called from ReadLanguageFile() if the following 
 				sMsgNoSvgOutputFound = sValue
 			Case &quot;sMsgNoPngOutputFound&quot;
 				sMsgNoPngOutputFound = sValue
+			Case &quot;MsgNoStartNode&quot;
+				MsgNoStartNode = sValue
 			&apos; &quot;Templates&quot; module
 			Case &quot;sMsgNoTagsInTemplate1&quot;
 				sMsgNoTagsInTemplate1 = sValue
