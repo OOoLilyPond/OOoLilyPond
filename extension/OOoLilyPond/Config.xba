@@ -45,6 +45,7 @@ Sub ConfigDialogUpdate()
 	&apos; Set the contents of the template combo boxes
 	&apos; To do: don&apos;t read the template list twice
 	&apos; just copy it instead.
+	oConfigDialog.getControl(&quot;sFormat&quot;).removeItems(0, oConfigDialog.getControl(&quot;sFormat&quot;).getItemCount)
 	oConfigDialog.getControl(&quot;sFormat&quot;).addItems(Array(&quot;png&quot;,&quot;eps&quot;,&quot;svg&quot;),0)
 	ListOfTemplates(oConfigDialog.getControl(&quot;sWriterDefaultTemplate&quot;))
 	ListOfTemplates(oConfigDialog.getControl(&quot;sImpressDefaultTemplate&quot;))
