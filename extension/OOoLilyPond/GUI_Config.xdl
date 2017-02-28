@@ -25,7 +25,7 @@
   <dlg:text dlg:id="LabelWriterStaffSize" dlg:tab-index="22" dlg:left="9" dlg:top="57" dlg:width="41" dlg:height="10" dlg:value="Staff Size:" dlg:align="right"/>
   <dlg:text dlg:id="LabelImpressStaffSize" dlg:tab-index="34" dlg:left="9" dlg:top="239" dlg:width="41" dlg:height="10" dlg:value="Staff Size:" dlg:align="right"/>
   <dlg:text dlg:id="LabelImpressLineWidth" dlg:tab-index="33" dlg:left="9" dlg:top="223" dlg:width="41" dlg:height="10" dlg:value="Line Width:" dlg:align="right"/>
-  <dlg:combobox dlg:id="sWriterDefaultTemplate" dlg:tab-index="2" dlg:left="53" dlg:top="19" dlg:width="104" dlg:height="12" dlg:help-text="Default template to use for OOoLilyPond objects in Writer documents" dlg:spin="true" dlg:linecount="24"/>
+  <dlg:combobox dlg:id="sWriterDefaultTemplate" dlg:tab-index="2" dlg:left="53" dlg:top="20" dlg:width="105" dlg:height="12" dlg:help-text="Default template to use for OOoLilyPond objects in Writer documents" dlg:spin="true" dlg:linecount="24"/>
   <dlg:textfield dlg:id="sWriterDefaultLineWidth" dlg:tab-index="3" dlg:left="53" dlg:top="38" dlg:width="38" dlg:height="12"/>
   <dlg:textfield dlg:id="sWriterDefaultStaffSize" dlg:tab-index="5" dlg:left="53" dlg:top="55" dlg:width="38" dlg:height="12"/>
   <dlg:checkbox dlg:id="bWriterUseLineWidthFromTemplate" dlg:tab-index="4" dlg:left="96" dlg:top="41" dlg:width="60" dlg:height="10" dlg:value="From Template" dlg:checked="false">
@@ -34,7 +34,7 @@
   <dlg:checkbox dlg:id="bWriterUseStaffSizeFromTemplate" dlg:tab-index="6" dlg:left="96" dlg:top="58" dlg:width="60" dlg:height="10" dlg:value="From Template" dlg:checked="false">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.ConfigDialogGrayOut?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
-  <dlg:combobox dlg:id="sImpressDefaultTemplate" dlg:tab-index="24" dlg:left="53" dlg:top="203" dlg:width="104" dlg:height="12" dlg:help-text="Default template to use for OOoLilyPond objects in Impress and Draw documents" dlg:spin="true" dlg:linecount="24"/>
+  <dlg:combobox dlg:id="sImpressDefaultTemplate" dlg:tab-index="24" dlg:left="53" dlg:top="203" dlg:width="105" dlg:height="12" dlg:help-text="Default template to use for OOoLilyPond objects in Impress and Draw documents" dlg:spin="true" dlg:linecount="24"/>
   <dlg:textfield dlg:id="sImpressDefaultLineWidth" dlg:tab-index="25" dlg:left="53" dlg:top="221" dlg:width="38" dlg:height="12"/>
   <dlg:textfield dlg:id="sImpressDefaultStaffSize" dlg:tab-index="27" dlg:left="53" dlg:top="238" dlg:width="38" dlg:height="12"/>
   <dlg:checkbox dlg:id="bImpressUseLineWidthFromTemplate" dlg:tab-index="26" dlg:left="96" dlg:top="224" dlg:width="60" dlg:height="10" dlg:value="From Template" dlg:checked="false">
@@ -43,12 +43,12 @@
   <dlg:checkbox dlg:id="bImpressUseStaffSizeFromTemplate" dlg:tab-index="28" dlg:left="96" dlg:top="241" dlg:width="60" dlg:height="10" dlg:value="From Template" dlg:checked="false">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.ConfigDialogGrayOut?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
-  <dlg:textfield dlg:id="sTemplatePath" dlg:tab-index="48" dlg:left="173" dlg:top="132" dlg:width="143" dlg:height="12" dlg:help-text="The path where OOoLiliyPond looks for templates."/>
-  <dlg:textfield dlg:id="sLilyPondExecutable" dlg:tab-index="49" dlg:left="173" dlg:top="159" dlg:width="143" dlg:height="12" dlg:help-text="The LilyPond executable with or without path."/>
+  <dlg:textfield dlg:id="sTemplatePath" dlg:tab-index="48" dlg:left="173" dlg:top="132" dlg:width="102" dlg:height="12" dlg:help-text="The path where OOoLiliyPond looks for templates."/>
+  <dlg:textfield dlg:id="sLilyPondExecutable" dlg:tab-index="49" dlg:left="173" dlg:top="159" dlg:width="102" dlg:height="12" dlg:help-text="The LilyPond executable with or without path."/>
   <dlg:numericfield dlg:id="iGraphicDPI" dlg:tab-index="52" dlg:left="208" dlg:top="203" dlg:width="20" dlg:height="12" dlg:help-text="Resolution for pixel based (png-format) OOoLilyPond objects." dlg:decimal-accuracy="0" dlg:value="300" dlg:value-min="75" dlg:value-max="2400" dlg:value-step="0"/>
   <dlg:combobox dlg:id="sFormat" dlg:tab-index="51" dlg:left="174" dlg:top="203" dlg:width="25" dlg:height="12" dlg:help-text="The png format looks better on the screen. The eps and svg formats are optimized for printing." dlg:spin="true"/>
-  <dlg:checkbox dlg:id="bIgnoreWarnings" dlg:tab-index="53" dlg:left="173" dlg:top="177" dlg:width="147" dlg:height="10" dlg:help-text="Don&apos;t list warnings along with LilyPond&apos;s error messages" dlg:value="Ignore Warnings" dlg:checked="false"/>
-  <dlg:textfield dlg:id="sExtEditorExecutable" dlg:tab-index="47" dlg:left="173" dlg:top="104" dlg:width="143" dlg:height="12" dlg:help-text="The external Editor&apos;s executable with or without path."/>
+  <dlg:checkbox dlg:id="bIgnoreWarnings" dlg:tab-index="53" dlg:left="173" dlg:top="177" dlg:width="143" dlg:height="10" dlg:help-text="Don&apos;t list warnings along with LilyPond&apos;s error messages" dlg:value="Ignore Warnings" dlg:checked="false"/>
+  <dlg:textfield dlg:id="sExtEditorExecutable" dlg:tab-index="47" dlg:left="173" dlg:top="104" dlg:width="102" dlg:height="12" dlg:help-text="The external Editor&apos;s executable with or without path."/>
   <dlg:textfield dlg:id="sIncludeStatement" dlg:tab-index="46" dlg:left="173" dlg:top="76" dlg:width="143" dlg:height="12" dlg:help-text="The path(s) where LilyPond looks for include files (multiple statements possible)"/>
   <dlg:textfield dlg:id="sEditorFontName" dlg:tab-index="42" dlg:left="173" dlg:top="47" dlg:width="102" dlg:height="12" dlg:help-text="Specify the font name for the editor pane"/>
   <dlg:textfield dlg:id="sEditorFontSize" dlg:tab-index="43" dlg:left="281" dlg:top="47" dlg:width="35" dlg:height="12" dlg:help-text="Specify the font size for the editor pane"/>
@@ -72,15 +72,15 @@
   <dlg:titledbox dlg:id="WriterInsertImagesFrame" dlg:tab-index="15" dlg:left="8" dlg:top="121" dlg:width="150" dlg:height="39">
    <dlg:title dlg:value="Insert Images"/>
   </dlg:titledbox>
-  <dlg:text dlg:id="LabelWriterDefaultTemplate" dlg:tab-index="23" dlg:left="9" dlg:top="21" dlg:width="41" dlg:height="10" dlg:value="Template:" dlg:align="right"/>
-  <dlg:text dlg:id="LabelLanguageFileName" dlg:tab-index="56" dlg:left="174" dlg:top="9" dlg:width="134" dlg:height="10" dlg:value="Language File:"/>
-  <dlg:text dlg:id="LabelEditorFontName" dlg:tab-index="44" dlg:left="174" dlg:top="36" dlg:width="97" dlg:height="9" dlg:value="Editor Font Name:"/>
-  <dlg:text dlg:id="LabelEditorFontSize" dlg:tab-index="45" dlg:left="282" dlg:top="36" dlg:width="32" dlg:height="9" dlg:value="Size:"/>
+  <dlg:text dlg:id="LabelWriterDefaultTemplate" dlg:tab-index="23" dlg:left="9" dlg:top="22" dlg:width="41" dlg:height="10" dlg:value="Template:" dlg:align="right"/>
+  <dlg:text dlg:id="LabelLanguageFileName" dlg:tab-index="56" dlg:left="174" dlg:top="9" dlg:width="143" dlg:height="10" dlg:value="Language File:"/>
+  <dlg:text dlg:id="LabelEditorFontName" dlg:tab-index="44" dlg:left="174" dlg:top="36" dlg:width="102" dlg:height="9" dlg:value="Editor Font Name:"/>
+  <dlg:text dlg:id="LabelEditorFontSize" dlg:tab-index="45" dlg:left="282" dlg:top="36" dlg:width="35" dlg:height="9" dlg:value="Size:"/>
   <dlg:text dlg:id="LabelIncludeStatement" dlg:tab-index="40" dlg:left="173" dlg:top="64" dlg:width="72" dlg:height="9" dlg:value="Include statement(s):"/>
   <dlg:text dlg:id="ExampleIncludeStatement" dlg:tab-index="41" dlg:left="249" dlg:top="64" dlg:width="68" dlg:height="9" dlg:value="-I&quot;path1&quot; -I&quot;path2&quot; ... " dlg:align="right" dlg:nolabel="true"/>
-  <dlg:text dlg:id="LabelExtEditorExecutable" dlg:tab-index="39" dlg:left="173" dlg:top="92" dlg:width="135" dlg:height="9" dlg:value="Ext. Editor Executable:"/>
-  <dlg:text dlg:id="LabelTemplatePath" dlg:tab-index="35" dlg:left="173" dlg:top="121" dlg:width="140" dlg:height="9" dlg:value="Template Path:"/>
-  <dlg:text dlg:id="LabelLilyPondExecutable" dlg:tab-index="36" dlg:left="173" dlg:top="148" dlg:width="140" dlg:height="9" dlg:value="LilyPond Executable:"/>
+  <dlg:text dlg:id="LabelExtEditorExecutable" dlg:tab-index="39" dlg:left="173" dlg:top="92" dlg:width="143" dlg:height="9" dlg:value="External Editor Executable:"/>
+  <dlg:text dlg:id="LabelTemplatePath" dlg:tab-index="35" dlg:left="173" dlg:top="121" dlg:width="143" dlg:height="9" dlg:value="Template Path:"/>
+  <dlg:text dlg:id="LabelLilyPondExecutable" dlg:tab-index="36" dlg:left="173" dlg:top="148" dlg:width="143" dlg:height="9" dlg:value="LilyPond Executable:"/>
   <dlg:text dlg:id="LabelFormat" dlg:tab-index="37" dlg:left="174" dlg:top="192" dlg:width="31" dlg:height="10" dlg:value="Format:"/>
   <dlg:text dlg:id="LabelDPI" dlg:tab-index="19" dlg:left="231" dlg:top="205" dlg:width="66" dlg:height="9" dlg:help-text="dots per inch" dlg:value="dpi"/>
   <dlg:text dlg:id="LabelGraphicDPIResolution" dlg:tab-index="38" dlg:left="209" dlg:top="192" dlg:width="89" dlg:height="10" dlg:value="Resolution (png):"/>
@@ -96,5 +96,14 @@
   </dlg:button>
   <dlg:combobox dlg:id="sLanguageFileName" dlg:tab-index="59" dlg:left="173" dlg:top="20" dlg:width="143" dlg:height="12" dlg:help-text="Specify a file name for the language file that contains OLy&apos;s translation strings" dlg:spin="true" dlg:linecount="24"/>
   <dlg:text dlg:id="LabelFormatInfo" dlg:tab-index="50" dlg:left="174" dlg:top="219" dlg:width="148" dlg:height="59" dlg:value="eps: Only with OpenOffice&#x0a;&#x0a;svg: Only with LibreOffice, use Template&#x0a;        without &quot;lilypond-book-preamble.ly&quot;" dlg:tabstop="false" dlg:nolabel="true"/>
+  <dlg:button dlg:id="ExtEditorPickButton" dlg:tab-index="60" dlg:left="282" dlg:top="105" dlg:width="35" dlg:height="12" dlg:help-text="Select an executable file" dlg:value="Select">
+   <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.ExtEditorPickButton?language=Basic&amp;location=application" script:language="Script"/>
+  </dlg:button>
+  <dlg:button dlg:id="LilyPondPickButton" dlg:tab-index="61" dlg:left="282" dlg:top="160" dlg:width="35" dlg:height="12" dlg:help-text="Select an executable file" dlg:value="Select">
+   <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.LilyPondPickButton?language=Basic&amp;location=application" script:language="Script"/>
+  </dlg:button>
+  <dlg:button dlg:id="TemplatePathPickButton" dlg:tab-index="62" dlg:left="282" dlg:top="132" dlg:width="35" dlg:height="12" dlg:help-text="Select a folder" dlg:value="Select">
+   <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.TemplatePathPickButton?language=Basic&amp;location=application" script:language="Script"/>
+  </dlg:button>
  </dlg:bulletinboard>
 </dlg:window>

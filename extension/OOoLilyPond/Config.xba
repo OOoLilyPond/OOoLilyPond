@@ -625,6 +625,102 @@ Sub RestoreLanguageFilesButton()
 End Sub
 
 
+Function PickExecutableFile (sExeFileName As String) As Boolean
+
+	Dim oFileDlg As Object
+	Dim oFiles
+	Dim sFile As String
+
+	On Error GoTo ErrorHandler
+	sFile = sExeFileName
+	PickExecutableFile = False
+	oFileDlg = CreateUnoService (&quot;com.sun.star.ui.dialogs.FilePicker&quot;)
+	&apos; oFileDlg.setMultiSelectionMode (False)	&apos; seems to crash LibO 5.3.0.3, so better don&apos;t use it, as default setting is &quot;False&quot; anyway
+	If sFile &lt;&gt; &quot;&quot; Then
+		sFile = ConvertToURL (sFile)
+	Else
+		If sOSType = &quot;Unix&quot; Then
+			sFile = ConvertToURL (Environ(&quot;HOME&quot;))
+		Else	&apos; Windows
+			sFile = ConvertToURL (Environ(&quot;ProgramFiles&quot;))
+		End If
+	End If
+	oFileDlg.setDefaultName(sFile)
+ 	oFileDlg.AppendFilter (sFilterAllFiles, &quot;*.*&quot;)
+	If sOSType = &quot;Unix&quot; Then
+		oFileDlg.SetCurrentFilter (sFilterAllFiles)
+	Else	&apos; Windows
+		oFileDlg.AppendFilter (sFilterExecutableFiles, &quot;*.exe&quot;)
+		oFileDlg.SetCurrentFilter (sFilterExecutableFiles)
+	End If
+ 	If oFileDlg.execute() Then
+		oFiles = oFileDlg.getFiles()
+		If UBound(oFiles) &gt;= 0 Then
+			sExeFileName = ConvertFromURL(oFiles(0))
+			PickExecutableFile = True
+		End If
+	End If
+	ErrorHandler:
+End Function
+
+
+Function PickFolder (sFolderName As String) As Boolean
+
+	Dim oFolderDlg As Object
+	Dim sFolder As String
+
+	&apos; On Error Resume Next
+	sFolder = sFolderName
+	PickFolder = False
+	oFolderDlg = CreateUnoService (&quot;com.sun.star.ui.dialogs.FolderPicker&quot;)
+	If sFolder &lt;&gt; &quot;&quot; Then
+		sFolder = ConvertToURL (sFolder)
+	Else
+		If sOSType = &quot;Unix&quot; Then
+			sFolder = ConvertToURL (Environ(&quot;HOME&quot;))
+		Else	&apos; Windows
+			sFolder = ConvertToURL (Environ(&quot;ProgramFiles&quot;))
+		End If
+	End If
+	oFolderDlg.setDisplayDirectory (sFolder)
+	
+ 	If oFolderDlg.execute() Then
+ 		sFolderName = ConvertFromURL(oFolderDlg.GetDirectory())
+		PickFolder = True
+	End If
+End Function
+
+
+Sub ExtEditorPickButton()
+	Dim sFile As String
+	
+	sFile = oConfigDialog.getModel().getByName(&quot;sExtEditorExecutable&quot;).Text
+	If PickExecutableFile (sFile) Then
+		oConfigDialog.getModel().getByName(&quot;sExtEditorExecutable&quot;).Text = sFile
+	End If
+End Sub
+
+
+Sub LilyPondPickButton()
+	Dim sFile As String
+	
+	sFile = oConfigDialog.getModel().getByName(&quot;sLilyPondExecutable&quot;).Text
+	If PickExecutableFile (sFile) Then
+		oConfigDialog.getModel().getByName(&quot;sLilyPondExecutable&quot;).Text = sFile
+	End If
+End Sub
+
+
+Sub TemplatePathPickButton()
+	Dim sFolder As String
+	
+	sFolder = oConfigDialog.getModel().getByName(&quot;sTemplatePath&quot;).Text
+	If PickFolder (sFolder) Then
+		oConfigDialog.getModel().getByName(&quot;sTemplatePath&quot;).Text = sFolder
+	End If
+End Sub
+
+
 Sub ConfigOKButton
 	Dim sCommand As String
 

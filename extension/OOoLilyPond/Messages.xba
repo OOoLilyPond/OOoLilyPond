@@ -7,49 +7,50 @@
 
 Option Explicit
 
-Private sErrClassError, sErrClassWarning As String
+Private sErrClassError As String, sErrClassWarning As String
 &apos; &quot;Config&quot; module:
-Private sCaptionTemplatesBackup, sCaptionError, sCaptionInfo, sCaptionRUSure, sCaptionTemplateError, sCaptionTempfileError, sCaptionNewTemplateName As String
-Private sMsgTemplateFolderCreated1, sMsgTemplateFolderCreated2 As String
-Private sMsgTemplatePathFail1, sMsgTemplatePathFail2 As String
-Private sMsgTemplatesBackedUp1, sMsgTemplatesBackedUp2 As String
-Private sMsgLanguageFolderCreated1, sMsgLanguageFolderCreated2 As String
-Private sMsgLanguagePathFail1, sMsgLanguagePathFail2 As String
-Private sMsgLanguageFilesBackedUp1, sMsgLanguageFilesBackedUp2 As String
+Private sCaptionTemplatesBackup As String, sCaptionError As String, sCaptionInfo As String, sCaptionRUSure As String, sCaptionTemplateError As String, sCaptionTempfileError As String, sCaptionNewTemplateName As String
+Private sFilterExecutableFiles, sFilterAllFiles As String
+Private sMsgTemplateFolderCreated1 As String, sMsgTemplateFolderCreated2 As String
+Private sMsgTemplatePathFail1 As String, sMsgTemplatePathFail2 As String
+Private sMsgTemplatesBackedUp1 As String, sMsgTemplatesBackedUp2 As String
+Private sMsgLanguageFolderCreated1 As String, sMsgLanguageFolderCreated2 As String
+Private sMsgLanguagePathFail1 As String, sMsgLanguagePathFail2 As String
+Private sMsgLanguageFilesBackedUp1 As String, sMsgLanguageFilesBackedUp2 As String
 &apos; &quot;Editor&quot; module:
-Private sMsgNoTemplatesFound1, sMsgNoTemplatesFound2 As String
-Private sMsgTemplatePathNotFound1, sMsgTemplatePathNotFound2 As String
+Private sMsgNoTemplatesFound1 As String, sMsgNoTemplatesFound2 As String
+Private sMsgTemplatePathNotFound1 As String, sMsgTemplatePathNotFound2 As String
 Private sMsgNoLyOutput As String
 Private sMsgExtEditorPathFail As String
 Private sMsgResetCode As String
 Private sMsgEnterLyCode As String
 Private sMsgEnterNewTemplateName As String
-Private sMsgNoValidExecutable1, sMsgNoValidExecutable2 As String
+Private sMsgNoValidExecutable1 As String, sMsgNoValidExecutable2 As String
 &apos; &quot;LilyPond&quot; module:
 Private sMsgLilypondCannotExecute As String
-Private sMsgLyOutputFileMissing1, sMsgLyOutputFileMissing2 As String
-Private sErrorKeyWord1, sErrorKeyWord2 As String
+Private sMsgLyOutputFileMissing1 As String, sMsgLyOutputFileMissing2 As String
+Private sErrorKeyWord1 As String, sErrorKeyWord2 As String
 &apos; &quot;Messages&quot; module:
-Private sMsgLanguageFileNotFound1, sMsgLanguageFileNotFound2 As String
-Private sMsgLanguageEntryErrors1, sMsgLanguageEntryErrors2, sMsgLanguageEntryErrors3 As String
-Private sMsgSurplusLanguageErrors1, sMsgSurplusLanguageErrors2 As String
+Private sMsgLanguageFileNotFound1 As String, sMsgLanguageFileNotFound2 As String
+Private sMsgLanguageEntryErrors1 As String, sMsgLanguageEntryErrors2 As String, sMsgLanguageEntryErrors3 As String
+Private sMsgSurplusLanguageErrors1 As String, sMsgSurplusLanguageErrors2 As String
 &apos; &quot;OOoLilyPond&quot; module:
-Private sMsgDocTypeNotSupported1, sMsgDocTypeNotSupported2 As String
+Private sMsgDocTypeNotSupported1 As String, sMsgDocTypeNotSupported2 As String
 Private sMsgLilypondNotFound As String
 Private sMsgNoOlyObject As String
-Private sMsgNoEpsOutputFound, sMsgNoSvgOutputFound, sMsgNoPngOutputFound As String
+Private sMsgNoEpsOutputFound As String, sMsgNoSvgOutputFound As String, sMsgNoPngOutputFound As String
 Private MsgNoStartNode As String
 &apos; &quot;Templates&quot; module:
-Private sMsgNoTagsInTemplate1, sMsgNoTagsInTemplate2 As String
-Private sMsgMissingEndTag1, sMsgMissingEndTag2, sMsgMissingEndTag3, sMsgMissingEndTag4 As String
-Private sMsgCannotOpenTemplate1, sMsgCannotOpenTemplate2 As String
-Private sMsgCannotOpenTempfile1, sMsgCannotOpenTempfile2 As String
-Private sMsgMisspelledEndTag1, sMsgMisspelledEndTag2, sMsgMisspelledEndTag3, sMsgMisspelledEndTag4 As String
-Private sMsgNoCodeTag1, sMsgNoCodeTag2 As String
-Private sMsgLonelyEndTag1, sMsgLonelyEndTag2, sMsgLonelyEndTag3 As String
-Private sMsgCannotDeleteTemplate1, sMsgCannotDeleteTemplate2 As String
-Private sMsgDefaultTemplateDeleted1, sMsgDefaultTemplateDeleted2 As String
-Private sMsgCouldNotWriteToFile1, sMsgCouldNotWriteToFile2 As String
+Private sMsgNoTagsInTemplate1 As String, sMsgNoTagsInTemplate2 As String
+Private sMsgMissingEndTag1 As String, sMsgMissingEndTag2 As String, sMsgMissingEndTag3 As String, sMsgMissingEndTag4 As String
+Private sMsgCannotOpenTemplate1 As String, sMsgCannotOpenTemplate2 As String
+Private sMsgCannotOpenTempfile1 As String, sMsgCannotOpenTempfile2 As String
+Private sMsgMisspelledEndTag1 As String, sMsgMisspelledEndTag2 As String, sMsgMisspelledEndTag3 As String, sMsgMisspelledEndTag4 As String
+Private sMsgNoCodeTag1 As String, sMsgNoCodeTag2 As String
+Private sMsgLonelyEndTag1 As String, sMsgLonelyEndTag2 As String, sMsgLonelyEndTag3 As String
+Private sMsgCannotDeleteTemplate1 As String, sMsgCannotDeleteTemplate2 As String
+Private sMsgDefaultTemplateDeleted1 As String, sMsgDefaultTemplateDeleted2 As String
+Private sMsgCouldNotWriteToFile1 As String, sMsgCouldNotWriteToFile2 As String
 &apos; &quot;Tools&quot; module:
 Private sMsgImportBitmapError As String
 
@@ -78,6 +79,11 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   sCaptionTemplateError = &quot;Template error&quot;
   sCaptionTempfileError = &quot;Error in temporary file&quot;
   sCaptionNewTemplateName = &quot;New template name&quot;
+  
+  &apos; Filters for file picking dialogs:
+  &apos; ----------------------------------
+  sFilterExecutableFiles = &quot;Executable files (*.exe)&quot;
+  sFilterAllFiles = &quot;All files (*.*)&quot;
 
   &apos; ------------------------------------------------------------------------------------------------------------
   &apos; Some messages contain a path or file name. Therefore, two or more strings are used (one before, one after).
@@ -406,6 +412,11 @@ Sub ReadMessageStrings()	&apos; Called from ReadLanguageFile() if the following 
 				sCaptionTempfileError = sValue
 			Case &quot;sCaptionNewTemplateName&quot;
 				sCaptionNewTemplateName = sValue
+			&apos; Filters for file picking dialogs:	
+			Case &quot;sFilterExecutableFiles&quot;
+				sFilterExecutableFiles = sValue
+			Case &quot;sFilterAllFiles&quot;
+				sFilterAllFiles = sValue
 			&apos; &quot;Config&quot; module
 			Case &quot;sMsgTemplateFolderCreated1&quot;
 				sMsgTemplateFolderCreated1 = sValue
@@ -559,7 +570,7 @@ Sub ReadDialogStrings (oDialog As Object)	&apos; Called from ReadLanguageFile() 
 	Dim iDotPos As Integer			&apos; position of the first dot in sKey
 	Dim iBreakPos As Integer		&apos; position of intended line break in strings
 	Dim sCodeToParse As String		&apos; the current line that has been read out of sLanguageCode (the file contents)
-	Dim sKey, sValue, sName, sPart As String
+	Dim sKey As String, sValue As String, sName As String, sPart As String
 	
 	iLineEndPos = TagPos (sLanguageCode, Chr(13), Chr(10))	&apos; indicates the line end character(s)
 	On Error Goto LocalErrorHandler
