@@ -1,6 +1,6 @@
 
-OooLilyPond 0.4.2rc7 Release Notes  (February 2017)
-====================================================
+OooLilyPond 0.5.0 Release Notes  (March 2017)
+=================================================
 
 
 This release is based on the two most recent versions that have been published by the original developer Samuel Hartmann.
@@ -20,18 +20,12 @@ https://sourceforge.net/p/ooolilypond/discussion/614285/thread/d200563d/#52fd/5a
 http://www.hartmann-weine.ch/OOoLilyPond-0.4.1rc1.oxt
 
 
-
-On the LilyPond mailing list, there are some considerations to continue the OOoLilyPond project. 
-You can follow the discussion here: 
-http://lilypond.1069038.n5.nabble.com/OOoLilyPond-td185560.html
-http://lilypond.1069038.n5.nabble.com/Re-OOoLilyPond-td199422.html
-
 The new take on the project is hosted at:
 https://github.com/openlilylib/LO-ly
 
 
-Changes to OOoLilyPond 0.4.2rc5 since 0.4.0/0.4.1:
-===================================================
+Changes to OOoLilyPond 0.5.0 since 0.4.0/0.4.1:
+================================================
 
 * fixed: Runtime error - Variable not defined: line 40 CurserPosition=1 
 * additional include paths can be specified 
@@ -42,6 +36,7 @@ Changes to OOoLilyPond 0.4.2rc5 since 0.4.0/0.4.1:
 * size and crop settings of existing graphics can be preserved
 * user now can choose between two different ways to import graphic into document 
 * font name and font size for editor windows can be specified 
+* user interface can be translated into other languages
 
 
 1.) fixed: Runtime error - Variable not defined: line 40 CurserPosition=1
@@ -125,6 +120,12 @@ For 0.4.1, the developer provided a new method for direct inserting without clip
 In 0.4.2 both methods are offered. The option dialog lets you define which method to use in Writer and which one for Draw/Impress.
 
 
+6.) Translation into other languages
+-------------------------------------
+
+OOoLilyPond now supports language files that contain all the strings displayed in the user interface. Language files can be specified in the config window. 
+Their use might cause a slight delay the moment the extension launches. If you choose no language file, there will be no delay either.
+At the moment, only English and German are provided, but maybe some more will be available in the future. Of course, existing language files can be edited and saved with a new name. 
 
 
 What if I get an error "There is no EPS/PNG/SVG output"?
@@ -150,4 +151,4 @@ Finally: A big big THANK YOU to Samuel Hartmann, the original developer of OOoLi
 I am one of them. 
 
 
-Klaus Blum, February 2017
+Klaus Blum, March 2017
