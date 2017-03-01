@@ -371,7 +371,7 @@ Function StringToFile(sString As String, sFile As String) As Boolean
 	
 	&apos; -----------------------------
 	ErrorHandler:
-		MsgBox(oMessages.getPropertyValue (&quot;sMsgCouldNotWriteToFile1&quot;) &amp; ConvertFromURL(sFile) &amp; oMessages.getPropertyValue (&quot;sMsgCouldNotWriteToFile2&quot;) &amp; Error, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		MsgBox (oMessages.getPropertyValue (&quot;sMsgCouldNotWriteToFile1&quot;) &amp; ConvertFromURL(sFile) &amp; oMessages.getPropertyValue (&quot;sMsgCouldNotWriteToFile2&quot;) &amp; Error, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 		StringToFile = False
 		Exit Function
 	Resume Next

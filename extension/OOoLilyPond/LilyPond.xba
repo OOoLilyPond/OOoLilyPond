@@ -73,6 +73,7 @@ End Function
 
 
 Sub CleanUp()
+	On Error GoTo ErrorHandler
 	If 	oFileAccess.exists(sTmpPath &amp; &quot;LilyPond-version.out&quot;) Then oFileAccess.kill(sTmpPath &amp; &quot;LilyPond-version.out&quot;)
 	If 	oFileAccess.exists(sTmpPath &amp; &quot;LilyPond-cannot_execute&quot;) Then oFileAccess.kill(sTmpPath &amp; &quot;LilyPond-cannot_execute&quot;)
 	If 	oFileAccess.exists(sTmpPath &amp; &quot;ExtEditor-cannot_execute&quot;) Then oFileAccess.kill(sTmpPath &amp; &quot;ExtEditor-cannot_execute&quot;)
@@ -85,6 +86,15 @@ Sub CleanUp()
 	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;Temp.ly&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;Temp.ly&quot;)
 	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.png&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;.png&quot;)
 	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.svg&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;.svg&quot;)
+	Exit Sub
+	
+	ErrorHandler:
+		If Err &lt;&gt; 1 Then
+			MsgBox (Err &amp; Chr(10) &amp; Error, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		Else	&apos; Error 1: &quot;A file or directory could not be deleted&quot;
+			&apos; Nothing. This can happen in old-fashioned OpenOffice if you use the &quot;direct&quot; method to insert images. Apparently, it works anyway, don&apos;t know why... 
+		End If
+	Resume Next
 End Sub
 
 
@@ -156,7 +166,7 @@ Sub ParseOutput(sFile as String)
 	
 	if Not oFileAccess.exists(sFile) then
 		&apos; Msgbox(&quot;The LilyPond output file does not exist:&quot; &amp; Chr(10) &amp; sFile, iMsgBox_E, &quot;Error&quot;)
-		Msgbox(oMessages.getPropertyValue (&quot;sMsgLyOutputFileMissing1&quot;) &amp; sFile &amp; oMessages.getPropertyValue (&quot;sMsgLyOutputFileMissing2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		Msgbox (oMessages.getPropertyValue (&quot;sMsgLyOutputFileMissing1&quot;) &amp; sFile &amp; oMessages.getPropertyValue (&quot;sMsgLyOutputFileMissing2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 		exit sub
 	end if
 
@@ -178,7 +188,7 @@ Sub ParseOutput(sFile as String)
 					iNErr = iNErr + 1
 					iErrRow(iNErr) = Val(vArray(LBound(vArray)+1))
 					iErrCol(iNErr) = Val(vArray(LBound(vArray)+2))
-					If (vArray(LBound(vArray)+3) = &quot; &quot; &amp; sErrorKeyWord1) Or (vArray(LBound(vArray)+3) = &quot; &quot; &amp; sErrorKeyWord2) Then  
+					If (vArray(LBound(vArray)+3) = &quot; &quot; &amp; oMessages.getPropertyValue (&quot;sErrorKeyWord1&quot;)) Or (vArray(LBound(vArray)+3) = &quot; &quot; &amp; oMessages.getPropertyValue (&quot;sErrorKeyWord2&quot;)) Then  
 					&apos; (ToDo: What if LilyPond&apos;s error message is in another language?)
 					&apos; Done: Key words can be customized
 						iErrClass(iNErr)=2 &apos;Error

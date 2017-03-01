@@ -144,20 +144,20 @@ Sub CopyTemplates()
 
 	If Not oFileAccess.isFolder(sTemplatePath) Then
 		&apos; MsgBox(&quot;The specified path for templates does not exist and cannot be created: &quot; &amp; Chr(10) &amp; Chr(34) &amp; ConvertFromURL(sTemplatePath) &amp; Chr(34) &amp; &quot;.&quot; &amp; Chr(10) &amp; &quot;Please adjust the path in the configuration dialog.&quot;)
-		MsgBox(oMessages.getPropertyValue (&quot;sMsgTemplatePathFail1&quot;) &amp; ConvertFromURL(sTemplatePath) &amp; oMessages.getPropertyValue (&quot;sMsgTemplatePathFail2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		MsgBox (oMessages.getPropertyValue (&quot;sMsgTemplatePathFail1&quot;) &amp; ConvertFromURL(sTemplatePath) &amp; oMessages.getPropertyValue (&quot;sMsgTemplatePathFail2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 		Exit Sub
 	End If
 
 	&apos; Backup .ly files
 	&apos; Subdir named according to actual date and time in format YYYYMMDDhhmmss
-	sBackupPath = sTemplatePath &amp; CDateToISO(Now) &amp; Left(TimeValue(Now),2) &amp; Mid(TimeValue(Now),4,2) &amp; Right(TimeValue(Now),2) &amp; &quot;/&quot;
-	sFiles = oFileAccess.getFolderContents(sTemplatePath, False)
-	For i=LBound(sFiles) To UBound(sFiles)
-		If Right(sFiles(i),3)=&quot;.ly&quot; Then
+	sBackupPath = sTemplatePath &amp; CDateToISO (Now) &amp; Left (TimeValue (Now), 2) &amp; Mid (TimeValue (Now), 4, 2) &amp; Right (TimeValue (Now), 2) &amp; &quot;/&quot;
+	sFiles = oFileAccess.getFolderContents (sTemplatePath, False)
+	For i=LBound (sFiles) To UBound (sFiles)
+		If Right (sFiles (i),3)=&quot;.ly&quot; Then
 			If Not oFileAccess.isFolder(sBackupPath) Then
 				oFileAccess.createFolder(sBackupPath)
 				&apos; MsgBox(&quot;Your old templates are backed up under &quot; &amp; Chr(34) &amp; ConvertFromURL(sBackupPath) &amp; Chr(34) &amp; &quot;.&quot;, iMsgBox_I, &quot;Templates Backup&quot;)
-				MsgBox(oMessages.getPropertyValue (&quot;sMsgTemplatesBackedUp1&quot;) &amp; ConvertFromURL(sBackupPath) &amp; oMessages.getPropertyValue (&quot;sMsgTemplatesBackedUp2&quot;), iMsgBox_I, oMessages.getPropertyValue (&quot;sCaptionTemplatesBackup&quot;))
+				MsgBox (oMessages.getPropertyValue (&quot;sMsgTemplatesBackedUp1&quot;) &amp; ConvertFromURL(sBackupPath) &amp; oMessages.getPropertyValue (&quot;sMsgTemplatesBackedUp2&quot;), iMsgBox_I, oMessages.getPropertyValue (&quot;sCaptionTemplatesBackup&quot;))
 				
 			End If
 			oFileAccess.copy( sFiles(i), sBackupPath &amp; GetLastFromURL(sFiles(i)) )
@@ -208,7 +208,7 @@ Sub CopyLanguageFiles()
 
 	If Not oFileAccess.isFolder(sLanguagePath) Then
 		&apos; MsgBox &quot;The specified path for language files does not exist and cannot be created&quot; 
-		MsgBox(oMessages.getPropertyValue (&quot;sMsgLanguagePathFail1&quot;) &amp; ConvertFromURL(sLanguagePath) &amp; oMessages.getPropertyValue (&quot;sMsgLanguagePathFail2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		MsgBox (oMessages.getPropertyValue (&quot;sMsgLanguagePathFail1&quot;) &amp; ConvertFromURL(sLanguagePath) &amp; oMessages.getPropertyValue (&quot;sMsgLanguagePathFail2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 		Exit Sub
 	End If
 
@@ -221,7 +221,7 @@ Sub CopyLanguageFiles()
 			If Not oFileAccess.isFolder(sBackupPath) Then
 				oFileAccess.createFolder(sBackupPath)
 				&apos; MsgBox &quot;Your old language files are backed up under ...&quot;
-				MsgBox(oMessages.getPropertyValue (&quot;sMsgLanguageFilesBackedUp1&quot;) &amp; ConvertFromURL(sBackupPath) &amp; oMessages.getPropertyValue (&quot;sMsgLanguageFilesBackedUp2&quot;), iMsgBox_I, oMessages.getPropertyValue (&quot;sCaptionInfo&quot;))
+				MsgBox (oMessages.getPropertyValue (&quot;sMsgLanguageFilesBackedUp1&quot;) &amp; ConvertFromURL(sBackupPath) &amp; oMessages.getPropertyValue (&quot;sMsgLanguageFilesBackedUp2&quot;), iMsgBox_I, oMessages.getPropertyValue (&quot;sCaptionInfo&quot;))
 			End If
 			oFileAccess.copy( sFiles(i), sBackupPath &amp; GetLastFromURL(sFiles(i)) )
 		End If

@@ -64,10 +64,10 @@ Sub EditorDialog()
 	Select Case ListOfTemplates(oEditorDialog.getControl(&quot;sTemplate&quot;))
 	Case 1
 		&apos; MsgBox(&quot;No templates are found at the path: &quot; &amp;  Chr(10) &amp; Chr(34) &amp; ConvertFromURL(sTemplatePath) &amp; Chr(34) &amp; &quot;.&quot; &amp; Chr(10) &amp; constOLyLibraryName &amp; &quot; will not work without a template.&quot;)
-		MsgBox(oMessages.getPropertyValue (&quot;sMsgNoTemplatesFound1&quot;) &amp; ConvertFromURL(sTemplatePath) &amp; oMessages.getPropertyValue (&quot;sMsgNoTemplatesFound2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		MsgBox (oMessages.getPropertyValue (&quot;sMsgNoTemplatesFound1&quot;) &amp; ConvertFromURL(sTemplatePath) &amp; oMessages.getPropertyValue (&quot;sMsgNoTemplatesFound2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 	Case 2
 		&apos; MsgBox(&quot;The template path &quot; &amp;  Chr(10) &amp; Chr(34) &amp; ConvertFromURL(sTemplatePath) &amp; Chr(34) &amp; &quot; is not found.&quot;) &apos; Should never happen here.
-		MsgBox(oMessages.getPropertyValue (&quot;sMsgTemplatePathNotFound1&quot;) &amp; ConvertFromURL(sTemplatePath) &amp; oMessages.getPropertyValue (&quot;sMsgTemplatePathNotFound2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;)) &apos; Should never happen here.
+		MsgBox (oMessages.getPropertyValue (&quot;sMsgTemplatePathNotFound1&quot;) &amp; ConvertFromURL(sTemplatePath) &amp; oMessages.getPropertyValue (&quot;sMsgTemplatePathNotFound2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;)) &apos; Should never happen here.
 	End Select
 	oEditorDialog.getControl(&quot;sTemplate&quot;).setText(sTemplate)
 
@@ -265,7 +265,7 @@ Sub CallExtEditor()
 	End If
 	
 	If oFileAccess.exists(sTmpPath &amp; &quot;ExtEditor-cannot_execute&quot;) then
-		MsgBox (oMessages.getPropertyValue (&quot;sMsgNoValidExecutable1&quot;) &amp; ConvertFromURL (sExtEditorExecutable) &amp; oMessages.getPropertyValue (&quot;sMsgsMsgNoValidExecutable2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		MsgBox (oMessages.getPropertyValue (&quot;sMsgNoValidExecutable1&quot;) &amp; ConvertFromURL (sExtEditorExecutable) &amp; oMessages.getPropertyValue (&quot;sMsgNoValidExecutable2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 	End If
 	
 	Exit Sub

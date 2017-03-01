@@ -77,7 +77,7 @@ Sub OOoLilyPond()
 	
 	If bWrongDocumentType Then
 		&apos; Msgbox(oDoc.getImplementationName() &amp; &quot;: document type not supported by &quot; &amp; constOLyLibraryName, 0, &quot;Error&quot;)
-		Msgbox(oMessages.getPropertyValue (&quot;sMsgDocTypeNotSupported1&quot;) &amp; oDoc.getImplementationName() &amp; oMessages.getPropertyValue (&quot;sMsgDocTypeNotSupported2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		Msgbox (oMessages.getPropertyValue (&quot;sMsgDocTypeNotSupported1&quot;) &amp; oDoc.getImplementationName() &amp; oMessages.getPropertyValue (&quot;sMsgDocTypeNotSupported2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 	End If
 
 	&apos; Copy Templates If needed
@@ -88,7 +88,7 @@ Sub OOoLilyPond()
 		Else
 			&apos; MsgBox(&quot;LilyPond can not be found. Please check whether LilyPond is properly installed&quot; &amp; Chr(10) _
             &apos;                   &amp; &quot;and the specified path to the LilyPond executable is correct.&quot;, iMsgBox_E)
-            MsgBox(oMessages.getPropertyValue (&quot;sMsgLilypondNotFound&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+            MsgBox (oMessages.getPropertyValue (&quot;sMsgLilypondNotFound&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 		End If
 	Else &apos; LilyPond has already once been called successfully
 		If Not oFileAccess.isFolder(sTemplatePath) Then CopyTemplates() &apos; For some reason the templates are not there
@@ -178,21 +178,21 @@ sub Make()
 	&apos;If there is no eps output
  	If sFormat = &quot;eps&quot; And (Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.eps&quot;)) Then
  		&apos; MsgBox(&quot;No eps output is found&quot;, 0, &quot;Error&quot;)
- 		MsgBox(oMessages.getPropertyValue (&quot;sMsgNoEpsOutputFound&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+ 		MsgBox (oMessages.getPropertyValue (&quot;sMsgNoEpsOutputFound&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
   		Exit Sub
  	End If
  
 	&apos;If there is no svg output
  	If sFormat = &quot;svg&quot; And (Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.svg&quot;)) Then
  		&apos; MsgBox(&quot;No svg output is found&quot;, 0, &quot;Error&quot;)
- 		MsgBox(oMessages.getPropertyValue (&quot;sMsgNoSvgOutputFound&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+ 		MsgBox (oMessages.getPropertyValue (&quot;sMsgNoSvgOutputFound&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
   		Exit Sub
  	End If
  	
 	&apos;If there is no png output
  	If sFormat = &quot;png&quot; And (Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.png&quot;)) Then
  		&apos; MsgBox(&quot;No png output is found&quot;, 0, &quot;Error&quot;)
- 		MsgBox(oMessages.getPropertyValue (&quot;sMsgNoPngOutputFound&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+ 		MsgBox (oMessages.getPropertyValue (&quot;sMsgNoPngOutputFound&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
   		Exit Sub
  	End If
  
@@ -398,7 +398,7 @@ Sub InsertOOoLilyPondObject()
 	ErrorHandler:
 		Select Case Err
 		Case 1	&apos; 	&quot;End of content node doesn&apos;t have the proper start node&quot;
-			Msgbox (Error &amp; Chr(10) &amp; Chr(10) &amp; MsgNoStartNode, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+			Msgbox (Error &amp; Chr(10) &amp; Chr(10) &amp; oMessages.getPropertyValue (&quot;MsgNoStartNode&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 				&apos; MsgNoStartNode
 		Case Else
 			Msgbox (Error, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))

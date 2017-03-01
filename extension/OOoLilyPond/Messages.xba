@@ -207,7 +207,7 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   &apos; After LilyPond has been called, no graphics output file is found:
   
   oMessages.addProperty (&quot;sMsgNoEpsOutputFound&quot;, BagAttr, &quot;No eps output is found.&quot;)
-  oMessages.addProperty (&quot;sMsgNoSvgOutputFound&quot;, BagAttr, &quot;No svg output is found.&quot;)
+  oMessages.addProperty (&quot;sMsgNoSvgOutputFound&quot;, BagAttr, &quot;No svg output is found.&quot; &amp; Chr(10) &amp; Chr(10) &amp; &quot;Please make sure that your settings provide sufficient space for your musical snippet.&quot; &amp; Chr(10) &amp; &quot;You should check LilyPond&apos;s output messages by clicking the &quot;&quot;Ly Output&quot;&quot; button.&quot;)
   oMessages.addProperty (&quot;sMsgNoPngOutputFound&quot;, BagAttr, &quot;No png output is found.&quot;)
   
   &apos; InsertOOoLilyPondObject caused runtime error 1: &quot;End of content node doesn&apos;t have the proper start node&quot;
@@ -215,7 +215,8 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   oMessages.addProperty (&quot;MsgNoStartNode&quot;, BagAttr, &quot;Hint: If you failed to edit/create an object inside a table, try the following:&quot; &amp; Chr(10) &amp; Chr(10) _
   					&amp; &quot;1.) If you want to edit an existing object, copy it to a place outside the table.&quot; &amp; Chr(10) &amp; Chr(10) _
   					&amp; &quot;2.) Edit/create the object outside the table.&quot; &amp; Chr(10) &amp; Chr(10) _
-  					&amp; &quot;3.) Copy the object to its destination inside the table.&quot; &amp; Chr(10))
+  					&amp; &quot;3.) Copy the object to its destination inside the table.&quot; &amp; Chr(10) &amp; Chr(10) _ 
+  					&amp; &quot;Please also ensure that the graphics format (eps, svg, ...) you&apos;ve specified in the Config dialog is compatible with your Office version (OpenOffice or LibreOffice).&quot;)
   
   
   &apos; &quot;Templates&quot; module
@@ -479,7 +480,7 @@ Sub ReadLanguageFile()	&apos; If a language file is specified, read out its cont
 	sLanguageFile = sLanguagePath &amp; sLanguageFileName
 	If Not StringFromFile(sLanguageCode, sLanguageFile) Then
 		&apos; Message: Language file not found
-		MsgBox(oMessages.getPropertyValue (&quot;sMsgLanguageFileNotFound1&quot;) &amp; ConvertFromURL(sLanguageFile) &amp; oMessages.getPropertyValue (&quot;sMsgLanguageFileNotFound2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		MsgBox (oMessages.getPropertyValue (&quot;sMsgLanguageFileNotFound1&quot;) &amp; ConvertFromURL(sLanguageFile) &amp; oMessages.getPropertyValue (&quot;sMsgLanguageFileNotFound2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 		Exit Sub
 	End If
 	sLanguageCode = sLanguageCode &amp; Chr(13) &amp; Chr(10)		&apos; append a line break at the end
