@@ -64,10 +64,10 @@ Sub EditorDialog()
 	Select Case ListOfTemplates(oEditorDialog.getControl(&quot;sTemplate&quot;))
 	Case 1
 		&apos; MsgBox(&quot;No templates are found at the path: &quot; &amp;  Chr(10) &amp; Chr(34) &amp; ConvertFromURL(sTemplatePath) &amp; Chr(34) &amp; &quot;.&quot; &amp; Chr(10) &amp; constOLyLibraryName &amp; &quot; will not work without a template.&quot;)
-		MsgBox(sMsgNoTemplatesFound1 &amp; ConvertFromURL(sTemplatePath) &amp; sMsgNoTemplatesFound2, iMsgBox_E, sCaptionError)
+		MsgBox(oMessages.getPropertyValue (&quot;sMsgNoTemplatesFound1&quot;) &amp; ConvertFromURL(sTemplatePath) &amp; oMessages.getPropertyValue (&quot;sMsgNoTemplatesFound2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 	Case 2
 		&apos; MsgBox(&quot;The template path &quot; &amp;  Chr(10) &amp; Chr(34) &amp; ConvertFromURL(sTemplatePath) &amp; Chr(34) &amp; &quot; is not found.&quot;) &apos; Should never happen here.
-		MsgBox(sMsgTemplatePathNotFound1 &amp; ConvertFromURL(sTemplatePath) &amp; sMsgTemplatePathNotFound2, iMsgBox_E, sCaptionError) &apos; Should never happen here.
+		MsgBox(oMessages.getPropertyValue (&quot;sMsgTemplatePathNotFound1&quot;) &amp; ConvertFromURL(sTemplatePath) &amp; oMessages.getPropertyValue (&quot;sMsgTemplatePathNotFound2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;)) &apos; Should never happen here.
 	End Select
 	oEditorDialog.getControl(&quot;sTemplate&quot;).setText(sTemplate)
 
@@ -158,10 +158,10 @@ Sub DisplayError()
 	Dim sText as String
 	If iErrClass(iErrNum) = 1 Then &apos; Warning
 		&apos; sText = &quot;Warning: &quot; &amp; sErrMsg(iErrNum)
-		sText = sErrClassWarning &amp; sErrMsg(iErrNum)
+		sText = oMessages.getPropertyValue (&quot;sErrClassWarning&quot;) &amp; sErrMsg(iErrNum)
 	ElseIf	iErrClass(iErrNum) = 2 Then &apos; Error
 		&apos; sText = &quot;Error: &quot; &amp; sErrMsg(iErrNum)
-		sText = sErrClassError &amp; sErrMsg(iErrNum)
+		sText = oMessages.getPropertyValue (&quot;sErrClassError&quot;) &amp; sErrMsg(iErrNum)
 	End If
 	oEditorDialog.getControl(&quot;sErrMsg&quot;).setText(sText)
 	GotoError(iErrNum)
@@ -236,7 +236,7 @@ Sub ShowLilyPondOutput()
 	
 	Else
 		&apos; MsgBox(&quot;There is no LilyPond output.&quot;)
-		MsgBox (sMsgNoLyOutput, iMsgBox_E, sCaptionError)
+		MsgBox (oMessages.getPropertyValue (&quot;sMsgNoLyOutput&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 	End If
 End Sub
 
@@ -254,7 +254,7 @@ Sub CallExtEditor()
 		
 		If Not oFileAccess.exists(sExtEditorExecutable) Then
  			&apos; MsgBox(&quot;No valid file name / path for External Editor is specified.&quot;, 0, &quot;Error&quot;)
- 			MsgBox (sMsgExtEditorPathFail, iMsgBox_E, sCaptionError)
+ 			MsgBox (oMessages.getPropertyValue (&quot;sMsgExtEditorPathFail&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
   			Exit Sub
  		End If
 		
@@ -265,13 +265,13 @@ Sub CallExtEditor()
 	End If
 	
 	If oFileAccess.exists(sTmpPath &amp; &quot;ExtEditor-cannot_execute&quot;) then
-		MsgBox (sMsgNoValidExecutable1 &amp; ConvertFromURL (sExtEditorExecutable) &amp;sMsgNoValidExecutable2, iMsgBox_E, sCaptionError)
+		MsgBox (oMessages.getPropertyValue (&quot;sMsgNoValidExecutable1&quot;) &amp; ConvertFromURL (sExtEditorExecutable) &amp; oMessages.getPropertyValue (&quot;sMsgsMsgNoValidExecutable2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 	End If
 	
 	Exit Sub
 	
 	ErrorHandler:
-		MsgBox (sMsgNoValidExecutable1 &amp; ConvertFromURL (sExtEditorExecutable) &amp;sMsgNoValidExecutable2, iMsgBox_E, sCaptionError)
+		MsgBox (oMessages.getPropertyValue (&quot;sMsgNoValidExecutable1&quot;) &amp; ConvertFromURL (sExtEditorExecutable) &amp; oMessages.getPropertyValue (&quot;sMsgNoValidExecutable2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 	Resume Next
 
 End Sub
@@ -426,7 +426,7 @@ Sub UseDefaultCode()
 			bYesDoItPlease=True
 		Else
 			&apos; bYesDoItPlease= (MsgBox(&quot;Do you really want to reset your code to the default?&quot;, iMsgBox_YN, &quot;Are you sure?&quot;) = iAnswer_Yes )
-			bYesDoItPlease= (MsgBox(sMsgResetCode, iMsgBox_YN+iMsgBox_Q, sCaptionRUSure) = iAnswer_Yes )
+			bYesDoItPlease = (MsgBox (oMessages.getPropertyValue (&quot;sMsgResetCode&quot;), iMsgBox_YN+iMsgBox_Q, oMessages.getPropertyValue (&quot;sCaptionRUSure&quot;)) = iAnswer_Yes )
 		End If
 
 		If bYesDoItPlease Then

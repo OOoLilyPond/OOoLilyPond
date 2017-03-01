@@ -61,9 +61,9 @@ Function CallLilyPond() As Boolean
 		&apos; &amp; &quot;Check the path specified for the lilypond executable in the configuration dialog,&quot; &amp; Chr(10) _
 		&apos; &amp; &quot;your LilyPond installation and permissions.&quot;
 		If StringFromFile (sLilyPondOutput, sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;) Then
-			MsgBox (sMsgLilypondCannotExecute &amp; Chr(10) &amp; Chr(10) &amp; sLilyPondOutput, iMsgBox_E, sCaptionError)
+			MsgBox (oMessages.getPropertyValue (&quot;sMsgLilypondCannotExecute&quot;) &amp; Chr(10) &amp; Chr(10) &amp; sLilyPondOutput, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 		Else
-			MsgBox (sMsgLilypondCannotExecute, iMsgBox_E, sCaptionError)
+			MsgBox (oMessages.getPropertyValue (&quot;sMsgLilypondCannotExecute&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 		End If
 	Else
 		CallLilyPond=True &apos;lilypond was executed
@@ -124,9 +124,9 @@ Function LilyPondVersion() As Boolean
 		&apos; &amp; &quot;Check the path specified for the lilypond executable in the configuration dialog,&quot; &amp; Chr(10) _
 		&apos; &amp; &quot;your LilyPond installation and permissions.&quot;
 		If StringFromFile (sLilyPondOutput, sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;) Then
-			MsgBox (sMsgLilypondCannotExecute &amp; Chr(10) &amp; Chr(10) &amp; sLilyPondOutput, iMsgBox_E, sCaptionError)
+			MsgBox (oMessages.getPropertyValue (&quot;sMsgLilypondCannotExecute&quot;) &amp; Chr(10) &amp; Chr(10) &amp; sLilyPondOutput, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 		Else
-			MsgBox (sMsgLilypondCannotExecute, iMsgBox_E, sCaptionError)
+			MsgBox (oMessages.getPropertyValue (&quot;sMsgLilypondCannotExecute&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 		End If
 	Else
 		&apos; read first line of output
@@ -156,7 +156,7 @@ Sub ParseOutput(sFile as String)
 	
 	if Not oFileAccess.exists(sFile) then
 		&apos; Msgbox(&quot;The LilyPond output file does not exist:&quot; &amp; Chr(10) &amp; sFile, iMsgBox_E, &quot;Error&quot;)
-		Msgbox(sMsgLyOutputFileMissing1 &amp; sFile &amp; sMsgLyOutputFileMissing2, iMsgBox_E, sCaptionError)
+		Msgbox(oMessages.getPropertyValue (&quot;sMsgLyOutputFileMissing1&quot;) &amp; sFile &amp; oMessages.getPropertyValue (&quot;sMsgLyOutputFileMissing2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 		exit sub
 	end if
 

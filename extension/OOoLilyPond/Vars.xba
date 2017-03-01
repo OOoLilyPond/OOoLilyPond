@@ -8,6 +8,8 @@ Private constOLyLibraryName As String				&apos; name of the macro library among 
 Private constOLyWinConfigFileName As String			&apos; Config file name for Windows version
 Private constOLyWinConfigFolderName As String		&apos; Folder name where Config file and the Template subfolder are located (Windows version)
 
+Private oMessages As Variant		&apos; PropertyBag for all message box strings and stuff related to them
+
 &apos; Paths
 Private sConfigFile As String
 Private sTmpPath As String
