@@ -7,52 +7,7 @@
 
 Option Explicit
 
-Private sErrClassError As String, sErrClassWarning As String
-&apos; &quot;Config&quot; module:
-Private sCaptionTemplatesBackup As String, sCaptionError As String, sCaptionInfo As String, sCaptionRUSure As String, sCaptionTemplateError As String, sCaptionTempfileError As String, sCaptionNewTemplateName As String
-Private sFilterExecutableFiles, sFilterAllFiles As String
-Private sMsgTemplateFolderCreated1 As String, sMsgTemplateFolderCreated2 As String
-Private sMsgTemplatePathFail1 As String, sMsgTemplatePathFail2 As String
-Private sMsgTemplatesBackedUp1 As String, sMsgTemplatesBackedUp2 As String
-Private sMsgLanguageFolderCreated1 As String, sMsgLanguageFolderCreated2 As String
-Private sMsgLanguagePathFail1 As String, sMsgLanguagePathFail2 As String
-Private sMsgLanguageFilesBackedUp1 As String, sMsgLanguageFilesBackedUp2 As String
-&apos; &quot;Editor&quot; module:
-Private sMsgNoTemplatesFound1 As String, sMsgNoTemplatesFound2 As String
-Private sMsgTemplatePathNotFound1 As String, sMsgTemplatePathNotFound2 As String
-Private sMsgNoLyOutput As String
-Private sMsgExtEditorPathFail As String
-Private sMsgResetCode As String
-Private sMsgEnterLyCode As String
-Private sMsgEnterNewTemplateName As String
-Private sMsgNoValidExecutable1 As String, sMsgNoValidExecutable2 As String
-&apos; &quot;LilyPond&quot; module:
-Private sMsgLilypondCannotExecute As String
-Private sMsgLyOutputFileMissing1 As String, sMsgLyOutputFileMissing2 As String
-Private sErrorKeyWord1 As String, sErrorKeyWord2 As String
-&apos; &quot;Messages&quot; module:
-Private sMsgLanguageFileNotFound1 As String, sMsgLanguageFileNotFound2 As String
-Private sMsgLanguageEntryErrors1 As String, sMsgLanguageEntryErrors2 As String, sMsgLanguageEntryErrors3 As String
-Private sMsgSurplusLanguageErrors1 As String, sMsgSurplusLanguageErrors2 As String
-&apos; &quot;OOoLilyPond&quot; module:
-Private sMsgDocTypeNotSupported1 As String, sMsgDocTypeNotSupported2 As String
-Private sMsgLilypondNotFound As String
-Private sMsgNoOlyObject As String
-Private sMsgNoEpsOutputFound As String, sMsgNoSvgOutputFound As String, sMsgNoPngOutputFound As String
-Private MsgNoStartNode As String
-&apos; &quot;Templates&quot; module:
-Private sMsgNoTagsInTemplate1 As String, sMsgNoTagsInTemplate2 As String
-Private sMsgMissingEndTag1 As String, sMsgMissingEndTag2 As String, sMsgMissingEndTag3 As String, sMsgMissingEndTag4 As String
-Private sMsgCannotOpenTemplate1 As String, sMsgCannotOpenTemplate2 As String
-Private sMsgCannotOpenTempfile1 As String, sMsgCannotOpenTempfile2 As String
-Private sMsgMisspelledEndTag1 As String, sMsgMisspelledEndTag2 As String, sMsgMisspelledEndTag3 As String, sMsgMisspelledEndTag4 As String
-Private sMsgNoCodeTag1 As String, sMsgNoCodeTag2 As String
-Private sMsgLonelyEndTag1 As String, sMsgLonelyEndTag2 As String, sMsgLonelyEndTag3 As String
-Private sMsgCannotDeleteTemplate1 As String, sMsgCannotDeleteTemplate2 As String
-Private sMsgDefaultTemplateDeleted1 As String, sMsgDefaultTemplateDeleted2 As String
-Private sMsgCouldNotWriteToFile1 As String, sMsgCouldNotWriteToFile2 As String
-&apos; &quot;Tools&quot; module:
-Private sMsgImportBitmapError As String
+Const BagAttr = 0
 
 &apos; Two or more strings can be concatenated by placing a &quot;&amp;&quot; sign between them.
 &apos; Chr(10) causes a line break.
@@ -65,25 +20,24 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   &apos; ---------------
   
   &apos; LilyPond&apos;s output messages are classified as an error or a warning:
-  sErrClassError = &quot;Error: &quot;
-  sErrClassWarning = &quot;Warning: &quot;
+  oMessages.addProperty (&quot;sErrClassError&quot;, BagAttr, &quot;Error: &quot;)
+  oMessages.addProperty (&quot;sErrClassWarning&quot;, BagAttr,&quot;Warning: &quot;)
   
 
   &apos; Captions for special dialog boxes:
   &apos; -----------------------------------
-  
-  sCaptionTemplatesBackup = &quot;Templates Backup&quot;  &apos; Old templates have been backed up
-  sCaptionError = &quot;Error&quot; 
-  sCaptionInfo = &quot;Information&quot; 
-  sCaptionRUSure = &quot;Are you sure?&quot;
-  sCaptionTemplateError = &quot;Template error&quot;
-  sCaptionTempfileError = &quot;Error in temporary file&quot;
-  sCaptionNewTemplateName = &quot;New template name&quot;
+  oMessages.addProperty (&quot;sCaptionTemplatesBackup&quot;, BagAttr,&quot;Templates Backup&quot;)  &apos; Old templates have been backed up
+  oMessages.addProperty (&quot;sCaptionError&quot;, BagAttr,&quot;Error&quot;)
+  oMessages.addProperty (&quot;sCaptionInfo&quot;, BagAttr,&quot;Warning&quot;)
+  oMessages.addProperty (&quot;sCaptionRUSure&quot;, BagAttr,&quot;Are you sure?&quot;)
+  oMessages.addProperty (&quot;sCaptionTemplateError&quot;, BagAttr,&quot;Template error&quot;)
+  oMessages.addProperty (&quot;sCaptionTempfileError&quot;, BagAttr,&quot;Error in temporary file&quot;)
+  oMessages.addProperty (&quot;sCaptionNewTemplateName&quot;, BagAttr,&quot;New template name&quot;)
   
   &apos; Filters for file picking dialogs:
   &apos; ----------------------------------
-  sFilterExecutableFiles = &quot;Executable files (*.exe)&quot;
-  sFilterAllFiles = &quot;All files (*.*)&quot;
+  oMessages.addProperty (&quot;sFilterExecutableFiles&quot;, BagAttr,&quot;Executable files (*.exe)&quot;)
+  oMessages.addProperty (&quot;sFilterAllFiles&quot;, BagAttr,&quot;All files (*.*)&quot;)
 
   &apos; ------------------------------------------------------------------------------------------------------------
   &apos; Some messages contain a path or file name. Therefore, two or more strings are used (one before, one after).
@@ -95,30 +49,30 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   &apos; -----------------
   
   &apos; The template folder has successfully been created:
-  
-  sMsgTemplateFolderCreated1 = &quot;The folder&quot; &amp; Chr(10) &amp; Chr(34) 
+ 
+  oMessages.addProperty (&quot;sMsgTemplateFolderCreated1&quot;, BagAttr, &quot;The folder&quot; &amp; Chr(10) &amp; Chr(34))
   &apos; &quot;sTemplatePath&quot; is inserted here
-  sMsgTemplateFolderCreated2 = Chr(34) &amp; Chr(10) &amp; &quot;has been created. It contains the OOoLilyPond templates you can modify.&quot; &amp; Chr(10) &amp; _
+  oMessages.addProperty (&quot;sMsgTemplateFolderCreated2&quot;, BagAttr, Chr(34) &amp; Chr(10) &amp; &quot;has been created. It contains the OOoLilyPond templates you can modify.&quot; &amp; Chr(10) &amp; _
     &quot;The original templates can always be restored while your modified templates are backed up. &quot; &amp; _
-    &quot;For this use the &quot; &amp; Chr(34) &amp; &quot;restore templates&quot; &amp; Chr(34) &amp; &quot; button in the configuration dialog.&quot;
+    &quot;For this use the &quot; &amp; Chr(34) &amp; &quot;restore templates&quot; &amp; Chr(34) &amp; &quot; button in the configuration dialog.&quot;)
 
   &apos; The template folder does not exist and cannot be created:
   
-  sMsgTemplatePathFail1 = &quot;The specified path for templates does not exist and cannot be created: &quot; &amp; Chr(10) &amp; Chr(34)
+  oMessages.addProperty (&quot;sMsgTemplatePathFail1&quot;, BagAttr, &quot;The specified path for templates does not exist and cannot be created: &quot; &amp; Chr(10) &amp; Chr(34))
   &apos; &quot;sTemplatePath&quot;
-  sMsgTemplatePathFail2 = Chr(34) &amp; &quot;.&quot; &amp; Chr(10) &amp; &quot;Please adjust the path in the configuration dialog.&quot;
+  oMessages.addProperty (&quot;sMsgTemplatePathFail2&quot;, BagAttr, Chr(34) &amp; &quot;.&quot; &amp; Chr(10) &amp; &quot;Please adjust the path in the configuration dialog.&quot;)
   
   &apos; Old templates just have been backed up:
   
-  sMsgTemplatesBackedUp1 = &quot;Your old templates are backed up under &quot; &amp; Chr(34) 
+  oMessages.addProperty (&quot;sMsgTemplatesBackedUp1&quot;, BagAttr, &quot;Your old templates are backed up under &quot; &amp; Chr(34))
   &apos; &quot;sBackupPath&quot;
-  sMsgTemplatesBackedUp2 = Chr(34) &amp; &quot;.&quot;
+  oMessages.addProperty (&quot;sMsgTemplatesBackedUp2&quot;, BagAttr, Chr(34) &amp; &quot;.&quot;)
   
   &apos; Old language files just have been backed up:
   
-  sMsgLanguageFilesBackedUp1 = &quot;Your old language files are backed up under &quot; &amp; Chr(34) 
+  oMessages.addProperty (&quot;sMsgLanguageFilesBackedUp1&quot;, BagAttr, &quot;Your old language files are backed up under &quot; &amp; Chr(34))
   &apos; &quot;sBackupPath&quot;
-  sMsgLanguageFilesBackedUp2 = Chr(34) &amp; &quot;.&quot;
+  oMessages.addProperty (&quot;sMsgLanguageFilesBackedUp2&quot;, BagAttr, Chr(34) &amp; &quot;.&quot;)
  
   
   &apos; The following two messages regarding language folder/files will not be translated in the language files, 
@@ -126,18 +80,16 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   
   &apos; The &quot;Language&quot; folder has successfully been created:
   
-  sMsgLanguageFolderCreated1 = &quot;The folder&quot; &amp; Chr(10) &amp; Chr(34) 
+  oMessages.addProperty (&quot;sMsgLanguageFolderCreated1&quot;, BagAttr, &quot;The folder&quot; &amp; Chr(10) &amp; Chr(34))
   &apos; &quot;sLanguagePath&quot; is inserted here
-  sMsgLanguageFolderCreated2 = Chr(34) &amp; Chr(10) &amp; &quot;has been created. It contains the OOoLilyPond language files you can modify using an external text editor.&quot; &amp; Chr(10) &amp; _
-    &quot;The original language files can always be restored while your modified ones are backed up. &quot; 
-    &apos; &amp; _
-    &apos; &quot;For this use the &quot; &amp; Chr(34) &amp; &quot;restore lang. files&quot; &amp; Chr(34) &amp; &quot; button in the configuration dialog.&quot;
+  oMessages.addProperty (&quot;sMsgLanguageFolderCreated2&quot;, BagAttr, Chr(34) &amp; Chr(10) &amp; &quot;has been created. It contains the OOoLilyPond language files you can modify using an external text editor.&quot; &amp; Chr(10) &amp; _
+    &quot;The original language files can always be restored while your modified ones are backed up. &quot; )
 
   &apos; The language folder does not exist and cannot be created:
   
-  sMsgLanguagePathFail1 = &quot;The specified path for language files does not exist and cannot be created: &quot; &amp; Chr(10) &amp; Chr(34)
+  oMessages.addProperty (&quot;sMsgLanguagePathFail1&quot;, BagAttr, &quot;The specified path for language files does not exist and cannot be created: &quot; &amp; Chr(10) &amp; Chr(34))
   &apos; &quot;sLanguagePath&quot;
-  sMsgLanguagePathFail2 = Chr(34) &amp; &quot;.&quot;
+  oMessages.addProperty (&quot;sMsgLanguagePathFail2&quot;, BagAttr, Chr(34) &amp; &quot;.&quot;)
   
 
   
@@ -146,41 +98,41 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   
   &apos; No templates are found at the given templates path:
   
-  sMsgNoTemplatesFound1 = &quot;No templates are found at the path: &quot; &amp; Chr(10) &amp; Chr(34)
+  oMessages.addProperty (&quot;sMsgNoTemplatesFound1&quot;, BagAttr, &quot;No templates are found at the path: &quot; &amp; Chr(10) &amp; Chr(34))
   &apos; &quot;sTemplatePath&quot;
-  sMsgNoTemplatesFound2 = Chr(34) &amp; &quot;.&quot; &amp; Chr(10) &amp; constOLyLibraryName &amp; &quot; will not work without a template.&quot;
+  oMessages.addProperty (&quot;sMsgNoTemplatesFound2&quot;, BagAttr, Chr(34) &amp; &quot;.&quot; &amp; Chr(10) &amp; constOLyLibraryName &amp; &quot; will not work without a template.&quot;)
 
   &apos; The template path is not found:
   
-  sMsgTemplatePathNotFound1 = &quot;The template path &quot; &amp;  Chr(10) &amp; Chr(34) 
+  oMessages.addProperty (&quot;sMsgTemplatePathNotFound1&quot;, BagAttr, &quot;The template path &quot; &amp;  Chr(10) &amp; Chr(34))
   &apos; &quot;sTemplatePath&quot;
-  sMsgTemplatePathNotFound2 = Chr(34) &amp; &quot; is not found.&quot;
+  oMessages.addProperty (&quot;sMsgTemplatePathNotFound2&quot;, BagAttr, Chr(34) &amp; &quot; is not found.&quot;)
   
   &apos; There is no file that contains LilyPond&apos;s output messages:
   
-  sMsgNoLyOutput = &quot;There is no LilyPond output file.&quot;
+  oMessages.addProperty (&quot;sMsgNoLyOutput&quot;, BagAttr, &quot;There is no LilyPond output file.&quot;)
   
   &apos; Specified path to External Editor file not valid:
   
-  sMsgExtEditorPathFail = &quot;No valid file name / path for External Editor is specified.&quot;
+  oMessages.addProperty (&quot;sMsgExtEditorPathFail&quot;, BagAttr, &quot;No valid file name / path for External Editor is specified.&quot;)
   
   &apos; The specified file for the External Editor exists, but is not an executable file:
   
-  sMsgNoValidExecutable1 = &quot;The specified file&quot; &amp; Chr(10) &amp; Chr(34) 
+  oMessages.addProperty (&quot;sMsgNoValidExecutable1&quot;, BagAttr, &quot;The specified file&quot; &amp; Chr(10) &amp; Chr(34))
   &apos; sExtEditorExecutable
-  sMsgNoValidExecutable2 = Chr(34) &amp; Chr(10) &amp; &quot;is not a valid executable file.&quot;
+  oMessages.addProperty (&quot;sMsgNoValidExecutable2&quot;, BagAttr, Chr(34) &amp; Chr(10) &amp; &quot;is not a valid executable file.&quot;)
   
   &apos; When checkbox &quot;Reset Code&quot; is clicked, ask if current code is to be replaced by default code:
   
-  sMsgResetCode = &quot;Do you really want to reset your code to the default?&quot;
+  oMessages.addProperty (&quot;sMsgResetCode&quot;, BagAttr, &quot;Do you really want to reset your code to the default?&quot;)
   
   &apos; There is no LilyPond Code in the editor window:
   
-  sMsgEnterLyCode = &quot;The Code window is empty.&quot; &amp; Chr(10) &amp; &quot;Enter LilyPond Code...&quot;
+  oMessages.addProperty (&quot;sMsgEnterLyCode&quot;, BagAttr, &quot;The Code window is empty.&quot; &amp; Chr(10) &amp; &quot;Enter LilyPond Code...&quot;)
   
   &apos; Prompt for &quot;save as&quot; (saving a template under a new name):
   
-  sMsgEnterNewTemplateName = &quot;Please enter a new template name and click OK.&quot;
+  oMessages.addProperty (&quot;sMsgEnterNewTemplateName&quot;, BagAttr, &quot;Please enter a new template name and click OK.&quot;)
   
   
   &apos; &quot;LilyPond&quot; module
@@ -188,14 +140,14 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   
   &apos; LilyPond could not be executed (calling the specified executable was not successful):
   
-  sMsgLilypondCannotExecute = &quot;LilyPond cannot be executed.&quot; &amp; Chr(10) _
-		&amp; &quot;Please check the path specified for the lilypond executable in the configuration dialog, your LilyPond installation and permissions.&quot;
+  oMessages.addProperty (&quot;sMsgLilypondCannotExecute&quot;, BagAttr, &quot;LilyPond cannot be executed.&quot; &amp; Chr(10) _
+		&amp; &quot;Please check the path specified for the lilypond executable in the configuration dialog, your LilyPond installation and permissions.&quot;)
   
   &apos; The LilyPond output (message) file does not exist:
   
-  sMsgLyOutputFileMissing1 = &quot;The LilyPond output file does not exist: &quot; &amp; Chr(10)
+  oMessages.addProperty (&quot;sMsgLyOutputFileMissing1&quot;, BagAttr, &quot;The LilyPond output file does not exist: &quot; &amp; Chr(10))
   &apos; &quot;output file name&quot;
-  sMsgLyOutputFileMissing2 = &quot;&quot;
+  oMessages.addProperty (&quot;sMsgLyOutputFileMissing2&quot;, BagAttr, &quot;&quot;)
   
   &apos; LilyPond&apos;s output messages are read out from OOoLilyPond.out.
   &apos; If there were errors or warnings during the compilation, the corresponding messages are displayed in the editor window. 
@@ -206,8 +158,8 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   &apos; Here you can specify two key words. If one of them matches the expression in the error message, it is treated as an error. 
   &apos; If you don&apos;t want to specify two different key words, assign the same to both.
   
-  sErrorKeyWord1 = &quot;error&quot;
-  sErrorKeyWord2 = &quot;Fehler&quot;
+  oMessages.addProperty (&quot;sErrorKeyWord1&quot;, BagAttr, &quot;error&quot;)
+  oMessages.addProperty (&quot;sErrorKeyWord2&quot;, BagAttr, &quot;Fehler&quot;)
   
   
   &apos; &quot;Messages&quot; module
@@ -215,23 +167,23 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   
   &apos; The specified language file has not been found:
   
-  sMsgLanguageFileNotFound1 = &quot;The specified language file&quot; &amp; Chr(10) &amp; Chr(34)
+  oMessages.addProperty (&quot;sMsgLanguageFileNotFound1&quot;, BagAttr, &quot;The specified language file&quot; &amp; Chr(10) &amp; Chr(34))
   &apos; (file name)
-  sMsgLanguageFileNotFound2 = Chr(34) &amp; Chr(10) &amp; &quot;has not been found.&quot;
+  oMessages.addProperty (&quot;sMsgLanguageFileNotFound2&quot;, BagAttr, Chr(34) &amp; Chr(10) &amp; &quot;has not been found.&quot;)
   
   &apos; Invalid entries caused errors while reading the language file:
   
-  sMsgLanguageEntryErrors1 = &quot;Please correct the language file or choose another one.&quot; &amp; Chr(10) &amp; &quot;The language file &quot; + Chr(34) 
+  oMessages.addProperty (&quot;sMsgLanguageEntryErrors1&quot;, BagAttr, &quot;Please correct the language file or choose another one.&quot; &amp; Chr(10) &amp; &quot;The language file &quot; + Chr(34))
   &apos; sLanguageFile (file name)
-  sMsgLanguageEntryErrors2 = Chr(34) &amp; &quot; contains &quot;
+  oMessages.addProperty (&quot;sMsgLanguageEntryErrors2&quot;, BagAttr, Chr(34) &amp; &quot; contains &quot;)
   &apos; iLanguageEntryErrors (number of errors)
-  sMsgLanguageEntryErrors3 = &quot; entry line(s) that caused the following error message(s):&quot;
+  oMessages.addProperty (&quot;sMsgLanguageEntryErrors3&quot;, BagAttr, &quot; entry line(s) that caused the following error message(s):&quot;)
   
   &apos; There were more (language file entry) errors than would fit into a message box:
   
-  sMsgSurplusLanguageErrors1 = &quot;...+&quot;
+  oMessages.addProperty (&quot;sMsgSurplusLanguageErrors1&quot;, BagAttr, &quot;...+&quot;)
   &apos; iMaxLanguageEntryError (maximal number to be displayed)
-  sMsgSurplusLanguageErrors2 = &quot; additional message(s)...&quot;
+  oMessages.addProperty (&quot;sMsgSurplusLanguageErrors2&quot;, BagAttr, &quot; additional message(s)...&quot;)
   
   
   &apos; &quot;OOoLilyPond&quot; module
@@ -239,31 +191,31 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   
   &apos; Document type not supported, i.e. user tried to insert OLy Object into a document other than Writer, Impress or Draw:
   
-  sMsgDocTypeNotSupported1 = &quot;&quot;
+  oMessages.addProperty (&quot;sMsgDocTypeNotSupported1&quot;, BagAttr, &quot;&quot;)
   &apos; &quot;document type&quot;
-  sMsgDocTypeNotSupported2 = &quot;: document type not supported by &quot; &amp; constOLyLibraryName
+  oMessages.addProperty (&quot;sMsgDocTypeNotSupported2&quot;, BagAttr, &quot;: document type not supported by &quot; &amp; constOLyLibraryName)
   
   &apos; LilyPond has never been successfully called:
   
-  sMsgLilypondNotFound = &quot;LilyPond can not be found. Please check whether LilyPond is properly installed&quot; &amp; Chr(10) _
-                               &amp; &quot;and the specified path to the LilyPond executable is correct.&quot;
+  oMessages.addProperty (&quot;sMsgLilypondNotFound&quot;, BagAttr, &quot;LilyPond can not be found. Please check whether LilyPond is properly installed&quot; &amp; Chr(10) _
+                               &amp; &quot;and the specified path to the LilyPond executable is correct.&quot;)
   
   &apos; OLy has been called with an object selected that is not an OLy object:
   
-  sMsgNoOlyObject = &quot;The selected object is not an OLy object ...&quot;
+  oMessages.addProperty (&quot;sMsgNoOlyObject&quot;, BagAttr, &quot;The selected object is not an OLy object ...&quot;)
   
   &apos; After LilyPond has been called, no graphics output file is found:
   
-  sMsgNoEpsOutputFound = &quot;No eps output is found.&quot;
-  sMsgNoSvgOutputFound = &quot;No svg output is found.&quot;
-  sMsgNoPngOutputFound = &quot;No png output is found.&quot;
+  oMessages.addProperty (&quot;sMsgNoEpsOutputFound&quot;, BagAttr, &quot;No eps output is found.&quot;)
+  oMessages.addProperty (&quot;sMsgNoSvgOutputFound&quot;, BagAttr, &quot;No svg output is found.&quot;)
+  oMessages.addProperty (&quot;sMsgNoPngOutputFound&quot;, BagAttr, &quot;No png output is found.&quot;)
   
   &apos; InsertOOoLilyPondObject caused runtime error 1: &quot;End of content node doesn&apos;t have the proper start node&quot;
   
-  MsgNoStartNode = &quot;Hint: If you failed to edit/create an object inside a table, try the following:&quot; &amp; Chr(10) &amp; Chr(10) _
+  oMessages.addProperty (&quot;MsgNoStartNode&quot;, BagAttr, &quot;Hint: If you failed to edit/create an object inside a table, try the following:&quot; &amp; Chr(10) &amp; Chr(10) _
   					&amp; &quot;1.) If you want to edit an existing object, copy it to a place outside the table.&quot; &amp; Chr(10) &amp; Chr(10) _
   					&amp; &quot;2.) Edit/create the object outside the table.&quot; &amp; Chr(10) &amp; Chr(10) _
-  					&amp; &quot;3.) Copy the object to its destination inside the table.&quot; &amp; Chr(10)
+  					&amp; &quot;3.) Copy the object to its destination inside the table.&quot; &amp; Chr(10))
   
   
   &apos; &quot;Templates&quot; module
@@ -271,73 +223,73 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   
   &apos; No tags are found in the selected template (at least a &quot;Code&quot; tag is necessary):
   
-  sMsgNoTagsInTemplate1 = &quot;No &quot; &amp; constOLyLibraryName &amp; &quot; tags found in the template!&quot; &amp; Chr(10) &amp; &quot;Please correct the template file:&quot; &amp; Chr(10)
+  oMessages.addProperty (&quot;sMsgNoTagsInTemplate1&quot;, BagAttr, &quot;No &quot; &amp; constOLyLibraryName &amp; &quot; tags found in the template!&quot; &amp; Chr(10) &amp; &quot;Please correct the template file:&quot; &amp; Chr(10))
   &apos; (file name)
-  sMsgNoTagsInTemplate2 = &quot;&quot;
+  oMessages.addProperty (&quot;sMsgNoTagsInTemplate2&quot;, BagAttr, &quot;&quot;)
   
   &apos; A tag does not have its corresponding end tag:
   
-  sMsgMissingEndTag1 = &quot;The corresponding end tag &quot; &amp; Chr(34) 
+  oMessages.addProperty (&quot;sMsgMissingEndTag1&quot;, BagAttr, &quot;The corresponding end tag &quot; &amp; Chr(34))
   &apos; sEndTag 
-  sMsgMissingEndTag2 = Chr(34) &amp; Chr(10) &amp; &quot;for tag &quot; &amp; Chr(34)
+  oMessages.addProperty (&quot;sMsgMissingEndTag2&quot;, BagAttr, Chr(34) &amp; Chr(10) &amp; &quot;for tag &quot; &amp; Chr(34))
   &apos; sFieldName
-  sMsgMissingEndTag3 = Chr(34) &amp; Chr(10) &amp; &quot;is missing.&quot; &amp; Chr(10) &amp; &quot;Please correct the file &quot; &amp; Chr(34)
+  oMessages.addProperty (&quot;sMsgMissingEndTag3&quot;, BagAttr, Chr(34) &amp; Chr(10) &amp; &quot;is missing.&quot; &amp; Chr(10) &amp; &quot;Please correct the file &quot; &amp; Chr(34))
   &apos; (file name)
-  sMsgMissingEndTag4 = Chr(34) &amp; &quot;.&quot;
+  oMessages.addProperty (&quot;sMsgMissingEndTag4&quot;, BagAttr, Chr(34) &amp; &quot;.&quot;)
   
   &apos; The specified template could not be opened:
   
-  sMsgCannotOpenTemplate1 = &quot;Cannot open the template file:&quot; &amp; Chr(10)
+  oMessages.addProperty (&quot;sMsgCannotOpenTemplate1&quot;, BagAttr, &quot;Cannot open the template file:&quot; &amp; Chr(10))
   &apos; sTemplateFile
-  sMsgCannotOpenTemplate2 = &quot;&quot;
+  oMessages.addProperty (&quot;sMsgCannotOpenTemplate2&quot;, BagAttr, &quot;&quot;)
 
   &apos; The temporary file could not be opened:
   
-  sMsgCannotOpenTempfile1 = &quot;Cannot open the temporary LilyPond file:&quot; &amp; Chr(10)
+  oMessages.addProperty (&quot;sMsgCannotOpenTempfile1&quot;, BagAttr, &quot;Cannot open the temporary LilyPond file:&quot; &amp; Chr(10))
   &apos; sTemplateFile
-  sMsgCannotOpenTempfile2 = &quot;&quot;
+  oMessages.addProperty (&quot;sMsgCannotOpenTempfile2&quot;, BagAttr, &quot;&quot;)
 
   &apos; End tag is missing or misspelled (because the beginning of another tag has been found):
   
-  sMsgMisspelledEndTag1 = &quot;The corresponding end tag &quot; &amp; Chr(34) 
+  oMessages.addProperty (&quot;sMsgMisspelledEndTag1&quot;, BagAttr, &quot;The corresponding end tag &quot; &amp; Chr(34))
   &apos; sEndTag 
-  sMsgMisspelledEndTag2 = Chr(34) &amp; Chr(10) &amp; &quot;for tag &quot; &amp; Chr(34)
+  oMessages.addProperty (&quot;sMsgMisspelledEndTag2&quot;, BagAttr, Chr(34) &amp; Chr(10) &amp; &quot;for tag &quot; &amp; Chr(34))
   &apos; sFieldName
-  sMsgMisspelledEndTag3 = Chr(34) &amp; Chr(10) &amp; &quot;is missing or misspelled.&quot; &amp; Chr(10) &amp; &quot;Please correct the file &quot; &amp; Chr(34)
+  oMessages.addProperty (&quot;sMsgMisspelledEndTag3&quot;, BagAttr, Chr(34) &amp; Chr(10) &amp; &quot;is missing or misspelled.&quot; &amp; Chr(10) &amp; &quot;Please correct the file &quot; &amp; Chr(34))
   &apos; (file name)
-  sMsgMisspelledEndTag4 = Chr(34) &amp; &quot;.&quot;
+  oMessages.addProperty (&quot;sMsgMisspelledEndTag4&quot;, BagAttr, Chr(34) &amp; &quot;.&quot;)
   
   &apos; The template (or temp. file) does not have an OOoLilyPondCode tag:
   
-  sMsgNoCodeTag1 = &quot;No OOoLilyPondCode tag found!&quot; &amp; Chr(10) &amp; &quot;Please correct the file:&quot; &amp; Chr(10)
+  oMessages.addProperty (&quot;sMsgNoCodeTag1&quot;, BagAttr, &quot;No OOoLilyPondCode tag found!&quot; &amp; Chr(10) &amp; &quot;Please correct the file:&quot; &amp; Chr(10))
   &apos; (file name)
-  sMsgNoCodeTag2 = &quot;&quot;
+  oMessages.addProperty (&quot;sMsgNoCodeTag2&quot;, BagAttr, &quot;&quot;)
   
   &apos; The template (or temp. file) contains an end tag without preceeding start tag:
   
-  sMsgLonelyEndTag1 = &quot;Found end tag &quot; &amp; Chr(34)
+  oMessages.addProperty (&quot;sMsgLonelyEndTag1&quot;, BagAttr, &quot;Found end tag &quot; &amp; Chr(34))
   &apos; sEndTag
-  sMsgLonelyEndTag2 = Chr(34) &amp; &quot; without preceeding start tag.&quot; &amp; Chr(10) &amp; &quot;Please correct the file:&quot; &amp; Chr(10)
+  oMessages.addProperty (&quot;sMsgLonelyEndTag2&quot;, BagAttr, Chr(34) &amp; &quot; without preceeding start tag.&quot; &amp; Chr(10) &amp; &quot;Please correct the file:&quot; &amp; Chr(10))
   &apos; (file name)
-  sMsgLonelyEndTag3 = &quot;&quot;
+  oMessages.addProperty (&quot;sMsgLonelyEndTag3&quot;, BagAttr, &quot;&quot;)
   
   &apos; User attempted to delete a file, but the file was not found and could not be deleted:
   
-  sMsgCannotDeleteTemplate1 = &quot;Cannot delete the template file:&quot; &amp; Chr(10)
+  oMessages.addProperty (&quot;sMsgCannotDeleteTemplate1&quot;, BagAttr, &quot;Cannot delete the template file:&quot; &amp; Chr(10))
   &apos; (file name)
-  sMsgCannotDeleteTemplate2 = Chr(10) &amp; &quot;The file could not be found.&quot;
+  oMessages.addProperty (&quot;sMsgCannotDeleteTemplate2&quot;, BagAttr, Chr(10) &amp; &quot;The file could not be found.&quot;)
   
   &apos; User deleted a template that was specified as default template. New default template has to be chosen.
   
-  sMsgDefaultTemplateDeleted1 = &quot;You have deleted the template &quot; &amp; Chr(34)
+  oMessages.addProperty (&quot;sMsgDefaultTemplateDeleted1&quot;, BagAttr, &quot;You have deleted the template &quot; &amp; Chr(34))
   &apos; (template name)
-  sMsgDefaultTemplateDeleted2 = Chr(34) &amp; Chr(10) &amp; &quot;which was specified as a default template.&quot; &amp; Chr(10) &amp; &quot;Please choose another default template in the configuration dialogue.&quot;
+  oMessages.addProperty (&quot;sMsgDefaultTemplateDeleted2&quot;, BagAttr, Chr(34) &amp; Chr(10) &amp; &quot;which was specified as a default template.&quot; &amp; Chr(10) &amp; &quot;Please choose another default template in the configuration dialogue.&quot;)
   
   &apos; OLy could not write to the specified file:
   
-  sMsgCouldNotWriteToFile1 = &quot;Cannot write to file&quot; &amp; Chr(10) &amp; Chr(34)
+  oMessages.addProperty (&quot;sMsgCouldNotWriteToFile1&quot;, BagAttr, &quot;Cannot write to file&quot; &amp; Chr(10) &amp; Chr(34))
   &apos; (file name)
-  sMsgCouldNotWriteToFile2 = Chr(34) &amp; Chr(10) &amp; Chr(10)
+  oMessages.addProperty (&quot;sMsgCouldNotWriteToFile2&quot;, BagAttr, Chr(34) &amp; Chr(10) &amp; Chr(10))
   
   
   &apos; &quot;Tools&quot; module
@@ -345,7 +297,7 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   
   &apos; An internal error in that should never happen in OOoLilyPond, just notify in case: 
   
-  sMsgImportBitmapError = &quot;ImportBitmapIntoWriter: the second argument must be either a TextCursor or a TextGraphic.&quot;
+  oMessages.addProperty (&quot;sMsgImportBitmapError&quot;, BagAttr, &quot;ImportBitmapIntoWriter: the second argument must be either a TextCursor or a TextGraphic.&quot;)
 End Sub
 
 
@@ -367,6 +319,7 @@ Sub ReadMessageStrings()	&apos; Called from ReadLanguageFile() if the following 
 	Dim sCodeToParse As String		&apos; the current line that has been read out of sLanguageCode (the file contents)
 	Dim sName, sValue As String
 	
+	On Error GoTo ErrorHandler
 	iLineEndPos = TagPos (sLanguageCode, Chr(13), Chr(10))	&apos; indicates the line end character(s)
 	While iLineEndPos &gt; 0 
 		sCodeToParse = LTrim (Left (sLanguageCode, iLineEndPos - 1))	&apos; copy the line out of sLanguageCode
@@ -387,177 +340,24 @@ Sub ReadMessageStrings()	&apos; Called from ReadLanguageFile() if the following 
 					Mid (sValue, iBreakPos, 3, Chr(10))
 					iBreakPos = InStr (sValue, &quot;%10&quot;)
 				Wend
-			Else
-				sName = &quot;&quot;
+				
+				oMessages.setPropertyValue (sName, sValue)
+				
 			End If
 
-			Select Case sName				
-			&apos; Editor Dialog:
-			Case &quot;sErrClassError&quot;
-				sErrClassError = sValue
-			Case &quot;sErrClassWarning&quot;
-				sErrClassWarning = sValue
-			&apos; Captions for special dialog boxes:
-			Case &quot;sCaptionTemplatesBackup&quot;
-				sCaptionTemplatesBackup = sValue
-			Case &quot;sCaptionError&quot;
-				sCaptionError = sValue
-			Case &quot;sCaptionInfo&quot;
-				sCaptionInfo = sValue
-			Case &quot;sCaptionRUSure&quot;
-				sCaptionRUSure = sValue
-			Case &quot;sCaptionTemplateError&quot;
-				sCaptionTemplateError = sValue
-			Case &quot;sCaptionTempfileError&quot;
-				sCaptionTempfileError = sValue
-			Case &quot;sCaptionNewTemplateName&quot;
-				sCaptionNewTemplateName = sValue
-			&apos; Filters for file picking dialogs:	
-			Case &quot;sFilterExecutableFiles&quot;
-				sFilterExecutableFiles = sValue
-			Case &quot;sFilterAllFiles&quot;
-				sFilterAllFiles = sValue
-			&apos; &quot;Config&quot; module
-			Case &quot;sMsgTemplateFolderCreated1&quot;
-				sMsgTemplateFolderCreated1 = sValue
-			Case &quot;sMsgTemplateFolderCreated2&quot;
-				sMsgTemplateFolderCreated2 = sValue
-			Case &quot;sMsgTemplatePathFail1&quot;
-				sMsgTemplatePathFail1 = sValue
-			Case &quot;sMsgTemplatePathFail2&quot;
-				sMsgTemplatePathFail2 = sValue
-			Case &quot;sMsgTemplatesBackedUp1&quot;
-				sMsgTemplatesBackedUp1 = sValue
-			Case &quot;sMsgTemplatesBackedUp2&quot;
-				sMsgTemplatesBackedUp2 = sValue
-			Case &quot;sMsgLanguageFilesBackedUp1&quot;
-				sMsgLanguageFilesBackedUp1 = sValue
-			Case &quot;sMsgLanguageFilesBackedUp2&quot;
-				sMsgLanguageFilesBackedUp2 = sValue
-			&apos; &quot;Editor&quot; module
-			Case &quot;sMsgNoTemplatesFound1&quot;
-				sMsgNoTemplatesFound1 = sValue
-			Case &quot;sMsgNoTemplatesFound2&quot;
-				sMsgNoTemplatesFound2 = sValue
-			Case &quot;sMsgTemplatePathNotFound1&quot;
-				sMsgTemplatePathNotFound1 = sValue
-			Case &quot;sMsgTemplatePathNotFound2&quot;
-				sMsgTemplatePathNotFound2 = sValue
-			Case &quot;sMsgNoLyOutput&quot;
-				sMsgNoLyOutput = sValue
-			Case &quot;sMsgExtEditorPathFail&quot;
-				sMsgExtEditorPathFail = sValue
-			Case &quot;sMsgNoValidExecutable1&quot;
-				sMsgNoValidExecutable1 = sValue
-			Case &quot;sMsgNoValidExecutable2&quot;
-				sMsgNoValidExecutable2 = sValue
-			Case &quot;sMsgResetCode&quot;
-				sMsgResetCode = sValue
-			Case &quot;sMsgEnterLyCode&quot;
-				sMsgEnterLyCode = sValue
-			Case &quot;sMsgEnterNewTemplateName&quot;
-				sMsgEnterNewTemplateName = sValue
-			&apos; &quot;LilyPond&quot; module
-			Case &quot;sMsgLilypondCannotExecute&quot;
-				sMsgLilypondCannotExecute = sValue
-			Case &quot;sMsgLyOutputFileMissing1&quot;
-				sMsgLyOutputFileMissing1 = sValue
-			Case &quot;sMsgLyOutputFileMissing2&quot;
-				sMsgLyOutputFileMissing2 = sValue
-			Case &quot;sErrorKeyWord1&quot;
-				sErrorKeyWord1 = sValue
-			Case &quot;sErrorKeyWord2&quot;
-				sErrorKeyWord2 = sValue
-			&apos; &quot;Messages&quot; module
-			Case &quot;sMsgLanguageFileNotFound1&quot;
-				sMsgLanguageFileNotFound1 = sValue
-			Case &quot;sMsgLanguageFileNotFound2&quot;
-				sMsgLanguageFileNotFound2 = sValue
-			Case &quot;sMsgLanguageEntryErrors1&quot;
-				sMsgLanguageEntryErrors1 = sValue
-			Case &quot;sMsgLanguageEntryErrors2&quot;
-				sMsgLanguageEntryErrors2 = sValue
-			Case &quot;sMsgLanguageEntryErrors3&quot;
-				sMsgLanguageEntryErrors3 = sValue
-			Case &quot;sMsgSurplusLanguageErrors1&quot;
-				sMsgSurplusLanguageErrors1 = sValue
-			Case &quot;sMsgSurplusLanguageErrors2&quot;
-				sMsgSurplusLanguageErrors2 = sValue
-			&apos; &quot;OOoLilyPond&quot; module
-			Case &quot;sMsgDocTypeNotSupported1&quot;
-				sMsgDocTypeNotSupported1 = sValue
-			Case &quot;sMsgDocTypeNotSupported2&quot;
-				sMsgDocTypeNotSupported2 = sValue
-			Case &quot;sMsgLilypondNotFound&quot;
-				sMsgLilypondNotFound = sValue
-			Case &quot;sMsgNoOlyObject&quot;
-				sMsgNoOlyObject = sValue
-			Case &quot;sMsgNoEpsOutputFound&quot;
-				sMsgNoEpsOutputFound = sValue
-			Case &quot;sMsgNoSvgOutputFound&quot;
-				sMsgNoSvgOutputFound = sValue
-			Case &quot;sMsgNoPngOutputFound&quot;
-				sMsgNoPngOutputFound = sValue
-			Case &quot;MsgNoStartNode&quot;
-				MsgNoStartNode = sValue
-			&apos; &quot;Templates&quot; module
-			Case &quot;sMsgNoTagsInTemplate1&quot;
-				sMsgNoTagsInTemplate1 = sValue
-			Case &quot;sMsgNoTagsInTemplate2&quot;
-				sMsgNoTagsInTemplate2 = sValue
-			Case &quot;sMsgMissingEndTag1&quot;
-				sMsgMissingEndTag1 = sValue
-			Case &quot;sMsgMissingEndTag2&quot;
-				sMsgMissingEndTag2 = sValue
-			Case &quot;sMsgMissingEndTag3&quot;
-				sMsgMissingEndTag3 = sValue
-			Case &quot;sMsgMissingEndTag4&quot;
-				sMsgMissingEndTag4 = sValue
-			Case &quot;sMsgCannotOpenTemplate1&quot;
-				sMsgCannotOpenTemplate1 = sValue
-			Case &quot;sMsgCannotOpenTemplate2&quot;
-				sMsgCannotOpenTemplate2 = sValue
-			Case &quot;sMsgCannotOpenTempfile1&quot;
-				sMsgCannotOpenTempfile1 = sValue
-			Case &quot;sMsgCannotOpenTempfile2&quot;
-				sMsgCannotOpenTempfile2 = sValue
-			Case &quot;sMsgMisspelledEndTag1&quot;
-				sMsgMisspelledEndTag1 = sValue
-			Case &quot;sMsgMisspelledEndTag2&quot;
-				sMsgMisspelledEndTag2 = sValue
-			Case &quot;sMsgMisspelledEndTag3&quot;
-				sMsgMisspelledEndTag3 = sValue
-			Case &quot;sMsgMisspelledEndTag4&quot;
-				sMsgMisspelledEndTag4 = sValue
-			Case &quot;sMsgNoCodeTag1&quot;
-				sMsgNoCodeTag1 = sValue
-			Case &quot;sMsgNoCodeTag2&quot;
-				sMsgNoCodeTag2 = sValue
-			Case &quot;sMsgLonelyEndTag1&quot;
-				sMsgLonelyEndTag1 = sValue
-			Case &quot;sMsgLonelyEndTag2&quot;
-				sMsgLonelyEndTag2 = sValue
-			Case &quot;sMsgLonelyEndTag3&quot;
-				sMsgLonelyEndTag3 = sValue
-			Case &quot;sMsgCannotDeleteTemplate1&quot;
-				sMsgCannotDeleteTemplate1 = sValue
-			Case &quot;sMsgCannotDeleteTemplate2&quot;
-				sMsgCannotDeleteTemplate2 = sValue
-			Case &quot;sMsgDefaultTemplateDeleted1&quot;
-				sMsgDefaultTemplateDeleted1 = sValue
-			Case &quot;sMsgDefaultTemplateDeleted2&quot;
-				sMsgDefaultTemplateDeleted2 = sValue
-			Case &quot;sMsgCouldNotWriteToFile1&quot;
-				sMsgCouldNotWriteToFile1 = sValue
-			Case &quot;sMsgCouldNotWriteToFile2&quot;
-				sMsgCouldNotWriteToFile2 = sValue
-			&apos; &quot;Tools&quot; module
-			Case &quot;sMsgImportBitmapError&quot;
-				sMsgImportBitmapError = sValue				
-			End Select			
+			
+
 		End If		
 		iLineEndPos = TagPos (sLanguageCode, Chr(13), Chr(10))
 	WEnd
+	Exit Sub
+	
+	ErrorHandler:
+		iLanguageEntryErrors = iLanguageEntryErrors + 1
+		If iLanguageEntryErrors &lt;= iMaxLanguageEntryError Then
+			sLanguageEntryErrors = sLanguageEntryErrors &amp; Chr (10) &amp; Chr (10) &amp; sCodeToParse &amp; Chr(10) &amp; Error
+		End If
+	Resume Next
 
 End Sub
 
@@ -679,7 +479,7 @@ Sub ReadLanguageFile()	&apos; If a language file is specified, read out its cont
 	sLanguageFile = sLanguagePath &amp; sLanguageFileName
 	If Not StringFromFile(sLanguageCode, sLanguageFile) Then
 		&apos; Message: Language file not found
-		MsgBox(sMsgLanguageFileNotFound1 &amp; ConvertFromURL(sLanguageFile) &amp; sMsgLanguageFileNotFound2, iMsgBox_E, sCaptionError)
+		MsgBox(oMessages.getPropertyValue (&quot;sMsgLanguageFileNotFound1&quot;) &amp; ConvertFromURL(sLanguageFile) &amp; oMessages.getPropertyValue (&quot;sMsgLanguageFileNotFound2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 		Exit Sub
 	End If
 	sLanguageCode = sLanguageCode &amp; Chr(13) &amp; Chr(10)		&apos; append a line break at the end
@@ -713,9 +513,9 @@ Sub ReadLanguageFile()	&apos; If a language file is specified, read out its cont
 	
 	If iLanguageEntryErrors &gt; 0 Then
 		If iLanguageEntryErrors &gt; iMaxLanguageEntryError Then
-			sLanguageEntryErrors = sLanguageEntryErrors &amp; Chr(10) &amp; Chr(10) &amp; sMsgSurplusLanguageErrors1 &amp; iLanguageEntryErrors - iMaxLanguageEntryError &amp; sMsgSurplusLanguageErrors2
+			sLanguageEntryErrors = sLanguageEntryErrors &amp; Chr(10) &amp; Chr(10) &amp; oMessages.getPropertyValue (&quot;sMsgSurplusLanguageErrors1&quot;) &amp; iLanguageEntryErrors - iMaxLanguageEntryError &amp; oMessages.getPropertyValue (&quot;sMsgSurplusLanguageErrors2&quot;)
 		End If
-		MsgBox (sMsgLanguageEntryErrors1 &amp; sLanguageFileName &amp; sMsgLanguageEntryErrors2 &amp; iLanguageEntryErrors &amp; sMsgLanguageEntryErrors3 &amp; sLanguageEntryErrors, iMsgBox_E, sCaptionError)
+		MsgBox (oMessages.getPropertyValue (&quot;sMsgLanguageEntryErrors1&quot;) &amp; sLanguageFileName &amp; oMessages.getPropertyValue (&quot;sMsgLanguageEntryErrors2&quot;) &amp; iLanguageEntryErrors &amp; oMessages.getPropertyValue (&quot;sMsgLanguageEntryErrors3&quot;) &amp; sLanguageEntryErrors, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 	End If
 
 End Sub

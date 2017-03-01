@@ -139,12 +139,12 @@ Sub CopyTemplates()
 		oFileAccess.createFolder(sTemplatePath)
 		&apos; Display a message
 		&apos; MsgBox (&quot;The folder &quot; &amp; Chr(34) &amp; ConvertFromURL(sTemplatePath) &amp; Chr(34) &amp; &quot; is created.&quot; &amp; Chr(10) &amp; &quot;It contains the &quot; &amp; constOLyLibraryName &amp; &quot; templates you can modify. The original templates can always be restored while your modified templates are backed up. For this use the &quot; &amp; Chr(34) &amp; &quot;restore templates&quot; &amp; Chr(34) &amp; &quot; button in the configuration dialog.&quot;, iMsgBox_I)
-		MsgBox (sMsgTemplateFolderCreated1 &amp; ConvertFromURL(sTemplatePath) &amp; sMsgTemplateFolderCreated2, iMsgBox_I, sCaptionInfo)
+		MsgBox (oMessages.getPropertyValue (&quot;sMsgTemplateFolderCreated1&quot;) &amp; ConvertFromURL(sTemplatePath) &amp; oMessages.getPropertyValue (&quot;sMsgTemplateFolderCreated2&quot;), iMsgBox_I, oMessages.getPropertyValue (&quot;sCaptionInfo&quot;))
 	End If
 
 	If Not oFileAccess.isFolder(sTemplatePath) Then
 		&apos; MsgBox(&quot;The specified path for templates does not exist and cannot be created: &quot; &amp; Chr(10) &amp; Chr(34) &amp; ConvertFromURL(sTemplatePath) &amp; Chr(34) &amp; &quot;.&quot; &amp; Chr(10) &amp; &quot;Please adjust the path in the configuration dialog.&quot;)
-		MsgBox(sMsgTemplatePathFail1 &amp; ConvertFromURL(sTemplatePath) &amp; sMsgTemplatePathFail2, iMsgBox_E, sCaptionError)
+		MsgBox(oMessages.getPropertyValue (&quot;sMsgTemplatePathFail1&quot;) &amp; ConvertFromURL(sTemplatePath) &amp; oMessages.getPropertyValue (&quot;sMsgTemplatePathFail2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 		Exit Sub
 	End If
 
@@ -157,7 +157,7 @@ Sub CopyTemplates()
 			If Not oFileAccess.isFolder(sBackupPath) Then
 				oFileAccess.createFolder(sBackupPath)
 				&apos; MsgBox(&quot;Your old templates are backed up under &quot; &amp; Chr(34) &amp; ConvertFromURL(sBackupPath) &amp; Chr(34) &amp; &quot;.&quot;, iMsgBox_I, &quot;Templates Backup&quot;)
-				MsgBox(sMsgTemplatesBackedUp1 &amp; ConvertFromURL(sBackupPath) &amp; sMsgTemplatesBackedUp2, iMsgBox_I, sCaptionTemplatesBackup)
+				MsgBox(oMessages.getPropertyValue (&quot;sMsgTemplatesBackedUp1&quot;) &amp; ConvertFromURL(sBackupPath) &amp; oMessages.getPropertyValue (&quot;sMsgTemplatesBackedUp2&quot;), iMsgBox_I, oMessages.getPropertyValue (&quot;sCaptionTemplatesBackup&quot;))
 				
 			End If
 			oFileAccess.copy( sFiles(i), sBackupPath &amp; GetLastFromURL(sFiles(i)) )
@@ -203,12 +203,12 @@ Sub CopyLanguageFiles()
 	If Not oFileAccess.isFolder(sLanguagePath) Then
 		oFileAccess.createFolder(sLanguagePath)
 		&apos; Display a message: Folder for language files created
-		MsgBox (sMsgLanguageFolderCreated1 &amp; ConvertFromURL(sLanguagePath) &amp; sMsgLanguageFolderCreated2, iMsgBox_I, sCaptionInfo)
+		MsgBox (oMessages.getPropertyValue (&quot;sMsgLanguageFolderCreated1&quot;) &amp; ConvertFromURL(sLanguagePath) &amp; oMessages.getPropertyValue (&quot;sMsgLanguageFolderCreated2&quot;), iMsgBox_I, oMessages.getPropertyValue (&quot;sCaptionInfo&quot;))
 	End If
 
 	If Not oFileAccess.isFolder(sLanguagePath) Then
 		&apos; MsgBox &quot;The specified path for language files does not exist and cannot be created&quot; 
-		MsgBox(sMsgLanguagePathFail1 &amp; ConvertFromURL(sLanguagePath) &amp; sMsgLanguagePathFail2, iMsgBox_E, sCaptionError)
+		MsgBox(oMessages.getPropertyValue (&quot;sMsgLanguagePathFail1&quot;) &amp; ConvertFromURL(sLanguagePath) &amp; oMessages.getPropertyValue (&quot;sMsgLanguagePathFail2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 		Exit Sub
 	End If
 
@@ -221,7 +221,7 @@ Sub CopyLanguageFiles()
 			If Not oFileAccess.isFolder(sBackupPath) Then
 				oFileAccess.createFolder(sBackupPath)
 				&apos; MsgBox &quot;Your old language files are backed up under ...&quot;
-				MsgBox(sMsgLanguageFilesBackedUp1 &amp; ConvertFromURL(sBackupPath) &amp; sMsgLanguageFilesBackedUp2, iMsgBox_I, sCaptionInfo)
+				MsgBox(oMessages.getPropertyValue (&quot;sMsgLanguageFilesBackedUp1&quot;) &amp; ConvertFromURL(sBackupPath) &amp; oMessages.getPropertyValue (&quot;sMsgLanguageFilesBackedUp2&quot;), iMsgBox_I, oMessages.getPropertyValue (&quot;sCaptionInfo&quot;))
 			End If
 			oFileAccess.copy( sFiles(i), sBackupPath &amp; GetLastFromURL(sFiles(i)) )
 		End If
@@ -352,7 +352,7 @@ Sub DefaultConfig()
 		If Not oFileAccess.isFolder(sLanguagePath) Then
 			oFileAccess.createFolder(sLanguagePath)
 			&apos; Display a message: Folder for language files created
-			MsgBox (sMsgLanguageFolderCreated1 &amp; ConvertFromURL(sLanguagePath) &amp; sMsgLanguageFolderCreated2, iMsgBox_I, sCaptionInfo)
+			MsgBox (oMessages.getPropertyValue (&quot;sMsgLanguageFolderCreated1&quot;) &amp; ConvertFromURL(sLanguagePath) &amp; oMessages.getPropertyValue (&quot;sMsgLanguageFolderCreated2&quot;), iMsgBox_I, oMessages.getPropertyValue (&quot;sCaptionInfo&quot;))
 			CopyLanguageFiles()
 		End If
 	 	&apos; LilyPond Executable (not an URL)
@@ -377,7 +377,7 @@ Sub DefaultConfig()
 		If Not oFileAccess.isFolder(sLanguagePath) Then
 			oFileAccess.createFolder(sLanguagePath)
 			&apos; Display a message: Folder for language files created
-			MsgBox (sMsgLanguageFolderCreated1 &amp; ConvertFromURL(sLanguagePath) &amp; sMsgLanguageFolderCreated2, iMsgBox_I, sCaptionInfo)
+			MsgBox (oMessages.getPropertyValue (&quot;sMsgLanguageFolderCreated1&quot;) &amp; ConvertFromURL(sLanguagePath) &amp; oMessages.getPropertyValue (&quot;sMsgLanguageFolderCreated2&quot;), iMsgBox_I, oMessages.getPropertyValue (&quot;sCaptionInfo&quot;))
 			CopyLanguageFiles()
 		End If
 	 	&apos; LilyPond Executable (not an URL)
@@ -646,12 +646,12 @@ Function PickExecutableFile (sExeFileName As String) As Boolean
 		End If
 	End If
 	oFileDlg.setDefaultName(sFile)
- 	oFileDlg.AppendFilter (sFilterAllFiles, &quot;*.*&quot;)
+ 	oFileDlg.AppendFilter (oMessages.getPropertyValue (&quot;sFilterAllFiles&quot;), &quot;*.*&quot;)
 	If sOSType = &quot;Unix&quot; Then
-		oFileDlg.SetCurrentFilter (sFilterAllFiles)
+		oFileDlg.SetCurrentFilter (oMessages.getPropertyValue (&quot;sFilterAllFiles&quot;))
 	Else	&apos; Windows
-		oFileDlg.AppendFilter (sFilterExecutableFiles, &quot;*.exe&quot;)
-		oFileDlg.SetCurrentFilter (sFilterExecutableFiles)
+		oFileDlg.AppendFilter (oMessages.getPropertyValue (&quot;sFilterExecutableFiles&quot;), &quot;*.exe&quot;)
+		oFileDlg.SetCurrentFilter (oMessages.getPropertyValue (&quot;sFilterExecutableFiles&quot;))
 	End If
  	If oFileDlg.execute() Then
 		oFiles = oFileDlg.getFiles()

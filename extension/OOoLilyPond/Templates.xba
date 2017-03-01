@@ -70,7 +70,7 @@ Function ApplyTemplate() As Boolean
 	iTagPos = TagPos(sCodeToParse, sStartTagHead, sStartTagHeadScm)
 	If iTagPos = 0 Then
 		&apos; Message: No tags at all found in the template
-		MsgBox(sMsgNoTagsInTemplate1 &amp; sTemplateFile &amp; sMsgNoTagsInTemplate2, iMsgBox_E, sCaptionTemplateError)
+		MsgBox(sMsgNoTagsInTemplate1 &amp; sTemplateFile &amp; sMsgNoTagsInTemplate2, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionTemplateError&quot;))
 		ApplyTemplate = False
 		Exit Function
 	End If
@@ -83,7 +83,7 @@ Function ApplyTemplate() As Boolean
 		sFieldName = Left(sCodeToParse, iTagPos-1)
 		If sFieldName = &quot;End&quot; Then
 			&apos; Message: End tag without preceeding start tag. 
-			MsgBox(sMsgLonelyEndTag1 &amp; sEndTag &amp; sMsgLonelyEndTag2 &amp; sTemplateFile &amp; sMsgLonelyEndTag3, iMsgBox_E, sCaptionTemplateError)
+			MsgBox(sMsgLonelyEndTag1 &amp; sEndTag &amp; sMsgLonelyEndTag2 &amp; sTemplateFile &amp; sMsgLonelyEndTag3, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionTemplateError&quot;))
 			ReadTemplate = False
 			Exit Function
 		End If
@@ -126,7 +126,7 @@ Function ApplyTemplate() As Boolean
 		iTagPos = TagPos(sCodeToParse, sEndTag, sEndTagScm)
 		If iTagPos = 0 Then
 			&apos; Message: &quot;Template error: missing end tag (sEndTag) for tag (sFieldName)&quot;
-			MsgBox(sMsgMissingEndTag1 &amp; sEndTag &amp; sMsgMissingEndTag2 &amp; sFieldName &amp; sMsgMissingEndTag3 &amp; sTemplateFile &amp; sMsgMissingEndTag4, iMsgBox_E, sCaptionTemplateError)
+			MsgBox(sMsgMissingEndTag1 &amp; sEndTag &amp; sMsgMissingEndTag2 &amp; sFieldName &amp; sMsgMissingEndTag3 &amp; sTemplateFile &amp; sMsgMissingEndTag4, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionTemplateError&quot;))
 			ApplyTemplate = False
 			Exit Function
 		End If
@@ -200,7 +200,7 @@ Function ReadTemplate() As Boolean
 
 	If Not StringFromFile(sTemplateCode, sTemplateFile) Then
 		&apos; MsgBox(&quot;Cannot open the template file:&quot; &amp; Chr(10) &amp; ConvertFromURL(sTemplateFile), iMsgBox_E, &quot;Error&quot;)
-		MsgBox(sMsgCannotOpenTemplate1 &amp; ConvertFromURL(sTemplateFile) &amp; sMsgCannotOpenTemplate2, iMsgBox_E, sCaptionError)
+		MsgBox(oMessages.getPropertyValue (&quot;sMsgCannotOpenTemplate1&quot;) &amp; ConvertFromURL(sTemplateFile) &amp; oMessages.getPropertyValue (&quot;sMsgCannotOpenTemplate2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 		ReadTemplate=False
 		Exit Function
 	End If
@@ -220,7 +220,7 @@ Function ReadTemplate() As Boolean
 		sFieldName = Left(sCodeToParse, iTagPos-1)		&apos; ToDo: If an end tag is followed by another one, the second will cause sFieldName to be &quot;end&quot;
 		If sFieldName = &quot;End&quot; Then
 			&apos; Message: End tag without preceeding start tag. 
-			MsgBox(sMsgLonelyEndTag1 &amp; sEndTag &amp; sMsgLonelyEndTag2 &amp; ConvertFromURL(sTemplateFile) &amp; sMsgLonelyEndTag3, iMsgBox_E, sCaptionTemplateError)
+			MsgBox(oMessages.getPropertyValue (&quot;sMsgLonelyEndTag1&quot;) &amp; sEndTag &amp; oMessages.getPropertyValue (&quot;sMsgLonelyEndTag2&quot;) &amp; ConvertFromURL(sTemplateFile) &amp; oMessages.getPropertyValue (&quot;sMsgLonelyEndTag3&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionTemplateError&quot;))
 			ReadTemplate = False
 			Exit Function
 		End If
@@ -232,7 +232,7 @@ Function ReadTemplate() As Boolean
 		iTagPos = TagPos(sCodeToParse, sEndTag, sEndTagScm)
 		If iTagPos = 0 Then
 			&apos; Message: &quot;Template error: missing end tag (sEndTag) for tag (sFieldName)&quot;
-			MsgBox(sMsgMissingEndTag1 &amp; sEndTag &amp; sMsgMissingEndTag2 &amp; sFieldName &amp; sMsgMissingEndTag3 &amp; ConvertFromURL(sTemplateFile) &amp; sMsgMissingEndTag4, iMsgBox_E, sCaptionTemplateError)
+			MsgBox(oMessages.getPropertyValue (&quot;sMsgMissingEndTag1&quot;) &amp; sEndTag &amp; oMessages.getPropertyValue (&quot;sMsgMissingEndTag2&quot;) &amp; sFieldName &amp; oMessages.getPropertyValue (&quot;sMsgMissingEndTag3&quot;) &amp; ConvertFromURL(sTemplateFile) &amp; oMessages.getPropertyValue (&quot;sMsgMissingEndTag4&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionTemplateError&quot;))
 			ReadTemplate = False
 			Exit Function
 		End If
@@ -243,7 +243,7 @@ Function ReadTemplate() As Boolean
 		&apos; If CBool(InStr(sDefaultValue, sStartTagHead)) Then
 		If CBool(TagPos(sDefaultValue, sStartTagHead, sStartTagHeadScm)) Then
 			&apos; Message: &quot;Template error: missing or misspelled end tag (sEndTag) for tag (sFieldName)&quot;
-			MsgBox(sMsgMisspelledEndTag1 &amp; sEndTag &amp; sMsgMisspelledEndTag2 &amp; sFieldName &amp; sMsgMisspelledEndTag3 &amp; ConvertFromURL(sTemplateFile) &amp; sMsgMisspelledEndTag4, iMsgBox_E, sCaptionTemplateError)
+			MsgBox(oMessages.getPropertyValue (&quot;sMsgMisspelledEndTag1&quot;) &amp; sEndTag &amp; oMessages.getPropertyValue (&quot;sMsgMisspelledEndTag2&quot;) &amp; sFieldName &amp; oMessages.getPropertyValue (&quot;sMsgMisspelledEndTag3&quot;) &amp; ConvertFromURL(sTemplateFile) &amp; oMessages.getPropertyValue (&quot;sMsgMisspelledEndTag4&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionTemplateError&quot;))
 			ReadTemplate = False
 			Exit Function
 		End If
@@ -284,7 +284,7 @@ Function ReadTemplate() As Boolean
 		
 	If Not bCodeFieldExists Then
 		&apos; Message: No Code tag has been found
-		MsgBox(sMsgNoCodeTag1 &amp; ConvertFromURL(sTemplateFile) &amp; sMsgNoCodeTag2, iMsgBox_E, sCaptionTemplateError)
+		MsgBox(oMessages.getPropertyValue (&quot;sMsgNoCodeTag1&quot;) &amp; ConvertFromURL(sTemplateFile) &amp; oMessages.getPropertyValue (&quot;sMsgNoCodeTag2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionTemplateError&quot;))
 		ReadTemplate = False
 		Exit Function
 	End If
@@ -312,7 +312,7 @@ Function ReadTempLyFile() As Boolean
 
 	If Not StringFromFile(sCodeToParse, sTempLyFile) Then
 		&apos; MsgBox(&quot;Cannot open the temporary file:&quot; &amp; Chr(10) &amp; ConvertFromURL(sTempLyFile), iMsgBox_E, &quot;Error&quot;)
-		MsgBox(sMsgCannotOpenTempfile1 &amp; ConvertFromURL(sTempLyFile) &amp; sMsgCannotOpenTempfile2, iMsgBox_E, sCaptionError)
+		MsgBox(oMessages.getPropertyValue (&quot;sMsgCannotOpenTempfile1&quot;) &amp; ConvertFromURL(sTempLyFile) &amp; oMessages.getPropertyValue (&quot;sMsgCannotOpenTempfile2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 		ReadTempLyFile=False
 		Exit Function
 	End If
@@ -327,7 +327,7 @@ Function ReadTempLyFile() As Boolean
 		sFieldName = Left(sCodeToParse, iTagPos-1)
 		If sFieldName = &quot;End&quot; Then
 			&apos; Message: End tag without preceeding start tag. 
-			MsgBox(sMsgLonelyEndTag1 &amp; sEndTag &amp; sMsgLonelyEndTag2 &amp; ConvertFromURL(sTempLyFile) &amp; sMsgLonelyEndTag3, iMsgBox_E, sCaptionTempfileError)
+			MsgBox(oMessages.getPropertyValue (&quot;sMsgLonelyEndTag1&quot;) &amp; sEndTag &amp; oMessages.getPropertyValue (&quot;sMsgLonelyEndTag2&quot;) &amp; ConvertFromURL(sTempLyFile) &amp; oMessages.getPropertyValue (&quot;sMsgLonelyEndTag3&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionTempfileError&quot;))
 			ReadTempLyFile = False
 			Exit Function
 		End If
@@ -339,7 +339,7 @@ Function ReadTempLyFile() As Boolean
 		iTagPos = TagPos(sCodeToParse, sEndTag, sEndTagScm)
 		If iTagPos = 0 Then
 			&apos; Message: &quot;Error in temp. file: missing end tag (sEndTag) for tag (sFieldName)&quot;
-			MsgBox(sMsgMissingEndTag1 &amp; sEndTag &amp; sMsgMissingEndTag2 &amp; sFieldName &amp; sMsgMissingEndTag3 &amp; ConvertFromURL(sTempLyFile) &amp; sMsgMissingEndTag4, iMsgBox_E, sCaptionTempfileError)
+			MsgBox(oMessages.getPropertyValue (&quot;sMsgMissingEndTag1&quot;) &amp; sEndTag &amp; oMessages.getPropertyValue (&quot;sMsgMissingEndTag2&quot;) &amp; sFieldName &amp; oMessages.getPropertyValue (&quot;sMsgMissingEndTag3&quot;) &amp; ConvertFromURL(sTempLyFile) &amp; oMessages.getPropertyValue (&quot;sMsgMissingEndTag4&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionTempfileError&quot;))
 			ReadTempLyFile = False
 			Exit Function
 		End If
@@ -349,7 +349,7 @@ Function ReadTempLyFile() As Boolean
 		
 		If CBool(TagPos(sDefaultValue, sStartTagHead, sStartTagHeadScm)) Then
 			&apos; Message: &quot;Error in temp. file: missing or misspelled end tag (sEndTag) for tag (sFieldName)&quot;
-			MsgBox(sMsgMisspelledEndTag1 &amp; sEndTag &amp; sMsgMisspelledEndTag2 &amp; sFieldName &amp; sMsgMisspelledEndTag3 &amp; ConvertFromURL(sTempLyFile) &amp; sMsgMisspelledEndTag4, iMsgBox_E, sCaptionTempfileError)
+			MsgBox(oMessages.getPropertyValue (&quot;sMsgMisspelledEndTag1&quot;) &amp; sEndTag &amp; oMessages.getPropertyValue (&quot;sMsgMisspelledEndTag2&quot;) &amp; sFieldName &amp; oMessages.getPropertyValue (&quot;sMsgMisspelledEndTag3&quot;) &amp; ConvertFromURL(sTempLyFile) &amp; oMessages.getPropertyValue (&quot;sMsgMisspelledEndTag4&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionTempfileError&quot;))
 			ReadTempLyFile = False
 			Exit Function
 		End If
@@ -379,7 +379,7 @@ Function ReadTempLyFile() As Boolean
 		
 	If Not bCodeFieldExists Then
 		&apos; Message: No Code tag has been found
-		MsgBox(sMsgNoCodeTag1 &amp; ConvertFromURL(sTempLyFile) &amp; sMsgNoCodeTag2, iMsgBox_E, sCaptionTempfileError)
+		MsgBox(oMessages.getPropertyValue (&quot;sMsgNoCodeTag1&quot;) &amp; ConvertFromURL(sTempLyFile) &amp; oMessages.getPropertyValue (&quot;sMsgNoCodeTag2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionTempfileError&quot;))
 		ReadTempLyFile = False
 		Exit Function
 	End If
@@ -447,12 +447,12 @@ Sub TmplDeleteButton
 		oTemplateEditorDialog.endExecute()
 	Else
 	    &apos; Message: Could not delete file (file name)
-		MsgBox(sMsgCannotDeleteTemplate1 &amp; ConvertFromURL(sFile) &amp; sMsgCannotDeleteTemplate2, iMsgBox_E, sCaptionError)
+		MsgBox(oMessages.getPropertyValue (&quot;sMsgCannotDeleteTemplate1&quot;) &amp; ConvertFromURL(sFile) &amp; oMessages.getPropertyValue (&quot;sMsgCannotDeleteTemplate2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 	End If
 
 	If sTemplate=sWriterDefaultTemplate or sTemplate=sImpressDefaultTemplate Then
 		&apos; MsgBox(&quot;You have deleted a default template. Please choose another default template in the configuration dialogue&quot;)
-		MsgBox(sMsgDefaultTemplateDeleted1 &amp; sTemplate &amp; sMsgDefaultTemplateDeleted2, iMsgBox_I, sCaptionInfo)
+		MsgBox(oMessages.getPropertyValue (&quot;sMsgDefaultTemplateDeleted1&quot;) &amp; sTemplate &amp; oMessages.getPropertyValue (&quot;sMsgDefaultTemplateDeleted2&quot;), iMsgBox_I, oMessages.getPropertyValue (&quot;sCaptionInfo&quot;))
 		ConfigDialog()
 	EndIf
 
@@ -475,7 +475,7 @@ Sub TmplSaveAsButton
 	Dim sFile As String
 	Dim sReply As String
 	
-	sReply = InputBox ( sMsgEnterNewTemplateName , sCaptionNewTemplateName, sTemplate)
+	sReply = InputBox ( oMessages.getPropertyValue (&quot;sMsgEnterNewTemplateName&quot;) , oMessages.getPropertyValue (&quot;sCaptionNewTemplateName&quot;), sTemplate)
 	If sReply = &quot;&quot; Then
 		Exit Sub
 	End If
