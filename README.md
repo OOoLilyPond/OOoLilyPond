@@ -47,7 +47,6 @@ Copyright © 2017 Klaus Blum
 
 ## License
 
-This program is free software. It is licensed under the [GPL] – either version 2 of the license, or (at your option) any [later version].
+This program is free software. It is licensed under the [GPL3].
 
-[GPL]: https://www.gnu.org/licenses/gpl-2.0.html "GPL2"
-[later version]: https://www.gnu.org/licenses/gpl.html "GPL3"
+[GPL3]: https://www.gnu.org/licenses/gpl.html "GPL3"
