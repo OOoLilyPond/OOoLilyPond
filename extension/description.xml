@@ -22,7 +22,6 @@
 	</publisher>
 
 	<update-information>
-		<src xlink:href="http://extensions.openoffice.org/extension/ooolilypond.xml"/>
 		<src xlink:href="https://raw.githubusercontent.com/openlilylib/LO-ly/master/update/ooolilypond-update.xml"/>
 		<src xlink:href="https://raw.githubusercontent.com/openlilylib/LiLily/master/update/ooolilypond-update.xml"/>
 		<src xlink:href="https://raw.githubusercontent.com/openlilylib/OLy/master/update/ooolilypond-update.xml"/>
