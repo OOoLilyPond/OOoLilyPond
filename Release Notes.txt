@@ -1,27 +1,6 @@
-
-OooLilyPond 0.5.0 Release Notes  (March 2017)
-=================================================
-
-
-This release is based on the two most recent versions that have been published by the original developer Samuel Hartmann.
-
-Version 0.4.0:
----------------
-http://ooolilypond.sourceforge.net/
-https://sourceforge.net/projects/ooolilypond/
-http://extensions.openoffice.org/de/project/ooolilypond
-(direct download:)
-https://downloads.sourceforge.net/project/ooolilypond/ooolilypond/OOoLilyPond-0.4.0/OOoLilyPond-0.4.0.oxt?r=&ts=1484832348&use_mirror=netix
-
-Version 0.4.1rc1:
-------------------
-https://sourceforge.net/p/ooolilypond/discussion/614285/thread/d200563d/#52fd/5aef
-(direct download:)
-http://www.hartmann-weine.ch/OOoLilyPond-0.4.1rc1.oxt
-
-
-The new take on the project is hosted at:
-https://github.com/openlilylib/LO-ly
+*********************************************
+OOoLilyPond 0.5.0 Release Notes  (March 2017)
+*********************************************
 
 
 Changes to OOoLilyPond 0.5.0 since 0.4.0/0.4.1:
@@ -37,6 +16,10 @@ Changes to OOoLilyPond 0.5.0 since 0.4.0/0.4.1:
 * user now can choose between two different ways to import graphic into document 
 * font name and font size for editor windows can be specified 
 * user interface can be translated into other languages
+
+Compatibility: OOoLilyPond (OLy) works with recent versions of LibreOffice (5.3.0.3) and OpenOffice (4.1.3). Older versions should work as well. It has even been tested with OpenOffice 2.4 without issues. 
+Any content (LilyPond code, templatex, OLy configuration files) created with/for OLy 0.4.x will work with OLy 0.5.x - and vice versa. (Fully compatible, forward and backward.)
+Older snippets created with OLy 0.3.x will also work with 0.4.x and 0.5.x, but not (necessarily) vice versa.
 
 
 1.) fixed: Runtime error - Variable not defined: line 40 CurserPosition=1
@@ -146,6 +129,28 @@ Check Ly output for messages like "tried to space systems on a bad number of pag
 
 Credits
 ========
+
+This release (v. 0.5.0) is based on the two most recent versions (v. 0.4.0 and 0.4.1rc1) that have been published by the original developer Samuel Hartmann. 
+It has been further developed by Klaus Blum, Joram Berger and Urs Liska.
+The new take on the project is hosted at:
+https://github.com/openlilylib/LO-ly
+
+
+Version 0.4.0:
+---------------
+http://ooolilypond.sourceforge.net/
+https://sourceforge.net/projects/ooolilypond/
+http://extensions.openoffice.org/de/project/ooolilypond
+(direct download:)
+https://downloads.sourceforge.net/project/ooolilypond/ooolilypond/OOoLilyPond-0.4.0/OOoLilyPond-0.4.0.oxt?r=&ts=1484832348&use_mirror=netix
+
+Version 0.4.1rc1:
+------------------
+https://sourceforge.net/p/ooolilypond/discussion/614285/thread/d200563d/#52fd/5aef
+(direct download:)
+http://www.hartmann-weine.ch/OOoLilyPond-0.4.1rc1.oxt
+
+
 
 Finally: A big big THANK YOU to Samuel Hartmann, the original developer of OOoLilyPond, and to everyone else who has contributed to the project. This is a phantastic tool that has simplified the daily workflow of so many people. 
 I am one of them. 
