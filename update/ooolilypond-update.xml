@@ -7,7 +7,7 @@
     <src xlink:href="https://github.com/openlilylib/LO-ly/releases/download/0.5.0/OOoLilyPond-0.5.0.oxt" />
   </update-download>
   <release-notes>
-    <src xlink:href="https://raw.githubusercontent.com/openlilylib/LO-ly/master/update/release%20notes.txt" />
+    <src xlink:href="https://raw.githubusercontent.com/openlilylib/LO-ly/master/update/release-notes.txt" />
   </release-notes>
   <publisher>
     <name xlink:href="https://github.com/openlilylib/LO-ly" >OpenLilyLib.org</name>
