@@ -35,10 +35,13 @@ Sub OOoLilyPond()
 
 	Dim oDoc As Object
 	Dim oDocCtrl As Object
-	
+	Dim bWrongDocumentType As Boolean
 	Dim oShape As Object
 
+	oMessages  = CreateUnoService (&quot;com.sun.star.beans.PropertyBag&quot;)
+
 	PrivateConstants()
+	DefaultMessageStrings()
 
 	&apos; Create SimpleFileAccess Service (private object variable)
 	oFileAccess = createUnoService(&quot;com.sun.star.ucb.SimpleFileAccess&quot;)
@@ -48,20 +51,34 @@ Sub OOoLilyPond()
 	oDocCtrl = oDoc.getCurrentController()
 
 	&apos; Test if we are in OOoWriter or OOoImpress
+	bWrongDocumentType = False
 	If oDoc.getImplementationName() =  &quot;SwXTextDocument&quot; Then
 		bInWriter = True
 	Elseif oDoc.getImplementationName() = &quot;SdXImpressDocument&quot; Then
 		bInWriter = False
 	Else
-		Msgbox(oDoc.getImplementationName() &amp; &quot;: document type not supported by &quot; &amp; constOLyLibraryName, 0, &quot;Error&quot;)
+	    bWrongDocumentType = True
+		&apos; before displaying the error message, first care about config and translation stuff...
 		Exit Sub
 	End If
 
 	&apos; Set configuration to &quot;factory default&quot;, is overwritten by settings from configuration file
 	DefaultConfig()
+	
+	&apos; Create all Dialog objects
+	DialogLibraries.LoadLibrary (constOLyLibraryName)
+	oEditorDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Editor&quot;) )
+	oConfigDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Config&quot;) )
+	oTemplateEditorDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Tmpl&quot;) )
+	oOutputDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Out&quot;) )
 
-	&apos; Read confuguration file
+	&apos; Read configuration file
 	If oFileAccess.exists( sConfigFile ) Then ReadConfig()
+	
+	If bWrongDocumentType Then
+		&apos; Msgbox(oDoc.getImplementationName() &amp; &quot;: document type not supported by &quot; &amp; constOLyLibraryName, 0, &quot;Error&quot;)
+		Msgbox (oMessages.getPropertyValue (&quot;sMsgDocTypeNotSupported1&quot;) &amp; oDoc.getImplementationName() &amp; oMessages.getPropertyValue (&quot;sMsgDocTypeNotSupported2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+	End If
 
 	&apos; Copy Templates If needed
 	If sLilyPondVersionMajor=&quot;&quot; Then &apos; LilyPond has never been (successfully) called yet
@@ -69,8 +86,9 @@ Sub OOoLilyPond()
 			CopyTemplates()
 			SaveConfig()
 		Else
-			MsgBox(&quot;LilyPond can not be found. Please check whether LilyPond is properly installed&quot; &amp; Chr(10) _
-                               &amp; &quot;and the specified path to the LilyPond executable is correct.&quot;, iMsgBox_E)
+			&apos; MsgBox(&quot;LilyPond can not be found. Please check whether LilyPond is properly installed&quot; &amp; Chr(10) _
+            &apos;                   &amp; &quot;and the specified path to the LilyPond executable is correct.&quot;, iMsgBox_E)
+            MsgBox (oMessages.getPropertyValue (&quot;sMsgLilypondNotFound&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 		End If
 	Else &apos; LilyPond has already once been called successfully
 		If Not oFileAccess.isFolder(sTemplatePath) Then CopyTemplates() &apos; For some reason the templates are not there
@@ -120,7 +138,8 @@ Sub OOoLilyPond()
 &apos;			oCursor = oDoc.Text.createTextCursorByRange(oSelection(0))
 			
 		Case Else
-			Msgbox (&quot;The selected object is not an OLy object ...&quot;, 0, &quot;Error&quot;)
+			&apos; Msgbox (&quot;The selected object is not an OLy object ...&quot;, 0, &quot;Error&quot;)
+			Msgbox (oMessages.getPropertyValue (&quot;sMsgNoOlyObject&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 			Exit Sub
 			
 		End Select
@@ -141,7 +160,8 @@ sub Make()
 
 	&apos; Test if there is LilyPond code
 	If sCode = &quot;&quot; then 
-		Msgbox (&quot;Enter LilyPond code...&quot;, 0, &quot;Error&quot;)
+		&apos; Msgbox (&quot;Enter LilyPond code...&quot;, iMsgBox_E, &quot;Error&quot;)
+		Msgbox (oMessages.getPropertyValue (&quot;sMsgEnterLyCode&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 		exit sub
 	end if
 
@@ -157,19 +177,22 @@ sub Make()
  	
 	&apos;If there is no eps output
  	If sFormat = &quot;eps&quot; And (Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.eps&quot;)) Then
- 		MsgBox(&quot;No eps output is found&quot;, 0, &quot;Error&quot;)
+ 		&apos; MsgBox(&quot;No eps output is found&quot;, 0, &quot;Error&quot;)
+ 		MsgBox (oMessages.getPropertyValue (&quot;sMsgNoEpsOutputFound&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
   		Exit Sub
  	End If
  
 	&apos;If there is no svg output
  	If sFormat = &quot;svg&quot; And (Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.svg&quot;)) Then
- 		MsgBox(&quot;No svg output is found&quot;, 0, &quot;Error&quot;)
+ 		&apos; MsgBox(&quot;No svg output is found&quot;, 0, &quot;Error&quot;)
+ 		MsgBox (oMessages.getPropertyValue (&quot;sMsgNoSvgOutputFound&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
   		Exit Sub
  	End If
  	
 	&apos;If there is no png output
  	If sFormat = &quot;png&quot; And (Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.png&quot;)) Then
- 		MsgBox(&quot;No png output is found&quot;, 0, &quot;Error&quot;)
+ 		&apos; MsgBox(&quot;No png output is found&quot;, 0, &quot;Error&quot;)
+ 		MsgBox (oMessages.getPropertyValue (&quot;sMsgNoPngOutputFound&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
   		Exit Sub
  	End If
  
@@ -316,6 +339,8 @@ Sub InsertOOoLilyPondObject()
 	oDoc = ThisComponent
 	oDocCtrl = oDoc.getCurrentController
 
+	On Error GoTo ErrorHandler
+
 	&apos; insert the Bitmap
 	If bInWriter Then
 
@@ -367,7 +392,18 @@ Sub InsertOOoLilyPondObject()
 	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultLineWidth&quot;, BoolToString(bUseDefaultLineWidth))
 	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultStaffSize&quot;, BoolToString(bUseDefaultStaffSize))
 	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultCustom1&quot;, BoolToString(bUseDefaultCustom1))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultCustom2&quot;, BoolToString(bUseDefaultCustom2))
+	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultCustom2&quot;, BoolToString(bUseDefaultCustom2)
+	Exit Sub
+	
+	ErrorHandler:
+		Select Case Err
+		Case 1	&apos; 	&quot;End of content node doesn&apos;t have the proper start node&quot;
+			Msgbox (Error &amp; Chr(10) &amp; Chr(10) &amp; oMessages.getPropertyValue (&quot;MsgNoStartNode&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+				&apos; MsgNoStartNode
+		Case Else
+			Msgbox (Error, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		End Select
+	Exit Sub
 
 End Sub
 
@@ -402,7 +438,8 @@ Function ReadAttributes( oShape As Object ) As Boolean
 	If oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondCode&quot;) Then
 		sCode=oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondCode&quot;).Value
 	Else
-		Msgbox (&quot;The selected object is not an OLy object ...&quot;, 0, &quot;Error&quot;)
+		&apos; Msgbox (&quot;The selected object is not an OLy object ...&quot;, 0, &quot;Error&quot;)
+		Msgbox (oMessages.getPropertyValue (&quot;sMsgNoOlyObject&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 		ReadAttributes = False
 		Exit Function
 	End If

@@ -19,14 +19,15 @@ Dim bImpressUseLineWidthFromTemplate As Boolean
 &apos;    Open and update the dialogue
 &apos; **********************************
 
-Sub ConfigDialog( )
+Sub ConfigDialog()
 	&apos; Initializes and opens the configuration dialog
 
 	&apos; Load the library OOoLilyPond...
-	DialogLibraries.LoadLibrary( constOLyLibraryName )
+	&apos; DialogLibraries.LoadLibrary (constOLyLibraryName)
 
 	&apos; Create the dialog object
-	oConfigDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Config&quot;) )
+	&apos; --- too late...
+	&apos; oConfigDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Config&quot;) )
 
 	&apos; Update the values
 	ConfigDialogUpdate()
@@ -44,9 +45,12 @@ Sub ConfigDialogUpdate()
 	&apos; Set the contents of the template combo boxes
 	&apos; To do: don&apos;t read the template list twice
 	&apos; just copy it instead.
+	oConfigDialog.getControl(&quot;sFormat&quot;).removeItems(0, oConfigDialog.getControl(&quot;sFormat&quot;).getItemCount)
 	oConfigDialog.getControl(&quot;sFormat&quot;).addItems(Array(&quot;png&quot;,&quot;eps&quot;,&quot;svg&quot;),0)
 	ListOfTemplates(oConfigDialog.getControl(&quot;sWriterDefaultTemplate&quot;))
 	ListOfTemplates(oConfigDialog.getControl(&quot;sImpressDefaultTemplate&quot;))
+	
+	ListOfLanguageFiles(oConfigDialog.getControl(&quot;sLanguageFileName&quot;))
 
 	&apos; general settings
 	oConfigDialog.getControl(&quot;sTemplatePath&quot;).setText(ConvertFromURL(sTemplatePath))
@@ -57,6 +61,7 @@ Sub ConfigDialogUpdate()
 	oConfigDialog.getControl(&quot;sEditorFontSize&quot;).setText(sEditorFontSize)
 	oConfigDialog.getControl(&quot;sExtEditorExecutable&quot;).setText(ConvertFromURL(sExtEditorExecutable))
 	oConfigDialog.getControl(&quot;sIncludeStatement&quot;).setText(sIncludeStatement)
+	oConfigDialog.getControl(&quot;sLanguageFileName&quot;).setText(sLanguageFileName)
 
 	&apos; Writer configuration
 	oConfigDialog.getControl(&quot;sWriterDefaultTemplate&quot;).setText(sWriterDefaultTemplate)
@@ -133,23 +138,27 @@ Sub CopyTemplates()
 	If Not oFileAccess.isFolder(sTemplatePath) Then
 		oFileAccess.createFolder(sTemplatePath)
 		&apos; Display a message
-		MsgBox (&quot;The folder &quot; &amp; Chr(34) &amp; ConvertFromURL(sTemplatePath) &amp; Chr(34) &amp; &quot; is created.&quot; &amp; Chr(10) &amp; &quot;It contains the &quot; &amp; constOLyLibraryName &amp; &quot; templates you can modify. The original templates can always be restored while your modified templates are backed up. For this use the &quot; &amp; Chr(34) &amp; &quot;restore templates&quot; &amp; Chr(34) &amp; &quot; button in the configuration dialog.&quot;, iMsgBox_I)
+		&apos; MsgBox (&quot;The folder &quot; &amp; Chr(34) &amp; ConvertFromURL(sTemplatePath) &amp; Chr(34) &amp; &quot; is created.&quot; &amp; Chr(10) &amp; &quot;It contains the &quot; &amp; constOLyLibraryName &amp; &quot; templates you can modify. The original templates can always be restored while your modified templates are backed up. For this use the &quot; &amp; Chr(34) &amp; &quot;restore templates&quot; &amp; Chr(34) &amp; &quot; button in the configuration dialog.&quot;, iMsgBox_I)
+		MsgBox (oMessages.getPropertyValue (&quot;sMsgTemplateFolderCreated1&quot;) &amp; ConvertFromURL(sTemplatePath) &amp; oMessages.getPropertyValue (&quot;sMsgTemplateFolderCreated2&quot;), iMsgBox_I, oMessages.getPropertyValue (&quot;sCaptionInfo&quot;))
 	End If
 
 	If Not oFileAccess.isFolder(sTemplatePath) Then
-		MsgBox(&quot;The specified path for templates does not exist and cannot be created: &quot; &amp; Chr(10) &amp; Chr(34) &amp; ConvertFromURL(sTemplatePath) &amp; Chr(34) &amp; &quot;.&quot; &amp; Chr(10) &amp; &quot;Please adjust the path in the configuration dialog.&quot;)
+		&apos; MsgBox(&quot;The specified path for templates does not exist and cannot be created: &quot; &amp; Chr(10) &amp; Chr(34) &amp; ConvertFromURL(sTemplatePath) &amp; Chr(34) &amp; &quot;.&quot; &amp; Chr(10) &amp; &quot;Please adjust the path in the configuration dialog.&quot;)
+		MsgBox (oMessages.getPropertyValue (&quot;sMsgTemplatePathFail1&quot;) &amp; ConvertFromURL(sTemplatePath) &amp; oMessages.getPropertyValue (&quot;sMsgTemplatePathFail2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 		Exit Sub
 	End If
 
 	&apos; Backup .ly files
 	&apos; Subdir named according to actual date and time in format YYYYMMDDhhmmss
-	sBackupPath = sTemplatePath &amp; CDateToISO(Now) &amp; Left(TimeValue(Now),2) &amp; Mid(TimeValue(Now),4,2) &amp; Right(TimeValue(Now),2) &amp; &quot;/&quot;
-	sFiles = oFileAccess.getFolderContents(sTemplatePath, False)
-	For i=LBound(sFiles) To UBound(sFiles)
-		If Right(sFiles(i),3)=&quot;.ly&quot; Then
+	sBackupPath = sTemplatePath &amp; CDateToISO (Now) &amp; Left (TimeValue (Now), 2) &amp; Mid (TimeValue (Now), 4, 2) &amp; Right (TimeValue (Now), 2) &amp; &quot;/&quot;
+	sFiles = oFileAccess.getFolderContents (sTemplatePath, False)
+	For i=LBound (sFiles) To UBound (sFiles)
+		If Right (sFiles (i),3)=&quot;.ly&quot; Then
 			If Not oFileAccess.isFolder(sBackupPath) Then
 				oFileAccess.createFolder(sBackupPath)
-				MsgBox(&quot;Your old templates are backed up under &quot; &amp; Chr(34) &amp; ConvertFromURL(sBackupPath) &amp; Chr(34) &amp; &quot;.&quot;, iMsgBox_I, &quot;Templates Backup&quot;)
+				&apos; MsgBox(&quot;Your old templates are backed up under &quot; &amp; Chr(34) &amp; ConvertFromURL(sBackupPath) &amp; Chr(34) &amp; &quot;.&quot;, iMsgBox_I, &quot;Templates Backup&quot;)
+				MsgBox (oMessages.getPropertyValue (&quot;sMsgTemplatesBackedUp1&quot;) &amp; ConvertFromURL(sBackupPath) &amp; oMessages.getPropertyValue (&quot;sMsgTemplatesBackedUp2&quot;), iMsgBox_I, oMessages.getPropertyValue (&quot;sCaptionTemplatesBackup&quot;))
+				
 			End If
 			oFileAccess.copy( sFiles(i), sBackupPath &amp; GetLastFromURL(sFiles(i)) )
 		End If
@@ -160,6 +169,69 @@ Sub CopyTemplates()
 	For i=LBound(sFiles) To UBound(sFiles)
 		If Right(sFiles(i),3)=&quot;.ly&quot; Then
 			FileCopy( sFiles(i), sTemplatePath &amp; GetLastFromURL(sFiles(i)) )
+		End If
+	Next
+
+End Sub
+
+
+Sub CopyLanguageFiles()
+	&apos; Copy original language files to the user language dir.
+	&apos; User language files are backed up in a subfolder.
+	&apos; This function is built upon CopyTemplates()
+
+	Dim sPkgPath As String &apos; Path to the OOoLilyPond extension package
+	Dim sLanguageSourcePath As String &apos; Path within sPkgPath where the original language files are located
+	Dim sBackupPath As String &apos; Backup Dir for existing user language files
+	Dim sFiles As Variant &apos; String Array, output of oFileAccess.getFolderContents()
+	Dim i As Integer
+
+   	&apos; Get the package path
+   	sPkgPath=GetPackagePath(&quot;net.sourceforge.ooolilypond&quot;)
+
+	&apos; Expand env variables in path using MacroExpander...
+	Dim oCtx as object
+	Dim oMacroExpander as object
+	oCtx = getProcessServiceManager().DefaultContext
+	oMacroExpander = oCtx.getValueByName(&quot;/singletons/com.sun.star.util.theMacroExpander&quot;)
+	sPkgPath = AddSlash(oMacroExpander.ExpandMacros(sPkgPath))
+
+	&apos;Set the language source path
+	sLanguageSourcePath = sPkgPath &amp; &quot;Language/&quot;
+
+	&apos; Check the destination language path, try to create it.
+	If Not oFileAccess.isFolder(sLanguagePath) Then
+		oFileAccess.createFolder(sLanguagePath)
+		&apos; Display a message: Folder for language files created
+		MsgBox (oMessages.getPropertyValue (&quot;sMsgLanguageFolderCreated1&quot;) &amp; ConvertFromURL(sLanguagePath) &amp; oMessages.getPropertyValue (&quot;sMsgLanguageFolderCreated2&quot;), iMsgBox_I, oMessages.getPropertyValue (&quot;sCaptionInfo&quot;))
+	End If
+
+	If Not oFileAccess.isFolder(sLanguagePath) Then
+		&apos; MsgBox &quot;The specified path for language files does not exist and cannot be created&quot; 
+		MsgBox (oMessages.getPropertyValue (&quot;sMsgLanguagePathFail1&quot;) &amp; ConvertFromURL(sLanguagePath) &amp; oMessages.getPropertyValue (&quot;sMsgLanguagePathFail2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		Exit Sub
+	End If
+
+	&apos; Backup .ini files
+	&apos; Subdir named according to actual date and time in format YYYYMMDDhhmmss
+	sBackupPath = sLanguagePath &amp; CDateToISO(Now) &amp; Left(TimeValue(Now),2) &amp; Mid(TimeValue(Now),4,2) &amp; Right(TimeValue(Now),2) &amp; &quot;/&quot;
+	sFiles = oFileAccess.getFolderContents(sLanguagePath, False)
+	For i=LBound(sFiles) To UBound(sFiles)
+		If Right(sFiles(i),4)=&quot;.ini&quot; Then
+			If Not oFileAccess.isFolder(sBackupPath) Then
+				oFileAccess.createFolder(sBackupPath)
+				&apos; MsgBox &quot;Your old language files are backed up under ...&quot;
+				MsgBox (oMessages.getPropertyValue (&quot;sMsgLanguageFilesBackedUp1&quot;) &amp; ConvertFromURL(sBackupPath) &amp; oMessages.getPropertyValue (&quot;sMsgLanguageFilesBackedUp2&quot;), iMsgBox_I, oMessages.getPropertyValue (&quot;sCaptionInfo&quot;))
+			End If
+			oFileAccess.copy( sFiles(i), sBackupPath &amp; GetLastFromURL(sFiles(i)) )
+		End If
+	Next
+
+	&apos; Copy .ini files
+	sFiles=oFileAccess.getFolderContents(sLanguageSourcePath, False)
+	For i=LBound(sFiles) To UBound(sFiles)
+		If Right(sFiles(i),4)=&quot;.ini&quot; Then
+			FileCopy( sFiles(i), sLanguagePath &amp; GetLastFromURL(sFiles(i)) )
 		End If
 	Next
 
@@ -209,6 +281,7 @@ Sub ApplyConfig
 	sEditorFontName = oConfigDialog.getControl(&quot;sEditorFontName&quot;).getText()
 	sEditorFontSize = oConfigDialog.getControl(&quot;sEditorFontSize&quot;).getText()
 	sExtEditorExecutable = oConfigDialog.getControl(&quot;sExtEditorExecutable&quot;).getText()
+	sLanguageFileName = oConfigDialog.getControl(&quot;sLanguageFileName&quot;).getText()
 	sIncludeStatement = oConfigDialog.getControl(&quot;sIncludeStatement&quot;).getText()
 	While InStr (sIncludeStatement, &quot;\&quot;) &gt; 0	&apos;  replace &quot;\&quot; by &quot;/&quot;, even in Windows LilyPond expects paths to be written with forward slashes
 		Mid (sIncludeStatement, InStr (sIncludeStatement, &quot;\&quot;), 1, &quot;/&quot;)
@@ -244,12 +317,14 @@ Sub ApplyConfig
 	
 	SetDocTypeSpecificDefaults()
 	
-	&apos;  Change the font of the editor pane:
+	&apos; Change the font of the editor pane:
 	oFieldModel = oEditorDialog.getControl(&quot;sCode&quot;).getModel()
 	MyFont.Name = sEditorFontName
 	&apos; MyFont.StyleName = &quot;Fett&quot;  &apos; bad idea...
 	MyFont.Height = sEditorFontSize
 	oFieldModel.FontDescriptor = MyFont
+	
+	ReadLanguageFile()
 
 End Sub
 
@@ -272,6 +347,14 @@ Sub DefaultConfig()
 		sTmpPath = ConvertToURL(Environ(&quot;HOME&quot;)) &amp; &quot;/.ooolilypond-tmp/&quot;
 		If Not oFileAccess.exists(sTmpPath) then oFileAccess.createFolder(sTmpPath)
 		sTemplatePath = ConvertToURL(Environ(&quot;HOME&quot;)) &amp; &quot;/OOoLilyPond-Templates/&quot;
+		sLanguagePath = ConvertToURL(Environ(&quot;HOME&quot;)) &amp; &quot;/OOoLilyPond-Language/&quot;
+		&apos; Create Folder sLanguagePath and copy language files if it does not exist:
+		If Not oFileAccess.isFolder(sLanguagePath) Then
+			oFileAccess.createFolder(sLanguagePath)
+			&apos; Display a message: Folder for language files created
+			MsgBox (oMessages.getPropertyValue (&quot;sMsgLanguageFolderCreated1&quot;) &amp; ConvertFromURL(sLanguagePath) &amp; oMessages.getPropertyValue (&quot;sMsgLanguageFolderCreated2&quot;), iMsgBox_I, oMessages.getPropertyValue (&quot;sCaptionInfo&quot;))
+			CopyLanguageFiles()
+		End If
 	 	&apos; LilyPond Executable (not an URL)
  		sLilyPondExecutable = &quot;lilypond&quot;
  		sExtEditorExecutable = &quot;frescobaldi&quot;
@@ -289,6 +372,14 @@ Sub DefaultConfig()
 		sConfigFile = ConvertToURL(Environ(&quot;APPDATA&quot;)) &amp; &quot;/&quot; &amp; constOLyWinConfigFolderName &amp; &quot;/&quot; &amp; constOLyWinConfigFileName
 		sTmpPath = ConvertToURL(Environ(&quot;temp&quot;)) &amp; &quot;/&quot;
 		sTemplatePath = ConvertToURL(Environ(&quot;APPDATA&quot;) &amp; &quot;/&quot; &amp; constOLyWinConfigFolderName &amp; &quot;/Templates/&quot;
+		sLanguagePath = ConvertToURL(Environ(&quot;APPDATA&quot;) &amp; &quot;/&quot; &amp; constOLyWinConfigFolderName &amp; &quot;/Language/&quot;
+		&apos; Create Folder sLanguagePath and copy language files if it does not exist:
+		If Not oFileAccess.isFolder(sLanguagePath) Then
+			oFileAccess.createFolder(sLanguagePath)
+			&apos; Display a message: Folder for language files created
+			MsgBox (oMessages.getPropertyValue (&quot;sMsgLanguageFolderCreated1&quot;) &amp; ConvertFromURL(sLanguagePath) &amp; oMessages.getPropertyValue (&quot;sMsgLanguageFolderCreated2&quot;), iMsgBox_I, oMessages.getPropertyValue (&quot;sCaptionInfo&quot;))
+			CopyLanguageFiles()
+		End If
 	 	&apos; LilyPond Executable (not an URL)
 		sLilyPondExecutable = Environ(&quot;ProgramFiles&quot;) &amp; &quot;\LilyPond\usr\bin\lilypond.exe&quot;
 		sExtEditorExecutable = Environ(&quot;ProgramFiles&quot;) &amp; &quot;\Frescobaldi\frescobaldi.exe&quot;
@@ -328,6 +419,7 @@ Sub DefaultConfig()
 	sEditorFontSize = &quot;8&quot;
 	
 	bIgnoreWarnings = False
+	sLanguageFileName = &quot;-----&quot;
 	
 	SetDocTypeSpecificDefaults()
 	
@@ -365,6 +457,8 @@ Sub ReadConfig()
 			Select Case sName
 				
 			&apos; general settings
+			Case &quot;sLanguageFileName&quot;
+				sLanguageFileName = sValue
 			Case &quot;sLilyPondExecutable&quot;
 				sLilyPondExecutable = sValue
 			Case &quot;sLilyPondVersionMajor&quot;
@@ -431,6 +525,7 @@ Sub ReadConfig()
 	oTextInputStream.closeInput()
 
 	SetDocTypeSpecificDefaults()
+	ReadLanguageFile()
 	
 End Sub
 
@@ -448,6 +543,7 @@ Sub SaveConfig
 
     oTextOutputStream.writeString(&quot;*** Configuration file of &quot; &amp; constOLyLibraryName &amp; &quot; ***&quot; &amp; Chr(10) )
 	&apos; general settings
+	oTextOutputStream.writeString(&quot;sLanguageFileName=&quot; &amp; sLanguageFileName &amp; Chr(10) )
 	oTextOutputStream.writeString(&quot;sLilyPondExecutable=&quot; &amp; sLilyPondExecutable &amp; Chr(10) )
 	oTextOutputStream.writeString(&quot;sLilyPondVersionMajor=&quot; &amp; sLilyPondVersionMajor &amp; Chr(10) )
 	oTextOutputStream.writeString(&quot;sLilyPondVersionMinor=&quot; &amp; sLilyPondVersionMinor &amp; Chr(10) )
@@ -521,6 +617,107 @@ End Sub
 Sub RestoreTemplatesButton()
 	sTemplatePath = AddSlash(ConvertToURL(oConfigDialog.getControl(&quot;sTemplatePath&quot;).getText()))
 	CopyTemplates()	
+End Sub
+
+
+Sub RestoreLanguageFilesButton()
+	CopyLanguageFiles()	
+End Sub
+
+
+Function PickExecutableFile (sExeFileName As String) As Boolean
+
+	Dim oFileDlg As Object
+	Dim oFiles
+	Dim sFile As String
+
+	On Error GoTo ErrorHandler
+	sFile = sExeFileName
+	PickExecutableFile = False
+	oFileDlg = CreateUnoService (&quot;com.sun.star.ui.dialogs.FilePicker&quot;)
+	&apos; oFileDlg.setMultiSelectionMode (False)	&apos; seems to crash LibO 5.3.0.3, so better don&apos;t use it, as default setting is &quot;False&quot; anyway
+	If sFile &lt;&gt; &quot;&quot; Then
+		sFile = ConvertToURL (sFile)
+	Else
+		If sOSType = &quot;Unix&quot; Then
+			sFile = ConvertToURL (Environ(&quot;HOME&quot;))
+		Else	&apos; Windows
+			sFile = ConvertToURL (Environ(&quot;ProgramFiles&quot;))
+		End If
+	End If
+	oFileDlg.setDefaultName(sFile)
+ 	oFileDlg.AppendFilter (oMessages.getPropertyValue (&quot;sFilterAllFiles&quot;), &quot;*.*&quot;)
+	If sOSType = &quot;Unix&quot; Then
+		oFileDlg.SetCurrentFilter (oMessages.getPropertyValue (&quot;sFilterAllFiles&quot;))
+	Else	&apos; Windows
+		oFileDlg.AppendFilter (oMessages.getPropertyValue (&quot;sFilterExecutableFiles&quot;), &quot;*.exe&quot;)
+		oFileDlg.SetCurrentFilter (oMessages.getPropertyValue (&quot;sFilterExecutableFiles&quot;))
+	End If
+ 	If oFileDlg.execute() Then
+		oFiles = oFileDlg.getFiles()
+		If UBound(oFiles) &gt;= 0 Then
+			sExeFileName = ConvertFromURL(oFiles(0))
+			PickExecutableFile = True
+		End If
+	End If
+	ErrorHandler:
+End Function
+
+
+Function PickFolder (sFolderName As String) As Boolean
+
+	Dim oFolderDlg As Object
+	Dim sFolder As String
+
+	&apos; On Error Resume Next
+	sFolder = sFolderName
+	PickFolder = False
+	oFolderDlg = CreateUnoService (&quot;com.sun.star.ui.dialogs.FolderPicker&quot;)
+	If sFolder &lt;&gt; &quot;&quot; Then
+		sFolder = ConvertToURL (sFolder)
+	Else
+		If sOSType = &quot;Unix&quot; Then
+			sFolder = ConvertToURL (Environ(&quot;HOME&quot;))
+		Else	&apos; Windows
+			sFolder = ConvertToURL (Environ(&quot;ProgramFiles&quot;))
+		End If
+	End If
+	oFolderDlg.setDisplayDirectory (sFolder)
+	
+ 	If oFolderDlg.execute() Then
+ 		sFolderName = ConvertFromURL(oFolderDlg.GetDirectory())
+		PickFolder = True
+	End If
+End Function
+
+
+Sub ExtEditorPickButton()
+	Dim sFile As String
+	
+	sFile = oConfigDialog.getModel().getByName(&quot;sExtEditorExecutable&quot;).Text
+	If PickExecutableFile (sFile) Then
+		oConfigDialog.getModel().getByName(&quot;sExtEditorExecutable&quot;).Text = sFile
+	End If
+End Sub
+
+
+Sub LilyPondPickButton()
+	Dim sFile As String
+	
+	sFile = oConfigDialog.getModel().getByName(&quot;sLilyPondExecutable&quot;).Text
+	If PickExecutableFile (sFile) Then
+		oConfigDialog.getModel().getByName(&quot;sLilyPondExecutable&quot;).Text = sFile
+	End If
+End Sub
+
+
+Sub TemplatePathPickButton()
+	Dim sFolder As String
+	
+	sFolder = oConfigDialog.getModel().getByName(&quot;sTemplatePath&quot;).Text
+	If PickFolder (sFolder) Then
+		oConfigDialog.getModel().getByName(&quot;sTemplatePath&quot;).Text = sFolder
+	End If
 End Sub
 
 

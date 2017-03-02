@@ -7,6 +7,7 @@ Option Explicit
 Function CallLilyPond() As Boolean
 	Dim sCommand As String
 	Dim sBackendOpt As String
+	Dim sLilyPondOutput As String
 
 	sBackendOpt=&quot;-dbackend=eps&quot;
 	If 	Val(sLilyPondVersionMajor)=2 and Val(sLilyPondVersionMinor)&lt;=10 Then
@@ -47,16 +48,23 @@ Function CallLilyPond() As Boolean
 		ElseIf sFormat=&quot;svg&quot; Then
 			sCommand = sCommand &amp; &quot; &quot; &amp; sBackendOpt &amp; &quot; &quot; &amp; constOLyFileName &amp; &quot;.ly &gt;&quot; &amp; constOLyFileName &amp; &quot;.out 2&gt;&amp;1&quot; &amp; Chr(10)
 		End If
-		sCommand=sCommand &amp; &quot;if errorlevel 9009 echo cannot execute &gt;LilyPond-cannot_execute&quot; &apos;ToDo: 9009 OK? Other errors? Wrong Permissions?
+		sCommand=sCommand &amp; &quot;if %ERRORLEVEL% equ 9009 echo cannot execute &gt;LilyPond-cannot_execute&quot; &amp; Chr(10) _
+		&amp; &quot;if %ERRORLEVEL% equ 3 echo cannot execute &gt;LilyPond-cannot_execute&quot; &amp; Chr(10)
+		&apos;ToDo: 9009 and 3 OK? Other errors? Wrong Permissions?
 		WindowsCommand(sCommand)
 
 	End If
 
 	If oFileAccess.exists(sTmpPath &amp; &quot;LilyPond-cannot_execute&quot;) then
-		MsgBox &quot;LilyPond cannot be executed.&quot; &amp; Chr(10) _
-		&amp; &quot;Check the path specified for the lilypond executable in the configuration dialog,&quot; &amp; Chr(10) _
-		&amp; &quot;your LilyPond installation and permissions.&quot;
 		CallLilyPond=False &apos;lilypond was not executed
+		&apos; MsgBox &quot;LilyPond cannot be executed.&quot; &amp; Chr(10) _
+		&apos; &amp; &quot;Check the path specified for the lilypond executable in the configuration dialog,&quot; &amp; Chr(10) _
+		&apos; &amp; &quot;your LilyPond installation and permissions.&quot;
+		If StringFromFile (sLilyPondOutput, sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;) Then
+			MsgBox (oMessages.getPropertyValue (&quot;sMsgLilypondCannotExecute&quot;) &amp; Chr(10) &amp; Chr(10) &amp; sLilyPondOutput, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		Else
+			MsgBox (oMessages.getPropertyValue (&quot;sMsgLilypondCannotExecute&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		End If
 	Else
 		CallLilyPond=True &apos;lilypond was executed
 	End If
@@ -65,8 +73,10 @@ End Function
 
 
 Sub CleanUp()
+	On Error GoTo ErrorHandler
 	If 	oFileAccess.exists(sTmpPath &amp; &quot;LilyPond-version.out&quot;) Then oFileAccess.kill(sTmpPath &amp; &quot;LilyPond-version.out&quot;)
 	If 	oFileAccess.exists(sTmpPath &amp; &quot;LilyPond-cannot_execute&quot;) Then oFileAccess.kill(sTmpPath &amp; &quot;LilyPond-cannot_execute&quot;)
+	If 	oFileAccess.exists(sTmpPath &amp; &quot;ExtEditor-cannot_execute&quot;) Then oFileAccess.kill(sTmpPath &amp; &quot;ExtEditor-cannot_execute&quot;)
 	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;)
 	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.eps&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;.eps&quot;)
 	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;-1.eps&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;-1.eps&quot;)
@@ -76,12 +86,22 @@ Sub CleanUp()
 	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;Temp.ly&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;Temp.ly&quot;)
 	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.png&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;.png&quot;)
 	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.svg&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;.svg&quot;)
+	Exit Sub
+	
+	ErrorHandler:
+		If Err &lt;&gt; 1 Then
+			MsgBox (Err &amp; Chr(10) &amp; Error, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		Else	&apos; Error 1: &quot;A file or directory could not be deleted&quot;
+			&apos; Nothing. This can happen in old-fashioned OpenOffice if you use the &quot;direct&quot; method to insert images. Apparently, it works anyway, don&apos;t know why... 
+		End If
+	Resume Next
 End Sub
 
 
 Function LilyPondVersion() As Boolean
 	Dim sCommand As String
 	Dim oTextInputStream As Object
+	Dim sLilyPondOutput As String
 	dim sLine As String
 	dim sWords() As String
 	dim sLilyPondVersion() As String
@@ -100,18 +120,24 @@ Function LilyPondVersion() As Boolean
 
 		sCommand = &quot;cd /d &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; Chr(34) &amp; Chr(10) _
 		&amp; Chr(34) &amp; sLilyPondExecutable &amp; Chr(34) &amp; &quot; --version &gt;&quot; &amp; constOLyFileName &amp; &quot;.out 2&gt;&amp;1&quot; &amp; Chr(10) _
-		&amp; &quot;if errorlevel 9009 echo cannot execute &gt;LilyPond-cannot_execute&quot; &apos;ToDo: 9009 OK? Other errors? Wrong Permissions?
+		&amp; &quot;if %ERRORLEVEL% equ 9009 echo cannot execute &gt;LilyPond-cannot_execute&quot; &amp; Chr(10) _
+		&amp; &quot;if %ERRORLEVEL% equ 3 echo cannot execute &gt;LilyPond-cannot_execute&quot; &amp; Chr(10)
+		&apos;ToDo: 9009 and 3 OK? Other errors? Wrong Permissions?
 		WindowsCommand(sCommand)
-
 	End If
 
 	If oFileAccess.exists(sTmpPath &amp; &quot;LilyPond-cannot_execute&quot;) then
-		MsgBox &quot;LilyPond cannot be executed.&quot; &amp; Chr(10) _
-		&amp; &quot;Check the path specified for the lilypond executable in the configuration dialog,&quot; &amp; Chr(10) _
-		&amp; &quot;your LilyPond installation and permissions.&quot;
 		sLilyPondVersionMajor = &quot;&quot;
 		sLilyPondVersionMinor = &quot;&quot;
 		LilyPondVersion = False &apos;lilypond was not executed
+		&apos; MsgBox &quot;LilyPond cannot be executed.&quot; &amp; Chr(10) _
+		&apos; &amp; &quot;Check the path specified for the lilypond executable in the configuration dialog,&quot; &amp; Chr(10) _
+		&apos; &amp; &quot;your LilyPond installation and permissions.&quot;
+		If StringFromFile (sLilyPondOutput, sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;) Then
+			MsgBox (oMessages.getPropertyValue (&quot;sMsgLilypondCannotExecute&quot;) &amp; Chr(10) &amp; Chr(10) &amp; sLilyPondOutput, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		Else
+			MsgBox (oMessages.getPropertyValue (&quot;sMsgLilypondCannotExecute&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		End If
 	Else
 		&apos; read first line of output
 		&apos; Open input stream
@@ -139,7 +165,8 @@ Sub ParseOutput(sFile as String)
 	Dim i As Integer
 	
 	if Not oFileAccess.exists(sFile) then
-		Msgbox(&quot;The LilyPond output file does not exist:&quot; &amp; Chr(10) &amp; sFile, iMsgBoxE, &quot;Error&quot;)
+		&apos; Msgbox(&quot;The LilyPond output file does not exist:&quot; &amp; Chr(10) &amp; sFile, iMsgBox_E, &quot;Error&quot;)
+		Msgbox (oMessages.getPropertyValue (&quot;sMsgLyOutputFileMissing1&quot;) &amp; sFile &amp; oMessages.getPropertyValue (&quot;sMsgLyOutputFileMissing2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 		exit sub
 	end if
 
@@ -161,7 +188,9 @@ Sub ParseOutput(sFile as String)
 					iNErr = iNErr + 1
 					iErrRow(iNErr) = Val(vArray(LBound(vArray)+1))
 					iErrCol(iNErr) = Val(vArray(LBound(vArray)+2))
-					If (vArray(LBound(vArray)+3) = &quot; error&quot;) Or (vArray(LBound(vArray)+3) = &quot; Fehler&quot;) Then  &apos; ToDo: What if LilyPond&apos;s error message is in another language?
+					If (vArray(LBound(vArray)+3) = &quot; &quot; &amp; oMessages.getPropertyValue (&quot;sErrorKeyWord1&quot;)) Or (vArray(LBound(vArray)+3) = &quot; &quot; &amp; oMessages.getPropertyValue (&quot;sErrorKeyWord2&quot;)) Then  
+					&apos; (ToDo: What if LilyPond&apos;s error message is in another language?)
+					&apos; Done: Key words can be customized
 						iErrClass(iNErr)=2 &apos;Error
 					Else
 						iErrClass(iNErr)=1 &apos;Warning

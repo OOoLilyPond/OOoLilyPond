@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE script:module PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "module.dtd">
+<script:module xmlns:script="http://openoffice.org/2000/script" script:name="Messages" script:language="StarBasic">&apos; This module contains string constants for all messages 
+&apos; that could be needed during macro execution.
+&apos; Hopefully this makes it easier to translate the whole extension
+&apos; into other languages.
+
+Option Explicit
+
+Const BagAttr = 0
+
+&apos; Two or more strings can be concatenated by placing a &quot;&amp;&quot; sign between them.
+&apos; Chr(10) causes a line break.
+&apos; Chr(34) produces a quotation mark.
+
+
+Sub DefaultMessageStrings()	&apos; Compose the default strings needed for message boxes
+
+  &apos; Editor Dialog:
+  &apos; ---------------
+  
+  &apos; LilyPond&apos;s output messages are classified as an error or a warning:
+  oMessages.addProperty (&quot;sErrClassError&quot;, BagAttr, &quot;Error: &quot;)
+  oMessages.addProperty (&quot;sErrClassWarning&quot;, BagAttr,&quot;Warning: &quot;)
+  
+
+  &apos; Captions for special dialog boxes:
+  &apos; -----------------------------------
+  oMessages.addProperty (&quot;sCaptionTemplatesBackup&quot;, BagAttr,&quot;Templates Backup&quot;)  &apos; Old templates have been backed up
+  oMessages.addProperty (&quot;sCaptionError&quot;, BagAttr,&quot;Error&quot;)
+  oMessages.addProperty (&quot;sCaptionInfo&quot;, BagAttr,&quot;Warning&quot;)
+  oMessages.addProperty (&quot;sCaptionRUSure&quot;, BagAttr,&quot;Are you sure?&quot;)
+  oMessages.addProperty (&quot;sCaptionTemplateError&quot;, BagAttr,&quot;Template error&quot;)
+  oMessages.addProperty (&quot;sCaptionTempfileError&quot;, BagAttr,&quot;Error in temporary file&quot;)
+  oMessages.addProperty (&quot;sCaptionNewTemplateName&quot;, BagAttr,&quot;New template name&quot;)
+  
+  &apos; Filters for file picking dialogs:
+  &apos; ----------------------------------
+  oMessages.addProperty (&quot;sFilterExecutableFiles&quot;, BagAttr,&quot;Executable files (*.exe)&quot;)
+  oMessages.addProperty (&quot;sFilterAllFiles&quot;, BagAttr,&quot;All files (*.*)&quot;)
+
+  &apos; ------------------------------------------------------------------------------------------------------------
+  &apos; Some messages contain a path or file name. Therefore, two or more strings are used (one before, one after).
+  &apos; You can leave strings empty if you don&apos;t need them.
+  &apos; ------------------------------------------------------------------------------------------------------------
+
+
+  &apos; &quot;Config&quot; module
+  &apos; -----------------
+  
+  &apos; The template folder has successfully been created:
+ 
+  oMessages.addProperty (&quot;sMsgTemplateFolderCreated1&quot;, BagAttr, &quot;The folder&quot; &amp; Chr(10) &amp; Chr(34))
+  &apos; &quot;sTemplatePath&quot; is inserted here
+  oMessages.addProperty (&quot;sMsgTemplateFolderCreated2&quot;, BagAttr, Chr(34) &amp; Chr(10) &amp; &quot;has been created. It contains the OOoLilyPond templates you can modify.&quot; &amp; Chr(10) &amp; _
+    &quot;The original templates can always be restored while your modified templates are backed up. &quot; &amp; _
+    &quot;For this use the &quot; &amp; Chr(34) &amp; &quot;restore templates&quot; &amp; Chr(34) &amp; &quot; button in the configuration dialog.&quot;)
+
+  &apos; The template folder does not exist and cannot be created:
+  
+  oMessages.addProperty (&quot;sMsgTemplatePathFail1&quot;, BagAttr, &quot;The specified path for templates does not exist and cannot be created: &quot; &amp; Chr(10) &amp; Chr(34))
+  &apos; &quot;sTemplatePath&quot;
+  oMessages.addProperty (&quot;sMsgTemplatePathFail2&quot;, BagAttr, Chr(34) &amp; &quot;.&quot; &amp; Chr(10) &amp; &quot;Please adjust the path in the configuration dialog.&quot;)
+  
+  &apos; Old templates just have been backed up:
+  
+  oMessages.addProperty (&quot;sMsgTemplatesBackedUp1&quot;, BagAttr, &quot;Your old templates are backed up under &quot; &amp; Chr(34))
+  &apos; &quot;sBackupPath&quot;
+  oMessages.addProperty (&quot;sMsgTemplatesBackedUp2&quot;, BagAttr, Chr(34) &amp; &quot;.&quot;)
+  
+  &apos; Old language files just have been backed up:
+  
+  oMessages.addProperty (&quot;sMsgLanguageFilesBackedUp1&quot;, BagAttr, &quot;Your old language files are backed up under &quot; &amp; Chr(34))
+  &apos; &quot;sBackupPath&quot;
+  oMessages.addProperty (&quot;sMsgLanguageFilesBackedUp2&quot;, BagAttr, Chr(34) &amp; &quot;.&quot;)
+ 
+  
+  &apos; The following two messages regarding language folder/files will not be translated in the language files, 
+  &apos; because they are needed BEFORE any language file is read:
+  
+  &apos; The &quot;Language&quot; folder has successfully been created:
+  
+  oMessages.addProperty (&quot;sMsgLanguageFolderCreated1&quot;, BagAttr, &quot;The folder&quot; &amp; Chr(10) &amp; Chr(34))
+  &apos; &quot;sLanguagePath&quot; is inserted here
+  oMessages.addProperty (&quot;sMsgLanguageFolderCreated2&quot;, BagAttr, Chr(34) &amp; Chr(10) &amp; &quot;has been created. It contains the OOoLilyPond language files you can modify using an external text editor.&quot; &amp; Chr(10) &amp; _
+    &quot;The original language files can always be restored while your modified ones are backed up. &quot; )
+
+  &apos; The language folder does not exist and cannot be created:
+  
+  oMessages.addProperty (&quot;sMsgLanguagePathFail1&quot;, BagAttr, &quot;The specified path for language files does not exist and cannot be created: &quot; &amp; Chr(10) &amp; Chr(34))
+  &apos; &quot;sLanguagePath&quot;
+  oMessages.addProperty (&quot;sMsgLanguagePathFail2&quot;, BagAttr, Chr(34) &amp; &quot;.&quot;)
+  
+
+  
+  &apos; &quot;Editor&quot; module
+  &apos; ----------------
+  
+  &apos; No templates are found at the given templates path:
+  
+  oMessages.addProperty (&quot;sMsgNoTemplatesFound1&quot;, BagAttr, &quot;No templates are found at the path: &quot; &amp; Chr(10) &amp; Chr(34))
+  &apos; &quot;sTemplatePath&quot;
+  oMessages.addProperty (&quot;sMsgNoTemplatesFound2&quot;, BagAttr, Chr(34) &amp; &quot;.&quot; &amp; Chr(10) &amp; constOLyLibraryName &amp; &quot; will not work without a template.&quot;)
+
+  &apos; The template path is not found:
+  
+  oMessages.addProperty (&quot;sMsgTemplatePathNotFound1&quot;, BagAttr, &quot;The template path &quot; &amp;  Chr(10) &amp; Chr(34))
+  &apos; &quot;sTemplatePath&quot;
+  oMessages.addProperty (&quot;sMsgTemplatePathNotFound2&quot;, BagAttr, Chr(34) &amp; &quot; is not found.&quot;)
+  
+  &apos; There is no file that contains LilyPond&apos;s output messages:
+  
+  oMessages.addProperty (&quot;sMsgNoLyOutput&quot;, BagAttr, &quot;There is no LilyPond output file.&quot;)
+  
+  &apos; Specified path to External Editor file not valid:
+  
+  oMessages.addProperty (&quot;sMsgExtEditorPathFail&quot;, BagAttr, &quot;No valid file name / path for External Editor is specified.&quot;)
+  
+  &apos; The specified file for the External Editor exists, but is not an executable file:
+  
+  oMessages.addProperty (&quot;sMsgNoValidExecutable1&quot;, BagAttr, &quot;The specified file&quot; &amp; Chr(10) &amp; Chr(34))
+  &apos; sExtEditorExecutable
+  oMessages.addProperty (&quot;sMsgNoValidExecutable2&quot;, BagAttr, Chr(34) &amp; Chr(10) &amp; &quot;is not a valid executable file.&quot;)
+  
+  &apos; When checkbox &quot;Reset Code&quot; is clicked, ask if current code is to be replaced by default code:
+  
+  oMessages.addProperty (&quot;sMsgResetCode&quot;, BagAttr, &quot;Do you really want to reset your code to the default?&quot;)
+  
+  &apos; There is no LilyPond Code in the editor window:
+  
+  oMessages.addProperty (&quot;sMsgEnterLyCode&quot;, BagAttr, &quot;The Code window is empty.&quot; &amp; Chr(10) &amp; &quot;Enter LilyPond Code...&quot;)
+  
+  &apos; Prompt for &quot;save as&quot; (saving a template under a new name):
+  
+  oMessages.addProperty (&quot;sMsgEnterNewTemplateName&quot;, BagAttr, &quot;Please enter a new template name and click OK.&quot;)
+  
+  
+  &apos; &quot;LilyPond&quot; module
+  &apos; ------------------
+  
+  &apos; LilyPond could not be executed (calling the specified executable was not successful):
+  
+  oMessages.addProperty (&quot;sMsgLilypondCannotExecute&quot;, BagAttr, &quot;LilyPond cannot be executed.&quot; &amp; Chr(10) _
+		&amp; &quot;Please check the path specified for the lilypond executable in the configuration dialog, your LilyPond installation and permissions.&quot;)
+  
+  &apos; The LilyPond output (message) file does not exist:
+  
+  oMessages.addProperty (&quot;sMsgLyOutputFileMissing1&quot;, BagAttr, &quot;The LilyPond output file does not exist: &quot; &amp; Chr(10))
+  &apos; &quot;output file name&quot;
+  oMessages.addProperty (&quot;sMsgLyOutputFileMissing2&quot;, BagAttr, &quot;&quot;)
+  
+  &apos; LilyPond&apos;s output messages are read out from OOoLilyPond.out.
+  &apos; If there were errors or warnings during the compilation, the corresponding messages are displayed in the editor window. 
+  &apos; To distinguish errors from warnings, OLy can check for the key word &quot;error&quot; 
+  &apos; after the third colon (and an additional whitspace) in each message.
+  &apos; If it&apos;s there, the message is treated as an error. If not, the message is treated as a warning (which you can choose to suppress).
+  &apos; If your LilyPond installation &quot;speaks&quot; a language other than english, OLy has to check for a different key word.
+  &apos; Here you can specify two key words. If one of them matches the expression in the error message, it is treated as an error. 
+  &apos; If you don&apos;t want to specify two different key words, assign the same to both.
+  
+  oMessages.addProperty (&quot;sErrorKeyWord1&quot;, BagAttr, &quot;error&quot;)
+  oMessages.addProperty (&quot;sErrorKeyWord2&quot;, BagAttr, &quot;Fehler&quot;)
+  
+  
+  &apos; &quot;Messages&quot; module
+  &apos; --------------------
+  
+  &apos; The specified language file has not been found:
+  
+  oMessages.addProperty (&quot;sMsgLanguageFileNotFound1&quot;, BagAttr, &quot;The specified language file&quot; &amp; Chr(10) &amp; Chr(34))
+  &apos; (file name)
+  oMessages.addProperty (&quot;sMsgLanguageFileNotFound2&quot;, BagAttr, Chr(34) &amp; Chr(10) &amp; &quot;has not been found.&quot;)
+  
+  &apos; Invalid entries caused errors while reading the language file:
+  
+  oMessages.addProperty (&quot;sMsgLanguageEntryErrors1&quot;, BagAttr, &quot;Please correct the language file or choose another one.&quot; &amp; Chr(10) &amp; &quot;The language file &quot; + Chr(34))
+  &apos; sLanguageFile (file name)
+  oMessages.addProperty (&quot;sMsgLanguageEntryErrors2&quot;, BagAttr, Chr(34) &amp; &quot; contains &quot;)
+  &apos; iLanguageEntryErrors (number of errors)
+  oMessages.addProperty (&quot;sMsgLanguageEntryErrors3&quot;, BagAttr, &quot; entry line(s) that caused the following error message(s):&quot;)
+  
+  &apos; There were more (language file entry) errors than would fit into a message box:
+  
+  oMessages.addProperty (&quot;sMsgSurplusLanguageErrors1&quot;, BagAttr, &quot;...+&quot;)
+  &apos; iMaxLanguageEntryError (maximal number to be displayed)
+  oMessages.addProperty (&quot;sMsgSurplusLanguageErrors2&quot;, BagAttr, &quot; additional message(s)...&quot;)
+  
+  
+  &apos; &quot;OOoLilyPond&quot; module
+  &apos; ---------------------
+  
+  &apos; Document type not supported, i.e. user tried to insert OLy Object into a document other than Writer, Impress or Draw:
+  
+  oMessages.addProperty (&quot;sMsgDocTypeNotSupported1&quot;, BagAttr, &quot;&quot;)
+  &apos; &quot;document type&quot;
+  oMessages.addProperty (&quot;sMsgDocTypeNotSupported2&quot;, BagAttr, &quot;: document type not supported by &quot; &amp; constOLyLibraryName)
+  
+  &apos; LilyPond has never been successfully called:
+  
+  oMessages.addProperty (&quot;sMsgLilypondNotFound&quot;, BagAttr, &quot;LilyPond can not be found. Please check whether LilyPond is properly installed&quot; &amp; Chr(10) _
+                               &amp; &quot;and the specified path to the LilyPond executable is correct.&quot;)
+  
+  &apos; OLy has been called with an object selected that is not an OLy object:
+  
+  oMessages.addProperty (&quot;sMsgNoOlyObject&quot;, BagAttr, &quot;The selected object is not an OLy object ...&quot;)
+  
+  &apos; After LilyPond has been called, no graphics output file is found:
+  
+  oMessages.addProperty (&quot;sMsgNoEpsOutputFound&quot;, BagAttr, &quot;No eps output is found.&quot;)
+  oMessages.addProperty (&quot;sMsgNoSvgOutputFound&quot;, BagAttr, &quot;No svg output is found.&quot; &amp; Chr(10) &amp; Chr(10) &amp; _ 
+  		&quot;You should check LilyPond&apos;s output messages by clicking the &quot;&quot;Ly Output&quot;&quot; button.&quot; &amp; Chr(10) &amp; Chr(10) &amp; _
+  		&quot;Please make sure that&quot; &amp; Chr(10) &amp; Chr(10) &amp; _
+  		&quot;1.) your settings for Staff Size etc. provide sufficient space for your musical snippet.&quot; &amp; Chr (10) &amp; _
+  		&quot;(This is necessary if Ly Output reports successful compiling, but more than one file has been created&quot; &amp; Chr(10) &amp; _
+  		&quot;      --- or ---&quot; &amp; Chr(10) &amp; _
+  		&quot;if Ly Output reports successful compiling, but no file has been created and error messages talk about &quot;&quot;...bad number of pages&quot;&quot;.)&quot; &amp; Chr(10) &amp; Chr(10) &amp; _
+  		&quot;2.) your template and your code do not include &quot;&quot;lilypond-book-preamble.ly&quot;&quot;. &quot; &amp; Chr(10) &amp; _
+  		&quot;(This is necessary if Ly Output reports successful compiling, but only *.eps and/or *.pdf files have been created, but no *.svg files.)&quot; )
+  oMessages.addProperty (&quot;sMsgNoPngOutputFound&quot;, BagAttr, &quot;No png output is found.&quot;)
+  
+  &apos; InsertOOoLilyPondObject caused runtime error 1: &quot;End of content node doesn&apos;t have the proper start node&quot;
+  
+  oMessages.addProperty (&quot;MsgNoStartNode&quot;, BagAttr, &quot;Hint: If you failed to edit/create an object inside a table, try the following:&quot; &amp; Chr(10) &amp; Chr(10) _
+  					&amp; &quot;1.) If you want to edit an existing object, copy it to a place outside the table.&quot; &amp; Chr(10) &amp; Chr(10) _
+  					&amp; &quot;2.) Edit/create the object outside the table.&quot; &amp; Chr(10) &amp; Chr(10) _
+  					&amp; &quot;3.) Copy the object to its destination inside the table.&quot; &amp; Chr(10) &amp; Chr(10) _ 
+  					&amp; &quot;Please also ensure that the graphics format (eps, svg, ...) you&apos;ve specified in the Config dialog is compatible with your Office version (OpenOffice or LibreOffice).&quot;)
+  
+  
+  &apos; &quot;Templates&quot; module
+  &apos; -------------------
+  
+  &apos; No tags are found in the selected template (at least a &quot;Code&quot; tag is necessary):
+  
+  oMessages.addProperty (&quot;sMsgNoTagsInTemplate1&quot;, BagAttr, &quot;No &quot; &amp; constOLyLibraryName &amp; &quot; tags found in the template!&quot; &amp; Chr(10) &amp; &quot;Please correct the template file:&quot; &amp; Chr(10))
+  &apos; (file name)
+  oMessages.addProperty (&quot;sMsgNoTagsInTemplate2&quot;, BagAttr, &quot;&quot;)
+  
+  &apos; A tag does not have its corresponding end tag:
+  
+  oMessages.addProperty (&quot;sMsgMissingEndTag1&quot;, BagAttr, &quot;The corresponding end tag &quot; &amp; Chr(34))
+  &apos; sEndTag 
+  oMessages.addProperty (&quot;sMsgMissingEndTag2&quot;, BagAttr, Chr(34) &amp; Chr(10) &amp; &quot;for tag &quot; &amp; Chr(34))
+  &apos; sFieldName
+  oMessages.addProperty (&quot;sMsgMissingEndTag3&quot;, BagAttr, Chr(34) &amp; Chr(10) &amp; &quot;is missing.&quot; &amp; Chr(10) &amp; &quot;Please correct the file &quot; &amp; Chr(34))
+  &apos; (file name)
+  oMessages.addProperty (&quot;sMsgMissingEndTag4&quot;, BagAttr, Chr(34) &amp; &quot;.&quot;)
+  
+  &apos; The specified template could not be opened:
+  
+  oMessages.addProperty (&quot;sMsgCannotOpenTemplate1&quot;, BagAttr, &quot;Cannot open the template file:&quot; &amp; Chr(10))
+  &apos; sTemplateFile
+  oMessages.addProperty (&quot;sMsgCannotOpenTemplate2&quot;, BagAttr, &quot;&quot;)
+
+  &apos; The temporary file could not be opened:
+  
+  oMessages.addProperty (&quot;sMsgCannotOpenTempfile1&quot;, BagAttr, &quot;Cannot open the temporary LilyPond file:&quot; &amp; Chr(10))
+  &apos; sTemplateFile
+  oMessages.addProperty (&quot;sMsgCannotOpenTempfile2&quot;, BagAttr, &quot;&quot;)
+
+  &apos; End tag is missing or misspelled (because the beginning of another tag has been found):
+  
+  oMessages.addProperty (&quot;sMsgMisspelledEndTag1&quot;, BagAttr, &quot;The corresponding end tag &quot; &amp; Chr(34))
+  &apos; sEndTag 
+  oMessages.addProperty (&quot;sMsgMisspelledEndTag2&quot;, BagAttr, Chr(34) &amp; Chr(10) &amp; &quot;for tag &quot; &amp; Chr(34))
+  &apos; sFieldName
+  oMessages.addProperty (&quot;sMsgMisspelledEndTag3&quot;, BagAttr, Chr(34) &amp; Chr(10) &amp; &quot;is missing or misspelled.&quot; &amp; Chr(10) &amp; &quot;Please correct the file &quot; &amp; Chr(34))
+  &apos; (file name)
+  oMessages.addProperty (&quot;sMsgMisspelledEndTag4&quot;, BagAttr, Chr(34) &amp; &quot;.&quot;)
+  
+  &apos; The template (or temp. file) does not have an OOoLilyPondCode tag:
+  
+  oMessages.addProperty (&quot;sMsgNoCodeTag1&quot;, BagAttr, &quot;No OOoLilyPondCode tag found!&quot; &amp; Chr(10) &amp; &quot;Please correct the file:&quot; &amp; Chr(10))
+  &apos; (file name)
+  oMessages.addProperty (&quot;sMsgNoCodeTag2&quot;, BagAttr, &quot;&quot;)
+  
+  &apos; The template (or temp. file) contains an end tag without preceeding start tag:
+  
+  oMessages.addProperty (&quot;sMsgLonelyEndTag1&quot;, BagAttr, &quot;Found end tag &quot; &amp; Chr(34))
+  &apos; sEndTag
+  oMessages.addProperty (&quot;sMsgLonelyEndTag2&quot;, BagAttr, Chr(34) &amp; &quot; without preceeding start tag.&quot; &amp; Chr(10) &amp; &quot;Please correct the file:&quot; &amp; Chr(10))
+  &apos; (file name)
+  oMessages.addProperty (&quot;sMsgLonelyEndTag3&quot;, BagAttr, &quot;&quot;)
+  
+  &apos; User attempted to delete a file, but the file was not found and could not be deleted:
+  
+  oMessages.addProperty (&quot;sMsgCannotDeleteTemplate1&quot;, BagAttr, &quot;Cannot delete the template file:&quot; &amp; Chr(10))
+  &apos; (file name)
+  oMessages.addProperty (&quot;sMsgCannotDeleteTemplate2&quot;, BagAttr, Chr(10) &amp; &quot;The file could not be found.&quot;)
+  
+  &apos; User deleted a template that was specified as default template. New default template has to be chosen.
+  
+  oMessages.addProperty (&quot;sMsgDefaultTemplateDeleted1&quot;, BagAttr, &quot;You have deleted the template &quot; &amp; Chr(34))
+  &apos; (template name)
+  oMessages.addProperty (&quot;sMsgDefaultTemplateDeleted2&quot;, BagAttr, Chr(34) &amp; Chr(10) &amp; &quot;which was specified as a default template.&quot; &amp; Chr(10) &amp; &quot;Please choose another default template in the configuration dialogue.&quot;)
+  
+  &apos; OLy could not write to the specified file:
+  
+  oMessages.addProperty (&quot;sMsgCouldNotWriteToFile1&quot;, BagAttr, &quot;Cannot write to file&quot; &amp; Chr(10) &amp; Chr(34))
+  &apos; (file name)
+  oMessages.addProperty (&quot;sMsgCouldNotWriteToFile2&quot;, BagAttr, Chr(34) &amp; Chr(10) &amp; Chr(10))
+  
+  
+  &apos; &quot;Tools&quot; module
+  &apos; ---------------
+  
+  &apos; An internal error in that should never happen in OOoLilyPond, just notify in case: 
+  
+  oMessages.addProperty (&quot;sMsgImportBitmapError&quot;, BagAttr, &quot;ImportBitmapIntoWriter: the second argument must be either a TextCursor or a TextGraphic.&quot;)
+End Sub
+
+
+Sub Skip()
+	If Left (sLanguageCode, 1) = Chr(13) Then					&apos; If there is Chr(13)...
+		sLanguageCode = Mid (sLanguageCode, 2)					&apos;    ...remove it
+	End If
+	If Left (sLanguageCode, 1) = Chr(10) Then					&apos; If there is Chr(10)...
+		sLanguageCode = Mid (sLanguageCode, 2)					&apos;    ...remove it
+	End If
+End Sub
+
+
+Sub ReadMessageStrings()	&apos; Called from ReadLanguageFile() if the following contents of sLanguageCode belongs to the [Messages] section
+
+	Dim iLineEndPos As Integer		&apos; position of the first sign that terminates a line from the text file. Can be Chr(13) or Chr(10) or both.
+	Dim iEqPos As Integer			&apos; position of the first &quot;equal&quot; sign
+	Dim iBreakPos As Integer		&apos; position of intended line break in strings
+	Dim sCodeToParse As String		&apos; the current line that has been read out of sLanguageCode (the file contents)
+	Dim sName, sValue As String
+	
+	On Error GoTo ErrorHandler
+	iLineEndPos = TagPos (sLanguageCode, Chr(13), Chr(10))	&apos; indicates the line end character(s)
+	While iLineEndPos &gt; 0 
+		sCodeToParse = LTrim (Left (sLanguageCode, iLineEndPos - 1))	&apos; copy the line out of sLanguageCode
+		If Left (sCodeToParse, 1) = &quot;[&quot; Then		&apos; beginning of a new section
+			Exit Sub								&apos; Return to ReadLanguageFile() before section name is removed from sLanguageCode
+		End If
+		sLanguageCode = Mid (sLanguageCode, iLineEndPos)			&apos; remove the line from the beginning of sLanguageCode
+		Skip()		
+		If Len (sCodeToParse) &gt; 0 And Left (sCodeToParse, 1) &lt;&gt; &quot;&apos;&quot; Then	&apos; neither a comment nor an empty line
+			&apos; split up sCodeToParse into sName and sValue
+			iEqPos = InStr (sCodeToParse, &quot;=&quot;)
+			If iEqPos &gt; 0 Then
+				sName =  Left  (sCodeToParse, iEqPos-1)
+				sValue = Right (sCodeToParse, Len(sCodeToParse)-iEqPos
+				&apos; as long as sValue contains the sequence &quot;%10&quot;, replace it with Chr(10):
+				iBreakPos = InStr (sValue, &quot;%10&quot;)
+				While iBreakPos &gt; 0 
+					Mid (sValue, iBreakPos, 3, Chr(10))
+					iBreakPos = InStr (sValue, &quot;%10&quot;)
+				Wend
+				
+				oMessages.setPropertyValue (sName, sValue)
+				
+			End If
+
+			
+
+		End If		
+		iLineEndPos = TagPos (sLanguageCode, Chr(13), Chr(10))
+	WEnd
+	Exit Sub
+	
+	ErrorHandler:
+		iLanguageEntryErrors = iLanguageEntryErrors + 1
+		If iLanguageEntryErrors &lt;= iMaxLanguageEntryError Then
+			sLanguageEntryErrors = sLanguageEntryErrors &amp; Chr (10) &amp; Chr (10) &amp; sCodeToParse &amp; Chr(10) &amp; Error
+		End If
+	Resume Next
+
+End Sub
+
+
+Sub ReadDialogStrings (oDialog As Object)	&apos; Called from ReadLanguageFile() if the following contents of sLanguageCode belongs to the dialog 
+											&apos; specified in the [xxxDialog] section command
+
+	Dim iLineEndPos As Integer		&apos; position of the first sign that terminates a line from the text file. Can be Chr(13) or Chr(10) or both.
+	Dim iEqPos As Integer			&apos; position of the first &quot;equal&quot; sign
+	Dim iDotPos As Integer			&apos; position of the first dot in sKey
+	Dim iBreakPos As Integer		&apos; position of intended line break in strings
+	Dim sCodeToParse As String		&apos; the current line that has been read out of sLanguageCode (the file contents)
+	Dim sKey As String, sValue As String, sName As String, sPart As String
+	
+	iLineEndPos = TagPos (sLanguageCode, Chr(13), Chr(10))	&apos; indicates the line end character(s)
+	On Error Goto LocalErrorHandler
+	While iLineEndPos &gt; 0 
+		sCodeToParse = LTrim (Left (sLanguageCode, iLineEndPos - 1))	&apos; copy the line out of sLanguageCode
+		If Left (sCodeToParse, 1) = &quot;[&quot; Then					&apos; beginning of a new section
+			Exit Sub											&apos; Return to ReadLanguageFile() before section name is removed from sLanguageCode
+		End If
+		sLanguageCode = Mid (sLanguageCode, iLineEndPos)			&apos; remove the line from the beginning of sLanguageCode
+		Skip()		
+		If Len (sCodeToParse) &gt; 0 And Left (sCodeToParse, 1) &lt;&gt; &quot;&apos;&quot; Then	&apos; neither a comment nor an empty line
+			&apos; split up sCodeToParse into sKey and sValue if it contains an &quot;equal&quot; sign
+			iEqPos = InStr (sCodeToParse, &quot;=&quot;)
+			If iEqPos &gt; 0 Then
+				sKey = Left (sCodeToParse, iEqPos-1)
+				sValue = Right (sCodeToParse, Len(sCodeToParse)-iEqPos
+				&apos; split up sKey into sName and sPart if it contains a dot
+				iDotPos = InStr (sKey, &quot;.&quot;)
+				if iDotPos &gt; 0 Then
+					sName = Left (sKey, iDotPos-1)
+					sPart = Right (sKey, Len(sKey)-iDotPos)
+					&apos; as long as sValue contains the sequence &quot;%10&quot;, replace it with Chr(10):
+					iBreakPos = InStr (sValue, &quot;%10&quot;)
+					While iBreakPos &gt; 0 
+						Mid (sValue, iBreakPos, 3, Chr(10))
+						iBreakPos = InStr (sValue, &quot;%10&quot;)
+					Wend
+					Select Case sPart
+						Case &quot;label&quot;
+ 							oDialog.getModel().getByName(sName).Label = sValue
+						Case &quot;helptext&quot;
+							oDialog.getModel().getByName(sName).helptext = sValue
+					End Select
+				Else
+					If sKey = &quot;DialogTitle&quot; Then
+						oDialog.getModel().Title = sValue
+					End If				
+				End If
+			End If
+		End If		
+		iLineEndPos = TagPos (sLanguageCode, Chr(13), Chr(10))
+	WEnd
+	Exit Sub
+	
+	LocalErrorHandler: 
+		iLanguageEntryErrors = iLanguageEntryErrors + 1
+		If iLanguageEntryErrors &lt;= iMaxLanguageEntryError Then
+			sLanguageEntryErrors = sLanguageEntryErrors &amp; Chr (10) &amp; Chr (10) &amp; sCodeToParse &amp; Chr(10) &amp; Error
+		End If
+	Resume Next
+
+End Sub
+
+
+Function ListOfLanguageFiles (oComboBox) As Integer
+	&apos; Fills the ComboBox with the list of Language files
+	&apos; Returns
+	&apos; 0 If everything worked ok
+	&apos; 1 If no templates are found
+	&apos; 2 If the template path does not exist
+	&apos; (adapted version of ListOfTemplates() function)
+	&apos; Unlike in ListOfTemplates, the entries will keep their &quot;.ini&quot; extension
+
+	Dim sItemArray(1000) As String
+	Dim t As String
+	Dim i As Integer
+
+	&apos;Clear list
+	oComboBox.removeItems(0, oComboBox.getItemCount)
+	If Not oFileAccess.isFolder(sLanguagePath) Then
+		ListOfTemplates=2
+	Else
+		i=0
+		t=Dir(sLanguagePath)
+		Do While t&lt;&gt;&quot;&quot;
+			If Right(t,4)=&quot;.ini&quot; Then
+				sItemArray(i)=t
+				i=i+1
+			End If
+			t=Dir
+		Loop
+		If i=0 Then
+			ListOfTemplates=1
+		Else
+			sItemArray(i)=&quot;-----&quot;	&apos; provide an entry for &quot;none&quot;
+			i=i+1
+			ReDim Preserve sItemArray(i-1) As String
+			SortStringArray(sItemArray)
+			oComboBox.addItems(sItemArray,0)
+			ListOfLanguageFiles=0
+		End If
+	EndIf
+End Function
+
+
+Sub ReadLanguageFile()	&apos; If a language file is specified, read out its contents to replace the message strings, dialog labels etc.
+
+	Dim sLanguageFile As String		&apos; path and file name
+	Dim iLineEndPos As Integer		&apos; position of the first sign that terminates a line from the text file. Can be Chr(13) or Chr(10) or both.
+	Dim sCodeToParse As String		&apos; the current line that has been read out of sLanguageCode (the file contents)
+	
+	If Right (sLanguageFileName, 4) &lt;&gt; &quot;.ini&quot; Then	&apos; If no valid &quot;*.ini&quot; file name is specified...
+		Exit Sub									&apos;   ... simply do nothing
+	End If
+
+	sLanguageFile = sLanguagePath &amp; sLanguageFileName
+	If Not StringFromFile(sLanguageCode, sLanguageFile) Then
+		&apos; Message: Language file not found
+		MsgBox (oMessages.getPropertyValue (&quot;sMsgLanguageFileNotFound1&quot;) &amp; ConvertFromURL(sLanguageFile) &amp; oMessages.getPropertyValue (&quot;sMsgLanguageFileNotFound2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		Exit Sub
+	End If
+	sLanguageCode = sLanguageCode &amp; Chr(13) &amp; Chr(10)		&apos; append a line break at the end
+	
+	iLanguageEntryErrors = 0
+	
+	
+	iLineEndPos = TagPos (sLanguageCode, Chr(13), Chr(10))	&apos; indicates the line end character(s)
+	While iLineEndPos &gt; 0 
+		sCodeToParse = Trim (Left (sLanguageCode, iLineEndPos - 1))	&apos; copy the line out of sLanguageCode
+		sLanguageCode = Mid (sLanguageCode, iLineEndPos)			&apos; remove the line from the beginning of sLanguageCode
+		Skip()		
+		If Len (sCodeToParse) &gt; 0 And Left (sCodeToParse, 1) &lt;&gt; &quot;&apos;&quot; Then	&apos; neither a comment nor an empty line
+			&apos; If we are here, sCodeToParse should contain a section name. 
+			&apos; Another procedure will care about sLanguageCode until there is a section name again.
+			Select Case sCodeToParse				
+			Case &quot;[Messages]&quot;
+				ReadMessageStrings()
+			Case &quot;[EditorDialog]&quot;
+				ReadDialogStrings (oEditorDialog)
+			Case &quot;[TemplateEditorDialog]&quot;
+				ReadDialogStrings (oTemplateEditorDialog)
+			Case &quot;[ConfigDialog]&quot;
+				ReadDialogStrings (oConfigDialog)
+			Case &quot;[OutputDialog]&quot;
+				ReadDialogStrings (oOutputDialog)
+			End Select			
+		End If		
+		iLineEndPos = TagPos (sLanguageCode, Chr(13), Chr(10))
+	WEnd
+	
+	If iLanguageEntryErrors &gt; 0 Then
+		If iLanguageEntryErrors &gt; iMaxLanguageEntryError Then
+			sLanguageEntryErrors = sLanguageEntryErrors &amp; Chr(10) &amp; Chr(10) &amp; oMessages.getPropertyValue (&quot;sMsgSurplusLanguageErrors1&quot;) &amp; iLanguageEntryErrors - iMaxLanguageEntryError &amp; oMessages.getPropertyValue (&quot;sMsgSurplusLanguageErrors2&quot;)
+		End If
+		MsgBox (oMessages.getPropertyValue (&quot;sMsgLanguageEntryErrors1&quot;) &amp; sLanguageFileName &amp; oMessages.getPropertyValue (&quot;sMsgLanguageEntryErrors2&quot;) &amp; iLanguageEntryErrors &amp; oMessages.getPropertyValue (&quot;sMsgLanguageEntryErrors3&quot;) &amp; sLanguageEntryErrors, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+	End If
+
+End Sub
+
+
+
+
+</script:module>

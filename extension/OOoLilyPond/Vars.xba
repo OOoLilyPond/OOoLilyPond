@@ -8,11 +8,14 @@ Private constOLyLibraryName As String				&apos; name of the macro library among 
 Private constOLyWinConfigFileName As String			&apos; Config file name for Windows version
 Private constOLyWinConfigFolderName As String		&apos; Folder name where Config file and the Template subfolder are located (Windows version)
 
+Private oMessages As Variant		&apos; PropertyBag for all message box strings and stuff related to them
+
 &apos; Paths
 Private sConfigFile As String
 Private sTmpPath As String
 Private sLilyPondExecutable As String
 Private sTemplatePath As String
+Private sLanguagePath As String
 Private sExtEditorExecutable As String
 Private sIncludeStatement As String
 Private sEditorFontName As String
@@ -30,6 +33,7 @@ Private bWriterInsertViaClipboard As Boolean
 Private bImpressInsertViaClipboard As Boolean
 Private bWriterKeepCrop As Boolean
 Private bImpressKeepCrop As Boolean
+Private sLanguageFileName As String
 
 &apos; Environment
 Private sOSType As String
@@ -41,6 +45,7 @@ Private sLilyPondVersionMinor As String
 Private oEditorDialog As Object &apos; OOoLilyPond Editor Dialog (Main Dialog)
 Private oTemplateEditorDialog As Object &apos; Template Editor Dialog
 Private oConfigDialog As Object &apos; Configuration Dialog
+Private oOutputDialog As Object &apos; LilyPond Output Dialog
 
 &apos; OOoLilyPond object data
 Private sTemplate As String		&apos; The name of the template used
@@ -69,6 +74,7 @@ Private bUseStaffSizeFromTemplate As String
 
 &apos; Code related strings
 Private sTemplateCode As String &apos; String containing the template 
+Private sLanguageCode As String	&apos; String containing the language file
 Private sLilyPondCode As String &apos; The input sent to LilyPond
 Private iCodeStartPos As Integer &apos; Position of Code Snipped within sLilyPondCode
 Private iLineWidthStartPos As Integer
@@ -93,6 +99,9 @@ Private iErrClass(1000) As Integer &apos;1 = waring, 2 = error
 Private sErrMsg(1000) As String &apos;error messages
 Private iNErr As Integer &apos;number of errors
 Private iErrNum As Integer &apos;number of error actually displayed
+Private sLanguageEntryErrors As String 	&apos; collection of errors while reading a language file
+Private iLanguageEntryErrors As Integer &apos; number of errors while reading a language file
+
 
 &apos; Flags used for graying out the input fields
 Private bLineWidthFieldExists As Boolean
@@ -106,6 +115,7 @@ Private oSelection As Object
 &apos; and set the values by calling this function in Main().
 Private iMsgBox_O, iMsgBox_OC, iMsgBox_AR, iMsgBox_YNC, iMsgBox_YN, iMsgBox_RC, iMsgBox_S, iMsgBox_Q, iMsgBox_E, iMsgBox_I, iMsgBox_1, iMsgBox_2, iMsgBox_3 As Integer
 Private iAnswer_OK, iAnswer_Cancel, iAnswer_Abort, iAnswer_Retry, iAnswer_Ignore, iAnswer_Yes, iAnswer_No
+Private iMaxLanguageEntryError As Integer
 Sub PrivateConstants()
 	&apos; MsgBox Options
 	iMsgBox_O = 0 &apos; Display OK button only.
@@ -137,6 +147,8 @@ Sub PrivateConstants()
 	&apos; constOLyWinConfigFileName = &quot;lolilypond-config&quot;	&apos; Config file name for Windows version
 	constOLyWinConfigFileName = &quot;ooolilypond-config&quot;	&apos; Config file name for Windows version
 	constOLyWinConfigFolderName = &quot;OOoLilyPond&quot;			&apos; Folder name where Config file and the Template subfolder are located (Windows version)
+	
+	iMaxLanguageEntryError = 6		&apos; maximal number of Language file entry errors to be displayed in message box
 
 End Sub
 
