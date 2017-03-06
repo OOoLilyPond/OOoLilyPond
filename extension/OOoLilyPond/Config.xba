@@ -630,22 +630,31 @@ Function PickExecutableFile (sExeFileName As String) As Boolean
 	Dim oFileDlg As Object
 	Dim oFiles
 	Dim sFile As String
+	Dim sDirectory As String
+	Dim sTemp As String
+	Dim iPos As Integer
 
 	On Error GoTo ErrorHandler
 	sFile = sExeFileName
 	PickExecutableFile = False
 	oFileDlg = CreateUnoService (&quot;com.sun.star.ui.dialogs.FilePicker&quot;)
 	&apos; oFileDlg.setMultiSelectionMode (False)	&apos; seems to crash LibO 5.3.0.3, so better don&apos;t use it, as default setting is &quot;False&quot; anyway
-	If sFile &lt;&gt; &quot;&quot; Then
-		sFile = ConvertToURL (sFile)
-	Else
+	sFile = ConvertToURL (sFile)	&apos; will still be an empty string if it was before
+	iPos = InStr (sFile, &quot;/&quot;)		&apos; as long as there are slashes, cut off the substring up to the slash and attach it to sDirectory:
+	While iPos &gt; 0
+		sDirectory = sDirectory &amp; Left (sFile, iPos)
+		sFile = Mid (sFile, iPos + 1)
+		iPos = InStr (sFile, &quot;/&quot;)
+	Wend
+	If (Not oFileAccess.isFolder (sDirectory)) Or (sDirectory = &quot;file:///&quot;) Then	
 		If sOSType = &quot;Unix&quot; Then
-			sFile = ConvertToURL (Environ(&quot;HOME&quot;))
+			sDirectory = ConvertToURL (&quot;/usr/bin&quot;)
 		Else	&apos; Windows
-			sFile = ConvertToURL (Environ(&quot;ProgramFiles&quot;))
+			sDirectory = ConvertToURL (Environ (&quot;ProgramFiles&quot;))
 		End If
 	End If
-	oFileDlg.setDefaultName(sFile)
+	oFileDlg.setDefaultName (sFile)
+	oFileDlg.setDisplayDirectory (sDirectory)
  	oFileDlg.AppendFilter (oMessages.getPropertyValue (&quot;sFilterAllFiles&quot;), &quot;*.*&quot;)
 	If sOSType = &quot;Unix&quot; Then
 		oFileDlg.SetCurrentFilter (oMessages.getPropertyValue (&quot;sFilterAllFiles&quot;))
@@ -660,7 +669,11 @@ Function PickExecutableFile (sExeFileName As String) As Boolean
 			PickExecutableFile = True
 		End If
 	End If
+	Exit Function
+	
 	ErrorHandler:
+		MsgBox (Error)	&apos; There should be no error left for this...
+	Exit Function
 End Function
 
 
