@@ -654,7 +654,7 @@ Function PickExecutableFile (sExeFileName As String) As Boolean
 		End If
 	End If
 	oFileDlg.setDefaultName (sFile)
-	oFileDlg.setDisplayDirectory (sDirectory)
+	&apos; oFileDlg.setDisplayDirectory (sDirectory)		&apos; seems to crash LibO 5.3.1.2 (Win7 x64) unless LibO&apos;s own open/save dialogs are used, so better comment it out until the problem is found and fixed
  	oFileDlg.AppendFilter (oMessages.getPropertyValue (&quot;sFilterAllFiles&quot;), &quot;*.*&quot;)
 	If sOSType = &quot;Unix&quot; Then
 		oFileDlg.SetCurrentFilter (oMessages.getPropertyValue (&quot;sFilterAllFiles&quot;))
