@@ -371,8 +371,8 @@ Sub DefaultConfig()
 		End If
 		sConfigFile = ConvertToURL(Environ(&quot;APPDATA&quot;)) &amp; &quot;/&quot; &amp; constOLyWinConfigFolderName &amp; &quot;/&quot; &amp; constOLyWinConfigFileName
 		sTmpPath = ConvertToURL(Environ(&quot;temp&quot;)) &amp; &quot;/&quot;
-		sTemplatePath = ConvertToURL(Environ(&quot;APPDATA&quot;) &amp; &quot;/&quot; &amp; constOLyWinConfigFolderName &amp; &quot;/Templates/&quot;
-		sLanguagePath = ConvertToURL(Environ(&quot;APPDATA&quot;) &amp; &quot;/&quot; &amp; constOLyWinConfigFolderName &amp; &quot;/Language/&quot;
+		sTemplatePath = ConvertToURL(Environ(&quot;APPDATA&quot;)) &amp; &quot;/&quot; &amp; constOLyWinConfigFolderName &amp; &quot;/Templates/&quot;
+		sLanguagePath = ConvertToURL(Environ(&quot;APPDATA&quot;)) &amp; &quot;/&quot; &amp; constOLyWinConfigFolderName &amp; &quot;/Language/&quot;
 		&apos; Create Folder sLanguagePath and copy language files if it does not exist:
 		If Not oFileAccess.isFolder(sLanguagePath) Then
 			oFileAccess.createFolder(sLanguagePath)
