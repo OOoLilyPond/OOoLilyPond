@@ -342,7 +342,7 @@ Sub ReadMessageStrings()	&apos; Called from ReadLanguageFile() if the following 
 			iEqPos = InStr (sCodeToParse, &quot;=&quot;)
 			If iEqPos &gt; 0 Then
 				sName =  Left  (sCodeToParse, iEqPos-1)
-				sValue = Right (sCodeToParse, Len(sCodeToParse)-iEqPos
+				sValue = Right (sCodeToParse, Len(sCodeToParse)-iEqPos)
 				&apos; as long as sValue contains the sequence &quot;%10&quot;, replace it with Chr(10):
 				iBreakPos = InStr (sValue, &quot;%10&quot;)
 				While iBreakPos &gt; 0 
@@ -395,7 +395,7 @@ Sub ReadDialogStrings (oDialog As Object)	&apos; Called from ReadLanguageFile() 
 			iEqPos = InStr (sCodeToParse, &quot;=&quot;)
 			If iEqPos &gt; 0 Then
 				sKey = Left (sCodeToParse, iEqPos-1)
-				sValue = Right (sCodeToParse, Len(sCodeToParse)-iEqPos
+				sValue = Right (sCodeToParse, Len(sCodeToParse)-iEqPos)
 				&apos; split up sKey into sName and sPart if it contains a dot
 				iDotPos = InStr (sKey, &quot;.&quot;)
 				if iDotPos &gt; 0 Then
