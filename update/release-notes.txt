@@ -1,5 +1,10 @@
-OooLilyPond 0.5.0 Public Release  (March 2017)
+OooLilyPond 0.5.1 Public Release  (March 2017)
 =============================================
+
+Changes to OOoLilyPond 0.5.1 since 0.5.0:
+
+*   fixed: missing parentheses in source code caused runtime error in LibO 5.3.1.2
+
 
 Changes to OOoLilyPond 0.5.0 since 0.4.0/0.4.1:
 
