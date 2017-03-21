@@ -350,13 +350,6 @@ Sub DefaultConfig()
 		If Not oFileAccess.exists(sTmpPath) then oFileAccess.createFolder(sTmpPath)
 		sTemplatePath = ConvertToURL(Environ(&quot;HOME&quot;)) &amp; &quot;/OOoLilyPond-Templates/&quot;
 		sLanguagePath = ConvertToURL(Environ(&quot;HOME&quot;)) &amp; &quot;/OOoLilyPond-Language/&quot;
-		&apos; Create Folder sLanguagePath and copy language files if it does not exist:
-		If Not oFileAccess.isFolder(sLanguagePath) Then
-			oFileAccess.createFolder(sLanguagePath)
-			&apos; Display a message: Folder for language files created
-			MsgBox (oMessages.getPropertyValue (&quot;sMsgLanguageFolderCreated1&quot;) &amp; ConvertFromURL(sLanguagePath) &amp; oMessages.getPropertyValue (&quot;sMsgLanguageFolderCreated2&quot;), iMsgBox_I, oMessages.getPropertyValue (&quot;sCaptionInfo&quot;))
-			CopyLanguageFiles()
-		End If
 	 	&apos; LilyPond Executable (not an URL)
  		sLilyPondExecutable = &quot;lilypond&quot;
  		sExtEditorExecutable = &quot;frescobaldi&quot;
@@ -375,13 +368,6 @@ Sub DefaultConfig()
 		sTmpPath = ConvertToURL(Environ(&quot;temp&quot;)) &amp; &quot;/&quot;
 		sTemplatePath = ConvertToURL(Environ(&quot;APPDATA&quot;)) &amp; &quot;/&quot; &amp; constOLyWinConfigFolderName &amp; &quot;/Templates/&quot;
 		sLanguagePath = ConvertToURL(Environ(&quot;APPDATA&quot;)) &amp; &quot;/&quot; &amp; constOLyWinConfigFolderName &amp; &quot;/Language/&quot;
-		&apos; Create Folder sLanguagePath and copy language files if it does not exist:
-		If Not oFileAccess.isFolder(sLanguagePath) Then
-			oFileAccess.createFolder(sLanguagePath)
-			&apos; Display a message: Folder for language files created
-			MsgBox (oMessages.getPropertyValue (&quot;sMsgLanguageFolderCreated1&quot;) &amp; ConvertFromURL(sLanguagePath) &amp; oMessages.getPropertyValue (&quot;sMsgLanguageFolderCreated2&quot;), iMsgBox_I, oMessages.getPropertyValue (&quot;sCaptionInfo&quot;))
-			CopyLanguageFiles()
-		End If
 	 	&apos; LilyPond Executable (not an URL)
 		sLilyPondExecutable = Environ(&quot;ProgramFiles&quot;) &amp; &quot;\LilyPond\usr\bin\lilypond.exe&quot;
 		sExtEditorExecutable = Environ(&quot;ProgramFiles&quot;) &amp; &quot;\Frescobaldi\frescobaldi.exe&quot;
@@ -529,7 +515,6 @@ Sub ReadConfig()
 	oTextInputStream.closeInput()
 
 	SetDocTypeSpecificDefaults()
-	ReadLanguageFile()
 	
 End Sub
 
@@ -754,6 +739,9 @@ Sub ConfigOKButton
 
 	&apos;Read the values from the dialog
 	ApplyConfig()
+	
+	&apos;Read translation strings from language file, in case another language has been chosen
+	ReadLanguageFile()
 
 	&apos;Check wheter LilyPond can be executed and get version
 	LilyPondVersion()
