@@ -450,7 +450,7 @@ Function ListOfLanguageFiles (oComboBox) As Integer
 	&apos;Clear list
 	oComboBox.removeItems(0, oComboBox.getItemCount)
 	If Not oFileAccess.isFolder(sLanguagePath) Then
-		ListOfTemplates=2
+		ListOfLanguageFiles=2
 	Else
 		i=0
 		t=Dir(sLanguagePath)
@@ -462,7 +462,7 @@ Function ListOfLanguageFiles (oComboBox) As Integer
 			t=Dir
 		Loop
 		If i=0 Then
-			ListOfTemplates=1
+			ListOfLanguageFiles=1
 		Else
 			sItemArray(i)=&quot;-----&quot;	&apos; provide an entry for &quot;none&quot;
 			i=i+1
