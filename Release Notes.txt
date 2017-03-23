@@ -1,12 +1,24 @@
 *********************************************
-OOoLilyPond 0.5.1 Release Notes  (March 2017)
+OOoLilyPond 0.5.2 Release Notes  (March 2017)
 *********************************************
+
+
+Changes to OOoLilyPond 0.5.2 since 0.5.1:
+==========================================
+
+* fixed: runtime error if path for language files could not be found
+* new: path for language files can be specified in config dialog
+* for Linux users: new location for temporary files (now being .cache/ooolilypond/tmp instead of .ooolilypond-tmp - you can delete the latter if you want to get rid of it).
+
+There have also been some minor changes to the language files. So, after updating to 0.5.2, please open the config dialog and click the "Restore Language Files" button. 
+(Your current language files will be backed up in a subfolder. If you like, you can delete that subfolder.
 
 
 Changes to OOoLilyPond 0.5.1 since 0.5.0:
 ==========================================
 
 * fixed: missing parentheses in source code caused runtime error in LibO 5.3.1.2
+(Apparently, LibreOffice 5.3.1.2 has a more strict syntax checking whereas earlier versions silently ignored that.)
 
 
 Changes to OOoLilyPond 0.5.0 since 0.4.0/0.4.1:
@@ -23,7 +35,7 @@ Changes to OOoLilyPond 0.5.0 since 0.4.0/0.4.1:
 * font name and font size for editor windows can be specified 
 * user interface can be translated into other languages
 
-Compatibility: OOoLilyPond (OLy) works with recent versions of LibreOffice (5.3.0.3) and OpenOffice (4.1.3). Older versions should work as well. It has even been tested with OpenOffice 2.4 without issues. 
+Compatibility: OOoLilyPond (OLy) works with recent versions of LibreOffice (5.3.1.2) and OpenOffice (4.1.3). Older versions should work as well. It has even been tested with OpenOffice 2.4 without issues. 
 Any content (LilyPond code, templates, OLy configuration files) created with/for OLy 0.4.x will work with OLy 0.5.x - and vice versa. (Fully compatible, forward and backward.)
 Older snippets created with OLy 0.3.x will also work with 0.4.x and 0.5.x, but not (necessarily) vice versa.
 

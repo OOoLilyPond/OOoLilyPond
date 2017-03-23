@@ -75,6 +75,17 @@ Sub OOoLilyPond()
 	&apos; Read configuration file
 	If oFileAccess.exists( sConfigFile ) Then ReadConfig()
 	
+	&apos; Create Folder sLanguagePath and copy language files if it does not exist:
+	If Not oFileAccess.isFolder(sLanguagePath) Then
+		oFileAccess.createFolder(sLanguagePath)
+		&apos; Display a message: Folder for language files created
+		MsgBox (oMessages.getPropertyValue (&quot;sMsgLanguageFolderCreated1&quot;) &amp; ConvertFromURL(sLanguagePath) &amp; oMessages.getPropertyValue (&quot;sMsgLanguageFolderCreated2&quot;), iMsgBox_I, oMessages.getPropertyValue (&quot;sCaptionInfo&quot;))
+		CopyLanguageFiles()
+	End If
+	
+	&apos; read translation strings from language file
+	ReadLanguageFile()
+		
 	If bWrongDocumentType Then
 		&apos; Msgbox(oDoc.getImplementationName() &amp; &quot;: document type not supported by &quot; &amp; constOLyLibraryName, 0, &quot;Error&quot;)
 		Msgbox (oMessages.getPropertyValue (&quot;sMsgDocTypeNotSupported1&quot;) &amp; oDoc.getImplementationName() &amp; oMessages.getPropertyValue (&quot;sMsgDocTypeNotSupported2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))

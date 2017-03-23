@@ -54,6 +54,7 @@ Sub ConfigDialogUpdate()
 
 	&apos; general settings
 	oConfigDialog.getControl(&quot;sTemplatePath&quot;).setText(ConvertFromURL(sTemplatePath))
+	oConfigDialog.getControl(&quot;sLanguagePath&quot;).setText(ConvertFromURL(sLanguagePath))
 	oConfigDialog.getControl(&quot;sLilyPondExecutable&quot;).setText(ConvertFromURL(sLilyPondExecutable))
 	oConfigDialog.getControl(&quot;sFormat&quot;).setText(sFormat)
 	oConfigDialog.getControl(&quot;iGraphicDPI&quot;).setValue(iGraphicDPI)
@@ -275,6 +276,7 @@ Sub ApplyConfig
 	&apos; General settings
 	sLilyPondExecutable = oConfigDialog.getControl(&quot;sLilyPondExecutable&quot;).getText()
 	sTemplatePath = AddSlash(ConvertToURL(oConfigDialog.getControl(&quot;sTemplatePath&quot;).getText()))
+	sLanguagePath = AddSlash(ConvertToURL(oConfigDialog.getControl(&quot;sLanguagePath&quot;).getText()))
 	sFormat = oConfigDialog.getControl(&quot;sFormat&quot;).getText()
 	iGraphicDPI = oConfigDialog.getControl(&quot;iGraphicDPI&quot;).getValue()
 	bIgnoreWarnings = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bIgnoreWarnings&quot;).getState())
@@ -344,17 +346,10 @@ Sub DefaultConfig()
 	&apos; Config file, temporary folder, include statement(s), LilyPond and Ext. Editor executable
 	If sOSType=&quot;Unix&quot; Then
 		sConfigFile = ConvertToURL(Environ(&quot;HOME&quot;)) &amp; &quot;/.ooolilypond&quot;
-		sTmpPath = ConvertToURL(Environ(&quot;HOME&quot;)) &amp; &quot;/.ooolilypond-tmp/&quot;
+		sTmpPath = ConvertToURL(Environ(&quot;HOME&quot;)) &amp; &quot;/.cache/ooolilypond/tmp/&quot;
 		If Not oFileAccess.exists(sTmpPath) then oFileAccess.createFolder(sTmpPath)
 		sTemplatePath = ConvertToURL(Environ(&quot;HOME&quot;)) &amp; &quot;/OOoLilyPond-Templates/&quot;
 		sLanguagePath = ConvertToURL(Environ(&quot;HOME&quot;)) &amp; &quot;/OOoLilyPond-Language/&quot;
-		&apos; Create Folder sLanguagePath and copy language files if it does not exist:
-		If Not oFileAccess.isFolder(sLanguagePath) Then
-			oFileAccess.createFolder(sLanguagePath)
-			&apos; Display a message: Folder for language files created
-			MsgBox (oMessages.getPropertyValue (&quot;sMsgLanguageFolderCreated1&quot;) &amp; ConvertFromURL(sLanguagePath) &amp; oMessages.getPropertyValue (&quot;sMsgLanguageFolderCreated2&quot;), iMsgBox_I, oMessages.getPropertyValue (&quot;sCaptionInfo&quot;))
-			CopyLanguageFiles()
-		End If
 	 	&apos; LilyPond Executable (not an URL)
  		sLilyPondExecutable = &quot;lilypond&quot;
  		sExtEditorExecutable = &quot;frescobaldi&quot;
@@ -373,13 +368,6 @@ Sub DefaultConfig()
 		sTmpPath = ConvertToURL(Environ(&quot;temp&quot;)) &amp; &quot;/&quot;
 		sTemplatePath = ConvertToURL(Environ(&quot;APPDATA&quot;)) &amp; &quot;/&quot; &amp; constOLyWinConfigFolderName &amp; &quot;/Templates/&quot;
 		sLanguagePath = ConvertToURL(Environ(&quot;APPDATA&quot;)) &amp; &quot;/&quot; &amp; constOLyWinConfigFolderName &amp; &quot;/Language/&quot;
-		&apos; Create Folder sLanguagePath and copy language files if it does not exist:
-		If Not oFileAccess.isFolder(sLanguagePath) Then
-			oFileAccess.createFolder(sLanguagePath)
-			&apos; Display a message: Folder for language files created
-			MsgBox (oMessages.getPropertyValue (&quot;sMsgLanguageFolderCreated1&quot;) &amp; ConvertFromURL(sLanguagePath) &amp; oMessages.getPropertyValue (&quot;sMsgLanguageFolderCreated2&quot;), iMsgBox_I, oMessages.getPropertyValue (&quot;sCaptionInfo&quot;))
-			CopyLanguageFiles()
-		End If
 	 	&apos; LilyPond Executable (not an URL)
 		sLilyPondExecutable = Environ(&quot;ProgramFiles&quot;) &amp; &quot;\LilyPond\usr\bin\lilypond.exe&quot;
 		sExtEditorExecutable = Environ(&quot;ProgramFiles&quot;) &amp; &quot;\Frescobaldi\frescobaldi.exe&quot;
@@ -467,6 +455,8 @@ Sub ReadConfig()
 				sLilyPondVersionMinor = sValue
 			Case &quot;sTemplatePath&quot;
 				sTemplatePath = AddSlash(sValue)
+			Case &quot;sLanguagePath&quot;
+				sLanguagePath = AddSlash(sValue)
 			Case &quot;sEditorFontName&quot;
 				sEditorFontName = sValue
 			Case &quot;sEditorFontSize&quot;
@@ -525,7 +515,6 @@ Sub ReadConfig()
 	oTextInputStream.closeInput()
 
 	SetDocTypeSpecificDefaults()
-	ReadLanguageFile()
 	
 End Sub
 
@@ -548,6 +537,7 @@ Sub SaveConfig
 	oTextOutputStream.writeString(&quot;sLilyPondVersionMajor=&quot; &amp; sLilyPondVersionMajor &amp; Chr(10) )
 	oTextOutputStream.writeString(&quot;sLilyPondVersionMinor=&quot; &amp; sLilyPondVersionMinor &amp; Chr(10) )
 	oTextOutputStream.writeString(&quot;sTemplatePath=&quot; &amp; sTemplatePath &amp; Chr(10) )
+	oTextOutputStream.writeString(&quot;sLanguagePath=&quot; &amp; sLanguagePath &amp; Chr(10) )
 	oTextOutputStream.writeString(&quot;iGraphicDPI=&quot; &amp; iGraphicDPI &amp; Chr(10))
 	oTextOutputStream.writeString(&quot;sFormat=&quot; &amp; sFormat &amp; Chr(10))	
 	oTextOutputStream.writeString(&quot;bIgnoreWarnings=&quot; &amp; BoolToString(bIgnoreWarnings) &amp; Chr(10))	
@@ -734,11 +724,24 @@ Sub TemplatePathPickButton()
 End Sub
 
 
+Sub LanguagePathPickButton()
+	Dim sFolder As String
+	
+	sFolder = oConfigDialog.getModel().getByName(&quot;sLanguagePath&quot;).Text
+	If PickFolder (sFolder) Then
+		oConfigDialog.getModel().getByName(&quot;sLanguagePath&quot;).Text = sFolder
+	End If
+End Sub
+
+
 Sub ConfigOKButton
 	Dim sCommand As String
 
 	&apos;Read the values from the dialog
 	ApplyConfig()
+	
+	&apos;Read translation strings from language file, in case another language has been chosen
+	ReadLanguageFile()
 
 	&apos;Check wheter LilyPond can be executed and get version
 	LilyPondVersion()
