@@ -338,6 +338,9 @@ Sub DefaultConfig()
 
 	&apos; LilyPond Version will be read from the configuration file
 	&apos; if LilyPond is once sucessfully started
+	
+	Dim sWinProgramFilesFolder As String
+	
 	sLilyPondVersionMajor=&quot;&quot;
 	sLilyPondVersionMinor=&quot;&quot;
 
@@ -369,8 +372,12 @@ Sub DefaultConfig()
 		sTemplatePath = ConvertToURL(Environ(&quot;APPDATA&quot;)) &amp; &quot;/&quot; &amp; constOLyWinConfigFolderName &amp; &quot;/Templates/&quot;
 		sLanguagePath = ConvertToURL(Environ(&quot;APPDATA&quot;)) &amp; &quot;/&quot; &amp; constOLyWinConfigFolderName &amp; &quot;/Language/&quot;
 	 	&apos; LilyPond Executable (not an URL)
-		sLilyPondExecutable = Environ(&quot;ProgramFiles&quot;) &amp; &quot;\LilyPond\usr\bin\lilypond.exe&quot;
-		sExtEditorExecutable = Environ(&quot;ProgramFiles&quot;) &amp; &quot;\Frescobaldi\frescobaldi.exe&quot;
+	 	sWinProgramFilesFolder = Environ (&quot;ProgramFiles(x86)&quot;)	&apos; First try 32-bit folder on 64-bit systems
+	 	If sWinProgramFilesFolder = &quot;&quot; Then 					&apos; on 32-bit systems, empty string is returned
+	 		sWinProgramFilesFolder = Environ (&quot;ProgramFiles&quot;)	&apos; only then take &quot;ordinary&quot; program files folder
+	 	End If
+		sLilyPondExecutable = sWinProgramFilesFolder &amp; &quot;\LilyPond\usr\bin\lilypond.exe&quot;
+		sExtEditorExecutable = sWinProgramFilesFolder &amp; &quot;\Frescobaldi\frescobaldi.exe&quot;
 		sIncludeStatement = &quot;-I&quot; &amp; Chr(34) &amp; ConvertFromURL(Environ(&quot;USERPROFILE&quot;)) &amp; &quot;/&quot; &amp; Chr(34) &amp; &quot; -I&quot; &amp; Chr(34) &amp; ConvertFromURL(Environ(&quot;ProgramFiles&quot;)) &amp; &quot;/&quot; &amp; Chr(34)
 		While InStr (sIncludeStatement, &quot;\&quot;) &gt; 0	&apos; replace &quot;\&quot; by &quot;/&quot;, even in Windows LilyPond expects paths to be written with forward slashes
 			Mid (sIncludeStatement, InStr (sIncludeStatement, &quot;\&quot;), 1, &quot;/&quot;)
