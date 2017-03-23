@@ -7,8 +7,11 @@ Changes to OOoLilyPond 0.5.2 since 0.5.1:
 ==========================================
 
 * fixed: runtime error if path for language files could not be found
-* new: path for language files can be specified in config dialog (feature request)
+* new: path for language files can be specified in config dialog
+* for Linux users: new location for temporary files (now being .cache/ooolilypond/tmp instead of .ooolilypond-tmp - you can delete the latter if you want to get rid of it).
+
 There have also been some minor changes to the language files. So, after updating to 0.5.2, please open the config dialog and click the "Restore Language Files" button. 
+(Your current language files will be backed up in a subfolder. If you like, you can delete that subfolder.
 
 
 Changes to OOoLilyPond 0.5.1 since 0.5.0:
