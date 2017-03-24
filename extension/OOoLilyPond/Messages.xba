@@ -28,7 +28,7 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   &apos; -----------------------------------
   oMessages.addProperty (&quot;sCaptionTemplatesBackup&quot;, BagAttr,&quot;Templates Backup&quot;)  &apos; Old templates have been backed up
   oMessages.addProperty (&quot;sCaptionError&quot;, BagAttr,&quot;Error&quot;)
-  oMessages.addProperty (&quot;sCaptionInfo&quot;, BagAttr,&quot;Warning&quot;)
+  oMessages.addProperty (&quot;sCaptionInfo&quot;, BagAttr,&quot;Information&quot;)
   oMessages.addProperty (&quot;sCaptionRUSure&quot;, BagAttr,&quot;Are you sure?&quot;)
   oMessages.addProperty (&quot;sCaptionTemplateError&quot;, BagAttr,&quot;Template error&quot;)
   oMessages.addProperty (&quot;sCaptionTempfileError&quot;, BagAttr,&quot;Error in temporary file&quot;)
