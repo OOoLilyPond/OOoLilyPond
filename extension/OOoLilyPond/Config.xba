@@ -151,7 +151,7 @@ Sub CopyTemplates()
 
 	&apos; Backup .ly files
 	&apos; Subdir named according to actual date and time in format YYYYMMDDhhmmss
-	sBackupPath = sTemplatePath &amp; CDateToISO (Now) &amp; Left (TimeValue (Now), 2) &amp; Mid (TimeValue (Now), 4, 2) &amp; Right (TimeValue (Now), 2) &amp; &quot;/&quot;
+	sBackupPath = sTemplatePath &amp; Left (CDateToISO (Now), 4) &amp; &quot;-&quot; &amp; Mid (CDateToISO (Now), 5, 2) &amp; &quot;-&quot; &amp; Right (CDateToISO (Now), 2) &amp; &quot;_&quot; &amp; Left (TimeValue (Now), 2) &amp; &quot;-&quot; &amp; Mid (TimeValue (Now), 4, 2) &amp; &quot;-&quot; &amp; Right (TimeValue (Now), 2) &amp; &quot;/&quot;
 	sFiles = oFileAccess.getFolderContents (sTemplatePath, False)
 	For i=LBound (sFiles) To UBound (sFiles)
 		If Right (sFiles (i),3)=&quot;.ly&quot; Then
@@ -215,7 +215,7 @@ Sub CopyLanguageFiles()
 
 	&apos; Backup .ini files
 	&apos; Subdir named according to actual date and time in format YYYYMMDDhhmmss
-	sBackupPath = sLanguagePath &amp; CDateToISO(Now) &amp; Left(TimeValue(Now),2) &amp; Mid(TimeValue(Now),4,2) &amp; Right(TimeValue(Now),2) &amp; &quot;/&quot;
+	sBackupPath = sLanguagePath &amp; Left (CDateToISO (Now), 4) &amp; &quot;-&quot; &amp; Mid (CDateToISO (Now), 5, 2) &amp; &quot;-&quot; &amp; Right (CDateToISO (Now), 2) &amp; &quot;_&quot; &amp; Left (TimeValue (Now), 2) &amp; &quot;-&quot; &amp; Mid (TimeValue (Now), 4, 2) &amp; &quot;-&quot; &amp; Right (TimeValue (Now), 2) &amp; &quot;/&quot;
 	sFiles = oFileAccess.getFolderContents(sLanguagePath, False)
 	For i=LBound(sFiles) To UBound(sFiles)
 		If Right(sFiles(i),4)=&quot;.ini&quot; Then
