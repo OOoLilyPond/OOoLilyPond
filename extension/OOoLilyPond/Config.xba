@@ -127,13 +127,7 @@ Sub CopyTemplates()
 	sPkgPath = AddSlash(oMacroExpander.ExpandMacros(sPkgPath))
 
 	&apos;Set the template source path
-	sTemplateSourcePath = sPkgPath &amp; &quot;templates/&quot; &amp; 	sLilyPondVersionMajor &amp; &quot;.&quot; &amp; 	sLilyPondVersionMinor &amp; &quot;/&quot;
-
-	&apos;Use this path if no path for the corresponding LilyPond version exists:	
-	If Not oFileAccess.exists(sTemplateSourcePath) then
-		sTemplateSourcePath = sPkgPath &amp; &quot;templates/2.12/&quot;
-	EndIf
-
+	sTemplateSourcePath = sPkgPath &amp; &quot;templates/2.12/&quot;
 
 	&apos; Check the destination template path, try to create it.
 	If Not oFileAccess.isFolder(sTemplatePath) Then
@@ -150,7 +144,7 @@ Sub CopyTemplates()
 	End If
 
 	&apos; Backup .ly files
-	&apos; Subdir named according to actual date and time in format YYYYMMDDhhmmss
+	&apos; Subdir named according to actual date and time in format YYYY-MM-DD_hh-mm-ss
 	sBackupPath = sTemplatePath &amp; Left (CDateToISO (Now), 4) &amp; &quot;-&quot; &amp; Mid (CDateToISO (Now), 5, 2) &amp; &quot;-&quot; &amp; Right (CDateToISO (Now), 2) &amp; &quot;_&quot; &amp; Left (TimeValue (Now), 2) &amp; &quot;-&quot; &amp; Mid (TimeValue (Now), 4, 2) &amp; &quot;-&quot; &amp; Right (TimeValue (Now), 2) &amp; &quot;/&quot;
 	sFiles = oFileAccess.getFolderContents (sTemplatePath, False)
 	For i=LBound (sFiles) To UBound (sFiles)
