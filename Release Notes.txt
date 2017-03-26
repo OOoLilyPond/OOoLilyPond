@@ -1,6 +1,14 @@
 *********************************************
-OOoLilyPond 0.5.2 Release Notes  (March 2017)
+OOoLilyPond 0.5.3 Release Notes  (March 2017)
 *********************************************
+
+
+Changes to OOoLilyPond 0.5.3 since 0.5.2:
+==========================================
+
+* for Windows users: better estimate for program files folder on 64bit systems
+* backup folder names more readable
+* some minor corrections
 
 
 Changes to OOoLilyPond 0.5.2 since 0.5.1:
