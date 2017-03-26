@@ -1,7 +1,7 @@
 \transpose %{OOoLilyPondCustom1%}c c'%{OOoLilyPondEnd%}
 {
 %{OOoLilyPondCode%}% For getting started read (copy URL into your web browser):
-% http://ooolilypond.sourceforge.net
+% https://github.com/openlilylib/LO-ly
 % English:
 % http://lilypond.org/doc/v2.12/Documentation/user/lilypond-learning/Simple-notation
 % Deutsch:
