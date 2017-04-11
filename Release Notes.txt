@@ -3,6 +3,12 @@ OOoLilyPond 0.5.3 Release Notes  (March 2017)
 *********************************************
 
 
+Changes to OOoLilyPond 0.5.4 since 0.5.3:
+==========================================
+
+* [SVG] templates are prepared to support the new texgyre*.otf fonts
+
+
 Changes to OOoLilyPond 0.5.3 since 0.5.2:
 ==========================================
 
