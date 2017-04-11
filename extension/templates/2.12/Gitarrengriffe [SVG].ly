@@ -1,7 +1,7 @@
 \include "predefined-guitar-fretboards.ly"
 \include "deutsch.ly"
 
-% add your own diagrams here:
+% Eigene Griffbilder können hier ergänzt werden:
 % \storePredefinedDiagram \chordmode {c:9}
 %                            #guitar-tuning
 %                            #"x;3-2;2-1;3-3;3-4;x;"
@@ -26,9 +26,9 @@ g:7 a:maj h:m7%{OOoLilyPondEnd%}
 
 
 #(set-global-staff-size %{OOoLilyPondStaffSize%}20%{OOoLilyPondEnd%})
-#(define version-seen #t)  % don't remove, because
-% the version warning has a slightly different format than normal error messages.
-% This (still) would crash OLy's message handling...
+#(define version-seen #t)  % nicht entfernen, denn
+% die Warnung über eine fehlende Versionsangabe hat ein leicht anderes Format,
+% das OLy beim Verarbeiten der Fehlermeldungen durcheinanderbringen würde.
 
 \paper {
   #(define dump-extents #t)
@@ -46,31 +46,41 @@ g:7 a:maj h:m7%{OOoLilyPondEnd%}
   
   page-count = 1
   
-  % If LilyPond's default fonts are not installed and therefore "invisible" to other applications, 
-  % you can define a replacement font here:
-
-  % {
-  % for LilyPond 2.19.11 and older, it only works like this:
+  % Wenn die Standard-Text-Schriftart von LilyPond auf Ihrem System nicht installiert ist, 
+  % und deshalb für andere Programme "unsichtbar" ist, 
+  % können Sie hier eine andere Schriftart als Ersatz angeben:
+  
+  %{
   #(define fonts
      (make-pango-font-tree
-      "Century Schoolbook L"	; adjust this font name according to your system
-      "sans-serif"
-      "monospace"
+      "TeXGyreSchola"           ; hier den Namen der Schriftart eingeben, die Sie auf Ihrem System verwenden möchten
+      "TeXGyreHeros"            ; hier den Namen der Schriftart eingeben, die Sie auf Ihrem System verwenden möchten
+      "TeXGyreCursor"           ; hier den Namen der Schriftart eingeben, die Sie auf Ihrem System verwenden möchten
       (/ staff-height pt 20)))
   %}
 
   %{
-  % for LilyPond 2.19.12 and newer, you can alternatively use and modify this:
+  % Wenn Sie nur die Serif-Schriftart ersetzen möchten, während "sans" und "typewriter" unverändert bleiben sollen:
+  #(define fonts
+     (make-pango-font-tree
+      "Century Schoolbook L"	; hier den Namen der Schriftart eingeben, die Sie auf Ihrem System verwenden möchten
+      "sans-serif"              ; bleibt unverändert
+      "monospace"               ; bleibt unverändert
+      (/ staff-height pt 20)))
+  %}
+
+  %{
+  % für LilyPond 2.19.12 und neuere Versionen können Sie auch das folgende anpassen:
   #(define fonts
     (set-global-fonts
       #:music "emmentaler"
       #:brace "emmentaler"
-      #:roman "Century Schoolbook L"	; adjust this font name according to your system
-      #:sans "sans-serif"
-      #:typewriter "monospace"
+      #:roman "Century Schoolbook L"	; hier den Namen der Schriftart eingeben, die Sie auf Ihrem System verwenden möchten
+      #:sans "sans-serif"           	; hier den Namen der Schriftart eingeben, die Sie auf Ihrem System verwenden möchten
+      #:typewriter "monospace"      	; hier den Namen der Schriftart eingeben, die Sie auf Ihrem System verwenden möchten
       #:factor (/ staff-height pt 20)
   ))
-  % taken from http://lilypondblog.org/2015/03/managing-alternative-fonts-with-lilypond/
+  % gefunden auf http://lilypondblog.org/2015/03/managing-alternative-fonts-with-lilypond/
 
   %}
 }

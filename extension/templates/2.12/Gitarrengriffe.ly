@@ -1,7 +1,7 @@
 \include "predefined-guitar-fretboards.ly"
 \include "deutsch.ly"
 
-% add your own diagrams here:
+% Eigene Griffbilder können hier ergänzt werden:
 % \storePredefinedDiagram \chordmode {c:9}
 %                            #guitar-tuning
 %                            #"x;3-2;2-1;3-3;3-4;x;"

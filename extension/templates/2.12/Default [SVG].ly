@@ -44,13 +44,22 @@
   % If LilyPond's default fonts are not installed and therefore "invisible" to other applications, 
   % you can define a replacement font here:
 
-  % {
-  % for LilyPond 2.19.11 and older, it only works like this:
+  %{
   #(define fonts
      (make-pango-font-tree
-      "Century Schoolbook L"	; adjust this font name according to your system
-      "sans-serif"
-      "monospace"
+      "TeXGyreSchola"           ; adjust this font name according to your needs
+      "TeXGyreHeros"            ; adjust this font name according to your needs
+      "TeXGyreCursor"           ; adjust this font name according to your needs
+      (/ staff-height pt 20)))
+  %}
+
+  %{
+  % if you only want to specify a "roman" font and leave "sans" and "typewriter" untouched:
+  #(define fonts
+     (make-pango-font-tree
+      "Century Schoolbook L"	; adjust this font name according to your needs
+      "sans-serif"              ; (remains unchanged)
+      "monospace"               ; (remains unchanged)
       (/ staff-height pt 20)))
   %}
 
@@ -60,9 +69,9 @@
     (set-global-fonts
       #:music "emmentaler"
       #:brace "emmentaler"
-      #:roman "Century Schoolbook L"	; adjust this font name according to your system
-      #:sans "sans-serif"
-      #:typewriter "monospace"
+      #:roman "Century Schoolbook L"	; adjust this font name according to your needs
+      #:sans "sans-serif"               ; adjust this font name according to your needs
+      #:typewriter "monospace"          ; adjust this font name according to your needs
       #:factor (/ staff-height pt 20)
   ))
   % taken from http://lilypondblog.org/2015/03/managing-alternative-fonts-with-lilypond/

@@ -36,15 +36,23 @@
   % Wenn die Standard-Text-Schriftart von LilyPond auf Ihrem System nicht installiert ist, 
   % und deshalb für andere Programme "unsichtbar" ist, 
   % können Sie hier eine andere Schriftart als Ersatz angeben:
-
-  % {
-  % für LilyPond 2.19.11 und ältere Versionen funktioniert es nur so:
+  
+  %{
   #(define fonts
      (make-pango-font-tree
-      "Century Schoolbook L"	; hier den Namen der Schriftart eingeben, die Sie 
-                                ; auf Ihrem System verwenden möchten
-      "sans-serif"
-      "monospace"
+      "TeXGyreSchola"           ; hier den Namen der Schriftart eingeben, die Sie auf Ihrem System verwenden möchten
+      "TeXGyreHeros"            ; hier den Namen der Schriftart eingeben, die Sie auf Ihrem System verwenden möchten
+      "TeXGyreCursor"           ; hier den Namen der Schriftart eingeben, die Sie auf Ihrem System verwenden möchten
+      (/ staff-height pt 20)))
+  %}
+
+  %{
+  % Wenn Sie nur die Serif-Schriftart ersetzen möchten, während "sans" und "typewriter" unverändert bleiben sollen:
+  #(define fonts
+     (make-pango-font-tree
+      "Century Schoolbook L"	; hier den Namen der Schriftart eingeben, die Sie auf Ihrem System verwenden möchten
+      "sans-serif"              ; bleibt unverändert
+      "monospace"               ; bleibt unverändert
       (/ staff-height pt 20)))
   %}
 
@@ -54,10 +62,9 @@
     (set-global-fonts
       #:music "emmentaler"
       #:brace "emmentaler"
-      #:roman "Century Schoolbook L"	; hier den Namen der Schriftart eingeben, die Sie 
-                                        ; auf Ihrem System verwenden möchten
-      #:sans "sans-serif"
-      #:typewriter "monospace"
+      #:roman "Century Schoolbook L"	; hier den Namen der Schriftart eingeben, die Sie auf Ihrem System verwenden möchten
+      #:sans "sans-serif"           	; hier den Namen der Schriftart eingeben, die Sie auf Ihrem System verwenden möchten
+      #:typewriter "monospace"      	; hier den Namen der Schriftart eingeben, die Sie auf Ihrem System verwenden möchten
       #:factor (/ staff-height pt 20)
   ))
   % gefunden auf http://lilypondblog.org/2015/03/managing-alternative-fonts-with-lilypond/
