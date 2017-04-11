@@ -20,7 +20,7 @@
    <dlg:radio dlg:id="AnchorToPage" dlg:tab-index="3" dlg:left="8" dlg:top="245" dlg:width="58" dlg:height="10" dlg:help-text="The OOoLilyPond object is inserted like an image and can be placed freely. The object keeps the position relative to the page." dlg:value="To Page">
     <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.AnchorButton?language=Basic&amp;location=application" script:language="Script"/>
    </dlg:radio>
-   <dlg:radio dlg:id="OptimalPageWrap" dlg:tab-index="10" dlg:left="73" dlg:top="233" dlg:width="67" dlg:height="12" dlg:help-text="The text is flowing on the right or left side of the OOoLIlyPond object." dlg:value="Optimal Page Wrap"/>
+   <dlg:radio dlg:id="OptimalPageWrap" dlg:tab-index="10" dlg:left="73" dlg:top="233" dlg:width="67" dlg:height="12" dlg:help-text="The text is flowing on the right or left side of the OOoLilyPond object." dlg:value="Optimal Page Wrap"/>
    <dlg:radio dlg:id="NoWrap" dlg:tab-index="9" dlg:left="73" dlg:top="221" dlg:width="67" dlg:height="12" dlg:help-text="The text is not flowing around the OOoLilyPond object." dlg:value="No Wrap" dlg:checked="true"/>
   </dlg:radiogroup>
   <dlg:titledbox dlg:id="AnchorFrameControl" dlg:tab-index="6" dlg:left="6" dlg:top="209" dlg:width="63" dlg:height="49">
