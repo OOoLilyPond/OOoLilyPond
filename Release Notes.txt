@@ -1,5 +1,5 @@
 *********************************************
-OOoLilyPond 0.5.3 Release Notes  (March 2017)
+OOoLilyPond 0.5.4 Release Notes  (April 2017)
 *********************************************
 
 
