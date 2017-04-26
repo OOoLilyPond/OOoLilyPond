@@ -53,6 +53,45 @@ Function TagPos(sText, sA, sB As String) As Integer
 End Function
 
 
+Function TagPosIndexed (iStart As Integer, sText, sA, sB As String) As Integer
+	&apos; indicates the nearest position of either argument &quot;sA&quot; or &quot;sB&quot; in &quot;sText&quot;, 
+	&apos; starting search from iStart.
+	&apos; Fourth parameter for InStr set to 0 to keep search case-sensitive (maybe faster?).
+	&apos; Will be used for locating both versions of a start/end tag and other stuff.
+	
+	Dim posA As Integer
+	Dim posB As Integer
+	
+	
+	posA = InStr (iStart, sText, sA, 0)
+	posB = InStr (iStart, sText, sB, 0)
+	
+	&apos; If posA and PosB both are zero, none of the search items is contained in sText:
+	If (posA = 0) And (posB = 0) Then
+		TagPosIndexed=0
+		Exit Function
+	EndIf
+	
+	&apos; I only one of them is zero, return the other one:
+	If (posA = 0) And (posB &gt; 0) Then
+		TagPosIndexed=posB
+		Exit Function
+	EndIf	
+	If (posA &gt; 0) And (posB = 0) Then
+		TagPosIndexed=posA
+		Exit Function
+	EndIf
+	
+	&apos; If none of them is zero, return the smaller value:
+	If (posA &gt; posB) Then
+		TagPosIndexed=posB
+	Else
+		TagPosIndexed=posA
+	EndIf
+	
+End Function
+
+
 Function ApplyTemplate() As Boolean
 	&apos; Insert the OOoLilyPond data into the fields in the template
 	&apos; Input from sTemplateCode, OOoLilyPond data vars
@@ -403,11 +442,11 @@ Sub TmplDialog
 	&apos; DialogLibraries.LoadLibrary (constOLyLibraryName)
 	
 	&apos; Create the dialog object
-	&apos; --- too late...
-	&apos; oTemplateEditorDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Tmpl&quot;) )
+	oTemplateEditorDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Tmpl&quot;) )
+	ReadDialogStringsFromVar (oTemplateEditorDialog, sTemplateDialogStrings)
 
 	&apos; Set title
-	oTemplateEditorDialog.setTitle( sTemplate &amp; &quot;.ly - Template Editor&quot; )
+	oTemplateEditorDialog.setTitle (sTemplate &amp; &quot;.ly - &quot; &amp; oTemplateEditorDialog.getTitle)
 
 	&apos; Fill in template code
 	oTemplateEditorDialog.getControl(&quot;sTemplateCode&quot;).setText(sTemplateCode)

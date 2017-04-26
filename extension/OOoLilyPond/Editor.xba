@@ -19,7 +19,8 @@ Sub EditorDialog()
 	
 	&apos; Create the dialog object
 	&apos; --- too late, now that must happen before ReadLanguageFile()
-	&apos; oEditorDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Editor&quot;) )
+	oEditorDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Editor&quot;) )
+	ReadDialogStringsFromVar (oEditorDialog, sEditorDialogStrings)
 
 	&apos; Change the font of the editor pane
 	oFieldModel = oEditorDialog.getControl(&quot;sCode&quot;).getModel()
@@ -229,8 +230,8 @@ Sub ShowLilyPondOutput()
 	If StringFromFile(sOutput, sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;) Then
 
 		&apos; DialogLibraries.LoadLibrary (constOlyLibraryName)
-		&apos; --- too late...
-		&apos; oOutputDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Out&quot;) )
+		oOutputDialog = createUnoDialog (DialogLibraries.GetByName (constOLyLibraryName).GetByName (&quot;GUI_Out&quot;))
+		ReadDialogStringsFromVar (oOutputDialog, sOutputDialogStrings)
 		oOutputDialog.getControl(&quot;sOutput&quot;).setText(sOutput)
 		oOutputDialog.Execute()
 	

@@ -26,9 +26,8 @@ Sub ConfigDialog()
 	&apos; DialogLibraries.LoadLibrary (constOLyLibraryName)
 
 	&apos; Create the dialog object
-	&apos; --- too late...
-	&apos; oConfigDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Config&quot;) )
-
+	oConfigDialog = createUnoDialog (DialogLibraries.GetByName (constOLyLibraryName).GetByName (&quot;GUI_Config&quot;))
+	ReadDialogStringsFromVar (oConfigDialog, sConfigDialogStrings)
 	&apos; Update the values
 	ConfigDialogUpdate()
 	ConfigDialogGrayOut()
@@ -321,6 +320,7 @@ Sub ApplyConfig
 	oFieldModel.FontDescriptor = MyFont
 	
 	ReadLanguageFile()
+	ReadDialogStringsFromVar (oEditorDialog, sEditorDialogStrings)
 
 End Sub
 
@@ -742,7 +742,7 @@ Sub ConfigOKButton
 	ApplyConfig()
 	
 	&apos;Read translation strings from language file, in case another language has been chosen
-	ReadLanguageFile()
+	&apos; ReadLanguageFile()	&apos; already called at the end of ApplyConfig()
 
 	&apos;Check wheter LilyPond can be executed and get version
 	LilyPondVersion()
@@ -750,7 +750,6 @@ Sub ConfigOKButton
 	&apos;Save the values to file and close dialog
 	SaveConfig()
 	oConfigDialog.endExecute()
-
 End Sub
 
 
