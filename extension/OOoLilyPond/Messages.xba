@@ -375,7 +375,8 @@ Sub ReadMessageStrings()	&apos; Called from ReadLanguageFile() if the following 
 		sCodeToParse = Mid (sLanguageCode, iStartPtr, iEndPtr-iStartPtr)
 		iLanguageEntryErrors = iLanguageEntryErrors + 1
 		If iLanguageEntryErrors &lt;= iMaxLanguageEntryError Then
-			sLanguageEntryErrors = sLanguageEntryErrors &amp; Chr (10) &amp; Chr (10) &amp; sCodeToParse &amp; Chr(10) 
+			sLanguageEntryErrors = sLanguageEntryErrors &amp; Chr (10) &amp; Chr (10) &amp; sCodeToParse 
+			&apos; &amp; Chr(10) 
 			&apos; &amp; Error &amp; Chr(10) &amp; Err &amp; Chr(10) &amp; &quot;   &quot;
 		End If
 	Resume Next
@@ -519,7 +520,8 @@ Sub ReadDialogStringsFromVar (oDialog As Object, sSource As String)	&apos; Calle
 		iLanguageEntryErrors = iLanguageEntryErrors + 1
 		sCodeToParse = Mid (sSource, iStartPtr, iEndPtr-iStartPtr)
 		If iLanguageEntryErrors &lt;= iMaxLanguageEntryError Then
-			sLanguageEntryErrors = sLanguageEntryErrors &amp; Chr (10) &amp; Chr (10) &amp; sCodeToParse &amp; Chr(10) &amp; Error
+			sLanguageEntryErrors = sLanguageEntryErrors &amp; Chr (10) &amp; Chr (10) &amp; sCodeToParse 
+			&apos; &amp; Chr(10) &amp; Error
 		End If
 	Resume Next
 
@@ -590,7 +592,7 @@ Sub ReportLanguageEntryErrors ()
 		If iLanguageEntryErrors &gt; iMaxLanguageEntryError Then
 			sLanguageEntryErrors = sLanguageEntryErrors &amp; Chr(10) &amp; Chr(10) &amp; oMessages.getPropertyValue (&quot;sMsgSurplusLanguageErrors1&quot;) &amp; iLanguageEntryErrors - iMaxLanguageEntryError &amp; oMessages.getPropertyValue (&quot;sMsgSurplusLanguageErrors2&quot;)
 		End If
-		MsgBox (oMessages.getPropertyValue (&quot;sMsgLanguageEntryErrors1&quot;) &amp; sLanguageFileName &amp; oMessages.getPropertyValue (&quot;sMsgLanguageEntryErrors2&quot;) &amp; iLanguageEntryErrors &amp; oMessages.getPropertyValue (&quot;sMsgLanguageEntryErrors3&quot;) &amp; sLanguageEntryErrors, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		MsgBox (oMessages.getPropertyValue (&quot;sMsgLanguageEntryErrors1&quot;) &amp; ConvertFromURL(sLanguagePath) &amp; sLanguageFileName &amp; oMessages.getPropertyValue (&quot;sMsgLanguageEntryErrors2&quot;) &amp; iLanguageEntryErrors &amp; oMessages.getPropertyValue (&quot;sMsgLanguageEntryErrors3&quot;) &amp; sLanguageEntryErrors, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 	End If
 End Sub
 
