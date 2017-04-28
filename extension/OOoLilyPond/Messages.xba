@@ -454,7 +454,7 @@ Sub ReadDialogStringsFromVar (oDialog As Object, sSource As String)	&apos; Calle
 	Dim iEqPos As Integer			&apos; position of the first &quot;equal&quot; sign
 	Dim iDotPos As Integer			&apos; position of the first dot in sKey
 	Dim iBreakPos As Integer		&apos; position of intended line break in strings
-	&apos; Dim sCodeToParse As String		&apos; the current line that has been read out of sSource (the file contents)
+	Dim sCodeToParse As String		&apos; the current line that has been read out of sSource (the file contents)
 	Dim sKey As String, sValue As String, sName As String, sPart As String
 	Dim iStartPtr As Integer
 	Dim iEndPtr As Integer
@@ -517,6 +517,7 @@ Sub ReadDialogStringsFromVar (oDialog As Object, sSource As String)	&apos; Calle
 	
 	LocalErrorHandler: 
 		iLanguageEntryErrors = iLanguageEntryErrors + 1
+		sCodeToParse = Mid (sSource, iStartPtr, iEndPtr-iStartPtr)
 		If iLanguageEntryErrors &lt;= iMaxLanguageEntryError Then
 			sLanguageEntryErrors = sLanguageEntryErrors &amp; Chr (10) &amp; Chr (10) &amp; sCodeToParse &amp; Chr(10) &amp; Error
 		End If
