@@ -85,7 +85,7 @@ Sub EditorDialog()
 
 	&apos; grey out inactive control elements
 	GreyOut()
-
+	
 	&apos; open the dialog
     oEditorDialog.Execute()
 End Sub
@@ -137,7 +137,7 @@ End Sub
 Sub NextErrButton
 	If iErrNum&lt;iNErr Then
 		iErrNum = iErrNum + 1
-		DisplayError()
+		&apos; DisplayError()	&apos; obsolete?
 	End If
 	If iErrNum&gt;=1 And iErrNum &lt;=iNErr Then
 		DisplayError()
@@ -151,20 +151,31 @@ Sub PrevErrButton
 	End If
 	If iErrNum&gt;=1 And iErrNum &lt;=iNErr Then
 		DisplayError()
-	End If	
+	End If
 End Sub
 
 
 Sub DisplayError()
 	Dim sText as String
-	If iErrClass(iErrNum) = 1 Then &apos; Warning
+	If iErrClass (iErrNum) = 1 Then &apos; Warning
 		&apos; sText = &quot;Warning: &quot; &amp; sErrMsg(iErrNum)
-		sText = oMessages.getPropertyValue (&quot;sErrClassWarning&quot;) &amp; sErrMsg(iErrNum)
-	ElseIf	iErrClass(iErrNum) = 2 Then &apos; Error
+		sText = oMessages.getPropertyValue (&quot;sErrClassWarning&quot;) &amp; sErrMsg (iErrNum)
+	ElseIf	iErrClass (iErrNum) = 2 Then &apos; Error
 		&apos; sText = &quot;Error: &quot; &amp; sErrMsg(iErrNum)
-		sText = oMessages.getPropertyValue (&quot;sErrClassError&quot;) &amp; sErrMsg(iErrNum)
+		sText = oMessages.getPropertyValue (&quot;sErrClassError&quot;) &amp; sErrMsg (iErrNum)
 	End If
-	oEditorDialog.getControl(&quot;sErrMsg&quot;).setText(sText)
+	oEditorDialog.getControl (&quot;sErrMsg&quot;).setText (sText)
+	oEditorDialog.getModel().getByName (&quot;sErrMsg&quot;).BackgroundColor = lErrMsgHighlightColor
+	If iErrNum &gt; 1 Then
+		oEditorDialog.getModel().getByName (&quot;PrevErr&quot;).Enabled = True
+	Else
+		oEditorDialog.getModel().getByName (&quot;PrevErr&quot;).Enabled = False
+	End If
+	If iErrNum &lt; iNErr Then
+		oEditorDialog.getModel().getByName (&quot;NextErr&quot;).Enabled = True
+	Else
+		oEditorDialog.getModel().getByName (&quot;NextErr&quot;).Enabled = False
+	End If
 	GotoError(iErrNum)
 End Sub
 

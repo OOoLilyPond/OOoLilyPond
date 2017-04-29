@@ -2,8 +2,8 @@
 <!DOCTYPE dlg:window PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "dialog.dtd">
 <dlg:window xmlns:dlg="http://openoffice.org/2000/dialog" xmlns:script="http://openoffice.org/2000/script" dlg:id="GUI_Editor" dlg:left="92" dlg:top="82" dlg:width="374" dlg:height="298" dlg:closeable="true" dlg:moveable="true" dlg:title="OOoLilyPond Editor">
  <dlg:styles>
-  <dlg:style dlg:style-id="0" dlg:font-name="Courier" dlg:font-stylename="Regular" dlg:font-family="modern"/>
-  <dlg:style dlg:style-id="1" dlg:text-color="0x0"/>
+  <dlg:style dlg:style-id="0" dlg:font-weight="150"/>
+  <dlg:style dlg:style-id="1" dlg:font-name="Courier" dlg:font-stylename="Regular" dlg:font-family="modern"/>
  </dlg:styles>
  <dlg:bulletinboard>
   <dlg:button dlg:id="ButtonConfig" dlg:tab-index="5" dlg:left="287" dlg:top="279" dlg:width="40" dlg:height="14" dlg:help-text="Open the configuration dialog." dlg:value="Config">
@@ -32,10 +32,10 @@
   <dlg:radiogroup>
    <dlg:radio dlg:id="WrapThrough" dlg:tab-index="11" dlg:left="73" dlg:top="245" dlg:width="67" dlg:height="10" dlg:help-text="The text is flowing through the OOoLilyPond object." dlg:value="Wrap Through"/>
   </dlg:radiogroup>
-  <dlg:button dlg:id="PrevErr" dlg:tab-index="14" dlg:left="5" dlg:top="277" dlg:width="18" dlg:height="18" dlg:help-text="Previous error or warning" dlg:value="&lt;">
+  <dlg:button dlg:style-id="0" dlg:id="PrevErr" dlg:tab-index="14" dlg:disabled="true" dlg:left="5" dlg:top="277" dlg:width="18" dlg:height="18" dlg:help-text="Previous error or warning" dlg:value="&lt;">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.PrevErrButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
-  <dlg:button dlg:id="NextErr" dlg:tab-index="15" dlg:left="27" dlg:top="277" dlg:width="18" dlg:height="18" dlg:help-text="Next error or warning" dlg:value="&gt;">
+  <dlg:button dlg:style-id="0" dlg:id="NextErr" dlg:tab-index="15" dlg:disabled="true" dlg:left="27" dlg:top="277" dlg:width="18" dlg:height="18" dlg:help-text="Next error or warning" dlg:value="&gt;">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.NextErrButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
   <dlg:button dlg:id="LilyPondButton" dlg:tab-index="4" dlg:left="330" dlg:top="279" dlg:width="40" dlg:height="14" dlg:help-text="Call LilyPond to render the code into music notation." dlg:default="true" dlg:value="LilyPond">
@@ -48,7 +48,7 @@
   <dlg:text dlg:id="LabelStaffSize" dlg:tab-index="23" dlg:left="216" dlg:top="236" dlg:width="48" dlg:height="8" dlg:value="Staff Size:"/>
   <dlg:text dlg:id="LabelCustom1" dlg:tab-index="24" dlg:left="268" dlg:top="236" dlg:width="48" dlg:height="8" dlg:value="Custom 1:"/>
   <dlg:text dlg:id="LabelCustom2" dlg:tab-index="25" dlg:left="320" dlg:top="236" dlg:width="48" dlg:height="8" dlg:value="Custom 2:"/>
-  <dlg:textfield dlg:style-id="0" dlg:id="sCode" dlg:tab-index="0" dlg:left="3" dlg:top="6" dlg:width="368" dlg:height="182" dlg:hide-inactive-selection="false" dlg:hard-linebreaks="true" dlg:vscroll="true" dlg:multiline="true">
+  <dlg:textfield dlg:style-id="1" dlg:id="sCode" dlg:tab-index="0" dlg:left="3" dlg:top="6" dlg:width="368" dlg:height="182" dlg:hide-inactive-selection="false" dlg:hard-linebreaks="true" dlg:vscroll="true" dlg:multiline="true">
    <script:event script:event-name="on-textchange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.CodeModified?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:textfield>
   <dlg:combobox dlg:id="sTemplate" dlg:tab-index="13" dlg:left="197" dlg:top="213" dlg:width="135" dlg:height="12" dlg:help-text="You can create your own templates using a text editor." dlg:spin="true" dlg:linecount="24">
@@ -84,7 +84,7 @@
   <dlg:button dlg:id="LyOutput" dlg:tab-index="31" dlg:left="240" dlg:top="279" dlg:width="44" dlg:height="14" dlg:help-text="Show LilyPond&apos;s Output message from its last call" dlg:value="Ly Output">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.ShowLilyPondOutput?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
-  <dlg:text dlg:style-id="1" dlg:id="sErrMsg" dlg:tab-index="16" dlg:left="48" dlg:top="277" dlg:width="188" dlg:height="18" dlg:multiline="true"/>
+  <dlg:text dlg:id="sErrMsg" dlg:tab-index="16" dlg:left="48" dlg:top="277" dlg:width="188" dlg:height="18" dlg:multiline="true"/>
   <dlg:button dlg:id="ExtEditorButton" dlg:tab-index="32" dlg:left="72" dlg:top="191" dlg:width="121" dlg:height="14" dlg:help-text="Open the current code as temoprary .LY file in external editor" dlg:value="Open as temp. file in Ext. Editor">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.ExtEditorButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
