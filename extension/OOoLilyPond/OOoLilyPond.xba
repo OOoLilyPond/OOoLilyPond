@@ -67,10 +67,11 @@ Sub OOoLilyPond()
 	
 	&apos; Create all Dialog objects
 	DialogLibraries.LoadLibrary (constOLyLibraryName)
-	oEditorDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Editor&quot;) )
-	oConfigDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Config&quot;) )
-	oTemplateEditorDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Tmpl&quot;) )
-	oOutputDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Out&quot;) )
+	&apos; --- Dialogs will be created later, as originally intended
+	&apos; oEditorDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Editor&quot;) )
+	&apos; oConfigDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Config&quot;) )
+	&apos; oTemplateEditorDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Tmpl&quot;) )
+	&apos; oOutputDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Out&quot;) )
 
 	&apos; Read configuration file
 	If oFileAccess.exists( sConfigFile ) Then ReadConfig()

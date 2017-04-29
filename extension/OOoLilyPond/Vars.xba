@@ -10,6 +10,11 @@ Private constOLyWinConfigFolderName As String		&apos; Folder name where Config f
 
 Private oMessages As Variant		&apos; PropertyBag for all message box strings and stuff related to them
 
+Private sEditorDialogStrings As String
+Private sTemplateDialogStrings As String
+Private sConfigDialogStrings As String
+Private sOutputDialogStrings As String
+
 &apos; Paths
 Private sConfigFile As String
 Private sTmpPath As String

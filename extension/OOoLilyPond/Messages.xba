@@ -322,49 +322,62 @@ End Sub
 
 Sub ReadMessageStrings()	&apos; Called from ReadLanguageFile() if the following contents of sLanguageCode belongs to the [Messages] section
 
-	Dim iLineEndPos As Integer		&apos; position of the first sign that terminates a line from the text file. Can be Chr(13) or Chr(10) or both.
 	Dim iEqPos As Integer			&apos; position of the first &quot;equal&quot; sign
 	Dim iBreakPos As Integer		&apos; position of intended line break in strings
 	Dim sCodeToParse As String		&apos; the current line that has been read out of sLanguageCode (the file contents)
-	Dim sName, sValue As String
+	Dim sName As String
+	Dim sValue As String
+	Dim iStartPtr As Integer
+	Dim iEndPtr As Integer
 	
 	On Error GoTo ErrorHandler
-	iLineEndPos = TagPos (sLanguageCode, Chr(13), Chr(10))	&apos; indicates the line end character(s)
-	While iLineEndPos &gt; 0 
-		sCodeToParse = LTrim (Left (sLanguageCode, iLineEndPos - 1))	&apos; copy the line out of sLanguageCode
-		If Left (sCodeToParse, 1) = &quot;[&quot; Then		&apos; beginning of a new section
-			Exit Sub								&apos; Return to ReadLanguageFile() before section name is removed from sLanguageCode
+	
+	iStartPtr = 1
+	iEndPtr = TagPosIndexed (iStartPtr, sLanguageCode, Chr(13), Chr(10))	&apos; indicates the line end character(s)
+	
+	While iEndPtr &gt; 0 	
+		If Mid (sLanguageCode, iStartPtr, 1) = &quot;[&quot; Then			&apos; beginning of a new section
+			sLanguageCode = Mid (sLanguageCode, iStartPtr)		&apos; remove the processed section from the beginning of sLanguageCode
+			Exit Sub											&apos; Return to ReadLanguageFile() before section name is removed from sLanguageCode
 		End If
-		sLanguageCode = Mid (sLanguageCode, iLineEndPos)			&apos; remove the line from the beginning of sLanguageCode
-		Skip()		
-		If Len (sCodeToParse) &gt; 0 And Left (sCodeToParse, 1) &lt;&gt; &quot;&apos;&quot; Then	&apos; neither a comment nor an empty line
-			&apos; split up sCodeToParse into sName and sValue
-			iEqPos = InStr (sCodeToParse, &quot;=&quot;)
+		If (iEndPtr-iStartPtr) &gt; 0 And Mid (sLanguageCode, iStartPtr, 1) &lt;&gt; &quot;&apos;&quot; Then	&apos; neither a comment nor an empty line
+			&apos; split up Code To Parse into sName and sValue
+			iEqPos = InStr (iStartPtr, sLanguageCode, &quot;=&quot;, 0)
+			If iEqPos &gt; iEndPtr Then
+				iEqPos = 0
+			End If 
 			If iEqPos &gt; 0 Then
-				sName =  Left  (sCodeToParse, iEqPos-1)
-				sValue = Right (sCodeToParse, Len(sCodeToParse)-iEqPos)
+				sName =  Mid (sLanguageCode, iStartPtr, iEqPos-iStartPtr)
+				sValue = Mid (sLanguageCode, iEqPos+1, iEndPtr-iEqPos-1)
 				&apos; as long as sValue contains the sequence &quot;%10&quot;, replace it with Chr(10):
 				iBreakPos = InStr (sValue, &quot;%10&quot;)
 				While iBreakPos &gt; 0 
 					Mid (sValue, iBreakPos, 3, Chr(10))
 					iBreakPos = InStr (sValue, &quot;%10&quot;)
-				Wend
-				
-				oMessages.setPropertyValue (sName, sValue)
-				
+				Wend				
+				oMessages.setPropertyValue (sName, sValue)				
 			End If
-
-			
-
-		End If		
-		iLineEndPos = TagPos (sLanguageCode, Chr(13), Chr(10))
+		End If				
+		&apos; skip linebreaks:
+		If Mid (sLanguageCode, iEndPtr, 1) = Chr(13) Then			&apos; If there is Chr(13)...
+			iEndPtr = iEndPtr+1										&apos;    ...skip it
+		End If
+		If Mid (sLanguageCode, iEndPtr, 1) = Chr(10) Then			&apos; If there is Chr(10)...
+			iEndPtr = iEndPtr+1										&apos;    ...skip it
+		End If	
+		iStartPtr = iEndPtr
+		iEndPtr = TagPosIndexed (iStartPtr, sLanguageCode, Chr(13), Chr(10))
 	WEnd
+	sLanguageCode = Mid (sLanguageCode, iStartPtr)					&apos; remove the processed section from the beginning of sLanguageCode
 	Exit Sub
 	
 	ErrorHandler:
+		sCodeToParse = Mid (sLanguageCode, iStartPtr, iEndPtr-iStartPtr)
 		iLanguageEntryErrors = iLanguageEntryErrors + 1
 		If iLanguageEntryErrors &lt;= iMaxLanguageEntryError Then
-			sLanguageEntryErrors = sLanguageEntryErrors &amp; Chr (10) &amp; Chr (10) &amp; sCodeToParse &amp; Chr(10) &amp; Error
+			sLanguageEntryErrors = sLanguageEntryErrors &amp; Chr (10) &amp; Chr (10) &amp; sCodeToParse 
+			&apos; &amp; Chr(10) 
+			&apos; &amp; Error &amp; Chr(10) &amp; Err &amp; Chr(10) &amp; &quot;   &quot;
 		End If
 	Resume Next
 
@@ -434,6 +447,104 @@ Sub ReadDialogStrings (oDialog As Object)	&apos; Called from ReadLanguageFile() 
 End Sub
 
 
+Sub ReadDialogStringsFromVar (oDialog As Object, sSource As String)	&apos; Called if a Dialog other than oEditorDialog is created.
+																	&apos; Works as ReadDialogStrings, except that it reads from a String variable 
+																	&apos; instead out of sLanguageCode.
+
+	&apos; Dim iLineEndPos As Integer		&apos; position of the first sign that terminates a line from the text file. Can be Chr(13) or Chr(10) or both.
+	Dim iEqPos As Integer			&apos; position of the first &quot;equal&quot; sign
+	Dim iDotPos As Integer			&apos; position of the first dot in sKey
+	Dim iBreakPos As Integer		&apos; position of intended line break in strings
+	Dim sCodeToParse As String		&apos; the current line that has been read out of sSource (the file contents)
+	Dim sKey As String, sValue As String, sName As String, sPart As String
+	Dim iStartPtr As Integer
+	Dim iEndPtr As Integer
+	
+	On Error Goto LocalErrorHandler
+	
+	iLanguageEntryErrors = 0
+	sLanguageEntryErrors = &quot;&quot;
+	
+	iStartPtr = 1
+	iEndPtr = TagPosIndexed (iStartPtr, sSource, Chr(13), Chr(10))	&apos; indicates the line end character(s)
+	
+	While iEndPtr &gt; 0 		
+		If (iEndPtr-iStartPtr) &gt; 0 And Mid (sSource, iStartPtr, 1) &lt;&gt; &quot;&apos;&quot; Then	&apos; neither a comment nor an empty line
+			&apos; split up Code To Parse into sName and sValue
+			iEqPos = InStr (iStartPtr, sSource, &quot;=&quot;, 0)
+			If iEqPos &gt; iEndPtr Then
+				iEqPos = 0
+			End If 
+			If iEqPos &gt; 0 Then
+				sKey =  Mid (sSource, iStartPtr, iEqPos-iStartPtr)
+				sValue = Mid (sSource, iEqPos+1, iEndPtr-iEqPos-1)
+				
+				&apos; split up sKey into sName and sPart if it contains a dot
+				iDotPos = InStr (sKey, &quot;.&quot;)
+				if iDotPos &gt; 0 Then
+					sName = Left (sKey, iDotPos-1)
+					sPart = Right (sKey, Len(sKey)-iDotPos)
+					&apos; as long as sValue contains the sequence &quot;%10&quot;, replace it with Chr(10):
+					iBreakPos = InStr (sValue, &quot;%10&quot;)
+					While iBreakPos &gt; 0 
+						Mid (sValue, iBreakPos, 3, Chr(10))
+						iBreakPos = InStr (sValue, &quot;%10&quot;)
+					Wend
+					Select Case sPart
+						Case &quot;label&quot;
+ 							oDialog.getModel().getByName(sName).Label = sValue
+						Case &quot;helptext&quot;
+							oDialog.getModel().getByName(sName).helptext = sValue
+					End Select
+				Else
+					If sKey = &quot;DialogTitle&quot; Then
+						oDialog.getModel().Title = sValue
+					End If				
+				End If
+			End If
+		End If		
+		&apos; skip linebreaks:
+		If Mid (sSource, iEndPtr, 1) = Chr(13) Then			&apos; If there is Chr(13)...
+			iEndPtr = iEndPtr+1								&apos;    ...skip it
+		End If
+		If Mid (sSource, iEndPtr, 1) = Chr(10) Then			&apos; If there is Chr(10)...
+			iEndPtr = iEndPtr+1								&apos;    ...skip it
+		End If	
+		iStartPtr = iEndPtr
+		iEndPtr = TagPosIndexed (iStartPtr, sSource, Chr(13), Chr(10))		
+	WEnd
+	ReportLanguageEntryErrors ()
+	Exit Sub
+	
+	LocalErrorHandler: 
+		iLanguageEntryErrors = iLanguageEntryErrors + 1
+		sCodeToParse = Mid (sSource, iStartPtr, iEndPtr-iStartPtr)
+		If iLanguageEntryErrors &lt;= iMaxLanguageEntryError Then
+			sLanguageEntryErrors = sLanguageEntryErrors &amp; Chr (10) &amp; Chr (10) &amp; sCodeToParse 
+			&apos; &amp; Chr(10) &amp; Error
+		End If
+	Resume Next
+
+End Sub
+
+
+Sub ReadSection (sDestination As String)	&apos; Called from ReadLanguageFile() if the following contents of sLanguageCode belongs to a dialog 
+											&apos; other than oEditorDialog
+											&apos; Contents of the section will be stored in sDestination.
+
+	Dim iSectionEndPos As Integer	&apos; position of the next &quot;[&quot; sign. Might be zero if no other section follows.
+	
+	iSectionEndPos = InStr (sLanguageCode, &quot;[&quot;)	&apos; indicates the start of another section
+	If iSectionEndPos = 0 Then
+		sDestination = sLanguageCode
+		sLanguageCode = &quot;&quot;
+	Else
+		sDestination = Left (sLanguageCode, iSectionEndPos - 1)
+		sLanguageCode = Mid (sLanguageCode, iSectionEndPos)
+	End If
+End Sub
+
+
 Function ListOfLanguageFiles (oComboBox) As Integer
 	&apos; Fills the ComboBox with the list of Language files
 	&apos; Returns
@@ -475,6 +586,17 @@ Function ListOfLanguageFiles (oComboBox) As Integer
 End Function
 
 
+Sub ReportLanguageEntryErrors ()
+
+	If iLanguageEntryErrors &gt; 0 Then
+		If iLanguageEntryErrors &gt; iMaxLanguageEntryError Then
+			sLanguageEntryErrors = sLanguageEntryErrors &amp; Chr(10) &amp; Chr(10) &amp; oMessages.getPropertyValue (&quot;sMsgSurplusLanguageErrors1&quot;) &amp; iLanguageEntryErrors - iMaxLanguageEntryError &amp; oMessages.getPropertyValue (&quot;sMsgSurplusLanguageErrors2&quot;)
+		End If
+		MsgBox (oMessages.getPropertyValue (&quot;sMsgLanguageEntryErrors1&quot;) &amp; ConvertFromURL(sLanguagePath) &amp; sLanguageFileName &amp; oMessages.getPropertyValue (&quot;sMsgLanguageEntryErrors2&quot;) &amp; iLanguageEntryErrors &amp; oMessages.getPropertyValue (&quot;sMsgLanguageEntryErrors3&quot;) &amp; sLanguageEntryErrors, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+	End If
+End Sub
+
+
 Sub ReadLanguageFile()	&apos; If a language file is specified, read out its contents to replace the message strings, dialog labels etc.
 
 	Dim sLanguageFile As String		&apos; path and file name
@@ -494,7 +616,7 @@ Sub ReadLanguageFile()	&apos; If a language file is specified, read out its cont
 	sLanguageCode = sLanguageCode &amp; Chr(13) &amp; Chr(10)		&apos; append a line break at the end
 	
 	iLanguageEntryErrors = 0
-	
+	sLanguageEntryErrors = &quot;&quot;
 	
 	iLineEndPos = TagPos (sLanguageCode, Chr(13), Chr(10))	&apos; indicates the line end character(s)
 	While iLineEndPos &gt; 0 
@@ -508,24 +630,19 @@ Sub ReadLanguageFile()	&apos; If a language file is specified, read out its cont
 			Case &quot;[Messages]&quot;
 				ReadMessageStrings()
 			Case &quot;[EditorDialog]&quot;
-				ReadDialogStrings (oEditorDialog)
+				ReadSection (sEditorDialogStrings)
 			Case &quot;[TemplateEditorDialog]&quot;
-				ReadDialogStrings (oTemplateEditorDialog)
+				ReadSection (sTemplateDialogStrings)
 			Case &quot;[ConfigDialog]&quot;
-				ReadDialogStrings (oConfigDialog)
+				ReadSection (sConfigDialogStrings)
 			Case &quot;[OutputDialog]&quot;
-				ReadDialogStrings (oOutputDialog)
+				ReadSection (sOutputDialogStrings)
 			End Select			
 		End If		
 		iLineEndPos = TagPos (sLanguageCode, Chr(13), Chr(10))
 	WEnd
-	
-	If iLanguageEntryErrors &gt; 0 Then
-		If iLanguageEntryErrors &gt; iMaxLanguageEntryError Then
-			sLanguageEntryErrors = sLanguageEntryErrors &amp; Chr(10) &amp; Chr(10) &amp; oMessages.getPropertyValue (&quot;sMsgSurplusLanguageErrors1&quot;) &amp; iLanguageEntryErrors - iMaxLanguageEntryError &amp; oMessages.getPropertyValue (&quot;sMsgSurplusLanguageErrors2&quot;)
-		End If
-		MsgBox (oMessages.getPropertyValue (&quot;sMsgLanguageEntryErrors1&quot;) &amp; sLanguageFileName &amp; oMessages.getPropertyValue (&quot;sMsgLanguageEntryErrors2&quot;) &amp; iLanguageEntryErrors &amp; oMessages.getPropertyValue (&quot;sMsgLanguageEntryErrors3&quot;) &amp; sLanguageEntryErrors, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
-	End If
+
+	ReportLanguageEntryErrors ()
 
 End Sub
 
