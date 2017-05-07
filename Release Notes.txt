@@ -1,6 +1,13 @@
-*********************************************
-OOoLilyPond 0.5.4 Release Notes  (April 2017)
-*********************************************
+*******************************************
+OOoLilyPond 0.5.5 Release Notes  (May 2017)
+*******************************************
+
+
+Changes to OOoLilyPond 0.5.5 since 0.5.4:
+==========================================
+
+* speed up language file loading
+* highlight LY compiler messages in editor window
 
 
 Changes to OOoLilyPond 0.5.4 since 0.5.3:
