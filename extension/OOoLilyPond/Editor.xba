@@ -18,17 +18,17 @@ Sub EditorDialog()
 	&apos; DialogLibraries.LoadLibrary (constOLyLibraryName)
 	
 	&apos; Create the dialog object
-	&apos; --- too late, now that must happen before ReadLanguageFile()
 	oEditorDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Editor&quot;) )
 	ReadDialogStringsFromVar (oEditorDialog, sEditorDialogStrings)
-
+	
+	
 	&apos; Change the font of the editor pane
 	oFieldModel = oEditorDialog.getControl(&quot;sCode&quot;).getModel()
 	MyFont.Name = sEditorFontName
 	&apos; MyFont.StyleName = &quot;Fett&quot;  &apos; bad idea...
 	MyFont.Height = sEditorFontSize
 	oFieldModel.FontDescriptor = MyFont
-  
+	  
 	&apos; Fill in the values
 	If bUseDefaultCode Then
 		sCode=&quot;&quot;
@@ -166,6 +166,7 @@ Sub DisplayError()
 	End If
 	oEditorDialog.getControl (&quot;sErrMsg&quot;).setText (sText)
 	oEditorDialog.getModel().getByName (&quot;sErrMsg&quot;).BackgroundColor = lErrMsgHighlightColor
+	oEditorDialog.getControl (&quot;sErrMsg&quot;).Visible = True
 	If iErrNum &gt; 1 Then
 		oEditorDialog.getModel().getByName (&quot;PrevErr&quot;).Enabled = True
 	Else
@@ -181,7 +182,7 @@ End Sub
 
 
 Sub GotoError(n)
-	&apos; set Curser to Error
+	&apos; set Cursor to Error
 
 	Dim oSelection As Object
 	Dim iLilyPondCodePos As Integer &apos; Error position in sLilyPondCode
