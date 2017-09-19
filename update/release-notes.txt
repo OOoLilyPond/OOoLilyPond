@@ -1,7 +1,12 @@
-OOoLilyPond 0.5.5 Release Notes (May 2017)
-===========================================
+OOoLilyPond 0.5.6 Release Notes (September 2017)
+================================================
 
 Hint: If you tried to download the update via the extension manager and got a "403 Forbidden" error message, just try once more.
+
+
+Changes to OOoLilyPond 0.5.6 since 0.5.5:
+
+* Bugfix: When no graphics file was created, LY compiler error messages were not shown in OLy Editor window.
 
 
 Changes to OOoLilyPond 0.5.5 since 0.5.4:
