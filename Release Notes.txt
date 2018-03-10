@@ -1,9 +1,10 @@
-*******************************************
+*********************************************
 OOoLilyPond 0.5.6 Release Notes (March 2018)
-*******************************************
+*********************************************
 
 
 Changes to OOoLilyPond 0.5.6 since 0.5.5:
+==========================================
 
 * French translation added (Thanks to Valentin Villenave!)
   To have the new language file "francais.ini" available in the config dialog, 
