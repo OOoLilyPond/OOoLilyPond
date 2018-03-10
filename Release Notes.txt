@@ -1,6 +1,16 @@
 *******************************************
-OOoLilyPond 0.5.5 Release Notes  (May 2017)
+OOoLilyPond 0.5.6 Release Notes (March 2018)
 *******************************************
+
+
+Changes to OOoLilyPond 0.5.6 since 0.5.5:
+
+* French translation added (Thanks to Valentin Villenave!)
+  To have the new language file "francais.ini" available in the config dialog, 
+  please launch OLy, open the config dialog and click the "Restore Language Files" button. 
+  (Your current language files will be backed up in a subfolder. If you like, you can delete that subfolder.
+* Bugfix: When no graphics file was created, LY compiler error messages were not shown in OLy Editor window.
+* some minor spacing adjustments in dialogs
 
 
 Changes to OOoLilyPond 0.5.5 since 0.5.4:
