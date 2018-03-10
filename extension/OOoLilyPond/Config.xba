@@ -341,18 +341,7 @@ Sub DefaultConfig()
 	sOSType=GetOSType()
 
 	&apos; Config file, temporary folder, include statement(s), LilyPond and Ext. Editor executable
-	If sOSType=&quot;Unix&quot; Then
-		sConfigFile = ConvertToURL(Environ(&quot;HOME&quot;)) &amp; &quot;/.ooolilypond&quot;
-		sTmpPath = ConvertToURL(Environ(&quot;HOME&quot;)) &amp; &quot;/.cache/ooolilypond/tmp/&quot;
-		If Not oFileAccess.exists(sTmpPath) then oFileAccess.createFolder(sTmpPath)
-		sTemplatePath = ConvertToURL(Environ(&quot;HOME&quot;)) &amp; &quot;/OOoLilyPond-Templates/&quot;
-		sLanguagePath = ConvertToURL(Environ(&quot;HOME&quot;)) &amp; &quot;/OOoLilyPond-Language/&quot;
-	 	&apos; LilyPond Executable (not an URL)
- 		sLilyPondExecutable = &quot;lilypond&quot;
- 		sExtEditorExecutable = &quot;frescobaldi&quot;
-		sIncludeStatement = &quot;-I&quot; &amp; Chr(34) &amp; ConvertFromURL(Environ(&quot;HOME&quot;)) &amp; Chr(34)
-	Else
-		&apos;Operating System is Windows
+	If sOSType=&quot;Windows&quot; Then
 		&apos; Create Folder %APPDATA%\OOoLilyPond if it does not exist
 		If Not oFileAccess.isFolder( Environ(&quot;APPDATA&quot;) &amp; &quot;\&quot; &amp; constOLyWinConfigFolderName ) Then
 			If oFileAccess.exists( Environ(&quot;APPDATA&quot;) &amp; &quot;\&quot; &amp; constOLyWinConfigFolderName ) Then
@@ -376,7 +365,22 @@ Sub DefaultConfig()
 		While InStr (sIncludeStatement, &quot;\&quot;) &gt; 0	&apos; replace &quot;\&quot; by &quot;/&quot;, even in Windows LilyPond expects paths to be written with forward slashes
 			Mid (sIncludeStatement, InStr (sIncludeStatement, &quot;\&quot;), 1, &quot;/&quot;)
 		Wend
- 	End If
+	Else	&apos; Unix or Mac
+		sConfigFile = ConvertToURL(Environ(&quot;HOME&quot;)) &amp; &quot;/.ooolilypond&quot;
+		sTmpPath = ConvertToURL(Environ(&quot;HOME&quot;)) &amp; &quot;/.cache/ooolilypond/tmp/&quot;
+		If Not oFileAccess.exists(sTmpPath) then oFileAccess.createFolder(sTmpPath)
+		sTemplatePath = ConvertToURL(Environ(&quot;HOME&quot;)) &amp; &quot;/OOoLilyPond-Templates/&quot;
+		sLanguagePath = ConvertToURL(Environ(&quot;HOME&quot;)) &amp; &quot;/OOoLilyPond-Language/&quot;
+	 	&apos; LilyPond Executable (not an URL)
+	 	If sOSType=&quot;Unix&quot; Then
+ 			sLilyPondExecutable = &quot;lilypond&quot;
+ 			sExtEditorExecutable = &quot;frescobaldi&quot;
+ 		Else	&apos; Mac
+ 			sLilyPondExecutable = &quot;lilypond&quot;
+ 			sExtEditorExecutable = &quot;frescobaldi&quot;
+ 		End If
+		sIncludeStatement = &quot;-I&quot; &amp; Chr(34) &amp; ConvertFromURL(Environ(&quot;HOME&quot;)) &amp; Chr(34)
+	End If
 
 
 	&apos; Writer specific settings
@@ -638,7 +642,7 @@ Function PickExecutableFile (sExeFileName As String) As Boolean
 		iPos = InStr (sFile, &quot;/&quot;)
 	Wend
 	If (Not oFileAccess.isFolder (sDirectory)) Or (sDirectory = &quot;file:///&quot;) Then	
-		If sOSType = &quot;Unix&quot; Then
+		If (sOSType = &quot;Unix&quot;) Or (sOSType = &quot;Mac&quot;) Then
 			sDirectory = ConvertToURL (&quot;/usr/bin&quot;)
 		Else	&apos; Windows
 			sDirectory = ConvertToURL (Environ (&quot;ProgramFiles&quot;))
@@ -647,7 +651,7 @@ Function PickExecutableFile (sExeFileName As String) As Boolean
 	oFileDlg.setDefaultName (sFile)
 	&apos; oFileDlg.setDisplayDirectory (sDirectory)		&apos; seems to crash LibO 5.3.1.2 (Win7 x64) unless LibO&apos;s own open/save dialogs are used, so better comment it out until the problem is found and fixed
  	oFileDlg.AppendFilter (oMessages.getPropertyValue (&quot;sFilterAllFiles&quot;), &quot;*.*&quot;)
-	If sOSType = &quot;Unix&quot; Then
+	If (sOSType = &quot;Unix&quot;) Or (sOSType = &quot;Mac&quot;) Then
 		oFileDlg.SetCurrentFilter (oMessages.getPropertyValue (&quot;sFilterAllFiles&quot;))
 	Else	&apos; Windows
 		oFileDlg.AppendFilter (oMessages.getPropertyValue (&quot;sFilterExecutableFiles&quot;), &quot;*.exe&quot;)
@@ -680,7 +684,7 @@ Function PickFolder (sFolderName As String) As Boolean
 	If sFolder &lt;&gt; &quot;&quot; Then
 		sFolder = ConvertToURL (sFolder)
 	Else
-		If sOSType = &quot;Unix&quot; Then
+		If (sOSType = &quot;Unix&quot;) Or (sOSType = &quot;Mac&quot;) Then
 			sFolder = ConvertToURL (Environ(&quot;HOME&quot;))
 		Else	&apos; Windows
 			sFolder = ConvertToURL (Environ(&quot;ProgramFiles&quot;))

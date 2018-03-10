@@ -45,8 +45,8 @@
   </dlg:checkbox>
   <dlg:textfield dlg:id="sTemplatePath" dlg:tab-index="48" dlg:left="173" dlg:top="124" dlg:width="102" dlg:height="12" dlg:help-text="The path where OOoLiliyPond looks for templates."/>
   <dlg:textfield dlg:id="sLilyPondExecutable" dlg:tab-index="49" dlg:left="173" dlg:top="176" dlg:width="102" dlg:height="12" dlg:help-text="The LilyPond executable with or without path."/>
-  <dlg:numericfield dlg:id="iGraphicDPI" dlg:tab-index="52" dlg:left="208" dlg:top="218" dlg:width="20" dlg:height="12" dlg:help-text="Resolution for pixel based (png-format) OOoLilyPond objects." dlg:decimal-accuracy="0" dlg:value="300" dlg:value-min="75" dlg:value-max="2400" dlg:value-step="0"/>
-  <dlg:combobox dlg:id="sFormat" dlg:tab-index="51" dlg:left="174" dlg:top="218" dlg:width="25" dlg:height="12" dlg:help-text="The png format looks better on the screen. The eps and svg formats are optimized for printing." dlg:spin="true"/>
+  <dlg:numericfield dlg:id="iGraphicDPI" dlg:tab-index="52" dlg:left="228" dlg:top="218" dlg:width="20" dlg:height="12" dlg:help-text="Resolution for pixel based (png-format) OOoLilyPond objects." dlg:decimal-accuracy="0" dlg:value="300" dlg:value-min="75" dlg:value-max="2400" dlg:value-step="0"/>
+  <dlg:combobox dlg:id="sFormat" dlg:tab-index="51" dlg:left="174" dlg:top="218" dlg:width="45" dlg:height="12" dlg:help-text="The png format looks better on the screen. The eps and svg formats are optimized for printing." dlg:spin="true"/>
   <dlg:checkbox dlg:id="bIgnoreWarnings" dlg:tab-index="53" dlg:left="173" dlg:top="192" dlg:width="143" dlg:height="10" dlg:help-text="Don&apos;t list warnings along with LilyPond&apos;s error messages" dlg:value="Ignore Warnings" dlg:checked="false"/>
   <dlg:textfield dlg:id="sExtEditorExecutable" dlg:tab-index="47" dlg:left="173" dlg:top="150" dlg:width="102" dlg:height="12" dlg:help-text="The external Editor&apos;s executable with or without path."/>
   <dlg:textfield dlg:id="sIncludeStatement" dlg:tab-index="46" dlg:left="173" dlg:top="72" dlg:width="143" dlg:height="12" dlg:help-text="The path(s) where LilyPond looks for include files (multiple statements possible)"/>
@@ -81,9 +81,9 @@
   <dlg:text dlg:id="LabelExtEditorExecutable" dlg:tab-index="39" dlg:left="173" dlg:top="139" dlg:width="142" dlg:height="9" dlg:value="External Editor Executable:"/>
   <dlg:text dlg:id="LabelTemplatePath" dlg:tab-index="35" dlg:left="173" dlg:top="113" dlg:width="143" dlg:height="9" dlg:value="Template Path:"/>
   <dlg:text dlg:id="LabelLilyPondExecutable" dlg:tab-index="36" dlg:left="173" dlg:top="165" dlg:width="143" dlg:height="9" dlg:value="LilyPond Executable:"/>
-  <dlg:text dlg:id="LabelFormat" dlg:tab-index="37" dlg:left="174" dlg:top="207" dlg:width="31" dlg:height="10" dlg:value="Format:"/>
-  <dlg:text dlg:id="LabelDPI" dlg:tab-index="19" dlg:left="231" dlg:top="220" dlg:width="66" dlg:height="9" dlg:help-text="dots per inch" dlg:value="dpi"/>
-  <dlg:text dlg:id="LabelGraphicDPIResolution" dlg:tab-index="38" dlg:left="209" dlg:top="207" dlg:width="89" dlg:height="10" dlg:value="Resolution (png):"/>
+  <dlg:text dlg:id="LabelFormat" dlg:tab-index="37" dlg:left="174" dlg:top="207" dlg:width="51" dlg:height="10" dlg:value="Format:"/>
+  <dlg:text dlg:id="LabelDPI" dlg:tab-index="19" dlg:left="251" dlg:top="220" dlg:width="66" dlg:height="9" dlg:help-text="dots per inch" dlg:value="dpi"/>
+  <dlg:text dlg:id="LabelGraphicDPIResolution" dlg:tab-index="38" dlg:left="229" dlg:top="207" dlg:width="89" dlg:height="10" dlg:value="Resolution (png):"/>
   <dlg:text dlg:id="LabelImpressDefaultTemplate" dlg:tab-index="57" dlg:left="9" dlg:top="215" dlg:width="41" dlg:height="10" dlg:value="Template:" dlg:align="right"/>
   <dlg:titledbox dlg:id="ImpressDefaultsFrame" dlg:tab-index="20" dlg:left="6" dlg:top="199" dlg:width="155" dlg:height="126">
    <dlg:title dlg:value="Default Values for Impress and Draw"/>
