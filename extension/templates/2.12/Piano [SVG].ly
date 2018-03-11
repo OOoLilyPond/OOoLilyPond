@@ -55,6 +55,8 @@
 %{OOoLilyPondCode%}% Use "Custom 1" for indent
 % Use "Custom 2" for paper height
 
+% http://lilypond.org/doc/stable/Documentation/notation/keyboard-and-other-multi_002dstaff-instruments
+
 {
   \new PianoStaff {
     <<

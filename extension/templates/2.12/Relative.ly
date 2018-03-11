@@ -2,7 +2,7 @@
 \relative %{OOoLilyPondCustom2%}g,%{OOoLilyPondEnd%} {
 %{OOoLilyPondCode%}% This templates lets you enter notes in relative mode.
 % See the LilyPond documentation:
-% http://lilypond.org/doc/v2.12/Documentation/user/lilypond/Writing-pitches#index-_005crelative
+% http://lilypond.org/doc/stable/Documentation/notation/pitches
 % The start pitch you can specify in the "Custom 2" field.
 
 \key g \major
