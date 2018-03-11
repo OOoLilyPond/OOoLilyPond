@@ -1,3 +1,12 @@
+UPDATE March 2018: It seems that updating via the extension manager does NOT work at the moment. 
+You can download the most recent version at 
+https://github.com/openlilylib/LO-ly/wiki/Downloads
+and open it in LibreOffice / OpenOffice.
+
+direct link:
+https://github.com/openlilylib/LO-ly/releases/download/0.5.6/OOoLilyPond-0.5.6.oxt
+
+
 OOoLilyPond 0.5.6 Release Notes (March 2018)
 ================================================
 
