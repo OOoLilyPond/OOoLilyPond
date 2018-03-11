@@ -1,0 +1,176 @@
+# German translation for OOoLilyPond extension
+description: |-
+  OOoLilyPond permet d’intégrer des fragments de notation musicale dans
+  des documents texte, graphiques ou diaporamas avec OpenOffice.org ou
+  LibreOffice. La gravure musicale est saisie sous forme de code source
+  puis compilée par LilyPond pour aboutir à un objet graphique, vectoriel
+  ou non (au format png, eps ou svg).
+
+  http://ooolilypond.sf.net
+  http://lilypond.org
+
+  Copyright (c) 2006-2009 Samuel Hartmann (samuel_hartmann@users.sourceforge.net)
+  Copyright (c) 2017 Klaus Blum
+  Traduction : Valentin Villenave
+
+# Ask
+'Yes': Oui
+CommandButton1: Commande1
+'No': Non
+Abort: Annuler
+All: Tout
+Do you want to process this object?: Voulez-vous traiter cet objet ?
+
+# main window
+Default Code: "R&eacute;initialiser"
+Anchor: Ancre
+As Character: "Comme caract&egrave;re"
+To Paragraph: Au paragraphe
+To Page: "&Agrave; la page"
+Wrap: Adaptation du texte
+No Wrap: "Pas d&apos;adaptation"
+Optimal Page Wrap: Optimale
+Wrap Through: Continue
+Template: "Mod&egrave;le :"
+Edit: Modifier
+Line Width: "Largeur :"
+Staff Size: "Taille :"
+Custom 1: "Propri&eacute;t&eacute; 1"
+Custom 2: "Propri&eacute;t&eacute; 2"
+Default: Standard
+Ly Output: Messages
+Config: "R&eacute;glages"
+Open as temp. file in Ext. Editor: "Ouvrir dans l&apos;&eacute;diteur externe"
+Import from temp. file: Importer depuis le fichier temporaire
+'Keep Size &amp; Crop Settings': Conserver la taille et le recadrage
+
+Reset all values to default: "Tout r&eacute;initialiser"
+Reset to Default: "R&eacute;initialiser"
+Restore Templates: "Restaurer les mod&egrave;les"
+Template Path: "Emplacement des mod&egrave;les"
+Format: "Format :"
+Resolution (png): "R&eacute;solution (png) :"
+Default template to use for OOoLilyPond objects in Writer documents: "Mod&egrave;le par d&eacute;faut &agrave; utiliser pour les objets OOoLilyPond dans les documents texte"
+Insert Images via Clipboard. Recommended for OpenOffice.: "Ins&eacute;rer les images par le presse-papier ; recommand&eacute; pour OpenOffice."
+Insert Images without Clipboard use. Recommended for LibreOffice.: "Ins&eacute;rer les images sans utiliser le presse-papier ; recommand&eacute; pour LibreOffice."
+Direct (LibreOffice): Directement (LibreOffice)
+Via Clipboard (OpenOffice): Par le presse-papier (OpenOffice)
+From Template: "D&eacute;f. du mod&egrave;le"
+
+# template editor
+Save: Enregistrer
+Save As: "Enregistrer sous&hellip;"
+Delete: Supprimer
+Cancel: Annuler
+
+# help text
+The OOoLilyPond object is inserted into the Text like a character.: "L&apos;objet OOoLilyPond sera ins&eacute;r&eacute; dans le texte comme un caract&egrave;re ordinaire."
+The OOoLilyPond object is inserted like an image and can be placed freely. The object keeps the position relative to the paragraph.: "L&apos;object OOoLilyPond sera ins&eacute;r&eacute; comme une image et peut &ecirc;tre plac&eacute; librement ; il conservera sa position par rapport au paragraphe."
+The OOoLilyPond object is inserted like an image and can be placed freely. The object keeps the position relative to the page.: "L&apos;object OOoLilyPond sera ins&eacute;r&eacute; comme une image et peut &ecirc;tre plac&eacute; librement ; il conservera sa position par rapport &agrave; la page."
+The text is not flowing around the OOoLilyPond object.: "Le texte ne se poursuivra pas autour de l&apos;objet OOoLilyPond."
+The text is flowing on the right or left side of the OOoLIlyPond object.: "Le texte se poursuivra &agrave; droite ou &agrave; gauche de l&apos;objet OOoLilyPond."
+The text is flowing through the OOoLilyPond object.: "Le texte se poursuivra &agrave; travers l&apos;objet OOoLilyPond."
+Open the configuration dialog.: "Ouvrir la sous-fen&ecirc;tre de configuration"
+Previous error or warning: "Erreur ou avertissement pr&eacute;c&eacute;dent&sdot;e"
+Next error or warning: "Erreur ou avertissement suivant&sdot;e"
+You can create your own templates using a text editor.: "Vous pouvez cr&eacute;er vos propres mod&egrave;les avec un &eacute;diteur de texte."
+Open the current code as temoprary .LY file in external editor: "Ouvrir le code actuel en tant que fichier .ly temporaire dans l&apos;&eacute;diteur externe"
+Import the temporary file from the external editor: Remplacer le code actuel par celui du fichier temporaire.
+When editing/replacing an existing object, preserve its current size and crop settings: Pour modifier ou remplacer un objet existant en conservant sa taille et son recadrage.
+
+# GUI Config
+Default Values for Writer: "Valeurs par d&eacute;faut pour le Traitement de texte"
+Default Values for Impress and Draw: "Valeurs par d&eacute;faut pour les graphiques et diaporamas"
+Apply and save configuration to file: "Appliquer et enregistrer les r&eacute;glages."
+The path where OOoLiliyPond looks for templates.: "L&apos;emplacement o&ugrave; OOoLilyPond peut trouver des fichiers de mod&egrave;les."
+The LilyPond executable with or without path.: "L&apos;emplacement de l&apos;ex&eacute;cutable LilyPond (le chemin complet peut &ecirc;tre omis)."
+Resolution for pixel based (png-format) OOoLilyPond objects.: "R&eacute;solution pour les objets OOoLilyPond pixelis&eacute;s (format png)."
+The png format looks better on the screen. The eps and svg formats are optimized for printing.: "Le format png peut sembler plus lisse &agrave; l&apos;&eacute;cran. Les formats vectoriels (eps ou svg) sont recommand&eacute;s pour les documents imprimables."
+'Don&apos;t list warnings along with LilyPond&apos;s error messages': "Ne pas inclure les avertissements parmi les messages d&apos;erreur de LilyPond."
+Ext. Editor Executable: "Ex&eacute;cutable pour l&apos;&eacute;diteur externe :"
+The external Editor&apos;s executable with or without path.: "L&apos;emplacement de l&apos;&eacute;diteur externe (Frescobaldi ou autre)."
+Include statement(s): "Dossiers d&apos;inclusion :"
+The path(s) where LilyPond looks for include files (multiple statements possible): "Les emplacements o&ugrave; LilyPond doit chercher des fichiers &agrave; inclure (il est possible d&apos;en indiquer plusieurs)."
+-I&quot;path1&quot; -I&quot;path2&quot; ...: '-I&quot;chemin&quot; -I&quot;autre&quot; ...'
+Editor Font Name: "Police de l&apos;&eacute;diteur :"
+Size: "Taille :"
+Specify the font name for the editor pane: "Indiquez le nom de la police utilis&eacute;e pour le code source."
+Specify the font size for the editor pane: "Indiquez la taille de police utilis&eacute;e pour le code source."
+Insert Images: "Ins&eacute;rer les images"
+'eps: Only with OpenOffice': 'eps: Seulement pour OpenOffice'
+'svg: Only with LibreOffice, use Template without': 'svg: Seulement pour LibreOffice ; utiliser un mod&egrave;le sans'
+
+# Process
+Code: Code
+Process: Compilation
+
+# Messages
+The folder: Le dossier
+is created.: "a &eacute;t&eacute; cr&eacute;&eacute;."
+It contains the: "Il contient des mod&egrave;les"
+templates you can modify. The original templates can always be restored while your modified templates are backed up. For this use the: ', que vous pouvez adapter. Les mod&egrave;les d&apos;origine peuvent toujours &ecirc;tre r&eacute;cup&eacute;r&eacute;s tandis que vos mod&egrave;les modifi&eacute;s seront sauvegard&eacute;s. Pour ce faire, veuillez utiliser le bouton'
+restore templates: "&laquo;Restaurer les mod&egrave;les&raquo;"
+button in the configuration dialog.: 'dans la sous-fen&ecirc;tre de configuration.'
+
+The specified path for templates does not exist and cannot be created: "L&apos;emplacement indiqu&eacute; pour les mod&egrave;les n&apos;existe pas et ne peut &ecirc;tre cr&eacute;&eacute; :" 
+Please adjust the path in the configuration dialog.: "Veuillez rectifier l&apos;emplacement dans la sous-fen&ecirc;tre de configuration."
+
+Your old templates are backed up under: "Vos mod&egrave;les pr&eacute;c&eacute;dents ont &eacute;t&eacute; sauvegard&eacute;s ici :"
+Templates Backup: "Sauvegarde des mod&egrave;les"
+No templates are found at the path: "Aucun mod&egrave;le n&apos;a &eacute;t&eacute; trouv&eacute; &agrave; l&apos;emplacement indiqu&eacute; :"
+will not work without a template.: "ne peut fonctionner sans mod&egrave;le."
+
+The template path: "Le dossier de mod&egrave;les
+is not found.: n&apos;a pas &eacute;t&eacute; trouv&eacute;."
+
+Warning: Avertissement
+Error: Erreur
+
+No valid file name / path for External Editor is specified.: "Aucun emplacement/nom de fichier valide n&apos;a &eacute;t&eacute; indiqu&eacute; pour l&apos;&eacute;diteur externe."
+
+Are you sure?: Voulez-vous confirmer ?
+Do you really want to reset your code to the default?: "Voulez-vous vraiment remplacer votre code par le code par d&eacute;faut ?"
+
+LilyPond cannot be executed.: "LilyPond ne peut pas &ecirc;tre lanc&eacute;."
+Check the path specified for the lilypond executable in the configuration dialog,: "Veuillez v&eacute;rifier l&apos;emplacement indiqu&eacute; pour l&apos;ex&eacute;cutable &laquo;lilypond&raquo; dans la sous-fen&ecirc;tre de configuration. "
+your LilyPond installation and permissions.: "V&eacute;rifiez &eacute;galement votre installation de LilyPond et les permissions dont vous disposez."
+
+The LilyPond output file does not exist: "Le fichier de messages de sortie de LilyPond n&apos;existe pas :"
+': document type not supported by': ' : Ce type de document n&apos;est pas pris en charge par'
+
+LilyPond can not be found. Please check whether LilyPond is properly installed: "LilyPond n&apos;a pu &ecirc;tre trouv&eacute;. Veuillez v&eacute;rifier que LilyPond est install&eacute; correctement,"
+and the specified path to the LilyPond executable is correct.: "et que l&apos;ex&eacute;cutable &laquo;lilypond&raquo; se trouve bien &agrave; l&apos;emplacement indiqu&eacute;."
+
+The selected object is not an OLy object ...: "L&apos;objet actuellement s&eacute;lectionn&eacute; n&apos;est pas un objet OLy&hellip;"
+
+Enter LilyPond code...: "Veuillez entrer du code LilyPond&hellip;"
+
+No eps output is found: "Aucun rendu EPS n&apos;a &eacute;t&eacute; trouv&eacute;."
+No png output is found: "Aucun rendu PNG n&apos;a &eacute;t&eacute; trouv&eacute;."
+No svg output is found: "Aucun rendu SVG n&apos;a &eacute;t&eacute; trouv&eacute;."
+
+'No &quot; &amp; constOLyLibraryName &amp; &quot; tags found in the template!': 'Aucune balise &quot; &amp; constOLyLibraryName &amp; &quot; n&apos;a &eacute;t&eacute; trouv&eacute;e dans le mod&egrave;le !'
+
+'Template error: missing end tag': 'Erreur dans le mod&egrave;le : balise de fermeture absente'
+for tag: pour la balise 
+
+Cannot open the template file: "Impossible d&apos;ouvrir le fichier de mod&egrave;le :"
+
+corresponding end tag for: "La balise de fin qui devrait correspondre &agrave;"
+is missing or misspelled.: "est absente ou mal orthographi&eacute;e"
+
+The selected template does not have an OOoLilyPondCode tag.: "Aucune balise OOoLilyPondCode trouv&eacute;e dans le mod&egrave;le s&eacute;lectionn&eacute; !"
+Please correct the template.: "Veuillez corriger le fichier :"
+
+Cannot open the temporary file: "Impossible d&apos;ouvrir le fichier LilyPond temporaire :"
+The temporary file does not have an OOoLilyPondCode tag.: "Le fichier temporaire ne contient aucune balise OOoLilyPond !"
+
+Cannot delete the template file: "Impossible de supprimer le fichier de mod&egrave;le :"
+You have deleted a default template. Please choose another default template in the configuration dialogue: "Vous avez supprim&eacute; un des mod&egrave;les par d&eacute;faut. Veuillez choisir un autre mod&egrave;le par d&eacute;faut dans la sous-fen&ecirc;tre de configuration."
+
+New template name: "Nouveau nom du mod&egrave;le"
+Please enter a new template name and click OK.: "Veuillez saisir un nouveau nom pour le mod&egrave;le, puis validez."
+
+Cannot write to file: "Impossible d&apos;&eacute;crire dans le fichier"
+
+'ImportBitmapIntoWriter: the second argument must be either a TextCursor or a TextGraphic.': 'ImportBitmapIntoWriter : le deuxi&egrave;me argument devrait &ecirc;tre un TextCursor ou un TextGraphic.'
