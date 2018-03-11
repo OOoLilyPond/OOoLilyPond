@@ -8,7 +8,7 @@
 
 mychords = \chordmode{
 %{OOoLilyPondCode%}%% Für Dokumentation zu Bund-Diagrammen siehe:
-% http://lilypond.org/doc/v2.12/Documentation/user/lilypond/Common-notation-for-fretted-strings.de.html#Predefined-fret-diagrams
+% http://lilypond.org/doc/stable/Documentation/notation/fretted-string-instruments
 
 c d:m e:aug f:dim \break
 g:7 a:maj h:m7%{OOoLilyPondEnd%}

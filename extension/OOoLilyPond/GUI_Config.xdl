@@ -45,21 +45,21 @@
   </dlg:checkbox>
   <dlg:textfield dlg:id="sTemplatePath" dlg:tab-index="48" dlg:left="173" dlg:top="124" dlg:width="102" dlg:height="12" dlg:help-text="The path where OOoLiliyPond looks for templates."/>
   <dlg:textfield dlg:id="sLilyPondExecutable" dlg:tab-index="49" dlg:left="173" dlg:top="176" dlg:width="102" dlg:height="12" dlg:help-text="The LilyPond executable with or without path."/>
-  <dlg:numericfield dlg:id="iGraphicDPI" dlg:tab-index="52" dlg:left="208" dlg:top="218" dlg:width="20" dlg:height="12" dlg:help-text="Resolution for pixel based (png-format) OOoLilyPond objects." dlg:decimal-accuracy="0" dlg:value="300" dlg:value-min="75" dlg:value-max="2400" dlg:value-step="0"/>
-  <dlg:combobox dlg:id="sFormat" dlg:tab-index="51" dlg:left="174" dlg:top="218" dlg:width="25" dlg:height="12" dlg:help-text="The png format looks better on the screen. The eps and svg formats are optimized for printing." dlg:spin="true"/>
+  <dlg:numericfield dlg:id="iGraphicDPI" dlg:tab-index="52" dlg:left="228" dlg:top="218" dlg:width="30" dlg:height="12" dlg:help-text="Resolution for pixel based (png-format) OOoLilyPond objects." dlg:decimal-accuracy="0" dlg:value="300" dlg:value-min="75" dlg:value-max="2400" dlg:value-step="0"/>
+  <dlg:combobox dlg:id="sFormat" dlg:tab-index="51" dlg:left="174" dlg:top="218" dlg:width="50" dlg:height="12" dlg:help-text="The png format looks better on the screen. The eps and svg formats are optimized for printing." dlg:spin="true"/>
   <dlg:checkbox dlg:id="bIgnoreWarnings" dlg:tab-index="53" dlg:left="173" dlg:top="192" dlg:width="143" dlg:height="10" dlg:help-text="Don&apos;t list warnings along with LilyPond&apos;s error messages" dlg:value="Ignore Warnings" dlg:checked="false"/>
   <dlg:textfield dlg:id="sExtEditorExecutable" dlg:tab-index="47" dlg:left="173" dlg:top="150" dlg:width="102" dlg:height="12" dlg:help-text="The external Editor&apos;s executable with or without path."/>
   <dlg:textfield dlg:id="sIncludeStatement" dlg:tab-index="46" dlg:left="173" dlg:top="72" dlg:width="143" dlg:height="12" dlg:help-text="The path(s) where LilyPond looks for include files (multiple statements possible)"/>
   <dlg:textfield dlg:id="sEditorFontName" dlg:tab-index="42" dlg:left="173" dlg:top="46" dlg:width="102" dlg:height="12" dlg:help-text="Specify the font name for the editor pane"/>
   <dlg:textfield dlg:id="sEditorFontSize" dlg:tab-index="43" dlg:left="281" dlg:top="46" dlg:width="35" dlg:height="12" dlg:help-text="Specify the font size for the editor pane"/>
   <dlg:radiogroup>
-   <dlg:radio dlg:id="WriterInsertViaClipboard" dlg:tab-index="16" dlg:left="9" dlg:top="133" dlg:width="145" dlg:height="12" dlg:help-text="Insert Images via Clipboard. Recommended for OpenOffice." dlg:value="Via Clipboard (OpenOffice)"/>
-   <dlg:radio dlg:id="WriterInsertDirect" dlg:tab-index="17" dlg:left="9" dlg:top="145" dlg:width="145" dlg:height="12" dlg:help-text="Insert Images without Clipboard use. Recommended for LibreOffice." dlg:value="Direct (LibreOffice)"/>
-   <dlg:radio dlg:id="ImpressInsertViaClipboard" dlg:tab-index="30" dlg:left="9" dlg:top="278" dlg:width="145" dlg:height="12" dlg:help-text="Insert Images via Clipboard. Recommended for OpenOffice." dlg:value="Via Clipboard (OpenOffice)"/>
-   <dlg:radio dlg:id="ImpressInsertDirect" dlg:tab-index="31" dlg:left="9" dlg:top="290" dlg:width="145" dlg:height="12" dlg:help-text="Insert Images without Clipboard use. Recommended for LibreOffice." dlg:value="Direct (LibreOffice)"/>
+   <dlg:radio dlg:id="WriterInsertViaClipboard" dlg:tab-index="16" dlg:left="10" dlg:top="133" dlg:width="145" dlg:height="12" dlg:help-text="Insert Images via Clipboard. Recommended for OpenOffice." dlg:value="Via Clipboard (OpenOffice)"/>
+   <dlg:radio dlg:id="WriterInsertDirect" dlg:tab-index="17" dlg:left="10" dlg:top="145" dlg:width="145" dlg:height="12" dlg:help-text="Insert Images without Clipboard use. Recommended for LibreOffice." dlg:value="Direct (LibreOffice)"/>
+   <dlg:radio dlg:id="ImpressInsertViaClipboard" dlg:tab-index="30" dlg:left="10" dlg:top="278" dlg:width="145" dlg:height="12" dlg:help-text="Insert Images via Clipboard. Recommended for OpenOffice." dlg:value="Via Clipboard (OpenOffice)"/>
+   <dlg:radio dlg:id="ImpressInsertDirect" dlg:tab-index="31" dlg:left="10" dlg:top="290" dlg:width="145" dlg:height="12" dlg:help-text="Insert Images without Clipboard use. Recommended for LibreOffice." dlg:value="Direct (LibreOffice)"/>
   </dlg:radiogroup>
-  <dlg:checkbox dlg:id="bWriterKeepCrop" dlg:tab-index="18" dlg:left="9" dlg:top="166" dlg:width="147" dlg:height="9" dlg:help-text="When editing/replacing an existing object in Writer, preserve its current size and crop settings" dlg:value="Keep Size &amp; Crop Settings" dlg:checked="false"/>
-  <dlg:checkbox dlg:id="bImpressKeepCrop" dlg:tab-index="32" dlg:left="9" dlg:top="311" dlg:width="147" dlg:height="9" dlg:help-text="When editing/replacing an existing object in Impress/Draw, preserve its current size and crop settings" dlg:value="Keep Size &amp; Crop Settings" dlg:checked="false"/>
+  <dlg:checkbox dlg:id="bWriterKeepCrop" dlg:tab-index="18" dlg:left="10" dlg:top="166" dlg:width="147" dlg:height="9" dlg:help-text="When editing/replacing an existing object in Writer, preserve its current size and crop settings" dlg:value="Keep Size &amp; Crop Settings" dlg:checked="false"/>
+  <dlg:checkbox dlg:id="bImpressKeepCrop" dlg:tab-index="32" dlg:left="10" dlg:top="311" dlg:width="147" dlg:height="9" dlg:help-text="When editing/replacing an existing object in Impress/Draw, preserve its current size and crop settings" dlg:value="Keep Size &amp; Crop Settings" dlg:checked="false"/>
   <dlg:titledbox dlg:id="WriterDefaultsFrame" dlg:tab-index="0" dlg:left="6" dlg:top="7" dlg:width="155" dlg:height="173">
    <dlg:title dlg:value="Default Values for Writer"/>
   </dlg:titledbox>
@@ -81,9 +81,9 @@
   <dlg:text dlg:id="LabelExtEditorExecutable" dlg:tab-index="39" dlg:left="173" dlg:top="139" dlg:width="142" dlg:height="9" dlg:value="External Editor Executable:"/>
   <dlg:text dlg:id="LabelTemplatePath" dlg:tab-index="35" dlg:left="173" dlg:top="113" dlg:width="143" dlg:height="9" dlg:value="Template Path:"/>
   <dlg:text dlg:id="LabelLilyPondExecutable" dlg:tab-index="36" dlg:left="173" dlg:top="165" dlg:width="143" dlg:height="9" dlg:value="LilyPond Executable:"/>
-  <dlg:text dlg:id="LabelFormat" dlg:tab-index="37" dlg:left="174" dlg:top="207" dlg:width="31" dlg:height="10" dlg:value="Format:"/>
-  <dlg:text dlg:id="LabelDPI" dlg:tab-index="19" dlg:left="231" dlg:top="220" dlg:width="66" dlg:height="9" dlg:help-text="dots per inch" dlg:value="dpi"/>
-  <dlg:text dlg:id="LabelGraphicDPIResolution" dlg:tab-index="38" dlg:left="209" dlg:top="207" dlg:width="89" dlg:height="10" dlg:value="Resolution (png):"/>
+  <dlg:text dlg:id="LabelFormat" dlg:tab-index="37" dlg:left="174" dlg:top="207" dlg:width="51" dlg:height="10" dlg:value="Format:"/>
+  <dlg:text dlg:id="LabelDPI" dlg:tab-index="19" dlg:left="260" dlg:top="220" dlg:width="58" dlg:height="9" dlg:help-text="dots per inch" dlg:value="dpi"/>
+  <dlg:text dlg:id="LabelGraphicDPIResolution" dlg:tab-index="38" dlg:left="229" dlg:top="207" dlg:width="89" dlg:height="10" dlg:value="Resolution (png):"/>
   <dlg:text dlg:id="LabelImpressDefaultTemplate" dlg:tab-index="57" dlg:left="9" dlg:top="215" dlg:width="41" dlg:height="10" dlg:value="Template:" dlg:align="right"/>
   <dlg:titledbox dlg:id="ImpressDefaultsFrame" dlg:tab-index="20" dlg:left="6" dlg:top="199" dlg:width="155" dlg:height="126">
    <dlg:title dlg:value="Default Values for Impress and Draw"/>

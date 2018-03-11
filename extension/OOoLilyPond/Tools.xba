@@ -83,6 +83,25 @@ Function GetLastFromURL(sURL) As String
 End Function
 
 
+Function fsGetSetting (sA)	&apos;from: https://forum.openoffice.org/en/forum/viewtopic.php?f=45&amp;t=26280
+	GlobalScope.BasicLibraries.LoadLibrary(&quot;Tools&quot;)
+	Dim oProdNameAccess As Object
+	oProdNameAccess=GetRegistryKeyContent(&quot;org.openoffice.Setup/Product&quot;)
+	Select Case Lcase(sA)
+	Case &quot;ooname&quot;
+		fsGetSetting=oProdNameAccess.getByName(&quot;ooName&quot;)
+	Case &quot;language&quot;
+		fsGetSetting=GetStarOfficeLocale().language
+	Case &quot;country&quot;
+		fsGetSetting=GetStarOfficeLocale().country
+	Case &quot;ooversion&quot;
+		fsGetSetting=oProdNameAccess.getByName(&quot;ooSetupVersion&quot;)
+	Case Else
+		fsGetSetting=&quot;???&quot;
+	End Select
+End Function
+
+
 Function GetOSType()
 	If GetPathSeparator() = &quot;\&quot; Then
 		GetOSType=&quot;Windows&quot;

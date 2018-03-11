@@ -186,11 +186,19 @@ sub Make()
 	If Not CallLilyPond() Then Exit Sub
 
   	ParseOutput(sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;)
- 	
+  	
+  	&apos; remove any error message that still might be displayed:
+  	oEditorDialog.getControl (&quot;sErrMsg&quot;).setText (&quot;&quot;)
+  	oEditorDialog.getControl (&quot;sErrMsg&quot;).Visible = False
+  	
 	&apos;If there is no eps output
  	If sFormat = &quot;eps&quot; And (Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.eps&quot;)) Then
  		&apos; MsgBox(&quot;No eps output is found&quot;, 0, &quot;Error&quot;)
  		MsgBox (oMessages.getPropertyValue (&quot;sMsgNoEpsOutputFound&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+  		If iNErr &gt;= 1 And Not bIgnoreWarnings Then
+ 	 		iErrNum = 1
+  			DisplayError()
+ 		End If
   		Exit Sub
  	End If
  
@@ -198,6 +206,11 @@ sub Make()
  	If sFormat = &quot;svg&quot; And (Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.svg&quot;)) Then
  		&apos; MsgBox(&quot;No svg output is found&quot;, 0, &quot;Error&quot;)
  		MsgBox (oMessages.getPropertyValue (&quot;sMsgNoSvgOutputFound&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+ 		&apos;If there were errors or warnings
+ 		If iNErr &gt;= 1 And Not bIgnoreWarnings Then
+ 	 		iErrNum = 1
+  			DisplayError()
+ 		End If
   		Exit Sub
  	End If
  	
@@ -205,6 +218,10 @@ sub Make()
  	If sFormat = &quot;png&quot; And (Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.png&quot;)) Then
  		&apos; MsgBox(&quot;No png output is found&quot;, 0, &quot;Error&quot;)
  		MsgBox (oMessages.getPropertyValue (&quot;sMsgNoPngOutputFound&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+  		If iNErr &gt;= 1 And Not bIgnoreWarnings Then
+ 	 		iErrNum = 1
+  			DisplayError()
+ 		End If
   		Exit Sub
  	End If
  
@@ -223,9 +240,8 @@ sub Make()
 		End If
 	End If
  	
- 	&apos;If there were warnings
+ 	&apos;If there were errors or warnings
  	If iNErr &gt;= 1 And Not bIgnoreWarnings Then
-	
  	 	iErrNum = 1
   		DisplayError()
   		Exit Sub

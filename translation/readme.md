@@ -1,6 +1,6 @@
 # Translation Tool
 
-This simple tool is used to translate the LibreOffice extension for LilyPond in other languages. Currently, German is the only available translation.
+This simple tool is used to translate the LibreOffice extension for LilyPond in other languages. Currently, French and German are the only available translations.
 
 
 ## Requirements

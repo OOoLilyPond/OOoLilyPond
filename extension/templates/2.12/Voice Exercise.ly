@@ -3,10 +3,9 @@
 %{OOoLilyPondCode%}% Example for music notation with lyrics.
 % Smaller notes are used to indicate the targeted pitch range of the exercise
 % Documentation about vocal music:
-% http://lilypond.org/doc/v2.12/Documentation/user/lilypond/Vocal-music (english)
-% http://lilypond.org/doc/v2.12/Documentation/user/lilypond/Vocal-music.de.html (Deutsch) 
-% http://lilypond.org/doc/v2.12/Documentation/user/lilypond/Vocal-music.fr.html (français)
-% http://lilypond.org/doc/v2.12/Documentation/user/lilypond/Vocal-music.es.html (español)
+% http://lilypond.org/doc/stable/Documentation/notation/vocal-music
+
+% Use the "Custom 1" to transpose your music expression. E. g. try "e a'".
 
 \relative e' {
  \time 3/4 \key e \major

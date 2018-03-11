@@ -17,7 +17,7 @@ Function CallLilyPond() As Boolean
 		sBackendOpt=&quot;-dbackend=svg&quot;
 	End If
 	
-	If sOSType = &quot;Unix&quot; Then
+	If (sOSType = &quot;Unix&quot;) Or (sOSType = &quot;Mac&quot;) Then
 
 		sCommand=&quot;cd &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; Chr(34) &amp; &quot;; &quot; _
 		&amp; Chr(34) &amp; sLilyPondExecutable &amp; Chr(34) &amp; &quot; -dno-point-and-click&quot;
@@ -109,7 +109,7 @@ Function LilyPondVersion() As Boolean
 	
 	Cleanup()
 	
-	If sOSType = &quot;Unix&quot; Then
+	If (sOSType = &quot;Unix&quot;) Or (sOSType = &quot;Mac&quot;) Then
 
 		sCommand=&quot;cd &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; Chr(34) &amp; &quot;; &quot; _
 		&amp; Chr(34) &amp; sLilyPondExecutable &amp; Chr(34) &amp; &quot; --version &gt;&quot; &amp; constOLyFileName &amp; &quot;.out; &quot; _

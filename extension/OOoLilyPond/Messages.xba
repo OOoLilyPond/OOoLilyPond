@@ -208,13 +208,13 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   
   oMessages.addProperty (&quot;sMsgNoEpsOutputFound&quot;, BagAttr, &quot;No eps output is found.&quot;)
   oMessages.addProperty (&quot;sMsgNoSvgOutputFound&quot;, BagAttr, &quot;No svg output is found.&quot; &amp; Chr(10) &amp; Chr(10) &amp; _ 
-  		&quot;You should check LilyPond&apos;s output messages by clicking the &quot;&quot;Ly Output&quot;&quot; button.&quot; &amp; Chr(10) &amp; Chr(10) &amp; _
+  		&quot;If there are no compiler messages, you should check LilyPond&apos;s output messages by clicking the &quot;&quot;Ly Output&quot;&quot; button.&quot; &amp; Chr(10) &amp; Chr(10) &amp; _
   		&quot;Please make sure that&quot; &amp; Chr(10) &amp; Chr(10) &amp; _
-  		&quot;1.) your settings for Staff Size etc. provide sufficient space for your musical snippet.&quot; &amp; Chr (10) &amp; _
+  		&quot;1.) your settings for Staff Size etc. provide sufficient space for your musical snippet.&quot; &amp; Chr (10) &amp; Chr (10) &amp; _
   		&quot;(This is necessary if Ly Output reports successful compiling, but more than one file has been created&quot; &amp; Chr(10) &amp; _
   		&quot;      --- or ---&quot; &amp; Chr(10) &amp; _
   		&quot;if Ly Output reports successful compiling, but no file has been created and error messages talk about &quot;&quot;...bad number of pages&quot;&quot;.)&quot; &amp; Chr(10) &amp; Chr(10) &amp; _
-  		&quot;2.) your template and your code do not include &quot;&quot;lilypond-book-preamble.ly&quot;&quot;. &quot; &amp; Chr(10) &amp; _
+  		&quot;2.) your template and your code do not include &quot;&quot;lilypond-book-preamble.ly&quot;&quot;. &quot; &amp; Chr(10) &amp; Chr (10) &amp; _
   		&quot;(This is necessary if Ly Output reports successful compiling, but only *.eps and/or *.pdf files have been created, but no *.svg files.)&quot; )
   oMessages.addProperty (&quot;sMsgNoPngOutputFound&quot;, BagAttr, &quot;No png output is found.&quot;)
   

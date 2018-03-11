@@ -7,10 +7,7 @@
 
 mychords = \chordmode{
 %{OOoLilyPondCode%}% For documentation about fret diagrams visit:
-% http://lilypond.org/doc/v2.12/Documentation/user/lilypond/Common-notation-for-fretted-strings#Predefined-fret-diagrams (english)
-% http://lilypond.org/doc/v2.12/Documentation/user/lilypond/Common-notation-for-fretted-strings.de.html#Predefined-fret-diagrams (Deutsch)
-% http://lilypond.org/doc/v2.12/Documentation/user/lilypond/Common-notation-for-fretted-strings.fr.html#Predefined-fret-diagrams (français)
-% http://lilypond.org/doc/v2.12/Documentation/user/lilypond/Common-notation-for-fretted-strings.es.html#Predefined-fret-diagrams (español)
+% http://lilypond.org/doc/stable/Documentation/notation/fretted-string-instruments
 
 c c:m c:aug c:dim \break
 c:7 c:maj c:m7

@@ -1,8 +1,6 @@
 %{OOoLilyPondCode%}% By using this template you can use the full power of LilyPond.
 % For more information plase read the LilyPond documentation:
-% http://lilypond.org/doc/v2.12/Documentation/index.html (english)
-% http://lilypond.org/doc/v2.12/Documentation/index.de.html (Deutsch)
-% http://lilypond.org/doc/v2.12/Documentation/index.fr.html (français)
+% http://lilypond.org/doc/stable/Documentation/notation/index
 
 \include "deutsch.ly"
 #(set-global-staff-size 20)

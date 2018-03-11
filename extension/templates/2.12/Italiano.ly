@@ -3,14 +3,7 @@
 {
 %{OOoLilyPondCode%}% For getting started read (copy URL into your web browser):
 % https://github.com/openlilylib/LO-ly
-% English:
-% http://lilypond.org/doc/v2.12/Documentation/user/lilypond-learning/Simple-notation
-% Deutsch:
-% http://lilypond.org/doc/v2.12/Documentation/user/lilypond-learning/Simple-notation.de.html
-% Français:
-% http://lilypond.org/doc/v2.12/Documentation/user/lilypond-learning/Simple-notation.fr.html
-% Español:
-% http://lilypond.org/doc/v2.12/Documentation/user/lilypond-learning/Simple-notation.es.html
+% http://lilypond.org/doc/stable/Documentation/learning/simple-notation%
 
 \key mi \major mi8 fad sold mi fad si,4. | mi2\fermata \bar "|."
 %{OOoLilyPondEnd%}
