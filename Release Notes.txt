@@ -1,6 +1,16 @@
 *********************************************
-OOoLilyPond 0.5.6 Release Notes (March 2018)
+OOoLilyPond 0.5.7 Release Notes (May 2018)
 *********************************************
+
+
+Changes to OOoLilyPond 0.5.7 since 0.5.6:
+==========================================
+
+* When installing the extension in OpenOffice, the automatic creation of an OLy toolbar failed. This ist fixed now. 
+  Thanks to the anonymous contributor who pointed out this solution in his comment on 
+  https://extensions.openoffice.org/en/project/OOoLilyPond
+
+  (Only tested with OpenOffice. Strangely enough, LibreOffice 6.0.2.1 won't let me delete existing toolbars.)
 
 
 Changes to OOoLilyPond 0.5.6 since 0.5.5:
