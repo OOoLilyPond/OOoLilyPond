@@ -16,6 +16,8 @@ OOoLilyPond 0.5.7 Release Notes (May 2018)
 
 (Only tested with OpenOffice. Strangely enough, LibreOffice 6.0.2.1 won't let me delete existing toolbars.)
 
+Update (June 2018): First, this release 0.5.7 showed up in the extension manager as 0.5.6 - this is fixed now.
+
 
 Changes to OOoLilyPond 0.5.6 since 0.5.5:
 
