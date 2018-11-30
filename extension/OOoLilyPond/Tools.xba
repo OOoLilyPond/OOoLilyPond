@@ -164,7 +164,7 @@ Function ImportBitmapIntoDraw(sURL As String, Optional oGraphicShape) As Object
 	&apos; Imports a bitmap into Draw or Impress
 	Dim oDrawPage As Object
 	Dim oBitmaps As Object
-	Dim sNewUrl As String
+	Dim sNewUrl
 	Dim oSize As Object
 	Dim oShape As Object
 	Dim oDoc As Object
@@ -186,6 +186,11 @@ Function ImportBitmapIntoDraw(sURL As String, Optional oGraphicShape) As Object
 	End If
 	oBitmaps.insertByName( &quot;OOoLilyPond&quot;, ConvertToURL(sURL) )
 	sNewURL = oBitmaps.getByName( &quot;OOoLilyPond&quot; )
+	&apos; For LibreOffice: As of LO 6.1.0, getByName() returns a graphic object instead of a string, so the name &quot;sNewURL&quot; might be misleading:
+	&apos; http://document-foundation-mail-archive.969070.n3.nabble.com/API-CHANGE-dropping-string-properties-which-use-vnd-sun-star-GraphicObject-URL-tp4235349p4248883.html
+	&apos; Therefore the code line above causes an &quot;incorrect property value&quot; error. 
+	&apos; As of LO 6.3.0, this ability will be restored for compatibility reasons: 
+	&apos; https://bugs.documentfoundation.org/show_bug.cgi?id=120527#c13
 
 	&apos;Insert the Bitmap
 	If IsMissing(oGraphicShape) Then
@@ -238,7 +243,7 @@ Function ImportBitmapIntoWriter(sFile As String, oTextGraphicOrCursor As Object)
 	&apos; or replaces given TextGraphicObject
 
 	Dim oBitmaps As Object
-	Dim sNewUrl As String
+	Dim sNewUrl
 	Dim oDoc As Object
 	Dim oCursor As Object
 	Dim oText As Object
@@ -255,6 +260,10 @@ Function ImportBitmapIntoWriter(sFile As String, oTextGraphicOrCursor As Object)
 	
 	oBitmaps.insertByName( &quot;OOoLilyPond&quot;, ConvertToURL(sFile) )
 	sNewURL = oBitmaps.getByName( &quot;OOoLilyPond&quot; )
+	&apos; For LibreOffice: As of LO 6.1.0, getByName() returns a graphic object instead of a string, so the name &quot;sNewURL&quot; might be misleading:
+	&apos; http://document-foundation-mail-archive.969070.n3.nabble.com/API-CHANGE-dropping-string-properties-which-use-vnd-sun-star-GraphicObject-URL-tp4235349p4248883.html
+	&apos; Therefore the code line above causes an &quot;incorrect property value&quot; error. 
+	&apos; As of LO 6.1.2, this ability has been restored for compatibility reasons, so the above code line works again.
 
 	&apos; Create a new TextGraphic Object, if needed
 	Select Case oTextGraphicOrCursor.getImplementationName()
