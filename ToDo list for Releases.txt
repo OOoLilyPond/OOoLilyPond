@@ -1,0 +1,32 @@
+ToDo list for new Releases:
+
+----- Prior to creating Release: -----
+(all that can be put into a dedicated branch)
+
+Release Notes.txt (Version history)
+  - add current version info
+	
+/extension/description.xml
+  - update version number
+	
+----- Create Release: -----
+
+- create OXT file (from the above branch)
+
+- add release-notes.txt
+- add same text as Release description
+
+- now publish Release
+
+----- After creating Release: -----
+
+/update/ooolilypond-update.xml
+  - update version number
+  - update download link
+
+/update/release-notes.txt
+  - add current version info
+  
+(branch can now be merged into master)
+
+- update links in /wiki/downloads
