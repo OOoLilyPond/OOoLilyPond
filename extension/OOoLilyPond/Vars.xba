@@ -29,6 +29,7 @@ Private sEditorFontSize As String
 &apos; Settings
 Private sFormat As String
 Private iGraphicDPI As Integer
+Private bTransparentBackground As Boolean
 Private sWriterDefaultTemplate As String
 Private sImpressDefaultTemplate As String
 Private iWriterDefaultAnchor As Integer

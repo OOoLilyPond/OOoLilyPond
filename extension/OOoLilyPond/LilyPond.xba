@@ -25,7 +25,11 @@ Function CallLilyPond() As Boolean
 			sCommand = sCommand &amp; &quot; &quot; &amp; sIncludeStatement
 		End If
 		If sFormat=&quot;png&quot; Then
-			sCommand = sCommand &amp; &quot; -dno-delete-intermediate-files --png &quot; &amp; sBackendOpt &amp; &quot; -dresolution=&quot; &amp; iGraphicDPI &amp; &quot; &quot; &amp; constOLyFileName &amp; &quot;.ly &gt;&quot; &amp; constOLyFileName &amp; &quot;.out 2&gt;&amp;1; &quot;
+			If bTransparentBackground Then
+				sCommand = sCommand &amp; &quot; -dno-delete-intermediate-files -dpixmap-format=pngalpha --png &quot; &amp; sBackendOpt &amp; &quot; -dresolution=&quot; &amp; iGraphicDPI &amp; &quot; &quot; &amp; constOLyFileName &amp; &quot;.ly &gt;&quot; &amp; constOLyFileName &amp; &quot;.out 2&gt;&amp;1; &quot;
+			Else
+				sCommand = sCommand &amp; &quot; -dno-delete-intermediate-files --png &quot; &amp; sBackendOpt &amp; &quot; -dresolution=&quot; &amp; iGraphicDPI &amp; &quot; &quot; &amp; constOLyFileName &amp; &quot;.ly &gt;&quot; &amp; constOLyFileName &amp; &quot;.out 2&gt;&amp;1; &quot;
+			End If
 		ElseIf sFormat=&quot;eps&quot; Then
 			sCommand = sCommand &amp; &quot; &quot; &amp; sBackendOpt &amp; &quot; -f eps &quot; &amp; constOLyFileName &amp; &quot;.ly &gt;&quot; &amp; constOLyFileName &amp; &quot;.out 2&gt;&amp;1; &quot;
 		ElseIf sFormat=&quot;svg&quot; Then
@@ -42,7 +46,11 @@ Function CallLilyPond() As Boolean
 			sCommand = sCommand &amp; &quot; &quot; &amp; sIncludeStatement
 		End If
 		If sFormat=&quot;png&quot; Then
-			sCommand = sCommand &amp; &quot; -dno-delete-intermediate-files --png &quot; &amp; sBackendOpt &amp; &quot; -dresolution=&quot; &amp; iGraphicDPI &amp; &quot; &quot; &amp; constOLyFileName &amp; &quot;.ly &gt;&quot; &amp; constOLyFileName &amp; &quot;.out 2&gt;&amp;1&quot; &amp;Chr(10)
+			If bTransparentBackground Then
+				sCommand = sCommand &amp; &quot; -dno-delete-intermediate-files -dpixmap-format=pngalpha --png &quot; &amp; sBackendOpt &amp; &quot; -dresolution=&quot; &amp; iGraphicDPI &amp; &quot; &quot; &amp; constOLyFileName &amp; &quot;.ly &gt;&quot; &amp; constOLyFileName &amp; &quot;.out 2&gt;&amp;1&quot; &amp;Chr(10)
+			Else
+				sCommand = sCommand &amp; &quot; -dno-delete-intermediate-files --png &quot; &amp; sBackendOpt &amp; &quot; -dresolution=&quot; &amp; iGraphicDPI &amp; &quot; &quot; &amp; constOLyFileName &amp; &quot;.ly &gt;&quot; &amp; constOLyFileName &amp; &quot;.out 2&gt;&amp;1&quot; &amp;Chr(10)
+			End If
 		ElseIf sFormat=&quot;eps&quot; Then
 			sCommand = sCommand &amp; &quot; &quot; &amp; sBackendOpt &amp; &quot; -f eps &quot; &amp; constOLyFileName &amp; &quot;.ly &gt;&quot; &amp; constOLyFileName &amp; &quot;.out 2&gt;&amp;1&quot; &amp; Chr(10)
 		ElseIf sFormat=&quot;svg&quot; Then

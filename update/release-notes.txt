@@ -4,90 +4,30 @@ https://github.com/openlilylib/LO-ly/wiki/Downloads
 and open it in LibreOffice / OpenOffice.
 
 direct link:
-https://github.com/openlilylib/LO-ly/releases/download/0.5.7/OOoLilyPond-0.5.7.oxt
+https://github.com/openlilylib/LO-ly/releases/download/0.5.8/OOoLilyPond-0.5.8.oxt
 
 
-OOoLilyPond 0.5.7 Release Notes (May 2018)
-==========================================
+Changes to OOoLilyPond 0.5.8 since 0.5.7 (December 2018):
 
-* When installing the extension in OpenOffice, the automatic creation of an OLy toolbar failed. This ist fixed now. 
-  Thanks to the anonymous contributor who pointed out this solution in his comment on 
-  https://extensions.openoffice.org/en/project/OOoLilyPond
-
-(Only tested with OpenOffice. Strangely enough, LibreOffice 6.0.2.1 won't let me delete existing toolbars.)
-
-Update (June 2018): First, this release 0.5.7 showed up in the extension manager as 0.5.6 - this is fixed now.
-
-
-Changes to OOoLilyPond 0.5.6 since 0.5.5:
-
-* French translation added (Thanks to Valentin Villenave!)
-  To have the new language file "francais.ini" available in the config dialog, 
+* Partial Spanish translation added (Thanks to Fernando Villagran!)
+  To have the new language file "espanol.ini" available in the config dialog, 
   please launch OLy, open the config dialog and click the "Restore Language Files" button. 
   (Your current language files will be backed up in a subfolder. If you like, you can delete that subfolder.
-* Bugfix: When no graphics file was created, LY compiler error messages were not shown in OLy Editor window.
-* some minor spacing adjustments in dialogs
-* documentation URLs inside the templates updated to recent stable LY versions
-  To have the recent URLs in the comment section at the beginning of the templates, 
-  you can hit the "Restore Templates" button in the config dialog 
-  (Attention, this will move your current templates into a subfolder).
-  Doing that will not be necessary if you already know where to find the documentation section on the LilyPond website.
+* Added option to have PNG graphics with transparent background (instead of opaque white background)
+  (Issue 23) https://github.com/openlilylib/LO-ly/issues/23
+  If you are missing the French or German translation for that option, 
+  click the "Restore Language Files" button (see above).
+* Fixed an incompatibility with LibreOffice's new GraphicURL handling. 
+  In LO 6.1.0  and 6.1.1 (for Draw/Impress: also 6.1.2, 6.1.3 and 6.1.4), the "Direct" option for "Insert Graphics" is broken. 
+  For those affected LO versions the "Via Clipboard" option should be used. 
+  The new OLy 0.5.8 release will work with all older and newer versions than those mentioned above, 
+  so as of LO 6.1.5, the "Direct" option should work again. 
+  (Issue 22) https://github.com/openlilylib/LO-ly/issues/22
+* The automatic toolbar creation during OLy installation has been reverted to the method used in OLy 0.5.6 and before. 
+  It turned out that the method used in 0.5.7 only worked in newer OpenOffice versions (due to a changed behavior
+  in the OpenOffice history), but is incompatible to LibreOffice. 
+  (Issue 19) https://github.com/openlilylib/LO-ly/issues/19
+  (There will be a dedicated version for OpenOffice...)
 
-
-Changes to OOoLilyPond 0.5.5 since 0.5.4:
-
-* speed up language file loading
-* highlight LY compiler messages in editor window
-
-
-Changes to OOoLilyPond 0.5.4 since 0.5.3:
-
-* [SVG] templates are prepared to support the new texgyre*.otf fonts
-
-
-Changes to OOoLilyPond 0.5.3 since 0.5.2:
-
-* for Windows users: better estimate for program files folder on 64bit systems
-* backup folder names more readable
-* some minor corrections
-
-There have also been some minor changes to the language files from 0.5.1 to 0.5.2. So, when updating from a version prior to 0.5.2, please launch OLy, open the config dialog and click the "Restore Language Files" button. 
-(Your current language files will be backed up in a subfolder. If you like, you can delete that subfolder.
-
-
-Changes to OOoLilyPond 0.5.2 since 0.5.1:
-
-* fixed: runtime error if path for language files could not be found
-* new: path for language files can be specified in config dialog
-* for Linux users: new location for temporary files (now being .cache/ooolilypond/tmp instead of .ooolilypond-tmp - you can delete the latter if you want to get rid of it).
-
-
-Changes to OOoLilyPond 0.5.1 since 0.5.0:
-
-*   fixed: missing parentheses in source code caused runtime error in LibO 5.3.1.2
-(Apparently, LibreOffice 5.3.1.2 has a more strict syntax checking whereas earlier versions silently ignored that.)
-
-
-Changes to OOoLilyPond 0.5.0 since 0.4.0/0.4.1:
-
-*   fixed: Runtime error Variable not defined: line 40 CurserPosition=1
-*   additional include paths can be specified
-*   added button to save the current code into temporary file and open it in external editor
-*   added button to re-import code from temporary file back to editor window
-*   added support for the use of SVG graphics format
-*   fixed: wrong size of vector graphics in Impress/Draw
-*   size and crop settings of existing graphics can be preserved
-*   user now can choose between two different ways to import graphic into document
-*   font name and font size for editor windows can be specified
-*   user interface can be translated into other languages
-
-Compatibility:
-
-OOoLilyPond (OLy) works with recent versions of LibreOffice (5.3.0.3) and OpenOffice (4.1.3). Older versions should work as well. It has even been tested with OpenOffice 2.4 without issues.
-
-Any content (LilyPond code, templates, OLy configuration files) created with/for OLy 0.4.x will work with OLy 0.5.x - and vice versa. (Fully compatible, forward and backward.)
-Older snippets created with OLy 0.3.x will also work with 0.4.x and 0.5.x, but not (necessarily) vice versa.
-
-
-This new take on the OOoLilyPond project is hosted at:
-https://github.com/openlilylib/LO-ly
+Only for LibreOffice 6.1.3: Some dialog or message windows show "10" at the beginning of a line. This is due to a bug in LO 6.1.3 that has already been fixed for 6.1.4. 
+So LO 6.1.3 is the only affected version.

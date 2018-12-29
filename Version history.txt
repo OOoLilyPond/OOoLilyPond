@@ -1,6 +1,33 @@
-*********************************************
-OOoLilyPond 0.5.7 Release Notes (May 2018)
-*********************************************
+*******************************************
+OOoLilyPond Version History (December 2018)
+*******************************************
+
+
+Changes to OOoLilyPond 0.5.8 since 0.5.7 (December 2018):
+==========================================================
+
+* Partial Spanish translation added (Thanks to Fernando Villagran!)
+  To have the new language file "espanol.ini" available in the config dialog, 
+  please launch OLy, open the config dialog and click the "Restore Language Files" button. 
+  (Your current language files will be backed up in a subfolder. If you like, you can delete that subfolder.
+* Added option to have PNG graphics with transparent background (instead of opaque white background)
+  (Issue 23) https://github.com/openlilylib/LO-ly/issues/23 
+  If you are missing the French or German translation for that option, 
+  click the "Restore Language Files" button (see above).
+* Fixed an incompatibility with LibreOffice's new GraphicURL handling. 
+  In LO 6.1.0  and 6.1.1 (for Draw/Impress: also 6.1.2, 6.1.3 and 6.1.4), the "Direct" option for "Insert Graphics" is broken. 
+  For those affected LO versions the "Via Clipboard" option should be used. 
+  The new OLy 0.5.8 release will work with all older and newer versions than those mentioned above, 
+  so as of LO 6.1.5, the "Direct" option should work again. 
+  (Issue 22) https://github.com/openlilylib/LO-ly/issues/22
+* The automatic toolbar creation during OLy installation has been reverted to the method used in OLy 0.5.6 and before. 
+  It turned out that the method used in 0.5.7 only worked in newer OpenOffice versions (due to a changed behavior
+  in the OpenOffice history), but is incompatible to LibreOffice. 
+  (Issue 19) https://github.com/openlilylib/LO-ly/issues/19
+  (There will be a dedicated version for OpenOffice...)
+
+Only for LibreOffice 6.1.3: Some dialog or message windows show "10" at the beginning of a line. This is due to a bug in LO 6.1.3 that has already been fixed for 6.1.4. 
+So LO 6.1.3 is the only affected version.
 
 
 Changes to OOoLilyPond 0.5.7 since 0.5.6:
