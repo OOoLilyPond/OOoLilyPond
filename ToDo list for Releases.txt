@@ -3,7 +3,7 @@ ToDo list for new Releases:
 ----- Prior to creating Release: -----
 (all that can be put into a dedicated branch)
 
-Release Notes.txt (Version history)
+Version history.txt
   - add current version info
 	
 /extension/description.xml
