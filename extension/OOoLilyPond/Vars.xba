@@ -100,7 +100,7 @@ Private oFileAccess As Object
 &apos; Error Messages
 Private iErrRow(1000) As Integer &apos;row of error
 Private iErrCol(1000) As Integer &apos;column of error
-Private iErrClass(1000) As Integer &apos;1 = waring, 2 = error
+Private iErrClass(1000) As Integer &apos;1 = warning, 2 = error
 Private sErrMsg(1000) As String &apos;error messages
 Private lErrMsgHighlightColor As Long &apos; background color for error message label when highlighted
 Private iNErr As Integer &apos;number of errors
