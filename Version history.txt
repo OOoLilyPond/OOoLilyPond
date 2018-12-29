@@ -24,7 +24,7 @@ Changes to OOoLilyPond 0.5.8 since 0.5.7 (December 2018):
   It turned out that the method used in 0.5.7 only worked in newer OpenOffice versions (due to a changed behavior
   in the OpenOffice history), but is incompatible to LibreOffice. 
   (Issue 19) https://github.com/openlilylib/LO-ly/issues/19
-  (Maybe there will be a dedicated version for OpenOffice someday...)
+  (There will be a dedicated version for OpenOffice...)
 
 Only for LibreOffice 6.1.3: Some dialog or message windows show "10" at the beginning of a line. This is due to a bug in LO 6.1.3 that has already been fixed for 6.1.4. 
 So LO 6.1.3 is the only affected version.
