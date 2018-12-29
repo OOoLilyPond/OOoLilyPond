@@ -57,6 +57,7 @@ Sub ConfigDialogUpdate()
 	oConfigDialog.getControl(&quot;sLilyPondExecutable&quot;).setText(ConvertFromURL(sLilyPondExecutable))
 	oConfigDialog.getControl(&quot;sFormat&quot;).setText(sFormat)
 	oConfigDialog.getControl(&quot;iGraphicDPI&quot;).setValue(iGraphicDPI)
+	oConfigDialog.getControl(&quot;bTransparentBackground&quot;).setState(BoolToCheckBoxState(bTransparentBackground))
 	oConfigDialog.getControl(&quot;sEditorFontName&quot;).setText(sEditorFontName)
 	oConfigDialog.getControl(&quot;sEditorFontSize&quot;).setText(sEditorFontSize)
 	oConfigDialog.getControl(&quot;sExtEditorExecutable&quot;).setText(ConvertFromURL(sExtEditorExecutable))
@@ -272,6 +273,7 @@ Sub ApplyConfig
 	sLanguagePath = AddSlash(ConvertToURL(oConfigDialog.getControl(&quot;sLanguagePath&quot;).getText()))
 	sFormat = oConfigDialog.getControl(&quot;sFormat&quot;).getText()
 	iGraphicDPI = oConfigDialog.getControl(&quot;iGraphicDPI&quot;).getValue()
+	bTransparentBackground = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bTransparentBackground&quot;).getState())
 	bIgnoreWarnings = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bIgnoreWarnings&quot;).getState())
 	sEditorFontName = oConfigDialog.getControl(&quot;sEditorFontName&quot;).getText()
 	sEditorFontSize = oConfigDialog.getControl(&quot;sEditorFontSize&quot;).getText()
@@ -408,6 +410,7 @@ Sub DefaultConfig()
 	&apos; General Settings
 	sFormat = &quot;png&quot;
 	iGraphicDPI = 300
+	bTransparentBackground = False
 	sEditorFontName = &quot;Courier&quot;
 	sEditorFontSize = &quot;8&quot;
 	
@@ -474,6 +477,8 @@ Sub ReadConfig()
 				iGraphicDPI = sValue
 			Case &quot;sFormat&quot;
 				sFormat = sValue
+			Case &quot;bTransparentBackground&quot;
+				bTransparentBackground = StringToBool(sValue)
 			Case &quot;bIgnoreWarnings&quot;
 				bIgnoreWarnings = StringToBool(sValue)
 				
@@ -545,6 +550,7 @@ Sub SaveConfig
 	oTextOutputStream.writeString(&quot;sLanguagePath=&quot; &amp; sLanguagePath &amp; Chr(10) )
 	oTextOutputStream.writeString(&quot;iGraphicDPI=&quot; &amp; iGraphicDPI &amp; Chr(10))
 	oTextOutputStream.writeString(&quot;sFormat=&quot; &amp; sFormat &amp; Chr(10))	
+	oTextOutputStream.writeString(&quot;bTransparentBackground=&quot; &amp; BoolToString(bTransparentBackground) &amp; Chr(10))	
 	oTextOutputStream.writeString(&quot;bIgnoreWarnings=&quot; &amp; BoolToString(bIgnoreWarnings) &amp; Chr(10))	
 	oTextOutputStream.writeString(&quot;sEditorFontName=&quot; &amp; sEditorFontName &amp; Chr(10) )
 	oTextOutputStream.writeString(&quot;sEditorFontSize=&quot; &amp; sEditorFontSize &amp; Chr(10) )
