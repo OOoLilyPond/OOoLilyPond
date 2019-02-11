@@ -34,6 +34,7 @@ If you want to get to know LilyPond, a good place to start is the [introduction]
 ### Compatibility 
 
 OOoLilyPond (OLy) works with recent versions of LibreOffice (6.0.2) and OpenOffice (4.1.5). Older versions should work as well. It has even been tested with OpenOffice 2.4 without issues. 
+
 Update: Some partial incompatibilities have occured in LibreOffice 6.1.0 to 6.1.4 - see [Issue 22].
 
 Any content (LilyPond code, templatex, OLy configuration files) created with/for OLy 0.4.x will work with OLy 0.5.x - and vice versa. (Fully compatible, forward and backward.)
