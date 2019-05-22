@@ -4,10 +4,44 @@
 
 Option Explicit
 
+
+&apos;Returns the include statement with the absolute path of the LO-file
+&apos;Returns an empty String if the file is not yet saved
+Function GetRelativeIncludeStatement As String
+	Dim sURL
+	Dim sParts
+	Dim sPath 
+	
+	sURL=ThisComponent.getURL()
+	If  Len(sURL) &gt; 0 And Not IsNull(sURL) Then
+		sParts=Split(sURL,&quot;/&quot;)
+		ReDim Preserve sParts(0 to UBound(sParts) -1)
+		sPath=ConvertFromURL(Join(sParts,&quot;/&quot;))
+		While InStr (sPath, &quot;\&quot;) &gt; 0	&apos;  replace &quot;\&quot; by &quot;/&quot;, even in Windows LilyPond expects paths to be written with forward slashes
+			Mid (sPath, InStr (sPath, &quot;\&quot;), 1, &quot;/&quot;)
+		Wend
+		GetRelativeIncludeStatement=&quot;-I&quot; &amp; Chr(34) &amp; sPath &amp; Chr(34)
+	Else
+		GetRelativeIncludeStatement=&quot;&quot;
+	End If
+End Function
+
+
 Function CallLilyPond() As Boolean
 	Dim sCommand As String
 	Dim sBackendOpt As String
 	Dim sLilyPondOutput As String
+
+	Dim sRelativeIncludeStatement As String
+	sRelativeIncludeStatement=GetRelativeIncludeStatement()
+	 
+	If Len(sRelativeIncludeStatement) &gt; 0 Then
+			If Len(sIncludeStatement) &gt; 0 Then
+				sIncludeStatement=sIncludeStatement &amp; &quot; &quot; &amp; sRelativeIncludeStatement
+			Else
+				sIncludeStatement=sRelativeIncludeStatement
+			End If
+	End If		
 
 	sBackendOpt=&quot;-dbackend=eps&quot;
 	If 	Val(sLilyPondVersionMajor)=2 and Val(sLilyPondVersionMinor)&lt;=10 Then
