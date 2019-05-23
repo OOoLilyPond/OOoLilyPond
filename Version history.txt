@@ -1,6 +1,16 @@
-*******************************************
-OOoLilyPond Version History (December 2018)
-*******************************************
+**************************************
+OOoLilyPond Version History (May 2019)
+**************************************
+
+
+Changes to OOoLilyPond 0.5.9 since 0.5.8 (May 2019):
+=====================================================
+
+* OLy will now automatically search for include files in the folder where the current LibreOffice document is located. 
+  In case there are files with the same name in different folders, OLy will first look in the current LO document's folder.
+  Thus, include files from here will have priority over those from other folders that are specified in the include statement.
+
+Thanks to Hannes E. Schäuble for this useful enhancement!
 
 
 Changes to OOoLilyPond 0.5.8 since 0.5.7 (December 2018):
