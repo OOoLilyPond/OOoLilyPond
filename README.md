@@ -37,7 +37,7 @@ OOoLilyPond (OLy) works with recent versions of LibreOffice (6.0.2) and OpenOffi
 
 Update: Some partial incompatibilities have occured in LibreOffice 6.1.0 to 6.1.4 - see [Issue 22].
 
-Any content (LilyPond code, templatex, OLy configuration files) created with/for OLy 0.4.x will work with OLy 0.5.x - and vice versa. (Fully compatible, forward and backward.)
+Any content (LilyPond code, templates, OLy configuration files) created with/for OLy 0.4.x will work with OLy 0.5.x - and vice versa. (Fully compatible, forward and backward.)
 Older snippets created with OLy 0.3.x will also work with 0.4.x and 0.5.x, but not (necessarily) vice versa.
 
 
