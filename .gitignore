@@ -1,2 +1,3 @@
 *.oxt
 translation/extension-*
+.DS_Store
