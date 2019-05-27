@@ -13,13 +13,15 @@ Function GetRelativeIncludeStatement As String
 	Dim sPath 
 	
 	sURL=ThisComponent.getURL()
-	If  Len(sURL) &gt; 0 And Not IsNull(sURL) Then
+	If  Not IsNull(sURL) And Len(sURL) &gt; 0 Then
 		sParts=Split(sURL,&quot;/&quot;)
 		ReDim Preserve sParts(0 to UBound(sParts) -1)
 		sPath=ConvertFromURL(Join(sParts,&quot;/&quot;))
-		While InStr (sPath, &quot;\&quot;) &gt; 0	&apos;  replace &quot;\&quot; by &quot;/&quot;, even in Windows LilyPond expects paths to be written with forward slashes
-			Mid (sPath, InStr (sPath, &quot;\&quot;), 1, &quot;/&quot;)
-		Wend
+		If GetPathSeparator() = &quot;\&quot; Then
+			While InStr (sPath, &quot;\&quot;) &gt; 0	&apos;  replace &quot;\&quot; by &quot;/&quot;, even in Windows LilyPond expects paths to be written with forward slashes
+				Mid (sPath, InStr (sPath, &quot;\&quot;), 1, &quot;/&quot;)
+			Wend
+		End If
 		GetRelativeIncludeStatement=&quot;-I&quot; &amp; Chr(34) &amp; sPath &amp; Chr(34)
 	Else
 		GetRelativeIncludeStatement=&quot;&quot;
