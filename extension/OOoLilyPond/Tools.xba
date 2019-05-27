@@ -349,7 +349,7 @@ Sub WindowsCommand(sCommand as String)
 
 	iNumber = Freefile
 	Open sBatFile For Output As #iNumber
-	Print #iNumber, sCommand
+	Print #iNumber, &quot;chcp 1252&quot; &amp; Chr (10) &amp; sCommand
 	Close #iNumber
 	Shell (sBatFile, 1, &quot;&quot;, True)
 	Kill(sBatFile)
