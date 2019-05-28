@@ -335,6 +335,9 @@ End Function
 
 
 Sub WindowsCommand(sCommand as String)
+	
+	BasicLibraries.loadLibrary(&quot;XrayTool&quot;)
+	
 	&apos; I did not achieve to run lilypond directly with the Shell command and the 
 	&apos; Output redirected to files.
 	&apos; I tried: Shell(&quot;cmd /c lilypond &gt;file1 2&gt;file2&quot;)
@@ -344,15 +347,26 @@ Sub WindowsCommand(sCommand as String)
 
 	Dim sBatFile As String
 	Dim iNumber As Integer
+	Dim oTextStream As Object
 
 	sBatFile=TmpFileName(ConvertFromURL(sTmpPath) &amp; &quot;CommandCallFromOOo_&quot;,&quot;.bat&quot;)
+	
+	&apos; Open output stream
+	oTextStream  = createUnoService(&quot;com.sun.star.io.TextOutputStream&quot;)
+	If oFileAccess.exists( sBatFile ) Then oFileAccess.kill( sBatFile )
+    oTextStream.setOutputStream(oFileAccess.openFileWrite(sBatFile)) 
+    
+    &apos;Set CodePage to 65001 - which is UTF-8 (Supports any except bidirectional and scripted languages)
+    oTextStream.setEncoding(&quot;utf-8&quot;)
+	&apos; On Windows/LibreOffice utf-8 files are saved starting with a 2-byte BOM.
+	&apos; Using a newline and carriage return to skip to the next line
+    oTextStream.writeString( Chr(10) &amp; Chr(13) )
+    oTextStream.writeString(&quot;chcp 65001&quot; &amp; Chr(10) &amp; Chr(13) &amp; sCommand)
+	oTextStream.closeOutput()
 
-	iNumber = Freefile
-	Open sBatFile For Output As #iNumber
-	Print #iNumber, &quot;chcp 1252&quot; &amp; Chr (10) &amp; sCommand
-	Close #iNumber
-	Shell (sBatFile, 1, &quot;&quot;, True)
+	Shell (sBatFile, 6, &quot;&quot;, True) &apos; Window-code 6 : only show symbol and leave focus on the current window
 	Kill(sBatFile)
+	
 End Sub
 
 
