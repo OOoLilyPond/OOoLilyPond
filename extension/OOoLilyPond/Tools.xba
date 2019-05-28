@@ -336,8 +336,6 @@ End Function
 
 Sub WindowsCommand(sCommand as String)
 	
-	BasicLibraries.loadLibrary(&quot;XrayTool&quot;)
-	
 	&apos; I did not achieve to run lilypond directly with the Shell command and the 
 	&apos; Output redirected to files.
 	&apos; I tried: Shell(&quot;cmd /c lilypond &gt;file1 2&gt;file2&quot;)
