@@ -352,14 +352,12 @@ Sub WindowsCommand(sCommand as String)
 	&apos; Open output stream
 	oTextStream  = createUnoService(&quot;com.sun.star.io.TextOutputStream&quot;)
 	If oFileAccess.exists( sBatFile ) Then oFileAccess.kill( sBatFile )
-    oTextStream.setOutputStream(oFileAccess.openFileWrite(sBatFile)) 
+	oTextStream.setOutputStream(oFileAccess.openFileWrite(sBatFile)) 
     
-    &apos;Set CodePage to 65001 - which is UTF-8 (Supports any except bidirectional and scripted languages)
-    oTextStream.setEncoding(&quot;utf-8&quot;)
-	&apos; On Windows/LibreOffice utf-8 files are saved starting with a 2-byte BOM.
-	&apos; Using a newline and carriage return to skip to the next line
-    oTextStream.writeString( Chr(10) &amp; Chr(13) )
-    oTextStream.writeString(&quot;chcp 65001&quot; &amp; Chr(10) &amp; Chr(13) &amp; sCommand)
+	&apos;Set CodePage to 65001 - which is UTF-8 (Supports any except bidirectional and scripted languages)
+	oTextStream.setEncoding(&quot;utf-8&quot;)
+	oTextStream.writeString( Chr(10) &amp; Chr(13) )
+	oTextStream.writeString(&quot;chcp 65001&quot; &amp; Chr(10) &amp; Chr(13) &amp; sCommand)
 	oTextStream.closeOutput()
 
 	Shell (sBatFile, 6, &quot;&quot;, True) &apos; Window-code 6 : only show symbol and leave focus on the current window
