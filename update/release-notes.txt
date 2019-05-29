@@ -4,14 +4,13 @@ https://github.com/openlilylib/LO-ly/wiki/Downloads
 and open it in LibreOffice / OpenOffice.
 
 direct link:
-https://github.com/openlilylib/LO-ly/releases/download/0.5.9/OOoLilyPond-0.5.9.oxt
+https://github.com/openlilylib/LO-ly/releases/download/0.5.8/OOoLilyPond-0.5.9.oxt
 
 
-Changes to OOoLilyPond 0.5.9 since 0.5.8 (May 2019):
+Changes to OOoLilyPond 0.5.10 since 0.5.9 (May 2019):
 =====================================================
 
-* OLy will now automatically search for include files in the folder where the current LibreOffice document is located. 
-  In case there are files with the same name in different folders, OLy will first look in the current LO document's folder.
-  Thus, include files from here will have priority over those from other folders that are specified in the include statement.
-
-Thanks to Hannes E. Schäuble for this useful enhancement!
+* Fixed: In include statements, special characters (like e.g. German umlauts) are now handled correctly (Issue #27). 
+  Thanks to Hannes E. Schäuble for finding, reporting and fixing this bug. 
+* Fixed: If a file named "OOoLilyPond.ly" (OLy's temp file name) was present in an include path, it was 
+  used instead of the one in the temp path. Now OLy will always explicitely specify the temp path before the file name.

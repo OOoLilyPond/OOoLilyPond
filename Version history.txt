@@ -3,6 +3,15 @@ OOoLilyPond Version History (May 2019)
 **************************************
 
 
+Changes to OOoLilyPond 0.5.10 since 0.5.9 (May 2019):
+=====================================================
+
+* Fixed: In include statements, special characters (like e.g. German umlauts) are now handled correctly (Issue #27). 
+  Thanks to Hannes E. Schäuble for finding, reporting and fixing this bug. 
+* Fixed: If a file named "OOoLilyPond.ly" (OLy's temp file name) was present in an include path, it was 
+  used instead of the one in the temp path. Now OLy will always explicitely specify the temp path before the file name.
+
+
 Changes to OOoLilyPond 0.5.9 since 0.5.8 (May 2019):
 =====================================================
 
