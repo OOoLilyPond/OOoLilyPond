@@ -6,7 +6,7 @@
 
 	<identifier value="net.sourceforge.ooolilypond"/>
 
-	<version value="0.5.9"/>
+	<version value="0.5.10"/>
 
 	<dependencies>
 		<OpenOffice.org-minimal-version value="2.3" dep:name="OpenOffice.org 2.3"/>
