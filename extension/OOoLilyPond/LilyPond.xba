@@ -82,7 +82,7 @@ Function CallLilyPond() As Boolean
 
 	ElseIf sOSType = &quot;Windows&quot; Then
 
-		sCommand = &quot;cd /d &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; Chr(34) &amp; Chr(10) &amp; Chr(13) _
+		sCommand = &quot;cd /d &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; Chr(34) &amp; Chr(13) &amp; Chr(10) _
 		&amp; Chr(34) &amp; sLilyPondExecutable &amp; Chr(34) &amp; &quot; -dno-point-and-click&quot;
 		If Len(sIncludeStatement) &gt; 0 Then
 			sCommand = sCommand &amp; &quot; &quot; &amp; sIncludeStatement
@@ -91,21 +91,21 @@ Function CallLilyPond() As Boolean
 			If bTransparentBackground Then
 				sCommand = sCommand &amp; &quot; -dno-delete-intermediate-files -dpixmap-format=pngalpha --png &quot; &amp; sBackendOpt &amp; &quot; -dresolution=&quot; _
 				&amp; iGraphicDPI &amp; &quot; &quot;&amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; constOLyFileName &amp; &quot;.ly&quot; &amp; Chr (34) _
-				&amp; &quot; &gt;&quot; &amp; constOLyFileName &amp; &quot;.out 2&gt;&amp;1&quot; &amp; Chr(10) &amp; Chr(13)
+				&amp; &quot; &gt;&quot; &amp; constOLyFileName &amp; &quot;.out 2&gt;&amp;1&quot; &amp; Chr(13) &amp; Chr(10)
 			Else
 				sCommand = sCommand &amp; &quot; -dno-delete-intermediate-files --png &quot; &amp; sBackendOpt &amp; &quot; -dresolution=&quot; _
 				&amp; iGraphicDPI &amp; &quot; &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; constOLyFileName &amp; &quot;.ly&quot; &amp; Chr (34) _
-			&amp; &quot; &gt;&quot; &amp; constOLyFileName &amp; &quot;.out 2&gt;&amp;1&quot; &amp; Chr(10) &amp; Chr(13)
+			&amp; &quot; &gt;&quot; &amp; constOLyFileName &amp; &quot;.out 2&gt;&amp;1&quot; &amp; Chr(13) &amp; Chr(10)
 			End If
 		ElseIf sFormat=&quot;eps&quot; Then
 			sCommand = sCommand &amp; &quot; &quot; &amp; sBackendOpt &amp; &quot; -f eps &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; constOLyFileName &amp; &quot;.ly&quot; &amp; Chr (34) _
-			&amp; &quot; &gt;&quot; &amp; constOLyFileName &amp; &quot;.out 2&gt;&amp;1&quot; &amp; Chr(10) &amp; Chr(13)
+			&amp; &quot; &gt;&quot; &amp; constOLyFileName &amp; &quot;.out 2&gt;&amp;1&quot; &amp; Chr(13) &amp; Chr(10)
 		ElseIf sFormat=&quot;svg&quot; Then
 			sCommand = sCommand &amp; &quot; &quot; &amp; sBackendOpt &amp; &quot; &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; constOLyFileName &amp; &quot;.ly&quot; &amp; Chr (34) _
-			&amp; &quot; &gt;&quot; &amp; constOLyFileName &amp; &quot;.out 2&gt;&amp;1&quot; &amp; Chr(10) &amp; Chr(13)
+			&amp; &quot; &gt;&quot; &amp; constOLyFileName &amp; &quot;.out 2&gt;&amp;1&quot; &amp; Chr(13) &amp; Chr(10)
 		End If
-		sCommand=sCommand &amp; &quot;if %ERRORLEVEL% equ 9009 echo cannot execute &gt;LilyPond-cannot_execute&quot; &amp; Chr(10) &amp; Chr(13) _
-		&amp; &quot;if %ERRORLEVEL% equ 3 echo cannot execute &gt;LilyPond-cannot_execute&quot; &amp; Chr(10) &amp; Chr(13)
+		sCommand=sCommand &amp; &quot;if %ERRORLEVEL% equ 9009 echo cannot execute &gt;LilyPond-cannot_execute&quot; &amp; Chr(13) &amp; Chr(10) _
+		&amp; &quot;if %ERRORLEVEL% equ 3 echo cannot execute &gt;LilyPond-cannot_execute&quot; &amp; Chr(13) &amp; Chr(10)
 		&apos;ToDo: 9009 and 3 OK? Other errors? Wrong Permissions?
 		WindowsCommand(sCommand)
 
