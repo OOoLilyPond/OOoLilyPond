@@ -356,8 +356,9 @@ Sub WindowsCommand(sCommand as String)
     
 	&apos;Set CodePage to 65001 - which is UTF-8 (Supports any except bidirectional and scripted languages)
 	oTextStream.setEncoding(&quot;utf-8&quot;)
-	oTextStream.writeString( Chr(10) &amp; Chr(13) )
-	oTextStream.writeString(&quot;chcp 65001&quot; &amp; Chr(10) &amp; Chr(13) &amp; sCommand)
+	&apos;Windows/LibreOffice writes a 2-byte BOM to mark an UTF-8 file: Skip to first statement with a new line
+	oTextStream.writeString( Chr(13) &amp; Chr(10) )
+	oTextStream.writeString(&quot;chcp 65001&quot; &amp; Chr(13) &amp; Chr(10) &amp; sCommand)
 	oTextStream.closeOutput()
 
 	Shell (sBatFile, 6, &quot;&quot;, True) &apos; Window-code 6 : only show symbol and leave focus on the current window
