@@ -368,9 +368,9 @@ Sub DefaultConfig()
 			Mid (sIncludeStatement, InStr (sIncludeStatement, &quot;\&quot;), 1, &quot;/&quot;)
 		Wend
 	Else	&apos; Unix or Mac
-		sConfigFile = ConvertToURL(Environ(&quot;HOME&quot;)) &amp; &quot;/.config/ooolilypond/config&quot;
+		sConfigFile = ConvertToURL(Environ(&quot;HOME&quot;)) &amp; &quot;/.ooolilypond&quot;
 		If Not oFileAccess.exists(sConfigFile) Then
-			sConfigFile = ConvertToURL(Environ(&quot;HOME&quot;)) &amp; &quot;/.ooolilypond&quot;
+			sConfigFile = ConvertToURL(Environ(&quot;HOME&quot;)) &amp; &quot;/.config/ooolilypond/config&quot;
 		End If
 		sTmpPath = ConvertToURL(Environ(&quot;HOME&quot;)) &amp; &quot;/.cache/ooolilypond/tmp/&quot;
 		If Not oFileAccess.exists(sTmpPath) then oFileAccess.createFolder(sTmpPath)
