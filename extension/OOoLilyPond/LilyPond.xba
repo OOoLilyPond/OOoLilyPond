@@ -97,6 +97,9 @@ Function CallLilyPond() As Boolean
 				&amp; iGraphicDPI &amp; &quot; &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; constOLyFileName &amp; &quot;.ly&quot; &amp; Chr (34) _
 			&amp; &quot; &gt;&quot; &amp; constOLyFileName &amp; &quot;.out 2&gt;&amp;1&quot; &amp; Chr(13) &amp; Chr(10)
 			End If
+		ElseIf sFormat=&quot;pdf to svg&quot; Then
+			sCommand = sCommand &amp; &quot; -dno-delete-intermediate-files --pdf &quot; &amp; sBackendOpt &amp; &quot; &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) _
+			&amp; constOLyFileName &amp; &quot;.ly&quot; &amp; Chr (34) &amp; &quot; &gt;&quot; &amp; constOLyFileName &amp; &quot;.out 2&gt;&amp;1&quot; &amp; Chr(13) &amp; Chr(10)
 		ElseIf sFormat=&quot;eps&quot; Then
 			sCommand = sCommand &amp; &quot; &quot; &amp; sBackendOpt &amp; &quot; -f eps &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; constOLyFileName &amp; &quot;.ly&quot; &amp; Chr (34) _
 			&amp; &quot; &gt;&quot; &amp; constOLyFileName &amp; &quot;.out 2&gt;&amp;1&quot; &amp; Chr(13) &amp; Chr(10)
@@ -107,6 +110,12 @@ Function CallLilyPond() As Boolean
 		sCommand=sCommand &amp; &quot;if %ERRORLEVEL% equ 9009 echo cannot execute &gt;LilyPond-cannot_execute&quot; &amp; Chr(13) &amp; Chr(10) _
 		&amp; &quot;if %ERRORLEVEL% equ 3 echo cannot execute &gt;LilyPond-cannot_execute&quot; &amp; Chr(13) &amp; Chr(10)
 		&apos;ToDo: 9009 and 3 OK? Other errors? Wrong Permissions?
+		If sFormat=&quot;pdf to svg&quot; Then
+			sCommand = sCommand _ 
+			&amp; sPdf2SvgPrologue &amp; ConvertFromURL(sTmpPath) &amp; constOLyFileName &amp; &quot;.pdf&quot; &amp; sPdf2SvgEpilogue _
+			&amp; Chr (13) &amp; Chr (10)
+			&apos;   &quot;C:\Portable\poppler-0.68.0\bin\pdftocairo.exe&quot; -svg &quot;C:\Users\Klaus\Desktop\OOoLilyPondTemp.pdf&quot;
+		End If
 		WindowsCommand(sCommand)
 
 	End If
@@ -136,6 +145,8 @@ Sub CleanUp()
 	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;)
 	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.eps&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;.eps&quot;)
 	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;-1.eps&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;-1.eps&quot;)
+	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.pdf&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;.pdf&quot;)
+	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;-1.pdf&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;-1.pdf&quot;)
 	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;-systems.tex&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;-systems.tex&quot;)
 	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;-systems.texi&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;-systems.texi&quot;)
 	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.ly&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;.ly&quot;)

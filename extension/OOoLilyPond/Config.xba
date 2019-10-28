@@ -45,7 +45,7 @@ Sub ConfigDialogUpdate()
 	&apos; To do: don&apos;t read the template list twice
 	&apos; just copy it instead.
 	oConfigDialog.getControl(&quot;sFormat&quot;).removeItems(0, oConfigDialog.getControl(&quot;sFormat&quot;).getItemCount)
-	oConfigDialog.getControl(&quot;sFormat&quot;).addItems(Array(&quot;png&quot;,&quot;eps&quot;,&quot;svg&quot;),0)
+	oConfigDialog.getControl(&quot;sFormat&quot;).addItems(Array(&quot;png&quot;,&quot;eps&quot;,&quot;svg&quot;,&quot;pdf to svg&quot;),0)
 	ListOfTemplates(oConfigDialog.getControl(&quot;sWriterDefaultTemplate&quot;))
 	ListOfTemplates(oConfigDialog.getControl(&quot;sImpressDefaultTemplate&quot;))
 	
@@ -272,6 +272,11 @@ Sub ApplyConfig
 	sTemplatePath = AddSlash(ConvertToURL(oConfigDialog.getControl(&quot;sTemplatePath&quot;).getText()))
 	sLanguagePath = AddSlash(ConvertToURL(oConfigDialog.getControl(&quot;sLanguagePath&quot;).getText()))
 	sFormat = oConfigDialog.getControl(&quot;sFormat&quot;).getText()
+	If sFormat = &quot;pdf to svg&quot; Then
+		sExtension = &quot;svg&quot;
+	Else
+		sExtension = sFormat
+	End If
 	iGraphicDPI = oConfigDialog.getControl(&quot;iGraphicDPI&quot;).getValue()
 	bTransparentBackground = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bTransparentBackground&quot;).getState())
 	bIgnoreWarnings = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bIgnoreWarnings&quot;).getState())
@@ -412,6 +417,7 @@ Sub DefaultConfig()
 
 	&apos; General Settings
 	sFormat = &quot;png&quot;
+	sExtension = &quot;png&quot;
 	iGraphicDPI = 300
 	bTransparentBackground = False
 	sEditorFontName = &quot;Courier&quot;
@@ -480,6 +486,11 @@ Sub ReadConfig()
 				iGraphicDPI = sValue
 			Case &quot;sFormat&quot;
 				sFormat = sValue
+				If sFormat = &quot;pdf to svg&quot; Then
+					sExtension = &quot;svg&quot;
+				Else
+					sExtension = sFormat
+				End If
 			Case &quot;bTransparentBackground&quot;
 				bTransparentBackground = StringToBool(sValue)
 			Case &quot;bIgnoreWarnings&quot;
