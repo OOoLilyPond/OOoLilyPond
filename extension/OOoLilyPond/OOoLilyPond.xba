@@ -177,13 +177,19 @@ sub Make()
 		exit sub
 	end if
 
-	If Not ApplyTemplate() Then Exit Sub
+	If Not ApplyTemplate() Then 
+		Exit Sub
+	End If
 
 	CleanUp()
 
-	If Not WriteLyFile() Then Exit Sub
+	If Not WriteLyFile() Then 
+		Exit Sub
+	End If
 
-	If Not CallLilyPond() Then Exit Sub
+	If Not CallLilyPond() Then 
+		Exit Sub
+	End If
 
   	ParseOutput(sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;)
   	

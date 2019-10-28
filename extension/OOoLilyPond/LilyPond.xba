@@ -113,13 +113,16 @@ Function CallLilyPond() As Boolean
 		If sFormat=&quot;pdf to svg&quot; Then
 			sCommand = sCommand _ 
 			&amp; sPdf2SvgPrologue &amp; ConvertFromURL(sTmpPath) &amp; constOLyFileName &amp; &quot;.pdf&quot; &amp; sPdf2SvgEpilogue _
-			&amp; Chr (13) &amp; Chr (10)
-			&apos;   &quot;C:\Portable\poppler-0.68.0\bin\pdftocairo.exe&quot; -svg &quot;C:\Users\Klaus\Desktop\OOoLilyPondTemp.pdf&quot;
+			&amp; &quot; &gt;&quot; &amp; constOLyFileName &amp; &quot;-PdfToSvg.out 2&gt;&amp;1&quot; &amp; Chr (13) &amp; Chr (10) _
+			&amp; &quot;if %ERRORLEVEL% equ 9009 echo cannot execute &gt;PdfToSvg-cannot_execute&quot; &amp; Chr(13) &amp; Chr(10) _
+			&amp; &quot;if %ERRORLEVEL% equ 3 echo cannot execute &gt;PdfToSvg-cannot_execute&quot; &amp; Chr(13) &amp; Chr(10)
+			&apos;ToDo: 9009 and 3 OK? Other errors? Wrong Permissions?
 		End If
 		WindowsCommand(sCommand)
-
 	End If
-
+	
+	CallLilyPond=True &apos;lilypond was executed
+	
 	If oFileAccess.exists(sTmpPath &amp; &quot;LilyPond-cannot_execute&quot;) then
 		CallLilyPond=False &apos;lilypond was not executed
 		&apos; MsgBox &quot;LilyPond cannot be executed.&quot; &amp; Chr(10) _
@@ -131,7 +134,19 @@ Function CallLilyPond() As Boolean
 			MsgBox (oMessages.getPropertyValue (&quot;sMsgLilypondCannotExecute&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 		End If
 	Else
-		CallLilyPond=True &apos;lilypond was executed
+		If oFileAccess.exists(sTmpPath &amp; &quot;PdfToSvg-cannot_execute&quot;) Then
+			CallLilyPond=False
+			MsgBox (oMessages.getPropertyValue (&quot;sMsgPdfToSvgCannotExecute&quot;) &amp; Chr(10) &amp; Chr(10) &amp; sPdf2SvgPrologue &amp; ConvertFromURL(sTmpPath) &amp; constOLyFileName &amp; &quot;xxx.pdf&quot; &amp; sPdf2SvgEpilogue, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		Else  &apos; No PdfToSvg execution error
+			If sFormat = &quot;pdf to svg&quot; And (Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.svg&quot;)) Then
+				CallLilyPond=False
+				If StringFromFile (sLilyPondOutput, sTmpPath &amp; constOLyFileName &amp; &quot;-PdfToSvg.out&quot;) Then
+					MsgBox (oMessages.getPropertyValue (&quot;sMsgPdfToSvgConversionFailed&quot;) &amp; Chr(10) &amp; Chr(10) &amp; sLilyPondOutput, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+				Else
+					MsgBox (oMessages.getPropertyValue (&quot;sMsgPdfToSvgConversionFailed&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+				End If
+			End If
+		End If
 	End If
 
 End Function
@@ -142,7 +157,9 @@ Sub CleanUp()
 	If 	oFileAccess.exists(sTmpPath &amp; &quot;LilyPond-version.out&quot;) Then oFileAccess.kill(sTmpPath &amp; &quot;LilyPond-version.out&quot;)
 	If 	oFileAccess.exists(sTmpPath &amp; &quot;LilyPond-cannot_execute&quot;) Then oFileAccess.kill(sTmpPath &amp; &quot;LilyPond-cannot_execute&quot;)
 	If 	oFileAccess.exists(sTmpPath &amp; &quot;ExtEditor-cannot_execute&quot;) Then oFileAccess.kill(sTmpPath &amp; &quot;ExtEditor-cannot_execute&quot;)
+	If 	oFileAccess.exists(sTmpPath &amp; &quot;PdfToSvg-cannot_execute&quot;) Then oFileAccess.kill(sTmpPath &amp; &quot;PdfToSvg-cannot_execute&quot;)
 	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;)
+	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;-PdfToSvg.out&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;-PdfToSvg.out&quot;)
 	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.eps&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;.eps&quot;)
 	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;-1.eps&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;-1.eps&quot;)
 	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.pdf&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;.pdf&quot;)
