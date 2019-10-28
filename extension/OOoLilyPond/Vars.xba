@@ -25,8 +25,8 @@ Private sExtEditorExecutable As String
 Private sIncludeStatement As String
 Private sEditorFontName As String
 Private sEditorFontSize As String
-Private sPdf2SvgPrologue As String
-Private sPdf2SvgEpilogue As String
+Private sPdfToSvgPrologue As String
+Private sPdfToSvgEpilogue As String
 
 &apos; Settings
 Private sFormat As String
@@ -161,10 +161,6 @@ Sub PrivateConstants()
 	iMaxLanguageEntryError = 6		&apos; maximal number of Language file entry errors to be displayed in message box
 	lErrMsgHighlightColor = &amp;Hf4b0b0
 	
-	&apos; ToDo: use Config dialog for Pdf2Svg stuff
-	sPdf2SvgPrologue = Chr (34) &amp; &quot;C:\Portable\poppler-0.68.0\bin\pdftocairo.exe&quot; &amp; Chr (34) &amp; &quot; &quot; &amp; &quot;-svg &quot; &amp; Chr (34)
-	sPdf2SvgEpilogue = Chr (34)
-
 End Sub
 
 </script:module>

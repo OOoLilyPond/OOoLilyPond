@@ -112,7 +112,7 @@ Function CallLilyPond() As Boolean
 		&apos;ToDo: 9009 and 3 OK? Other errors? Wrong Permissions?
 		If sFormat=&quot;pdf to svg&quot; Then
 			sCommand = sCommand _ 
-			&amp; sPdf2SvgPrologue &amp; ConvertFromURL(sTmpPath) &amp; constOLyFileName &amp; &quot;.pdf&quot; &amp; sPdf2SvgEpilogue _
+			&amp; sPdfToSvgPrologue &amp; ConvertFromURL(sTmpPath) &amp; constOLyFileName &amp; &quot;.pdf&quot; &amp; sPdfToSvgEpilogue _
 			&amp; &quot; &gt;&quot; &amp; constOLyFileName &amp; &quot;-PdfToSvg.out 2&gt;&amp;1&quot; &amp; Chr (13) &amp; Chr (10) _
 			&amp; &quot;if %ERRORLEVEL% equ 9009 echo cannot execute &gt;PdfToSvg-cannot_execute&quot; &amp; Chr(13) &amp; Chr(10) _
 			&amp; &quot;if %ERRORLEVEL% equ 3 echo cannot execute &gt;PdfToSvg-cannot_execute&quot; &amp; Chr(13) &amp; Chr(10)
@@ -136,7 +136,7 @@ Function CallLilyPond() As Boolean
 	Else
 		If oFileAccess.exists(sTmpPath &amp; &quot;PdfToSvg-cannot_execute&quot;) Then
 			CallLilyPond=False
-			MsgBox (oMessages.getPropertyValue (&quot;sMsgPdfToSvgCannotExecute&quot;) &amp; Chr(10) &amp; Chr(10) &amp; sPdf2SvgPrologue &amp; ConvertFromURL(sTmpPath) &amp; constOLyFileName &amp; &quot;xxx.pdf&quot; &amp; sPdf2SvgEpilogue, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+			MsgBox (oMessages.getPropertyValue (&quot;sMsgPdfToSvgCannotExecute&quot;) &amp; Chr(10) &amp; Chr(10) &amp; sPdfToSvgPrologue &amp; ConvertFromURL(sTmpPath) &amp; constOLyFileName &amp; &quot;.pdf&quot; &amp; sPdfToSvgEpilogue, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 		Else  &apos; No PdfToSvg execution error
 			If sFormat = &quot;pdf to svg&quot; And (Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.svg&quot;)) Then
 				CallLilyPond=False
