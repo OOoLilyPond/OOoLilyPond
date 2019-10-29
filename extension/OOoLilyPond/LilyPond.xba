@@ -35,13 +35,14 @@ Function CallLilyPond() As Boolean
 	Dim sLilyPondOutput As String
 
 	Dim sRelativeIncludeStatement As String
+	Dim sActualIncludeStatement As String
 	sRelativeIncludeStatement=GetRelativeIncludeStatement()
 	 
 	If Len(sRelativeIncludeStatement) &gt; 0 Then
 			If Len(sIncludeStatement) &gt; 0 Then
-				sIncludeStatement=sRelativeIncludeStatement &amp; &quot; &quot; &amp; sIncludeStatement
+				sActualIncludeStatement=sRelativeIncludeStatement &amp; &quot; &quot; &amp; sIncludeStatement
 			Else
-				sIncludeStatement=sRelativeIncludeStatement
+				sActualIncludeStatement=sRelativeIncludeStatement
 			End If
 	End If		
 
@@ -57,8 +58,8 @@ Function CallLilyPond() As Boolean
 
 		sCommand=&quot;cd &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; Chr(34) &amp; &quot;; &quot; _
 		&amp; Chr(34) &amp; sLilyPondExecutable &amp; Chr(34) &amp; &quot; -dno-point-and-click&quot;
-		If Len(sIncludeStatement) &gt; 0 Then
-			sCommand = sCommand &amp; &quot; &quot; &amp; sIncludeStatement
+		If Len(sActualIncludeStatement) &gt; 0 Then
+			sCommand = sCommand &amp; &quot; &quot; &amp; sActualIncludeStatement
 		End If
 		If sFormat=&quot;png&quot; Then
 			If bTransparentBackground Then
@@ -84,8 +85,8 @@ Function CallLilyPond() As Boolean
 
 		sCommand = &quot;cd /d &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; Chr(34) &amp; Chr(13) &amp; Chr(10) _
 		&amp; Chr(34) &amp; sLilyPondExecutable &amp; Chr(34) &amp; &quot; -dno-point-and-click&quot;
-		If Len(sIncludeStatement) &gt; 0 Then
-			sCommand = sCommand &amp; &quot; &quot; &amp; sIncludeStatement
+		If Len(sActualIncludeStatement) &gt; 0 Then
+			sCommand = sCommand &amp; &quot; &quot; &amp; sActualIncludeStatement
 		End If
 		If sFormat=&quot;png&quot; Then
 			If bTransparentBackground Then
