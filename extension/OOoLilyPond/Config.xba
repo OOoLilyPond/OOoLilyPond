@@ -395,8 +395,8 @@ Sub DefaultConfig()
  			sLilyPondExecutable = &quot;lilypond&quot;
  			sExtEditorExecutable = &quot;frescobaldi&quot;
  		End If
- 		sPdfToSvgPrologue = &quot;executablefile -parameter &quot; &amp; Chr(34) 
-		sPdfToSvgEpilogue = Chr(34) &amp; &quot; -etc&quot;
+ 		sPdfToSvgPrologue = &quot;pdf2svg &quot; &amp; Chr(34) 
+		sPdfToSvgEpilogue = Chr(34) &amp; &quot; OOoLilyPond.svg&quot;
 		
 		sIncludeStatement = &quot;-I&quot; &amp; Chr(34) &amp; ConvertFromURL(Environ(&quot;HOME&quot;)) &amp; Chr(34)
 	End If
