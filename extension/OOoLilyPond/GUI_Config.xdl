@@ -44,7 +44,7 @@
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.ConfigDialogGrayOut?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
   <dlg:textfield dlg:id="sTemplatePath" dlg:tab-index="48" dlg:left="173" dlg:top="124" dlg:width="201" dlg:height="12" dlg:help-text="The path where OOoLiliyPond looks for templates."/>
-  <dlg:textfield dlg:id="sLilyPondExecutable" dlg:tab-index="49" dlg:left="173" dlg:top="204" dlg:width="201" dlg:height="12" dlg:help-text="The LilyPond executable with or without path."/>
+  <dlg:textfield dlg:id="sLilyPondExecutable" dlg:tab-index="49" dlg:left="173" dlg:top="204" dlg:width="201" dlg:height="12" dlg:help-text="The LilyPond executable."/>
   <dlg:numericfield dlg:id="iGraphicDPI" dlg:tab-index="52" dlg:left="228" dlg:top="242" dlg:width="30" dlg:height="12" dlg:help-text="Resolution for pixel based (png-format) OOoLilyPond objects." dlg:decimal-accuracy="0" dlg:value="300" dlg:value-min="75" dlg:value-max="2400" dlg:value-step="0"/>
   <dlg:combobox dlg:id="sFormat" dlg:tab-index="51" dlg:left="174" dlg:top="242" dlg:width="50" dlg:height="12" dlg:help-text="The png format looks better on the screen. The eps and svg formats are optimized for printing." dlg:spin="true"/>
   <dlg:checkbox dlg:id="bIgnoreWarnings" dlg:tab-index="53" dlg:left="173" dlg:top="218" dlg:width="143" dlg:height="10" dlg:help-text="Don&apos;t list warnings along with LilyPond&apos;s error messages" dlg:value="Ignore Warnings" dlg:checked="false"/>
