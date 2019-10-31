@@ -1,6 +1,21 @@
-**************************************
-OOoLilyPond Version History (May 2019)
-**************************************
+*******************************************
+OOoLilyPond Version History (November 2019)
+*******************************************
+
+
+Changes to OOoLilyPond 0.5.11 since 0.5.10 (November 2019):
+===========================================================
+
+* Fixed: A placeholder for the path of the current LO document could accidentally be added to (and saved with) the Include statement. 
+* New feature: "pdf to svg" as graphic file format 
+  (call external converter to convert LilyPond's pdf output to svg format)
+
+The new "pdf to svg" requires an additional conversion software to be installed. 
+For Linux and Mac, it should be sufficient to install the "pdf2svg" package via any package manager. 
+
+
+There have also been some changes to the language files. So, after updating to 0.5.11, please open the config dialog and click the "Restore Language Files" button. 
+(Your current language files will be backed up in a subfolder. If you like, you can delete that subfolder.
 
 
 Changes to OOoLilyPond 0.5.10 since 0.5.9 (May 2019):
