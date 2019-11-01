@@ -10,9 +10,10 @@ Changes to OOoLilyPond 0.5.11 since 0.5.10 (November 2019):
 * New feature: "pdf to svg" as graphic file format 
   (call external converter to convert LilyPond's pdf output to svg format)
 
-The new "pdf to svg" requires an additional conversion software to be installed. 
-For Linux and Mac, it should be sufficient to install the "pdf2svg" package via any package manager. 
-
+The new "pdf to svg" option requires an additional conversion software to be installed. In OLy's config dialogue, a suitable command line must be specified. 
+For Linux and Mac, it should be sufficient to install the "pdf2svg" package via any package manager. The default settings in the config dialogue should work without further changes. 
+For Windows, a third-party conversion tool must be installed at your on risk. 
+A detailed explanation can be found here in the OLy Wiki: https://github.com/openlilylib/LO-ly/wiki/Config#pdf-to-svg
 
 There have also been some changes to the language files. So, after updating to 0.5.11, please open the config dialog and click the "Restore Language Files" button. 
 (Your current language files will be backed up in a subfolder. If you like, you can delete that subfolder.
