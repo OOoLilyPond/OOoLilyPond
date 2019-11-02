@@ -7,6 +7,10 @@ Changes to OOoLilyPond 0.5.11 since 0.5.10 (November 2019):
 ===========================================================
 
 * Fixed: A placeholder for the path of the current LO document could accidentally be added to (and saved with) the Include statement. 
+* For Linux and Mac, now the configuration is read from the XDG-compliant config path 
+  ~/.config/ooolilypond/config if such a file exists. 
+  (You can manually move your config file there.)
+  Otherwise the typical ~/.ooolilypond is used.
 * New feature: "pdf to svg" as graphic file format 
   (call external converter to convert LilyPond's pdf output to svg format)
 
