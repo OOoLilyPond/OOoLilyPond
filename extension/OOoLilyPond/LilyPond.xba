@@ -340,12 +340,12 @@ Sub ParseOutput(sFile as String)
 					iNErr = iNErr + 1
 					iErrRow(iNErr) = Val(vArray(LBound(vArray)+1+iWinComp))
 					iErrCol(iNErr) = Val(vArray(LBound(vArray)+2+iWinComp))
-					If (vArray(LBound(vArray)+3+iWinComp) = &quot; &quot; &amp; oMessages.getPropertyValue (&quot;sErrorKeyWord1&quot;)) Or (vArray(LBound(vArray)+3+iWinComp) = &quot; &quot; &amp; oMessages.getPropertyValue (&quot;sErrorKeyWord2&quot;)) Then  
-					&apos; (ToDo: What if LilyPond&apos;s error message is in another language?)
-					&apos; Done: Key words can be customized
-						iErrClass(iNErr)=2 &apos;Error
+					&apos; If (vArray(LBound(vArray)+3+iWinComp) = &quot; &quot; &amp; oMessages.getPropertyValue (&quot;sErrorKeyWord1&quot;)) Or (vArray(LBound(vArray)+3+iWinComp) = &quot; &quot; &amp; oMessages.getPropertyValue (&quot;sErrorKeyWord2&quot;)) Then  
+					&apos; Error keywords will become obsolete: 
+					If vArray(LBound(vArray)+3+iWinComp) = sLilyPondWarningString Then  
+						iErrClass(iNErr) = 1 &apos;Warning
 					Else
-						iErrClass(iNErr)=1 &apos;Warning
+						iErrClass(iNErr) = 2 &apos;Error
 					EndIf
 					sErrMsg(iNErr) = vArray(LBound(vArray)+4+iWinComp)
 					For i = (5+iWinComp) to UBound(vArray) - LBound(vArray)
