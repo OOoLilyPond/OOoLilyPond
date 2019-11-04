@@ -231,7 +231,7 @@ Function LilyPondVersion() As Boolean
 						End If
 						If Mid (vArray(LBound(vArray)+iWinComp), iStartPos) = constOLyFileName &amp; &quot;.ly&quot; Then
 							If (Val(vArray(LBound(vArray)+1+iWinComp)) = 2) And (Val(vArray(LBound(vArray)+2+iWinComp)) = 4) Then  &apos; Row = 2, Column = 4
-								sLilyPondWarningString = Mid (vArray(LBound(vArray)+3+iWinComp), 1)
+								sLilyPondWarningString = Mid (vArray(LBound(vArray)+3+iWinComp), 2)
 							End If
 						End If
 					End If
