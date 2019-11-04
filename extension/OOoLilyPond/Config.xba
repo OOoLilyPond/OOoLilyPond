@@ -339,6 +339,7 @@ Sub DefaultConfig()
 	
 	sLilyPondVersionMajor=&quot;&quot;
 	sLilyPondVersionMinor=&quot;&quot;
+	sLilyPondWarningString=&quot;Warning&quot;
 
 	sOSType=GetOSType()
 
@@ -464,6 +465,8 @@ Sub ReadConfig()
 				sLilyPondVersionMajor = sValue
 			Case &quot;sLilyPondVersionMinor&quot;
 				sLilyPondVersionMinor = sValue
+			Case &quot;sLilyPondWarningString&quot;
+				sLilyPondWarningString = sValue
 			Case &quot;sTemplatePath&quot;
 				sTemplatePath = AddSlash(sValue)
 			Case &quot;sLanguagePath&quot;
@@ -549,6 +552,7 @@ Sub SaveConfig
 	oTextOutputStream.writeString(&quot;sLilyPondExecutable=&quot; &amp; sLilyPondExecutable &amp; Chr(10) )
 	oTextOutputStream.writeString(&quot;sLilyPondVersionMajor=&quot; &amp; sLilyPondVersionMajor &amp; Chr(10) )
 	oTextOutputStream.writeString(&quot;sLilyPondVersionMinor=&quot; &amp; sLilyPondVersionMinor &amp; Chr(10) )
+	oTextOutputStream.writeString(&quot;sLilyPondWarningString=&quot; &amp; sLilyPondWarningString &amp; Chr(10) )
 	oTextOutputStream.writeString(&quot;sTemplatePath=&quot; &amp; sTemplatePath &amp; Chr(10) )
 	oTextOutputStream.writeString(&quot;sLanguagePath=&quot; &amp; sLanguagePath &amp; Chr(10) )
 	oTextOutputStream.writeString(&quot;iGraphicDPI=&quot; &amp; iGraphicDPI &amp; Chr(10))
