@@ -46,6 +46,7 @@ Private sOSType As String
 Private bInWriter As Boolean
 Private sLilyPondVersionMajor As String
 Private sLilyPondVersionMinor As String
+Private sLilyPondWarningString As String
 
 &apos; Dialog Objects
 Private oEditorDialog As Object &apos; OOoLilyPond Editor Dialog (Main Dialog)

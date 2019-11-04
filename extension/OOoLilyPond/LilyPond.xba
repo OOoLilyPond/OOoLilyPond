@@ -164,6 +164,86 @@ Function LilyPondVersion() As Boolean
 	dim sLilyPondVersion() As String
 	dim i As Integer
 	
+	Dim oTextStream As Object
+	Dim sLyFile As String
+	
+	Dim vArray As Variant
+	Dim iStartPos As Integer
+	Dim iNameLength As Integer
+	Dim iWinComp As Integer  &apos; compensation for Windows
+		
+	Cleanup()
+	
+	&apos; *** New: Make LilyPond output a warning ***
+	
+	&apos; --- adapted from WriteLyFile(): ---
+	&apos; Open output stream
+	oTextStream  = createUnoService(&quot;com.sun.star.io.TextOutputStream&quot;)
+	sLyFile = sTmpPath &amp; constOLyFileName &amp; &quot;.ly&quot;
+	If oFileAccess.exists (sLyFile) Then 
+		oFileAccess.kill (sLyFile)
+	End If
+    oTextStream.setOutputStream(oFileAccess.openFileWrite(sLyFile))
+	&apos; Write LilyPond Code that throws a warning message:
+    oTextStream.writeString (&quot;\version &quot; &amp; Chr(34) &amp; &quot;2.10.0&quot; &amp; Chr(34) &amp; Chr(13) &amp; Chr(10) &amp; &quot;{c4(}&quot;)
+	oTextStream.closeOutput()
+	&apos; -----------------------------------
+	
+	If (sOSType = &quot;Unix&quot;) Or (sOSType = &quot;Mac&quot;) Then
+		sCommand=&quot;cd &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; Chr(34) &amp; &quot;; &quot; _
+		&amp; Chr(34) &amp; sLilyPondExecutable &amp; Chr(34) &amp; &quot; -dno-print-pages &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; constOLyFileName &amp; &quot;.ly&quot; &amp; Chr (34) _
+		&amp; &quot; &gt;&quot; &amp; constOLyFileName &amp; &quot;.out; &quot; _
+		&amp; &quot;if [ $? -ge 126 ]; then touch LilyPond-cannot_execute; fi&quot; &apos; not found -&gt; 127, denied -&gt;126
+		BashCommand(sCommand)
+	ElseIf sOSType = &quot;Windows&quot; Then &apos;ToDo: create Windows command (now wrong command, copied from standard LilyPond Call)
+		sCommand = &quot;cd /d &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; Chr(34) &amp; Chr(10) _
+		&amp; Chr(34) &amp; sLilyPondExecutable &amp; Chr(34) &amp; &quot; -dno-print-pages &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; constOLyFileName &amp; &quot;.ly&quot; &amp; Chr (34) _
+		&amp; &quot; &gt;&quot; &amp; constOLyFileName &amp; &quot;.out 2&gt;&amp;1&quot; &amp; Chr(10) _
+		&amp; &quot;if %ERRORLEVEL% equ 9009 echo cannot execute &gt;LilyPond-cannot_execute&quot; &amp; Chr(10) _
+		&amp; &quot;if %ERRORLEVEL% equ 3 echo cannot execute &gt;LilyPond-cannot_execute&quot; &amp; Chr(10)
+		&apos;ToDo: 9009 and 3 OK? Other errors? Wrong Permissions?
+		WindowsCommand(sCommand)
+	End If
+
+	If oFileAccess.exists(sTmpPath &amp; &quot;LilyPond-cannot_execute&quot;) then
+		&apos; anything to do?
+	Else
+		&apos; Open input stream
+		If oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;) then
+			oTextInputStream  = createUnoService(&quot;com.sun.star.io.TextInputStream&quot;)
+    		oTextInputStream.setInputStream(oFileAccess.openFileRead(sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;))
+    		
+    		&apos; --- adapted from ParseOutput(): ---
+    		If sOSType=&quot;Windows&quot; Then 
+				iWinComp = 1
+			Else
+				iWinComp = 0
+			End If
+			iNameLength = Len (constOLyFileName) + 2
+			While not oTextInputStream.isEof()
+				sLine = oTextInputStream.readLine()
+				vArray = Split(sLine, &quot;:&quot;)
+				If isArray(vArray) Then
+					If UBound(vArray)&gt;=(LBound(vArray)+4+iWinComp) Then		
+						iStartPos = Len (vArray(LBound(vArray)+iWinComp)) - iNameLength
+						if iStartPos &lt; 0 Then  &apos; make sure that arguments for Mid(...) are valid
+							iStartPos = 0
+						End If
+						If Mid (vArray(LBound(vArray)+iWinComp), iStartPos) = constOLyFileName &amp; &quot;.ly&quot; Then
+							If (Val(vArray(LBound(vArray)+1+iWinComp)) = 2) And (Val(vArray(LBound(vArray)+2+iWinComp)) = 4) Then  &apos; Row = 2, Column = 4
+								sLilyPondWarningString = Mid (vArray(LBound(vArray)+3+iWinComp), 1)
+							End If
+						End If
+					End If
+				End If
+			wend
+    		&apos; -----------------------------------
+   			oTextInputStream.closeInput()
+    	End If
+	End If
+	
+	&apos; *** original function: get Ly version number
+	
 	Cleanup()
 	
 	If (sOSType = &quot;Unix&quot;) Or (sOSType = &quot;Mac&quot;) Then
