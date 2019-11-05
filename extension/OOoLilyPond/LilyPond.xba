@@ -247,7 +247,7 @@ Sub ParseOutput(sFile as String)
 	End If
   	
 	iNameLength = Len (constOLyFileName) + 2
-	While not oTextInputStream.isEof()
+	While not oTextInputStream.isEof() And iNErr &lt; 999  &apos; array size is limited to 1000
 		sLine = oTextInputStream.readLine()
 		vArray = Split(sLine, &quot;:&quot;)
 		If isArray(vArray) Then
