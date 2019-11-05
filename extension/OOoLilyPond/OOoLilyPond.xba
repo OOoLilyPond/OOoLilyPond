@@ -147,10 +147,6 @@ Function ReadSelectionObject () As Boolean
 		oSelection=oDocCtrl.getSelection
 		bShapeIsSelected = False
 		
-		Dim sTempDebugInfo As String
-		sTempDebugInfo = oSelection.getImplementationName()
-		&apos; MsgBox (sTempDebugInfo, iMsgBox_I, &quot;ReadSelectionObject says: &quot;)
-		
 		Select Case oSelection.getImplementationName()
 		
 		Case &quot;com.sun.star.drawing.SvxShapeCollection&quot; 	&apos; inserted into Writer via Clipboard OR inserted into Draw/Impress
