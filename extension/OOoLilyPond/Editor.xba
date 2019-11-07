@@ -159,13 +159,16 @@ End Sub
 
 Sub DisplayError()
 	Dim sText as String
-	If iErrClass (iErrNum) = 1 Then &apos; Warning
-		&apos; sText = &quot;Warning: &quot; &amp; sErrMsg(iErrNum)
-		sText = oMessages.getPropertyValue (&quot;sErrClassWarning&quot;) &amp; sErrMsg (iErrNum)
-	ElseIf	iErrClass (iErrNum) = 2 Then &apos; Error
-		&apos; sText = &quot;Error: &quot; &amp; sErrMsg(iErrNum)
-		sText = oMessages.getPropertyValue (&quot;sErrClassError&quot;) &amp; sErrMsg (iErrNum)
-	End If
+	&apos; If iErrClass (iErrNum) = 1 Then &apos; Warning
+	&apos; 	&apos; sText = &quot;Warning: &quot; &amp; sErrMsg(iErrNum)
+	&apos; 	sText = oMessages.getPropertyValue (&quot;sErrClassWarning&quot;) &amp; sErrMsg (iErrNum)
+	&apos; ElseIf	iErrClass (iErrNum) = 2 Then &apos; Error
+	&apos; 	&apos; sText = &quot;Error: &quot; &amp; sErrMsg(iErrNum)
+	&apos; 	sText = oMessages.getPropertyValue (&quot;sErrClassError&quot;) &amp; sErrMsg (iErrNum)
+	&apos; End If
+	
+	sText = sErrMsg (iErrNum)
+	
 	oEditorDialog.getControl (&quot;sErrMsg&quot;).setText (sText)
 	oEditorDialog.getModel().getByName (&quot;sErrMsg&quot;).BackgroundColor = lErrMsgHighlightColor
 	oEditorDialog.getControl (&quot;sErrMsg&quot;).Visible = True
