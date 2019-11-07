@@ -2,6 +2,8 @@
 
 OOoLilyPond (OLy) is a LibreOffice/OpenOffice extension to include LilyPond music fragments in text documents.
 
+<a href="http://lilypondblog.org/wp-content/uploads/2017/03/OLy-Editor-Window-02-1.gif"><img class="aligncenter wp-image-4674 size-medium" src="http://lilypondblog.org/wp-content/uploads/2017/03/OLy-Editor-Window-02-1-300x276.gif" width="300" height="276" /></a>
+
 ## Installation
 
 Being a [LibreOffice]/[OpenOffice] extension, you need a version of LibreOffice / OpenOffice installed on your computer, first.  
