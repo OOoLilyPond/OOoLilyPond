@@ -97,7 +97,9 @@ Sub GreyOut()
 	Dim bWrapSettings As Boolean
 
 	&apos; Check if dialog is existing
-	If IsNull(oEditorDialog) Then Exit Sub
+	If IsNull(oEditorDialog) Then 
+		Exit Sub
+	End If
 
 	bWrapSettings = (Not oEditorDialog.getControl(&quot;AnchorAsCharacter&quot;).getState()) And bInWriter
 
@@ -341,16 +343,22 @@ End Sub
 
 Sub ExtEditorButton()
 
-	If Not ApplyTemplate() Then Exit Sub
+	If Not ApplyTemplate() Then 
+		Exit Sub
+	End If
 	CleanUp()
-	If Not WriteTempLyFile() Then Exit Sub
+	If Not WriteTempLyFile() Then 
+		Exit Sub
+	End If
 	CallExtEditor()
 	
 End Sub
 
 Sub ImportButton()
 
-	If Not ReadTempLyFile() Then Exit Sub
+	If Not ReadTempLyFile() Then 
+		Exit Sub
+	End If
 	oEditorDialog.getControl(&quot;sCode&quot;).setText(sCode)
 	
 	If bLineWidthFieldExists Then

@@ -140,10 +140,10 @@ Sub ImportGraphicIntoClipboard(cURL)
 	&apos; oShapeSize = oImportShape.Size()
 	
 	&apos; Strange bug with the eps and emf format... correction of the size
-	&apos; if sFormat = &quot;eps&quot; then oShapeSize.Width = oShapeSize.Width * 0.99
-	&apos; if sFormat = &quot;eps&quot; then oShapeSize.Height = oShapeSize.Height * 0.91
-	&apos; if sFormat = &quot;emf&quot; then oShapeSize.Width = oShapeSize.Width * 1.13
-	&apos; if sFormat = &quot;emf&quot; then oShapeSize.Height = oShapeSize.Height * 1.1
+	&apos; if sExtension = &quot;eps&quot; then oShapeSize.Width = oShapeSize.Width * 0.99
+	&apos; if sExtension = &quot;eps&quot; then oShapeSize.Height = oShapeSize.Height * 0.91
+	&apos; if sExtension = &quot;emf&quot; then oShapeSize.Width = oShapeSize.Width * 1.13
+	&apos; if sExtension = &quot;emf&quot; then oShapeSize.Height = oShapeSize.Height * 1.1
 	
 	if bKeepCrop Then
 		oImportShape.setSize (oShapeSize)							&apos; apply size of old graphics object
