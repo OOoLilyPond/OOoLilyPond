@@ -262,6 +262,9 @@ Sub ParseOutput(sFile as String)
 	Dim oTextInputStream As Object
 	Dim sLine As String
 	Dim i As Integer
+	Dim iStartPos As Integer
+	Dim iNameLength As Integer
+	Dim iWinComp As Integer  &apos; compensation for Windows
 	
 	if Not oFileAccess.exists(sFile) then
 		&apos; Msgbox(&quot;The LilyPond output file does not exist:&quot; &amp; Chr(10) &amp; sFile, iMsgBox_E, &quot;Error&quot;)
@@ -273,36 +276,48 @@ Sub ParseOutput(sFile as String)
 	
 	oTextInputStream  = createUnoService(&quot;com.sun.star.io.TextInputStream&quot;)
    	oTextInputStream.setInputStream(oFileAccess.openFileRead(sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;))
-
- 	While not oTextInputStream.isEof()
-
+   	
+  	&apos; We need a new error recognition method:
+  	&apos; The file name at the beginning of a line to be processed 
+  	&apos; is now preceeded by the full path (when did that change?)
+  	&apos; which contains a colon (&quot;:&quot;) in Windows.
+  	&apos; That will mess up splitting of sLine, so let&apos;s compensate that:
+  	If sOSType=&quot;Windows&quot; Then 
+		iWinComp = 1
+	Else
+		iWinComp = 0
+	End If
+  	
+	iNameLength = Len (constOLyFileName) + 2
+	While not oTextInputStream.isEof() And iNErr &lt; 999  &apos; array size is limited to 1000
 		sLine = oTextInputStream.readLine()
-
-  		vArray = Split(sLine, &quot;:&quot;)
-  		
+		vArray = Split(sLine, &quot;:&quot;)
 		If isArray(vArray) Then
-			If UBound(vArray)&gt;=LBound(vArray) Then
-			
-				If vArray(LBound(vArray)) = constOLyFileName &amp; &quot;.ly&quot; Then
+			If UBound(vArray)&gt;=(LBound(vArray)+4+iWinComp) Then		
+				iStartPos = Len (vArray(LBound(vArray)+iWinComp)) - iNameLength
+				if iStartPos &lt; 0 Then  &apos; make sure that arguments for Mid(...) are valid
+					iStartPos = 0
+				End If
+				If Mid (vArray(LBound(vArray)+iWinComp), iStartPos) = constOLyFileName &amp; &quot;.ly&quot; Then
 					iNErr = iNErr + 1
-					iErrRow(iNErr) = Val(vArray(LBound(vArray)+1))
-					iErrCol(iNErr) = Val(vArray(LBound(vArray)+2))
-					If (vArray(LBound(vArray)+3) = &quot; &quot; &amp; oMessages.getPropertyValue (&quot;sErrorKeyWord1&quot;)) Or (vArray(LBound(vArray)+3) = &quot; &quot; &amp; oMessages.getPropertyValue (&quot;sErrorKeyWord2&quot;)) Then  
+					iErrRow(iNErr) = Val(vArray(LBound(vArray)+1+iWinComp))
+					iErrCol(iNErr) = Val(vArray(LBound(vArray)+2+iWinComp))
+					If (vArray(LBound(vArray)+3+iWinComp) = &quot; &quot; &amp; oMessages.getPropertyValue (&quot;sErrorKeyWord1&quot;)) Or (vArray(LBound(vArray)+3+iWinComp) = &quot; &quot; &amp; oMessages.getPropertyValue (&quot;sErrorKeyWord2&quot;)) Then  
 					&apos; (ToDo: What if LilyPond&apos;s error message is in another language?)
 					&apos; Done: Key words can be customized
 						iErrClass(iNErr)=2 &apos;Error
 					Else
 						iErrClass(iNErr)=1 &apos;Warning
 					EndIf
-					sErrMsg(iNErr) = vArray(LBound(vArray)+4)
-					For i = 5 to UBound(vArray) - LBound(vArray)
+					sErrMsg(iNErr) = vArray(LBound(vArray)+4+iWinComp)
+					For i = (5+iWinComp) to UBound(vArray) - LBound(vArray)
 						sErrMsg(iNErr) = sErrMsg(iNErr) &amp; &quot;:&quot; &amp; vArray(LBound(vArray)+i)
 					Next
 				End If
-				
 			End If
 		End If
 	wend
+
 
 	oTextInputStream.closeInput()
 

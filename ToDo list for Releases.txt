@@ -12,6 +12,11 @@ Version history.txt
 ----- Create Release: -----
 
 - create OXT file (from the above branch)
+    * create ZIP file only with the contents
+      of the "extension" subfolder
+      and rename to *.OXT
+    * for the OpenOffice version, use 
+      Addons.xcu from OLy 0.5.7
 
 - add release-notes.txt
 - add same text as Release description

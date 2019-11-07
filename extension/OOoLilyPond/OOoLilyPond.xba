@@ -36,7 +36,6 @@ Sub OOoLilyPond()
 	Dim oDoc As Object
 	Dim oDocCtrl As Object
 	Dim bWrongDocumentType As Boolean
-	Dim oShape As Object
 
 	oMessages  = CreateUnoService (&quot;com.sun.star.beans.PropertyBag&quot;)
 
@@ -123,6 +122,26 @@ Sub OOoLilyPond()
 	bUseDefaultCustom1 = True
 	bUseDefaultCustom2 = True
 	
+	If Not ReadSelectionObject () Then Exit Sub   &apos; create Cursor and read Attributes if Object is selected
+
+	&apos; Now we know which template to use
+	ReadTemplate()
+
+	&apos; Open the dialog box
+	EditorDialog()
+End Sub
+
+
+Function ReadSelectionObject () As Boolean
+
+	Dim oDoc As Object
+	Dim oDocCtrl As Object
+	Dim oShape As Object
+	
+	&apos; Get the current document and controller
+ 	oDoc = ThisComponent
+	oDocCtrl = oDoc.getCurrentController()
+
 	&apos; create Cursor and read Attributes if Object is selected
 	If Not IsEmpty(oDocCtrl.getSelection) Then &apos; Is only empty in Impress or Draw when nothing is selected
 		oSelection=oDocCtrl.getSelection
@@ -134,16 +153,25 @@ Sub OOoLilyPond()
 			oShape = oSelection.getByIndex(0)
 			If bInWriter Then &apos; OLy &lt; 0.4 in Writer
 				&apos; oCursor = oDoc.Text.createTextCursorByRange(oSelection(0).getAnchor())
-				If Not ReadAttributes(oShape) Then Exit Sub &apos;Read the OLy fields from the Object Attributes
+				If Not ReadAttributes(oShape) Then  &apos;Read the OLy fields from the Object Attributes
+					ReadSelectionObject = False
+					Exit Function
+				End If
 				&apos; oSelection(0).getParent().remove(oSelection(0)) &apos; Delete old OLyObject
 			Else &apos; OLy object in Draw / Impress
-				If Not ReadAttributes(oShape) Then Exit Sub &apos;Read the OLy fields from the Object Attributes
+				If Not ReadAttributes(oShape) Then  &apos;Read the OLy fields from the Object Attributes
+					ReadSelectionObject = False
+					Exit Function
+				End If
 			End If
 			oShapePosition = oShape.position()
 			bShapeIsSelected = True
 				
 		Case &quot;SwXTextGraphicObject&quot; &apos; Graphic is selected in Writer
-			If Not ReadAttributes(oSelection) Then Exit Sub &apos; Read the OLy fields from the Object Attributes
+			If Not ReadAttributes(oSelection) Then &apos; Read the OLy fields from the Object Attributes
+				ReadSelectionObject = False
+				Exit Function
+			End If
 			bShapeIsSelected = True
 			
 		Case &quot;SwXTextRanges&quot; &apos; Nothing or normal text selection in Writer
@@ -152,18 +180,13 @@ Sub OOoLilyPond()
 		Case Else
 			&apos; Msgbox (&quot;The selected object is not an OLy object ...&quot;, 0, &quot;Error&quot;)
 			Msgbox (oMessages.getPropertyValue (&quot;sMsgNoOlyObject&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
-			Exit Sub
+			ReadSelectionObject = False
+			Exit Function
 			
 		End Select
 	End If
-
-
-	&apos; Now we know which template to use
-	ReadTemplate()
-
-	&apos; Open the dialog box
-	EditorDialog()
-End Sub
+	ReadSelectionObject = True
+End Function
 
 
 sub Make()
@@ -248,6 +271,7 @@ sub Make()
  	
  	&apos;If there were errors or warnings
  	If iNErr &gt;= 1 And Not bIgnoreWarnings Then
+ 		ReadSelectionObject ()
  	 	iErrNum = 1
   		DisplayError()
   		Exit Sub
