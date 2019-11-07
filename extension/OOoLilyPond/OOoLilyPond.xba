@@ -200,13 +200,19 @@ sub Make()
 		exit sub
 	end if
 
-	If Not ApplyTemplate() Then Exit Sub
+	If Not ApplyTemplate() Then 
+		Exit Sub
+	End If
 
 	CleanUp()
 
-	If Not WriteLyFile() Then Exit Sub
+	If Not WriteLyFile() Then 
+		Exit Sub
+	End If
 
-	If Not CallLilyPond() Then Exit Sub
+	If Not CallLilyPond() Then 
+		Exit Sub
+	End If
 
   	ParseOutput(sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;)
   	
@@ -215,7 +221,7 @@ sub Make()
   	oEditorDialog.getControl (&quot;sErrMsg&quot;).Visible = False
   	
 	&apos;If there is no eps output
- 	If sFormat = &quot;eps&quot; And (Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.eps&quot;)) Then
+ 	If sExtension = &quot;eps&quot; And (Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.eps&quot;)) Then
  		&apos; MsgBox(&quot;No eps output is found&quot;, 0, &quot;Error&quot;)
  		MsgBox (oMessages.getPropertyValue (&quot;sMsgNoEpsOutputFound&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
   		If iNErr &gt;= 1 And Not bIgnoreWarnings Then
@@ -226,7 +232,7 @@ sub Make()
  	End If
  
 	&apos;If there is no svg output
- 	If sFormat = &quot;svg&quot; And (Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.svg&quot;)) Then
+ 	If sExtension = &quot;svg&quot; And (Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.svg&quot;)) Then
  		&apos; MsgBox(&quot;No svg output is found&quot;, 0, &quot;Error&quot;)
  		MsgBox (oMessages.getPropertyValue (&quot;sMsgNoSvgOutputFound&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
  		&apos;If there were errors or warnings
@@ -238,7 +244,7 @@ sub Make()
  	End If
  	
 	&apos;If there is no png output
- 	If sFormat = &quot;png&quot; And (Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.png&quot;)) Then
+ 	If sExtension = &quot;png&quot; And (Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.png&quot;)) Then
  		&apos; MsgBox(&quot;No png output is found&quot;, 0, &quot;Error&quot;)
  		MsgBox (oMessages.getPropertyValue (&quot;sMsgNoPngOutputFound&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
   		If iNErr &gt;= 1 And Not bIgnoreWarnings Then
@@ -315,7 +321,7 @@ Sub InsertOOoLilyPondObjectViaClipboard()
 		end if
 
 		&apos;Import the new image to the clipboard and paste it...
-   		ImportGraphicIntoClipboard(ConvertToURL( sTmpPath &amp; constOLyFileName &amp; &quot;.&quot; &amp; sFormat))	
+   		ImportGraphicIntoClipboard(ConvertToURL( sTmpPath &amp; constOLyFileName &amp; &quot;.&quot; &amp; sExtension))	
 		oDispatcher.executeDispatch( oDocCtrl.Frame, &quot;.uno:Paste&quot;, &quot;&quot;, 0, Array())
 	  	oGraphic = oDocCtrl.getSelection().GetByIndex(0)
 
@@ -357,7 +363,7 @@ Sub InsertOOoLilyPondObjectViaClipboard()
 		
 		&apos;Import the new image to the clipboard and paste it...
 		&apos; To do: don&apos;t use dispatcher
-   		ImportGraphicIntoClipboard(ConvertToURL( sTmpPath &amp; constOLyFileName &amp; &quot;.&quot; &amp; sFormat))	
+   		ImportGraphicIntoClipboard(ConvertToURL( sTmpPath &amp; constOLyFileName &amp; &quot;.&quot; &amp; sExtension))	
 		oDispatcher.executeDispatch( oDocCtrl.Frame, &quot;.uno:Paste&quot;, &quot;&quot;, 0, Array())
 	  	oGraphic = oDocCtrl.getSelection().getByIndex(0)
 
@@ -400,14 +406,14 @@ Sub InsertOOoLilyPondObject()
 		Case &quot;com.sun.star.drawing.SvxShapeCollection&quot;  &apos; OLy &lt; 0.4 in Writer
 			oCursor = oDoc.Text.createTextCursorByRange(oSelection(0).getAnchor())
 			oSelection(0).getParent().remove(oSelection(0)) &apos; Delete old OLyObject
-			oGraphic = ImportBitmapIntoWriter(ConvertToURL( sTmpPath &amp; constOLyFileName &amp; &quot;.&quot; &amp; sFormat), oCursor )
+			oGraphic = ImportBitmapIntoWriter(ConvertToURL( sTmpPath &amp; constOLyFileName &amp; &quot;.&quot; &amp; sExtension), oCursor )
 
 		Case &quot;SwXTextGraphicObject&quot; &apos; Graphic is selected in Writer
-			oGraphic = ImportBitmapIntoWriter(ConvertToURL( sTmpPath &amp; constOLyFileName &amp; &quot;.&quot; &amp; sFormat), oSelection )
+			oGraphic = ImportBitmapIntoWriter(ConvertToURL( sTmpPath &amp; constOLyFileName &amp; &quot;.&quot; &amp; sExtension), oSelection )
 			
 		Case &quot;SwXTextRanges&quot; &apos; Nothing or normal text selection in Writer
 			oCursor = oDoc.Text.createTextCursorByRange(oSelection(0))
-			oGraphic = ImportBitmapIntoWriter(ConvertToURL( sTmpPath &amp; constOLyFileName &amp; &quot;.&quot; &amp; sFormat), oCursor )
+			oGraphic = ImportBitmapIntoWriter(ConvertToURL( sTmpPath &amp; constOLyFileName &amp; &quot;.&quot; &amp; sExtension), oCursor )
 
 		End Select
 
@@ -423,10 +429,10 @@ Sub InsertOOoLilyPondObject()
 
 		If  IsNull(oSelection) Then
 			&apos; Nothing is selected
-			oGraphic = ImportBitmapIntoDraw(ConvertToURL( sTmpPath &amp; constOLyFileName &amp; &quot;.&quot; &amp; sFormat) )
+			oGraphic = ImportBitmapIntoDraw(ConvertToURL( sTmpPath &amp; constOLyFileName &amp; &quot;.&quot; &amp; sExtension) )
 		Else
 			&apos; OlyObject is selected
-			oGraphic = ImportBitmapIntoDraw(ConvertToURL( sTmpPath &amp; constOLyFileName &amp; &quot;.&quot; &amp; sFormat ), oSelection.getByIndex(0))
+			oGraphic = ImportBitmapIntoDraw(ConvertToURL( sTmpPath &amp; constOLyFileName &amp; &quot;.&quot; &amp; sExtension ), oSelection.getByIndex(0))
 		End If
 	End If
 	

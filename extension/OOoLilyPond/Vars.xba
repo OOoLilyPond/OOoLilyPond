@@ -25,9 +25,12 @@ Private sExtEditorExecutable As String
 Private sIncludeStatement As String
 Private sEditorFontName As String
 Private sEditorFontSize As String
+Private sPdfToSvgPrologue As String
+Private sPdfToSvgEpilogue As String
 
 &apos; Settings
 Private sFormat As String
+Private sExtension As String  &apos; needed because sFormat = &quot;pdf to svg&quot; means sExtension = &quot;svg&quot;
 Private iGraphicDPI As Integer
 Private bTransparentBackground As Boolean
 Private sWriterDefaultTemplate As String
@@ -157,7 +160,7 @@ Sub PrivateConstants()
 	
 	iMaxLanguageEntryError = 6		&apos; maximal number of Language file entry errors to be displayed in message box
 	lErrMsgHighlightColor = &amp;Hf4b0b0
-
+	
 End Sub
 
 </script:module>

@@ -142,7 +142,15 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   
   oMessages.addProperty (&quot;sMsgLilypondCannotExecute&quot;, BagAttr, &quot;LilyPond cannot be executed.&quot; &amp; Chr(10) _
 		&amp; &quot;Please check the path specified for the lilypond executable in the configuration dialog, your LilyPond installation and permissions.&quot;)
+ 
+  &apos; External PdfToSvg converter could not be executed (calling the specified command was not successful):
   
+  oMessages.addProperty (&quot;sMsgPdfToSvgCannotExecute&quot;, BagAttr, &quot;The command specified for conversion from PDF to SVG could not be executed:&quot; )
+ 
+  &apos; External PdfToSvg converter has been executed but conversion failed (no SVG file has been created):
+  
+  oMessages.addProperty (&quot;sMsgPdfToSvgConversionFailed&quot;, BagAttr, &quot;Conversion from PDF to SVG has not been successful.&quot; )
+ 
   &apos; The LilyPond output (message) file does not exist:
   
   oMessages.addProperty (&quot;sMsgLyOutputFileMissing1&quot;, BagAttr, &quot;The LilyPond output file does not exist: &quot; &amp; Chr(10))
@@ -152,7 +160,7 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   &apos; LilyPond&apos;s output messages are read out from OOoLilyPond.out.
   &apos; If there were errors or warnings during the compilation, the corresponding messages are displayed in the editor window. 
   &apos; To distinguish errors from warnings, OLy can check for the key word &quot;error&quot; 
-  &apos; after the third colon (and an additional whitspace) in each message.
+  &apos; after the third colon (and an additional whitespace) in each message.
   &apos; If it&apos;s there, the message is treated as an error. If not, the message is treated as a warning (which you can choose to suppress).
   &apos; If your LilyPond installation &quot;speaks&quot; a language other than english, OLy has to check for a different key word.
   &apos; Here you can specify two key words. If one of them matches the expression in the error message, it is treated as an error. 
