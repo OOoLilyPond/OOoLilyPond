@@ -17,7 +17,7 @@ and then choosing the downloaded extension file (.oxt).
 
 Your toolbars in Writer, Impress and Draw should now have a new "OLy" button which launches the extension.
 
-You can find a detailed [Introduction into OOoLilyPond], its installation and usage in the LilyPond blog website [Scores of Beauty].
+**You can find a detailed documentation [here in the wiki](https://github.com/openlilylib/LO-ly/wiki/Installation#installation).**
 
 ## Usage
 
