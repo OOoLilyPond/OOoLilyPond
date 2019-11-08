@@ -3,14 +3,33 @@ You can download the most recent version at
 https://github.com/openlilylib/LO-ly/wiki/Downloads
 and open it in LibreOffice / OpenOffice.
 
-direct link:
-https://github.com/openlilylib/LO-ly/releases/download/0.5.8/OOoLilyPond-0.5.9.oxt
+direct link for LibreOffice:
+https://github.com/openlilylib/LO-ly/releases/download/0.5.11/OOoLilyPond-0.5.11.oxt
+direct link for OpenOffice:
+https://github.com/openlilylib/LO-ly/releases/download/0.5.11/OOoLilyPond-0.5.11_for_Apache_OpenOffice.oxt
 
 
-Changes to OOoLilyPond 0.5.10 since 0.5.9 (May 2019):
-=====================================================
+Changes to OOoLilyPond 0.5.11 since 0.5.10 (November 2019):
+===========================================================
 
-* Fixed: In include statements, special characters (like e.g. German umlauts) are now handled correctly (Issue #27). 
-  Thanks to Hannes E. Schäuble for finding, reporting and fixing this bug. 
-* Fixed: If a file named "OOoLilyPond.ly" (OLy's temp file name) was present in an include path, it was 
-  used instead of the one in the temp path. Now OLy will always explicitely specify the temp path before the file name.
+* For Linux and Mac, now the configuration is read from the XDG-compliant config path 
+  ~/.config/ooolilypond/config if such a file exists. 
+  (You can manually move your config file there.)
+  Otherwise the typical ~/.ooolilypond is used.
+* Fixed: A placeholder for the path of the current LO document could accidentally be added to (and saved with) the Include statement. 
+* Fixed: Error messages and warnings from LilyPond (through file OOoLilyPond.out) were not parsed correctly.
+* Fixed: "Ignore Warnings" checkbox renamed to "Ignore messages from LilyPond" to reflect its true behaviour
+* Fixed: LilyPond-created image could be inserted more than once in some cases:
+  [creating new snippet (not editing existing one), OLy window stays open due to error in Ly code, 
+   pressing LilyPond button several times]
+* New feature: "pdf to svg" as graphic file format 
+  (call external converter to convert LilyPond's pdf output to svg format)
+
+The new "pdf to svg" option requires an additional conversion software to be installed. In OLy's config dialogue, a suitable command line must be specified. 
+For Linux and Mac, it should be sufficient to install the "pdf2svg" package via any package manager. The default settings in the config dialogue should work without further changes. 
+For Windows, a third-party conversion tool must be installed at your own risk. 
+A detailed explanation can be found here in the OLy Wiki: https://github.com/openlilylib/LO-ly/wiki/Config#pdf-to-svg
+
+There have also been some changes to the language files. So, after updating to 0.5.11, please open the config dialog and click the "Restore Language Files" button. 
+(Your current language files will be backed up in a subfolder. If you like, you can delete that subfolder.
+
