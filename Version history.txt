@@ -6,11 +6,11 @@ OOoLilyPond Version History (November 2019)
 Changes to OOoLilyPond 0.5.11 since 0.5.10 (November 2019):
 ===========================================================
 
-* Fixed: A placeholder for the path of the current LO document could accidentally be added to (and saved with) the Include statement. 
 * For Linux and Mac, now the configuration is read from the XDG-compliant config path 
   ~/.config/ooolilypond/config if such a file exists. 
   (You can manually move your config file there.)
   Otherwise the typical ~/.ooolilypond is used.
+* Fixed: A placeholder for the path of the current LO document could accidentally be added to (and saved with) the Include statement. 
 * Fixed: Error messages and warnings from LilyPond (through file OOoLilyPond.out) were not parsed correctly.
 * Fixed: "Ignore Warnings" checkbox renamed to "Ignore messages from LilyPond" to reflect its true behaviour
 * Fixed: LilyPond-created image could be inserted more than once in some cases:
