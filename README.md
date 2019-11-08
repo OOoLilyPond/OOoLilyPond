@@ -1,3 +1,5 @@
+Wiki:  [Home](https://github.com/openlilylib/LO-ly/wiki#ooolilypond) | [Download](https://github.com/openlilylib/LO-ly/wiki/Downloads#downloads) | [Installation](https://github.com/openlilylib/LO-ly/wiki/Installation#installation) | [Introduction](https://github.com/openlilylib/LO-ly/wiki/Introduction#introduction) | [Reference](https://github.com/openlilylib/LO-ly/wiki/Editor-(main-window-reference)#editor-main-window-reference) | [Configuration](https://github.com/openlilylib/LO-ly/wiki/Config#configuration-dialogue)
+
 # OOoLilyPond
 
 OOoLilyPond (OLy) is a LibreOffice/OpenOffice extension to include LilyPond music fragments in text documents.
