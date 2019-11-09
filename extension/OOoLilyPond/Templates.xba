@@ -233,9 +233,21 @@ Function ReadTemplate() As Boolean
 	Dim sStaffSizeFromTemplate As String	
 	Dim sLineWidthFromTemplate As String
 	Dim bCodeFieldExists As Boolean
-
 	
-	sTemplateFile = sTemplatePath &amp; sTemplate &amp; &quot;.ly&quot;
+	Dim sURL
+	Dim sParts
+	Dim sPath 
+	
+	sURL=ThisComponent.getURL()  &apos; see GetRelativeIncludeStatement ()
+	If  Not IsNull(sURL) And Len(sURL) &gt; 0 Then
+		sParts=Split(sURL,&quot;/&quot;)
+		ReDim Preserve sParts(0 to UBound(sParts) -1)
+		sPath = Join(sParts,&quot;/&quot;)	
+		sTemplateFile = sPath &amp; &quot;/&quot; &amp; sTemplate &amp; &quot;.ly&quot;  &apos; First look in the documents&apos;s folder
+		If Not oFileAccess.exists (sTemplateFile) Then
+			sTemplateFile = sTemplatePath &amp; sTemplate &amp; &quot;.ly&quot;  &apos; Second, look in the Template folder
+		End If		
+	End If
 
 	If Not StringFromFile(sTemplateCode, sTemplateFile) Then
 		&apos; MsgBox(&quot;Cannot open the template file:&quot; &amp; Chr(10) &amp; ConvertFromURL(sTemplateFile), iMsgBox_E, &quot;Error&quot;)
