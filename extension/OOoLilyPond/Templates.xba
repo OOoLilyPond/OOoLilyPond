@@ -238,6 +238,8 @@ Function ReadTemplate() As Boolean
 	Dim sParts
 	Dim sPath 
 	
+	Dim sDirEntry As String
+	
 	sURL=ThisComponent.getURL()  &apos; see GetRelativeIncludeStatement ()
 	sPath = &quot;&quot;
 	If  Not IsNull(sURL) And Len(sURL) &gt; 0 Then
@@ -249,6 +251,18 @@ Function ReadTemplate() As Boolean
 	
 	If Not oFileAccess.exists (sTemplateFile) Then
 		sTemplateFile = sTemplatePath &amp; sTemplate &amp; &quot;.ly&quot;  &apos; Second, look in the Template folder
+		
+		If Not oFileAccess.exists (sTemplateFile) Then 
+			sDirEntry = Dir (sTemplatePath, 16)			 &apos; Third, go through the subfolders
+			Do While sDirEntry = &quot;.&quot; Or sDirEntry = &quot;..&quot;
+				sDirEntry = Dir
+			Loop
+			sTemplateFile = sTemplatePath &amp; sDirEntry &amp; &quot;/&quot; &amp; sTemplate &amp; &quot;.ly&quot;
+			Do While sDirEntry &lt;&gt; &quot;&quot; And Not oFileAccess.exists (sTemplateFile)
+				sDirEntry = Dir
+				sTemplateFile = sTemplatePath &amp; sDirEntry &amp; &quot;/&quot; &amp; sTemplate &amp; &quot;.ly&quot;
+			Loop
+		End If
 	End If	
 		
 	If Not StringFromFile(sTemplateCode, sTemplateFile) Then
