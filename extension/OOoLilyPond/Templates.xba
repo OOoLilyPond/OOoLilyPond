@@ -239,16 +239,18 @@ Function ReadTemplate() As Boolean
 	Dim sPath 
 	
 	sURL=ThisComponent.getURL()  &apos; see GetRelativeIncludeStatement ()
+	sPath = &quot;&quot;
 	If  Not IsNull(sURL) And Len(sURL) &gt; 0 Then
 		sParts=Split(sURL,&quot;/&quot;)
 		ReDim Preserve sParts(0 to UBound(sParts) -1)
 		sPath = Join(sParts,&quot;/&quot;)	
 		sTemplateFile = sPath &amp; &quot;/&quot; &amp; sTemplate &amp; &quot;.ly&quot;  &apos; First look in the documents&apos;s folder
-		If Not oFileAccess.exists (sTemplateFile) Then
-			sTemplateFile = sTemplatePath &amp; sTemplate &amp; &quot;.ly&quot;  &apos; Second, look in the Template folder
-		End If		
 	End If
-
+	
+	If Not oFileAccess.exists (sTemplateFile) Then
+		sTemplateFile = sTemplatePath &amp; sTemplate &amp; &quot;.ly&quot;  &apos; Second, look in the Template folder
+	End If	
+		
 	If Not StringFromFile(sTemplateCode, sTemplateFile) Then
 		&apos; MsgBox(&quot;Cannot open the template file:&quot; &amp; Chr(10) &amp; ConvertFromURL(sTemplateFile), iMsgBox_E, &quot;Error&quot;)
 		MsgBox (oMessages.getPropertyValue (&quot;sMsgCannotOpenTemplate1&quot;) &amp; ConvertFromURL(sTemplateFile) &amp; oMessages.getPropertyValue (&quot;sMsgCannotOpenTemplate2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
