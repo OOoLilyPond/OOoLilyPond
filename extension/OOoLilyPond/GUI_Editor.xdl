@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE dlg:window PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "dialog.dtd">
-<dlg:window xmlns:dlg="http://openoffice.org/2000/dialog" xmlns:script="http://openoffice.org/2000/script" dlg:id="GUI_Editor" dlg:left="92" dlg:top="82" dlg:width="374" dlg:height="298" dlg:closeable="true" dlg:moveable="true" dlg:title="OOoLilyPond Editor">
+<dlg:window xmlns:dlg="http://openoffice.org/2000/dialog" xmlns:script="http://openoffice.org/2000/script" dlg:id="GUI_Editor" dlg:left="92" dlg:top="82" dlg:width="374" dlg:height="302" dlg:closeable="true" dlg:moveable="true" dlg:title="OOoLilyPond Editor">
  <dlg:styles>
   <dlg:style dlg:style-id="0" dlg:font-weight="150"/>
   <dlg:style dlg:style-id="1" dlg:font-name="Courier" dlg:font-stylename="Regular" dlg:font-family="modern"/>
+  <dlg:style dlg:style-id="2" dlg:text-color="0xbf0041"/>
  </dlg:styles>
  <dlg:bulletinboard>
-  <dlg:button dlg:id="ButtonConfig" dlg:tab-index="5" dlg:left="287" dlg:top="279" dlg:width="40" dlg:height="14" dlg:help-text="Open the configuration dialog." dlg:value="Config">
+  <dlg:button dlg:id="ButtonConfig" dlg:tab-index="5" dlg:left="287" dlg:top="283" dlg:width="40" dlg:height="14" dlg:help-text="Open the configuration dialog." dlg:value="Config">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.ConfigButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
   <dlg:textfield dlg:id="TextField2" dlg:tab-index="7" dlg:left="262" dlg:top="-42" dlg:width="4" dlg:height="0"/>
@@ -32,13 +33,13 @@
   <dlg:radiogroup>
    <dlg:radio dlg:id="WrapThrough" dlg:tab-index="11" dlg:left="79" dlg:top="245" dlg:width="67" dlg:height="10" dlg:help-text="The text is flowing through the OOoLilyPond object." dlg:value="Wrap Through"/>
   </dlg:radiogroup>
-  <dlg:button dlg:style-id="0" dlg:id="PrevErr" dlg:tab-index="14" dlg:disabled="true" dlg:left="5" dlg:top="277" dlg:width="18" dlg:height="18" dlg:help-text="Previous error or warning" dlg:value="&lt;">
+  <dlg:button dlg:style-id="0" dlg:id="PrevErr" dlg:tab-index="14" dlg:disabled="true" dlg:left="5" dlg:top="281" dlg:width="18" dlg:height="18" dlg:help-text="Previous error or warning" dlg:value="&lt;">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.PrevErrButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
-  <dlg:button dlg:style-id="0" dlg:id="NextErr" dlg:tab-index="15" dlg:disabled="true" dlg:left="27" dlg:top="277" dlg:width="18" dlg:height="18" dlg:help-text="Next error or warning" dlg:value="&gt;">
+  <dlg:button dlg:style-id="0" dlg:id="NextErr" dlg:tab-index="15" dlg:disabled="true" dlg:left="27" dlg:top="281" dlg:width="18" dlg:height="18" dlg:help-text="Next error or warning" dlg:value="&gt;">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.NextErrButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
-  <dlg:button dlg:id="LilyPondButton" dlg:tab-index="4" dlg:left="330" dlg:top="279" dlg:width="40" dlg:height="14" dlg:help-text="Call LilyPond to render the code into music notation." dlg:default="true" dlg:value="LilyPond">
+  <dlg:button dlg:id="LilyPondButton" dlg:tab-index="4" dlg:left="330" dlg:top="283" dlg:width="40" dlg:height="14" dlg:help-text="Call LilyPond to render the code into music notation." dlg:default="true" dlg:value="LilyPond">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.LilyPondButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
   <dlg:button dlg:id="EditTemplate" dlg:tab-index="17" dlg:left="338" dlg:top="212" dlg:width="31" dlg:height="14" dlg:value="Edit">
@@ -81,10 +82,10 @@
   <dlg:checkbox dlg:id="bUseDefaultCustom2" dlg:tab-index="29" dlg:left="320" dlg:top="261" dlg:width="48" dlg:height="8" dlg:value="Default" dlg:checked="true">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.UseDefaultCustom2?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
-  <dlg:button dlg:id="LyOutput" dlg:tab-index="31" dlg:left="240" dlg:top="279" dlg:width="44" dlg:height="14" dlg:help-text="Show LilyPond&apos;s Output message from its last call" dlg:value="Ly Output">
+  <dlg:button dlg:id="LyOutput" dlg:tab-index="31" dlg:left="240" dlg:top="283" dlg:width="44" dlg:height="14" dlg:help-text="Show LilyPond&apos;s Output message from its last call" dlg:value="Ly Output">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.ShowLilyPondOutput?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
-  <dlg:text dlg:id="sErrMsg" dlg:tab-index="16" dlg:left="48" dlg:top="277" dlg:width="188" dlg:height="18" dlg:multiline="true"/>
+  <dlg:text dlg:id="sErrMsg" dlg:tab-index="16" dlg:left="48" dlg:top="281" dlg:width="188" dlg:height="18" dlg:multiline="true"/>
   <dlg:button dlg:id="ExtEditorButton" dlg:tab-index="32" dlg:left="72" dlg:top="191" dlg:width="121" dlg:height="14" dlg:help-text="Open the current code as temoprary .LY file in external editor" dlg:value="Open as temp. file in Ext. Editor">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.ExtEditorButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
@@ -93,5 +94,6 @@
   </dlg:button>
   <dlg:checkbox dlg:id="bKeepCrop" dlg:tab-index="34" dlg:left="7" dlg:top="261" dlg:width="140" dlg:height="9" dlg:help-text="When editing/replacing an existing object, preserve its current size and crop settings" dlg:value="Keep Size &amp; Crop Settings" dlg:checked="false"/>
   <dlg:text dlg:id="TemplateLabel" dlg:tab-index="8" dlg:left="149" dlg:top="215" dlg:width="46" dlg:height="10" dlg:value="Template:" dlg:align="right"/>
+  <dlg:text dlg:style-id="2" dlg:id="sErrNum" dlg:tab-index="35" dlg:left="48" dlg:top="272" dlg:width="38" dlg:height="10"/>
  </dlg:bulletinboard>
 </dlg:window>

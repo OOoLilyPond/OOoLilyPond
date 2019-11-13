@@ -172,6 +172,7 @@ Sub DisplayError()
 	oEditorDialog.getControl (&quot;sErrMsg&quot;).setText (sText)
 	oEditorDialog.getModel().getByName (&quot;sErrMsg&quot;).BackgroundColor = lErrMsgHighlightColor
 	oEditorDialog.getControl (&quot;sErrMsg&quot;).Visible = True
+	oEditorDialog.getControl (&quot;sErrNum&quot;).setText (Val (iErrNum) &amp; &quot;/&quot; &amp; Val (iNErr))
 	If iErrNum &gt; 1 Then
 		oEditorDialog.getModel().getByName (&quot;PrevErr&quot;).Enabled = True
 	Else
