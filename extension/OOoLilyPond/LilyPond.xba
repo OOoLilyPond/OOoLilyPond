@@ -44,6 +44,8 @@ Function CallLilyPond() As Boolean
 			Else
 				sActualIncludeStatement=sRelativeIncludeStatement
 			End If
+	Else
+		sActualIncludeStatement=sIncludeStatement
 	End If		
 
 	sBackendOpt=&quot;-dbackend=eps&quot;
