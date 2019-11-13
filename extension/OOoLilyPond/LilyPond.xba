@@ -297,8 +297,8 @@ Sub ParseOutput(sFile as String)
 		If isArray(vArray) Then
 			If UBound(vArray)&gt;=(LBound(vArray)+4+iWinComp) Then		
 				iStartPos = Len (vArray(LBound(vArray)+iWinComp)) - iNameLength
-				if iStartPos &lt; 0 Then  &apos; make sure that arguments for Mid(...) are valid
-					iStartPos = 0
+				if iStartPos &lt; 1 Then  &apos; make sure that arguments for Mid(...) are valid
+					iStartPos = 1
 				End If
 				If Mid (vArray(LBound(vArray)+iWinComp), iStartPos) = constOLyFileName &amp; &quot;.ly&quot; Then
 					iNErr = iNErr + 1
