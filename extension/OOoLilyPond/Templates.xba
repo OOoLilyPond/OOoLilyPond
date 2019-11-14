@@ -158,6 +158,14 @@ Function ApplyTemplate() As Boolean
 			&apos; sLilyPondCode = sLilyPondCode &amp; sCustom2
 			iCustom2StartPos = Len(sLilyPondCode) + 1 + Len(sStartTagHead) + Len(sStartTagTail) + 7	&apos; equals to Len(&quot;Custom2&quot;)
 			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Custom2&quot; &amp; sStartTagTail &amp; sCustom2 &amp; sEndTag
+		Case &quot;LineWidthLabel&quot;
+			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;LineWidthLabel&quot; &amp; sStartTagTail &amp; sLineWidthLabel &amp; sEndTag
+		Case &quot;StaffSizeLabel&quot;
+			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;StaffSizeLabel&quot; &amp; sStartTagTail &amp; sStaffSizeLabel &amp; sEndTag
+		Case &quot;Custom1Label&quot;
+			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Custom1Label&quot; &amp; sStartTagTail &amp; sCustom1Label &amp; sEndTag
+		Case &quot;Custom2Label&quot;
+			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Custom2Label&quot; &amp; sStartTagTail &amp; sCustom2Label &amp; sEndTag
 		End Select
 
 		&apos; Skip template code until end tag
@@ -250,6 +258,11 @@ Function ReadTemplate() As Boolean
 	bStaffSizeFieldExists = False
 	bCustom1FieldExists = False
 	bCustom2FieldExists = False
+	
+	bLineWidthLabelExists = False
+	bStaffSizeLabelExists = False
+	bCustom1LabelExists = False
+	bCustom2LabelExists = False
 
 	iTagPos = TagPos(sCodeToParse, sStartTagHead, sStartTagHeadScm)
 
@@ -307,6 +320,18 @@ Function ReadTemplate() As Boolean
 				RemoveSpaces (sDefaultValue)
 				sDefaultCustom2 = sDefaultValue
 				bCustom2FieldExists = True
+			Case &quot;LineWidthLabel&quot;
+				sLineWidthLabel = sDefaultValue
+				bLineWidthLabelExists = True
+			Case &quot;StaffSizeLabel&quot;
+				sStaffSizeLabel = sDefaultValue
+				bStaffSizeLabelExists = True
+			Case &quot;Custom1Label&quot;
+				sCustom1Label = sDefaultValue
+				bCustom1LabelExists = True
+			Case &quot;Custom2Label&quot;
+				sCustom2Label = sDefaultValue
+				bCustom2LabelExists = True
 		End Select
 
 		&apos; Look for next start tag

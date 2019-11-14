@@ -20,7 +20,11 @@ Sub EditorDialog()
 	&apos; Create the dialog object
 	oEditorDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Editor&quot;) )
 	ReadDialogStringsFromVar (oEditorDialog, sEditorDialogStrings)
-	
+	&apos; Preserve original field labels for LineWidth, StaffSize, Custom1 and Custom2:
+	sDefaultLineWidthLabel = oEditorDialog.getModel().getByName(&quot;LabelLineWidth&quot;).Label
+	sDefaultStaffSizeLabel = oEditorDialog.getModel().getByName(&quot;LabelStaffSize&quot;).Label
+	sDefaultCustom1Label = oEditorDialog.getModel().getByName(&quot;LabelCustom1&quot;).Label
+	sDefaultCustom2Label = oEditorDialog.getModel().getByName(&quot;LabelCustom2&quot;).Label
 	
 	&apos; Change the font of the editor pane
 	oFieldModel = oEditorDialog.getControl(&quot;sCode&quot;).getModel()
@@ -128,6 +132,33 @@ Sub GreyOut()
 	oEditorDialog.getControl(&quot;bUseDefaultStaffSize&quot;).setEnable(bStaffSizeFieldExists)
 	oEditorDialog.getControl(&quot;bUseDefaultCustom1&quot;).setEnable(bCustom1FieldExists)
 	oEditorDialog.getControl(&quot;bUseDefaultCustom2&quot;).setEnable(bCustom2FieldExists)
+	
+	oEditorDialog.getControl(&quot;LabelLineWidth&quot;).setEnable(bLineWidthFieldExists)
+	oEditorDialog.getControl(&quot;LabelStaffSize&quot;).setEnable(bStaffSizeFieldExists)
+	oEditorDialog.getControl(&quot;LabelCustom1&quot;).setEnable(bCustom1FieldExists)
+	oEditorDialog.getControl(&quot;LabelCustom2&quot;).setEnable(bCustom2FieldExists)
+	
+	&apos; labels for fields: Line Width, Staff Size, Custom1, Custom2
+	If bLineWidthLabelExists Then
+		oEditorDialog.getModel().getByName(&quot;LabelLineWidth&quot;).Label = sLineWidthLabel
+	Else
+		oEditorDialog.getModel().getByName(&quot;LabelLineWidth&quot;).Label = sDefaultLineWidthLabel
+	End If
+	If bStaffSizeLabelExists Then
+		oEditorDialog.getModel().getByName(&quot;LabelStaffSize&quot;).Label = sStaffSizeLabel
+	Else
+		oEditorDialog.getModel().getByName(&quot;LabelStaffSize&quot;).Label = sDefaultStaffSizeLabel
+	End If
+	If bCustom1LabelExists Then
+		oEditorDialog.getModel().getByName(&quot;LabelCustom1&quot;).Label = sCustom1Label
+	Else
+		oEditorDialog.getModel().getByName(&quot;LabelCustom1&quot;).Label = sDefaultCustom1Label
+	End If
+	If bCustom2LabelExists Then
+		oEditorDialog.getModel().getByName(&quot;LabelCustom2&quot;).Label = sCustom2Label
+	Else
+		oEditorDialog.getModel().getByName(&quot;LabelCustom2&quot;).Label = sDefaultCustom2Label
+	End If
 
 End Sub
 
@@ -388,20 +419,27 @@ End Sub
 &apos; ***************************
 
 Sub TemplateChanged()
+
+	Dim sOldTemplate As String
+
+	sOldTemplate = sTemplate
 	sTemplate=oEditorDialog.getControl(&quot;sTemplate&quot;).getText()
-	If oFileAccess.exists(sTemplatePath &amp; sTemplate &amp; &quot;.ly&quot;) Then ReadTemplate()
+	
+	If sTemplate &lt;&gt; sOldTemplate Then  &apos; only when really a different template has been selected
+		If oFileAccess.exists(sTemplatePath &amp; sTemplate &amp; &quot;.ly&quot;) Then ReadTemplate()
 
-	If bUseDefaultCode Then
-		sCode=&quot;&quot; &apos; UseDefaultCode() does not ask if sCode is empty
-		UseDefaultCode()
+		If bUseDefaultCode Then
+			sCode=&quot;&quot; &apos; UseDefaultCode() does not ask if sCode is empty
+			UseDefaultCode()
+		End If
+
+		If bUseDefaultLineWidth Then UseDefaultLineWidth()
+		If bUseDefaultStaffSize Then UseDefaultStaffSize()
+		If bUseDefaultCustom1 Then UseDefaultCustom1()
+		If bUseDefaultCustom2 Then UseDefaultCustom2()
+
+		GreyOut()
 	End If
-
-	If bUseDefaultLineWidth Then UseDefaultLineWidth()
-	If bUseDefaultStaffSize Then UseDefaultStaffSize()
-	If bUseDefaultCustom1 Then UseDefaultCustom1()
-	If bUseDefaultCustom2 Then UseDefaultCustom2()
-
-	GreyOut()
 
 End Sub
 
