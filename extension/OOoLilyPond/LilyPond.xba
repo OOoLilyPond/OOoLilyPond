@@ -171,22 +171,60 @@ End Function
 
 Sub CleanUp()
 	On Error GoTo ErrorHandler
+	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;)
+	CleanUpAfterwards()
+	Exit Sub
+	
+	ErrorHandler:
+		If Err &lt;&gt; 1 Then
+			MsgBox (Err &amp; Chr(10) &amp; Error, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		Else	&apos; Error 1: &quot;A file or directory could not be deleted&quot;
+			&apos; Nothing. This can happen in old-fashioned OpenOffice if you use the &quot;direct&quot; method to insert images. Apparently, it works anyway, don&apos;t know why... 
+		End If
+	Resume Next
+End Sub
+
+
+Function DeleteTempFilesOfType (sFileType As String) As Integer  &apos; 0: success, 1: error
+	Dim sDirEntry As String
+	Dim sCurrentFile As String
+	
+	sDirEntry = Dir (sTmpPath &amp; constOLyFileName &amp; &quot;*.&quot; &amp; sFileType)
+	Do While sDirEntry &lt;&gt; &quot;&quot;
+		&apos; If oFileAccess.exists (sTmpPath &amp; sDirEntry) Then 
+			oFileAccess.kill (sTmpPath &amp; sDirEntry)
+		&apos; End If
+		sDirEntry = Dir
+	Loop
+	
+	DeleteTempFilesOfType = 0
+	Exit Function
+	
+	ErrorHandler:
+	DeleteTempFilesOfType = 1
+		If Err &lt;&gt; 1 Then
+			MsgBox (Err &amp; Chr(10) &amp; Error, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		Else	&apos; Error 1: &quot;A file or directory could not be deleted&quot;
+			&apos; Nothing. This can happen in old-fashioned OpenOffice if you use the &quot;direct&quot; method to insert images. Apparently, it works anyway, don&apos;t know why... 
+		End If
+End Function
+
+
+Sub CleanUpAfterwards()
+
+	On Error GoTo ErrorHandler
+	DeleteTempFilesOfType (&quot;eps&quot;)
+	DeleteTempFilesOfType (&quot;pdf&quot;)
+	DeleteTempFilesOfType (&quot;svg&quot;)
+	DeleteTempFilesOfType (&quot;png&quot;)
+	DeleteTempFilesOfType (&quot;tex&quot;)
+	DeleteTempFilesOfType (&quot;texi&quot;)
+	DeleteTempFilesOfType (&quot;ly&quot;)
+	DeleteTempFilesOfType (&quot;count&quot;)
 	If 	oFileAccess.exists(sTmpPath &amp; &quot;LilyPond-version.out&quot;) Then oFileAccess.kill(sTmpPath &amp; &quot;LilyPond-version.out&quot;)
 	If 	oFileAccess.exists(sTmpPath &amp; &quot;LilyPond-cannot_execute&quot;) Then oFileAccess.kill(sTmpPath &amp; &quot;LilyPond-cannot_execute&quot;)
 	If 	oFileAccess.exists(sTmpPath &amp; &quot;ExtEditor-cannot_execute&quot;) Then oFileAccess.kill(sTmpPath &amp; &quot;ExtEditor-cannot_execute&quot;)
 	If 	oFileAccess.exists(sTmpPath &amp; &quot;PdfToSvg-cannot_execute&quot;) Then oFileAccess.kill(sTmpPath &amp; &quot;PdfToSvg-cannot_execute&quot;)
-	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;)
-	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;-PdfToSvg.out&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;-PdfToSvg.out&quot;)
-	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.eps&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;.eps&quot;)
-	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;-1.eps&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;-1.eps&quot;)
-	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.pdf&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;.pdf&quot;)
-	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;-1.pdf&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;-1.pdf&quot;)
-	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;-systems.tex&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;-systems.tex&quot;)
-	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;-systems.texi&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;-systems.texi&quot;)
-	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.ly&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;.ly&quot;)
-	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;Temp.ly&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;Temp.ly&quot;)
-	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.png&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;.png&quot;)
-	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.svg&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;.svg&quot;)
 	Exit Sub
 	
 	ErrorHandler:
@@ -208,7 +246,7 @@ Function LilyPondVersion() As Boolean
 	dim sLilyPondVersion() As String
 	dim i As Integer
 	
-	Cleanup()
+	CleanUp()
 	
 	If (sOSType = &quot;Unix&quot;) Or (sOSType = &quot;Mac&quot;) Then
 

@@ -43,6 +43,7 @@ Private bImpressInsertViaClipboard As Boolean
 Private bWriterKeepCrop As Boolean
 Private bImpressKeepCrop As Boolean
 Private sLanguageFileName As String
+Private bKeepTempFiles As Boolean
 
 &apos; Environment
 Private sOSType As String
