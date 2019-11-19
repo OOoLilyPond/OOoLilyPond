@@ -26,3 +26,6 @@ g8 a b g c a d d, | g2 \bar "|."%{OOoLilyPondEnd%}
     \remove "Bar_number_engraver"
   }
 }
+
+% %{OOoLilyPondCustom1Label%}Transpose:%{OOoLilyPondEnd%}
+% %{OOoLilyPondCustom2Label%}\relative:%{OOoLilyPondEnd%}

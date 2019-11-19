@@ -92,3 +92,6 @@
   }
 }
 %{OOoLilyPondEnd%}
+
+% %{OOoLilyPondCustom1Label%}Indent:%{OOoLilyPondEnd%}
+% %{OOoLilyPondCustom2Label%}Image height:%{OOoLilyPondEnd%}
