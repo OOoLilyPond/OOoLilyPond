@@ -10,14 +10,16 @@ Changes to OOoLilyPond 0.5.12 since 0.5.11 (November 2019):
 * Added template: Piano.ly (Only a [SVG] version existed so far)
 * Fixed: All temporary image files are deleted after running OOoLilyPond.
 * New feature: OLy now recognizes template files that are located in the folder of the containing Office document. 
+    (This makes it easier to share your documents with other persons - sharing your templates might be required as well.)
     If no template with the right name is found there, OLy looks in the template folder (as before). 
-    In Addition, if the template folder doesn't contain a matching file, OLy will search in its subfolder(s).
-    (There you can store templates that you don't want to shop up in the Editor dialog.)
+    In addition, if the template folder doesn't contain a matching file, OLy will search in its subfolder(s).
+    (There you can store templates that you don't want to be listed in the Editor dialog.)
 * New feature: When compilation errors are displayed in the Editor dialog, also count them and display an error number.
 * New feature: Field names (Line Width, Staff Size, Custom 1, Costom 2) can be configured. F.ex. to replace 
     the "Custom 1" caption by "Transpose:", include the following line in your code: 
     % %{OOoLilyPondCustom1Label%}Transpose:%{OOoLilyPondEnd%}
-    Older OLy versions simply ignore that. 
+    This feature is fully backward compatible: Older OLy versions simply ignore that. 
+* Built-in templates now use the new "Field names" feature.
     
 
 
