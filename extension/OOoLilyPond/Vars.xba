@@ -43,6 +43,7 @@ Private bImpressInsertViaClipboard As Boolean
 Private bWriterKeepCrop As Boolean
 Private bImpressKeepCrop As Boolean
 Private sLanguageFileName As String
+Private bKeepTempFiles As Boolean
 
 &apos; Environment
 Private sOSType As String
@@ -70,6 +71,17 @@ Private sDefaultLineWidth As String
 Private sDefaultStaffSize As String
 Private sDefaultCustom1 As String
 Private sDefaultCustom2 As String
+
+Private sDefaultLineWidthLabel As String 
+Private sDefaultStaffSizeLabel As String 
+Private sDefaultCustom1Label As String 
+Private sDefaultCustom2Label As String 
+
+Private sLineWidthLabel As String
+Private sStaffSizeLabel As String
+Private sCustom1Label As String
+Private sCustom2Label As String
+
 Private iAnchor, iWrap As Integer
 
 &apos; Use Default Flags
@@ -118,6 +130,11 @@ Private bLineWidthFieldExists As Boolean
 Private bStaffSizeFieldExists As Boolean
 Private bCustom1FieldExists As Boolean
 Private bCustom2FieldExists As Boolean
+
+Private bLineWidthLabelExists As Boolean
+Private bStaffSizeLabelExists As Boolean
+Private bCustom1LabelExists As Boolean
+Private bCustom2LabelExists As Boolean
 
 Private oSelection As Object
 

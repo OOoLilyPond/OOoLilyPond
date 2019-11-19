@@ -95,3 +95,6 @@ g:7 a:maj h:m7%{OOoLilyPondEnd%}
     \remove "Bar_number_engraver"
   }
 }
+
+% %{OOoLilyPondCustom1Label%}Transpose:%{OOoLilyPondEnd%}
+% %{OOoLilyPondCustom2Label%}Image height:%{OOoLilyPondEnd%}

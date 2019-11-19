@@ -96,3 +96,6 @@ c:7 c:maj c:m7
     \remove "Bar_number_engraver"
   }
 }
+
+% %{OOoLilyPondCustom1Label%}Transpose:%{OOoLilyPondEnd%}
+% %{OOoLilyPondCustom2Label%}Image height:%{OOoLilyPondEnd%}

@@ -26,3 +26,5 @@
     \remove "Bar_number_engraver"
   }
 }
+
+% %{OOoLilyPondCustom1Label%}Transpose:%{OOoLilyPondEnd%}

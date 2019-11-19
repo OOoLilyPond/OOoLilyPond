@@ -6,12 +6,12 @@
 %                            #"x;3-2;2-1;3-3;3-4;x;"
 
 mychords = \chordmode{
-%{OOoLilyPondCode%}% For documentation about fret diagrams visit:
-% http://lilypond.org/doc/stable/Documentation/notation/fretted-string-instruments
-
-c c:m c:aug c:dim \break
-c:7 c:maj c:m7
-%{OOoLilyPondEnd%}
+  %{OOoLilyPondCode%}% For documentation about fret diagrams visit:
+  % http://lilypond.org/doc/stable/Documentation/notation/fretted-string-instruments
+  
+  c c:m c:aug c:dim \break
+  c:7 c:maj c:m7
+  %{OOoLilyPondEnd%}
 }
 
 \transpose %{OOoLilyPondCustom1%}c c%{OOoLilyPondEnd%}
@@ -42,3 +42,5 @@ c:7 c:maj c:m7
     \remove "Bar_number_engraver"
   }
 }
+
+% %{OOoLilyPondCustom1Label%}Transpose:%{OOoLilyPondEnd%}
