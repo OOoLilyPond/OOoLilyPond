@@ -123,7 +123,7 @@ Function ApplyTemplate() As Boolean
 		If sFieldName = &quot;End&quot; Then
 			&apos; Message: End tag without preceeding start tag. 
 			MsgBox (oMessages.getPropertyValue (&quot;sMsgLonelyEndTag1&quot;) &amp; sEndTag &amp; oMessages.getPropertyValue (&quot;sMsgLonelyEndTag2&quot;) &amp; sTemplateFile &amp; oMessages.getPropertyValue (&quot;sMsgLonelyEndTag3&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionTemplateError&quot;))
-			ReadTemplate = False
+			ApplyTemplate = False
 			Exit Function
 		End If
 		sCodeToParse = Mid(sCodeToParse, iTagPos + Len(sStartTagTail))
