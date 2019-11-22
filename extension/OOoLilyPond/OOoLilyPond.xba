@@ -28,10 +28,7 @@
 Option Explicit
 
 
-Sub OOoLilyPond()
-
-	&apos; This is the main function
-	&apos; It initializes OOoLilyPond and opens the OOoLilyPond Editor dialog
+Sub OOoLilyPondInit()
 
 	Dim oDoc As Object
 	Dim oDocCtrl As Object
@@ -121,12 +118,17 @@ Sub OOoLilyPond()
 	bUseDefaultStaffSize = True
 	bUseDefaultCustom1 = True
 	bUseDefaultCustom2 = True
-	
-	If Not ReadSelectionObject () Then Exit Sub   &apos; create Cursor and read Attributes if Object is selected
+End Sub
 
+
+Sub OOoLilyPond()
+	&apos; This is the main function
+	&apos; It initializes OOoLilyPond and opens the OOoLilyPond Editor dialog
+
+	OOoLilyPondInit()
+		If Not ReadSelectionObject () Then Exit Sub   &apos; create Cursor and read Attributes if Object is selected
 	&apos; Now we know which template to use
 	ReadTemplate()
-
 	&apos; Open the dialog box
 	EditorDialog()
 End Sub
