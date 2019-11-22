@@ -458,6 +458,15 @@ Function BoolToString (bBoolean As Boolean) As String
 End Function
 
 
+Function LyBoolToString(bBoolean As Boolean) As String
+	If bBoolean Then
+		LyBoolToString = &quot;##t&quot;
+	Else
+		LyBoolToString = &quot;##f&quot;
+	End If
+End Function
+
+
 Function StringToBool (sString As String) As Boolean
 	StringToBool=(StrComp(sString, &quot;True&quot;, 0) = 0)
 End Function

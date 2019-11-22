@@ -25,6 +25,10 @@ Sub EditorDialog()
 	sDefaultStaffSizeLabel = oEditorDialog.getModel().getByName(&quot;LabelStaffSize&quot;).Label
 	sDefaultCustom1Label = oEditorDialog.getModel().getByName(&quot;LabelCustom1&quot;).Label
 	sDefaultCustom2Label = oEditorDialog.getModel().getByName(&quot;LabelCustom2&quot;).Label
+	sDefaultOption1Label = oEditorDialog.getModel().getByName(&quot;bOption1&quot;).Label
+	sDefaultOption2Label = oEditorDialog.getModel().getByName(&quot;bOption2&quot;).Label
+	sDefaultOption3Label = oEditorDialog.getModel().getByName(&quot;bOption3&quot;).Label
+	sDefaultOption4Label = oEditorDialog.getModel().getByName(&quot;bOption4&quot;).Label
 	
 	&apos; Make sure sLineWidthLabel etc. are always usable: 
 	If Not bLineWidthLabelExists Then sLineWidthLabel = sDefaultLineWidthLabel
@@ -70,7 +74,11 @@ Sub EditorDialog()
 	Else
 		oEditorDialog.getControl(&quot;sCustom2&quot;).setText(sCustom2)
 	End If
-
+	oEditorDialog.getControl(&quot;bOption1&quot;).setState(BoolToCheckBoxState(bOption1))
+	oEditorDialog.getControl(&quot;bOption2&quot;).setState(BoolToCheckBoxState(bOption2))
+	oEditorDialog.getControl(&quot;bOption3&quot;).setState(BoolToCheckBoxState(bOption3))
+	oEditorDialog.getControl(&quot;bOption4&quot;).setState(BoolToCheckBoxState(bOption4))
+	
 	&apos; Fill the Template Combobox
 	Select Case ListOfTemplates(oEditorDialog.getControl(&quot;sTemplate&quot;))
 	Case 1
@@ -165,6 +173,32 @@ Sub GreyOut()
 	UpdateFieldAppearance (&quot;StaffSize&quot;, sStaffSizeLabel, sDefaultStaffSize,  &quot;#t&quot;,  &quot;#f&quot;, bStaffSizeFieldExists)
 	UpdateFieldAppearance (&quot;Custom1&quot;,   sCustom1Label,   sDefaultCustom1,   &quot;##t&quot;, &quot;##f&quot;, bCustom1FieldExists)
 	UpdateFieldAppearance (&quot;Custom2&quot;  , sCustom2Label,   sDefaultCustom2,   &quot;##t&quot;, &quot;##f&quot;, bCustom2FieldExists)
+	oEditorDialog.getControl(&quot;bOption1&quot;).setEnable(bOption1FieldExists)
+	oEditorDialog.getControl(&quot;bOption2&quot;).setEnable(bOption2FieldExists)
+	oEditorDialog.getControl(&quot;bOption3&quot;).setEnable(bOption3FieldExists)
+	oEditorDialog.getControl(&quot;bOption4&quot;).setEnable(bOption4FieldExists)
+	
+	If bOption1LabelExists Then
+		oEditorDialog.getModel().getByName(&quot;bOption1&quot;).Label = sOption1Label
+	Else
+		oEditorDialog.getModel().getByName(&quot;bOption1&quot;).Label = sDefaultOption1Label
+	End If
+	If bOption2LabelExists Then
+		oEditorDialog.getModel().getByName(&quot;bOption2&quot;).Label = sOption2Label
+	Else
+		oEditorDialog.getModel().getByName(&quot;bOption2&quot;).Label = sDefaultOption2Label
+	End If
+	If bOption3LabelExists Then
+		oEditorDialog.getModel().getByName(&quot;bOption3&quot;).Label = sOption3Label
+	Else
+		oEditorDialog.getModel().getByName(&quot;bOption3&quot;).Label = sDefaultOption3Label
+	End If
+	If bOption4LabelExists Then
+		oEditorDialog.getModel().getByName(&quot;bOption4&quot;).Label = sOption4Label
+	Else
+		oEditorDialog.getModel().getByName(&quot;bOption4&quot;).Label = sDefaultOption4Label
+	End If
+	
 	
 End Sub
 
@@ -418,6 +452,24 @@ Sub ImportButton()
 		oEditorDialog.getControl(&quot;sCustom2&quot;).setText(sCustom2)
 	End If
 	
+	If bOption1FieldExists Then
+		oEditorDialog.getControl(&quot;bOption1&quot;).setState(BoolToCheckBoxState(bOption1))
+	End If
+
+	If bOption2FieldExists Then
+		oEditorDialog.getControl(&quot;bOption2&quot;).setState(BoolToCheckBoxState(bOption2))
+	End If
+	
+	If bOption3FieldExists Then
+		oEditorDialog.getControl(&quot;bOption3&quot;).setState(BoolToCheckBoxState(bOption3))
+	End If
+	
+	If bOption4FieldExists Then
+		oEditorDialog.getControl(&quot;bOption4&quot;).setState(BoolToCheckBoxState(bOption4))
+	End If
+	
+	
+	
 End Sub
 
 &apos; ***************************
@@ -515,6 +567,23 @@ Sub Custom2CheckBoxModified
 	oEditorDialog.getControl(&quot;bUseDefaultCustom2&quot;).setState(BoolToCheckBoxState(False))
 	UpdateFieldAppearance (&quot;Custom2&quot;, sCustom2Label, sDefaultCustom2, &quot;##t&quot;, &quot;##f&quot;, bCustom2FieldExists)
 End Sub
+
+Sub Option1Modified
+	bOption1 = CheckBoxStateToBool (oEditorDialog.getControl(&quot;bOption1&quot;).getState())
+End Sub
+
+Sub Option2Modified
+	bOption2 = CheckBoxStateToBool (oEditorDialog.getControl(&quot;bOption2&quot;).getState())
+End Sub
+
+Sub Option3Modified
+	bOption3 = CheckBoxStateToBool (oEditorDialog.getControl(&quot;bOption3&quot;).getState())
+End Sub
+
+Sub Option4Modified
+	bOption4 = CheckBoxStateToBool (oEditorDialog.getControl(&quot;bOption4&quot;).getState())
+End Sub
+
 
 
 &apos; ****************************************

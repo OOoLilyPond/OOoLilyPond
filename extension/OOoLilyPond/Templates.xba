@@ -158,6 +158,14 @@ Function ApplyTemplate() As Boolean
 			&apos; sLilyPondCode = sLilyPondCode &amp; sCustom2
 			iCustom2StartPos = Len(sLilyPondCode) + 1 + Len(sStartTagHead) + Len(sStartTagTail) + 7	&apos; equals to Len(&quot;Custom2&quot;)
 			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Custom2&quot; &amp; sStartTagTail &amp; sCustom2 &amp; sEndTag
+		Case &quot;Option1&quot;
+			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option1&quot; &amp; sStartTagTail &amp; LyBoolToString (bOption1) &amp; sEndTag
+		Case &quot;Option2&quot;
+			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option2&quot; &amp; sStartTagTail &amp; LyBoolToString (bOption2) &amp; sEndTag
+		Case &quot;Option3&quot;
+			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option3&quot; &amp; sStartTagTail &amp; LyBoolToString (bOption3) &amp; sEndTag
+		Case &quot;Option4&quot;
+			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option4&quot; &amp; sStartTagTail &amp; LyBoolToString (bOption4) &amp; sEndTag
 		Case &quot;LineWidthLabel&quot;
 			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;LineWidthLabel&quot; &amp; sStartTagTail &amp; sLineWidthLabel &amp; sEndTag
 		Case &quot;StaffSizeLabel&quot;
@@ -166,6 +174,14 @@ Function ApplyTemplate() As Boolean
 			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Custom1Label&quot; &amp; sStartTagTail &amp; sCustom1Label &amp; sEndTag
 		Case &quot;Custom2Label&quot;
 			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Custom2Label&quot; &amp; sStartTagTail &amp; sCustom2Label &amp; sEndTag
+		Case &quot;Option1Label&quot;
+			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option1Label&quot; &amp; sStartTagTail &amp; sOption1Label &amp; sEndTag
+		Case &quot;Option2Label&quot;
+			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option2Label&quot; &amp; sStartTagTail &amp; sOption2Label &amp; sEndTag
+		Case &quot;Option3Label&quot;
+			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option3Label&quot; &amp; sStartTagTail &amp; sOption3Label &amp; sEndTag
+		Case &quot;Option4Label&quot;
+			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option4Label&quot; &amp; sStartTagTail &amp; sOption4Label &amp; sEndTag
 		End Select
 
 		&apos; Skip template code until end tag
@@ -286,11 +302,19 @@ Function ReadTemplate() As Boolean
 	bStaffSizeFieldExists = False
 	bCustom1FieldExists = False
 	bCustom2FieldExists = False
+	bOption1FieldExists = False
+	bOption2FieldExists = False
+	bOption3FieldExists = False
+	bOption4FieldExists = False
 	
 	bLineWidthLabelExists = False
 	bStaffSizeLabelExists = False
 	bCustom1LabelExists = False
 	bCustom2LabelExists = False
+	bOption1LabelExists = False
+	bOption2LabelExists = False
+	bOption3LabelExists = False
+	bOption4LabelExists = False
 
 	iTagPos = TagPos(sCodeToParse, sStartTagHead, sStartTagHeadScm)
 
@@ -348,6 +372,22 @@ Function ReadTemplate() As Boolean
 				RemoveSpaces (sDefaultValue)
 				sDefaultCustom2 = sDefaultValue
 				bCustom2FieldExists = True
+			Case &quot;Option1&quot;
+				RemoveSpaces (sDefaultValue)
+				bDefaultOption1 = (sDefaultValue = &quot;##t&quot;)
+				bOption1FieldExists = True
+			Case &quot;Option2&quot;
+				RemoveSpaces (sDefaultValue)
+				bDefaultOption2 = (sDefaultValue = &quot;##t&quot;)
+				bOption2FieldExists = True
+			Case &quot;Option3&quot;
+				RemoveSpaces (sDefaultValue)
+				bDefaultOption3 = (sDefaultValue = &quot;##t&quot;)
+				bOption3FieldExists = True
+			Case &quot;Option4&quot;
+				RemoveSpaces (sDefaultValue)
+				bDefaultOption4 = (sDefaultValue = &quot;##t&quot;)
+				bOption4FieldExists = True
 			Case &quot;LineWidthLabel&quot;
 				sLineWidthLabel = sDefaultValue
 				bLineWidthLabelExists = True
@@ -360,6 +400,18 @@ Function ReadTemplate() As Boolean
 			Case &quot;Custom2Label&quot;
 				sCustom2Label = sDefaultValue
 				bCustom2LabelExists = True
+			Case &quot;Option1Label&quot;
+				sOption1Label = sDefaultValue
+				bOption1LabelExists = True
+			Case &quot;Option2Label&quot;
+				sOption2Label = sDefaultValue
+				bOption2LabelExists = True
+			Case &quot;Option3Label&quot;
+				sOption3Label = sDefaultValue
+				bOption3LabelExists = True
+			Case &quot;Option4Label&quot;
+				sOption4Label = sDefaultValue
+				bOption4LabelExists = True
 		End Select
 
 		&apos; Look for next start tag
@@ -462,6 +514,18 @@ Function ReadTempLyFile() As Boolean
 			Case &quot;Custom2&quot;
 				RemoveSpaces (sDefaultValue)
 				sCustom2 = sDefaultValue
+			Case &quot;Option1&quot;
+				RemoveSpaces (sDefaultValue)
+				bDefaultOption1 = (sDefaultValue = &quot;##t&quot;)
+			Case &quot;Option2&quot;
+				RemoveSpaces (sDefaultValue)
+				bDefaultOption2 = (sDefaultValue = &quot;##t&quot;)
+			Case &quot;Option3&quot;
+				RemoveSpaces (sDefaultValue)
+				bDefaultOption3 = (sDefaultValue = &quot;##t&quot;)
+			Case &quot;Option4&quot;
+				RemoveSpaces (sDefaultValue)
+				bDefaultOption4 = (sDefaultValue = &quot;##t&quot;)
 		End Select
 
 		&apos; Look for next start tag

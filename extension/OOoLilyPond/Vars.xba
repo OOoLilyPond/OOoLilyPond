@@ -64,6 +64,10 @@ Private sLineWidth As String
 Private sStaffSize As String
 Private sCustom1 As String
 Private sCustom2 As String
+Private bOption1 As Boolean
+Private bOption2 As Boolean
+Private bOption3 As Boolean
+Private bOption4 As Boolean
 
 &apos; OOoLilyPond object default data
 Private sDefaultCode As String
@@ -71,16 +75,28 @@ Private sDefaultLineWidth As String
 Private sDefaultStaffSize As String
 Private sDefaultCustom1 As String
 Private sDefaultCustom2 As String
+Private bDefaultOption1 As Boolean
+Private bDefaultOption2 As Boolean
+Private bDefaultOption3 As Boolean
+Private bDefaultOption4 As Boolean
 
 Private sDefaultLineWidthLabel As String 
 Private sDefaultStaffSizeLabel As String 
 Private sDefaultCustom1Label As String 
 Private sDefaultCustom2Label As String 
+Private sDefaultOption1Label As String 
+Private sDefaultOption2Label As String 
+Private sDefaultOption3Label As String 
+Private sDefaultOption4Label As String 
 
 Private sLineWidthLabel As String
 Private sStaffSizeLabel As String
 Private sCustom1Label As String
 Private sCustom2Label As String
+Private sOption1Label As String
+Private sOption2Label As String
+Private sOption3Label As String
+Private sOption4Label As String
 
 Private iAnchor, iWrap As Integer
 
@@ -130,11 +146,19 @@ Private bLineWidthFieldExists As Boolean
 Private bStaffSizeFieldExists As Boolean
 Private bCustom1FieldExists As Boolean
 Private bCustom2FieldExists As Boolean
+Private bOption1FieldExists As Boolean
+Private bOption2FieldExists As Boolean
+Private bOption3FieldExists As Boolean
+Private bOption4FieldExists As Boolean
 
 Private bLineWidthLabelExists As Boolean
 Private bStaffSizeLabelExists As Boolean
 Private bCustom1LabelExists As Boolean
 Private bCustom2LabelExists As Boolean
+Private bOption1LabelExists As Boolean
+Private bOption2LabelExists As Boolean
+Private bOption3LabelExists As Boolean
+Private bOption4LabelExists As Boolean
 
 Private oSelection As Object
 
