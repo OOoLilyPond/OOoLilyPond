@@ -95,12 +95,12 @@ Sub EditorDialog()
 End Sub
 
 
-Sub UpdateFieldAppearance (sControl As String, sDefault As String, sTrue As String, sFalse As String)
+Sub UpdateFieldAppearance (sControl As String, sDefault As String, sTrue As String, sFalse As String, bFieldExists As Boolean)
 	&apos; Care about dialog elements that can either be TextEdit or CheckBox
 	
 	Dim sActualContent As String
 	
-	If bCustom2FieldExists Then
+	If bFieldExists Then
 		oEditorDialog.getControl (&quot;bUseDefault&quot; &amp; sControl).setEnable (True)
 		sActualContent = oEditorDialog.getControl (&quot;s&quot; &amp; sControl).getText()
 		If (sDefault = sTrue Or sDefault = sFalse) And (sActualContent = sTrue Or sActualContent = sFalse) Then  &apos; use CheckBox
@@ -152,14 +152,16 @@ Sub GreyOut()
 	oEditorDialog.getControl(&quot;sStaffSize&quot;).setEnable(bStaffSizeFieldExists)
 	oEditorDialog.getControl(&quot;sCustom1&quot;).setEnable(bCustom1FieldExists)
 	oEditorDialog.getControl(&quot;sCustom2&quot;).setEnable(bCustom2FieldExists)
+	
+	oEditorDialog.getControl(&quot;bLineWidth&quot;).setEnable(bLineWidthFieldExists)
+	oEditorDialog.getControl(&quot;bStaffSize&quot;).setEnable(bStaffSizeFieldExists)
+	oEditorDialog.getControl(&quot;bCustom1&quot;).setEnable(bCustom1FieldExists)
 	oEditorDialog.getControl(&quot;bCustom2&quot;).setEnable(bCustom2FieldExists)
 
-	oEditorDialog.getControl(&quot;bUseDefaultLineWidth&quot;).setEnable(bLineWidthFieldExists)
-	oEditorDialog.getControl(&quot;bUseDefaultStaffSize&quot;).setEnable(bStaffSizeFieldExists)
-	oEditorDialog.getControl(&quot;bUseDefaultCustom1&quot;).setEnable(bCustom1FieldExists)
-	&apos; oEditorDialog.getControl(&quot;bUseDefaultCustom2&quot;).setEnable(bCustom2FieldExists)     &apos; =&gt; UpdateFieldAppearance(...)
-	
-	UpdateFieldAppearance (&quot;Custom2&quot;, sDefaultCustom2, &quot;##t&quot;, &quot;##f&quot;)
+	UpdateFieldAppearance (&quot;LineWidth&quot;, sDefaultLineWidth, &quot;##t&quot;, &quot;##f&quot;, bLineWidthFieldExists)
+	UpdateFieldAppearance (&quot;StaffSize&quot;, sDefaultStaffSize,  &quot;#t&quot;,  &quot;#f&quot;, bStaffSizeFieldExists)
+	UpdateFieldAppearance (&quot;Custom1&quot;,   sDefaultCustom1,   &quot;##t&quot;, &quot;##f&quot;, bCustom1FieldExists)
+	UpdateFieldAppearance (&quot;Custom2&quot;  , sDefaultCustom2,   &quot;##t&quot;, &quot;##f&quot;, bCustom2FieldExists)
 	
 	oEditorDialog.getControl(&quot;LabelLineWidth&quot;).setEnable(bLineWidthFieldExists)
 	oEditorDialog.getControl(&quot;LabelStaffSize&quot;).setEnable(bStaffSizeFieldExists)
@@ -482,25 +484,52 @@ Sub LineWidthModified
 	sLineWidth = oEditorDialog.getControl(&quot;sLineWidth&quot;).getText()
 	bUseDefaultLineWidth = False
 	oEditorDialog.getControl(&quot;bUseDefaultLineWidth&quot;).setState(BoolToCheckBoxState(False))
+	UpdateFieldAppearance (&quot;LineWidth&quot;, sDefaultLineWidth, &quot;##t&quot;, &quot;##f&quot;, bLineWidthFieldExists)
 End Sub
 
 Sub StaffSizeModified
 	sStaffSize = oEditorDialog.getControl(&quot;sStaffSize&quot;).getText()
 	bUseDefaultStaffSize = False
 	oEditorDialog.getControl(&quot;bUseDefaultStaffSize&quot;).setState(BoolToCheckBoxState(False))
+	UpdateFieldAppearance (&quot;StaffSize&quot;, sDefaultStaffSize, &quot;#t&quot;, &quot;#f&quot;, bStaffSizeFieldExists)
 End Sub
 
 Sub Custom1Modified
 	sCustom1 = oEditorDialog.getControl(&quot;sCustom1&quot;).getText()
 	bUseDefaultCustom1 = False
 	oEditorDialog.getControl(&quot;bUseDefaultCustom1&quot;).setState(BoolToCheckBoxState(False))
+	UpdateFieldAppearance (&quot;Custom1&quot;, sDefaultCustom1, &quot;##t&quot;, &quot;##f&quot;, bCustom1FieldExists)
 End Sub
 
 Sub Custom2Modified
 	sCustom2 = oEditorDialog.getControl(&quot;sCustom2&quot;).getText()
 	bUseDefaultCustom2 = False
 	oEditorDialog.getControl(&quot;bUseDefaultCustom2&quot;).setState(BoolToCheckBoxState(False))
-	UpdateFieldAppearance (&quot;Custom2&quot;, sDefaultCustom2, &quot;##t&quot;, &quot;##f&quot;)
+	UpdateFieldAppearance (&quot;Custom2&quot;, sDefaultCustom2, &quot;##t&quot;, &quot;##f&quot;, bCustom2FieldExists)
+End Sub
+
+Sub LineWidthCheckBoxModified
+	sLineWidth = LyBoolToString (CheckBoxStateToBool (oEditorDialog.getControl(&quot;bLineWidth&quot;).getState()))
+	oEditorDialog.getControl(&quot;sLineWidth&quot;).setText(sLineWidth)
+	bUseDefaultLineWidth = False
+	oEditorDialog.getControl(&quot;bUseDefaultLineWidth&quot;).setState(BoolToCheckBoxState(False))
+	UpdateFieldAppearance (&quot;LineWidth&quot;, sDefaultLineWidth, &quot;##t&quot;, &quot;##f&quot;, bLineWidthFieldExists)
+End Sub
+
+Sub StaffSizeCheckBoxModified
+	sStaffSize = ScmBoolToString (CheckBoxStateToBool (oEditorDialog.getControl(&quot;bStaffSize&quot;).getState()))
+	oEditorDialog.getControl(&quot;sStaffSize&quot;).setText(sStaffSize)
+	bUseDefaultStaffSize = False
+	oEditorDialog.getControl(&quot;bUseDefaultStaffSize&quot;).setState(BoolToCheckBoxState(False))
+	UpdateFieldAppearance (&quot;StaffSize&quot;, sDefaultStaffSize, &quot;#t&quot;, &quot;#f&quot;, bStaffSizeFieldExists)
+End Sub
+
+Sub Custom1CheckBoxModified
+	sCustom1 = LyBoolToString (CheckBoxStateToBool (oEditorDialog.getControl(&quot;bCustom1&quot;).getState()))
+	oEditorDialog.getControl(&quot;sCustom1&quot;).setText(sCustom1)
+	bUseDefaultCustom1 = False
+	oEditorDialog.getControl(&quot;bUseDefaultCustom1&quot;).setState(BoolToCheckBoxState(False))
+	UpdateFieldAppearance (&quot;Custom1&quot;, sDefaultCustom1, &quot;##t&quot;, &quot;##f&quot;, bCustom1FieldExists)
 End Sub
 
 Sub Custom2CheckBoxModified
@@ -508,7 +537,7 @@ Sub Custom2CheckBoxModified
 	oEditorDialog.getControl(&quot;sCustom2&quot;).setText(sCustom2)
 	bUseDefaultCustom2 = False
 	oEditorDialog.getControl(&quot;bUseDefaultCustom2&quot;).setState(BoolToCheckBoxState(False))
-	UpdateFieldAppearance (&quot;Custom2&quot;, sDefaultCustom2, &quot;##t&quot;, &quot;##f&quot;)
+	UpdateFieldAppearance (&quot;Custom2&quot;, sDefaultCustom2, &quot;##t&quot;, &quot;##f&quot;, bCustom2FieldExists)
 End Sub
 
 
@@ -554,6 +583,7 @@ Sub UseDefaultLineWidth()
 	Else
 		bUseDefaultLineWidth = False
 	End If
+	UpdateFieldAppearance (&quot;LineWidth&quot;, sDefaultLineWidth, &quot;##t&quot;, &quot;##f&quot;, bLineWidthFieldExists)
 End Sub
 
 Sub UseDefaultStaffSize
@@ -565,6 +595,7 @@ Sub UseDefaultStaffSize
 	Else
 		bUseDefaultStaffSize = False
 	End If
+	UpdateFieldAppearance (&quot;StaffSize&quot;, sDefaultStaffSize, &quot;#t&quot;, &quot;#f&quot;, bStaffSizeFieldExists)
 End Sub
 
 Sub UseDefaultCustom1
@@ -576,6 +607,7 @@ Sub UseDefaultCustom1
 	Else
 		bUseDefaultCustom1 = False
 	End If
+	UpdateFieldAppearance (&quot;Custom1&quot;, sDefaultCustom1, &quot;##t&quot;, &quot;##f&quot;, bCustom1FieldExists)
 End Sub
 
 Sub UseDefaultCustom2
@@ -587,7 +619,7 @@ Sub UseDefaultCustom2
 	Else
 		bUseDefaultCustom2 = False
 	End If
-	UpdateFieldAppearance (&quot;Custom2&quot;, sDefaultCustom2, &quot;##t&quot;, &quot;##f&quot;)
+	UpdateFieldAppearance (&quot;Custom2&quot;, sDefaultCustom2, &quot;##t&quot;, &quot;##f&quot;, bCustom2FieldExists)
 End Sub
 
 </script:module>
