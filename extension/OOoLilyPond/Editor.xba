@@ -20,7 +20,7 @@ Sub EditorDialog()
 	&apos; Create the dialog object
 	oEditorDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Editor&quot;) )
 	ReadDialogStringsFromVar (oEditorDialog, sEditorDialogStrings)
-	&apos; Preserve original field labels for LineWidth, StaffSize, Custom1 and Custom2:
+	&apos; Preserve original field labels for LineWidth, StaffSize, Custom1, Custom2, Option1 ... Option4:
 	sDefaultLineWidthLabel = oEditorDialog.getModel().getByName(&quot;LabelLineWidth&quot;).Label
 	sDefaultStaffSizeLabel = oEditorDialog.getModel().getByName(&quot;LabelStaffSize&quot;).Label
 	sDefaultCustom1Label = oEditorDialog.getModel().getByName(&quot;LabelCustom1&quot;).Label
@@ -35,6 +35,10 @@ Sub EditorDialog()
 	If Not bStaffSizeLabelExists Then sStaffSizeLabel = sDefaultStaffSizeLabel
 	If Not bCustom1LabelExists   Then sCustom1Label   = sDefaultCustom1Label
 	If Not bCustom2LabelExists   Then sCustom2Label   = sDefaultCustom2Label
+	If Not bOption1LabelExists   Then sOption1Label   = sDefaultOption1Label
+	If Not bOption2LabelExists   Then sOption2Label   = sDefaultOption2Label
+	If Not bOption3LabelExists   Then sOption3Label   = sDefaultOption3Label
+	If Not bOption4LabelExists   Then sOption4Label   = sDefaultOption4Label
 	
 	&apos; Change the font of the editor pane
 	oFieldModel = oEditorDialog.getControl(&quot;sCode&quot;).getModel()
@@ -173,32 +177,18 @@ Sub GreyOut()
 	UpdateFieldAppearance (&quot;StaffSize&quot;, sStaffSizeLabel, sDefaultStaffSize,  &quot;#t&quot;,  &quot;#f&quot;, bStaffSizeFieldExists)
 	UpdateFieldAppearance (&quot;Custom1&quot;,   sCustom1Label,   sDefaultCustom1,   &quot;##t&quot;, &quot;##f&quot;, bCustom1FieldExists)
 	UpdateFieldAppearance (&quot;Custom2&quot;  , sCustom2Label,   sDefaultCustom2,   &quot;##t&quot;, &quot;##f&quot;, bCustom2FieldExists)
+	
+	&apos; grey out option checkboxes
 	oEditorDialog.getControl(&quot;bOption1&quot;).setEnable(bOption1FieldExists)
 	oEditorDialog.getControl(&quot;bOption2&quot;).setEnable(bOption2FieldExists)
 	oEditorDialog.getControl(&quot;bOption3&quot;).setEnable(bOption3FieldExists)
 	oEditorDialog.getControl(&quot;bOption4&quot;).setEnable(bOption4FieldExists)
 	
-	If bOption1LabelExists Then
-		oEditorDialog.getModel().getByName(&quot;bOption1&quot;).Label = sOption1Label
-	Else
-		oEditorDialog.getModel().getByName(&quot;bOption1&quot;).Label = sDefaultOption1Label
-	End If
-	If bOption2LabelExists Then
-		oEditorDialog.getModel().getByName(&quot;bOption2&quot;).Label = sOption2Label
-	Else
-		oEditorDialog.getModel().getByName(&quot;bOption2&quot;).Label = sDefaultOption2Label
-	End If
-	If bOption3LabelExists Then
-		oEditorDialog.getModel().getByName(&quot;bOption3&quot;).Label = sOption3Label
-	Else
-		oEditorDialog.getModel().getByName(&quot;bOption3&quot;).Label = sDefaultOption3Label
-	End If
-	If bOption4LabelExists Then
-		oEditorDialog.getModel().getByName(&quot;bOption4&quot;).Label = sOption4Label
-	Else
-		oEditorDialog.getModel().getByName(&quot;bOption4&quot;).Label = sDefaultOption4Label
-	End If
-	
+	&apos; labels for option checkboxes
+	oEditorDialog.getModel().getByName(&quot;bOption1&quot;).Label = sOption1Label
+	oEditorDialog.getModel().getByName(&quot;bOption2&quot;).Label = sOption2Label
+	oEditorDialog.getModel().getByName(&quot;bOption3&quot;).Label = sOption3Label
+	oEditorDialog.getModel().getByName(&quot;bOption4&quot;).Label = sOption4Label
 	
 End Sub
 

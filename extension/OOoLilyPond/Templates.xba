@@ -158,14 +158,64 @@ Function ApplyTemplate() As Boolean
 			&apos; sLilyPondCode = sLilyPondCode &amp; sCustom2
 			iCustom2StartPos = Len(sLilyPondCode) + 1 + Len(sStartTagHead) + Len(sStartTagTail) + 7	&apos; equals to Len(&quot;Custom2&quot;)
 			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Custom2&quot; &amp; sStartTagTail &amp; sCustom2 &amp; sEndTag
-		Case &quot;Option1&quot;
-			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option1&quot; &amp; sStartTagTail &amp; LyBoolToString (bOption1) &amp; sEndTag
-		Case &quot;Option2&quot;
-			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option2&quot; &amp; sStartTagTail &amp; LyBoolToString (bOption2) &amp; sEndTag
-		Case &quot;Option3&quot;
-			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option3&quot; &amp; sStartTagTail &amp; LyBoolToString (bOption3) &amp; sEndTag
-		Case &quot;Option4&quot;
-			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option4&quot; &amp; sStartTagTail &amp; LyBoolToString (bOption4) &amp; sEndTag
+		Case &quot;Option1Value&quot;
+			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option1Value&quot; &amp; sStartTagTail &amp; LyBoolToString (bOption1) &amp; sEndTag
+		Case &quot;Option2Value&quot;
+			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option2Value&quot; &amp; sStartTagTail &amp; LyBoolToString (bOption2) &amp; sEndTag
+		Case &quot;Option3Value&quot;
+			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option3Value&quot; &amp; sStartTagTail &amp; LyBoolToString (bOption3) &amp; sEndTag
+		Case &quot;Option4Value&quot;
+			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option4Value&quot; &amp; sStartTagTail &amp; LyBoolToString (bOption4) &amp; sEndTag
+			
+		Case &quot;Option1True&quot;
+			If bOption1 Then
+				sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option1True&quot;  &amp; sStartTagTail &amp; sOption1True &amp; sEndTag
+			Else
+				sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option1True&quot;  &amp; sStartTagTail &amp; &quot; %{&quot; &amp; sOption1True  &amp; &quot; %} &quot; &amp; sEndTag
+			End If
+		Case &quot;Option1False&quot;
+			If bOption1 Then
+				sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option1False&quot; &amp; sStartTagTail &amp; &quot; %{&quot; &amp; sOption1False &amp; &quot; %} &quot; &amp; sEndTag
+			Else
+				sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option1False&quot; &amp; sStartTagTail &amp; sOption1False &amp; sEndTag
+			End If
+		Case &quot;Option2True&quot;
+			If bOption2 Then
+				sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option2True&quot;  &amp; sStartTagTail &amp; sOption2True &amp; sEndTag
+			Else
+				sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option2True&quot;  &amp; sStartTagTail &amp; &quot; %{&quot; &amp; sOption2True  &amp; &quot; %} &quot; &amp; sEndTag
+			End If
+		Case &quot;Option2False&quot;
+			If bOption2 Then
+				sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option2False&quot; &amp; sStartTagTail &amp; &quot; %{&quot; &amp; sOption2False &amp; &quot; %} &quot; &amp; sEndTag
+			Else
+				sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option2False&quot; &amp; sStartTagTail &amp; sOption2False &amp; sEndTag
+			End If
+		Case &quot;Option3True&quot;
+			If bOption3 Then
+				sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option3True&quot;  &amp; sStartTagTail &amp; sOption3True &amp; sEndTag
+			Else
+				sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option3True&quot;  &amp; sStartTagTail &amp; &quot; %{&quot; &amp; sOption3True  &amp; &quot; %} &quot; &amp; sEndTag
+			End If
+		Case &quot;Option3False&quot;
+			If bOption3 Then
+				sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option3False&quot; &amp; sStartTagTail &amp; &quot; %{&quot; &amp; sOption3False &amp; &quot; %} &quot; &amp; sEndTag
+			Else
+				sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option3False&quot; &amp; sStartTagTail &amp; sOption3False &amp; sEndTag
+			End If
+		Case &quot;Option4True&quot;
+			If bOption4 Then
+				sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option4True&quot;  &amp; sStartTagTail &amp; sOption4True &amp; sEndTag
+			Else
+				sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option4True&quot;  &amp; sStartTagTail &amp; &quot; %{&quot; &amp; sOption4True  &amp; &quot; %} &quot; &amp; sEndTag
+			End If
+		Case &quot;Option4False&quot;
+			If bOption4 Then
+				sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option4False&quot; &amp; sStartTagTail &amp; &quot; %{&quot; &amp; sOption4False &amp; &quot; %} &quot; &amp; sEndTag
+			Else
+				sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option4False&quot; &amp; sStartTagTail &amp; sOption4False &amp; sEndTag
+			End If
+			
 		Case &quot;LineWidthLabel&quot;
 			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;LineWidthLabel&quot; &amp; sStartTagTail &amp; sLineWidthLabel &amp; sEndTag
 		Case &quot;StaffSizeLabel&quot;
@@ -247,7 +297,7 @@ End Function
 Function ReadTemplate() As Boolean
 	&apos; Reads the template file into sTemplateCode
 	&apos; Extracts the content between the OOoLilyPond Start end End tags
-	&apos; for beeing used as template specific default values.
+	&apos; for being used as template specific default values.
 
 	Dim sDefaultValue As String
 	Dim iTagPos As Integer
@@ -315,7 +365,7 @@ Function ReadTemplate() As Boolean
 	bOption2LabelExists = False
 	bOption3LabelExists = False
 	bOption4LabelExists = False
-
+	
 	iTagPos = TagPos(sCodeToParse, sStartTagHead, sStartTagHeadScm)
 
 	While iTagPos &gt; 0
@@ -353,6 +403,7 @@ Function ReadTemplate() As Boolean
 		End If
 
 		Select Case sFieldName
+			&apos; Default values for input fields
 			Case &quot;Code&quot;
 				sDefaultCode = sDefaultValue
 				bCodeFieldExists = True
@@ -372,22 +423,50 @@ Function ReadTemplate() As Boolean
 				RemoveSpaces (sDefaultValue)
 				sDefaultCustom2 = sDefaultValue
 				bCustom2FieldExists = True
-			Case &quot;Option1&quot;
+			&apos; Option CheckBoxes (have no default setting)
+			Case &quot;Option1Value&quot;
 				RemoveSpaces (sDefaultValue)
 				bDefaultOption1 = (sDefaultValue = &quot;##t&quot;)
 				bOption1FieldExists = True
-			Case &quot;Option2&quot;
+			Case &quot;Option2Value&quot;
 				RemoveSpaces (sDefaultValue)
 				bDefaultOption2 = (sDefaultValue = &quot;##t&quot;)
 				bOption2FieldExists = True
-			Case &quot;Option3&quot;
+			Case &quot;Option3Value&quot;
 				RemoveSpaces (sDefaultValue)
 				bDefaultOption3 = (sDefaultValue = &quot;##t&quot;)
 				bOption3FieldExists = True
-			Case &quot;Option4&quot;
+			Case &quot;Option4Value&quot;
 				RemoveSpaces (sDefaultValue)
 				bDefaultOption4 = (sDefaultValue = &quot;##t&quot;)
 				bOption4FieldExists = True
+			&apos; Code sections to be switched on/off by Option1...Option4 
+			&apos; are read from the template but cannot be modified in the Editor
+			Case &quot;Option1True&quot;
+				sOption1True = sDefaultValue
+				bOption1FieldExists = True
+			Case &quot;Option1False&quot;
+				sOption1False = sDefaultValue
+				bOption1FieldExists = True
+			Case &quot;Option2True&quot;
+				sOption2True = sDefaultValue
+				bOption2FieldExists = True
+			Case &quot;Option2False&quot;
+				sOption2False = sDefaultValue
+				bOption2FieldExists = True
+			Case &quot;Option3True&quot;
+				sOption3True = sDefaultValue
+				bOption3FieldExists = True
+			Case &quot;Option3False&quot;
+				sOption3False = sDefaultValue
+				bOption3FieldExists = True
+			Case &quot;Option4True&quot;
+				sOption4True = sDefaultValue
+				bOption4FieldExists = True
+			Case &quot;Option4False&quot;
+				sOption4False = sDefaultValue
+				bOption4FieldExists = True
+			&apos; Labels for control elements in the Editor window
 			Case &quot;LineWidthLabel&quot;
 				sLineWidthLabel = sDefaultValue
 				bLineWidthLabelExists = True
@@ -514,16 +593,16 @@ Function ReadTempLyFile() As Boolean
 			Case &quot;Custom2&quot;
 				RemoveSpaces (sDefaultValue)
 				sCustom2 = sDefaultValue
-			Case &quot;Option1&quot;
+			Case &quot;Option1Value&quot;
 				RemoveSpaces (sDefaultValue)
 				bDefaultOption1 = (sDefaultValue = &quot;##t&quot;)
-			Case &quot;Option2&quot;
+			Case &quot;Option2Value&quot;
 				RemoveSpaces (sDefaultValue)
 				bDefaultOption2 = (sDefaultValue = &quot;##t&quot;)
-			Case &quot;Option3&quot;
+			Case &quot;Option3Value&quot;
 				RemoveSpaces (sDefaultValue)
 				bDefaultOption3 = (sDefaultValue = &quot;##t&quot;)
-			Case &quot;Option4&quot;
+			Case &quot;Option4Value&quot;
 				RemoveSpaces (sDefaultValue)
 				bDefaultOption4 = (sDefaultValue = &quot;##t&quot;)
 		End Select

@@ -384,10 +384,10 @@ Sub InsertOOoLilyPondObjectViaClipboard()
 	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultStaffSize&quot;, BoolToString(bUseDefaultStaffSize))
 	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultCustom1&quot;, BoolToString(bUseDefaultCustom1))
 	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultCustom2&quot;, BoolToString(bUseDefaultCustom2))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondOption1&quot;, BoolToString(bOption1))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondOption2&quot;, BoolToString(bOption2))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondOption3&quot;, BoolToString(bOption3))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondOption4&quot;, BoolToString(bOption4))	
+	InsertAttribute(oGraphic, &quot;OOoLilyPondOption1Value&quot;, BoolToString(bOption1))
+	InsertAttribute(oGraphic, &quot;OOoLilyPondOption2Value&quot;, BoolToString(bOption2))
+	InsertAttribute(oGraphic, &quot;OOoLilyPondOption3Value&quot;, BoolToString(bOption3))
+	InsertAttribute(oGraphic, &quot;OOoLilyPondOption4Value&quot;, BoolToString(bOption4))	
 
 End Sub
 
@@ -457,10 +457,10 @@ Sub InsertOOoLilyPondObject()
 	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultStaffSize&quot;, BoolToString(bUseDefaultStaffSize))
 	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultCustom1&quot;, BoolToString(bUseDefaultCustom1))
 	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultCustom2&quot;, BoolToString(bUseDefaultCustom2))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondOption1&quot;, BoolToString(bOption1))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondOption2&quot;, BoolToString(bOption2))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondOption3&quot;, BoolToString(bOption3))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondOption4&quot;, BoolToString(bOption4))	
+	InsertAttribute(oGraphic, &quot;OOoLilyPondOption1Value&quot;, BoolToString(bOption1))
+	InsertAttribute(oGraphic, &quot;OOoLilyPondOption2Value&quot;, BoolToString(bOption2))
+	InsertAttribute(oGraphic, &quot;OOoLilyPondOption3Value&quot;, BoolToString(bOption3))
+	InsertAttribute(oGraphic, &quot;OOoLilyPondOption4Value&quot;, BoolToString(bOption4))	
 	
 	Exit Sub
 	
@@ -528,18 +528,22 @@ Function ReadAttributes( oShape As Object ) As Boolean
 		bUseDefaultCustom1=StringToBool(oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondUseDefaultCustom1&quot;).Value)
 		bUseDefaultCustom2=StringToBool(oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondUseDefaultCustom2&quot;).Value)
 		
-		&apos; Option... attributes exist since OOoLilyPond 0.5.12:
-		If oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondOption1&quot;) Then
-			bOption1 = StringToBool (oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondOption1&quot;).Value)
+		&apos; Option... attributes exist since OOoLilyPond 0.5.13:
+		bOption1 = False
+		bOption2 = False
+		bOption3 = False
+		bOption4 = False
+		If oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondOption1Value&quot;) Then
+			bOption1 = StringToBool (oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondOption1Value&quot;).Value)
 		End If
-		If oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondOption2&quot;) Then
-			bOption2 = StringToBool (oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondOption2&quot;).Value)
+		If oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondOption2Value&quot;) Then
+			bOption2 = StringToBool (oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondOption2Value&quot;).Value)
 		End If
-		If oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondOption3&quot;) Then
-			bOption3 = StringToBool (oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondOption3&quot;).Value)
+		If oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondOption3Value&quot;) Then
+			bOption3 = StringToBool (oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondOption3Value&quot;).Value)
 		End If
-		If oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondOption4&quot;) Then
-			bOption4 = StringToBool (oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondOption4&quot;).Value)
+		If oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondOption4Value&quot;) Then
+			bOption4 = StringToBool (oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondOption4Value&quot;).Value)
 		End If
 	Else
 		&apos;Prevent loosing the code for OOoLilyPond 0.3 Objects

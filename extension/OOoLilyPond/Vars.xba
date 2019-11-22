@@ -69,6 +69,16 @@ Private bOption2 As Boolean
 Private bOption3 As Boolean
 Private bOption4 As Boolean
 
+&apos; code segments to be switched on/off by bOption1 ... bOption4
+Private sOption1True As String
+Private sOption2True As String
+Private sOption3True As String
+Private sOption4True As String
+Private sOption1False As String
+Private sOption2False As String
+Private sOption3False As String
+Private sOption4False As String
+
 &apos; OOoLilyPond object default data
 Private sDefaultCode As String
 Private sDefaultLineWidth As String
