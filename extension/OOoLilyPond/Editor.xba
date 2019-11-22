@@ -95,6 +95,31 @@ Sub EditorDialog()
 End Sub
 
 
+Sub UpdateFieldAppearance (sControl As String, sDefault As String, sTrue As String, sFalse As String)
+	&apos; Care about dialog elements that can either be TextEdit or CheckBox
+	
+	Dim sActualContent As String
+	
+	If bCustom2FieldExists Then
+		oEditorDialog.getControl (&quot;bUseDefault&quot; &amp; sControl).setEnable (True)
+		sActualContent = oEditorDialog.getControl (&quot;s&quot; &amp; sControl).getText()
+		If (sDefault = sTrue Or sDefault = sFalse) And (sActualContent = sTrue Or sActualContent = sFalse) Then  &apos; use CheckBox
+			oEditorDialog.getControl (&quot;b&quot; &amp; sControl).SetState (BoolToCheckBoxState (sActualContent = sTrue))
+			oEditorDialog.getModel().getByName (&quot;b&quot; &amp; sControl).Label = sActualContent
+			oEditorDialog.getModel().getByName (&quot;s&quot; &amp; sControl).EnableVisible = False
+			oEditorDialog.getModel().getByName (&quot;b&quot; &amp; sControl).EnableVisible = True
+		Else																									 &apos; use TextEdit
+			oEditorDialog.getModel().getByName (&quot;s&quot; &amp; sControl).EnableVisible = True
+			oEditorDialog.getModel().getByName (&quot;b&quot; &amp; sControl).EnableVisible = False
+		End If
+	Else
+		oEditorDialog.getControl (&quot;bUseDefault&quot; &amp; sControl).setEnable (False)
+		oEditorDialog.getModel().getByName(&quot;s&quot; &amp; sControl).EnableVisible = True
+		oEditorDialog.getModel().getByName(&quot;b&quot; &amp; sControl).EnableVisible = False
+	End If
+End Sub
+
+
 Sub GreyOut()
 	&apos; Grey out inactive control elements
 
@@ -127,11 +152,14 @@ Sub GreyOut()
 	oEditorDialog.getControl(&quot;sStaffSize&quot;).setEnable(bStaffSizeFieldExists)
 	oEditorDialog.getControl(&quot;sCustom1&quot;).setEnable(bCustom1FieldExists)
 	oEditorDialog.getControl(&quot;sCustom2&quot;).setEnable(bCustom2FieldExists)
+	oEditorDialog.getControl(&quot;bCustom2&quot;).setEnable(bCustom2FieldExists)
 
 	oEditorDialog.getControl(&quot;bUseDefaultLineWidth&quot;).setEnable(bLineWidthFieldExists)
 	oEditorDialog.getControl(&quot;bUseDefaultStaffSize&quot;).setEnable(bStaffSizeFieldExists)
 	oEditorDialog.getControl(&quot;bUseDefaultCustom1&quot;).setEnable(bCustom1FieldExists)
-	oEditorDialog.getControl(&quot;bUseDefaultCustom2&quot;).setEnable(bCustom2FieldExists)
+	&apos; oEditorDialog.getControl(&quot;bUseDefaultCustom2&quot;).setEnable(bCustom2FieldExists)     &apos; =&gt; UpdateFieldAppearance(...)
+	
+	UpdateFieldAppearance (&quot;Custom2&quot;, sDefaultCustom2, &quot;##t&quot;, &quot;##f&quot;)
 	
 	oEditorDialog.getControl(&quot;LabelLineWidth&quot;).setEnable(bLineWidthFieldExists)
 	oEditorDialog.getControl(&quot;LabelStaffSize&quot;).setEnable(bStaffSizeFieldExists)
@@ -159,7 +187,7 @@ Sub GreyOut()
 	Else
 		oEditorDialog.getModel().getByName(&quot;LabelCustom2&quot;).Label = sDefaultCustom2Label
 	End If
-
+	
 End Sub
 
 
@@ -472,6 +500,15 @@ Sub Custom2Modified
 	sCustom2 = oEditorDialog.getControl(&quot;sCustom2&quot;).getText()
 	bUseDefaultCustom2 = False
 	oEditorDialog.getControl(&quot;bUseDefaultCustom2&quot;).setState(BoolToCheckBoxState(False))
+	UpdateFieldAppearance (&quot;Custom2&quot;, sDefaultCustom2, &quot;##t&quot;, &quot;##f&quot;)
+End Sub
+
+Sub Custom2CheckBoxModified
+	sCustom2 = LyBoolToString (CheckBoxStateToBool (oEditorDialog.getControl(&quot;bCustom2&quot;).getState()))
+	oEditorDialog.getControl(&quot;sCustom2&quot;).setText(sCustom2)
+	bUseDefaultCustom2 = False
+	oEditorDialog.getControl(&quot;bUseDefaultCustom2&quot;).setState(BoolToCheckBoxState(False))
+	UpdateFieldAppearance (&quot;Custom2&quot;, sDefaultCustom2, &quot;##t&quot;, &quot;##f&quot;)
 End Sub
 
 
@@ -550,6 +587,7 @@ Sub UseDefaultCustom2
 	Else
 		bUseDefaultCustom2 = False
 	End If
+	UpdateFieldAppearance (&quot;Custom2&quot;, sDefaultCustom2, &quot;##t&quot;, &quot;##f&quot;)
 End Sub
 
 </script:module>

@@ -449,7 +449,7 @@ Function StringFromFile(sString, sFile As String) As Boolean
 End Function
 
 
-Function BoolToString(bBoolean As Boolean) As String
+Function BoolToString (bBoolean As Boolean) As String
 	If bBoolean Then
 		BoolToString = &quot;True&quot;
 	Else
@@ -458,8 +458,26 @@ Function BoolToString(bBoolean As Boolean) As String
 End Function
 
 
-Function StringToBool(sString As String) As Boolean
+Function StringToBool (sString As String) As Boolean
 	StringToBool=(StrComp(sString, &quot;True&quot;, 0) = 0)
+End Function
+
+
+Function LyBoolToString (bBoolean As Boolean) As String
+	If bBoolean Then
+		LyBoolToString = &quot;##t&quot;
+	Else
+		LyBoolToString = &quot;##f&quot;
+	End If
+End Function
+
+
+Function ScmBoolToString (bBoolean As Boolean) As String
+	If bBoolean Then
+		ScmBoolToString = &quot;#t&quot;
+	Else
+		ScmBoolToString = &quot;#f&quot;
+	End If
 End Function
 
 
