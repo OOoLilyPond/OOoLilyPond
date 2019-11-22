@@ -99,13 +99,13 @@
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.Custom2CheckBoxModified?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
   <dlg:checkbox dlg:id="bCustom1" dlg:tab-index="37" dlg:visible="false" dlg:left="268" dlg:top="249" dlg:width="44" dlg:height="10" dlg:value="##" dlg:checked="false">
-   <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.Custom2CheckBoxModified?language=Basic&amp;location=application" script:language="Script"/>
+   <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.Custom1CheckBoxModified?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
   <dlg:checkbox dlg:id="bStaffSize" dlg:tab-index="38" dlg:visible="false" dlg:left="216" dlg:top="249" dlg:width="44" dlg:height="10" dlg:value="##" dlg:checked="false">
-   <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.Custom2CheckBoxModified?language=Basic&amp;location=application" script:language="Script"/>
+   <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.StaffSizeCheckBoxModified?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
   <dlg:checkbox dlg:id="bLineWidth" dlg:tab-index="39" dlg:visible="false" dlg:left="164" dlg:top="249" dlg:width="44" dlg:height="10" dlg:value="##" dlg:checked="false">
-   <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.Custom2CheckBoxModified?language=Basic&amp;location=application" script:language="Script"/>
+   <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.LineWidthCheckBoxModified?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
  </dlg:bulletinboard>
 </dlg:window>
