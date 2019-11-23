@@ -147,58 +147,64 @@ Sub BatchTest1()
 End Sub
 
 
+Function ReadGraphicObject (oGraphicObject As Object) As Boolean
+
+	Dim oShape As Object
+
+	bShapeIsSelected = False  &apos;global variable, used in InsertOOoLilyPondObjectViaClipboard ()
+	Select Case oGraphicObject.getImplementationName()
+	Case &quot;com.sun.star.drawing.SvxShapeCollection&quot; 	&apos; inserted into Writer via Clipboard OR inserted into Draw/Impress
+		oShape = oGraphicObject.getByIndex(0)
+		If bInWriter Then &apos; OLy &lt; 0.4 in Writer
+			&apos; oCursor = oDoc.Text.createTextCursorByRange(oSelection(0).getAnchor())
+			If Not ReadAttributes (oShape) Then  &apos;Read the OLy fields from the Object Attributes
+				ReadGraphicObject = False
+				Exit Function
+			End If
+			&apos; oSelection(0).getParent().remove(oSelection(0)) &apos; Delete old OLyObject
+		Else &apos; OLy object in Draw / Impress
+			If Not ReadAttributes (oShape) Then  &apos;Read the OLy fields from the Object Attributes
+				ReadGraphicObject = False
+				Exit Function
+			End If
+		End If
+		oShapePosition = oShape.position()  &apos;global variable, used in InsertOOoLilyPondObjectViaClipboard ()
+		bShapeIsSelected = True
+				
+	Case &quot;SwXTextGraphicObject&quot; &apos; Graphic is selected in Writer
+		If Not ReadAttributes (oGraphicObject) Then &apos; Read the OLy fields from the Object Attributes
+			ReadGraphicObject = False
+			Exit Function
+		End If
+		bShapeIsSelected = True
+		
+	Case &quot;SwXTextRanges&quot; &apos; Nothing or normal text selection in Writer
+		oCursor = oDoc.Text.createTextCursorByRange(oGraphicObject(0))
+			
+	Case Else
+		&apos; Msgbox (&quot;The selected object is not an OLy object ...&quot;, 0, &quot;Error&quot;)
+		Msgbox (oMessages.getPropertyValue (&quot;sMsgNoOlyObject&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		ReadGraphicObject = False
+		Exit Function
+			
+	End Select
+	ReadGraphicObject = True
+End Function
+
+
 Function ReadSelectionObject () As Boolean
 
 	Dim oDoc As Object
 	Dim oDocCtrl As Object
-	Dim oShape As Object
 	
 	&apos; Get the current document and controller
  	oDoc = ThisComponent
 	oDocCtrl = oDoc.getCurrentController()
 
 	&apos; create Cursor and read Attributes if Object is selected
-	If Not IsEmpty(oDocCtrl.getSelection) Then &apos; Is only empty in Impress or Draw when nothing is selected
-		oSelection=oDocCtrl.getSelection
-		bShapeIsSelected = False
-		
-		Select Case oSelection.getImplementationName()
-		
-		Case &quot;com.sun.star.drawing.SvxShapeCollection&quot; 	&apos; inserted into Writer via Clipboard OR inserted into Draw/Impress
-			oShape = oSelection.getByIndex(0)
-			If bInWriter Then &apos; OLy &lt; 0.4 in Writer
-				&apos; oCursor = oDoc.Text.createTextCursorByRange(oSelection(0).getAnchor())
-				If Not ReadAttributes(oShape) Then  &apos;Read the OLy fields from the Object Attributes
-					ReadSelectionObject = False
-					Exit Function
-				End If
-				&apos; oSelection(0).getParent().remove(oSelection(0)) &apos; Delete old OLyObject
-			Else &apos; OLy object in Draw / Impress
-				If Not ReadAttributes(oShape) Then  &apos;Read the OLy fields from the Object Attributes
-					ReadSelectionObject = False
-					Exit Function
-				End If
-			End If
-			oShapePosition = oShape.position()
-			bShapeIsSelected = True
-				
-		Case &quot;SwXTextGraphicObject&quot; &apos; Graphic is selected in Writer
-			If Not ReadAttributes(oSelection) Then &apos; Read the OLy fields from the Object Attributes
-				ReadSelectionObject = False
-				Exit Function
-			End If
-			bShapeIsSelected = True
-			
-		Case &quot;SwXTextRanges&quot; &apos; Nothing or normal text selection in Writer
-&apos;			oCursor = oDoc.Text.createTextCursorByRange(oSelection(0))
-			
-		Case Else
-			&apos; Msgbox (&quot;The selected object is not an OLy object ...&quot;, 0, &quot;Error&quot;)
-			Msgbox (oMessages.getPropertyValue (&quot;sMsgNoOlyObject&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
-			ReadSelectionObject = False
-			Exit Function
-			
-		End Select
+	If Not IsEmpty (oDocCtrl.getSelection) Then &apos; Is only empty in Impress or Draw when nothing is selected
+		oSelection = oDocCtrl.getSelection
+		ReadSelectionObject = ReadGraphicObject (oSelection)
 	End If
 	ReadSelectionObject = True
 End Function
