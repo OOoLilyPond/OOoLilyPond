@@ -143,6 +143,7 @@ Sub BatchTest1()
 	Dim i As Integer
 
 	OOoLilyPondInit ()
+	If Not bInWriter Then Exit Sub
 	
 	oGraphicObjects = ThisComponent.getGraphicObjects
 	&apos; oGraphicObjects = tc.DrawPage
