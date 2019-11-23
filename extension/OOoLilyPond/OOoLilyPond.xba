@@ -134,6 +134,19 @@ Sub OOoLilyPond()
 End Sub
 
 
+Sub BatchTest1()
+	&apos; This is the main function
+	&apos; It initializes OOoLilyPond and opens the OOoLilyPond Editor dialog
+
+	OOoLilyPondInit()
+		If Not ReadSelectionObject () Then Exit Sub   &apos; create Cursor and read Attributes if Object is selected
+	&apos; Now we know which template to use
+	ReadTemplate()
+	&apos; Open the dialog box
+	EditorDialog()
+End Sub
+
+
 Function ReadSelectionObject () As Boolean
 
 	Dim oDoc As Object
