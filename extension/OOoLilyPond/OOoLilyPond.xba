@@ -137,13 +137,18 @@ End Sub
 Sub BatchTest1()
 	&apos; This is the main function
 	&apos; It initializes OOoLilyPond and opens the OOoLilyPond Editor dialog
+	Dim go
+	Dim g
 
-	OOoLilyPondInit()
-		If Not ReadSelectionObject () Then Exit Sub   &apos; create Cursor and read Attributes if Object is selected
+	OOoLilyPondInit ()
+	go = ThisComponent.getGraphicObjects
+	g = go.getByIndex (3)
+	
+	If Not ReadGraphicObject (g) Then Exit Sub   &apos; create Cursor and read Attributes if Object is selected
 	&apos; Now we know which template to use
-	ReadTemplate()
+	ReadTemplate ()
 	&apos; Open the dialog box
-	EditorDialog()
+	EditorDialog ()
 End Sub
 
 
