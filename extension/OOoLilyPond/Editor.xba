@@ -402,7 +402,7 @@ Sub LilyPondButton()
 	bKeepCrop = CheckBoxStateToBool (oEditorDialog.getControl(&quot;bKeepCrop&quot;).getState())
 
 	&apos; Create the LilyPond music and insert it...
-	Make()
+	Make (false)	&apos; bSilent = false: don&apos;t suppress displaying errors in Editor dialog
 
 End Sub
 

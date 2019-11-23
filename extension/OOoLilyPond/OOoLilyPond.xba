@@ -126,7 +126,7 @@ Sub OOoLilyPond()
 	&apos; It initializes OOoLilyPond and opens the OOoLilyPond Editor dialog
 
 	OOoLilyPondInit()
-		If Not ReadSelectionObject () Then Exit Sub   &apos; create Cursor and read Attributes if Object is selected
+	If Not ReadSelectionObject () Then Exit Sub   &apos; create Cursor and read Attributes if Object is selected
 	&apos; Now we know which template to use
 	ReadTemplate()
 	&apos; Open the dialog box
@@ -137,18 +137,24 @@ End Sub
 Sub BatchTest1()
 	&apos; This is the main function
 	&apos; It initializes OOoLilyPond and opens the OOoLilyPond Editor dialog
-	Dim go
-	Dim g
+	Dim go As Object
+	Dim g As Object
+	Dim i As Integer
 
 	OOoLilyPondInit ()
 	go = ThisComponent.getGraphicObjects
-	g = go.getByIndex (3)
 	
-	If Not ReadGraphicObject (g) Then Exit Sub   &apos; create Cursor and read Attributes if Object is selected
-	&apos; Now we know which template to use
-	ReadTemplate ()
-	&apos; Open the dialog box
-	EditorDialog ()
+	For i = 0 to go.Count-1
+		g = go.getByIndex(i)
+		oCurrentGraphicObject = g
+	
+		If Not ReadGraphicObject (g) Then Exit Sub   &apos; create Cursor and read Attributes if Object is selected
+		&apos; Now we know which template to use
+		ReadTemplate ()
+		&apos; Open the dialog box
+		&apos; EditorDialog ()
+		Make (true)
+	next i
 End Sub
 
 
@@ -208,17 +214,19 @@ Function ReadSelectionObject () As Boolean
 
 	&apos; create Cursor and read Attributes if Object is selected
 	If Not IsEmpty (oDocCtrl.getSelection) Then &apos; Is only empty in Impress or Draw when nothing is selected
-		oSelection = oDocCtrl.getSelection
-		ReadSelectionObject = ReadGraphicObject (oSelection)
+		oCurrentGraphicObject = oDocCtrl.getSelection
+		ReadSelectionObject = ReadGraphicObject (oCurrentGraphicObject)
 	End If
 	ReadSelectionObject = True
 End Function
 
 
-sub Make()
+sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditorDialog doesn&apos;t exist (batch processing)
 	&apos; Calls the subroutines that generate the image and
 	&apos; insert the image into the document.
+	Dim bNoFileCreated As Boolean
 
+	bNoFileCreated = False
 	&apos; Test if there is LilyPond code
 	If sCode = &quot;&quot; then 
 		&apos; Msgbox (&quot;Enter LilyPond code...&quot;, iMsgBox_E, &quot;Error&quot;)
@@ -242,44 +250,40 @@ sub Make()
 
   	ParseOutput(sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;)
   	
-  	&apos; remove any error message that still might be displayed:
-  	oEditorDialog.getControl (&quot;sErrMsg&quot;).setText (&quot;&quot;)
-  	oEditorDialog.getControl (&quot;sErrMsg&quot;).Visible = False
-  	
 	&apos;If there is no eps output
  	If sExtension = &quot;eps&quot; And (Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.eps&quot;)) Then
  		&apos; MsgBox(&quot;No eps output is found&quot;, 0, &quot;Error&quot;)
  		MsgBox (oMessages.getPropertyValue (&quot;sMsgNoEpsOutputFound&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
-  		If iNErr &gt;= 1 And Not bIgnoreWarnings Then
- 	 		iErrNum = 1
-  			DisplayError()
- 		End If
-  		Exit Sub
+ 		bNoFileCreated = True
  	End If
  
 	&apos;If there is no svg output
  	If sExtension = &quot;svg&quot; And (Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.svg&quot;)) Then
  		&apos; MsgBox(&quot;No svg output is found&quot;, 0, &quot;Error&quot;)
  		MsgBox (oMessages.getPropertyValue (&quot;sMsgNoSvgOutputFound&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
- 		&apos;If there were errors or warnings
- 		If iNErr &gt;= 1 And Not bIgnoreWarnings Then
- 	 		iErrNum = 1
-  			DisplayError()
- 		End If
-  		Exit Sub
+ 		bNoFileCreated = True
  	End If
  	
 	&apos;If there is no png output
  	If sExtension = &quot;png&quot; And (Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.png&quot;)) Then
  		&apos; MsgBox(&quot;No png output is found&quot;, 0, &quot;Error&quot;)
  		MsgBox (oMessages.getPropertyValue (&quot;sMsgNoPngOutputFound&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
-  		If iNErr &gt;= 1 And Not bIgnoreWarnings Then
+ 		bNoFileCreated = True
+ 	End If
+ 	
+ 	If Not bSilent Then
+		&apos; remove any error message that still might be displayed:
+		oEditorDialog.getControl (&quot;sErrMsg&quot;).setText (&quot;&quot;)
+		oEditorDialog.getControl (&quot;sErrMsg&quot;).Visible = False
+	End If
+	
+	If bNoFileCreated Then
+ 		If iNErr &gt;= 1 And Not bIgnoreWarnings And Not bSilent Then   &apos;If there were errors or warnings
  	 		iErrNum = 1
   			DisplayError()
  		End If
   		Exit Sub
  	End If
- 
  
 	If bInWriter Then	&apos; We are in Writer...
 		If bWriterInsertViaClipboard Then
@@ -298,7 +302,7 @@ sub Make()
 	If Not bKeepTempFiles Then CleanUpAfterwards()
  	
  	&apos;If there were errors or warnings
- 	If iNErr &gt;= 1 And Not bIgnoreWarnings Then
+ 	If iNErr &gt;= 1 And Not bIgnoreWarnings And Not bSilent Then
  		ReadSelectionObject ()
  	 	iErrNum = 1
   		DisplayError()
@@ -306,7 +310,7 @@ sub Make()
  	End If
 
 	&apos; Close the dialog
-	oEditorDialog.endExecute()
+	If Not bSilent Then oEditorDialog.endExecute()
 	
 End Sub
 
@@ -434,17 +438,17 @@ Sub InsertOOoLilyPondObject()
 	&apos; insert the Bitmap
 	If bInWriter Then
 
-		Select Case oSelection.getImplementationName()		
+		Select Case oCurrentGraphicObject.getImplementationName()		
 		Case &quot;com.sun.star.drawing.SvxShapeCollection&quot;  &apos; OLy &lt; 0.4 in Writer
-			oCursor = oDoc.Text.createTextCursorByRange(oSelection(0).getAnchor())
-			oSelection(0).getParent().remove(oSelection(0)) &apos; Delete old OLyObject
+			oCursor = oDoc.Text.createTextCursorByRange(oCurrentGraphicObject(0).getAnchor())
+			oCurrentGraphicObject(0).getParent().remove(oCurrentGraphicObject(0)) &apos; Delete old OLyObject
 			oGraphic = ImportBitmapIntoWriter(ConvertToURL( sTmpPath &amp; constOLyFileName &amp; &quot;.&quot; &amp; sExtension), oCursor )
 
 		Case &quot;SwXTextGraphicObject&quot; &apos; Graphic is selected in Writer
-			oGraphic = ImportBitmapIntoWriter(ConvertToURL( sTmpPath &amp; constOLyFileName &amp; &quot;.&quot; &amp; sExtension), oSelection )
+			oGraphic = ImportBitmapIntoWriter(ConvertToURL( sTmpPath &amp; constOLyFileName &amp; &quot;.&quot; &amp; sExtension), oCurrentGraphicObject )
 			
 		Case &quot;SwXTextRanges&quot; &apos; Nothing or normal text selection in Writer
-			oCursor = oDoc.Text.createTextCursorByRange(oSelection(0))
+			oCursor = oDoc.Text.createTextCursorByRange(oCurrentGraphicObject(0))
 			oGraphic = ImportBitmapIntoWriter(ConvertToURL( sTmpPath &amp; constOLyFileName &amp; &quot;.&quot; &amp; sExtension), oCursor )
 
 		End Select
@@ -459,12 +463,12 @@ Sub InsertOOoLilyPondObject()
 		
 	Else &apos;We are in Impress or Draw
 
-		If  IsNull(oSelection) Then
+		If  IsNull(oCurrentGraphicObject) Then
 			&apos; Nothing is selected
 			oGraphic = ImportBitmapIntoDraw(ConvertToURL( sTmpPath &amp; constOLyFileName &amp; &quot;.&quot; &amp; sExtension) )
 		Else
 			&apos; OlyObject is selected
-			oGraphic = ImportBitmapIntoDraw(ConvertToURL( sTmpPath &amp; constOLyFileName &amp; &quot;.&quot; &amp; sExtension ), oSelection.getByIndex(0))
+			oGraphic = ImportBitmapIntoDraw(ConvertToURL( sTmpPath &amp; constOLyFileName &amp; &quot;.&quot; &amp; sExtension ), oCurrentGraphicObject.getByIndex(0))
 		End If
 	End If
 	
