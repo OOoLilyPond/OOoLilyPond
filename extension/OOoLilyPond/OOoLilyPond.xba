@@ -419,7 +419,8 @@ Sub InsertOOoLilyPondObjectViaClipboard()
 	InsertAttribute(oGraphic, &quot;OOoLilyPondOption1Value&quot;, BoolToString(bOption1))
 	InsertAttribute(oGraphic, &quot;OOoLilyPondOption2Value&quot;, BoolToString(bOption2))
 	InsertAttribute(oGraphic, &quot;OOoLilyPondOption3Value&quot;, BoolToString(bOption3))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondOption4Value&quot;, BoolToString(bOption4))	
+	InsertAttribute(oGraphic, &quot;OOoLilyPondOption4Value&quot;, BoolToString(bOption4))
+	If bIncludeTemplate Then InsertAttribute(oGraphic, &quot;OOoLilyPondTemplateCode&quot;, sTemplateCode)
 
 End Sub
 
@@ -492,7 +493,8 @@ Sub InsertOOoLilyPondObject()
 	InsertAttribute(oGraphic, &quot;OOoLilyPondOption1Value&quot;, BoolToString(bOption1))
 	InsertAttribute(oGraphic, &quot;OOoLilyPondOption2Value&quot;, BoolToString(bOption2))
 	InsertAttribute(oGraphic, &quot;OOoLilyPondOption3Value&quot;, BoolToString(bOption3))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondOption4Value&quot;, BoolToString(bOption4))	
+	InsertAttribute(oGraphic, &quot;OOoLilyPondOption4Value&quot;, BoolToString(bOption4))
+	If bIncludeTemplate Then InsertAttribute(oGraphic, &quot;OOoLilyPondTemplateCode&quot;, sTemplateCode)
 	
 	Exit Sub
 	
@@ -576,6 +578,12 @@ Function ReadAttributes( oShape As Object ) As Boolean
 		End If
 		If oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondOption4Value&quot;) Then
 			bOption4 = StringToBool (oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondOption4Value&quot;).Value)
+		End If
+		
+		&apos; Maybe the template is included within the OLy object:
+		If oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondTemplateCode&quot;) Then
+			sTemplateCode = oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondTemplateCode&quot;).Value
+			bContainsTemplate = True
 		End If
 	Else
 		&apos;Prevent loosing the code for OOoLilyPond 0.3 Objects

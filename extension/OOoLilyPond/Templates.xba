@@ -294,25 +294,16 @@ Function ListOfTemplates (oComboBox) As Integer
 End Function
 
 
-Function ReadTemplate() As Boolean
+Function ReadTemplateFile() As Boolean
 	&apos; Reads the template file into sTemplateCode
 	&apos; Extracts the content between the OOoLilyPond Start end End tags
 	&apos; for being used as template specific default values.
 
-	Dim sDefaultValue As String
-	Dim iTagPos As Integer
-	Dim sFieldName As String &apos; Code, StaffSize, LineWidth, Custom1 or Custom2
-	Dim sTemplateFile As String &apos; path to template file
-	Dim sCodeToParse As String &apos; copy of sTemplateCode
-	Dim sStaffSizeFromTemplate As String	
-	Dim sLineWidthFromTemplate As String
-	Dim bCodeFieldExists As Boolean
-	
 	Dim sURL
 	Dim sParts
 	Dim sPath 
-	
 	Dim sDirEntry As String
+	Dim sTemplateFile As String &apos; path to template file
 	
 	sURL=ThisComponent.getURL()  &apos; see GetRelativeIncludeStatement ()
 	sPath = &quot;&quot;
@@ -342,9 +333,33 @@ Function ReadTemplate() As Boolean
 	If Not StringFromFile(sTemplateCode, sTemplateFile) Then
 		&apos; MsgBox(&quot;Cannot open the template file:&quot; &amp; Chr(10) &amp; ConvertFromURL(sTemplateFile), iMsgBox_E, &quot;Error&quot;)
 		MsgBox (oMessages.getPropertyValue (&quot;sMsgCannotOpenTemplate1&quot;) &amp; ConvertFromURL(sTemplateFile) &amp; oMessages.getPropertyValue (&quot;sMsgCannotOpenTemplate2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
-		ReadTemplate=False
+		ReadTemplateFile = False
 		Exit Function
 	End If
+	ReadTemplateFile = True
+End Function
+
+
+Function ReadTemplate() As Boolean
+	&apos; Reads the template file into sTemplateCode
+	&apos; Extracts the content between the OOoLilyPond Start end End tags
+	&apos; for being used as template specific default values.
+
+	Dim sDefaultValue As String
+	Dim iTagPos As Integer
+	Dim sFieldName As String &apos; Code, StaffSize, LineWidth, Custom1 or Custom2
+	Dim sCodeToParse As String &apos; copy of sTemplateCode
+	Dim sStaffSizeFromTemplate As String	
+	Dim sLineWidthFromTemplate As String
+	Dim bCodeFieldExists As Boolean
+	
+	If Not bContainsTemplate Then
+		If Not ReadTemplateFile () Then
+			ReadTemplate = False
+			Exit Function
+		End If
+	End If
+	
 	sCodeToParse = sTemplateCode
 
 	bCodeFieldExists = False
