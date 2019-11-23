@@ -137,23 +137,24 @@ End Sub
 Sub BatchTest1()
 	&apos; This is the main function
 	&apos; It initializes OOoLilyPond and opens the OOoLilyPond Editor dialog
-	Dim go As Object
-	Dim g As Object
+	Dim oGraphicObjects As Object
+	Dim oCurrentObject As Object
+	Dim c As Integer
 	Dim i As Integer
 
 	OOoLilyPondInit ()
-	go = ThisComponent.getGraphicObjects
 	
-	For i = 0 to go.Count-1
-		g = go.getByIndex(i)
-		oCurrentGraphicObject = g
-	
-		If Not ReadGraphicObject (g) Then Exit Sub   &apos; create Cursor and read Attributes if Object is selected
-		&apos; Now we know which template to use
-		ReadTemplate ()
-		&apos; Open the dialog box
-		&apos; EditorDialog ()
-		Make (true)
+	oGraphicObjects = ThisComponent.getGraphicObjects
+	&apos; oGraphicObjects = tc.DrawPage
+	For i = 0 to oGraphicObjects.Count-1
+		oCurrentGraphicObject = oGraphicObjects.getByIndex(i)  &apos; global variable
+		If IsOLyObject (oCurrentGraphicObject) Then
+			If ReadGraphicObject (oCurrentGraphicObject) Then  &apos; create Cursor and read Attributes if Object is selected
+			&apos; Now we know which template to use
+				ReadTemplate ()
+				Make (true)
+			End If
+		End If
 	next i
 End Sub
 
@@ -582,6 +583,12 @@ Function ReadAttributes( oShape As Object ) As Boolean
 
     ReadAttributes=True
     
+End Function
+
+
+Function IsOLyObject (oShape As Object) As Boolean
+
+	IsOLyObject = ((oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondArgs&quot;)) Or (oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondCode&quot;)))
 End Function
 
 
