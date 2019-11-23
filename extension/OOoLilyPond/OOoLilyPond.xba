@@ -179,7 +179,7 @@ Function ReadGraphicObject (oGraphicObject As Object) As Boolean
 		bShapeIsSelected = True
 		
 	Case &quot;SwXTextRanges&quot; &apos; Nothing or normal text selection in Writer
-		oCursor = oDoc.Text.createTextCursorByRange(oGraphicObject(0))
+		&apos; oCursor = oDoc.Text.createTextCursorByRange(oGraphicObject(0))
 			
 	Case Else
 		&apos; Msgbox (&quot;The selected object is not an OLy object ...&quot;, 0, &quot;Error&quot;)
