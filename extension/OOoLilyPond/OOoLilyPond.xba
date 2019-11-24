@@ -365,15 +365,15 @@ sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
  
 	If bInWriter Then	&apos; We are in Writer...
 		If bWriterInsertViaClipboard Then
-			InsertOOoLilyPondObjectViaClipboard()
+			InsertOOoLilyPondObjectViaClipboard (&quot;&quot;, &quot;&quot;)
 		Else
-			InsertOOoLilyPondObject()
+			InsertOOoLilyPondObject (&quot;&quot;, &quot;&quot;)
 		End If
 	Else				&apos; We are in Impress or Draw...
 		If bImpressInsertViaClipboard Then
-			InsertOOoLilyPondObjectViaClipboard()
+			InsertOOoLilyPondObjectViaClipboard (&quot;&quot;, &quot;&quot;)
 		Else
-			InsertOOoLilyPondObject()
+			InsertOOoLilyPondObject (&quot;&quot;, &quot;&quot;)
 		End If
 	End If
 	
@@ -422,7 +422,7 @@ Sub RemoveAttribute (oGraphic As Object, sName As String)
 End Sub
 
 
-Sub InsertOOoLilyPondObjectViaClipboard()
+Sub InsertOOoLilyPondObjectViaClipboard (sNumber As String, sIdentifier As String)
 	Dim oDoc, oDocCtrl, oDispatcher, oAttributes, oViewCursor, oGraphic, oLilyPondAttribute As Object
 	Dim oCursor, oText as Object
 		
@@ -446,8 +446,8 @@ Sub InsertOOoLilyPondObjectViaClipboard()
 		end if
 
 		&apos;Import the new image to the clipboard and paste it...
-   		ImportGraphicIntoClipboard(ConvertToURL( sTmpPath &amp; constOLyFileName &amp; &quot;.&quot; &amp; sExtension))	
-		oDispatcher.executeDispatch( oDocCtrl.Frame, &quot;.uno:Paste&quot;, &quot;&quot;, 0, Array())
+   		ImportGraphicIntoClipboard (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension))	
+		oDispatcher.executeDispatch (oDocCtrl.Frame, &quot;.uno:Paste&quot;, &quot;&quot;, 0, Array())
 	  	oGraphic = oDocCtrl.getSelection().GetByIndex(0)
 
 		&apos; set image properties
@@ -516,7 +516,7 @@ Sub InsertOOoLilyPondObjectViaClipboard()
 End Sub
 
 
-Sub InsertOOoLilyPondObject()
+Sub InsertOOoLilyPondObject (sNumber As String, sIdentifier As String)
 	Dim oAttributes As Object
 	Dim oGraphic As Object
 	Dim oLilyPondAttribute As Object
@@ -536,14 +536,14 @@ Sub InsertOOoLilyPondObject()
 		Case &quot;com.sun.star.drawing.SvxShapeCollection&quot;  &apos; OLy &lt; 0.4 in Writer
 			oCursor = oDoc.Text.createTextCursorByRange(oCurrentGraphicObject(0).getAnchor())
 			oCurrentGraphicObject(0).getParent().remove(oCurrentGraphicObject(0)) &apos; Delete old OLyObject
-			oGraphic = ImportBitmapIntoWriter(ConvertToURL( sTmpPath &amp; constOLyFileName &amp; &quot;.&quot; &amp; sExtension), oCursor )
+			oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension), oCursor)
 
 		Case &quot;SwXTextGraphicObject&quot; &apos; Graphic is selected in Writer
-			oGraphic = ImportBitmapIntoWriter(ConvertToURL( sTmpPath &amp; constOLyFileName &amp; &quot;.&quot; &amp; sExtension), oCurrentGraphicObject )
+			oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension), oCurrentGraphicObject)
 			
 		Case &quot;SwXTextRanges&quot; &apos; Nothing or normal text selection in Writer
 			oCursor = oDoc.Text.createTextCursorByRange(oCurrentGraphicObject(0))
-			oGraphic = ImportBitmapIntoWriter(ConvertToURL( sTmpPath &amp; constOLyFileName &amp; &quot;.&quot; &amp; sExtension), oCursor )
+			oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension), oCursor)
 
 		End Select
 
@@ -559,10 +559,10 @@ Sub InsertOOoLilyPondObject()
 
 		If  IsNull(oCurrentGraphicObject) Then
 			&apos; Nothing is selected
-			oGraphic = ImportBitmapIntoDraw(ConvertToURL( sTmpPath &amp; constOLyFileName &amp; &quot;.&quot; &amp; sExtension) )
+			oGraphic = ImportBitmapIntoDraw (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension))
 		Else
 			&apos; OlyObject is selected
-			oGraphic = ImportBitmapIntoDraw(ConvertToURL( sTmpPath &amp; constOLyFileName &amp; &quot;.&quot; &amp; sExtension ), oCurrentGraphicObject.getByIndex(0))
+			oGraphic = ImportBitmapIntoDraw (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension), oCurrentGraphicObject.getByIndex(0))
 		End If
 	End If
 	
