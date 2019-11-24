@@ -115,5 +115,6 @@
   <dlg:text dlg:id="LabelPdfFilename" dlg:tab-index="69" dlg:left="326" dlg:top="178" dlg:width="16" dlg:height="9" dlg:help-text="OOoLilyPond.pdf (path and filename inside the command)" dlg:value="*.pdf"/>
   <dlg:textfield dlg:id="sPdfToSvgPrologue" dlg:tab-index="68" dlg:left="173" dlg:top="176" dlg:width="148" dlg:height="12" dlg:help-text="first part (prior to the pdf file name)"/>
   <dlg:textfield dlg:id="sPdfToSvgEpilogue" dlg:tab-index="70" dlg:left="346" dlg:top="176" dlg:width="64" dlg:height="12" dlg:help-text="second part (following the pdf file name)"/>
+  <dlg:checkbox dlg:id="bIncludeTemplate" dlg:tab-index="71" dlg:left="7" dlg:top="187" dlg:width="153" dlg:height="8" dlg:value="Include Template in document" dlg:checked="false"/>
  </dlg:bulletinboard>
 </dlg:window>

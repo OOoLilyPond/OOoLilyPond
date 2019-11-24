@@ -99,6 +99,9 @@ Sub ConfigDialogUpdate()
 		oConfigDialog.getControl(&quot;ImpressInsertDirect&quot;).setState(true)
 	End If 
 
+	&apos; Include Template:
+	oConfigDialog.getControl(&quot;bIncludeTemplate&quot;).setState(BoolToCheckBoxState(bIncludeTemplate))
+
 	&apos; Warnings
 	If bIgnoreWarnings Then
 		oConfigDialog.getControl(&quot;bIgnoreWarnings&quot;).setState(1)
@@ -321,6 +324,8 @@ Sub ApplyConfig
 	
 	bImpressInsertViaClipboard = oConfigDialog.getControl(&quot;ImpressInsertViaClipboard&quot;).getState()
 	
+	bIncludeTemplate = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bIncludeTemplate&quot;).getState())
+	
 	SetDocTypeSpecificDefaults()
 	
 	&apos; Change the font of the editor pane:
@@ -438,7 +443,7 @@ Sub DefaultConfig()
 	SetDocTypeSpecificDefaults()
 	
 	bKeepTempFiles = False
-	bIncludeTemplate = True
+	bIncludeTemplate = False
 End Sub
 
 
@@ -547,6 +552,11 @@ Sub ReadConfig()
 				bImpressInsertViaClipboard = StringToBool(sValue)
 			Case &quot;bImpressKeepCrop&quot;
 				bImpressKeepCrop = StringToBool(sValue)
+
+			Case &quot;bIncludeTemplate&quot;
+				bIncludeTemplate = StringToBool(sValue)
+				
+			
 			End Select
 		end if
 	wend
@@ -607,6 +617,8 @@ Sub SaveConfig
 	oTextOutputStream.writeString(&quot;bImpressUseStaffSizeFromTemplate=&quot; &amp; BoolToString(bImpressUseStaffSizeFromTemplate) &amp; Chr(10))
 	oTextOutputStream.writeString(&quot;bImpressInsertViaClipboard=&quot; &amp; BoolToString(bImpressInsertViaClipboard) &amp; Chr(10))
 	oTextOutputStream.writeString(&quot;bImpressKeepCrop=&quot; &amp; BoolToString(bImpressKeepCrop) &amp; Chr(10))
+
+	oTextOutputStream.writeString(&quot;bIncludeTemplate=&quot; &amp; BoolToString(bIncludeTemplate) &amp; Chr(10))
 	
 	oTextOutputStream.writeString(&quot;*** End of configuration file ***&quot; &amp; Chr(10) )
 		

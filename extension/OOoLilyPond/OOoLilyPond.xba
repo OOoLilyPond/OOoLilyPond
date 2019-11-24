@@ -332,6 +332,20 @@ Sub InsertAttribute(oGraphic As Object, sName, sValue As String)
 End Sub
 
 
+Sub RemoveAttribute (oGraphic As Object, sName As String)
+	Dim oAttributes As Object
+	&apos; Add a user defined attribute to the image.
+	oAttributes = oGraphic.UserDefinedAttributes
+	&apos; oLilyPondAttribute = createUnoStruct( &quot;com.sun.star.xml.AttributeData&quot; )
+	&apos; oLilyPondAttribute.Type = &quot;CDATA&quot;      		
+	&apos; oLilyPondAttribute.Value = sValue
+	If oAttributes.hasByName (sName) Then
+		oAttributes.removeByName(sName)
+	End If
+	oGraphic.UserDefinedAttributes = oAttributes
+End Sub
+
+
 Sub InsertOOoLilyPondObjectViaClipboard()
 	Dim oDoc, oDocCtrl, oDispatcher, oAttributes, oViewCursor, oGraphic, oLilyPondAttribute As Object
 	Dim oCursor, oText as Object
@@ -494,7 +508,11 @@ Sub InsertOOoLilyPondObject()
 	InsertAttribute(oGraphic, &quot;OOoLilyPondOption2Value&quot;, BoolToString(bOption2))
 	InsertAttribute(oGraphic, &quot;OOoLilyPondOption3Value&quot;, BoolToString(bOption3))
 	InsertAttribute(oGraphic, &quot;OOoLilyPondOption4Value&quot;, BoolToString(bOption4))
-	If bIncludeTemplate Then InsertAttribute(oGraphic, &quot;OOoLilyPondTemplateCode&quot;, sTemplateCode)
+	If bIncludeTemplate Then 
+		InsertAttribute (oGraphic, &quot;OOoLilyPondTemplateCode&quot;, sTemplateCode)
+	Else
+		RemoveAttribute (oGraphic, &quot;OOoLilyPondTemplateCode&quot;)
+	End If
 	
 	Exit Sub
 	
