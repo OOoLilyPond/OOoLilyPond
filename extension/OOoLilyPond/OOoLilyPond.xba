@@ -137,6 +137,82 @@ End Sub
 Sub BatchTest1()
 	&apos; This is the main function
 	&apos; It initializes OOoLilyPond and opens the OOoLilyPond Editor dialog
+	Dim oDrawPage As Object
+	Dim oCurrentObject As Object
+	Dim iCount As Integer
+	Dim i As Integer
+	
+	Dim oGraphic As Object
+	Dim oDocCtrl As Object
+	Dim oGraphicObjects ()
+
+
+	OOoLilyPondInit ()
+	If Not bInWriter Then Exit Sub
+	oDocCtrl = ThisComponent.getCurrentController
+
+	&apos; oGraphicObjects = ThisComponent.getGraphicObjects
+	oDrawPage = ThisComponent.DrawPage
+	iCount = oDrawPage.Count
+	oGraphicObjects = DimArray (iCount) 
+	For i = 0 to iCount - 1
+		oGraphicObjects (i) = oDrawPage.getByIndex(i)
+	next i
+	For i = 0 to iCount - 1
+		oCurrentGraphicObject = oGraphicObjects (i)  &apos; global variable
+		
+		oDocCtrl.select (oCurrentGraphicObject)
+		
+		If IsOLyObject (oCurrentGraphicObject) Then
+			If ReadSelectionObject () Then  &apos; create Cursor and read Attributes if Object is selected
+			&apos; Now we know which template to use
+				ReadTemplate ()
+				Make (true)
+				&apos; EditorDialog ()
+			End If
+		End If
+	next i
+End Sub
+
+
+Sub BatchTest1a()
+	&apos; This is the main function
+	&apos; It initializes OOoLilyPond and opens the OOoLilyPond Editor dialog
+	Dim oGraphicObjects As Object
+	Dim oCurrentObject As Object
+	Dim c As Integer
+	Dim i As Integer
+	
+	Dim oGraphic As Object
+	Dim oDocCtrl As Object
+
+
+	OOoLilyPondInit ()
+	If Not bInWriter Then Exit Sub
+	oDocCtrl = ThisComponent.getCurrentController
+
+	&apos; oGraphicObjects = ThisComponent.getGraphicObjects
+	oGraphicObjects = ThisComponent.DrawPage
+	For i = 0 to oGraphicObjects.Count-1
+		oCurrentGraphicObject = oGraphicObjects.getByIndex(i)  &apos; global variable
+		
+		oDocCtrl.select (oCurrentGraphicObject)
+		
+		If IsOLyObject (oCurrentGraphicObject) Then
+			If ReadSelectionObject () Then  &apos; create Cursor and read Attributes if Object is selected
+			&apos; Now we know which template to use
+				ReadTemplate ()
+				Make (true)
+				&apos; EditorDialog ()
+			End If
+		End If
+	next i
+End Sub
+
+
+Sub BatchTest0()
+	&apos; This is the main function
+	&apos; It initializes OOoLilyPond and opens the OOoLilyPond Editor dialog
 	Dim oGraphicObjects As Object
 	Dim oCurrentObject As Object
 	Dim c As Integer
@@ -351,7 +427,8 @@ Sub InsertOOoLilyPondObjectViaClipboard()
 	Dim oCursor, oText as Object
 		
 	&apos; Create the Controller and dispatcher for current document...
-	oDoc = StarDesktop.CurrentComponent
+	&apos; oDoc = StarDesktop.CurrentComponent
+	oDoc = ThisComponent
 	oDocCtrl = oDoc.getCurrentController()
 	oDispatcher = createUnoService(&quot;com.sun.star.frame.DispatchHelper&quot;)
 
