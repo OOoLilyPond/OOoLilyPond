@@ -337,6 +337,8 @@ sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 	&apos; Calls the subroutines that generate the image and
 	&apos; insert the image into the document.
 	Dim bNoFileCreated As Boolean
+	Dim oCursor As Object
+	Dim oViewCursor As Object
 
 	bNoFileCreated = False
 	&apos; Test if there is LilyPond code
@@ -417,8 +419,25 @@ sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 				If bWriterInsertViaClipboard Then
 					InsertOOoLilyPondObjectViaClipboard (sImageNum, sIdentifier)
 				Else
-					InsertOOoLilyPondObject (sImageNum, sIdentifier)
+					If iImageNum = 1 Then
+						InsertOOoLilyPondObject (sImageNum, sIdentifier)
+					Else
+						InsertOOoLilyPondObjectAdditional (sImageNum, sIdentifier)
+					End If
+					oCursor = ThisComponent.Text.createTextCursorByRange(oCurrentGraphicObject(0).getAnchor())
+					oCursor.goRight (2, false)
+					oCursor.getText.insertString (oCursor.getStart(), CHR$(257), False)
+					&apos; ReadSelectionObject ()
+					&apos; oViewCursor = ThisComponent.CurrentController.getViewCursor()
+					&apos; oViewCursor.goRight (1, false)
+					&apos; oViewCursor.gotoRange(oCursor, False)
+					&apos; oViewCursor.getText.insertString(oViewCursor.getStart(), CHR$(257), False)
 				End If
+				&apos; --------------------------------------------
+				&apos; de-select current object to avoid being overwritten by the following one:
+				
+				
+				&apos; --------------------------------------------
 				iImageNum = iImageNum + 1
 				sImageNum = &quot;-&quot; &amp; Val (iImageNum)
 			Loop
@@ -600,6 +619,105 @@ Sub InsertOOoLilyPondObject (sNumber As String, sIdentifier As String)
 
 		Case &quot;SwXTextGraphicObject&quot; &apos; Graphic is selected in Writer
 			oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension), oCurrentGraphicObject)
+			
+		Case &quot;SwXTextRanges&quot; &apos; Nothing or normal text selection in Writer
+			oCursor = oDoc.Text.createTextCursorByRange(oCurrentGraphicObject(0))
+			oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension), oCursor)
+
+		End Select
+
+		&apos; set image properties
+		oGraphic.AnchorType = iAnchor
+		oGraphic.Surround = iWrap
+
+		oGraphic.TopMargin = 0
+		oGraphic.BottomMargin = 0
+		oGraphic.VertOrient = 0
+		
+	Else &apos;We are in Impress or Draw
+
+		If  IsNull(oCurrentGraphicObject) Then
+			&apos; Nothing is selected
+			oGraphic = ImportBitmapIntoDraw (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension))
+		Else
+			&apos; OlyObject is selected
+			oGraphic = ImportBitmapIntoDraw (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension), oCurrentGraphicObject.getByIndex(0))
+		End If
+	End If
+	
+	
+	&apos; select the object
+	oDocCtrl.select(oGraphic)
+
+	InsertAttribute(oGraphic, &quot;OOoLilyPondCode&quot;, sCode)
+	InsertAttribute(oGraphic, &quot;OOoLilyPondTemplate&quot;, sTemplate)
+	InsertAttribute(oGraphic, &quot;OOoLilyPondLineWidth&quot;, sLineWidth)
+	InsertAttribute(oGraphic, &quot;OOoLilyPondStaffSize&quot;, sStaffSize)
+	InsertAttribute(oGraphic, &quot;OOoLilyPondCustom1&quot;, sCustom1)
+	InsertAttribute(oGraphic, &quot;OOoLilyPondCustom2&quot;, sCustom2)
+	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultCode&quot;, BoolToString(bUseDefaultCode))
+	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultLineWidth&quot;, BoolToString(bUseDefaultLineWidth))
+	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultStaffSize&quot;, BoolToString(bUseDefaultStaffSize))
+	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultCustom1&quot;, BoolToString(bUseDefaultCustom1))
+	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultCustom2&quot;, BoolToString(bUseDefaultCustom2))
+	InsertAttribute(oGraphic, &quot;OOoLilyPondOption1Value&quot;, BoolToString(bOption1))
+	InsertAttribute(oGraphic, &quot;OOoLilyPondOption2Value&quot;, BoolToString(bOption2))
+	InsertAttribute(oGraphic, &quot;OOoLilyPondOption3Value&quot;, BoolToString(bOption3))
+	InsertAttribute(oGraphic, &quot;OOoLilyPondOption4Value&quot;, BoolToString(bOption4))
+	If bIncludeTemplate Then 
+		InsertAttribute (oGraphic, &quot;OOoLilyPondTemplateCode&quot;, sTemplateCode)
+	Else
+		RemoveAttribute (oGraphic, &quot;OOoLilyPondTemplateCode&quot;)
+	End If
+	If bSeparateImages Then 
+		InsertAttribute (oGraphic, &quot;OOoLilyPondIdentifier&quot;, sTemplateCode)
+	Else
+		RemoveAttribute (oGraphic, &quot;OOoLilyPondIdentifier&quot;)
+	End If
+	
+	Exit Sub
+	
+	ErrorHandler:
+		Select Case Err
+		Case 1	&apos; 	&quot;End of content node doesn&apos;t have the proper start node&quot;
+			Msgbox (Error &amp; Chr(10) &amp; Chr(10) &amp; oMessages.getPropertyValue (&quot;MsgNoStartNode&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+				&apos; MsgNoStartNode
+		Case Else
+			Msgbox (Error, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		End Select
+	Exit Sub
+
+End Sub
+
+
+
+Sub InsertOOoLilyPondObjectAdditional (sNumber As String, sIdentifier As String)
+	Dim oAttributes As Object
+	Dim oGraphic As Object
+	Dim oLilyPondAttribute As Object
+	Dim oDoc As Object
+	Dim oDocCtrl As Object
+	Dim oCursor As Object
+
+	oDoc = ThisComponent
+	oDocCtrl = oDoc.getCurrentController
+
+	On Error GoTo ErrorHandler
+
+	&apos; insert the Bitmap
+	If bInWriter Then
+
+		Select Case oCurrentGraphicObject.getImplementationName()		
+		Case &quot;com.sun.star.drawing.SvxShapeCollection&quot;  &apos; OLy &lt; 0.4 in Writer
+			oCursor = oDoc.Text.createTextCursorByRange(oCurrentGraphicObject(0).getAnchor())
+			oCurrentGraphicObject(0).getParent().remove(oCurrentGraphicObject(0)) &apos; Delete old OLyObject
+			oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension), oCursor)
+
+		Case &quot;SwXTextGraphicObject&quot; &apos; Graphic is selected in Writer
+			&apos; oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension), oCurrentGraphicObject)
+			oCursor = oDoc.Text.createTextCursorByRange(oCurrentGraphicObject(0).getAnchor())
+			oCursor.goRight (1, false)
+			oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension), oCursor)
 			
 		Case &quot;SwXTextRanges&quot; &apos; Nothing or normal text selection in Writer
 			oCursor = oDoc.Text.createTextCursorByRange(oCurrentGraphicObject(0))
