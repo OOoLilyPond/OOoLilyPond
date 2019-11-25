@@ -444,6 +444,7 @@ Sub DefaultConfig()
 	
 	bKeepTempFiles = False
 	bIncludeTemplate = False
+	bSeparateImages = True
 End Sub
 
 

@@ -299,6 +299,40 @@ Function ReadSelectionObject () As Boolean
 End Function
 
 
+Sub ConvertSeparateImageFiles ()
+
+	Dim sDirEntry As String
+	Dim sCommand As String
+
+	If sFormat &lt;&gt; &quot;pdf to svg&quot; Then Exit Sub
+	
+	If (sOSType = &quot;Unix&quot;) Or (sOSType = &quot;Mac&quot;) Then
+		sCommand = &quot;cd &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; Chr(34)
+	ElseIf sOSType = &quot;Windows&quot; Then
+		sCommand = &quot;cd /d &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; Chr(34) &amp; Chr(13) &amp; Chr(10) 	
+	End If
+	
+	sDirEntry = Dir (sTmpPath &amp; constOLyFileName &amp; &quot;-*.pdf&quot;)
+	Do While sDirEntry &lt;&gt; &quot;&quot;
+		If (sOSType = &quot;Unix&quot;) Or (sOSType = &quot;Mac&quot;) Then
+			sCommand = sCommand &amp; &quot;; &quot; 
+		ElseIf sOSType = &quot;Windows&quot; Then
+			sCommand = sCommand &amp; Chr(13) &amp; Chr(10)
+		End If
+		sCommand = sCommand &amp; sPdfToSvgPrologue &amp; ConvertFromURL(sTmpPath) &amp; sDirEntry &amp; sPdfToSvgEpilogue
+	sDirEntry = Dir
+	Loop
+	
+	If (sOSType = &quot;Unix&quot;) Or (sOSType = &quot;Mac&quot;) Then
+		BashCommand (sCommand)
+	ElseIf sOSType = &quot;Windows&quot; Then
+		sCommand = sCommand &amp; Chr(13) &amp; Chr(10)
+		WindowsCommand (sCommand)
+	End If
+	
+End Sub
+
+
 sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditorDialog doesn&apos;t exist (batch processing)
 	&apos; Calls the subroutines that generate the image and
 	&apos; insert the image into the document.
@@ -364,10 +398,36 @@ sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
  	End If
  
 	If bInWriter Then	&apos; We are in Writer...
-		If bWriterInsertViaClipboard Then
-			InsertOOoLilyPondObjectViaClipboard (&quot;&quot;, &quot;&quot;)
+		If bSeparateImages Then
+		
+			Dim sIdentifier As String
+			Dim sImageNum As String
+			Dim iImageNum As Integer
+			
+			ConvertSeparateImageFiles ()
+			
+			sIdentifier = &quot;blah123&quot;
+			iImageNum = 1
+			sImageNum = &quot;-&quot; &amp; Val (iImageNum)
+			
+			Dim s as String
+			s = sTmpPath &amp; constOLyFileName &amp; sImageNum &amp; &quot;.&quot; &amp; sExtension
+			
+			Do While oFileAccess.exists (sTmpPath &amp; constOLyFileName &amp; sImageNum &amp; &quot;.&quot; &amp; sExtension)
+				If bWriterInsertViaClipboard Then
+					InsertOOoLilyPondObjectViaClipboard (sImageNum, sIdentifier)
+				Else
+					InsertOOoLilyPondObject (sImageNum, sIdentifier)
+				End If
+				iImageNum = iImageNum + 1
+				sImageNum = &quot;-&quot; &amp; Val (iImageNum)
+			Loop
 		Else
-			InsertOOoLilyPondObject (&quot;&quot;, &quot;&quot;)
+			If bWriterInsertViaClipboard Then
+				InsertOOoLilyPondObjectViaClipboard (&quot;&quot;, &quot;&quot;)
+			Else
+				InsertOOoLilyPondObject (&quot;&quot;, &quot;&quot;)
+			End If
 		End If
 	Else				&apos; We are in Impress or Draw...
 		If bImpressInsertViaClipboard Then
@@ -589,6 +649,11 @@ Sub InsertOOoLilyPondObject (sNumber As String, sIdentifier As String)
 		InsertAttribute (oGraphic, &quot;OOoLilyPondTemplateCode&quot;, sTemplateCode)
 	Else
 		RemoveAttribute (oGraphic, &quot;OOoLilyPondTemplateCode&quot;)
+	End If
+	If bSeparateImages Then 
+		InsertAttribute (oGraphic, &quot;OOoLilyPondIdentifier&quot;, sTemplateCode)
+	Else
+		RemoveAttribute (oGraphic, &quot;OOoLilyPondIdentifier&quot;)
 	End If
 	
 	Exit Sub

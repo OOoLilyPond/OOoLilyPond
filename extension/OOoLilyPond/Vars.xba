@@ -46,6 +46,7 @@ Private sLanguageFileName As String
 Private bKeepTempFiles As Boolean
 Private bIncludeTemplate As Boolean
 Private bContainsTemplate As Boolean
+Private bSeparateImages As Boolean
 
 &apos; Environment
 Private sOSType As String
