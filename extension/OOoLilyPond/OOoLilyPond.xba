@@ -414,7 +414,7 @@ sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 			
 			ConvertSeparateImageFiles ()
 			
-			sIdentifier = &quot;blah123&quot;
+			sIdentifier = TimeStamp
 			iImageNum = 1
 			sImageNum = &quot;-&quot; &amp; Val (iImageNum)
 			

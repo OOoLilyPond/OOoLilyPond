@@ -340,6 +340,14 @@ Function TmpFileName(sPrefix , sSuffix As String) As String
 End Function
 
 
+Function TimeStamp () As String
+	Dim vCurrentTime
+	vCurrentTime = Now
+	TimeStamp = Left (CDateToISO (vCurrentTime), 4) &amp; &quot;-&quot; &amp; Mid (CDateToISO (vCurrentTime), 5, 2) &amp; &quot;-&quot; &amp; Right (CDateToISO (vCurrentTime), 2) &amp; &quot;_&quot; _
+  				&amp; Left (TimeValue (vCurrentTime), 2) &amp; &quot;-&quot; &amp; Mid (TimeValue (vCurrentTime), 4, 2) &amp; &quot;-&quot; &amp; Right (TimeValue (vCurrentTime), 2)
+End Function
+
+
 Sub WindowsCommand(sCommand as String)
 	
 	&apos; I did not achieve to run lilypond directly with the Shell command and the 
