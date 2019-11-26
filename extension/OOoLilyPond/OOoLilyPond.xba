@@ -423,19 +423,13 @@ sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 					InsertOOoLilyPondObjectViaClipboard (sImageNum, sIdentifier)
 				Else
 					If iImageNum = 1 Then
-						InsertOOoLilyPondObject (sImageNum, sIdentifier, false)
-						oCurrentCursor.goRight (1, false)
-					Else
 						InsertOOoLilyPondObject (sImageNum, sIdentifier, true)
+					Else
+						InsertOOoLilyPondObject (sImageNum, sIdentifier, false)
 					End If
 				End If
 				oCurrentCursor.goRight (0, false)
 				oCurrentCursor.getText.insertControlCharacter (oCurrentCursor.getStart(), com.sun.star.text.ControlCharacter.PARAGRAPH_BREAK, False)
-				&apos; ReadSelectionObject ()
-				&apos; oViewCursor = ThisComponent.CurrentController.getViewCursor()
-				&apos; oViewCursor.goRight (1, false)
-				&apos; oViewCursor.gotoRange(oCursor, False)
-				&apos; oViewCursor.getText.insertString(oViewCursor.getStart(), CHR$(257), False)				
 				iImageNum = iImageNum + 1
 				sImageNum = &quot;-&quot; &amp; Val (iImageNum)
 			Loop
@@ -443,14 +437,14 @@ sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 			If bWriterInsertViaClipboard Then
 				InsertOOoLilyPondObjectViaClipboard (&quot;&quot;, &quot;&quot;)
 			Else
-				InsertOOoLilyPondObject (&quot;&quot;, &quot;&quot;, false)
+				InsertOOoLilyPondObject (&quot;&quot;, &quot;&quot;, true)
 			End If
 		End If
 	Else				&apos; We are in Impress or Draw...
 		If bImpressInsertViaClipboard Then
 			InsertOOoLilyPondObjectViaClipboard (&quot;&quot;, &quot;&quot;)
 		Else
-			InsertOOoLilyPondObject (&quot;&quot;, &quot;&quot;, false)
+			InsertOOoLilyPondObject (&quot;&quot;, &quot;&quot;, true)
 		End If
 	End If
 	
@@ -607,7 +601,7 @@ Sub InsertOOoLilyPondObjectViaClipboard (sNumber As String, sIdentifier As Strin
 End Sub
 
 
-Sub InsertOOoLilyPondObject (sNumber As String, sIdentifier As String, bForceNewObject)
+Sub InsertOOoLilyPondObject (sNumber As String, sIdentifier As String, bFirstCall)
 	Dim oAttributes As Object
 	Dim oGraphic As Object
 	Dim oLilyPondAttribute As Object
@@ -626,14 +620,15 @@ Sub InsertOOoLilyPondObject (sNumber As String, sIdentifier As String, bForceNew
 		Select Case oCurrentGraphicObject.getImplementationName()		
 		Case &quot;com.sun.star.drawing.SvxShapeCollection&quot;  &apos; OLy &lt; 0.4 in Writer
 			&apos; oCurrentCursor = oDoc.Text.createTextCursorByRange(oCurrentGraphicObject(0).getAnchor())
-			oCurrentGraphicObject(0).getParent().remove(oCurrentGraphicObject(0)) &apos; Delete old OLyObject
+			If bFirstCall Then oCurrentGraphicObject(0).getParent().remove(oCurrentGraphicObject(0)) &apos; Delete old OLyObject
 			oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension), oCurrentCursor, true)
 
 		Case &quot;SwXTextGraphicObject&quot; &apos; Graphic is selected in Writer
-			If bForceNewObject Then
-				oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension), oCurrentCursor, bForceNewObject)
+			If bFirstCall Then
+				oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension), oCurrentGraphicObject, false)
+				oCurrentCursor.goRight (1, false)
 			Else
-				oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension), oCurrentGraphicObject, bForceNewObject)
+				oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension), oCurrentCursor, true)
 			End If
 			
 		Case &quot;SwXTextRanges&quot; &apos; Nothing or normal text selection in Writer
@@ -663,7 +658,7 @@ Sub InsertOOoLilyPondObject (sNumber As String, sIdentifier As String, bForceNew
 	
 	
 	&apos; select the object
-	oDocCtrl.select(oGraphic)
+	oDocCtrl.select (oGraphic)
 	AttachAttributes (oGraphic)
 
 	Exit Sub
