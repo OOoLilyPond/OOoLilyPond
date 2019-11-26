@@ -111,7 +111,7 @@ Function GetOSType()
 End Function
 
 
-Sub ImportGraphicIntoClipboard(cURL)
+Sub ImportGraphicIntoClipboard (cURL)
 	&apos; Import graphic from URL into the clipboard.
 	&apos; Inspired from OOoForums Danny&apos;s code 
 	&apos; To do: don&apos;t use dispatcher

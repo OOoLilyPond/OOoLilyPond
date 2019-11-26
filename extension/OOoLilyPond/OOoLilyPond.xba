@@ -420,7 +420,11 @@ sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 			
 			Do While oFileAccess.exists (sTmpPath &amp; constOLyFileName &amp; sImageNum &amp; &quot;.&quot; &amp; sExtension)
 				If bWriterInsertViaClipboard Then
-					InsertOOoLilyPondObjectViaClipboard (sImageNum, sIdentifier)
+					If iImageNum = 1 Then
+						InsertOOoLilyPondObjectViaClipboard (sImageNum, sIdentifier, true)
+					Else
+						InsertOOoLilyPondObjectViaClipboard (sImageNum, sIdentifier, false)
+					End If
 				Else
 					If iImageNum = 1 Then
 						InsertOOoLilyPondObject (sImageNum, sIdentifier, true)
@@ -435,14 +439,14 @@ sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 			Loop
 		Else	&apos; not bSeparateImages
 			If bWriterInsertViaClipboard Then
-				InsertOOoLilyPondObjectViaClipboard (&quot;&quot;, &quot;&quot;)
+				InsertOOoLilyPondObjectViaClipboard (&quot;&quot;, &quot;&quot;, true)
 			Else
 				InsertOOoLilyPondObject (&quot;&quot;, &quot;&quot;, true)
 			End If
 		End If
 	Else				&apos; We are in Impress or Draw...
 		If bImpressInsertViaClipboard Then
-			InsertOOoLilyPondObjectViaClipboard (&quot;&quot;, &quot;&quot;)
+			InsertOOoLilyPondObjectViaClipboard (&quot;&quot;, &quot;&quot;, true)
 		Else
 			InsertOOoLilyPondObject (&quot;&quot;, &quot;&quot;, true)
 		End If
@@ -523,9 +527,9 @@ Sub AttachAttributes (oGraphic As Object)
 End Sub
 
 
-Sub InsertOOoLilyPondObjectViaClipboard (sNumber As String, sIdentifier As String)
+Sub InsertOOoLilyPondObjectViaClipboard (sNumber As String, sIdentifier As String, bFirstCall As Boolean)
 	Dim oDoc, oDocCtrl, oDispatcher, oAttributes, oViewCursor, oGraphic, oLilyPondAttribute As Object
-	Dim oCursor, oText as Object
+	Dim oText as Object
 		
 	&apos; Create the Controller and dispatcher for current document...
 	&apos; oDoc = StarDesktop.CurrentComponent
@@ -536,16 +540,14 @@ Sub InsertOOoLilyPondObjectViaClipboard (sNumber As String, sIdentifier As Strin
 	if bInWriter then
 
 		&apos;ToDo: Don&apos;t use the Dispatcher
-		if bShapeIsSelected then
+		if bShapeIsSelected And bFirstCall then
 			&apos;Remove the old image...
 			oDispatcher.executeDispatch( oDocCtrl.Frame, &quot;.uno:Cut&quot;, &quot;&quot;, 0, Array())
-		else
-			&apos;Get the cursor position...
-			oViewCursor =  oDocCtrl.ViewCursor
-			oText = oDoc.Text
-			oCursor = oViewCursor.Text.createTextCursorByRange(oViewCursor)
 		end if
-
+		&apos;Get the cursor position...
+		oViewCursor =  oDocCtrl.ViewCursor
+		oText = oDoc.Text
+		
 		&apos;Import the new image to the clipboard and paste it...
    		ImportGraphicIntoClipboard (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension))	
 		oDispatcher.executeDispatch (oDocCtrl.Frame, &quot;.uno:Paste&quot;, &quot;&quot;, 0, Array())
@@ -572,15 +574,15 @@ Sub InsertOOoLilyPondObjectViaClipboard (sNumber As String, sIdentifier As Strin
 		oGraphic.BottomMargin = 0
 		oGraphic.VertOrient = 0
 
-		if not bShapeIsSelected then
+		&apos; if (not bShapeIsSelected) or (not bFirstCall) then
 			&apos; Show cursor...
 			&apos; To do: don&apos;t use dispatcher
-			oDispatcher.executeDispatch(oDocCtrl.Frame, &quot;.uno:Escape&quot;, &quot;&quot;, 0, Array())
-			&apos; oCursor.goRight(0,false)
-			&apos; oViewCursor.gotoRange(oCursor, False)
-			oCurrentCursor.goRight(0,false)
-			oViewCursor.gotoRange(oCurrentCursor, False)
-		end if
+			oDispatcher.executeDispatch (oDocCtrl.Frame, &quot;.uno:Escape&quot;, &quot;&quot;, 0, Array())
+			&apos; oCursor.goRight (0,false)
+			&apos; oViewCursor.gotoRange (oCursor, False)
+			oCurrentCursor.goRight (0,false)
+			oViewCursor.gotoRange (oCurrentCursor, False)
+		&apos; end if
 
 	else &apos;We are in Impress
 		
