@@ -423,17 +423,19 @@ sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 					If iImageNum = 1 Then
 						InsertOOoLilyPondObjectViaClipboard (sImageNum, sIdentifier, true)
 					Else
+						oCurrentCursor.getText.insertControlCharacter (oCurrentCursor.getStart(), com.sun.star.text.ControlCharacter.PARAGRAPH_BREAK, False)
 						InsertOOoLilyPondObjectViaClipboard (sImageNum, sIdentifier, false)
 					End If
 				Else
 					If iImageNum = 1 Then
 						InsertOOoLilyPondObject (sImageNum, sIdentifier, true)
 					Else
+						oCurrentCursor.getText.insertControlCharacter (oCurrentCursor.getStart(), com.sun.star.text.ControlCharacter.PARAGRAPH_BREAK, False)
 						InsertOOoLilyPondObject (sImageNum, sIdentifier, false)
 					End If
 				End If
 				oCurrentCursor.goRight (0, false)
-				oCurrentCursor.getText.insertControlCharacter (oCurrentCursor.getStart(), com.sun.star.text.ControlCharacter.PARAGRAPH_BREAK, False)
+				&apos; oCurrentCursor.getText.insertControlCharacter (oCurrentCursor.getStart(), com.sun.star.text.ControlCharacter.PARAGRAPH_BREAK, False)
 				iImageNum = iImageNum + 1
 				sImageNum = &quot;-&quot; &amp; Val (iImageNum)
 			Loop
