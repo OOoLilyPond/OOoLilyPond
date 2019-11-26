@@ -576,8 +576,10 @@ Sub InsertOOoLilyPondObjectViaClipboard (sNumber As String, sIdentifier As Strin
 			&apos; Show cursor...
 			&apos; To do: don&apos;t use dispatcher
 			oDispatcher.executeDispatch(oDocCtrl.Frame, &quot;.uno:Escape&quot;, &quot;&quot;, 0, Array())
-			oCursor.goRight(0,false)
-			oViewCursor.gotoRange(oCursor, False)
+			&apos; oCursor.goRight(0,false)
+			&apos; oViewCursor.gotoRange(oCursor, False)
+			oCurrentCursor.goRight(0,false)
+			oViewCursor.gotoRange(oCurrentCursor, False)
 		end if
 
 	else &apos;We are in Impress
