@@ -337,7 +337,6 @@ sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 	&apos; Calls the subroutines that generate the image and
 	&apos; insert the image into the document.
 	Dim bNoFileCreated As Boolean
-	Dim oCursor As Object
 	Dim oViewCursor As Object
 
 	bNoFileCreated = False
@@ -400,6 +399,13 @@ sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
  	End If
  
 	If bInWriter Then	&apos; We are in Writer...
+	
+		If oCurrentGraphicObject.getImplementationName() = &quot;SwXTextRanges&quot; Then &apos; Nothing or normal text selection in Writer
+			oCurrentCursor = ThisComponent.Text.createTextCursorByRange(oCurrentGraphicObject(0))
+		Else
+			oCurrentCursor = ThisComponent.Text.createTextCursorByRange(oCurrentGraphicObject(0).getAnchor())
+		EndIf
+		
 		If bSeparateImages Then
 		
 			Dim sIdentifier As String
@@ -412,47 +418,39 @@ sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 			iImageNum = 1
 			sImageNum = &quot;-&quot; &amp; Val (iImageNum)
 			
-			Dim s as String
-			s = sTmpPath &amp; constOLyFileName &amp; sImageNum &amp; &quot;.&quot; &amp; sExtension
-			
 			Do While oFileAccess.exists (sTmpPath &amp; constOLyFileName &amp; sImageNum &amp; &quot;.&quot; &amp; sExtension)
 				If bWriterInsertViaClipboard Then
 					InsertOOoLilyPondObjectViaClipboard (sImageNum, sIdentifier)
 				Else
 					If iImageNum = 1 Then
-						InsertOOoLilyPondObject (sImageNum, sIdentifier)
+						InsertOOoLilyPondObject (sImageNum, sIdentifier, false)
+						oCurrentCursor.goRight (1, false)
 					Else
-						InsertOOoLilyPondObjectAdditional (sImageNum, sIdentifier)
+						InsertOOoLilyPondObject (sImageNum, sIdentifier, true)
 					End If
-					oCursor = ThisComponent.Text.createTextCursorByRange(oCurrentGraphicObject(0).getAnchor())
-					oCursor.goRight (2, false)
-					oCursor.getText.insertString (oCursor.getStart(), CHR$(257), False)
-					&apos; ReadSelectionObject ()
-					&apos; oViewCursor = ThisComponent.CurrentController.getViewCursor()
-					&apos; oViewCursor.goRight (1, false)
-					&apos; oViewCursor.gotoRange(oCursor, False)
-					&apos; oViewCursor.getText.insertString(oViewCursor.getStart(), CHR$(257), False)
 				End If
-				&apos; --------------------------------------------
-				&apos; de-select current object to avoid being overwritten by the following one:
-				
-				
-				&apos; --------------------------------------------
+				oCurrentCursor.goRight (0, false)
+				oCurrentCursor.getText.insertControlCharacter (oCurrentCursor.getStart(), com.sun.star.text.ControlCharacter.PARAGRAPH_BREAK, False)
+				&apos; ReadSelectionObject ()
+				&apos; oViewCursor = ThisComponent.CurrentController.getViewCursor()
+				&apos; oViewCursor.goRight (1, false)
+				&apos; oViewCursor.gotoRange(oCursor, False)
+				&apos; oViewCursor.getText.insertString(oViewCursor.getStart(), CHR$(257), False)				
 				iImageNum = iImageNum + 1
 				sImageNum = &quot;-&quot; &amp; Val (iImageNum)
 			Loop
-		Else
+		Else	&apos; not bSeparateImages
 			If bWriterInsertViaClipboard Then
 				InsertOOoLilyPondObjectViaClipboard (&quot;&quot;, &quot;&quot;)
 			Else
-				InsertOOoLilyPondObject (&quot;&quot;, &quot;&quot;)
+				InsertOOoLilyPondObject (&quot;&quot;, &quot;&quot;, false)
 			End If
 		End If
 	Else				&apos; We are in Impress or Draw...
 		If bImpressInsertViaClipboard Then
 			InsertOOoLilyPondObjectViaClipboard (&quot;&quot;, &quot;&quot;)
 		Else
-			InsertOOoLilyPondObject (&quot;&quot;, &quot;&quot;)
+			InsertOOoLilyPondObject (&quot;&quot;, &quot;&quot;, false)
 		End If
 	End If
 	
@@ -498,6 +496,36 @@ Sub RemoveAttribute (oGraphic As Object, sName As String)
 		oAttributes.removeByName(sName)
 	End If
 	oGraphic.UserDefinedAttributes = oAttributes
+End Sub
+
+
+Sub AttachAttributes (oGraphic As Object)
+
+	InsertAttribute(oGraphic, &quot;OOoLilyPondCode&quot;, sCode)
+	InsertAttribute(oGraphic, &quot;OOoLilyPondTemplate&quot;, sTemplate)
+	InsertAttribute(oGraphic, &quot;OOoLilyPondLineWidth&quot;, sLineWidth)
+	InsertAttribute(oGraphic, &quot;OOoLilyPondStaffSize&quot;, sStaffSize)
+	InsertAttribute(oGraphic, &quot;OOoLilyPondCustom1&quot;, sCustom1)
+	InsertAttribute(oGraphic, &quot;OOoLilyPondCustom2&quot;, sCustom2)
+	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultCode&quot;, BoolToString(bUseDefaultCode))
+	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultLineWidth&quot;, BoolToString(bUseDefaultLineWidth))
+	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultStaffSize&quot;, BoolToString(bUseDefaultStaffSize))
+	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultCustom1&quot;, BoolToString(bUseDefaultCustom1))
+	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultCustom2&quot;, BoolToString(bUseDefaultCustom2))
+	InsertAttribute(oGraphic, &quot;OOoLilyPondOption1Value&quot;, BoolToString(bOption1))
+	InsertAttribute(oGraphic, &quot;OOoLilyPondOption2Value&quot;, BoolToString(bOption2))
+	InsertAttribute(oGraphic, &quot;OOoLilyPondOption3Value&quot;, BoolToString(bOption3))
+	InsertAttribute(oGraphic, &quot;OOoLilyPondOption4Value&quot;, BoolToString(bOption4))
+	If bIncludeTemplate Then 
+		InsertAttribute (oGraphic, &quot;OOoLilyPondTemplateCode&quot;, sTemplateCode)
+	Else
+		RemoveAttribute (oGraphic, &quot;OOoLilyPondTemplateCode&quot;)
+	End If
+	If bSeparateImages Then 
+		InsertAttribute (oGraphic, &quot;OOoLilyPondIdentifier&quot;, sTemplateCode)
+	Else
+		RemoveAttribute (oGraphic, &quot;OOoLilyPondIdentifier&quot;)
+	End If
 End Sub
 
 
@@ -574,28 +602,12 @@ Sub InsertOOoLilyPondObjectViaClipboard (sNumber As String, sIdentifier As Strin
 		if bShapeIsSelected then oGraphic.position = oShapePosition
 
 	end if
-
-	InsertAttribute(oGraphic, &quot;OOoLilyPondCode&quot;, sCode)
-	InsertAttribute(oGraphic, &quot;OOoLilyPondTemplate&quot;, sTemplate)
-	InsertAttribute(oGraphic, &quot;OOoLilyPondLineWidth&quot;, sLineWidth)
-	InsertAttribute(oGraphic, &quot;OOoLilyPondStaffSize&quot;, sStaffSize)
-	InsertAttribute(oGraphic, &quot;OOoLilyPondCustom1&quot;, sCustom1)
-	InsertAttribute(oGraphic, &quot;OOoLilyPondCustom2&quot;, sCustom2)
-	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultCode&quot;, BoolToString(bUseDefaultCode))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultLineWidth&quot;, BoolToString(bUseDefaultLineWidth))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultStaffSize&quot;, BoolToString(bUseDefaultStaffSize))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultCustom1&quot;, BoolToString(bUseDefaultCustom1))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultCustom2&quot;, BoolToString(bUseDefaultCustom2))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondOption1Value&quot;, BoolToString(bOption1))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondOption2Value&quot;, BoolToString(bOption2))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondOption3Value&quot;, BoolToString(bOption3))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondOption4Value&quot;, BoolToString(bOption4))
-	If bIncludeTemplate Then InsertAttribute(oGraphic, &quot;OOoLilyPondTemplateCode&quot;, sTemplateCode)
-
+	
+	AttachAttributes (oGraphic)
 End Sub
 
 
-Sub InsertOOoLilyPondObject (sNumber As String, sIdentifier As String)
+Sub InsertOOoLilyPondObject (sNumber As String, sIdentifier As String, bForceNewObject)
 	Dim oAttributes As Object
 	Dim oGraphic As Object
 	Dim oLilyPondAttribute As Object
@@ -613,16 +625,20 @@ Sub InsertOOoLilyPondObject (sNumber As String, sIdentifier As String)
 
 		Select Case oCurrentGraphicObject.getImplementationName()		
 		Case &quot;com.sun.star.drawing.SvxShapeCollection&quot;  &apos; OLy &lt; 0.4 in Writer
-			oCursor = oDoc.Text.createTextCursorByRange(oCurrentGraphicObject(0).getAnchor())
+			&apos; oCurrentCursor = oDoc.Text.createTextCursorByRange(oCurrentGraphicObject(0).getAnchor())
 			oCurrentGraphicObject(0).getParent().remove(oCurrentGraphicObject(0)) &apos; Delete old OLyObject
-			oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension), oCursor)
+			oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension), oCurrentCursor, true)
 
 		Case &quot;SwXTextGraphicObject&quot; &apos; Graphic is selected in Writer
-			oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension), oCurrentGraphicObject)
+			If bForceNewObject Then
+				oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension), oCurrentCursor, bForceNewObject)
+			Else
+				oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension), oCurrentGraphicObject, bForceNewObject)
+			End If
 			
 		Case &quot;SwXTextRanges&quot; &apos; Nothing or normal text selection in Writer
-			oCursor = oDoc.Text.createTextCursorByRange(oCurrentGraphicObject(0))
-			oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension), oCursor)
+			&apos; oCurrentCursor = oDoc.Text.createTextCursorByRange(oCurrentGraphicObject(0))
+			oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension), oCurrentCursor, false)
 
 		End Select
 
@@ -648,33 +664,8 @@ Sub InsertOOoLilyPondObject (sNumber As String, sIdentifier As String)
 	
 	&apos; select the object
 	oDocCtrl.select(oGraphic)
+	AttachAttributes (oGraphic)
 
-	InsertAttribute(oGraphic, &quot;OOoLilyPondCode&quot;, sCode)
-	InsertAttribute(oGraphic, &quot;OOoLilyPondTemplate&quot;, sTemplate)
-	InsertAttribute(oGraphic, &quot;OOoLilyPondLineWidth&quot;, sLineWidth)
-	InsertAttribute(oGraphic, &quot;OOoLilyPondStaffSize&quot;, sStaffSize)
-	InsertAttribute(oGraphic, &quot;OOoLilyPondCustom1&quot;, sCustom1)
-	InsertAttribute(oGraphic, &quot;OOoLilyPondCustom2&quot;, sCustom2)
-	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultCode&quot;, BoolToString(bUseDefaultCode))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultLineWidth&quot;, BoolToString(bUseDefaultLineWidth))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultStaffSize&quot;, BoolToString(bUseDefaultStaffSize))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultCustom1&quot;, BoolToString(bUseDefaultCustom1))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultCustom2&quot;, BoolToString(bUseDefaultCustom2))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondOption1Value&quot;, BoolToString(bOption1))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondOption2Value&quot;, BoolToString(bOption2))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondOption3Value&quot;, BoolToString(bOption3))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondOption4Value&quot;, BoolToString(bOption4))
-	If bIncludeTemplate Then 
-		InsertAttribute (oGraphic, &quot;OOoLilyPondTemplateCode&quot;, sTemplateCode)
-	Else
-		RemoveAttribute (oGraphic, &quot;OOoLilyPondTemplateCode&quot;)
-	End If
-	If bSeparateImages Then 
-		InsertAttribute (oGraphic, &quot;OOoLilyPondIdentifier&quot;, sTemplateCode)
-	Else
-		RemoveAttribute (oGraphic, &quot;OOoLilyPondIdentifier&quot;)
-	End If
-	
 	Exit Sub
 	
 	ErrorHandler:
@@ -747,32 +738,7 @@ Sub InsertOOoLilyPondObjectAdditional (sNumber As String, sIdentifier As String)
 	
 	&apos; select the object
 	oDocCtrl.select(oGraphic)
-
-	InsertAttribute(oGraphic, &quot;OOoLilyPondCode&quot;, sCode)
-	InsertAttribute(oGraphic, &quot;OOoLilyPondTemplate&quot;, sTemplate)
-	InsertAttribute(oGraphic, &quot;OOoLilyPondLineWidth&quot;, sLineWidth)
-	InsertAttribute(oGraphic, &quot;OOoLilyPondStaffSize&quot;, sStaffSize)
-	InsertAttribute(oGraphic, &quot;OOoLilyPondCustom1&quot;, sCustom1)
-	InsertAttribute(oGraphic, &quot;OOoLilyPondCustom2&quot;, sCustom2)
-	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultCode&quot;, BoolToString(bUseDefaultCode))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultLineWidth&quot;, BoolToString(bUseDefaultLineWidth))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultStaffSize&quot;, BoolToString(bUseDefaultStaffSize))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultCustom1&quot;, BoolToString(bUseDefaultCustom1))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultCustom2&quot;, BoolToString(bUseDefaultCustom2))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondOption1Value&quot;, BoolToString(bOption1))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondOption2Value&quot;, BoolToString(bOption2))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondOption3Value&quot;, BoolToString(bOption3))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondOption4Value&quot;, BoolToString(bOption4))
-	If bIncludeTemplate Then 
-		InsertAttribute (oGraphic, &quot;OOoLilyPondTemplateCode&quot;, sTemplateCode)
-	Else
-		RemoveAttribute (oGraphic, &quot;OOoLilyPondTemplateCode&quot;)
-	End If
-	If bSeparateImages Then 
-		InsertAttribute (oGraphic, &quot;OOoLilyPondIdentifier&quot;, sTemplateCode)
-	Else
-		RemoveAttribute (oGraphic, &quot;OOoLilyPondIdentifier&quot;)
-	End If
+	AttachAttributes (oGraphic)
 	
 	Exit Sub
 	

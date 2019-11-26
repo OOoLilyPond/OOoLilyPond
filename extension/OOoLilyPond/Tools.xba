@@ -237,7 +237,7 @@ Function ImportBitmapIntoDraw(sURL As String, Optional oGraphicShape) As Object
 End Function
 
 
-Function ImportBitmapIntoWriter(sFile As String, oTextGraphicOrCursor As Object) As Object
+Function ImportBitmapIntoWriter (sFile As String, oTextGraphicOrCursor As Object, bForceNewObject as Boolean) As Object
 	&apos; Imports a bitmap into Writer
 	&apos; Inserts at given Cursor Position
 	&apos; or replaces given TextGraphicObject
@@ -245,7 +245,6 @@ Function ImportBitmapIntoWriter(sFile As String, oTextGraphicOrCursor As Object)
 	Dim oBitmaps As Object
 	Dim sNewUrl
 	Dim oDoc As Object
-	Dim oCursor As Object
 	Dim oText As Object
 	Dim oTextGraphic As Object
 	Dim oCrop As new com.sun.star.text.GraphicCrop
@@ -273,8 +272,15 @@ Function ImportBitmapIntoWriter(sFile As String, oTextGraphicOrCursor As Object)
 		oTextGraphic.AnchorType = com.sun.star.text.TextContentAnchorType.AS_CHARACTER
 		oDoc.Text.insertTextContent( oTextGraphicOrCursor, oTextGraphic, False )
 	Case &quot;SwXTextGraphicObject&quot;
-		oTextGraphic = oTextGraphicOrCursor
-		oTextGraphic.GraphicURL = sNewURL
+		If bForceNewObject Then  &apos; as with SwXTextCursor
+			oTextGraphic = oDoc.createInstance(&quot;com.sun.star.text.GraphicObject&quot;)
+			oTextGraphic.GraphicURL = sNewURL
+			oTextGraphic.AnchorType = com.sun.star.text.TextContentAnchorType.AS_CHARACTER
+			oDoc.Text.insertTextContent( oTextGraphicOrCursor, oTextGraphic, False )
+		Else
+			oTextGraphic = oTextGraphicOrCursor
+			oTextGraphic.GraphicURL = sNewURL
+		End If
 	Case Else &apos; Should never happen in OOoLilyPond, just notify in case
 		&apos; MsgBox (&quot;ImportBitmapIntoWriter: the second argument must be either a TextCursor or a TextGraphic.&quot;, iMsgBox_E, sCaptionError)
 		MsgBox (oMessages.getPropertyValue (&quot;sMsgImportBitmapError&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
@@ -310,7 +316,6 @@ Function ImportBitmapIntoWriterAdditional(sFile As String, oTextGraphicOrCursor 
 	Dim oBitmaps As Object
 	Dim sNewUrl
 	Dim oDoc As Object
-	Dim oCursor As Object
 	Dim oText As Object
 	Dim oTextGraphic As Object
 	Dim oCrop As new com.sun.star.text.GraphicCrop

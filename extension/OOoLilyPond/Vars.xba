@@ -175,6 +175,7 @@ Private bOption4LabelExists As Boolean
 
 &apos; Private oSelection As Object
 Private oCurrentGraphicObject As Object
+Private oCurrentCursor As Object
 
 &apos; PrivateConstants do not exist therefore use variables instead
 &apos; and set the values by calling this function in Main().
