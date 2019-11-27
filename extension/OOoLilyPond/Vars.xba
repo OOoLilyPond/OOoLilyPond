@@ -177,6 +177,9 @@ Private bOption4LabelExists As Boolean
 Private oCurrentGraphicObject As Object
 Private oCurrentCursor As Object
 
+Private sGlobalIdentifier As String
+Private sGlobalImageNum As String
+
 &apos; PrivateConstants do not exist therefore use variables instead
 &apos; and set the values by calling this function in Main().
 Private iMsgBox_O, iMsgBox_OC, iMsgBox_AR, iMsgBox_YNC, iMsgBox_YN, iMsgBox_RC, iMsgBox_S, iMsgBox_Q, iMsgBox_E, iMsgBox_I, iMsgBox_1, iMsgBox_2, iMsgBox_3 As Integer

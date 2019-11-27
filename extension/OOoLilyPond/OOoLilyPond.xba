@@ -397,7 +397,7 @@ sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
  		End If
   		Exit Sub
  	End If
- 
+ 	
 	If bInWriter Then	&apos; We are in Writer...
 	
 		If oCurrentGraphicObject.getImplementationName() = &quot;SwXTextRanges&quot; Then &apos; Nothing or normal text selection in Writer
@@ -421,17 +421,17 @@ sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 			Do While oFileAccess.exists (sTmpPath &amp; constOLyFileName &amp; sImageNum &amp; &quot;.&quot; &amp; sExtension)
 				If bWriterInsertViaClipboard Then
 					If iImageNum = 1 Then
-						InsertOOoLilyPondObjectViaClipboard (sImageNum, sIdentifier, true)
+						InsertOOoLilyPondObjectViaClipboard (sIdentifier, sImageNum, true)
 					Else
 						oCurrentCursor.getText.insertControlCharacter (oCurrentCursor.getStart(), com.sun.star.text.ControlCharacter.PARAGRAPH_BREAK, False)
-						InsertOOoLilyPondObjectViaClipboard (sImageNum, sIdentifier, false)
+						InsertOOoLilyPondObjectViaClipboard (sIdentifier, sImageNum, false)
 					End If
 				Else
 					If iImageNum = 1 Then
-						InsertOOoLilyPondObject (sImageNum, sIdentifier, true)
+						InsertOOoLilyPondObject (sIdentifier, sImageNum, true)
 					Else
 						oCurrentCursor.getText.insertControlCharacter (oCurrentCursor.getStart(), com.sun.star.text.ControlCharacter.PARAGRAPH_BREAK, False)
-						InsertOOoLilyPondObject (sImageNum, sIdentifier, false)
+						InsertOOoLilyPondObject (sIdentifier, sImageNum, false)
 					End If
 				End If
 				oCurrentCursor.goRight (0, false)
@@ -499,7 +499,7 @@ Sub RemoveAttribute (oGraphic As Object, sName As String)
 End Sub
 
 
-Sub AttachAttributes (oGraphic As Object)
+Sub AttachAttributes (oGraphic As Object, sIdentifier As String, sImageNum As String)
 
 	InsertAttribute(oGraphic, &quot;OOoLilyPondCode&quot;, sCode)
 	InsertAttribute(oGraphic, &quot;OOoLilyPondTemplate&quot;, sTemplate)
@@ -521,15 +521,17 @@ Sub AttachAttributes (oGraphic As Object)
 	Else
 		RemoveAttribute (oGraphic, &quot;OOoLilyPondTemplateCode&quot;)
 	End If
-	If bSeparateImages Then 
-		InsertAttribute (oGraphic, &quot;OOoLilyPondIdentifier&quot;, sTemplateCode)
+	If bSeparateImages And bInWriter Then 
+		InsertAttribute (oGraphic, &quot;OOoLilyPondIdentifier&quot;, sIdentifier)
+		InsertAttribute (oGraphic, &quot;OOoLilyPondImageNum&quot;, sImageNum)
 	Else
 		RemoveAttribute (oGraphic, &quot;OOoLilyPondIdentifier&quot;)
+		RemoveAttribute (oGraphic, &quot;OOoLilyPondImageNum&quot;)
 	End If
 End Sub
 
 
-Sub InsertOOoLilyPondObjectViaClipboard (sNumber As String, sIdentifier As String, bFirstCall As Boolean)
+Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As String, bFirstCall As Boolean)
 	Dim oDoc, oDocCtrl, oDispatcher, oAttributes, oViewCursor, oGraphic, oLilyPondAttribute As Object
 	Dim oText as Object
 		
@@ -603,11 +605,11 @@ Sub InsertOOoLilyPondObjectViaClipboard (sNumber As String, sIdentifier As Strin
 
 	end if
 	
-	AttachAttributes (oGraphic)
+	AttachAttributes (oGraphic, sIdentifier, sNumber)
 End Sub
 
 
-Sub InsertOOoLilyPondObject (sNumber As String, sIdentifier As String, bFirstCall)
+Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, bFirstCall)
 	Dim oAttributes As Object
 	Dim oGraphic As Object
 	Dim oLilyPondAttribute As Object
@@ -665,7 +667,7 @@ Sub InsertOOoLilyPondObject (sNumber As String, sIdentifier As String, bFirstCal
 	
 	&apos; select the object
 	oDocCtrl.select (oGraphic)
-	AttachAttributes (oGraphic)
+	AttachAttributes (oGraphic, sIdentifier, sNumber)
 
 	Exit Sub
 	
