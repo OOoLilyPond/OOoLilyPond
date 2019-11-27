@@ -175,6 +175,69 @@ Sub BatchTest1()
 End Sub
 
 
+Sub EraseImageSiblings()
+	&apos; If an OLy object consists of multiple separate images, each of them has all attributes like OOoLilyPondCode etc.
+	&apos; In addition, they share the same Identifier (timestamp) but have individual ImageNumbers to distinguish between them.
+	&apos; When re-compiling one of them (which will produce a whole new set of images), all the other images belonging to the 
+	&apos; same object become obsolete.
+	&apos; This procedure will erase all of them except the one currently selected.
+	
+	Dim oDrawPage As Object
+	Dim oCurrentObject As Object
+	Dim iCount As Integer
+	Dim i As Integer
+	
+	Dim oGraphic As Object
+	Dim oDocCtrl As Object
+	Dim oShape As Object
+	Dim oGraphicObjects ()
+	
+	Dim sOwnIdentifier As String
+	Dim sOwnImageNum As String
+	
+	Dim sTempIdentifier As String
+	Dim sTempImageNum As String
+
+	oDocCtrl = ThisComponent.getCurrentController
+
+	Select Case oCurrentGraphicObject.getImplementationName()
+	Case &quot;SwXTextRanges&quot; &apos; Nothing or normal text selection in Writer
+		Exit Sub
+		&apos; No object selected, nothing to do
+	Case &quot;com.sun.star.drawing.SvxShapeCollection&quot;  &apos; inserted into Writer via Clipboard OR inserted into Draw/Impress
+		oShape = oCurrentGraphicObject.getByIndex(0)
+	Case &quot;SwXTextGraphicObject&quot; &apos; Graphic is selected in Writer
+		oShape = oCurrentGraphicObject
+	End Select
+	
+	oDrawPage = ThisComponent.DrawPage
+	iCount = oDrawPage.Count
+	oGraphicObjects = DimArray (iCount) 
+	For i = 0 to iCount - 1
+		oGraphicObjects (i) = oDrawPage.getByIndex(i)
+	next i
+	
+	sOwnIdentifier = GetObjectIdentifier (oShape)
+	sOwnImageNum   = GetObjectImageNum   (oShape)
+	If sOwnIdentifier &lt;&gt; &quot;&quot; and sOwnImageNum &lt;&gt; &quot;&quot; Then
+		For i = 0 to iCount - 1
+			oCurrentObject = oGraphicObjects (i)
+			sTempIdentifier = GetObjectIdentifier (oCurrentObject)
+			sTempImageNum   = GetObjectImageNum   (oCurrentObject)
+			If IsOLyObject (oCurrentObject) Then
+				If GetObjectIdentifier (oCurrentObject) = sOwnIdentifier And GetObjectImageNum (oCurrentObject) &lt;&gt; sOwnImageNum Then
+					If oCurrentObject.SupportsService(&quot;com.sun.star.drawing.Shape&quot;) Or oCurrentObject.SupportsService(&quot;com.sun.star.text.TextGraphicObject&quot;) Then
+						oCurrentObject.Dispose
+        			End If
+				Else
+					&apos; anything?
+				End If
+			End If
+		next i
+	End If
+End Sub
+
+
 Sub BatchTest1a()
 	&apos; This is the main function
 	&apos; It initializes OOoLilyPond and opens the OOoLilyPond Editor dialog
@@ -401,9 +464,9 @@ sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 	If bInWriter Then	&apos; We are in Writer...
 	
 		If oCurrentGraphicObject.getImplementationName() = &quot;SwXTextRanges&quot; Then &apos; Nothing or normal text selection in Writer
-			oCurrentCursor = ThisComponent.Text.createTextCursorByRange(oCurrentGraphicObject(0))
+			oCurrentCursor = ThisComponent.Text.createTextCursorByRange (oCurrentGraphicObject(0))
 		Else
-			oCurrentCursor = ThisComponent.Text.createTextCursorByRange(oCurrentGraphicObject(0).getAnchor())
+			oCurrentCursor = ThisComponent.Text.createTextCursorByRange (oCurrentGraphicObject(0).getAnchor())
 		EndIf
 		
 		If bSeparateImages Then
@@ -418,11 +481,15 @@ sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 			iImageNum = 1
 			sImageNum = &quot;-&quot; &amp; Val (iImageNum)
 			
+			&apos; ToDo: abort if no OOoLilyPond-1 image file exists
+			EraseImageSiblings ()
+			
 			Do While oFileAccess.exists (sTmpPath &amp; constOLyFileName &amp; sImageNum &amp; &quot;.&quot; &amp; sExtension)
 				If bWriterInsertViaClipboard Then
 					If iImageNum = 1 Then
 						InsertOOoLilyPondObjectViaClipboard (sIdentifier, sImageNum, true)
 					Else
+						oCurrentCursor.goRight (0, false)
 						oCurrentCursor.getText.insertControlCharacter (oCurrentCursor.getStart(), com.sun.star.text.ControlCharacter.PARAGRAPH_BREAK, False)
 						InsertOOoLilyPondObjectViaClipboard (sIdentifier, sImageNum, false)
 					End If
@@ -769,8 +836,33 @@ End Function
 
 
 Function IsOLyObject (oShape As Object) As Boolean
+	&apos; Test if a graphic object is an OOoLilyPond object
 
 	IsOLyObject = ((oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondArgs&quot;)) Or (oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondCode&quot;)))
+End Function
+
+
+Function GetObjectIdentifier (oShape As Object) As String
+	&apos; Return the &quot;OOoLilyPondIdentifier&quot; string of a graphic object
+	&apos; If it has none, return empty string
+
+	If oShape.UserDefinedAttributes().hasByName (&quot;OOoLilyPondIdentifier&quot;) Then
+		GetObjectIdentifier = oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondIdentifier&quot;).Value
+	Else
+		GetObjectIdentifier = &quot;&quot;
+	End If
+End Function
+
+
+Function GetObjectImageNum (oShape As Object) As String
+	&apos; Return the &quot;OOoLilyPondIdentifier&quot; string of a graphic object
+	&apos; If it has none, return empty string
+
+	If oShape.UserDefinedAttributes().hasByName (&quot;OOoLilyPondImageNum&quot;) Then
+		GetObjectImageNum = oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondImageNum&quot;).Value
+	Else
+		GetObjectImageNum = &quot;&quot;
+	End If
 End Function
 
 
