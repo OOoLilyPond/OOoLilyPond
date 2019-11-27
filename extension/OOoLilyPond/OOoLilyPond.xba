@@ -235,6 +235,7 @@ Sub EraseImageSiblings()
 			End If
 		next i
 	End If
+	oDocCtrl.select (oShape)
 End Sub
 
 
