@@ -141,6 +141,7 @@ Sub BatchTest1()
 	Dim oCurrentObject As Object
 	Dim iCount As Integer
 	Dim i As Integer
+	Dim iLastObject As Integer
 	
 	Dim oGraphic As Object
 	Dim oDocCtrl As Object
@@ -155,21 +156,26 @@ Sub BatchTest1()
 	oDrawPage = ThisComponent.DrawPage
 	iCount = oDrawPage.Count
 	oGraphicObjects = DimArray (iCount) 
+	iLastObject = -1
 	For i = 0 to iCount - 1
-		oGraphicObjects (i) = oDrawPage.getByIndex(i)
+		oCurrentObject = oDrawPage.getByIndex (i)
+		If IsOLyObject (oCurrentObject) Then
+			If GetObjectIdentifier (oCurrentObject) &lt;&gt; &quot;&quot; And GetObjectImageNum (oCurrentObject) = &quot;-1&quot; Then
+				iLastObject = iLastObject + 1
+				oGraphicObjects (iLastObject) = oCurrentObject
+			End If
+		End If
 	next i
-	For i = 0 to iCount - 1
+	For i = 0 to iLastObject
 		oCurrentGraphicObject = oGraphicObjects (i)  &apos; global variable
 		
 		oDocCtrl.select (oCurrentGraphicObject)
 		
-		If IsOLyObject (oCurrentGraphicObject) Then
-			If ReadSelectionObject () Then  &apos; create Cursor and read Attributes if Object is selected
-			&apos; Now we know which template to use
-				ReadTemplate ()
-				Make (true)
-				&apos; EditorDialog ()
-			End If
+		If ReadSelectionObject () Then  &apos; create Cursor and read Attributes if Object is selected
+		&apos; Now we know which template to use
+			ReadTemplate ()
+			Make (true)
+			&apos; EditorDialog ()
 		End If
 	next i
 End Sub
