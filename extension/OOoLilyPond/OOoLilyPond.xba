@@ -195,6 +195,12 @@ Sub EraseImageSiblings()
 	Dim sOwnIdentifier As String
 	Dim sOwnImageNum As String
 	
+	Dim oTextCursor As Object
+	Dim sTempStr As String
+	Dim iStrLen As Integer
+	Dim sCharNum As String
+	Dim iCharNum As Integer
+	
 	Dim sTempIdentifier As String
 	Dim sTempImageNum As String
 
@@ -219,6 +225,7 @@ Sub EraseImageSiblings()
 	
 	sOwnIdentifier = GetObjectIdentifier (oShape)
 	sOwnImageNum   = GetObjectImageNum   (oShape)
+
 	If sOwnIdentifier &lt;&gt; &quot;&quot; and sOwnImageNum &lt;&gt; &quot;&quot; Then
 		For i = 0 to iCount - 1
 			oCurrentObject = oGraphicObjects (i)
@@ -227,7 +234,16 @@ Sub EraseImageSiblings()
 			If IsOLyObject (oCurrentObject) Then
 				If GetObjectIdentifier (oCurrentObject) = sOwnIdentifier And GetObjectImageNum (oCurrentObject) &lt;&gt; sOwnImageNum Then
 					If oCurrentObject.SupportsService(&quot;com.sun.star.drawing.Shape&quot;) Or oCurrentObject.SupportsService(&quot;com.sun.star.text.TextGraphicObject&quot;) Then
+						oTextCursor = ThisComponent.Text.createTextCursorByRange (oCurrentObject.getAnchor())
 						oCurrentObject.Dispose
+						if oTextCursor.goLeft (1, True) Then
+							sTempStr = oTextCursor.getString ()
+							iStrLen = Len (sTempStr)
+							if Len (sTempStr) = 2 Then
+								sCharNum = Asc (sTempStr)
+								If sCharNum = &quot;13&quot; Then oTextCursor.setString (&quot;&quot;)
+							End If
+						End If
         			End If
 				Else
 					&apos; anything?
