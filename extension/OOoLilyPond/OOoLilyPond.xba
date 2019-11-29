@@ -160,7 +160,7 @@ Sub BatchTest1()
 	For i = 0 to iCount - 1
 		oCurrentObject = oDrawPage.getByIndex (i)
 		If IsOLyObject (oCurrentObject) Then
-			If GetObjectIdentifier (oCurrentObject) &lt;&gt; &quot;&quot; And GetObjectImageNum (oCurrentObject) = &quot;-1&quot; Then
+			If Not (GetObjectIdentifier (oCurrentObject) &lt;&gt; &quot;&quot; And GetObjectImageNum (oCurrentObject) &lt;&gt; &quot;-1&quot;) Then
 				iLastObject = iLastObject + 1
 				oGraphicObjects (iLastObject) = oCurrentObject
 			End If
