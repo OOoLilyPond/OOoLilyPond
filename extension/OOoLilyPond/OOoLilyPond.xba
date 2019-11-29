@@ -212,7 +212,7 @@ Sub EraseImageSiblings()
 
 	oDocCtrl = ThisComponent.getCurrentController
 
-	Select Case oCurrentGraphicObject.getImplementationName()
+	Select Case oCurrentGraphicObject.getImplementationName()  &apos; global variable
 	Case &quot;SwXTextRanges&quot; &apos; Nothing or normal text selection in Writer
 		Exit Sub
 		&apos; No object selected, nothing to do
@@ -247,7 +247,7 @@ Sub EraseImageSiblings()
 							iStrLen = Len (sTempStr)
 							if Len (sTempStr) = 2 Then
 								sCharNum = Asc (sTempStr)
-								If sCharNum = &quot;13&quot; Then oTextCursor.setString (&quot;&quot;)
+								If sCharNum = &quot;13&quot; Then oTextCursor.setString (&quot;&quot;)  &apos; erase &quot;new paragraph&quot; control char
 							End If
 						End If
         			End If
@@ -424,6 +424,10 @@ sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 	&apos; insert the image into the document.
 	Dim bNoFileCreated As Boolean
 	Dim oViewCursor As Object
+	
+	Dim sIdentifier As String
+	Dim sImageNum As String
+	Dim iImageNum As Integer
 
 	bNoFileCreated = False
 	&apos; Test if there is LilyPond code
@@ -492,21 +496,21 @@ sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 			oCurrentCursor = ThisComponent.Text.createTextCursorByRange (oCurrentGraphicObject(0).getAnchor())
 		EndIf
 		
-		If bSeparateImages Then
-		
-			Dim sIdentifier As String
-			Dim sImageNum As String
-			Dim iImageNum As Integer
-			
+		If bSaveAsSeparateImages Then
 			ConvertSeparateImageFiles ()
-			
-			sIdentifier = TimeStamp
+			&apos; ToDo: abort if no OOoLilyPond-1 image file exists
+		End If
+
+		If bHasSeparateImages Then
+			EraseImageSiblings ()
+		End If
+		
+		If bSaveAsSeparateImages Then
+
+			sIdentifier = TimeStamp ()
 			iImageNum = 1
 			sImageNum = &quot;-&quot; &amp; Val (iImageNum)
-			
-			&apos; ToDo: abort if no OOoLilyPond-1 image file exists
-			EraseImageSiblings ()
-			
+
 			Do While oFileAccess.exists (sTmpPath &amp; constOLyFileName &amp; sImageNum &amp; &quot;.&quot; &amp; sExtension)
 				If bWriterInsertViaClipboard Then
 					If iImageNum = 1 Then
@@ -525,11 +529,10 @@ sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 					End If
 				End If
 				oCurrentCursor.goRight (0, false)
-				&apos; oCurrentCursor.getText.insertControlCharacter (oCurrentCursor.getStart(), com.sun.star.text.ControlCharacter.PARAGRAPH_BREAK, False)
 				iImageNum = iImageNum + 1
 				sImageNum = &quot;-&quot; &amp; Val (iImageNum)
 			Loop
-		Else	&apos; not bSeparateImages
+		Else	&apos; not bSaveAsSeparateImages
 			If bWriterInsertViaClipboard Then
 				InsertOOoLilyPondObjectViaClipboard (&quot;&quot;, &quot;&quot;, true)
 			Else
@@ -611,7 +614,7 @@ Sub AttachAttributes (oGraphic As Object, sIdentifier As String, sImageNum As St
 	Else
 		RemoveAttribute (oGraphic, &quot;OOoLilyPondTemplateCode&quot;)
 	End If
-	If bSeparateImages And bInWriter Then 
+	If bSaveAsSeparateImages And bInWriter Then 
 		InsertAttribute (oGraphic, &quot;OOoLilyPondIdentifier&quot;, sIdentifier)
 		InsertAttribute (oGraphic, &quot;OOoLilyPondImageNum&quot;, sImageNum)
 	Else
