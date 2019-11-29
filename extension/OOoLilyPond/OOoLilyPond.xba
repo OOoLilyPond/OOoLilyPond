@@ -110,6 +110,8 @@ Sub OOoLilyPondInit()
 	Else
 		sTemplate = sImpressDefaultTemplate
 	End If
+	
+	bSaveAsSeparateImages = bNewObjectsAsSeparateImages
 
 	&apos; By default use default values ;-)
 	&apos; Will be overwritten if values are read from existing object
@@ -423,6 +425,7 @@ sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 	&apos; Calls the subroutines that generate the image and
 	&apos; insert the image into the document.
 	Dim bNoFileCreated As Boolean
+	Dim bNoFirstFileCreated As Boolean
 	Dim oViewCursor As Object
 	
 	Dim sIdentifier As String
@@ -430,6 +433,7 @@ sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 	Dim iImageNum As Integer
 
 	bNoFileCreated = False
+	bNoFirstFileCreated = False
 	&apos; Test if there is LilyPond code
 	If sCode = &quot;&quot; then 
 		&apos; Msgbox (&quot;Enter LilyPond code...&quot;, iMsgBox_E, &quot;Error&quot;)
@@ -498,7 +502,13 @@ sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 		
 		If bSaveAsSeparateImages Then
 			ConvertSeparateImageFiles ()
-			&apos; ToDo: abort if no OOoLilyPond-1 image file exists
+			&apos; abort if no OOoLilyPond-1 image file exists
+			If Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;-1.&quot; &amp; sExtension) Then
+ 				&apos; MsgBox(&quot;No eps output is found&quot;, 0, &quot;Error&quot;)
+ 				MsgBox (oMessages.getPropertyValue (&quot;sMsgNoFirstFileFound&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+ 				bNoFirstFileCreated = True
+ 				Exit Sub
+ 			End If
 		End If
 
 		If bHasSeparateImages Then
@@ -786,7 +796,6 @@ Function ReadAttributes( oShape As Object ) As Boolean
 	oShapeSize = oShape.Size
 	
 	bHasSeparateImages = False  &apos; global variable
-	bSaveAsSeparateImages = False  &apos; global variable
 
 	If bInWriter Then
 		iAnchor=oShape.AnchorType

@@ -73,6 +73,7 @@ Sub ConfigDialogUpdate()
 	oConfigDialog.getControl(&quot;bWriterUseLineWidthFromTemplate&quot;).setState(BoolToCheckBoxState(bWriterUseLineWidthFromTemplate))
 	oConfigDialog.getControl(&quot;bWriterUseStaffSizeFromTemplate&quot;).setState(BoolToCheckBoxState(bWriterUseStaffSizeFromTemplate))
 	oConfigDialog.getControl(&quot;bWriterKeepCrop&quot;).setState(BoolToCheckBoxState(bWriterKeepCrop))
+	oConfigDialog.getControl(&quot;bNewObjectsAsSeparateImages&quot;).setState(BoolToCheckBoxState(bNewObjectsAsSeparateImages))
 	
 	If iWriterDefaultAnchor = com.sun.star.text.TextContentAnchorType.AS_CHARACTER Then oConfigDialog.getControl(&quot;WriterAnchorAsCharacter&quot;).setState(true)
 	If iWriterDefaultAnchor = com.sun.star.text.TextContentAnchorType.AT_PARAGRAPH Then  oConfigDialog.getControl(&quot;WriterAnchorToParagraph&quot;).setState(true)
@@ -303,7 +304,8 @@ Sub ApplyConfig
 	bWriterUseLineWidthFromTemplate = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bWriterUseLineWidthFromTemplate&quot;).getState())
 	bWriterUseStaffSizeFromTemplate = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bWriterUseStaffSizeFromTemplate&quot;).getState())
 	bWriterKeepCrop = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bWriterKeepCrop&quot;).getState())
-	
+	bNewObjectsAsSeparateImages = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bNewObjectsAsSeparateImages&quot;).getState())
+		
 	if oConfigDialog.getControl(&quot;WriterAnchorAsCharacter&quot;).getState() then iWriterDefaultAnchor = com.sun.star.text.TextContentAnchorType.AS_CHARACTER
 	if oConfigDialog.getControl(&quot;WriterAnchorToParagraph&quot;).getState() then iWriterDefaultAnchor = com.sun.star.text.TextContentAnchorType.AT_PARAGRAPH
 	if oConfigDialog.getControl(&quot;WriterAnchorToPage&quot;).getState() then iWriterDefaultAnchor = com.sun.star.text.TextContentAnchorType.AT_PAGE
@@ -417,6 +419,7 @@ Sub DefaultConfig()
 	bWriterUseLineWidthFromTemplate = False
 	bWriterInsertViaClipboard = True
 	bWriterKeepCrop = False
+	bNewObjectsAsSeparateImages = False
 
 
 	&apos; Impress specific settings
@@ -535,6 +538,8 @@ Sub ReadConfig()
 				bWriterInsertViaClipboard = StringToBool(sValue)
 			Case &quot;bWriterKeepCrop&quot;
 				bWriterKeepCrop = StringToBool(sValue)
+			Case &quot;bNewObjectsAsSeparateImages&quot;
+				bNewObjectsAsSeparateImages = StringToBool(sValue)
 		
 			
 			&apos; Impress specific settings
@@ -608,6 +613,7 @@ Sub SaveConfig
 	oTextOutputStream.writeString(&quot;iWriterDefaultWrap=&quot; &amp; CStr(iWriterDefaultWrap) &amp; Chr(10))
 	oTextOutputStream.writeString(&quot;bWriterInsertViaClipboard=&quot; &amp; BoolToString(bWriterInsertViaClipboard) &amp; Chr(10))
 	oTextOutputStream.writeString(&quot;bWriterKeepCrop=&quot; &amp; BoolToString(bWriterKeepCrop) &amp; Chr(10))
+	oTextOutputStream.writeString(&quot;bNewObjectsAsSeparateImages=&quot; &amp; BoolToString(bNewObjectsAsSeparateImages) &amp; Chr(10))
 	
 	&apos; Impress specific
 	oTextOutputStream.writeString(&quot;sImpressDefaultTemplate=&quot; &amp; sImpressDefaultTemplate &amp; Chr(10))
