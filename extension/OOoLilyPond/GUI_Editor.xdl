@@ -12,26 +12,26 @@
   </dlg:button>
   <dlg:textfield dlg:id="TextField2" dlg:tab-index="7" dlg:left="262" dlg:top="-42" dlg:width="4" dlg:height="0"/>
   <dlg:radiogroup>
-   <dlg:radio dlg:id="AnchorAsCharacter" dlg:tab-index="1" dlg:left="8" dlg:top="219" dlg:width="63" dlg:height="8" dlg:help-text="The OOoLilyPond object is inserted into the Text like a character." dlg:value="As Character" dlg:checked="true">
+   <dlg:radio dlg:id="AnchorAsCharacter" dlg:tab-index="1" dlg:left="8" dlg:top="218" dlg:width="63" dlg:height="8" dlg:help-text="The OOoLilyPond object is inserted into the Text like a character." dlg:value="As Character" dlg:checked="true">
     <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.AnchorButton?language=Basic&amp;location=application" script:language="Script"/>
    </dlg:radio>
-   <dlg:radio dlg:id="AnchorToParagraph" dlg:tab-index="2" dlg:left="8" dlg:top="229" dlg:width="63" dlg:height="8" dlg:help-text="The OOoLilyPond object is inserted like an image and can be placed freely. The object keeps the position relative to the paragraph." dlg:value="To Paragraph">
+   <dlg:radio dlg:id="AnchorToParagraph" dlg:tab-index="2" dlg:left="8" dlg:top="228" dlg:width="63" dlg:height="8" dlg:help-text="The OOoLilyPond object is inserted like an image and can be placed freely. The object keeps the position relative to the paragraph." dlg:value="To Paragraph">
     <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.AnchorButton?language=Basic&amp;location=application" script:language="Script"/>
    </dlg:radio>
-   <dlg:radio dlg:id="AnchorToPage" dlg:tab-index="3" dlg:left="8" dlg:top="239" dlg:width="63" dlg:height="8" dlg:help-text="The OOoLilyPond object is inserted like an image and can be placed freely. The object keeps the position relative to the page." dlg:value="To Page">
+   <dlg:radio dlg:id="AnchorToPage" dlg:tab-index="3" dlg:left="8" dlg:top="238" dlg:width="63" dlg:height="8" dlg:help-text="The OOoLilyPond object is inserted like an image and can be placed freely. The object keeps the position relative to the page." dlg:value="To Page">
     <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.AnchorButton?language=Basic&amp;location=application" script:language="Script"/>
    </dlg:radio>
-   <dlg:radio dlg:id="OptimalPageWrap" dlg:tab-index="10" dlg:left="79" dlg:top="229" dlg:width="67" dlg:height="8" dlg:help-text="The text is flowing on the right or left side of the OOoLilyPond object." dlg:value="Optimal Page Wrap"/>
-   <dlg:radio dlg:id="NoWrap" dlg:tab-index="9" dlg:left="79" dlg:top="219" dlg:width="67" dlg:height="8" dlg:help-text="The text is not flowing around the OOoLilyPond object." dlg:value="No Wrap" dlg:checked="true"/>
+   <dlg:radio dlg:id="OptimalPageWrap" dlg:tab-index="10" dlg:left="79" dlg:top="228" dlg:width="67" dlg:height="8" dlg:help-text="The text is flowing on the right or left side of the OOoLilyPond object." dlg:value="Optimal Page Wrap"/>
+   <dlg:radio dlg:id="NoWrap" dlg:tab-index="9" dlg:left="79" dlg:top="218" dlg:width="67" dlg:height="8" dlg:help-text="The text is not flowing around the OOoLilyPond object." dlg:value="No Wrap" dlg:checked="true"/>
   </dlg:radiogroup>
-  <dlg:titledbox dlg:id="AnchorFrameControl" dlg:tab-index="6" dlg:left="6" dlg:top="209" dlg:width="68" dlg:height="42">
+  <dlg:titledbox dlg:id="AnchorFrameControl" dlg:tab-index="6" dlg:left="6" dlg:top="207" dlg:width="68" dlg:height="42">
    <dlg:title dlg:value="Anchor"/>
   </dlg:titledbox>
-  <dlg:titledbox dlg:id="WrapFrameControl" dlg:tab-index="12" dlg:left="77" dlg:top="209" dlg:width="70" dlg:height="42">
+  <dlg:titledbox dlg:id="WrapFrameControl" dlg:tab-index="12" dlg:left="77" dlg:top="207" dlg:width="70" dlg:height="42">
    <dlg:title dlg:value="Wrap"/>
   </dlg:titledbox>
   <dlg:radiogroup>
-   <dlg:radio dlg:id="WrapThrough" dlg:tab-index="11" dlg:left="79" dlg:top="239" dlg:width="67" dlg:height="8" dlg:help-text="The text is flowing through the OOoLilyPond object." dlg:value="Wrap Through"/>
+   <dlg:radio dlg:id="WrapThrough" dlg:tab-index="11" dlg:left="79" dlg:top="238" dlg:width="67" dlg:height="8" dlg:help-text="The text is flowing through the OOoLilyPond object." dlg:value="Wrap Through"/>
   </dlg:radiogroup>
   <dlg:button dlg:style-id="0" dlg:id="PrevErr" dlg:tab-index="14" dlg:disabled="true" dlg:left="5" dlg:top="281" dlg:width="18" dlg:height="18" dlg:help-text="Previous error or warning" dlg:value="&lt;">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.PrevErrButton?language=Basic&amp;location=application" script:language="Script"/>
