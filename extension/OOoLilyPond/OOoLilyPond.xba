@@ -784,6 +784,8 @@ Function ReadAttributes( oShape As Object ) As Boolean
 	&apos; Read the graphic&apos;s size and crop settings:
 	oShapeCrop = oShape.GraphicCrop
 	oShapeSize = oShape.Size
+	
+	bHasSeparateImages = False  &apos; global variable
 
 	If bInWriter Then
 		iAnchor=oShape.AnchorType
@@ -851,6 +853,9 @@ Function ReadAttributes( oShape As Object ) As Boolean
 			sTemplateCode = oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondTemplateCode&quot;).Value
 			bContainsTemplate = True
 		End If
+		
+		bHasSeparateImages = (GetObjectIdentifier (oShape) &lt;&gt; &quot;&quot;)
+		
 	Else
 		&apos;Prevent loosing the code for OOoLilyPond 0.3 Objects
 		bUseDefaultCode=False
