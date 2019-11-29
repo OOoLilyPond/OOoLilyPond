@@ -104,6 +104,7 @@ Sub EditorDialog()
 	If iWrap = com.sun.star.text.WrapTextMode.THROUGHT Then oEditorDialog.getControl(&quot;WrapThrough&quot;).setState(true)	
 	
 	oEditorDialog.getControl(&quot;bKeepCrop&quot;).setState (BoolToCheckBoxState(bKeepCrop And bShapeIsSelected))
+	oEditorDialog.getControl(&quot;bSaveAsSeparateImages&quot;).setState (BoolToCheckBoxState (bSaveAsSeparateImages And bInWriter))
 
 	&apos; grey out inactive control elements
 	GreyOut()
@@ -149,6 +150,7 @@ Sub GreyOut()
 	&apos; Grey out inactive control elements
 
 	Dim bWrapSettings As Boolean
+	Dim bEnableSeparateImages As Boolean
 
 	&apos; Check if dialog is existing
 	If IsNull(oEditorDialog) Then 
@@ -156,6 +158,7 @@ Sub GreyOut()
 	End If
 
 	bWrapSettings = (Not oEditorDialog.getControl(&quot;AnchorAsCharacter&quot;).getState()) And bInWriter
+	bEnableSeparateImages = oEditorDialog.getControl(&quot;AnchorAsCharacter&quot;).getState() And bInWriter
 
 	&apos; grey out Anchor and Wrap radio buttons when we are not in Writer
 	oEditorDialog.getControl(&quot;AnchorFrameControl&quot;).setEnable(bInWriter)
@@ -169,6 +172,10 @@ Sub GreyOut()
 	oEditorDialog.getControl(&quot;OptimalPageWrap&quot;).setEnable(bWrapSettings)
 	oEditorDialog.getControl(&quot;WrapThrough&quot;).setEnable(bWrapSettings)
 
+	&apos; grey out and un-check SeparateImages checkbox when Anchor is NOT &quot;as Character&quot;
+	oEditorDialog.getControl (&quot;bSaveAsSeparateImages&quot;).setEnable (bEnableSeparateImages)
+	If Not bEnableSeparateImages Then oEditorDialog.getControl (&quot;bSaveAsSeparateImages&quot;).SetState (BoolToCheckBoxState (False))
+	
 	&apos; grey out KeepCrop checkbox when no current OLy object is selected
 	oEditorDialog.getControl(&quot;bKeepCrop&quot;).setEnable(bShapeIsSelected)
 
@@ -400,6 +407,7 @@ Sub LilyPondButton()
 	if oEditorDialog.getControl(&quot;WrapThrough&quot;).getState() then iWrap = com.sun.star.text.WrapTextMode.THROUGHT
 	
 	bKeepCrop = CheckBoxStateToBool (oEditorDialog.getControl(&quot;bKeepCrop&quot;).getState())
+	bSaveAsSeparateImages = CheckBoxStateToBool (oEditorDialog.getControl(&quot;bSaveAsSeparateImages&quot;).getState())
 
 	&apos; Create the LilyPond music and insert it...
 	Make (false)	&apos; bSilent = false: don&apos;t suppress displaying errors in Editor dialog

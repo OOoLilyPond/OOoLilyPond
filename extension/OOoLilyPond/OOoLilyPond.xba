@@ -786,6 +786,7 @@ Function ReadAttributes( oShape As Object ) As Boolean
 	oShapeSize = oShape.Size
 	
 	bHasSeparateImages = False  &apos; global variable
+	bSaveAsSeparateImages = False  &apos; global variable
 
 	If bInWriter Then
 		iAnchor=oShape.AnchorType
@@ -855,6 +856,7 @@ Function ReadAttributes( oShape As Object ) As Boolean
 		End If
 		
 		bHasSeparateImages = (GetObjectIdentifier (oShape) &lt;&gt; &quot;&quot;)
+		bSaveAsSeparateImages = bHasSeparateImages
 		
 	Else
 		&apos;Prevent loosing the code for OOoLilyPond 0.3 Objects
