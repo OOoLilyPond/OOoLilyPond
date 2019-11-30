@@ -242,7 +242,10 @@ Sub EraseImageSiblings()
 			If IsOLyObject (oCurrentObject) Then
 				If GetObjectIdentifier (oCurrentObject) = sOwnIdentifier And GetObjectImageNum (oCurrentObject) &lt;&gt; sOwnImageNum Then
 					If oCurrentObject.SupportsService(&quot;com.sun.star.drawing.Shape&quot;) Or oCurrentObject.SupportsService(&quot;com.sun.star.text.TextGraphicObject&quot;) Then
-						oTextCursor = oDoc.Text.createTextCursorByRange (oCurrentObject.getAnchor())
+						&apos; oTextCursor = oDoc.Text.createTextCursorByRange (oCurrentObject.getAnchor())
+						createCustomTextCursorByRange (oTextCursor, oCurrentObject.getAnchor())
+						&apos; replaces:
+						&apos; oCurrentCursor = oDoc.Text.createTextCursorByRange (oCurrentGraphicObject(0).getAnchor())
 						oCurrentObject.Dispose
 						if oTextCursor.goLeft (1, True) Then
 							sTempStr = oTextCursor.getString ()
@@ -421,21 +424,22 @@ Sub ConvertSeparateImageFiles ()
 End Sub
 
 
-Function createCustomTextCursorByRange (oCursor As Object, oTextObject As Object, oGraphicObject As Object) As Boolean
+&apos; Function createCustomTextCursorByRange (oCursor As Object, oTextObject As Object, oGraphicObject As Object) As Boolean
+Function createCustomTextCursorByRange (oCursor As Object, oGraphicObject As Object) As Boolean
 
 	Dim sType As String
 	&apos; On Error Goto ErrorHandler
 	
-	sType = oTextObject.getImplementationName()
+	sType = oGraphicObject.Text.getImplementationName()
 	createCustomTextCursorByRange = False
 	
 	Select Case sType
 		Case &quot;SwXBodyText&quot;
-			oCursor = oTextObject.createTextCursorByRange (oGraphicObject)
+			oCursor = oGraphicObject.Text.createTextCursorByRange (oGraphicObject)
 			createCustomTextCursorByRange = True
 		Case &quot;SwXCell&quot;
-			If Not IsEmpty (oTextObject.Text) Then
-			oCursor = oTextObject.createTextCursorByRange (oGraphicObject)
+			If Not IsEmpty (oGraphicObject.Text) Then
+			oCursor = oGraphicObject.Text.createTextCursorByRange (oGraphicObject)
 			End If
 		Case Else
 	End Select
@@ -529,22 +533,25 @@ sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 	If bInWriter Then	&apos; We are in Writer...
 	
 		If oCurrentGraphicObject.getImplementationName() = &quot;SwXTextRanges&quot; Then &apos; Nothing or normal text selection in Writer
-			oSelection = oDoc.currentSelection(0)
-			createCustomTextCursorByRange (oCurrentCursor, oSelection.text, oCurrentGraphicObject(0))
+			&apos; oSelection = oDoc.currentSelection(0)
+			oSelection = oCurrentGraphicObject(0)
+			&apos; createCustomTextCursorByRange (oCurrentCursor, oSelection.text, oCurrentGraphicObject(0))
+			createCustomTextCursorByRange (oCurrentCursor, oCurrentGraphicObject(0))
 			&apos; oCurrentCursor = oSelection.text.createTextCursorByRange (oCurrentGraphicObject(0))
 			&apos; https://forum.openoffice.org/en/forum/viewtopic.php?f=20&amp;t=85978#p425614
 			&apos; replaces:
 			&apos; oCurrentCursor = ThisComponent.Text.createTextCursorByRange (oCurrentGraphicObject(0))
-		Else
-			oSelection = oDoc.currentSelection(0)
-			&apos; oSelection = oCurrentGraphicObject
-			Dim oSelectionText As Object
+		Else		&apos; an object is selected
+			&apos; oSelection = oDoc.currentSelection(0)
+			oSelection = oCurrentGraphicObject(0)
+			&apos; Dim oSelectionText As Object
 			&apos; Dim oSelectionCount As Integer
 			&apos; oSelectionCount = oSelection.getCount ()
 			&apos; oSelectionText = oSelection.text
-			oAnchor = oSelection.getAnchor()
+			&apos; oAnchor = oSelection.getAnchor()
 			&apos; createCustomTextCursorByRange (oCurrentCursor, oSelection.text, oCurrentGraphicObject(0).getAnchor())
-			createCustomTextCursorByRange (oCurrentCursor, oAnchor.text, oCurrentGraphicObject(0).getAnchor())
+			&apos; createCustomTextCursorByRange (oCurrentCursor, oSelection.getAnchor().text, oCurrentGraphicObject(0).getAnchor())
+			createCustomTextCursorByRange (oCurrentCursor, oCurrentGraphicObject(0).getAnchor())
 			&apos; replaces:
 			&apos; oCurrentCursor = oDoc.Text.createTextCursorByRange (oCurrentGraphicObject(0).getAnchor())
 		EndIf
