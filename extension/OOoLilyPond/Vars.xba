@@ -175,6 +175,9 @@ Private bOption2LabelExists As Boolean
 Private bOption3LabelExists As Boolean
 Private bOption4LabelExists As Boolean
 
+&apos; some global objects:
+Private oDoc As Object		&apos; ThisComponent
+Private oDocCtrl As Object	&apos; ThisComponent.CurrentController
 &apos; Private oSelection As Object
 Private oCurrentGraphicObject As Object
 Private oCurrentCursor As Object
