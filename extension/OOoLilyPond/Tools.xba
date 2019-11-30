@@ -167,8 +167,8 @@ Function ImportBitmapIntoDraw(sURL As String, Optional oGraphicShape) As Object
 	Dim sNewUrl
 	Dim oSize As Object
 	Dim oShape As Object
-	Dim oDoc As Object
-	Dim oDocCtrl As Object
+	&apos; Dim oDoc As Object
+	&apos; Dim oDocCtrl As Object
 	Dim oCrop As new com.sun.star.text.GraphicCrop
 	Const INCH = 2540
 	&apos; Const VECTORDPI = 120	&apos; Correction factor for vector graphics as they don&apos;t use PNG&apos;s dpi values
@@ -177,8 +177,8 @@ Function ImportBitmapIntoDraw(sURL As String, Optional oGraphicShape) As Object
 							&apos; ToDo: Find out what the hell is going on here...
 							&apos; Workaround: Use a better method   ;-)
 
-	oDoc = ThisComponent
-	oDocCtrl = oDoc.getCurrentController
+	&apos; oDoc = ThisComponent
+	&apos; oDocCtrl = oDoc.getCurrentController
 	
 	oBitmaps = oDoc.createInstance(&quot;com.sun.star.drawing.BitmapTable&quot;)
 	If oBitmaps.hasByName( &quot;OOoLilyPond&quot; ) Then
@@ -244,12 +244,13 @@ Function ImportBitmapIntoWriter (sFile As String, oTextGraphicOrCursor As Object
 
 	Dim oBitmaps As Object
 	Dim sNewUrl
-	Dim oDoc As Object
+	&apos; Dim oDoc As Object
 	Dim oText As Object
 	Dim oTextGraphic As Object
+	Dim oCell As Object
 	Dim oCrop As new com.sun.star.text.GraphicCrop
 
-	oDoc = ThisComponent
+	&apos; oDoc = ThisComponent
 	
 	&apos; Load the image into the internal bitmap table
 	oBitmaps = oDoc.createInstance(&quot;com.sun.star.drawing.BitmapTable&quot;)
@@ -270,13 +271,13 @@ Function ImportBitmapIntoWriter (sFile As String, oTextGraphicOrCursor As Object
 		oTextGraphic = oDoc.createInstance(&quot;com.sun.star.text.GraphicObject&quot;)
 		oTextGraphic.GraphicURL = sNewURL
 		oTextGraphic.AnchorType = com.sun.star.text.TextContentAnchorType.AS_CHARACTER
-		oDoc.Text.insertTextContent( oTextGraphicOrCursor, oTextGraphic, False )
+		oTextGraphicOrCursor.getText().insertTextContent (oTextGraphicOrCursor, oTextGraphic, False)
 	Case &quot;SwXTextGraphicObject&quot;
 		If bForceNewObject Then  &apos; as with SwXTextCursor
 			oTextGraphic = oDoc.createInstance(&quot;com.sun.star.text.GraphicObject&quot;)
 			oTextGraphic.GraphicURL = sNewURL
 			oTextGraphic.AnchorType = com.sun.star.text.TextContentAnchorType.AS_CHARACTER
-			oDoc.Text.insertTextContent( oTextGraphicOrCursor, oTextGraphic, False )
+			oTextGraphicOrCursor.getAnchor().getText().insertTextContent (oTextGraphicOrCursor, oTextGraphic, False)
 		Else
 			oTextGraphic = oTextGraphicOrCursor
 			oTextGraphic.GraphicURL = sNewURL

@@ -305,7 +305,7 @@ Function ReadTemplateFile() As Boolean
 	Dim sDirEntry As String
 	Dim sTemplateFile As String &apos; path to template file
 	
-	sURL=ThisComponent.getURL()  &apos; see GetRelativeIncludeStatement ()
+	sURL=oDoc.getURL()  &apos; see GetRelativeIncludeStatement ()
 	sPath = &quot;&quot;
 	If  Not IsNull(sURL) And Len(sURL) &gt; 0 Then
 		sParts=Split(sURL,&quot;/&quot;)
