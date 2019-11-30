@@ -271,18 +271,13 @@ Function ImportBitmapIntoWriter (sFile As String, oTextGraphicOrCursor As Object
 		oTextGraphic = oDoc.createInstance(&quot;com.sun.star.text.GraphicObject&quot;)
 		oTextGraphic.GraphicURL = sNewURL
 		oTextGraphic.AnchorType = com.sun.star.text.TextContentAnchorType.AS_CHARACTER
-		If Not IsEmpty (oTextGraphicOrCursor.Cell) Then
-			oCell = oTextGraphicOrCursor.Cell
-			oTextGraphicOrCursor.Cell.getText.insertTextContent (oTextGraphicOrCursor, oTextGraphic, False)
-		Else
-			oDoc.Text.insertTextContent (oTextGraphicOrCursor, oTextGraphic, False)
-		End If
+		oTextGraphicOrCursor.getText().insertTextContent (oTextGraphicOrCursor, oTextGraphic, False)
 	Case &quot;SwXTextGraphicObject&quot;
 		If bForceNewObject Then  &apos; as with SwXTextCursor
 			oTextGraphic = oDoc.createInstance(&quot;com.sun.star.text.GraphicObject&quot;)
 			oTextGraphic.GraphicURL = sNewURL
 			oTextGraphic.AnchorType = com.sun.star.text.TextContentAnchorType.AS_CHARACTER
-			oDoc.Text.insertTextContent( oTextGraphicOrCursor, oTextGraphic, False )
+			oTextGraphicOrCursor.getAnchor().getText().insertTextContent (oTextGraphicOrCursor, oTextGraphic, False)
 		Else
 			oTextGraphic = oTextGraphicOrCursor
 			oTextGraphic.GraphicURL = sNewURL
