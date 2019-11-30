@@ -30,8 +30,6 @@ Option Explicit
 
 Sub OOoLilyPondInit()
 
-	&apos; Dim oDoc As Object
-	&apos; Dim oDocCtrl As Object
 	Dim bWrongDocumentType As Boolean
 
 	oMessages  = CreateUnoService (&quot;com.sun.star.beans.PropertyBag&quot;)
@@ -63,11 +61,6 @@ Sub OOoLilyPondInit()
 	
 	&apos; Create all Dialog objects
 	DialogLibraries.LoadLibrary (constOLyLibraryName)
-	&apos; --- Dialogs will be created later, as originally intended
-	&apos; oEditorDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Editor&quot;) )
-	&apos; oConfigDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Config&quot;) )
-	&apos; oTemplateEditorDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Tmpl&quot;) )
-	&apos; oOutputDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Out&quot;) )
 
 	&apos; Read configuration file
 	If oFileAccess.exists( sConfigFile ) Then ReadConfig()
@@ -152,9 +145,7 @@ Sub BatchTest1()
 
 	OOoLilyPondInit ()
 	If Not bInWriter Then Exit Sub
-	&apos; oDocCtrl = ThisComponent.getCurrentController
 
-	&apos; oGraphicObjects = ThisComponent.getGraphicObjects
 	oDrawPage = oDoc.DrawPage
 	iCount = oDrawPage.Count
 	oGraphicObjects = DimArray (iCount) 
@@ -177,7 +168,6 @@ Sub BatchTest1()
 		&apos; Now we know which template to use
 			ReadTemplate ()
 			Make (true)
-			&apos; EditorDialog ()
 		End If
 	next i
 End Sub
@@ -196,7 +186,6 @@ Sub EraseImageSiblings()
 	Dim i As Integer
 	
 	Dim oGraphic As Object
-	&apos; Dim oDocCtrl As Object
 	Dim oShape As Object
 	Dim oGraphicObjects ()
 	
@@ -211,8 +200,6 @@ Sub EraseImageSiblings()
 	
 	Dim sTempIdentifier As String
 	Dim sTempImageNum As String
-
-	&apos; oDocCtrl = ThisComponent.getCurrentController
 
 	Select Case oCurrentGraphicObject.getImplementationName()  &apos; global variable
 	Case &quot;SwXTextRanges&quot; &apos; Nothing or normal text selection in Writer
@@ -242,14 +229,8 @@ Sub EraseImageSiblings()
 			If IsOLyObject (oCurrentObject) Then
 				If GetObjectIdentifier (oCurrentObject) = sOwnIdentifier And GetObjectImageNum (oCurrentObject) &lt;&gt; sOwnImageNum Then
 					If oCurrentObject.SupportsService(&quot;com.sun.star.drawing.Shape&quot;) Or oCurrentObject.SupportsService(&quot;com.sun.star.text.TextGraphicObject&quot;) Then
-						&apos; oTextCursor = oDoc.Text.createTextCursorByRange (oCurrentObject.getAnchor())
-						
-						&apos; createCustomTextCursorByRange (oTextCursor, oCurrentObject.getAnchor())
-						oTextCursor = oCurrentObject.getAnchor().Text.createTextCursorByRange (oCurrentObject.getAnchor())
-						
-						&apos; replaces:
-						&apos; oCurrentCursor = oDoc.Text.createTextCursorByRange (oCurrentGraphicObject(0).getAnchor())
-						oCurrentObject.Dispose
+						oTextCursor = oCurrentObject.getAnchor().getText().createTextCursorByRange (oCurrentObject.getAnchor())
+						oCurrentObject.Dispose	&apos; erase image
 						if oTextCursor.goLeft (1, True) Then
 							sTempStr = oTextCursor.getString ()
 							iStrLen = Len (sTempStr)
@@ -269,67 +250,6 @@ Sub EraseImageSiblings()
 End Sub
 
 
-Sub BatchTest1a()
-	&apos; This is the main function
-	&apos; It initializes OOoLilyPond and opens the OOoLilyPond Editor dialog
-	Dim oGraphicObjects As Object
-	Dim oCurrentObject As Object
-	Dim c As Integer
-	Dim i As Integer
-	
-	Dim oGraphic As Object
-	&apos; Dim oDocCtrl As Object
-
-
-	OOoLilyPondInit ()
-	If Not bInWriter Then Exit Sub
-	&apos; oDocCtrl = ThisComponent.getCurrentController
-
-	&apos; oGraphicObjects = ThisComponent.getGraphicObjects
-	oGraphicObjects = oDoc.DrawPage
-	For i = 0 to oGraphicObjects.Count-1
-		oCurrentGraphicObject = oGraphicObjects.getByIndex(i)  &apos; global variable
-		
-		oDocCtrl.select (oCurrentGraphicObject)
-		
-		If IsOLyObject (oCurrentGraphicObject) Then
-			If ReadSelectionObject () Then  &apos; create Cursor and read Attributes if Object is selected
-			&apos; Now we know which template to use
-				ReadTemplate ()
-				Make (true)
-				&apos; EditorDialog ()
-			End If
-		End If
-	next i
-End Sub
-
-
-Sub BatchTest0()
-	&apos; This is the main function
-	&apos; It initializes OOoLilyPond and opens the OOoLilyPond Editor dialog
-	Dim oGraphicObjects As Object
-	Dim oCurrentObject As Object
-	Dim c As Integer
-	Dim i As Integer
-
-	OOoLilyPondInit ()
-	If Not bInWriter Then Exit Sub
-	
-	oGraphicObjects = oDoc.getGraphicObjects
-	&apos; oGraphicObjects = tc.DrawPage
-	For i = 0 to oGraphicObjects.Count-1
-		oCurrentGraphicObject = oGraphicObjects.getByIndex(i)  &apos; global variable
-		If IsOLyObject (oCurrentGraphicObject) Then
-			If ReadGraphicObject (oCurrentGraphicObject) Then  &apos; create Cursor and read Attributes if Object is selected
-			&apos; Now we know which template to use
-				ReadTemplate ()
-				Make (true)
-			End If
-		End If
-	next i
-End Sub
-
-
 Function ReadGraphicObject (oGraphicObject As Object) As Boolean
 
 	Dim oShape As Object
@@ -344,7 +264,6 @@ Function ReadGraphicObject (oGraphicObject As Object) As Boolean
 				ReadGraphicObject = False
 				Exit Function
 			End If
-			&apos; oSelection(0).getParent().remove(oSelection(0)) &apos; Delete old OLyObject
 		Else &apos; OLy object in Draw / Impress
 			If Not ReadAttributes (oShape) Then  &apos;Read the OLy fields from the Object Attributes
 				ReadGraphicObject = False
@@ -376,15 +295,8 @@ End Function
 
 
 Function ReadSelectionObject () As Boolean
-
-	&apos; Dim oDoc As Object
-	&apos; Dim oDocCtrl As Object
-	
-	&apos; Get the current document and controller
- 	&apos; oDoc = ThisComponent
-	&apos; oDocCtrl = oDoc.getCurrentController()
-
 	&apos; create Cursor and read Attributes if Object is selected
+
 	If Not IsEmpty (oDocCtrl.getSelection) Then &apos; Is only empty in Impress or Draw when nothing is selected
 		oCurrentGraphicObject = oDocCtrl.getSelection
 		ReadSelectionObject = ReadGraphicObject (oCurrentGraphicObject)
@@ -427,40 +339,7 @@ Sub ConvertSeparateImageFiles ()
 End Sub
 
 
-&apos; Function createCustomTextCursorByRange (oCursor As Object, oTextObject As Object, oGraphicObject As Object) As Boolean
-Function createCustomTextCursorByRange (oCursor As Object, oGraphicObject As Object) As Boolean
-
-	Dim sType As String
-	&apos; On Error Goto ErrorHandler
-	
-	sType = oGraphicObject.Text.getImplementationName()
-	createCustomTextCursorByRange = False
-	
-	Select Case sType
-		Case &quot;SwXBodyText&quot;
-			oCursor = oGraphicObject.Text.createTextCursorByRange (oGraphicObject)
-			createCustomTextCursorByRange = True
-		Case &quot;SwXCell&quot;
-			If Not IsEmpty (oGraphicObject.Text) Then
-			oCursor = oGraphicObject.Text.createTextCursorByRange (oGraphicObject)
-			End If
-		Case Else
-	End Select
-	
-	Exit Function
-	
-	ErrorHandler:
-	Select Case Err
-		Case 1	&apos; 	&quot;End of content node doesn&apos;t have the proper start node&quot;
-			Msgbox (Error &amp; Chr(10) &amp; Chr(10) &amp; oMessages.getPropertyValue (&quot;MsgNoStartNode&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
-				&apos; MsgNoStartNode
-		Case Else
-			Msgbox (Error, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
-		End Select
-End Function
-
-
-sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditorDialog doesn&apos;t exist (batch processing)
+Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditorDialog doesn&apos;t exist (batch processing)
 	&apos; Calls the subroutines that generate the image and
 	&apos; insert the image into the document.
 	Dim bNoFileCreated As Boolean
@@ -626,8 +505,9 @@ sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 End Sub
 
 Sub InsertAttribute(oGraphic As Object, sName, sValue As String)
-	Dim oAttributes, oLilyPondAttribute As Object
 	&apos; Add a user defined attribute to the image.
+	
+	Dim oAttributes, oLilyPondAttribute As Object
 	oAttributes = oGraphic.UserDefinedAttributes
 	oLilyPondAttribute = createUnoStruct( &quot;com.sun.star.xml.AttributeData&quot; )
 	oLilyPondAttribute.Type = &quot;CDATA&quot;      		
@@ -642,12 +522,10 @@ End Sub
 
 
 Sub RemoveAttribute (oGraphic As Object, sName As String)
-	Dim oAttributes As Object
 	&apos; Add a user defined attribute to the image.
+
+	Dim oAttributes As Object
 	oAttributes = oGraphic.UserDefinedAttributes
-	&apos; oLilyPondAttribute = createUnoStruct( &quot;com.sun.star.xml.AttributeData&quot; )
-	&apos; oLilyPondAttribute.Type = &quot;CDATA&quot;      		
-	&apos; oLilyPondAttribute.Value = sValue
 	If oAttributes.hasByName (sName) Then
 		oAttributes.removeByName(sName)
 	End If
@@ -692,10 +570,6 @@ Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As Strin
 	Dim oDispatcher, oAttributes, oViewCursor, oGraphic, oLilyPondAttribute As Object
 	Dim oText as Object
 		
-	&apos; Create the Controller and dispatcher for current document...
-	&apos; oDoc = StarDesktop.CurrentComponent
-	&apos; oDoc = ThisComponent
-	&apos; oDocCtrl = oDoc.getCurrentController()
 	oDispatcher = createUnoService(&quot;com.sun.star.frame.DispatchHelper&quot;)
 
 	if bInWriter then
@@ -770,21 +644,15 @@ Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, bFirstCal
 	Dim oAttributes As Object
 	Dim oGraphic As Object
 	Dim oLilyPondAttribute As Object
-	&apos; Dim oDoc As Object
-	&apos; Dim oDocCtrl As Object
 	Dim oCursor As Object
 
-	&apos; oDoc = ThisComponent
-	&apos; oDocCtrl = oDoc.getCurrentController
-
-	&apos; On Error GoTo ErrorHandler
+	On Error GoTo ErrorHandler
 
 	&apos; insert the Bitmap
 	If bInWriter Then
 
 		Select Case oCurrentGraphicObject.getImplementationName()		
 		Case &quot;com.sun.star.drawing.SvxShapeCollection&quot;  &apos; OLy &lt; 0.4 in Writer
-			&apos; oCurrentCursor = oDoc.Text.createTextCursorByRange(oCurrentGraphicObject(0).getAnchor())
 			If bFirstCall Then oCurrentGraphicObject(0).getParent().remove(oCurrentGraphicObject(0)) &apos; Delete old OLyObject
 			oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension), oCurrentCursor, true)
 
@@ -797,7 +665,6 @@ Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, bFirstCal
 			End If
 			
 		Case &quot;SwXTextRanges&quot; &apos; Nothing or normal text selection in Writer
-			&apos; oCurrentCursor = oDoc.Text.createTextCursorByRange(oCurrentGraphicObject(0))
 			oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension), oCurrentCursor, false)
 
 		End Select
