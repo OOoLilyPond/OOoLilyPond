@@ -570,6 +570,18 @@ sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 	&apos; Close the dialog
 	If Not bSilent Then oEditorDialog.endExecute()
 	
+	Exit Sub
+	
+	ErrorHandler:
+		Select Case Err
+		Case 1	&apos; 	&quot;End of content node doesn&apos;t have the proper start node&quot;
+			Msgbox (Error &amp; Chr(10) &amp; Chr(10) &amp; oMessages.getPropertyValue (&quot;MsgNoStartNode&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+				&apos; MsgNoStartNode
+		Case Else
+			Msgbox (Error, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		End Select
+	Exit Sub
+	
 End Sub
 
 Sub InsertAttribute(oGraphic As Object, sName, sValue As String)
