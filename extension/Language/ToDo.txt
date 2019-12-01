@@ -6,7 +6,15 @@ sMsgWannaSaveOrIncludeTemplate=A template is included inside this object.%10%10C
 
 sMsgWannaSaveTemplate=A template is included inside this object.%10%10It might be lost now when switching to another one.%10%10You can save the included template into a new template file:%10Open the template editor ([Edit] button) and click the "save" or "save as" button.%10%10Do you want to open the template editor now?
 
+' Confirmations for file operations:
 
+sMsgConfirmDeleteTemplate1=Do you really want to delete the template file "
+' (file name)
+sMsgConfirmDeleteTemplate2="?
+
+sMsgConfirmOverwriteTemplate1=The template file "
+' (file name)
+sMsgConfirmOverwriteTemplate2=" already exists.%10Do you really want to overwrite it?
 
 
 [EditorDialog]

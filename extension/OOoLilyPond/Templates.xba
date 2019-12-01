@@ -691,6 +691,10 @@ Sub TmplDeleteButton
 
 	Dim sFile As String
 	sFile = sTemplatePath &amp; sTemplate &amp; &quot;.ly&quot;
+	
+	If MsgBox (oMessages.getPropertyValue (&quot;sMsgConfirmDeleteTemplate1&quot;) &amp; sTemplate &amp; &quot;.ly&quot; _
+		&amp; oMessages.getPropertyValue (&quot;sMsgConfirmDeleteTemplate2&quot;), iMsgBox_YN+iMsgBox_Q, _ 
+		oMessages.getPropertyValue (&quot;sCaptionRUSure&quot;)) &lt;&gt; iAnswer_Yes Then Exit Sub
 
 	If oFileAccess.exists( sFile ) Then
 		oFileAccess.kill(sFile )
@@ -719,9 +723,6 @@ Sub TmplSaveAsButton
 	&apos; Not yet handled errors:
 	&apos; - Forbidden charachters in template name.
 	
-	&apos; Not implemented yet:
-	&apos; Check whether file already exists
-
 	Dim sFile As String
 	Dim sReply As String
 	
@@ -731,6 +732,12 @@ Sub TmplSaveAsButton
 	End If
 	
 	sFile = sTemplatePath &amp; sReply &amp; &quot;.ly&quot;
+	
+	If oFileAccess.exists (ConvertFromURL (sFile)) Then
+		If MsgBox (oMessages.getPropertyValue (&quot;sMsgConfirmOverwriteTemplate1&quot;) &amp; sTemplate &amp; &quot;.ly&quot; _
+			&amp; oMessages.getPropertyValue (&quot;sMsgConfirmOverwriteTemplate2&quot;), iMsgBox_YN+iMsgBox_Q, _ 
+			oMessages.getPropertyValue (&quot;sCaptionRUSure&quot;)) &lt;&gt; iAnswer_Yes Then Exit Sub
+	End If
 	
 	If StringToFile(oTemplateEditorDialog.getControl(&quot;sTemplateCode&quot;).getText(), sFile) Then
 		sTemplate = sReply
@@ -749,6 +756,12 @@ Sub TmplSaveButton
 	Dim sFile As String
 	
 	sFile = sTemplatePath &amp; sTemplate &amp; &quot;.ly&quot;
+	
+	If oFileAccess.exists (ConvertFromURL (sFile)) Then
+		If MsgBox (oMessages.getPropertyValue (&quot;sMsgConfirmOverwriteTemplate1&quot;) &amp; sTemplate &amp; &quot;.ly&quot; _
+			&amp; oMessages.getPropertyValue (&quot;sMsgConfirmOverwriteTemplate2&quot;), iMsgBox_YN+iMsgBox_Q, _ 
+			oMessages.getPropertyValue (&quot;sCaptionRUSure&quot;)) &lt;&gt; iAnswer_Yes Then Exit Sub
+	End If
 	
 	If StringToFile(oTemplateEditorDialog.getControl(&quot;sTemplateCode&quot;).getText(), sFile) Then
 		oTemplateEditorDialog.endExecute()

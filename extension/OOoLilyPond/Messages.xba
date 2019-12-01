@@ -330,6 +330,16 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   &apos; (file name)
   oMessages.addProperty (&quot;sMsgCannotDeleteTemplate2&quot;, BagAttr, Chr(10) &amp; &quot;The file could not be found.&quot;)
   
+  &apos; Confirmations for file operations:
+  
+  oMessages.addProperty (&quot;sMsgConfirmDeleteTemplate1&quot;, BagAttr, &quot;Do you really want to delete the template file &quot; &amp; Chr(34))
+  &apos; (file name)
+  oMessages.addProperty (&quot;sMsgConfirmDeleteTemplate2&quot;, BagAttr, Chr(34) &amp; &quot;?&quot;)
+  
+  oMessages.addProperty (&quot;sMsgConfirmOverwriteTemplate1&quot;, BagAttr, &quot;The template file &quot;&amp; Chr(34))
+  &apos; (file name)
+  oMessages.addProperty (&quot;sMsgConfirmOverwriteTemplate2&quot;, BagAttr, Chr(34) &amp; &quot;already exists.&quot; &amp; Chr(10) &amp; &quot;Do you really want to overwrite it?&quot;)
+  
   &apos; User deleted a template that was specified as default template. New default template has to be chosen.
   
   oMessages.addProperty (&quot;sMsgDefaultTemplateDeleted1&quot;, BagAttr, &quot;You have deleted the template &quot; &amp; Chr(34))
