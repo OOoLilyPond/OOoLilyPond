@@ -105,6 +105,7 @@ Sub OOoLilyPondInit()
 	End If
 	
 	bSaveAsSeparateImages = bNewObjectsAsSeparateImages
+	bTemplateSaved = False
 
 	&apos; By default use default values ;-)
 	&apos; Will be overwritten if values are read from existing object
@@ -791,6 +792,9 @@ Function ReadAttributes( oShape As Object ) As Boolean
 		If oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondTemplateCode&quot;) Then
 			sTemplateCode = oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondTemplateCode&quot;).Value
 			bContainsTemplate = True
+			bTemplateSaved = False
+		Else
+			bContainsTemplate = False
 		End If
 		
 		bHasSeparateImages = (GetObjectIdentifier (oShape) &lt;&gt; &quot;&quot;)

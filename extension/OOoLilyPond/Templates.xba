@@ -735,6 +735,7 @@ Sub TmplSaveAsButton
 	If StringToFile(oTemplateEditorDialog.getControl(&quot;sTemplateCode&quot;).getText(), sFile) Then
 		sTemplate = sReply
 		oTemplateEditorDialog.endExecute()
+		bTemplateSaved = True
 	Else
 		&apos; Nothing. Error Message is now produced in StringToFile()
 	End If
@@ -751,6 +752,7 @@ Sub TmplSaveButton
 	
 	If StringToFile(oTemplateEditorDialog.getControl(&quot;sTemplateCode&quot;).getText(), sFile) Then
 		oTemplateEditorDialog.endExecute()
+		bTemplateSaved = True
 	Else
 		&apos; Nothing. Error Message is now produced in StringToFile()
 	End If

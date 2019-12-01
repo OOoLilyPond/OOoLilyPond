@@ -2,10 +2,19 @@ sMsgNoOlyObjectsHere=You cannot create an OLy object here.%10%10Apart from the n
 
 sMsgNoFirstFileFound=No OOoLilyPond-1.* file is found.%10Please make sure you meet all requirements for inserting as separate images:%10%101.) File type must be pdf_to_svg or eps%102.) The template or code must include lilypond-book-preamble.ly
 
+sMsgWannaSaveOrIncludeTemplate=A template is included inside this object.%10%10Currently, OLy is configured to save the object without template.%10That means you will lose the template when clicking the [LilyPond] button.%10You can change this setting by clicking the [Config] button and enabling the option "Include Template in document". %10%10You can also save the included template into a new template file:%10Open the template editor ([Edit] button) and click the "save" or "save as" button.%10%10Do you want to open the template editor now?
+
+sMsgWannaSaveTemplate=A template is included inside this object.%10%10It might be lost now when switching to another one.%10%10You can save the included template into a new template file:%10Open the template editor ([Edit] button) and click the "save" or "save as" button.%10%10Do you want to open the template editor now?
+
+
+
+
 [EditorDialog]
 
 bSaveAsSeparateImages.label=Insert as separate images
 bSaveAsSeparateImages.helptext=If the sheet music consists of multiple lines, insert them as separate images
+TemplateInObjectLabel.label=Template included in OLy object
+TemplateInObjectLabel.helptext=Click the [Edit] button to save the template into your template folder.
 
 [ConfigDialog]
 

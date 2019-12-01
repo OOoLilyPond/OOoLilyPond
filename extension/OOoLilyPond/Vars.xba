@@ -46,6 +46,7 @@ Private sLanguageFileName As String
 Private bKeepTempFiles As Boolean
 Private bIncludeTemplate As Boolean
 Private bContainsTemplate As Boolean
+Private bTemplateSaved As Boolean
 Private bNewObjectsAsSeparateImages As Boolean  &apos; Config Dialog: default for new objects
 Private bHasSeparateImages As Boolean  &apos; selected object consists of separate images?
 Private bSaveAsSeparateImages As Boolean  &apos; save actual snippet as separate images?

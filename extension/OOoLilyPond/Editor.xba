@@ -111,6 +111,7 @@ Sub EditorDialog()
 	
 	&apos; open the dialog
     oEditorDialog.Execute()
+
 End Sub
 
 
@@ -196,6 +197,9 @@ Sub GreyOut()
 	oEditorDialog.getModel().getByName(&quot;bOption2&quot;).Label = sOption2Label
 	oEditorDialog.getModel().getByName(&quot;bOption3&quot;).Label = sOption3Label
 	oEditorDialog.getModel().getByName(&quot;bOption4&quot;).Label = sOption4Label
+	
+	&apos; indicate if Template is included in object:
+	oEditorDialog.getModel().getByName (&quot;TemplateInObjectLabel&quot;).EnableVisible = bContainsTemplate
 	
 End Sub
 
@@ -397,6 +401,18 @@ End Sub
 
 Sub LilyPondButton()
 
+	If bContainsTemplate And Not bIncludeTemplate And Not bTemplateSaved Then
+		Select Case MsgBox (oMessages.getPropertyValue (&quot;sMsgWannaSaveOrIncludeTemplate&quot;), iMsgBox_I + iMsgBox_YNC + iMsgBox_1, oMessages.getPropertyValue (&quot;sCaptionInfo&quot;))
+			Case iAnswer_Yes
+				EditTemplateButton()
+				Exit Sub
+			Case iAnswer_No
+				&apos; nothing, just continue
+			Case Else  &apos; &quot;Cancel&quot; button or &quot;Escape&quot; key
+				Exit Sub
+		End Select
+	End If
+
 	&apos; all values except for the Anchor, Wrap and Size/Crop settings should already be updated
 	if oEditorDialog.getControl(&quot;AnchorAsCharacter&quot;).getState() then iAnchor = com.sun.star.text.TextContentAnchorType.AS_CHARACTER
 	if oEditorDialog.getControl(&quot;AnchorToParagraph&quot;).getState() then iAnchor = com.sun.star.text.TextContentAnchorType.AT_PARAGRAPH
@@ -482,7 +498,27 @@ Sub TemplateChanged()
 	sTemplate=oEditorDialog.getControl(&quot;sTemplate&quot;).getText()
 	
 	If sTemplate &lt;&gt; sOldTemplate Then  &apos; only when really a different template has been selected
-		If oFileAccess.exists(sTemplatePath &amp; sTemplate &amp; &quot;.ly&quot;) Then ReadTemplate()
+	
+		If bContainsTemplate And Not bIncludeTemplate And Not bTemplateSaved Then
+			Select Case MsgBox (oMessages.getPropertyValue (&quot;sMsgWannaSaveTemplate&quot;), iMsgBox_I + iMsgBox_YNC + iMsgBox_1, oMessages.getPropertyValue (&quot;sCaptionInfo&quot;))
+				Case iAnswer_Yes
+					sTemplate = sOldTemplate
+					oEditorDialog.getControl (&quot;sTemplate&quot;).setText (sTemplate)
+					EditTemplateButton()
+					Exit Sub
+				Case iAnswer_No
+					&apos; nothing, just continue
+				Case Else  &apos; &quot;Cancel&quot; button or &quot;Escape&quot; key
+					sTemplate = sOldTemplate
+					oEditorDialog.getControl (&quot;sTemplate&quot;).setText (sTemplate)
+					Exit Sub
+			End Select
+		End If
+	
+		If oFileAccess.exists (sTemplatePath &amp; sTemplate &amp; &quot;.ly&quot;) Then
+			bContainsTemplate = False
+			ReadTemplate()
+		End If
 
 		If bUseDefaultCode Then
 			sCode=&quot;&quot; &apos; UseDefaultCode() does not ask if sCode is empty

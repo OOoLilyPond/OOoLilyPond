@@ -108,6 +108,27 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   &apos; &quot;sTemplatePath&quot;
   oMessages.addProperty (&quot;sMsgTemplatePathNotFound2&quot;, BagAttr, Chr(34) &amp; &quot; is not found.&quot;)
   
+  &apos; The object includes a template which might get lost:
+  
+  oMessages.addProperty (&quot;sMsgWannaSaveOrIncludeTemplate&quot;, BagAttr, &quot;A template is included inside this object.&quot; &amp; Chr(10) _ 
+  		&amp; Chr(10) _ 
+  		&amp; &quot;Currently, OLy is configured to save the object without template.&quot; &amp; Chr(10) _ 
+  		&amp; &quot;That means you will lose the template when clicking the [LilyPond] button.&quot; &amp; Chr(10) _ 
+  		&amp; &quot;You can change this setting by clicking the [Config] button and enabling the option &quot;&amp; Chr(34) &amp; &quot;Include Template in document&quot;&amp; Chr(34) &amp; &quot;. &quot; &amp; Chr(10) _ 
+  		&amp; Chr(10) _ 
+  		&amp; &quot;You can also save the included template into a new template file:&quot; &amp; Chr(10) _ 
+  		&amp; &quot;Open the template editor ([Edit] button) and click the &quot; &amp; Chr(34) &amp; &quot;save&quot;&amp; Chr(34) &amp; &quot; or &quot;&amp; Chr(34) &amp; &quot;save as&quot;&amp; Chr(34) &amp; &quot; button.&quot; &amp; Chr(10) _ 
+  		&amp; Chr(10) _ 
+  		&amp; &quot;Do you want to open the template editor now?&quot;)
+
+   oMessages.addProperty (&quot;sMsgWannaSaveTemplate&quot;, BagAttr, &quot;A template is included inside this object.&quot; &amp; Chr(10) _ 
+  		&amp; Chr(10) _ 
+  		&amp; &quot;It might be lost now when switching to another one.&quot; &amp; Chr(10) &amp; Chr(10) _ 
+  		&amp; &quot;You can save the included template into a new template file:&quot; &amp; Chr(10) _ 
+  		&amp; &quot;Open the template editor ([Edit] button) and click the &quot; &amp; Chr(34) &amp; &quot;save&quot;&amp; Chr(34) &amp; &quot; or &quot;&amp; Chr(34) &amp; &quot;save as&quot;&amp; Chr(34) &amp; &quot; button.&quot; &amp; Chr(10) _ 
+  		&amp; Chr(10) _ 
+  		&amp; &quot;Do you want to open the template editor now?&quot;)
+
   &apos; There is no file that contains LilyPond&apos;s output messages:
   
   oMessages.addProperty (&quot;sMsgNoLyOutput&quot;, BagAttr, &quot;There is no LilyPond output file.&quot;)

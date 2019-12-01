@@ -5,6 +5,7 @@
   <dlg:style dlg:style-id="0" dlg:font-weight="150"/>
   <dlg:style dlg:style-id="1" dlg:font-name="Courier" dlg:font-stylename="Regular" dlg:font-family="modern"/>
   <dlg:style dlg:style-id="2" dlg:text-color="0xbf0041"/>
+  <dlg:style dlg:style-id="3" dlg:text-color="0x5b277d"/>
  </dlg:styles>
  <dlg:bulletinboard>
   <dlg:button dlg:id="ButtonConfig" dlg:tab-index="5" dlg:left="287" dlg:top="283" dlg:width="40" dlg:height="14" dlg:help-text="Open the configuration dialog." dlg:value="Config">
@@ -42,7 +43,7 @@
   <dlg:button dlg:id="LilyPondButton" dlg:tab-index="4" dlg:left="330" dlg:top="283" dlg:width="40" dlg:height="14" dlg:help-text="Call LilyPond to render the code into music notation." dlg:default="true" dlg:value="LilyPond">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.LilyPondButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
-  <dlg:button dlg:id="EditTemplate" dlg:tab-index="17" dlg:left="338" dlg:top="212" dlg:width="31" dlg:height="14" dlg:value="Edit">
+  <dlg:button dlg:id="EditTemplate" dlg:tab-index="17" dlg:left="338" dlg:top="208" dlg:width="31" dlg:height="14" dlg:value="Edit">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.EditTemplateButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
   <dlg:text dlg:id="LabelLineWidth" dlg:tab-index="20" dlg:left="164" dlg:top="246" dlg:width="48" dlg:height="8" dlg:value="Line Width:"/>
@@ -52,7 +53,7 @@
   <dlg:textfield dlg:style-id="1" dlg:id="sCode" dlg:tab-index="0" dlg:left="3" dlg:top="6" dlg:width="368" dlg:height="182" dlg:hide-inactive-selection="false" dlg:hard-linebreaks="true" dlg:vscroll="true" dlg:multiline="true">
    <script:event script:event-name="on-textchange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.CodeModified?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:textfield>
-  <dlg:combobox dlg:id="sTemplate" dlg:tab-index="13" dlg:left="197" dlg:top="213" dlg:width="135" dlg:height="12" dlg:help-text="You can create your own templates using a text editor." dlg:spin="true" dlg:linecount="24">
+  <dlg:combobox dlg:id="sTemplate" dlg:tab-index="13" dlg:left="197" dlg:top="210" dlg:width="135" dlg:height="12" dlg:help-text="You can create your own templates using a text editor." dlg:spin="true" dlg:linecount="24">
    <script:event script:event-name="on-textchange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.TemplateChanged?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:combobox>
   <dlg:textfield dlg:id="sLineWidth" dlg:tab-index="18" dlg:left="164" dlg:top="255" dlg:width="48" dlg:height="12">
@@ -92,7 +93,7 @@
   <dlg:button dlg:id="ImportButton" dlg:tab-index="33" dlg:left="197" dlg:top="191" dlg:width="135" dlg:height="14" dlg:help-text="Open the current code as temoprary .LY file in external editor" dlg:value="Import from temp. file">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.ImportButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
-  <dlg:text dlg:id="TemplateLabel" dlg:tab-index="8" dlg:left="149" dlg:top="215" dlg:width="46" dlg:height="10" dlg:value="Template:" dlg:align="right"/>
+  <dlg:text dlg:id="TemplateLabel" dlg:tab-index="8" dlg:left="149" dlg:top="212" dlg:width="46" dlg:height="10" dlg:value="Template:" dlg:align="right"/>
   <dlg:text dlg:style-id="2" dlg:id="sErrNum" dlg:tab-index="35" dlg:left="48" dlg:top="272" dlg:width="38" dlg:height="10"/>
   <dlg:checkbox dlg:id="bCustom2" dlg:tab-index="36" dlg:visible="false" dlg:left="320" dlg:top="258" dlg:width="48" dlg:height="10" dlg:checked="false">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.Custom2CheckBoxModified?language=Basic&amp;location=application" script:language="Script"/>
@@ -120,5 +121,6 @@
   </dlg:checkbox>
   <dlg:checkbox dlg:id="bKeepCrop" dlg:tab-index="34" dlg:left="8" dlg:top="263" dlg:width="140" dlg:height="8" dlg:help-text="When editing/replacing an existing object, preserve its current size and crop settings" dlg:value="Keep Size &amp; Crop Settings" dlg:checked="false"/>
   <dlg:checkbox dlg:id="bSaveAsSeparateImages" dlg:tab-index="44" dlg:left="8" dlg:top="253" dlg:width="140" dlg:height="8" dlg:help-text="If the sheet music consists of multiple lines, insert them as separate images" dlg:value="Insert as separate images" dlg:checked="false"/>
+  <dlg:text dlg:style-id="3" dlg:id="TemplateInObjectLabel" dlg:tab-index="45" dlg:visible="false" dlg:left="197" dlg:top="221" dlg:width="135" dlg:height="8" dlg:help-text="Click the [Edit] button to save the template into your template folder." dlg:value="Template included in OLy object "/>
  </dlg:bulletinboard>
 </dlg:window>
