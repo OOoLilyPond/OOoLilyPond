@@ -296,12 +296,20 @@ End Function
 
 Function ReadSelectionObject () As Boolean
 	&apos; create Cursor and read Attributes if Object is selected
+	
+	On Error Goto ErrorHandler
 
 	If Not IsEmpty (oDocCtrl.getSelection) Then &apos; Is only empty in Impress or Draw when nothing is selected
 		oCurrentGraphicObject = oDocCtrl.getSelection
 		ReadSelectionObject = ReadGraphicObject (oCurrentGraphicObject)
 	End If
 	ReadSelectionObject = True
+	
+	Exit Function
+	
+	ErrorHandler:
+	Msgbox (oMessages.getPropertyValue (&quot;sMsgNoOlyObjectsHere&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+	Exit Function
 End Function
 
 

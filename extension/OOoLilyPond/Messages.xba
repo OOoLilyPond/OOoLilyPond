@@ -212,6 +212,15 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   
   oMessages.addProperty (&quot;sMsgNoOlyObject&quot;, BagAttr, &quot;The selected object is not an OLy object ...&quot;)
   
+  &apos; OLy has been called with the cursor placed where no OLy object can be created:
+  
+  oMessages.addProperty (&quot;sMsgNoOlyObjectsHere&quot;, BagAttr, &quot;You cannot create an OLy object here.&quot; &amp; Chr(10) &amp; Chr(10) &amp; _
+  		&quot;Apart from the normal text area, OLy objects are only possible in&quot; &amp; Chr(10) &amp; Chr(10) &amp; _
+  		&quot;- Table cells,&quot; &amp; Chr(10) &amp; _
+  		&quot;- Text frames,&quot; &amp; Chr(10) &amp; _
+  		&quot;- footnotes and endnotes,&quot; &amp; Chr(10) &amp; _
+  		&quot;- headers and footers.&quot;)
+  
   &apos; After LilyPond has been called, no graphics output file is found:
   
   oMessages.addProperty (&quot;sMsgNoEpsOutputFound&quot;, BagAttr, &quot;No eps output is found.&quot;)
