@@ -46,12 +46,12 @@
   \context {
     \Staff
     
-%      The code between the following two tags will be visible for LilyPond if Option1 is set to FALSE.
+%      The code between the following two tags will be visible for LilyPond if Option3 is set to FALSE.
 %      (It will be commented out if Option3 is set to TRUE.)
 
     %{OOoLilyPondOption3False%}\remove "Time_signature_engraver"%{OOoLilyPondEnd%}
     
-%      The code between the following two tags will be visible for LilyPond if Option1 is set to TRUE.
+%      The code between the following two tags will be visible for LilyPond if Option3 is set to TRUE.
 %      (It will be commented out if Option3 is set to FALSE.)
 
     %{OOoLilyPondOption3True%}\numericTimeSignature%{OOoLilyPondEnd%}
