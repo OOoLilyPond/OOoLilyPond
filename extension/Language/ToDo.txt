@@ -30,6 +30,9 @@ sMsgTemplateInSubFolder1=Template found in subfolder "
 ' (folder's name)
 sMsgTemplateInSubFolder2="
 
+' A template file with the given name is nowhere found:
+sMsgTemplateNotFound=Template not found
+
 
 [EditorDialog]
 
