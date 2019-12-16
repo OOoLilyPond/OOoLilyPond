@@ -25,7 +25,7 @@ sMsgTemplateInObject=Template included in OLy object
 ' The template file is found in the folder where the containing LibreOffice document is saved:
 sMsgTemplateInDocFolder=Template found in document folder
 
-' The template file is foune in a subfolder of the template folder
+' The template file is found in a subfolder of the template folder
 sMsgTemplateInSubFolder1=Template found in subfolder "
 ' (folder's name)
 sMsgTemplateInSubFolder2="
