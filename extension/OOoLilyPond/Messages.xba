@@ -139,10 +139,13 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   &apos; The template file is found in the folder where the containing LibreOffice document is saved:
   oMessages.addProperty (&quot;sMsgTemplateInDocFolder&quot;, BagAttr, &quot;Template found in document folder&quot;)
 
-  &apos; The template file is foune in a subfolder of the template folder
+  &apos; The template file is found in a subfolder of the template folder
   oMessages.addProperty (&quot;sMsgTemplateInSubFolder1&quot;, BagAttr, &quot;Template found in subfolder &quot; &amp; Chr(34))
   &apos; (folder&apos;s name)
   oMessages.addProperty (&quot;sMsgTemplateInSubFolder2&quot;, BagAttr, Chr(34))  
+  
+  &apos; A template file with the given name is nowhere found:
+  oMessages.addProperty (&quot;sMsgTemplateNotFound&quot;, BagAttr, &quot;Template not found&quot;)  
   
 
   &apos; There is no file that contains LilyPond&apos;s output messages:
