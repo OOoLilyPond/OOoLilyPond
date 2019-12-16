@@ -20,6 +20,7 @@ Sub EditorDialog()
 	&apos; Create the dialog object
 	oEditorDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Editor&quot;) )
 	ReadDialogStringsFromVar (oEditorDialog, sEditorDialogStrings)
+	oEditorDialog.getModel().getByName(&quot;TemplateLocationLabel&quot;).Label = sTemplateLocationLabel
 	&apos; Preserve original field labels for LineWidth, StaffSize, Custom1, Custom2, Option1 ... Option4:
 	sDefaultLineWidthLabel = oEditorDialog.getModel().getByName(&quot;LabelLineWidth&quot;).Label
 	sDefaultStaffSizeLabel = oEditorDialog.getModel().getByName(&quot;LabelStaffSize&quot;).Label
@@ -198,8 +199,8 @@ Sub GreyOut()
 	oEditorDialog.getModel().getByName(&quot;bOption3&quot;).Label = sOption3Label
 	oEditorDialog.getModel().getByName(&quot;bOption4&quot;).Label = sOption4Label
 	
-	&apos; indicate if Template is included in object:
-	oEditorDialog.getModel().getByName (&quot;TemplateInObjectLabel&quot;).EnableVisible = bContainsTemplate
+	&apos; indicate if Template location is other than standard template folder:
+	oEditorDialog.getModel().getByName (&quot;TemplateLocationLabel&quot;).EnableVisible = (sTemplateLocationLabel &lt;&gt; &quot;&quot;)
 	
 End Sub
 

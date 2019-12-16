@@ -121,6 +121,6 @@
   </dlg:checkbox>
   <dlg:checkbox dlg:id="bKeepCrop" dlg:tab-index="34" dlg:left="8" dlg:top="263" dlg:width="140" dlg:height="8" dlg:help-text="When editing/replacing an existing object, preserve its current size and crop settings" dlg:value="Keep Size &amp; Crop Settings" dlg:checked="false"/>
   <dlg:checkbox dlg:id="bSaveAsSeparateImages" dlg:tab-index="44" dlg:left="8" dlg:top="253" dlg:width="140" dlg:height="8" dlg:help-text="If the sheet music consists of multiple lines, insert them as separate images" dlg:value="Insert as separate images" dlg:checked="false"/>
-  <dlg:text dlg:style-id="3" dlg:id="TemplateInObjectLabel" dlg:tab-index="45" dlg:visible="false" dlg:left="197" dlg:top="221" dlg:width="135" dlg:height="8" dlg:help-text="Click the [Edit] button to save the template into your template folder." dlg:value="Template included in OLy object "/>
+  <dlg:text dlg:style-id="3" dlg:id="TemplateLocationLabel" dlg:tab-index="45" dlg:visible="false" dlg:left="197" dlg:top="221" dlg:width="135" dlg:height="8" dlg:help-text="Click the [Edit] button to save the template into your template folder."/>
  </dlg:bulletinboard>
 </dlg:window>
