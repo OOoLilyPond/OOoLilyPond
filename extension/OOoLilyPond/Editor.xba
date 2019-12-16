@@ -502,7 +502,7 @@ Sub TemplateChanged()
 	
 	If sTemplate &lt;&gt; sOldTemplate Then  &apos; only when really a different template has been selected
 	
-		If bContainsTemplate And Not bIncludeTemplate And Not bTemplateSaved Then
+		If bContainsTemplate And Not bTemplateSaved Then
 			Select Case MsgBox (oMessages.getPropertyValue (&quot;sMsgWannaSaveTemplate&quot;), iMsgBox_I + iMsgBox_YNC + iMsgBox_1, oMessages.getPropertyValue (&quot;sCaptionInfo&quot;))
 				Case iAnswer_Yes
 					sTemplate = sOldTemplate
