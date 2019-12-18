@@ -4,6 +4,29 @@
 
 Option Explicit
 
+Function PosInArray (MyArray As Variant, MyElement As Variant) As Integer
+&apos; Return the (first) position of &quot;Element&quot; in &quot;Array&quot;. Return -1 if &quot;Array&quot;
+&apos; does not contain &quot;Element&quot;
+	Dim Lo as Integer
+	Dim Hi As Integer
+	Dim i As Integer
+	
+	Lo = LBound (MyArray)
+	Hi = UBound (MyArray)
+
+	i = Lo
+	While i &lt;= Hi
+		If MyArray (i) = MyElement Then
+			PosInArray = i
+			Exit Function
+		Else
+			i = i+1
+		End If
+	Wend
+	PosInArray = -1
+End Function
+
+
 Sub RemoveSpaces (s as String)
 &apos; If there are whitespaces at the beginning or end of &quot;s&quot;, remove them:
 	While Left(s, 1) = &quot; &quot;
