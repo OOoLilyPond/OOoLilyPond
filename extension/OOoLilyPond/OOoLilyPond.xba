@@ -830,7 +830,7 @@ End Function
 
 
 Function GetObjectImageNum (oShape As Object) As String
-	&apos; Return the &quot;OOoLilyPondIdentifier&quot; string of a graphic object
+	&apos; Return the &quot;OOoLilyPondImageNum&quot; string of a graphic object
 	&apos; If it has none, return empty string
 
 	If oShape.UserDefinedAttributes().hasByName (&quot;OOoLilyPondImageNum&quot;) Then
