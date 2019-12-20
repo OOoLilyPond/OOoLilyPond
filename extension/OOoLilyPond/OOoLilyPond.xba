@@ -124,7 +124,7 @@ Sub OOoLilyPond()
 	OOoLilyPondInit()
 	If Not ReadSelectionObject () Then Exit Sub   &apos; create Cursor and read Attributes if Object is selected
 	&apos; Now we know which template to use
-	ReadTemplate()
+	ReadTemplate (True)
 	&apos; Open the dialog box
 	EditorDialog()
 End Sub
@@ -197,7 +197,7 @@ Sub BatchTest1()
 		
 		If ReadSelectionObject () Then  &apos; create Cursor and read Attributes if Object is selected
 		&apos; Now we know which template to use
-			ReadTemplate ()
+			ReadTemplate (True)
 			Make (true)
 		End If
 	next i

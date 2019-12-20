@@ -129,6 +129,25 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   		&amp; Chr(10) _ 
   		&amp; &quot;Do you want to open the template editor now?&quot;)
 
+
+  &apos; If the current template is found in a location different from the template folder, 
+  &apos; this is indicated by a label below the template dropdown box in the editor window:
+
+  &apos; The template is included in the OLy object itself:
+  oMessages.addProperty (&quot;sMsgTemplateInObject&quot;, BagAttr, &quot;Template included in OLy object&quot;)
+
+  &apos; The template file is found in the folder where the containing LibreOffice document is saved:
+  oMessages.addProperty (&quot;sMsgTemplateInDocFolder&quot;, BagAttr, &quot;Template found in document folder&quot;)
+
+  &apos; The template file is found in a subfolder of the template folder
+  oMessages.addProperty (&quot;sMsgTemplateInSubFolder1&quot;, BagAttr, &quot;Template found in subfolder &quot; &amp; Chr(34))
+  &apos; (folder&apos;s name)
+  oMessages.addProperty (&quot;sMsgTemplateInSubFolder2&quot;, BagAttr, Chr(34))  
+  
+  &apos; A template file with the given name is nowhere found:
+  oMessages.addProperty (&quot;sMsgTemplateNotFound&quot;, BagAttr, &quot;Template not found&quot;)  
+  
+
   &apos; There is no file that contains LilyPond&apos;s output messages:
   
   oMessages.addProperty (&quot;sMsgNoLyOutput&quot;, BagAttr, &quot;There is no LilyPond output file.&quot;)

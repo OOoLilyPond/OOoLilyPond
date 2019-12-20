@@ -294,7 +294,7 @@ Function ListOfTemplates (oComboBox) As Integer
 End Function
 
 
-Function ReadTemplateFile() As Boolean
+Function ReadTemplateFile (bShowError As Boolean) As Boolean
 	&apos; Reads the template file into sTemplateCode
 	&apos; Extracts the content between the OOoLilyPond Start end End tags
 	&apos; for being used as template specific default values.
@@ -327,12 +327,18 @@ Function ReadTemplateFile() As Boolean
 				sDirEntry = Dir
 				sTemplateFile = sTemplatePath &amp; sDirEntry &amp; &quot;/&quot; &amp; sTemplate &amp; &quot;.ly&quot;
 			Loop
+			If oFileAccess.exists (sTemplateFile) Then  &apos; Template found in subfolder &quot;sDirEntry&quot;
+				sTemplateLocationLabel = oMessages.getPropertyValue (&quot;sMsgTemplateInSubFolder1&quot;) &amp; sDirEntry &amp; oMessages.getPropertyValue (&quot;sMsgTemplateInSubFolder2&quot;)
+			End If
 		End If
+	Else   &apos; Template found in the documents&apos;s folder
+		sTemplateLocationLabel = oMessages.getPropertyValue (&quot;sMsgTemplateInDocFolder&quot;)
 	End If	
 		
 	If Not StringFromFile(sTemplateCode, sTemplateFile) Then
 		&apos; MsgBox(&quot;Cannot open the template file:&quot; &amp; Chr(10) &amp; ConvertFromURL(sTemplateFile), iMsgBox_E, &quot;Error&quot;)
-		MsgBox (oMessages.getPropertyValue (&quot;sMsgCannotOpenTemplate1&quot;) &amp; ConvertFromURL(sTemplateFile) &amp; oMessages.getPropertyValue (&quot;sMsgCannotOpenTemplate2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		If bShowError Then MsgBox (oMessages.getPropertyValue (&quot;sMsgCannotOpenTemplate1&quot;) &amp; ConvertFromURL(sTemplateFile) &amp; oMessages.getPropertyValue (&quot;sMsgCannotOpenTemplate2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		sTemplateLocationLabel = oMessages.getPropertyValue (&quot;sMsgTemplateNotFound&quot;)
 		ReadTemplateFile = False
 		Exit Function
 	End If
@@ -340,7 +346,7 @@ Function ReadTemplateFile() As Boolean
 End Function
 
 
-Function ReadTemplate() As Boolean
+Function ReadTemplate (bShowError As Boolean) As Boolean
 	&apos; Reads the template file into sTemplateCode
 	&apos; Extracts the content between the OOoLilyPond Start end End tags
 	&apos; for being used as template specific default values.
@@ -354,10 +360,13 @@ Function ReadTemplate() As Boolean
 	Dim bCodeFieldExists As Boolean
 	
 	If Not bContainsTemplate Then
-		If Not ReadTemplateFile () Then
+		sTemplateLocationLabel = &quot;&quot;
+		If Not ReadTemplateFile (bShowError) Then
 			ReadTemplate = False
 			Exit Function
 		End If
+	Else  &apos; Template contained in OLy object
+		sTemplateLocationLabel = oMessages.getPropertyValue (&quot;sMsgTemplateInObject&quot;)
 	End If
 	
 	sCodeToParse = sTemplateCode

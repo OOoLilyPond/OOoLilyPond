@@ -198,9 +198,10 @@ Sub GreyOut()
 	oEditorDialog.getModel().getByName(&quot;bOption3&quot;).Label = sOption3Label
 	oEditorDialog.getModel().getByName(&quot;bOption4&quot;).Label = sOption4Label
 	
-	&apos; indicate if Template is included in object:
-	oEditorDialog.getModel().getByName (&quot;TemplateInObjectLabel&quot;).EnableVisible = bContainsTemplate
-	
+	&apos; indicate if Template location is other than standard template folder:
+	oEditorDialog.getModel().getByName (&quot;TemplateLocationLabel&quot;).Label = sTemplateLocationLabel
+	oEditorDialog.getModel().getByName (&quot;TemplateLocationLabel&quot;).EnableVisible = (sTemplateLocationLabel &lt;&gt; &quot;&quot;)
+
 End Sub
 
 
@@ -381,7 +382,7 @@ End Sub
 Sub ConfigButton()
 	ConfigDialog()
 	ListOfTemplates(oEditorDialog.getControl(&quot;sTemplate&quot;))
-	ReadTemplate() &apos; Needed if template folder changed
+	ReadTemplate (True) &apos; Needed if template folder changed
 
 	If bUseDefaultLineWidth Then UseDefaultLineWidth()
 	If bUseDefaultStaffSize Then UseDefaultStaffSize()
@@ -493,13 +494,15 @@ End Sub
 Sub TemplateChanged()
 
 	Dim sOldTemplate As String
+	Dim bCurrentlyContainsTemplate As Boolean
+	Dim sCurrentTemplateLocationLabel As String
 
 	sOldTemplate = sTemplate
 	sTemplate=oEditorDialog.getControl(&quot;sTemplate&quot;).getText()
 	
 	If sTemplate &lt;&gt; sOldTemplate Then  &apos; only when really a different template has been selected
 	
-		If bContainsTemplate And Not bIncludeTemplate And Not bTemplateSaved Then
+		If bContainsTemplate And Not bTemplateSaved Then
 			Select Case MsgBox (oMessages.getPropertyValue (&quot;sMsgWannaSaveTemplate&quot;), iMsgBox_I + iMsgBox_YNC + iMsgBox_1, oMessages.getPropertyValue (&quot;sCaptionInfo&quot;))
 				Case iAnswer_Yes
 					sTemplate = sOldTemplate
@@ -514,12 +517,17 @@ Sub TemplateChanged()
 					Exit Sub
 			End Select
 		End If
-	
-		If oFileAccess.exists (sTemplatePath &amp; sTemplate &amp; &quot;.ly&quot;) Then
-			bContainsTemplate = False
-			ReadTemplate()
+		
+		bCurrentlyContainsTemplate = bContainsTemplate
+		sCurrentTemplateLocationLabel = sTemplateLocationLabel
+		bContainsTemplate = False
+		If Not ReadTemplate (False) Then
+			&apos; bContainsTemplate = bCurrentlyContainsTemplate
+			&apos; sTemplateLocationLabel = sCurrentTemplateLocationLabel
+		Else
+			&apos; anything?
 		End If
-
+	
 		If bUseDefaultCode Then
 			sCode=&quot;&quot; &apos; UseDefaultCode() does not ask if sCode is empty
 			UseDefaultCode()
