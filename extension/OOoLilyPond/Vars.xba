@@ -63,6 +63,7 @@ Private oEditorDialog As Object &apos; OOoLilyPond Editor Dialog (Main Dialog)
 Private oTemplateEditorDialog As Object &apos; Template Editor Dialog
 Private oConfigDialog As Object &apos; Configuration Dialog
 Private oOutputDialog As Object &apos; LilyPond Output Dialog
+Private oBatchDialog As Object  &apos; Batch Processing Dialog
 
 &apos; OOoLilyPond object data
 Private sTemplate As String		&apos; The name of the template used

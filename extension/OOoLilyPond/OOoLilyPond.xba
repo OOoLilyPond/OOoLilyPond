@@ -131,6 +131,15 @@ End Sub
 
 
 Sub BatchTest1()
+
+	OOoLilyPondInit ()
+	oBatchDialog = createUnoDialog (DialogLibraries.GetByName (constOLyLibraryName).GetByName(&quot;GUI_Process&quot;))
+	oBatchDialog.Execute()
+
+End Sub
+
+
+Sub BatchTest2()
 	&apos; This is the main function for batch processing
 	&apos; It initializes OOoLilyPond and recompiles matching objects without opening the editor dialog.
 	Dim oDrawPage As Object
