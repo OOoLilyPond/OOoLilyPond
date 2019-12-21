@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE script:module PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "module.dtd">
+<script:module xmlns:script="http://openoffice.org/2000/script" script:name="Batch" script:language="StarBasic" script:moduleType="normal">&apos; Subs and Functions related with batch processing of all existing OLy objects in a Writer document
+
+Option Explicit
+
+
+Sub PerformBatchProcessing ()
+
+End Sub
+
+
+Function MeetsCondition (sID As String) As Boolean
+&apos; Indicates if the current OLy object meets the condition set in a rule in the Batch dialogue.
+&apos; sID = &quot;A&quot;: rule 1
+&apos; sID = &quot;B&quot;: rule 2
+
+	Dim sSearchField As String
+	
+	On Error Goto ErrorHandler  &apos; might happen if an argument for getControl() is invalid
+
+	If oBatchDialog.getControl (&quot;NoCondition_&quot; &amp; sID).getState() Then
+		MeetsCondition = True
+		Exit Function
+	End If
+	
+	If oBatchDialog.getControl (&quot;SearchCode_&quot; &amp; sID).getState() Then
+		sSearchField = sCode
+	ElseIf oBatchDialog.getControl (&quot;SearchLineWidth_&quot; &amp; sID).getState() Then
+		sSearchField = sLineWidth
+	ElseIf oBatchDialog.getControl (&quot;SearchStaffSize_&quot; &amp; sID).getState() Then
+		sSearchField = sStaffSize
+	ElseIf oBatchDialog.getControl (&quot;SearchCustom1_&quot; &amp; sID).getState() Then
+		sSearchField = sCustom1
+	ElseIf oBatchDialog.getControl (&quot;SearchCustom2_&quot; &amp; sID).getState() Then
+		sSearchField = sCustom2
+	ElseIf oBatchDialog.getControl (&quot;SearchTemplate_&quot; &amp; sID).getState() Then
+		sSearchField = sTemplate
+	Else	&apos; should NEVER happen
+		sSearchField = &quot;&quot;
+	End If
+	
+	If oBatchDialog.getControl (&quot;ConditionContains_&quot; &amp; sID).getState() Then
+		Dim ISearchMode As Integer
+		ISearchMode = 0
+		If CheckBoxStateToBool (oBatchDialog.getControl (&quot;IgnoreCase_&quot; &amp; sID).getState()) Then iSearchMode = 1
+		MeetsCondition = (InStr (1, sSearchField, oBatchDialog.getControl (&quot;sSearch_&quot; &amp; sID).getText(), ISearchMode) &gt; 0)
+		Exit Function
+	End If
+	If oBatchDialog.getControl (&quot;ConditionIs_&quot; &amp; sID).getState() Then
+		MeetsCondition = (sSearchField = oBatchDialog.getControl (&quot;sSearch_&quot; &amp; sID).getText())
+		Exit Function
+	End If
+
+	ErrorHandler:
+	MeetsCondition = False
+End Function
+</script:module>
