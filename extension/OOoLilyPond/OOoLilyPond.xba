@@ -135,6 +135,9 @@ Sub BatchTest1()
 	OOoLilyPondInit ()
 	If Not bInWriter Then Exit Sub
 	oBatchDialog = createUnoDialog (DialogLibraries.GetByName (constOLyLibraryName).GetByName(&quot;GUI_Process&quot;))
+	
+	oBatchDialog.getControl(&quot;bKeepCrop&quot;).setState (BoolToCheckBoxState (bKeepCrop))
+	
 	oBatchDialog.Execute()
 
 End Sub

@@ -62,8 +62,7 @@ Sub PerformBatchProcessing ()
 		End If
 	next i
 	
-	&apos; Dim oTextCursor As Object
-	&apos; Dim oViewCursor As Object
+	bKeepCrop = CheckBoxStateToBool (oBatchDialog.getControl(&quot;bKeepCrop&quot;).getState())
 	
 	&apos; now process objects from the list:
 	For i = 0 to iLastObject
