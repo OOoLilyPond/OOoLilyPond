@@ -133,6 +133,7 @@ End Sub
 Sub BatchTest1()
 
 	OOoLilyPondInit ()
+	If Not bInWriter Then Exit Sub
 	oBatchDialog = createUnoDialog (DialogLibraries.GetByName (constOLyLibraryName).GetByName(&quot;GUI_Process&quot;))
 	oBatchDialog.Execute()
 
