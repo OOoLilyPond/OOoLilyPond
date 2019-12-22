@@ -37,20 +37,12 @@
    <dlg:radio dlg:id="ReplaceSearchedString_A" dlg:tab-index="19" dlg:left="10" dlg:top="185" dlg:width="114" dlg:height="8" dlg:value="Replace only searched string by:"/>
   </dlg:radiogroup>
   <dlg:checkbox dlg:id="bKeepCrop" dlg:tab-index="42" dlg:left="274" dlg:top="118" dlg:width="120" dlg:height="7" dlg:help-text="When editing/replacing an existing object, preserve its current size and crop settings" dlg:value="Keep Size &amp; Crop Settings" dlg:checked="false"/>
-  <dlg:titledbox dlg:id="FrameControl1" dlg:tab-index="46" dlg:left="270" dlg:top="132" dlg:width="126" dlg:height="34">
-   <dlg:title dlg:value="Insert as separate images?"/>
-  </dlg:titledbox>
-  <dlg:radiogroup>
-   <dlg:radio dlg:id="OptionButton1" dlg:tab-index="43" dlg:left="274" dlg:top="144" dlg:width="56" dlg:height="8" dlg:value="Yes"/>
-   <dlg:radio dlg:id="OptionButton2" dlg:tab-index="45" dlg:left="274" dlg:top="154" dlg:width="116" dlg:height="8" dlg:value="Don&apos;t Change" dlg:checked="true"/>
-   <dlg:radio dlg:id="OptionButton3" dlg:tab-index="44" dlg:left="334" dlg:top="144" dlg:width="56" dlg:height="8" dlg:value="No"/>
-  </dlg:radiogroup>
   <dlg:titledbox dlg:id="FrameControl2" dlg:tab-index="51" dlg:left="269" dlg:top="173" dlg:width="126" dlg:height="34">
    <dlg:title dlg:value="Include template in object?"/>
   </dlg:titledbox>
   <dlg:radiogroup>
    <dlg:radio dlg:id="OptionButton4" dlg:tab-index="47" dlg:left="274" dlg:top="185" dlg:width="56" dlg:height="8" dlg:value="Yes"/>
-   <dlg:radio dlg:id="OptionButton5" dlg:tab-index="49" dlg:left="274" dlg:top="195" dlg:width="116" dlg:height="8" dlg:value="Don&apos;t Change" dlg:checked="true"/>
+   <dlg:radio dlg:id="OptionButton5" dlg:tab-index="49" dlg:left="274" dlg:top="195" dlg:width="116" dlg:height="8" dlg:value="Don&apos;t change" dlg:checked="true"/>
    <dlg:radio dlg:id="OptionButton6" dlg:tab-index="48" dlg:left="333" dlg:top="185" dlg:width="56" dlg:height="8" dlg:value="No"/>
   </dlg:radiogroup>
   <dlg:fixedline dlg:id="FixedLine1" dlg:tab-index="52" dlg:left="6" dlg:top="14" dlg:width="124" dlg:height="1"/>
@@ -90,5 +82,13 @@
   <dlg:textfield dlg:id="sSearch_B" dlg:tab-index="31" dlg:left="142" dlg:top="100" dlg:width="116" dlg:height="29" dlg:vscroll="true" dlg:multiline="true"/>
   <dlg:checkbox dlg:id="IgnoreCase_A" dlg:tab-index="13" dlg:left="10" dlg:top="131" dlg:width="114" dlg:height="8" dlg:value="ignore case" dlg:checked="false"/>
   <dlg:checkbox dlg:id="IgnoreCase_B" dlg:tab-index="32" dlg:left="142" dlg:top="131" dlg:width="114" dlg:height="8" dlg:value="ignore case" dlg:checked="false"/>
+  <dlg:radiogroup>
+   <dlg:radio dlg:id="SeparateImages_Yes" dlg:tab-index="43" dlg:left="274" dlg:top="144" dlg:width="56" dlg:height="8" dlg:value="Yes"/>
+   <dlg:radio dlg:id="SeparateImages_No" dlg:tab-index="44" dlg:left="334" dlg:top="144" dlg:width="56" dlg:height="8" dlg:value="No"/>
+   <dlg:radio dlg:id="SeparateImages_DontChange" dlg:tab-index="45" dlg:left="274" dlg:top="154" dlg:width="116" dlg:height="8" dlg:value="Don&apos;t change" dlg:checked="true"/>
+  </dlg:radiogroup>
+  <dlg:titledbox dlg:id="SeparateImagesFrame" dlg:tab-index="46" dlg:left="270" dlg:top="132" dlg:width="126" dlg:height="34">
+   <dlg:title dlg:value="Insert as separate images?"/>
+  </dlg:titledbox>
  </dlg:bulletinboard>
 </dlg:window>

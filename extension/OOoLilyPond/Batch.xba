@@ -71,6 +71,10 @@ Sub PerformBatchProcessing ()
 		If ReadSelectionObject () Then  &apos; create Cursor and read Attributes if Object is selected
 		&apos; Now we know which template to use
 			ReadTemplate (True)
+			bSaveAsSeparateImages = bHasSeparateImages
+			If oBatchDialog.getControl(&quot;SeparateImages_Yes&quot;).getState() Then bSaveAsSeparateImages = True
+			If oBatchDialog.getControl(&quot;SeparateImages_No&quot;).getState() Then bSaveAsSeparateImages = False
+			
 			If MeetsCondition (&quot;A&quot;) And  MeetsCondition (&quot;B&quot;) Then
 				PerformReplacement (&quot;A&quot;)
 				PerformReplacement (&quot;B&quot;)
