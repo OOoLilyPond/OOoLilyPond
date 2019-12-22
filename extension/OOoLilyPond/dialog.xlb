@@ -6,5 +6,5 @@
  <library:element library:name="GUI_Tmpl"/>
  <library:element library:name="GUI_Out"/>
  <library:element library:name="Ask"/>
- <library:element library:name="GUI_Process"/>
+ <library:element library:name="GUI_Batch"/>
 </library:library>

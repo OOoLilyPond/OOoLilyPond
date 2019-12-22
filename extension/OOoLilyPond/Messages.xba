@@ -378,6 +378,14 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   &apos; An internal error in that should never happen in OOoLilyPond, just notify in case: 
   
   oMessages.addProperty (&quot;sMsgImportBitmapError&quot;, BagAttr, &quot;ImportBitmapIntoWriter: the second argument must be either a TextCursor or a TextGraphic.&quot;)
+  
+  
+  &apos; &quot;Batch&quot; module
+  &apos; ---------------
+  
+  &apos; Status bar message during batch processing: 
+  oMessages.addProperty (&quot;sMsgBatchProcessing&quot;, BagAttr, &quot;Batch processing OOoLilyPond objects... &quot;)
+  
 End Sub
 
 

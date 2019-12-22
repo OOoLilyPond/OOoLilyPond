@@ -10,6 +10,7 @@ Sub PerformBatchProcessing ()
 &apos; It initializes OOoLilyPond and recompiles matching objects without opening the editor dialog.
 	Dim oDrawPage As Object
 	Dim oCurrentObject As Object
+	Dim oProgressBar As Object
 	Dim iCount As Integer
 	Dim i As Integer
 	Dim iLastObject As Integer
@@ -63,9 +64,14 @@ Sub PerformBatchProcessing ()
 	next i
 	
 	bKeepCrop = CheckBoxStateToBool (oBatchDialog.getControl(&quot;bKeepCrop&quot;).getState())
-	
+	oProgressBar = oDocCtrl.StatusIndicator
+	oProgressBar.start (oMessages.getPropertyValue (&quot;sMsgBatchProcessing&quot;), iLastObject + 1)
 	&apos; now process objects from the list:
 	For i = 0 to iLastObject
+		
+		oProgressBar.setValue (i + 1)
+		oProgressBar.setText (oMessages.getPropertyValue (&quot;sMsgBatchProcessing&quot;) &amp; i + 1 &amp; &quot;/&quot; &amp; iLastObject + 1)
+		
 		oCurrentGraphicObject = oGraphicObjects (i)  &apos; global variable		
 		oDocCtrl.select (oCurrentGraphicObject)
 		If ReadSelectionObject () Then  &apos; create Cursor and read Attributes if Object is selected
@@ -82,6 +88,8 @@ Sub PerformBatchProcessing ()
 			End If
 		End If
 	next i
+	&apos; oProgressBar.Reset
+	oProgressBar.end()
 End Sub
 
 

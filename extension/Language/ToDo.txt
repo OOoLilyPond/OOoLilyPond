@@ -34,6 +34,12 @@ sMsgTemplateInSubFolder2="
 sMsgTemplateNotFound=Template not found
 
 
+' "Batch" module
+
+' Status bar message during batch processing: 
+sMsgBatchProcessing=Batch processing OOoLilyPond objects... 
+
+
 [EditorDialog]
 
 bSaveAsSeparateImages.label=Insert as separate images
