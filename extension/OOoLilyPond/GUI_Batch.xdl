@@ -79,7 +79,20 @@
     <dlg:menuitem dlg:value="Custom 1"/>
     <dlg:menuitem dlg:value="Custom 2"/>
     <dlg:menuitem dlg:value="Template name"/>
+    <dlg:menuitem dlg:value="Option 1"/>
+    <dlg:menuitem dlg:value="Option 2"/>
+    <dlg:menuitem dlg:value="Option 3"/>
+    <dlg:menuitem dlg:value="Option 4"/>
+    <dlg:menuitem dlg:value="(Staff Size label)"/>
+    <dlg:menuitem dlg:value="(Line Width label)"/>
+    <dlg:menuitem dlg:value="(Custom 1 label)"/>
+    <dlg:menuitem dlg:value="(Custom 2 label)"/>
+    <dlg:menuitem dlg:value="(Option 1 label)"/>
+    <dlg:menuitem dlg:value="(Option 2 label)"/>
+    <dlg:menuitem dlg:value="(Option 3 label)"/>
+    <dlg:menuitem dlg:value="(Option 4 label)"/>
    </dlg:menupopup>
+   <script:event script:event-name="on-textchange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Batch.SearchFieldChanged_A?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:combobox>
   <dlg:text dlg:id="SearchLabel_B" dlg:tab-index="44" dlg:left="142" dlg:top="20" dlg:width="100" dlg:height="8" dlg:value="Field to search and process"/>
   <dlg:combobox dlg:id="sSearchField_B" dlg:tab-index="43" dlg:left="137" dlg:top="30" dlg:width="126" dlg:height="12" dlg:value="Code" dlg:hide-inactive-selection="false" dlg:spin="true" dlg:linecount="18">
@@ -90,7 +103,20 @@
     <dlg:menuitem dlg:value="Custom 1"/>
     <dlg:menuitem dlg:value="Custom 2"/>
     <dlg:menuitem dlg:value="Template name"/>
+    <dlg:menuitem dlg:value="Option 1"/>
+    <dlg:menuitem dlg:value="Option 2"/>
+    <dlg:menuitem dlg:value="Option 3"/>
+    <dlg:menuitem dlg:value="Option 4"/>
+    <dlg:menuitem dlg:value="(Staff Size label)"/>
+    <dlg:menuitem dlg:value="(Line Width label)"/>
+    <dlg:menuitem dlg:value="(Custom 1 label)"/>
+    <dlg:menuitem dlg:value="(Custom 2 label)"/>
+    <dlg:menuitem dlg:value="(Option 1 label)"/>
+    <dlg:menuitem dlg:value="(Option 2 label)"/>
+    <dlg:menuitem dlg:value="(Option 3 label)"/>
+    <dlg:menuitem dlg:value="(Option 4 label)"/>
    </dlg:menupopup>
+   <script:event script:event-name="on-textchange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Batch.SearchFieldChanged_B?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:combobox>
  </dlg:bulletinboard>
 </dlg:window>

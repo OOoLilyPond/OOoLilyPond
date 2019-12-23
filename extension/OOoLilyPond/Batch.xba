@@ -107,21 +107,45 @@ Function MeetsCondition (sID As String) As Boolean
 		Exit Function
 	End If
 	
+	sSearchField = &quot;&quot;
+	
 	Select Case oBatchDialog.getControl (&quot;sSearchField_&quot; &amp; sID).getText()
 	Case &quot;Code&quot;
 		sSearchField = sCode
 	Case &quot;Staff Size&quot;
-		sSearchField = sStaffSize
+		If bStaffSizeFieldExists Then sSearchField = sStaffSize
 	Case &quot;Line Width&quot;
-		sSearchField = sLineWidth
+		If bLineWidthFieldExists Then sSearchField = sLineWidth
 	Case &quot;Custom 1&quot;
-		sSearchField = sCustom1
+		If bCustom1FieldExists Then sSearchField = sCustom1
 	Case &quot;Custom 2&quot;
-		sSearchField = sCustom2
+		If bCustom2FieldExists Then sSearchField = sCustom2
 	Case &quot;Template name&quot;
 		sSearchField = sTemplate
-	Case Else	&apos; should NEVER happen
-		sSearchField = &quot;&quot;
+	Case &quot;Option 1&quot;
+		If bOption1FieldExists Then sSearchField = LyBoolToString (bOption1)
+	Case &quot;Option 2&quot;
+		If bOption2FieldExists Then sSearchField = LyBoolToString (bOption2)
+	Case &quot;Option 3&quot;
+		If bOption3FieldExists Then sSearchField = LyBoolToString (bOption3)
+	Case &quot;Option 4&quot;
+		If bOption4FieldExists Then sSearchField = LyBoolToString (bOption4)
+	Case &quot;(Staff Size label)&quot;
+		If bStaffSizeLabelExists Then sSearchField = sStaffSizeLabel
+	Case &quot;(Line Width label)&quot;
+		If bLineWidthLabelExists Then sSearchField = sLineWidthLabel
+	Case &quot;(Custom 1 label)&quot;
+		If bCustom1LabelExists Then sSearchField = sCustom1Label
+	Case &quot;(Custom 2 label)&quot;
+		If bCustom2LabelExists Then sSearchField = sCustom2Label
+	Case &quot;(Option 1 label)&quot;
+		If bOption1LabelExists Then sSearchField = sOption1Label
+	Case &quot;(Option 2 label)&quot;
+		If bOption2LabelExists Then sSearchField = sOption2Label
+	Case &quot;(Option 3 label)&quot;
+		If bOption3LabelExists Then sSearchField = sOption3Label
+	Case &quot;(Option 4 label)&quot;
+		If bOption4LabelExists Then sSearchField = sOption4Label
 	End Select
 	
 	If oBatchDialog.getControl (&quot;ConditionContains_&quot; &amp; sID).getState() Then
@@ -159,16 +183,29 @@ Sub PerformReplacement (sID As String)
 		Select Case oBatchDialog.getControl (&quot;sSearchField_&quot; &amp; sID).getText()
 		Case &quot;Code&quot;
 			sCode = sDefaultCode
+			bUseDefaultCode = True
 		Case &quot;Staff Size&quot;
 			sStaffSize = sDefaultStaffSize
+			bUseDefaultStaffSize = True
 		Case &quot;Line Width&quot;
 			sLineWidth = sDefaultLineWidth
+			bUseDefaultLineWidth = True
 		Case &quot;Custom 1&quot;
 			sCustom1 = sDefaultCustom1
+			bUseDefaultCustom1 = True
 		Case &quot;Custom 2&quot;
 			sCustom2 = sDefaultCustom2
+			bUseDefaultCustom2 = True
 		Case &quot;Template name&quot;
 			sTemplate = sWriterDefaultTemplate
+		Case &quot;Option 1&quot;
+			If bOption1FieldExists Then bOption1 = bDefaultOption1
+		Case &quot;Option 2&quot;
+			If bOption2FieldExists Then bOption2 = bDefaultOption2
+		Case &quot;Option 3&quot;
+			If bOption3FieldExists Then bOption3 = bDefaultOption3
+		Case &quot;Option 4&quot;
+			If bOption4FieldExists Then bOption4 = bDefaultOption4
 		End Select
 		Exit Sub
 	End If
@@ -179,16 +216,29 @@ Sub PerformReplacement (sID As String)
 		Select Case oBatchDialog.getControl (&quot;sSearchField_&quot; &amp; sID).getText()
 		Case &quot;Code&quot;
 			sCode = sReplaceString
+			bUseDefaultCode = False
 		Case &quot;Staff Size&quot;
 			sStaffSize = sReplaceString
+			bUseDefaultStaffSize = False
 		Case &quot;Line Width&quot;
 			sLineWidth = sReplaceString
+			bUseDefaultLineWidth = False
 		Case &quot;Custom 1&quot;
 			sCustom1 = sReplaceString
+			bUseDefaultCustom1 = False
 		Case &quot;Custom 2&quot;
 			sCustom2 = sReplaceString
+			bUseDefaultCustom2 = False
 		Case &quot;Template name&quot;
 			sTemplate = sReplaceString
+		Case &quot;Option 1&quot;
+			If bOption1FieldExists Then bOption1 = sReplaceString
+		Case &quot;Option 2&quot;
+			If bOption2FieldExists Then bOption2 = sReplaceString
+		Case &quot;Option 3&quot;
+			If bOption3FieldExists Then bOption3 = sReplaceString
+		Case &quot;Option 4&quot;
+			If bOption4FieldExists Then bOption4 = sReplaceString
 		End Select
 		Exit Sub
 	End If
@@ -201,16 +251,22 @@ Sub PerformReplacement (sID As String)
 		Select Case oBatchDialog.getControl (&quot;sSearchField_&quot; &amp; sID).getText()
 		Case &quot;Code&quot;
 			ReplaceSubStrings (sCode, oBatchDialog.getControl (&quot;sSearch_&quot; &amp; sID).getText(), sReplaceString, iSearchMode)
+			bUseDefaultCode = False
 		Case &quot;Staff Size&quot;
 			ReplaceSubStrings (sStaffSize, oBatchDialog.getControl (&quot;sSearch_&quot; &amp; sID).getText(), sReplaceString, iSearchMode)
+			bUseDefaultStaffSize = False
 		Case &quot;Line Width&quot;
 			ReplaceSubStrings (sLineWidth, oBatchDialog.getControl (&quot;sSearch_&quot; &amp; sID).getText(), sReplaceString, iSearchMode)
+			bUseDefaultLineWidth = False
 		Case &quot;Custom 1&quot;
 			ReplaceSubStrings (sCustom1, oBatchDialog.getControl (&quot;sSearch_&quot; &amp; sID).getText(), sReplaceString, iSearchMode)
+			bUseDefaultCustom1 = False
 		Case &quot;Custom 2&quot;
 			ReplaceSubStrings (sCustom2, oBatchDialog.getControl (&quot;sSearch_&quot; &amp; sID).getText(), sReplaceString, iSearchMode)
+			bUseDefaultCustom2 = False
 		Case &quot;Template name&quot;
 			ReplaceSubStrings (sTemplate, oBatchDialog.getControl (&quot;sSearch_&quot; &amp; sID).getText(), sReplaceString, iSearchMode)
+		&apos; &quot;Option 1&quot; ... &quot;Option 4&quot; not available
 		End Select
 		Exit Sub
 	End If
@@ -218,6 +274,52 @@ Sub PerformReplacement (sID As String)
 	ErrorHandler:
 End Sub
 
+
+Sub SearchFieldChanged_A
+&apos; Is called when Search field has been changed in Rule 1
+	GrayOutBatchOptions (&quot;A&quot;)
+End Sub
+
+Sub SearchFieldChanged_B
+&apos; Is called when Search field has been changed in Rule 2
+	GrayOutBatchOptions (&quot;B&quot;)
+End Sub
+
+
+Sub GrayOutBatchOptions (sID As String)
+&apos; Grey out the radio buttons in the Batch dialogue that should not be available
+&apos; sID = &quot;A&quot;: rule 1
+&apos; sID = &quot;B&quot;: rule 2
+
+	Dim sControlStr As String
+
+	On Error GoTo ErrorHandler
+	sControlStr = Left (oBatchDialog.getControl (&quot;sSearchField_&quot; &amp; sID).getText(), 1)
+	If sControlStr = &quot;(&quot; Then  &apos; contains &quot;...label&quot;
+		oBatchDialog.getControl(&quot;NoChange_&quot; &amp; sID).setState (True)
+		oBatchDialog.getControl(&quot;SetUseDefault_&quot; &amp; sID).setEnable (False)
+		oBatchDialog.getControl(&quot;ReplaceWholeField_&quot; &amp; sID).setEnable (False)
+		oBatchDialog.getControl(&quot;ReplaceSearchedString_&quot; &amp; sID).setEnable (False)
+		oBatchDialog.getControl(&quot;ConditionContains_&quot; &amp; sID).setEnable (True)
+	Else  &apos; nothing with &quot;...label&quot;
+		oBatchDialog.getControl(&quot;SetUseDefault_&quot; &amp; sID).setEnable (True)
+		oBatchDialog.getControl(&quot;ReplaceWholeField_&quot; &amp; sID).setEnable (True)
+		If sControlStr = &quot;O&quot; Then  &apos; begins with &quot;Option...&quot; 
+			If oBatchDialog.getControl(&quot;ConditionContains_&quot; &amp; sID).getState () Then
+				oBatchDialog.getControl(&quot;ConditionIs_&quot; &amp; sID).setState (True)
+			End If
+			If oBatchDialog.getControl(&quot;ReplaceSearchedString_&quot; &amp; sID).getState () Then
+				oBatchDialog.getControl(&quot;ReplaceWholeField_&quot; &amp; sID).setState (True)
+			End If
+			oBatchDialog.getControl(&quot;ReplaceSearchedString_&quot; &amp; sID).setEnable (False)
+			oBatchDialog.getControl(&quot;ConditionContains_&quot; &amp; sID).setEnable (False)
+		Else  &apos; not an &quot;Option...&quot; checkbox
+			oBatchDialog.getControl(&quot;ReplaceSearchedString_&quot; &amp; sID).setEnable (True)
+			oBatchDialog.getControl(&quot;ConditionContains_&quot; &amp; sID).setEnable (True)
+		End If
+	End If
+	ErrorHandler:
+End Sub
 
 
 </script:module>
