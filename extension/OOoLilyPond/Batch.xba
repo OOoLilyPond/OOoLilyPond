@@ -80,6 +80,9 @@ Sub PerformBatchProcessing ()
 			bSaveAsSeparateImages = bHasSeparateImages
 			If oBatchDialog.getControl(&quot;SeparateImages_Yes&quot;).getState() Then bSaveAsSeparateImages = True
 			If oBatchDialog.getControl(&quot;SeparateImages_No&quot;).getState() Then bSaveAsSeparateImages = False
+			bIncludeTemplate = bContainsTemplate
+			If oBatchDialog.getControl(&quot;IncludeTemplate_Yes&quot;).getState() Then bIncludeTemplate = True
+			If oBatchDialog.getControl(&quot;IncludeTemplate_No&quot;).getState() Then bIncludeTemplate = False
 			
 			If MeetsCondition (&quot;A&quot;) And  MeetsCondition (&quot;B&quot;) Then
 				PerformReplacement (&quot;A&quot;)
