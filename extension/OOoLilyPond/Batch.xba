@@ -40,16 +40,16 @@ Sub PerformBatchProcessing ()
 			If sCurrentIdentifier = &quot;&quot; Then  &apos; not a multi-image object
 				iLastObject = iLastObject + 1
 				oGraphicObjects (iLastObject) = oCurrentObject
-				sIdentifiers (i) = &quot;&quot;
-				sImageNums (i) = &quot;&quot;
+				sIdentifiers (iLastObject) = &quot;&quot;
+				sImageNums (iLastObject) = &quot;&quot;
 			Else							 &apos; multi-image object
 				sCurrentImageNum = GetObjectImageNum (oCurrentObject)
 				iPosInList = PosInArray (sIdentifiers, sCurrentIdentifier, iLastObject)
 				If iPosInList = -1 Then				&apos; array does not yet contain a sibling
 					iLastObject = iLastObject + 1
 					oGraphicObjects (iLastObject) = oCurrentObject
-					sIdentifiers (i) = sCurrentIdentifier
-					sImageNums (i) = sCurrentImageNum
+					sIdentifiers (iLastObject) = sCurrentIdentifier
+					sImageNums (iLastObject) = sCurrentImageNum
 				Else								&apos; array already contains a sibling
 					&apos; Dim sImNum As String	&apos; obsolete, just for debugging
 					&apos; sImNum = sImageNums (iPosInList)
