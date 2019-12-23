@@ -107,21 +107,22 @@ Function MeetsCondition (sID As String) As Boolean
 		Exit Function
 	End If
 	
-	If oBatchDialog.getControl (&quot;SearchCode_&quot; &amp; sID).getState() Then
+	Select Case oBatchDialog.getControl (&quot;sSearchField_&quot; &amp; sID).getText()
+	Case &quot;Code&quot;
 		sSearchField = sCode
-	ElseIf oBatchDialog.getControl (&quot;SearchStaffSize_&quot; &amp; sID).getState() Then
+	Case &quot;Staff Size&quot;
 		sSearchField = sStaffSize
-	ElseIf oBatchDialog.getControl (&quot;SearchLineWidth_&quot; &amp; sID).getState() Then
+	Case &quot;Line Width&quot;
 		sSearchField = sLineWidth
-	ElseIf oBatchDialog.getControl (&quot;SearchCustom1_&quot; &amp; sID).getState() Then
+	Case &quot;Custom 1&quot;
 		sSearchField = sCustom1
-	ElseIf oBatchDialog.getControl (&quot;SearchCustom2_&quot; &amp; sID).getState() Then
+	Case &quot;Custom 2&quot;
 		sSearchField = sCustom2
-	ElseIf oBatchDialog.getControl (&quot;SearchTemplate_&quot; &amp; sID).getState() Then
+	Case &quot;Template name&quot;
 		sSearchField = sTemplate
-	Else	&apos; should NEVER happen
+	Case Else	&apos; should NEVER happen
 		sSearchField = &quot;&quot;
-	End If
+	End Select
 	
 	If oBatchDialog.getControl (&quot;ConditionContains_&quot; &amp; sID).getState() Then
 		Dim iSearchMode As Integer
@@ -155,38 +156,40 @@ Sub PerformReplacement (sID As String)
 	End If
 
 	If oBatchDialog.getControl (&quot;SetUseDefault_&quot; &amp; sID).getState() Then
-		If oBatchDialog.getControl (&quot;SearchCode_&quot; &amp; sID).getState() Then
+		Select Case oBatchDialog.getControl (&quot;sSearchField_&quot; &amp; sID).getText()
+		Case &quot;Code&quot;
 			sCode = sDefaultCode
-		ElseIf oBatchDialog.getControl (&quot;SearchStaffSize_&quot; &amp; sID).getState() Then
+		Case &quot;Staff Size&quot;
 			sStaffSize = sDefaultStaffSize
-		ElseIf oBatchDialog.getControl (&quot;SearchLineWidth_&quot; &amp; sID).getState() Then
+		Case &quot;Line Width&quot;
 			sLineWidth = sDefaultLineWidth
-		ElseIf oBatchDialog.getControl (&quot;SearchCustom1_&quot; &amp; sID).getState() Then
+		Case &quot;Custom 1&quot;
 			sCustom1 = sDefaultCustom1
-		ElseIf oBatchDialog.getControl (&quot;SearchCustom2_&quot; &amp; sID).getState() Then
+		Case &quot;Custom 2&quot;
 			sCustom2 = sDefaultCustom2
-		ElseIf oBatchDialog.getControl (&quot;SearchTemplate_&quot; &amp; sID).getState() Then
+		Case &quot;Template name&quot;
 			sTemplate = sWriterDefaultTemplate
-		End If
+		End Select
 		Exit Sub
 	End If
 	
 	sReplaceString = oBatchDialog.getControl (&quot;sReplace_&quot; &amp; sID).getText()
 
 	If oBatchDialog.getControl (&quot;ReplaceWholeField_&quot; &amp; sID).getState() Then
-		If oBatchDialog.getControl (&quot;SearchCode_&quot; &amp; sID).getState() Then
+		Select Case oBatchDialog.getControl (&quot;sSearchField_&quot; &amp; sID).getText()
+		Case &quot;Code&quot;
 			sCode = sReplaceString
-		ElseIf oBatchDialog.getControl (&quot;SearchStaffSize_&quot; &amp; sID).getState() Then
+		Case &quot;Staff Size&quot;
 			sStaffSize = sReplaceString
-		ElseIf oBatchDialog.getControl (&quot;SearchLineWidth_&quot; &amp; sID).getState() Then
+		Case &quot;Line Width&quot;
 			sLineWidth = sReplaceString
-		ElseIf oBatchDialog.getControl (&quot;SearchCustom1_&quot; &amp; sID).getState() Then
+		Case &quot;Custom 1&quot;
 			sCustom1 = sReplaceString
-		ElseIf oBatchDialog.getControl (&quot;SearchCustom2_&quot; &amp; sID).getState() Then
+		Case &quot;Custom 2&quot;
 			sCustom2 = sReplaceString
-		ElseIf oBatchDialog.getControl (&quot;SearchTemplate_&quot; &amp; sID).getState() Then
+		Case &quot;Template name&quot;
 			sTemplate = sReplaceString
-		End If
+		End Select
 		Exit Sub
 	End If
 	
@@ -195,19 +198,20 @@ Sub PerformReplacement (sID As String)
 	If CheckBoxStateToBool (oBatchDialog.getControl (&quot;IgnoreCase_&quot; &amp; sID).getState()) Then iSearchMode = 1
 
 	If oBatchDialog.getControl (&quot;ReplaceSearchedString_&quot; &amp; sID).getState() Then
-		If oBatchDialog.getControl (&quot;SearchCode_&quot; &amp; sID).getState() Then
+		Select Case oBatchDialog.getControl (&quot;sSearchField_&quot; &amp; sID).getText()
+		Case &quot;Code&quot;
 			ReplaceSubStrings (sCode, oBatchDialog.getControl (&quot;sSearch_&quot; &amp; sID).getText(), sReplaceString, iSearchMode)
-		ElseIf oBatchDialog.getControl (&quot;SearchStaffSize_&quot; &amp; sID).getState() Then
+		Case &quot;Staff Size&quot;
 			ReplaceSubStrings (sStaffSize, oBatchDialog.getControl (&quot;sSearch_&quot; &amp; sID).getText(), sReplaceString, iSearchMode)
-		ElseIf oBatchDialog.getControl (&quot;SearchLineWidth_&quot; &amp; sID).getState() Then
+		Case &quot;Line Width&quot;
 			ReplaceSubStrings (sLineWidth, oBatchDialog.getControl (&quot;sSearch_&quot; &amp; sID).getText(), sReplaceString, iSearchMode)
-		ElseIf oBatchDialog.getControl (&quot;SearchCustom1_&quot; &amp; sID).getState() Then
+		Case &quot;Custom 1&quot;
 			ReplaceSubStrings (sCustom1, oBatchDialog.getControl (&quot;sSearch_&quot; &amp; sID).getText(), sReplaceString, iSearchMode)
-		ElseIf oBatchDialog.getControl (&quot;SearchCustom2_&quot; &amp; sID).getState() Then
+		Case &quot;Custom 2&quot;
 			ReplaceSubStrings (sCustom2, oBatchDialog.getControl (&quot;sSearch_&quot; &amp; sID).getText(), sReplaceString, iSearchMode)
-		ElseIf oBatchDialog.getControl (&quot;SearchTemplate_&quot; &amp; sID).getState() Then
+		Case &quot;Template name&quot;
 			ReplaceSubStrings (sTemplate, oBatchDialog.getControl (&quot;sSearch_&quot; &amp; sID).getText(), sReplaceString, iSearchMode)
-		End If
+		End Select
 		Exit Sub
 	End If
 		
