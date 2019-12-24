@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dlg:window PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "dialog.dtd">
+<dlg:window xmlns:dlg="http://openoffice.org/2000/dialog" xmlns:script="http://openoffice.org/2000/script" dlg:id="GUI_Ask" dlg:left="122" dlg:top="159" dlg:width="158" dlg:height="52" dlg:closeable="true" dlg:moveable="true" dlg:title="Batch processing OOoLilyPond objects...">
+ <dlg:bulletinboard>
+  <dlg:button dlg:id="Yes" dlg:tab-index="0" dlg:left="86" dlg:top="33" dlg:width="31" dlg:height="14" dlg:default="true" dlg:value="Yes">
+   <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Batch.AskDlgYesButton?language=Basic&amp;location=application" script:language="Script"/>
+  </dlg:button>
+  <dlg:button dlg:id="CommandButton1" dlg:tab-index="1" dlg:left="245" dlg:top="-68" dlg:width="0" dlg:height="2" dlg:value="CommandButton1"/>
+  <dlg:button dlg:id="No" dlg:tab-index="2" dlg:left="39" dlg:top="33" dlg:width="31" dlg:height="14" dlg:value="No">
+   <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Batch.AskDlgNoButton?language=Basic&amp;location=application" script:language="Script"/>
+  </dlg:button>
+  <dlg:button dlg:id="Abort" dlg:tab-index="3" dlg:left="3" dlg:top="33" dlg:width="31" dlg:height="14" dlg:value="Abort">
+   <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Batch.AskDlgAbortButton?language=Basic&amp;location=application" script:language="Script"/>
+  </dlg:button>
+  <dlg:button dlg:id="All" dlg:tab-index="4" dlg:left="122" dlg:top="33" dlg:width="31" dlg:height="14" dlg:value="All">
+   <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Batch.AskDlgAllButton?language=Basic&amp;location=application" script:language="Script"/>
+  </dlg:button>
+  <dlg:text dlg:id="Question" dlg:tab-index="5" dlg:left="6" dlg:top="9" dlg:width="141" dlg:height="16" dlg:value="Do you want to process this object?"/>
+ </dlg:bulletinboard>
+</dlg:window>

@@ -64,6 +64,7 @@ Private oTemplateEditorDialog As Object &apos; Template Editor Dialog
 Private oConfigDialog As Object &apos; Configuration Dialog
 Private oOutputDialog As Object &apos; LilyPond Output Dialog
 Private oBatchDialog As Object  &apos; Batch Processing Dialog
+Private oAskDialog As Object	&apos; Confirmation Dialog during batch processing
 
 &apos; OOoLilyPond object data
 Private sTemplate As String		&apos; The name of the template used

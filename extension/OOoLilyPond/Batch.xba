@@ -4,6 +4,42 @@
 
 Option Explicit
 
+Private iAskDialogReturnValue As Integer
+
+
+Function ConfirmBatchOperation () As Integer
+&apos; 1 = Abort
+&apos; 2 = No
+&apos; 3 = Yes
+&apos; 4 = All
+
+	oAskDialog = createUnoDialog (DialogLibraries.GetByName (constOLyLibraryName).GetByName(&quot;GUI_Ask&quot;))
+	iAskDialogReturnValue = 2
+	oAskDialog.Execute()
+	ConfirmBatchOperation = iAskDialogReturnValue
+End Function
+
+
+Sub AskDlgAbortButton ()
+	iAskDialogReturnValue = 1
+	oAskDialog.EndExecute()
+End Sub
+
+Sub AskDlgNoButton ()
+	iAskDialogReturnValue = 2
+	oAskDialog.EndExecute()
+End Sub
+
+Sub AskDlgYesButton ()
+	iAskDialogReturnValue = 3
+	oAskDialog.EndExecute()
+End Sub
+
+Sub AskDlgAllButton ()
+	iAskDialogReturnValue = 4
+	oAskDialog.EndExecute()
+End Sub
+
 
 Sub PerformBatchProcessing ()
 &apos; This is the main function for batch processing
@@ -23,6 +59,7 @@ Sub PerformBatchProcessing ()
 	Dim sCurrentImageNum As String
 	Dim sCurrentIdentifier As String
 	Dim iPosInList As Integer
+	Dim iAnswer As Integer
 
 	oBatchDialog.EndExecute()
 
@@ -66,6 +103,12 @@ Sub PerformBatchProcessing ()
 	bKeepCrop = CheckBoxStateToBool (oBatchDialog.getControl(&quot;bKeepCrop&quot;).getState())
 	oProgressBar = oDocCtrl.StatusIndicator
 	oProgressBar.start (oMessages.getPropertyValue (&quot;sMsgBatchProcessing&quot;), iLastObject + 1)
+	If CheckBoxStateToBool (oBatchDialog.getControl(&quot;bAsk&quot;).getState()) Then
+		iAnswer = 2  &apos; &quot;No&quot;
+	Else
+		iAnswer = 4  &apos; &quot;All&quot;
+	End If
+	
 	&apos; now process objects from the list:
 	For i = 0 to iLastObject
 		
@@ -85,13 +128,16 @@ Sub PerformBatchProcessing ()
 			If oBatchDialog.getControl(&quot;IncludeTemplate_No&quot;).getState() Then bIncludeTemplate = False
 			
 			If MeetsCondition (&quot;A&quot;) And  MeetsCondition (&quot;B&quot;) Then
-				PerformReplacement (&quot;A&quot;)
-				PerformReplacement (&quot;B&quot;)
-				Make (true)
+				If iAnswer &lt; 4 Then iAnswer = ConfirmBatchOperation ()
+				If iAnswer &lt; 2 Then Exit For	&apos;	&quot;Abort&quot;
+				If iAnswer &gt; 2 Then				&apos;	&quot;Yes&quot; or &quot;All&quot;
+					PerformReplacement (&quot;A&quot;)
+					PerformReplacement (&quot;B&quot;)
+					Make (true)
+				End If
 			End If
 		End If
 	next i
-	&apos; oProgressBar.Reset
 	oProgressBar.end()
 End Sub
 

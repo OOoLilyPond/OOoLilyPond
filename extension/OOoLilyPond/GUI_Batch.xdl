@@ -9,7 +9,6 @@
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Batch.PerformBatchProcessing?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
   <dlg:button dlg:id="Cancel" dlg:tab-index="0" dlg:left="270" dlg:top="197" dlg:width="55" dlg:height="16" dlg:value="Cancel" dlg:button-type="cancel"/>
-  <dlg:checkbox dlg:id="Ask" dlg:tab-index="27" dlg:left="274" dlg:top="74" dlg:width="120" dlg:height="8" dlg:value="Ask for each object" dlg:checked="true"/>
   <dlg:checkbox dlg:id="CreateBackup" dlg:tab-index="28" dlg:disabled="true" dlg:left="274" dlg:top="86" dlg:width="120" dlg:height="8" dlg:value="Create backup" dlg:checked="false"/>
   <dlg:text dlg:style-id="0" dlg:id="RuleLabel_A" dlg:tab-index="37" dlg:left="10" dlg:top="6" dlg:width="116" dlg:height="8" dlg:value="Rule 1:" dlg:align="center"/>
   <dlg:titledbox dlg:id="ConditionFrame_A" dlg:tab-index="8" dlg:left="5" dlg:top="47" dlg:width="126" dlg:height="75">
@@ -118,5 +117,6 @@
    <dlg:radio dlg:id="IncludeTemplate_Yes" dlg:tab-index="34" dlg:left="274" dlg:top="166" dlg:width="56" dlg:height="8" dlg:value="Yes"/>
    <dlg:radio dlg:id="IncludeTemplate_No" dlg:tab-index="35" dlg:left="333" dlg:top="166" dlg:width="56" dlg:height="8" dlg:value="No"/>
   </dlg:radiogroup>
+  <dlg:checkbox dlg:id="bAsk" dlg:tab-index="27" dlg:left="274" dlg:top="74" dlg:width="120" dlg:height="8" dlg:value="Ask for each object" dlg:checked="true"/>
  </dlg:bulletinboard>
 </dlg:window>
