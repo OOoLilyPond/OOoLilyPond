@@ -41,6 +41,18 @@ sMsgTemplateNotFound=Template not found
 sMsgBatchProcessing=Batch processing OOoLilyPond objects... 
 
 
+' "Config" module
+' ----------------
+
+' Query before replacing actual templates with default ones:
+sMsgConfirmRestoreTemplates=Do you really want to restore the original templates delivered with OLy?%10Your actual templates will be backed up in a subfolder.
+
+' Query before replacing actual language files with default ones:
+sMsgConfirmRestoreLanguageFiles=Do you really want to restore the original language files delivered with OLy?%10Your actual language files will be backed up in a subfolder.
+
+' Query before resetting all configuration data to default values:
+sMsgConfirmDefaultConfig=Do you really want to reset all your actual configuration data to the default values?
+
 [EditorDialog]
 
 bSaveAsSeparateImages.label=Insert as separate images (system-by-system)

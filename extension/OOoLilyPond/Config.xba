@@ -658,6 +658,8 @@ End Sub
 &apos; *******************
 
 Sub DefaultConfigButton()
+	If MsgBox (oMessages.getPropertyValue (&quot;sMsgConfirmDefaultConfig&quot;), iMsgBox_YN+iMsgBox_Q, _ 
+		oMessages.getPropertyValue (&quot;sCaptionRUSure&quot;)) &lt;&gt; iAnswer_Yes Then Exit Sub
 	&apos; load default configuration...
 	DefaultConfig()
 	ConfigDialogUpdate()
@@ -665,12 +667,16 @@ End Sub
 
 
 Sub RestoreTemplatesButton()
+	If MsgBox (oMessages.getPropertyValue (&quot;sMsgConfirmRestoreTemplates&quot;), iMsgBox_YN+iMsgBox_Q, _ 
+		oMessages.getPropertyValue (&quot;sCaptionRUSure&quot;)) &lt;&gt; iAnswer_Yes Then Exit Sub
 	sTemplatePath = AddSlash(ConvertToURL(oConfigDialog.getControl(&quot;sTemplatePath&quot;).getText()))
 	CopyTemplates()	
 End Sub
 
 
 Sub RestoreLanguageFilesButton()
+	If MsgBox (oMessages.getPropertyValue (&quot;sMsgConfirmRestoreLanguageFiles&quot;), iMsgBox_YN+iMsgBox_Q, _ 
+		oMessages.getPropertyValue (&quot;sCaptionRUSure&quot;)) &lt;&gt; iAnswer_Yes Then Exit Sub
 	CopyLanguageFiles()	
 End Sub
 
