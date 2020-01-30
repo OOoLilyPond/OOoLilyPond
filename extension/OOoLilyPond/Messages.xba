@@ -526,9 +526,10 @@ Sub ReadDialogStrings (oDialog As Object)	&apos; Called from ReadLanguageFile() 
 End Sub
 
 
-Sub ReadDialogStringsFromVar (oDialog As Object, sSource As String)	&apos; Called if a Dialog other than oEditorDialog is created.
+Sub ReadDialogStringsFromVar (oDialog As Object, sSource As String, sID As String)	&apos; Called if a Dialog other than oEditorDialog is created.
 																	&apos; Works as ReadDialogStrings, except that it reads from a String variable 
 																	&apos; instead out of sLanguageCode.
+																	&apos; sID will be added to the dialog control&apos;s names
 
 	&apos; Dim iLineEndPos As Integer		&apos; position of the first sign that terminates a line from the text file. Can be Chr(13) or Chr(10) or both.
 	Dim iEqPos As Integer			&apos; position of the first &quot;equal&quot; sign
@@ -561,7 +562,7 @@ Sub ReadDialogStringsFromVar (oDialog As Object, sSource As String)	&apos; Calle
 				&apos; split up sKey into sName and sPart if it contains a dot
 				iDotPos = InStr (sKey, &quot;.&quot;)
 				if iDotPos &gt; 0 Then
-					sName = Left (sKey, iDotPos-1)
+					sName = Left (sKey, iDotPos-1) &amp; sID
 					sPart = Right (sKey, Len(sKey)-iDotPos)
 					&apos; as long as sValue contains the sequence &quot;%10&quot;, replace it with Chr(10):
 					iBreakPos = InStr (sValue, &quot;%10&quot;)
@@ -611,13 +612,14 @@ Sub ReadSection (sDestination As String)	&apos; Called from ReadLanguageFile() i
 											&apos; other than oEditorDialog
 											&apos; Contents of the section will be stored in sDestination.
 
-	Dim iSectionEndPos As Integer	&apos; position of the next &quot;[&quot; sign. Might be zero if no other section follows.
+	Dim iSectionEndPos As Integer	&apos; position of the next &quot;[&quot; sign at the beginning of a line. Might be zero if no other section follows.
 	
-	iSectionEndPos = InStr (sLanguageCode, &quot;[&quot;)	&apos; indicates the start of another section
+	iSectionEndPos = TagPos (sLanguageCode, Chr(10) &amp; &quot;[&quot;, Chr(13) &amp; &quot;[&quot;)	&apos; indicates the start of another section
 	If iSectionEndPos = 0 Then
 		sDestination = sLanguageCode
 		sLanguageCode = &quot;&quot;
 	Else
+		iSectionEndPos = iSectionEndPos + 1	&apos; Skip preceeding Chr(10) / Chr (13)
 		sDestination = Left (sLanguageCode, iSectionEndPos - 1)
 		sLanguageCode = Mid (sLanguageCode, iSectionEndPos)
 	End If
@@ -716,6 +718,12 @@ Sub ReadLanguageFile()	&apos; If a language file is specified, read out its cont
 				ReadSection (sConfigDialogStrings)
 			Case &quot;[OutputDialog]&quot;
 				ReadSection (sOutputDialogStrings)
+			Case &quot;[BatchDialog]&quot;
+				ReadSection (sBatchDialogStrings)
+			Case &quot;[BatchDialogRuleSet]&quot;
+				ReadSection (sBatchDialogRuleSetStrings)
+			Case &quot;[AskDialog]&quot;
+				ReadSection (sAskDialogStrings)
 			End Select			
 		End If		
 		iLineEndPos = TagPos (sLanguageCode, Chr(13), Chr(10))

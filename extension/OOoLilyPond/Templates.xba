@@ -18,7 +18,7 @@ Const sEndTagScm = &quot;#!OOoLilyPondEnd!#&quot;
 
 Function TagPos(sText, sA, sB As String) As Integer
 	&apos; indicates the nearest position of either argument &quot;sA&quot; or &quot;sB&quot; in &quot;sText&quot;.
-	&apos; Will be used for locating both versions of a start/end tag
+	&apos; Will be used for locating both versions of a start/end tag and other stuff
 	
 	Dim posA As Integer
 	Dim posB As Integer
@@ -663,7 +663,7 @@ Sub TmplDialog
 	
 	&apos; Create the dialog object
 	oTemplateEditorDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Tmpl&quot;) )
-	ReadDialogStringsFromVar (oTemplateEditorDialog, sTemplateDialogStrings)
+	ReadDialogStringsFromVar (oTemplateEditorDialog, sTemplateDialogStrings, &quot;&quot;)
 
 	&apos; Set title
 	oTemplateEditorDialog.setTitle (sTemplate &amp; &quot;.ly - &quot; &amp; oTemplateEditorDialog.getTitle)

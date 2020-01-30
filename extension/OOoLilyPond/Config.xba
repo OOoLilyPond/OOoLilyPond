@@ -27,7 +27,7 @@ Sub ConfigDialog()
 
 	&apos; Create the dialog object
 	oConfigDialog = createUnoDialog (DialogLibraries.GetByName (constOLyLibraryName).GetByName (&quot;GUI_Config&quot;))
-	ReadDialogStringsFromVar (oConfigDialog, sConfigDialogStrings)
+	ReadDialogStringsFromVar (oConfigDialog, sConfigDialogStrings, &quot;&quot;)
 	&apos; Update the values
 	ConfigDialogUpdate()
 	ConfigDialogGrayOut()
@@ -338,7 +338,7 @@ Sub ApplyConfig
 	oFieldModel.FontDescriptor = MyFont
 	
 	ReadLanguageFile()
-	ReadDialogStringsFromVar (oEditorDialog, sEditorDialogStrings)
+	ReadDialogStringsFromVar (oEditorDialog, sEditorDialogStrings, &quot;&quot;)
 
 End Sub
 

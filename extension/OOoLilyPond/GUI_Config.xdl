@@ -116,6 +116,6 @@
   <dlg:textfield dlg:id="sPdfToSvgPrologue" dlg:tab-index="68" dlg:left="173" dlg:top="176" dlg:width="148" dlg:height="12" dlg:help-text="first part (prior to the pdf file name)"/>
   <dlg:textfield dlg:id="sPdfToSvgEpilogue" dlg:tab-index="70" dlg:left="346" dlg:top="176" dlg:width="64" dlg:height="12" dlg:help-text="second part (following the pdf file name)"/>
   <dlg:checkbox dlg:id="bIncludeTemplate" dlg:tab-index="71" dlg:left="10" dlg:top="195" dlg:width="153" dlg:height="8" dlg:value="Include Template in document" dlg:checked="false"/>
-  <dlg:checkbox dlg:id="bNewObjectsAsSeparateImages" dlg:tab-index="72" dlg:left="10" dlg:top="118" dlg:width="147" dlg:height="9" dlg:help-text="If the sheet music consists of multiple lines, insert them as separate images (default for new objects)" dlg:value="Insert as separate images" dlg:checked="false"/>
+  <dlg:checkbox dlg:id="bNewObjectsAsSeparateImages" dlg:tab-index="72" dlg:left="10" dlg:top="118" dlg:width="147" dlg:height="9" dlg:help-text="If the sheet music consists of multiple lines, insert them as separate images (default for new objects)" dlg:value="Insert as separate images (system-by-system)" dlg:checked="false"/>
  </dlg:bulletinboard>
 </dlg:window>

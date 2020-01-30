@@ -14,6 +14,9 @@ Private sEditorDialogStrings As String
 Private sTemplateDialogStrings As String
 Private sConfigDialogStrings As String
 Private sOutputDialogStrings As String
+Private sBatchDialogStrings As String
+Private sBatchDialogRuleSetStrings As String
+Private sAskDialogStrings As String
 
 &apos; Paths
 Private sConfigFile As String

@@ -13,7 +13,6 @@ Function ConfirmBatchOperation () As Integer
 &apos; 3 = Yes
 &apos; 4 = All
 
-	oAskDialog = createUnoDialog (DialogLibraries.GetByName (constOLyLibraryName).GetByName(&quot;GUI_Ask&quot;))
 	iAskDialogReturnValue = 2
 	oAskDialog.Execute()
 	ConfirmBatchOperation = iAskDialogReturnValue
@@ -62,6 +61,8 @@ Sub PerformBatchProcessing ()
 	Dim iAnswer As Integer
 
 	oBatchDialog.EndExecute()
+	oAskDialog = createUnoDialog (DialogLibraries.GetByName (constOLyLibraryName).GetByName(&quot;GUI_Ask&quot;))
+	ReadDialogStringsFromVar (oAskDialog, sAskDialogStrings, &quot;&quot;)
 
 	oDrawPage = oDoc.DrawPage
 	iCount = oDrawPage.Count

@@ -23,9 +23,6 @@
    <dlg:radio dlg:id="ReplaceSearchedString_A" dlg:tab-index="14" dlg:left="10" dlg:top="162" dlg:width="114" dlg:height="8" dlg:value="Replace only searched string by:"/>
   </dlg:radiogroup>
   <dlg:checkbox dlg:id="bKeepCrop" dlg:tab-index="32" dlg:left="274" dlg:top="96" dlg:width="120" dlg:height="7" dlg:help-text="When editing/replacing an existing object, preserve its current size and crop settings" dlg:value="Keep Size &amp; Crop Settings" dlg:checked="false"/>
-  <dlg:titledbox dlg:id="FrameControl2" dlg:tab-index="37" dlg:left="269" dlg:top="150" dlg:width="126" dlg:height="34">
-   <dlg:title dlg:value="Include template in object?"/>
-  </dlg:titledbox>
   <dlg:radiogroup>
    <dlg:radio dlg:id="NoCondition_B" dlg:tab-index="19" dlg:left="142" dlg:top="54" dlg:width="114" dlg:height="8" dlg:value="no condition" dlg:checked="true"/>
    <dlg:radio dlg:id="ConditionContains_B" dlg:tab-index="20" dlg:left="142" dlg:top="64" dlg:width="56" dlg:height="8" dlg:value="contains:"/>
@@ -40,13 +37,13 @@
   <dlg:textfield dlg:id="sReplace_B" dlg:tab-index="29" dlg:left="142" dlg:top="176" dlg:width="116" dlg:height="29" dlg:vscroll="true" dlg:multiline="true"/>
   <dlg:textfield dlg:id="sSearch_B" dlg:tab-index="22" dlg:left="142" dlg:top="76" dlg:width="116" dlg:height="29" dlg:vscroll="true" dlg:multiline="true"/>
   <dlg:checkbox dlg:id="IgnoreCase_A" dlg:tab-index="9" dlg:left="10" dlg:top="107" dlg:width="114" dlg:height="8" dlg:value="ignore case" dlg:checked="false"/>
-  <dlg:checkbox dlg:id="IgnoreCase_B" dlg:tab-index="23" dlg:left="142" dlg:top="106" dlg:width="114" dlg:height="8" dlg:value="ignore case" dlg:checked="false"/>
+  <dlg:checkbox dlg:id="IgnoreCase_B" dlg:tab-index="23" dlg:left="142" dlg:top="107" dlg:width="114" dlg:height="8" dlg:value="ignore case" dlg:checked="false"/>
   <dlg:radiogroup>
    <dlg:radio dlg:id="SeparateImages_Yes" dlg:tab-index="34" dlg:left="274" dlg:top="122" dlg:width="56" dlg:height="8" dlg:value="Yes"/>
    <dlg:radio dlg:id="SeparateImages_No" dlg:tab-index="35" dlg:left="334" dlg:top="122" dlg:width="56" dlg:height="8" dlg:value="No"/>
    <dlg:radio dlg:id="SeparateImages_DontChange" dlg:tab-index="36" dlg:left="274" dlg:top="132" dlg:width="116" dlg:height="8" dlg:value="Don&apos;t change" dlg:checked="true"/>
   </dlg:radiogroup>
-  <dlg:titledbox dlg:id="SeparateImagesFrame" dlg:tab-index="33" dlg:left="270" dlg:top="110" dlg:width="126" dlg:height="34">
+  <dlg:titledbox dlg:id="SeparateImagesFrame" dlg:tab-index="33" dlg:left="269" dlg:top="110" dlg:width="126" dlg:height="34">
    <dlg:title dlg:value="Insert as separate images?"/>
   </dlg:titledbox>
   <dlg:text dlg:id="SearchLabel_A" dlg:tab-index="41" dlg:left="10" dlg:top="14" dlg:width="100" dlg:height="8" dlg:value="Field to search and process:"/>
@@ -110,5 +107,8 @@
   <dlg:fixedline dlg:id="ConditionLine_B" dlg:tab-index="18" dlg:left="142" dlg:top="42" dlg:width="116" dlg:height="8" dlg:value="Condition: "/>
   <dlg:fixedline dlg:id="ChangeLine_A" dlg:tab-index="10" dlg:left="10" dlg:top="120" dlg:width="116" dlg:height="8" dlg:value="Change: "/>
   <dlg:fixedline dlg:id="ChangeLine_B" dlg:tab-index="24" dlg:left="142" dlg:top="120" dlg:width="116" dlg:height="8" dlg:value="Change: "/>
+  <dlg:titledbox dlg:id="IncludeTemplateFrame" dlg:tab-index="37" dlg:left="269" dlg:top="150" dlg:width="126" dlg:height="34">
+   <dlg:title dlg:value="Include template in object?"/>
+  </dlg:titledbox>
  </dlg:bulletinboard>
 </dlg:window>

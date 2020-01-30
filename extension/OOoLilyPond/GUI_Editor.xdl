@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE dlg:window PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "dialog.dtd">
-<dlg:window xmlns:dlg="http://openoffice.org/2000/dialog" xmlns:script="http://openoffice.org/2000/script" dlg:id="GUI_Editor" dlg:left="92" dlg:top="82" dlg:width="374" dlg:height="302" dlg:closeable="true" dlg:moveable="true" dlg:title="OOoLilyPond Editor">
+<dlg:window xmlns:dlg="http://openoffice.org/2000/dialog" xmlns:script="http://openoffice.org/2000/script" dlg:id="GUI_Editor" dlg:left="92" dlg:top="82" dlg:width="375" dlg:height="302" dlg:closeable="true" dlg:moveable="true" dlg:title="OOoLilyPond Editor">
  <dlg:styles>
   <dlg:style dlg:style-id="0" dlg:font-weight="150"/>
   <dlg:style dlg:style-id="1" dlg:font-name="Courier" dlg:font-stylename="Regular" dlg:font-family="modern"/>
@@ -120,7 +120,7 @@
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.Option4Modified?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
   <dlg:checkbox dlg:id="bKeepCrop" dlg:tab-index="34" dlg:left="8" dlg:top="263" dlg:width="140" dlg:height="8" dlg:help-text="When editing/replacing an existing object, preserve its current size and crop settings" dlg:value="Keep Size &amp; Crop Settings" dlg:checked="false"/>
-  <dlg:checkbox dlg:id="bSaveAsSeparateImages" dlg:tab-index="44" dlg:left="8" dlg:top="253" dlg:width="140" dlg:height="8" dlg:help-text="If the sheet music consists of multiple lines, insert them as separate images" dlg:value="Insert as separate images" dlg:checked="false"/>
-  <dlg:text dlg:style-id="3" dlg:id="TemplateLocationLabel" dlg:tab-index="45" dlg:visible="false" dlg:left="197" dlg:top="221" dlg:width="135" dlg:height="8" dlg:help-text="Click the [Edit] button to save the template into your template folder."/>
+  <dlg:checkbox dlg:id="bSaveAsSeparateImages" dlg:tab-index="44" dlg:left="8" dlg:top="253" dlg:width="140" dlg:height="8" dlg:help-text="If the sheet music consists of multiple lines, insert them as separate images" dlg:value="Insert as separate images (system-by-system)" dlg:checked="false"/>
+  <dlg:text dlg:style-id="3" dlg:id="TemplateLocationLabel" dlg:tab-index="45" dlg:visible="false" dlg:left="197" dlg:top="222" dlg:width="171" dlg:height="8" dlg:help-text="Click the [Edit] button to save the template into your template folder."/>
  </dlg:bulletinboard>
 </dlg:window>
