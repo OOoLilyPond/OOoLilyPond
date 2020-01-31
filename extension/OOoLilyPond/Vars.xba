@@ -51,6 +51,7 @@ Private bIncludeTemplate As Boolean
 Private bContainsTemplate As Boolean
 Private bTemplateSaved As Boolean
 Private sTemplateLocationLabel As String  &apos; &lt;&gt; &quot;&quot; if template not in standard template folder
+Private sTemplateLocationHelptext As String
 Private bNewObjectsAsSeparateImages As Boolean  &apos; Config Dialog: default for new objects
 Private bHasSeparateImages As Boolean  &apos; selected object consists of separate images?
 Private bSaveAsSeparateImages As Boolean  &apos; save actual snippet as separate images?

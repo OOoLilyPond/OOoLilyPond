@@ -6,6 +6,8 @@ sMsgWannaSaveOrIncludeTemplate=A template is included inside this object.%10%10C
 
 sMsgWannaSaveTemplate=A template is included inside this object.%10%10It might be lost now when switching to another one.%10%10You can save the included template into a new template file:%10Open the template editor ([Edit] button) and click the "save" or "save as" button.%10%10Do you want to open the template editor now?
 
+sMsgTemplateEditButton=Click the [Edit] button to save the template into your template folder.
+
 ' Confirmations for file operations:
 
 sMsgConfirmDeleteTemplate1=Do you really want to delete the template file "
@@ -57,7 +59,6 @@ sMsgConfirmDefaultConfig=Do you really want to reset all your actual configurati
 
 bSaveAsSeparateImages.label=Insert as separate images (system-by-system)
 bSaveAsSeparateImages.helptext=If the sheet music consists of multiple lines, insert them as separate images
-TemplateLocationLabel.helptext=Click the [Edit] button to save the template into your template folder.
 
 [ConfigDialog]
 

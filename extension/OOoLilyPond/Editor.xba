@@ -200,6 +200,7 @@ Sub GreyOut()
 	
 	&apos; indicate if Template location is other than standard template folder:
 	oEditorDialog.getModel().getByName (&quot;TemplateLocationLabel&quot;).Label = sTemplateLocationLabel
+	oEditorDialog.getModel().getByName (&quot;TemplateLocationLabel&quot;).helptext = sTemplateLocationHelptext
 	oEditorDialog.getModel().getByName (&quot;TemplateLocationLabel&quot;).EnableVisible = (sTemplateLocationLabel &lt;&gt; &quot;&quot;)
 
 End Sub
