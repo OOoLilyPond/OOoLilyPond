@@ -19,7 +19,7 @@ Sub EditorDialog()
 	
 	&apos; Create the dialog object
 	oEditorDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Editor&quot;) )
-	ReadDialogStringsFromVar (oEditorDialog, sEditorDialogStrings)
+	ReadDialogStringsFromVar (oEditorDialog, sEditorDialogStrings, &quot;&quot;)
 	&apos; Preserve original field labels for LineWidth, StaffSize, Custom1, Custom2, Option1 ... Option4:
 	sDefaultLineWidthLabel = oEditorDialog.getModel().getByName(&quot;LabelLineWidth&quot;).Label
 	sDefaultStaffSizeLabel = oEditorDialog.getModel().getByName(&quot;LabelStaffSize&quot;).Label
@@ -104,12 +104,14 @@ Sub EditorDialog()
 	If iWrap = com.sun.star.text.WrapTextMode.THROUGHT Then oEditorDialog.getControl(&quot;WrapThrough&quot;).setState(true)	
 	
 	oEditorDialog.getControl(&quot;bKeepCrop&quot;).setState (BoolToCheckBoxState(bKeepCrop And bShapeIsSelected))
+	oEditorDialog.getControl(&quot;bSaveAsSeparateImages&quot;).setState (BoolToCheckBoxState (bSaveAsSeparateImages And bInWriter))
 
 	&apos; grey out inactive control elements
 	GreyOut()
 	
 	&apos; open the dialog
     oEditorDialog.Execute()
+
 End Sub
 
 
@@ -149,6 +151,7 @@ Sub GreyOut()
 	&apos; Grey out inactive control elements
 
 	Dim bWrapSettings As Boolean
+	Dim bEnableSeparateImages As Boolean
 
 	&apos; Check if dialog is existing
 	If IsNull(oEditorDialog) Then 
@@ -156,6 +159,7 @@ Sub GreyOut()
 	End If
 
 	bWrapSettings = (Not oEditorDialog.getControl(&quot;AnchorAsCharacter&quot;).getState()) And bInWriter
+	bEnableSeparateImages = oEditorDialog.getControl(&quot;AnchorAsCharacter&quot;).getState() And bInWriter
 
 	&apos; grey out Anchor and Wrap radio buttons when we are not in Writer
 	oEditorDialog.getControl(&quot;AnchorFrameControl&quot;).setEnable(bInWriter)
@@ -169,6 +173,10 @@ Sub GreyOut()
 	oEditorDialog.getControl(&quot;OptimalPageWrap&quot;).setEnable(bWrapSettings)
 	oEditorDialog.getControl(&quot;WrapThrough&quot;).setEnable(bWrapSettings)
 
+	&apos; grey out and un-check SeparateImages checkbox when Anchor is NOT &quot;as Character&quot;
+	oEditorDialog.getControl (&quot;bSaveAsSeparateImages&quot;).setEnable (bEnableSeparateImages)
+	If Not bEnableSeparateImages Then oEditorDialog.getControl (&quot;bSaveAsSeparateImages&quot;).SetState (BoolToCheckBoxState (False))
+	
 	&apos; grey out KeepCrop checkbox when no current OLy object is selected
 	oEditorDialog.getControl(&quot;bKeepCrop&quot;).setEnable(bShapeIsSelected)
 
@@ -190,6 +198,11 @@ Sub GreyOut()
 	oEditorDialog.getModel().getByName(&quot;bOption3&quot;).Label = sOption3Label
 	oEditorDialog.getModel().getByName(&quot;bOption4&quot;).Label = sOption4Label
 	
+	&apos; indicate if Template location is other than standard template folder:
+	oEditorDialog.getModel().getByName (&quot;TemplateLocationLabel&quot;).Label = sTemplateLocationLabel
+	oEditorDialog.getModel().getByName (&quot;TemplateLocationLabel&quot;).helptext = sTemplateLocationHelptext
+	oEditorDialog.getModel().getByName (&quot;TemplateLocationLabel&quot;).EnableVisible = (sTemplateLocationLabel &lt;&gt; &quot;&quot;)
+
 End Sub
 
 
@@ -310,7 +323,7 @@ Sub ShowLilyPondOutput()
 
 		&apos; DialogLibraries.LoadLibrary (constOlyLibraryName)
 		oOutputDialog = createUnoDialog (DialogLibraries.GetByName (constOLyLibraryName).GetByName (&quot;GUI_Out&quot;))
-		ReadDialogStringsFromVar (oOutputDialog, sOutputDialogStrings)
+		ReadDialogStringsFromVar (oOutputDialog, sOutputDialogStrings, &quot;&quot;)
 		oOutputDialog.getControl(&quot;sOutput&quot;).setText(sOutput)
 		oOutputDialog.Execute()
 	
@@ -370,7 +383,7 @@ End Sub
 Sub ConfigButton()
 	ConfigDialog()
 	ListOfTemplates(oEditorDialog.getControl(&quot;sTemplate&quot;))
-	ReadTemplate() &apos; Needed if template folder changed
+	ReadTemplate (True) &apos; Needed if template folder changed
 
 	If bUseDefaultLineWidth Then UseDefaultLineWidth()
 	If bUseDefaultStaffSize Then UseDefaultStaffSize()
@@ -390,6 +403,18 @@ End Sub
 
 Sub LilyPondButton()
 
+	If bContainsTemplate And Not bIncludeTemplate And Not bTemplateSaved Then
+		Select Case MsgBox (oMessages.getPropertyValue (&quot;sMsgWannaSaveOrIncludeTemplate&quot;), iMsgBox_I + iMsgBox_YNC + iMsgBox_1, oMessages.getPropertyValue (&quot;sCaptionInfo&quot;))
+			Case iAnswer_Yes
+				EditTemplateButton()
+				Exit Sub
+			Case iAnswer_No
+				&apos; nothing, just continue
+			Case Else  &apos; &quot;Cancel&quot; button or &quot;Escape&quot; key
+				Exit Sub
+		End Select
+	End If
+
 	&apos; all values except for the Anchor, Wrap and Size/Crop settings should already be updated
 	if oEditorDialog.getControl(&quot;AnchorAsCharacter&quot;).getState() then iAnchor = com.sun.star.text.TextContentAnchorType.AS_CHARACTER
 	if oEditorDialog.getControl(&quot;AnchorToParagraph&quot;).getState() then iAnchor = com.sun.star.text.TextContentAnchorType.AT_PARAGRAPH
@@ -400,6 +425,7 @@ Sub LilyPondButton()
 	if oEditorDialog.getControl(&quot;WrapThrough&quot;).getState() then iWrap = com.sun.star.text.WrapTextMode.THROUGHT
 	
 	bKeepCrop = CheckBoxStateToBool (oEditorDialog.getControl(&quot;bKeepCrop&quot;).getState())
+	bSaveAsSeparateImages = CheckBoxStateToBool (oEditorDialog.getControl(&quot;bSaveAsSeparateImages&quot;).getState())
 
 	&apos; Create the LilyPond music and insert it...
 	Make (false)	&apos; bSilent = false: don&apos;t suppress displaying errors in Editor dialog
@@ -469,13 +495,40 @@ End Sub
 Sub TemplateChanged()
 
 	Dim sOldTemplate As String
+	Dim bCurrentlyContainsTemplate As Boolean
+	Dim sCurrentTemplateLocationLabel As String
 
 	sOldTemplate = sTemplate
 	sTemplate=oEditorDialog.getControl(&quot;sTemplate&quot;).getText()
 	
 	If sTemplate &lt;&gt; sOldTemplate Then  &apos; only when really a different template has been selected
-		If oFileAccess.exists(sTemplatePath &amp; sTemplate &amp; &quot;.ly&quot;) Then ReadTemplate()
-
+	
+		If bContainsTemplate And Not bTemplateSaved Then
+			Select Case MsgBox (oMessages.getPropertyValue (&quot;sMsgWannaSaveTemplate&quot;), iMsgBox_I + iMsgBox_YNC + iMsgBox_1, oMessages.getPropertyValue (&quot;sCaptionInfo&quot;))
+				Case iAnswer_Yes
+					sTemplate = sOldTemplate
+					oEditorDialog.getControl (&quot;sTemplate&quot;).setText (sTemplate)
+					EditTemplateButton()
+					Exit Sub
+				Case iAnswer_No
+					&apos; nothing, just continue
+				Case Else  &apos; &quot;Cancel&quot; button or &quot;Escape&quot; key
+					sTemplate = sOldTemplate
+					oEditorDialog.getControl (&quot;sTemplate&quot;).setText (sTemplate)
+					Exit Sub
+			End Select
+		End If
+		
+		bCurrentlyContainsTemplate = bContainsTemplate
+		sCurrentTemplateLocationLabel = sTemplateLocationLabel
+		bContainsTemplate = False
+		If Not ReadTemplate (False) Then
+			&apos; bContainsTemplate = bCurrentlyContainsTemplate
+			&apos; sTemplateLocationLabel = sCurrentTemplateLocationLabel
+		Else
+			&apos; anything?
+		End If
+	
 		If bUseDefaultCode Then
 			sCode=&quot;&quot; &apos; UseDefaultCode() does not ask if sCode is empty
 			UseDefaultCode()

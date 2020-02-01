@@ -9,4 +9,5 @@
  <library:element library:name="Editor"/>
  <library:element library:name="Templates"/>
  <library:element library:name="Messages"/>
+ <library:element library:name="Batch"/>
 </library:library>

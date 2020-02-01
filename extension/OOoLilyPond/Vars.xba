@@ -14,6 +14,9 @@ Private sEditorDialogStrings As String
 Private sTemplateDialogStrings As String
 Private sConfigDialogStrings As String
 Private sOutputDialogStrings As String
+Private sBatchDialogStrings As String
+Private sBatchDialogRuleSetStrings As String
+Private sAskDialogStrings As String
 
 &apos; Paths
 Private sConfigFile As String
@@ -46,6 +49,12 @@ Private sLanguageFileName As String
 Private bKeepTempFiles As Boolean
 Private bIncludeTemplate As Boolean
 Private bContainsTemplate As Boolean
+Private bTemplateSaved As Boolean
+Private sTemplateLocationLabel As String  &apos; &lt;&gt; &quot;&quot; if template not in standard template folder
+Private sTemplateLocationHelptext As String
+Private bNewObjectsAsSeparateImages As Boolean  &apos; Config Dialog: default for new objects
+Private bHasSeparateImages As Boolean  &apos; selected object consists of separate images?
+Private bSaveAsSeparateImages As Boolean  &apos; save actual snippet as separate images?
 
 &apos; Environment
 Private sOSType As String
@@ -58,6 +67,8 @@ Private oEditorDialog As Object &apos; OOoLilyPond Editor Dialog (Main Dialog)
 Private oTemplateEditorDialog As Object &apos; Template Editor Dialog
 Private oConfigDialog As Object &apos; Configuration Dialog
 Private oOutputDialog As Object &apos; LilyPond Output Dialog
+Private oBatchDialog As Object  &apos; Batch Processing Dialog
+Private oAskDialog As Object	&apos; Confirmation Dialog during batch processing
 
 &apos; OOoLilyPond object data
 Private sTemplate As String		&apos; The name of the template used
@@ -172,8 +183,15 @@ Private bOption2LabelExists As Boolean
 Private bOption3LabelExists As Boolean
 Private bOption4LabelExists As Boolean
 
+&apos; some global objects:
+Private oDoc As Object		&apos; ThisComponent
+Private oDocCtrl As Object	&apos; ThisComponent.CurrentController
 &apos; Private oSelection As Object
 Private oCurrentGraphicObject As Object
+Private oCurrentCursor As Object
+
+Private sGlobalIdentifier As String
+Private sGlobalImageNum As String
 
 &apos; PrivateConstants do not exist therefore use variables instead
 &apos; and set the values by calling this function in Main().
