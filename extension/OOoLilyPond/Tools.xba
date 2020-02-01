@@ -4,6 +4,64 @@
 
 Option Explicit
 
+
+Sub ReplaceSubStrings (sProcess As String, sFind As String, sReplace As String, iSearchMode As Integer)
+&apos; Search for every appearance of sFind inside sProcess and replace them by sReplace
+&apos; ... a little more complicated because iSearchMode allows case-insensitive searching
+
+	Dim iPos As Integer
+	Dim iStartPos As Integer
+	Dim iLen As Integer
+	Dim sResult As String
+	
+	iStartPos = 1
+	iLen = Len (sFind)
+	sResult = &quot;&quot;
+	iPos = InStr (1, sProcess, sFind, iSearchMode)
+	While iPos &gt; 0
+		sResult = sResult &amp; Mid (sProcess, iStartPos, iPos - iStartPos) &amp; sReplace
+		iStartPos = iPos + iLen
+		iPos = InStr (iStartPos, sProcess, sFind, iSearchMode)
+	Wend
+	if iStartPos &lt;= Len (sProcess) Then
+		sResult = sResult &amp; Mid (sProcess, iStartPos)
+	End If
+	sProcess = sResult
+End Sub
+
+
+Function HasHigherValue (s1 As String, s2 As String) As Boolean
+&apos; Return True if s1 represents a higher numeric value than s2
+&apos; Take into account that string comparison via &quot;&lt;&quot; or &quot;&gt;&quot; performs an alphabetical comparison, 
+&apos; i.e. &quot;10&quot; should NOT be lower than &quot;2&quot;
+
+	If Len (s1) = Len (s2) Then
+		HasHigherValue = (s1 &gt; s2)
+		Exit Function
+	Else
+		HasHigherValue = (Len (s1) &gt; Len (s2))
+	End If
+End Function
+
+
+Function PosInArray (MyArray As Variant, MyElement As Variant, LastEntry As Integer) As Integer
+&apos; Return the (first) position of &quot;Element&quot; in &quot;Array&quot;. Return -1 if &quot;Array&quot;
+&apos; does not contain &quot;Element&quot;
+	Dim i As Integer
+	
+	i = LBound (MyArray)
+	While i &lt;= LastEntry
+		If MyArray (i) = MyElement Then
+			PosInArray = i
+			Exit Function
+		Else
+			i = i+1
+		End If
+	Wend
+	PosInArray = -1
+End Function
+
+
 Sub RemoveSpaces (s as String)
 &apos; If there are whitespaces at the beginning or end of &quot;s&quot;, remove them:
 	While Left(s, 1) = &quot; &quot;
@@ -111,7 +169,7 @@ Function GetOSType()
 End Function
 
 
-Sub ImportGraphicIntoClipboard(cURL)
+Sub ImportGraphicIntoClipboard (cURL)
 	&apos; Import graphic from URL into the clipboard.
 	&apos; Inspired from OOoForums Danny&apos;s code 
 	&apos; To do: don&apos;t use dispatcher
@@ -167,8 +225,8 @@ Function ImportBitmapIntoDraw(sURL As String, Optional oGraphicShape) As Object
 	Dim sNewUrl
 	Dim oSize As Object
 	Dim oShape As Object
-	Dim oDoc As Object
-	Dim oDocCtrl As Object
+	&apos; Dim oDoc As Object
+	&apos; Dim oDocCtrl As Object
 	Dim oCrop As new com.sun.star.text.GraphicCrop
 	Const INCH = 2540
 	&apos; Const VECTORDPI = 120	&apos; Correction factor for vector graphics as they don&apos;t use PNG&apos;s dpi values
@@ -177,8 +235,8 @@ Function ImportBitmapIntoDraw(sURL As String, Optional oGraphicShape) As Object
 							&apos; ToDo: Find out what the hell is going on here...
 							&apos; Workaround: Use a better method   ;-)
 
-	oDoc = ThisComponent
-	oDocCtrl = oDoc.getCurrentController
+	&apos; oDoc = ThisComponent
+	&apos; oDocCtrl = oDoc.getCurrentController
 	
 	oBitmaps = oDoc.createInstance(&quot;com.sun.star.drawing.BitmapTable&quot;)
 	If oBitmaps.hasByName( &quot;OOoLilyPond&quot; ) Then
@@ -237,20 +295,20 @@ Function ImportBitmapIntoDraw(sURL As String, Optional oGraphicShape) As Object
 End Function
 
 
-Function ImportBitmapIntoWriter(sFile As String, oTextGraphicOrCursor As Object) As Object
+Function ImportBitmapIntoWriter (sFile As String, oTextGraphicOrCursor As Object, bForceNewObject as Boolean) As Object
 	&apos; Imports a bitmap into Writer
 	&apos; Inserts at given Cursor Position
 	&apos; or replaces given TextGraphicObject
 
 	Dim oBitmaps As Object
 	Dim sNewUrl
-	Dim oDoc As Object
-	Dim oCursor As Object
+	&apos; Dim oDoc As Object
 	Dim oText As Object
 	Dim oTextGraphic As Object
+	Dim oCell As Object
 	Dim oCrop As new com.sun.star.text.GraphicCrop
 
-	oDoc = ThisComponent
+	&apos; oDoc = ThisComponent
 	
 	&apos; Load the image into the internal bitmap table
 	oBitmaps = oDoc.createInstance(&quot;com.sun.star.drawing.BitmapTable&quot;)
@@ -271,10 +329,17 @@ Function ImportBitmapIntoWriter(sFile As String, oTextGraphicOrCursor As Object)
 		oTextGraphic = oDoc.createInstance(&quot;com.sun.star.text.GraphicObject&quot;)
 		oTextGraphic.GraphicURL = sNewURL
 		oTextGraphic.AnchorType = com.sun.star.text.TextContentAnchorType.AS_CHARACTER
-		oDoc.Text.insertTextContent( oTextGraphicOrCursor, oTextGraphic, False )
+		oTextGraphicOrCursor.getText().insertTextContent (oTextGraphicOrCursor, oTextGraphic, False)
 	Case &quot;SwXTextGraphicObject&quot;
-		oTextGraphic = oTextGraphicOrCursor
-		oTextGraphic.GraphicURL = sNewURL
+		If bForceNewObject Then  &apos; as with SwXTextCursor
+			oTextGraphic = oDoc.createInstance(&quot;com.sun.star.text.GraphicObject&quot;)
+			oTextGraphic.GraphicURL = sNewURL
+			oTextGraphic.AnchorType = com.sun.star.text.TextContentAnchorType.AS_CHARACTER
+			oTextGraphicOrCursor.getAnchor().getText().insertTextContent (oTextGraphicOrCursor, oTextGraphic, False)
+		Else
+			oTextGraphic = oTextGraphicOrCursor
+			oTextGraphic.GraphicURL = sNewURL
+		End If
 	Case Else &apos; Should never happen in OOoLilyPond, just notify in case
 		&apos; MsgBox (&quot;ImportBitmapIntoWriter: the second argument must be either a TextCursor or a TextGraphic.&quot;, iMsgBox_E, sCaptionError)
 		MsgBox (oMessages.getPropertyValue (&quot;sMsgImportBitmapError&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
@@ -331,6 +396,14 @@ Function TmpFileName(sPrefix , sSuffix As String) As String
 	Do
 		TmpFileName=sPrefix &amp; Int(Str(Rnd*1e6)) &amp; sSuffix
 	Loop While oFileAccess.exists(TmpFileName)
+End Function
+
+
+Function TimeStamp () As String
+	Dim vCurrentTime
+	vCurrentTime = Now
+	TimeStamp = Left (CDateToISO (vCurrentTime), 4) &amp; &quot;-&quot; &amp; Mid (CDateToISO (vCurrentTime), 5, 2) &amp; &quot;-&quot; &amp; Right (CDateToISO (vCurrentTime), 2) &amp; &quot;_&quot; _
+  				&amp; Left (TimeValue (vCurrentTime), 2) &amp; &quot;-&quot; &amp; Mid (TimeValue (vCurrentTime), 4, 2) &amp; &quot;-&quot; &amp; Right (TimeValue (vCurrentTime), 2)
 End Function
 
 
@@ -449,7 +522,7 @@ Function StringFromFile(sString, sFile As String) As Boolean
 End Function
 
 
-Function BoolToString(bBoolean As Boolean) As String
+Function BoolToString (bBoolean As Boolean) As String
 	If bBoolean Then
 		BoolToString = &quot;True&quot;
 	Else
@@ -458,8 +531,26 @@ Function BoolToString(bBoolean As Boolean) As String
 End Function
 
 
-Function StringToBool(sString As String) As Boolean
+Function StringToBool (sString As String) As Boolean
 	StringToBool=(StrComp(sString, &quot;True&quot;, 0) = 0)
+End Function
+
+
+Function LyBoolToString (bBoolean As Boolean) As String
+	If bBoolean Then
+		LyBoolToString = &quot;##t&quot;
+	Else
+		LyBoolToString = &quot;##f&quot;
+	End If
+End Function
+
+
+Function ScmBoolToString (bBoolean As Boolean) As String
+	If bBoolean Then
+		ScmBoolToString = &quot;#t&quot;
+	Else
+		ScmBoolToString = &quot;#f&quot;
+	End If
 End Function
 
 

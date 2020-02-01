@@ -28,13 +28,8 @@
 Option Explicit
 
 
-Sub OOoLilyPond()
+Sub OOoLilyPondInit()
 
-	&apos; This is the main function
-	&apos; It initializes OOoLilyPond and opens the OOoLilyPond Editor dialog
-
-	Dim oDoc As Object
-	Dim oDocCtrl As Object
 	Dim bWrongDocumentType As Boolean
 
 	oMessages  = CreateUnoService (&quot;com.sun.star.beans.PropertyBag&quot;)
@@ -66,11 +61,6 @@ Sub OOoLilyPond()
 	
 	&apos; Create all Dialog objects
 	DialogLibraries.LoadLibrary (constOLyLibraryName)
-	&apos; --- Dialogs will be created later, as originally intended
-	&apos; oEditorDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Editor&quot;) )
-	&apos; oConfigDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Config&quot;) )
-	&apos; oTemplateEditorDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Tmpl&quot;) )
-	&apos; oOutputDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Out&quot;) )
 
 	&apos; Read configuration file
 	If oFileAccess.exists( sConfigFile ) Then ReadConfig()
@@ -113,6 +103,9 @@ Sub OOoLilyPond()
 	Else
 		sTemplate = sImpressDefaultTemplate
 	End If
+	
+	bSaveAsSeparateImages = bNewObjectsAsSeparateImages
+	bTemplateSaved = False
 
 	&apos; By default use default values ;-)
 	&apos; Will be overwritten if values are read from existing object
@@ -121,78 +114,314 @@ Sub OOoLilyPond()
 	bUseDefaultStaffSize = True
 	bUseDefaultCustom1 = True
 	bUseDefaultCustom2 = True
-	
+End Sub
+
+
+Sub OOoLilyPond()
+	&apos; This is the main function
+	&apos; It initializes OOoLilyPond and opens the OOoLilyPond Editor dialog
+
+	OOoLilyPondInit()
 	If Not ReadSelectionObject () Then Exit Sub   &apos; create Cursor and read Attributes if Object is selected
-
 	&apos; Now we know which template to use
-	ReadTemplate()
-
+	ReadTemplate (True)
 	&apos; Open the dialog box
 	EditorDialog()
 End Sub
 
 
-Function ReadSelectionObject () As Boolean
+Sub BatchTest1()
 
-	Dim oDoc As Object
-	Dim oDocCtrl As Object
-	Dim oShape As Object
+	Dim sConditionFrameLabel As String
+	Dim iNumPos As Integer
+
+	OOoLilyPondInit ()
+	If Not bInWriter Then Exit Sub
+	oBatchDialog = createUnoDialog (DialogLibraries.GetByName (constOLyLibraryName).GetByName(&quot;GUI_Batch&quot;))
 	
-	&apos; Get the current document and controller
- 	oDoc = ThisComponent
-	oDocCtrl = oDoc.getCurrentController()
+	oBatchDialog.getControl(&quot;bKeepCrop&quot;).setState (BoolToCheckBoxState (bKeepCrop))
+	ReadDialogStringsFromVar (oBatchDialog, sBatchDialogStrings, &quot;&quot;)
+	ReadDialogStringsFromVar (oBatchDialog, sBatchDialogRuleSetStrings, &quot;_A&quot;)
+	ReadDialogStringsFromVar (oBatchDialog, sBatchDialogRuleSetStrings, &quot;_B&quot;)
+	
+	&apos; Add numbers in frame&apos;s captions:
+	sConditionFrameLabel = oBatchDialog.getModel().getByName (&quot;ConditionFrame_A&quot;).Label
+	iNumPos = InStr (sConditionFrameLabel, &quot;#&quot;)
+	If iNumPos &gt; 0 Then
+		Mid (sConditionFrameLabel, iNumPos, 1, &quot;1&quot;)
+		oBatchDialog.getModel().getByName (&quot;ConditionFrame_A&quot;).Label = sConditionFrameLabel
+		Mid (sConditionFrameLabel, iNumPos, 1, &quot;2&quot;)
+		oBatchDialog.getModel().getByName (&quot;ConditionFrame_B&quot;).Label = sConditionFrameLabel
+	End If
+	
+	oBatchDialog.Execute()
 
-	&apos; create Cursor and read Attributes if Object is selected
-	If Not IsEmpty(oDocCtrl.getSelection) Then &apos; Is only empty in Impress or Draw when nothing is selected
-		oSelection=oDocCtrl.getSelection
-		bShapeIsSelected = False
-		
-		Select Case oSelection.getImplementationName()
-		
-		Case &quot;com.sun.star.drawing.SvxShapeCollection&quot; 	&apos; inserted into Writer via Clipboard OR inserted into Draw/Impress
-			oShape = oSelection.getByIndex(0)
-			If bInWriter Then &apos; OLy &lt; 0.4 in Writer
-				&apos; oCursor = oDoc.Text.createTextCursorByRange(oSelection(0).getAnchor())
-				If Not ReadAttributes(oShape) Then  &apos;Read the OLy fields from the Object Attributes
-					ReadSelectionObject = False
-					Exit Function
-				End If
-				&apos; oSelection(0).getParent().remove(oSelection(0)) &apos; Delete old OLyObject
-			Else &apos; OLy object in Draw / Impress
-				If Not ReadAttributes(oShape) Then  &apos;Read the OLy fields from the Object Attributes
-					ReadSelectionObject = False
-					Exit Function
+End Sub
+
+
+Sub BatchTest2()
+	&apos; This is the main function for batch processing
+	&apos; It initializes OOoLilyPond and recompiles matching objects without opening the editor dialog.
+	Dim oDrawPage As Object
+	Dim oCurrentObject As Object
+	Dim iCount As Integer
+	Dim i As Integer
+	Dim iLastObject As Integer
+	
+	Dim oGraphic As Object
+	&apos; Dim oDocCtrl As Object
+	Dim oGraphicObjects ()
+	Dim sIdentifiers ()
+	Dim sImageNums ()
+	Dim sCurrentImageNum As String
+	Dim sCurrentIdentifier As String
+	Dim iPosInList As Integer
+
+
+	OOoLilyPondInit ()
+	If Not bInWriter Then Exit Sub
+
+	oDrawPage = oDoc.DrawPage
+	iCount = oDrawPage.Count
+	oGraphicObjects = DimArray (iCount) 
+	sIdentifiers = DimArray (iCount) 
+	sImageNums = DimArray (iCount) 
+	iLastObject = -1
+	&apos; Prepare list of objects to be processed:
+	For i = 0 to iCount - 1
+		oCurrentObject = oDrawPage.getByIndex (i)
+		If IsOLyObject (oCurrentObject) Then
+			sCurrentIdentifier = GetObjectIdentifier (oCurrentObject)
+			If sCurrentIdentifier = &quot;&quot; Then  &apos; not a multi-image object
+				iLastObject = iLastObject + 1
+				oGraphicObjects (iLastObject) = oCurrentObject
+				sIdentifiers (i) = &quot;&quot;
+				sImageNums (i) = &quot;&quot;
+			Else							 &apos; multi-image object
+				sCurrentImageNum = GetObjectImageNum (oCurrentObject)
+				iPosInList = PosInArray (sIdentifiers, sCurrentIdentifier, iLastObject)
+				If iPosInList = -1 Then				&apos; array does not yet contain a sibling
+					iLastObject = iLastObject + 1
+					oGraphicObjects (iLastObject) = oCurrentObject
+					sIdentifiers (i) = sCurrentIdentifier
+					sImageNums (i) = sCurrentImageNum
+				Else								&apos; array already contains a sibling
+					&apos; Dim sImNum As String	&apos; obsolete, just for debugging
+					&apos; sImNum = sImageNums (iPosInList)
+					If HasHigherValue (sImageNums (iPosInList), sCurrentImageNum) Then
+						oGraphicObjects (iPosInList) = oCurrentObject  &apos; replace objects with higher ImageNum
+						sIdentifiers (iPosInList) = sCurrentIdentifier
+						sImageNums (iPosInList) = sCurrentImageNum
+					End If
 				End If
 			End If
-			oShapePosition = oShape.position()
-			bShapeIsSelected = True
-				
-		Case &quot;SwXTextGraphicObject&quot; &apos; Graphic is selected in Writer
-			If Not ReadAttributes(oSelection) Then &apos; Read the OLy fields from the Object Attributes
-				ReadSelectionObject = False
+		End If
+	next i
+	
+	&apos; now process objects from the list:
+	For i = 0 to iLastObject
+		oCurrentGraphicObject = oGraphicObjects (i)  &apos; global variable
+		
+		oDocCtrl.select (oCurrentGraphicObject)
+		
+		If ReadSelectionObject () Then  &apos; create Cursor and read Attributes if Object is selected
+		&apos; Now we know which template to use
+			ReadTemplate (True)
+			Make (true)
+		End If
+	next i
+End Sub
+
+
+Sub EraseImageSiblings()
+	&apos; If an OLy object consists of multiple separate images, each of them has all attributes like OOoLilyPondCode etc.
+	&apos; In addition, they share the same Identifier (timestamp) but have individual ImageNumbers to distinguish between them.
+	&apos; When re-compiling one of them (which will produce a whole new set of images), all the other images belonging to the 
+	&apos; same object become obsolete.
+	&apos; This procedure will erase all of them except the one currently selected.
+	
+	Dim oDrawPage As Object
+	Dim oCurrentObject As Object
+	Dim iCount As Integer
+	Dim i As Integer
+	
+	Dim oGraphic As Object
+	Dim oShape As Object
+	Dim oGraphicObjects ()
+	
+	Dim sOwnIdentifier As String
+	Dim sOwnImageNum As String
+	
+	Dim oTextCursor As Object
+	Dim sTempStr As String
+	Dim iStrLen As Integer
+	Dim sCharNum As String
+	Dim iCharNum As Integer
+	
+	Dim sTempIdentifier As String
+	Dim sTempImageNum As String
+
+	Select Case oCurrentGraphicObject.getImplementationName()  &apos; global variable
+	Case &quot;SwXTextRanges&quot; &apos; Nothing or normal text selection in Writer
+		Exit Sub
+		&apos; No object selected, nothing to do
+	Case &quot;com.sun.star.drawing.SvxShapeCollection&quot;  &apos; inserted into Writer via Clipboard OR inserted into Draw/Impress
+		oShape = oCurrentGraphicObject.getByIndex(0)
+	Case &quot;SwXTextGraphicObject&quot; &apos; Graphic is selected in Writer
+		oShape = oCurrentGraphicObject
+	End Select
+	
+	oDrawPage = oDoc.DrawPage
+	iCount = oDrawPage.Count
+	oGraphicObjects = DimArray (iCount) 
+	For i = 0 to iCount - 1
+		oGraphicObjects (i) = oDrawPage.getByIndex(i)
+	next i
+	
+	sOwnIdentifier = GetObjectIdentifier (oShape)
+	sOwnImageNum   = GetObjectImageNum   (oShape)
+
+	If sOwnIdentifier &lt;&gt; &quot;&quot; and sOwnImageNum &lt;&gt; &quot;&quot; Then
+		For i = 0 to iCount - 1
+			oCurrentObject = oGraphicObjects (i)
+			sTempIdentifier = GetObjectIdentifier (oCurrentObject)
+			sTempImageNum   = GetObjectImageNum   (oCurrentObject)
+			If IsOLyObject (oCurrentObject) Then
+				If GetObjectIdentifier (oCurrentObject) = sOwnIdentifier And GetObjectImageNum (oCurrentObject) &lt;&gt; sOwnImageNum Then
+					If oCurrentObject.SupportsService(&quot;com.sun.star.drawing.Shape&quot;) Or oCurrentObject.SupportsService(&quot;com.sun.star.text.TextGraphicObject&quot;) Then
+						oTextCursor = oCurrentObject.getAnchor().getText().createTextCursorByRange (oCurrentObject.getAnchor())
+						oCurrentObject.Dispose	&apos; erase image
+						if oTextCursor.goLeft (1, True) Then
+							sTempStr = oTextCursor.getString ()
+							iStrLen = Len (sTempStr)
+							if Len (sTempStr) = 2 Then
+								sCharNum = Asc (sTempStr)
+								If sCharNum = &quot;13&quot; Then oTextCursor.setString (&quot;&quot;)  &apos; erase &quot;new paragraph&quot; control char
+							End If
+						End If
+        			End If
+				Else
+					&apos; anything?
+				End If
+			End If
+		next i
+	End If
+	oDocCtrl.select (oShape)
+End Sub
+
+
+Function ReadGraphicObject (oGraphicObject As Object) As Boolean
+
+	Dim oShape As Object
+
+	bShapeIsSelected = False  &apos;global variable, used in InsertOOoLilyPondObjectViaClipboard ()
+	Select Case oGraphicObject.getImplementationName()
+	Case &quot;com.sun.star.drawing.SvxShapeCollection&quot; 	&apos; inserted into Writer via Clipboard OR inserted into Draw/Impress
+		oShape = oGraphicObject.getByIndex(0)
+		If bInWriter Then &apos; OLy &lt; 0.4 in Writer
+			&apos; oCursor = oDoc.Text.createTextCursorByRange(oSelection(0).getAnchor())
+			If Not ReadAttributes (oShape) Then  &apos;Read the OLy fields from the Object Attributes
+				ReadGraphicObject = False
 				Exit Function
 			End If
-			bShapeIsSelected = True
-			
-		Case &quot;SwXTextRanges&quot; &apos; Nothing or normal text selection in Writer
-&apos;			oCursor = oDoc.Text.createTextCursorByRange(oSelection(0))
-			
-		Case Else
-			&apos; Msgbox (&quot;The selected object is not an OLy object ...&quot;, 0, &quot;Error&quot;)
-			Msgbox (oMessages.getPropertyValue (&quot;sMsgNoOlyObject&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
-			ReadSelectionObject = False
+		Else &apos; OLy object in Draw / Impress
+			If Not ReadAttributes (oShape) Then  &apos;Read the OLy fields from the Object Attributes
+				ReadGraphicObject = False
+				Exit Function
+			End If
+		End If
+		oShapePosition = oShape.position()  &apos;global variable, used in InsertOOoLilyPondObjectViaClipboard ()
+		bShapeIsSelected = True
+				
+	Case &quot;SwXTextGraphicObject&quot; &apos; Graphic is selected in Writer
+		If Not ReadAttributes (oGraphicObject) Then &apos; Read the OLy fields from the Object Attributes
+			ReadGraphicObject = False
 			Exit Function
+		End If
+		bShapeIsSelected = True
+		
+	Case &quot;SwXTextRanges&quot; &apos; Nothing or normal text selection in Writer
+		&apos; oCursor = oDoc.Text.createTextCursorByRange(oGraphicObject(0))
 			
-		End Select
-	End If
-	ReadSelectionObject = True
+	Case Else
+		&apos; Msgbox (&quot;The selected object is not an OLy object ...&quot;, 0, &quot;Error&quot;)
+		Msgbox (oMessages.getPropertyValue (&quot;sMsgNoOlyObject&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		ReadGraphicObject = False
+		Exit Function
+			
+	End Select
+	ReadGraphicObject = True
 End Function
 
 
-sub Make()
+Function ReadSelectionObject () As Boolean
+	&apos; create Cursor and read Attributes if Object is selected
+	
+	On Error Goto ErrorHandler
+
+	If Not IsEmpty (oDocCtrl.getSelection) Then &apos; Is only empty in Impress or Draw when nothing is selected
+		oCurrentGraphicObject = oDocCtrl.getSelection
+		ReadSelectionObject = ReadGraphicObject (oCurrentGraphicObject)
+	End If
+	ReadSelectionObject = True
+	
+	Exit Function
+	
+	ErrorHandler:
+	Msgbox (oMessages.getPropertyValue (&quot;sMsgNoOlyObjectsHere&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+	Exit Function
+End Function
+
+
+Sub ConvertSeparateImageFiles ()
+
+	Dim sDirEntry As String
+	Dim sCommand As String
+
+	If sFormat &lt;&gt; &quot;pdf to svg&quot; Then Exit Sub
+	
+	If (sOSType = &quot;Unix&quot;) Or (sOSType = &quot;Mac&quot;) Then
+		sCommand = &quot;cd &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; Chr(34)
+	ElseIf sOSType = &quot;Windows&quot; Then
+		sCommand = &quot;cd /d &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; Chr(34) &amp; Chr(13) &amp; Chr(10) 	
+	End If
+	
+	sDirEntry = Dir (sTmpPath &amp; constOLyFileName &amp; &quot;-*.pdf&quot;)
+	Do While sDirEntry &lt;&gt; &quot;&quot;
+		If (sOSType = &quot;Unix&quot;) Or (sOSType = &quot;Mac&quot;) Then
+			sCommand = sCommand &amp; &quot;; &quot; 
+		ElseIf sOSType = &quot;Windows&quot; Then
+			sCommand = sCommand &amp; Chr(13) &amp; Chr(10)
+		End If
+		sCommand = sCommand &amp; sPdfToSvgPrologue &amp; ConvertFromURL(sTmpPath) &amp; sDirEntry &amp; sPdfToSvgEpilogue
+	sDirEntry = Dir
+	Loop
+	
+	If (sOSType = &quot;Unix&quot;) Or (sOSType = &quot;Mac&quot;) Then
+		BashCommand (sCommand)
+	ElseIf sOSType = &quot;Windows&quot; Then
+		sCommand = sCommand &amp; Chr(13) &amp; Chr(10)
+		WindowsCommand (sCommand)
+	End If
+	
+End Sub
+
+
+Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditorDialog doesn&apos;t exist (batch processing)
 	&apos; Calls the subroutines that generate the image and
 	&apos; insert the image into the document.
+	Dim bNoFileCreated As Boolean
+	Dim bNoFirstFileCreated As Boolean
+	Dim oViewCursor As Object
+	Dim oSelection As Object
+	Dim oAnchor As Object
+	
+	Dim sIdentifier As String
+	Dim sImageNum As String
+	Dim iImageNum As Integer
 
+	bNoFileCreated = False
+	bNoFirstFileCreated = False
 	&apos; Test if there is LilyPond code
 	If sCode = &quot;&quot; then 
 		&apos; Msgbox (&quot;Enter LilyPond code...&quot;, iMsgBox_E, &quot;Error&quot;)
@@ -216,63 +445,110 @@ sub Make()
 
   	ParseOutput(sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;)
   	
-  	&apos; remove any error message that still might be displayed:
-  	oEditorDialog.getControl (&quot;sErrMsg&quot;).setText (&quot;&quot;)
-  	oEditorDialog.getControl (&quot;sErrMsg&quot;).Visible = False
-  	
 	&apos;If there is no eps output
  	If sExtension = &quot;eps&quot; And (Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.eps&quot;)) Then
  		&apos; MsgBox(&quot;No eps output is found&quot;, 0, &quot;Error&quot;)
  		MsgBox (oMessages.getPropertyValue (&quot;sMsgNoEpsOutputFound&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
-  		If iNErr &gt;= 1 And Not bIgnoreWarnings Then
- 	 		iErrNum = 1
-  			DisplayError()
- 		End If
-  		Exit Sub
+ 		bNoFileCreated = True
  	End If
  
 	&apos;If there is no svg output
  	If sExtension = &quot;svg&quot; And (Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.svg&quot;)) Then
  		&apos; MsgBox(&quot;No svg output is found&quot;, 0, &quot;Error&quot;)
  		MsgBox (oMessages.getPropertyValue (&quot;sMsgNoSvgOutputFound&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
- 		&apos;If there were errors or warnings
- 		If iNErr &gt;= 1 And Not bIgnoreWarnings Then
- 	 		iErrNum = 1
-  			DisplayError()
- 		End If
-  		Exit Sub
+ 		bNoFileCreated = True
  	End If
  	
 	&apos;If there is no png output
  	If sExtension = &quot;png&quot; And (Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.png&quot;)) Then
  		&apos; MsgBox(&quot;No png output is found&quot;, 0, &quot;Error&quot;)
  		MsgBox (oMessages.getPropertyValue (&quot;sMsgNoPngOutputFound&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
-  		If iNErr &gt;= 1 And Not bIgnoreWarnings Then
+ 		bNoFileCreated = True
+ 	End If
+ 	
+ 	If Not bSilent Then
+		&apos; remove any error message that still might be displayed:
+		oEditorDialog.getControl (&quot;sErrMsg&quot;).setText (&quot;&quot;)
+		oEditorDialog.getControl (&quot;sErrMsg&quot;).Visible = False
+	End If
+	
+	If bNoFileCreated Then
+ 		If iNErr &gt;= 1 And Not bIgnoreWarnings And Not bSilent Then   &apos;If there were errors or warnings
  	 		iErrNum = 1
   			DisplayError()
  		End If
   		Exit Sub
  	End If
- 
- 
+ 	
 	If bInWriter Then	&apos; We are in Writer...
-		If bWriterInsertViaClipboard Then
-			InsertOOoLilyPondObjectViaClipboard()
-		Else
-			InsertOOoLilyPondObject()
+	
+		If oCurrentGraphicObject.getImplementationName() = &quot;SwXTextRanges&quot; Then &apos; Nothing or normal text selection in Writer
+			oCurrentCursor = oCurrentGraphicObject(0).getText().createTextCursorByRange (oCurrentGraphicObject(0))
+		Else		&apos; an object is selected
+			oCurrentCursor = oCurrentGraphicObject(0).getAnchor().getText().createTextCursorByRange (oCurrentGraphicObject(0).getAnchor())
+		EndIf
+		
+		If bSaveAsSeparateImages Then
+			ConvertSeparateImageFiles ()
+			&apos; abort if no OOoLilyPond-1 image file exists
+			If Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;-1.&quot; &amp; sExtension) Then
+ 				&apos; MsgBox(&quot;No eps output is found&quot;, 0, &quot;Error&quot;)
+ 				MsgBox (oMessages.getPropertyValue (&quot;sMsgNoFirstFileFound&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+ 				bNoFirstFileCreated = True
+ 				Exit Sub
+ 			End If
+		End If
+
+		If bHasSeparateImages Then
+			EraseImageSiblings ()
+		End If
+		
+		If bSaveAsSeparateImages Then
+
+			sIdentifier = TimeStamp ()
+			iImageNum = 1
+			sImageNum = &quot;-&quot; &amp; Val (iImageNum)
+
+			Do While oFileAccess.exists (sTmpPath &amp; constOLyFileName &amp; sImageNum &amp; &quot;.&quot; &amp; sExtension)
+				If bWriterInsertViaClipboard Then
+					If iImageNum = 1 Then
+						InsertOOoLilyPondObjectViaClipboard (sIdentifier, sImageNum, true)
+					Else
+						oCurrentCursor.goRight (0, false)
+						oCurrentCursor.getText.insertControlCharacter (oCurrentCursor.getStart(), com.sun.star.text.ControlCharacter.PARAGRAPH_BREAK, False)
+						InsertOOoLilyPondObjectViaClipboard (sIdentifier, sImageNum, false)
+					End If
+				Else
+					If iImageNum = 1 Then
+						InsertOOoLilyPondObject (sIdentifier, sImageNum, true)
+					Else
+						oCurrentCursor.getText.insertControlCharacter (oCurrentCursor.getStart(), com.sun.star.text.ControlCharacter.PARAGRAPH_BREAK, False)
+						InsertOOoLilyPondObject (sIdentifier, sImageNum, false)
+					End If
+				End If
+				oCurrentCursor.goRight (0, false)
+				iImageNum = iImageNum + 1
+				sImageNum = &quot;-&quot; &amp; Val (iImageNum)
+			Loop
+		Else	&apos; not bSaveAsSeparateImages
+			If bWriterInsertViaClipboard Then
+				InsertOOoLilyPondObjectViaClipboard (&quot;&quot;, &quot;&quot;, true)
+			Else
+				InsertOOoLilyPondObject (&quot;&quot;, &quot;&quot;, true)
+			End If
 		End If
 	Else				&apos; We are in Impress or Draw...
 		If bImpressInsertViaClipboard Then
-			InsertOOoLilyPondObjectViaClipboard()
+			InsertOOoLilyPondObjectViaClipboard (&quot;&quot;, &quot;&quot;, true)
 		Else
-			InsertOOoLilyPondObject()
+			InsertOOoLilyPondObject (&quot;&quot;, &quot;&quot;, true)
 		End If
 	End If
 	
 	If Not bKeepTempFiles Then CleanUpAfterwards()
  	
  	&apos;If there were errors or warnings
- 	If iNErr &gt;= 1 And Not bIgnoreWarnings Then
+ 	If iNErr &gt;= 1 And Not bIgnoreWarnings And Not bSilent Then
  		ReadSelectionObject ()
  	 	iErrNum = 1
   		DisplayError()
@@ -280,13 +556,26 @@ sub Make()
  	End If
 
 	&apos; Close the dialog
-	oEditorDialog.endExecute()
+	If Not bSilent Then oEditorDialog.endExecute()
+	
+	Exit Sub
+	
+	ErrorHandler:
+		Select Case Err
+		Case 1	&apos; 	&quot;End of content node doesn&apos;t have the proper start node&quot;
+			Msgbox (Error &amp; Chr(10) &amp; Chr(10) &amp; oMessages.getPropertyValue (&quot;MsgNoStartNode&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+				&apos; MsgNoStartNode
+		Case Else
+			Msgbox (Error, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		End Select
+	Exit Sub
 	
 End Sub
 
 Sub InsertAttribute(oGraphic As Object, sName, sValue As String)
-	Dim oAttributes, oLilyPondAttribute As Object
 	&apos; Add a user defined attribute to the image.
+	
+	Dim oAttributes, oLilyPondAttribute As Object
 	oAttributes = oGraphic.UserDefinedAttributes
 	oLilyPondAttribute = createUnoStruct( &quot;com.sun.star.xml.AttributeData&quot; )
 	oLilyPondAttribute.Type = &quot;CDATA&quot;      		
@@ -300,31 +589,71 @@ Sub InsertAttribute(oGraphic As Object, sName, sValue As String)
 End Sub
 
 
-Sub InsertOOoLilyPondObjectViaClipboard()
-	Dim oDoc, oDocCtrl, oDispatcher, oAttributes, oViewCursor, oGraphic, oLilyPondAttribute As Object
-	Dim oCursor, oText as Object
+Sub RemoveAttribute (oGraphic As Object, sName As String)
+	&apos; Add a user defined attribute to the image.
+
+	Dim oAttributes As Object
+	oAttributes = oGraphic.UserDefinedAttributes
+	If oAttributes.hasByName (sName) Then
+		oAttributes.removeByName(sName)
+	End If
+	oGraphic.UserDefinedAttributes = oAttributes
+End Sub
+
+
+Sub AttachAttributes (oGraphic As Object, sIdentifier As String, sImageNum As String)
+
+	InsertAttribute(oGraphic, &quot;OOoLilyPondCode&quot;, sCode)
+	InsertAttribute(oGraphic, &quot;OOoLilyPondTemplate&quot;, sTemplate)
+	InsertAttribute(oGraphic, &quot;OOoLilyPondLineWidth&quot;, sLineWidth)
+	InsertAttribute(oGraphic, &quot;OOoLilyPondStaffSize&quot;, sStaffSize)
+	InsertAttribute(oGraphic, &quot;OOoLilyPondCustom1&quot;, sCustom1)
+	InsertAttribute(oGraphic, &quot;OOoLilyPondCustom2&quot;, sCustom2)
+	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultCode&quot;, BoolToString(bUseDefaultCode))
+	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultLineWidth&quot;, BoolToString(bUseDefaultLineWidth))
+	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultStaffSize&quot;, BoolToString(bUseDefaultStaffSize))
+	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultCustom1&quot;, BoolToString(bUseDefaultCustom1))
+	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultCustom2&quot;, BoolToString(bUseDefaultCustom2))
+	InsertAttribute(oGraphic, &quot;OOoLilyPondOption1Value&quot;, BoolToString(bOption1))
+	InsertAttribute(oGraphic, &quot;OOoLilyPondOption2Value&quot;, BoolToString(bOption2))
+	InsertAttribute(oGraphic, &quot;OOoLilyPondOption3Value&quot;, BoolToString(bOption3))
+	InsertAttribute(oGraphic, &quot;OOoLilyPondOption4Value&quot;, BoolToString(bOption4))
+	If bIncludeTemplate Then 
+		InsertAttribute (oGraphic, &quot;OOoLilyPondTemplateCode&quot;, sTemplateCode)
+	Else
+		RemoveAttribute (oGraphic, &quot;OOoLilyPondTemplateCode&quot;)
+	End If
+	If bSaveAsSeparateImages And bInWriter Then 
+		InsertAttribute (oGraphic, &quot;OOoLilyPondIdentifier&quot;, sIdentifier)
+		InsertAttribute (oGraphic, &quot;OOoLilyPondImageNum&quot;, sImageNum)
+	Else
+		RemoveAttribute (oGraphic, &quot;OOoLilyPondIdentifier&quot;)
+		RemoveAttribute (oGraphic, &quot;OOoLilyPondImageNum&quot;)
+	End If
+End Sub
+
+
+Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As String, bFirstCall As Boolean)
+	&apos; Dim oDoc, oDocCtrl
+	Dim oDispatcher, oAttributes, oViewCursor, oGraphic, oLilyPondAttribute As Object
+	Dim oText as Object
 		
-	&apos; Create the Controller and dispatcher for current document...
-	oDoc = StarDesktop.CurrentComponent
-	oDocCtrl = oDoc.getCurrentController()
 	oDispatcher = createUnoService(&quot;com.sun.star.frame.DispatchHelper&quot;)
 
 	if bInWriter then
 
 		&apos;ToDo: Don&apos;t use the Dispatcher
-		if bShapeIsSelected then
+		if bShapeIsSelected And bFirstCall then
 			&apos;Remove the old image...
 			oDispatcher.executeDispatch( oDocCtrl.Frame, &quot;.uno:Cut&quot;, &quot;&quot;, 0, Array())
-		else
-			&apos;Get the cursor position...
-			oViewCursor =  oDocCtrl.ViewCursor
-			oText = oDoc.Text
-			oCursor = oViewCursor.Text.createTextCursorByRange(oViewCursor)
 		end if
-
+		&apos;Get the cursor position...
+		oViewCursor =  oDocCtrl.ViewCursor
+		oText = oDoc.Text
+		
 		&apos;Import the new image to the clipboard and paste it...
-   		ImportGraphicIntoClipboard(ConvertToURL( sTmpPath &amp; constOLyFileName &amp; &quot;.&quot; &amp; sExtension))	
-		oDispatcher.executeDispatch( oDocCtrl.Frame, &quot;.uno:Paste&quot;, &quot;&quot;, 0, Array())
+   		ImportGraphicIntoClipboard (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension))	
+		oDispatcher.executeDispatch (oDocCtrl.Frame, &quot;.uno:Paste&quot;, &quot;&quot;, 0, Array())
 	  	oGraphic = oDocCtrl.getSelection().GetByIndex(0)
 
 		&apos; set image properties
@@ -348,13 +677,15 @@ Sub InsertOOoLilyPondObjectViaClipboard()
 		oGraphic.BottomMargin = 0
 		oGraphic.VertOrient = 0
 
-		if not bShapeIsSelected then
+		&apos; if (not bShapeIsSelected) or (not bFirstCall) then
 			&apos; Show cursor...
 			&apos; To do: don&apos;t use dispatcher
-			oDispatcher.executeDispatch(oDocCtrl.Frame, &quot;.uno:Escape&quot;, &quot;&quot;, 0, Array())
-			oCursor.goRight(0,false)
-			oViewCursor.gotoRange(oCursor, False)
-		end if
+			oDispatcher.executeDispatch (oDocCtrl.Frame, &quot;.uno:Escape&quot;, &quot;&quot;, 0, Array())
+			&apos; oCursor.goRight (0,false)
+			&apos; oViewCursor.gotoRange (oCursor, False)
+			oCurrentCursor.goRight (0,false)
+			oViewCursor.gotoRange (oCurrentCursor, False)
+		&apos; end if
 
 	else &apos;We are in Impress
 		
@@ -372,50 +703,37 @@ Sub InsertOOoLilyPondObjectViaClipboard()
 		if bShapeIsSelected then oGraphic.position = oShapePosition
 
 	end if
-
-	InsertAttribute(oGraphic, &quot;OOoLilyPondCode&quot;, sCode)
-	InsertAttribute(oGraphic, &quot;OOoLilyPondTemplate&quot;, sTemplate)
-	InsertAttribute(oGraphic, &quot;OOoLilyPondLineWidth&quot;, sLineWidth)
-	InsertAttribute(oGraphic, &quot;OOoLilyPondStaffSize&quot;, sStaffSize)
-	InsertAttribute(oGraphic, &quot;OOoLilyPondCustom1&quot;, sCustom1)
-	InsertAttribute(oGraphic, &quot;OOoLilyPondCustom2&quot;, sCustom2)
-	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultCode&quot;, BoolToString(bUseDefaultCode))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultLineWidth&quot;, BoolToString(bUseDefaultLineWidth))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultStaffSize&quot;, BoolToString(bUseDefaultStaffSize))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultCustom1&quot;, BoolToString(bUseDefaultCustom1))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultCustom2&quot;, BoolToString(bUseDefaultCustom2))
-
+	
+	AttachAttributes (oGraphic, sIdentifier, sNumber)
 End Sub
 
 
-Sub InsertOOoLilyPondObject()
+Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, bFirstCall)
 	Dim oAttributes As Object
 	Dim oGraphic As Object
 	Dim oLilyPondAttribute As Object
-	Dim oDoc As Object
-	Dim oDocCtrl As Object
 	Dim oCursor As Object
-
-	oDoc = ThisComponent
-	oDocCtrl = oDoc.getCurrentController
 
 	On Error GoTo ErrorHandler
 
 	&apos; insert the Bitmap
 	If bInWriter Then
 
-		Select Case oSelection.getImplementationName()		
+		Select Case oCurrentGraphicObject.getImplementationName()		
 		Case &quot;com.sun.star.drawing.SvxShapeCollection&quot;  &apos; OLy &lt; 0.4 in Writer
-			oCursor = oDoc.Text.createTextCursorByRange(oSelection(0).getAnchor())
-			oSelection(0).getParent().remove(oSelection(0)) &apos; Delete old OLyObject
-			oGraphic = ImportBitmapIntoWriter(ConvertToURL( sTmpPath &amp; constOLyFileName &amp; &quot;.&quot; &amp; sExtension), oCursor )
+			If bFirstCall Then oCurrentGraphicObject(0).getParent().remove(oCurrentGraphicObject(0)) &apos; Delete old OLyObject
+			oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension), oCurrentCursor, true)
 
 		Case &quot;SwXTextGraphicObject&quot; &apos; Graphic is selected in Writer
-			oGraphic = ImportBitmapIntoWriter(ConvertToURL( sTmpPath &amp; constOLyFileName &amp; &quot;.&quot; &amp; sExtension), oSelection )
+			If bFirstCall Then
+				oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension), oCurrentGraphicObject, false)
+				oCurrentCursor.goRight (1, false)
+			Else
+				oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension), oCurrentCursor, true)
+			End If
 			
 		Case &quot;SwXTextRanges&quot; &apos; Nothing or normal text selection in Writer
-			oCursor = oDoc.Text.createTextCursorByRange(oSelection(0))
-			oGraphic = ImportBitmapIntoWriter(ConvertToURL( sTmpPath &amp; constOLyFileName &amp; &quot;.&quot; &amp; sExtension), oCursor )
+			oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension), oCurrentCursor, false)
 
 		End Select
 
@@ -429,30 +747,20 @@ Sub InsertOOoLilyPondObject()
 		
 	Else &apos;We are in Impress or Draw
 
-		If  IsNull(oSelection) Then
+		If  IsNull(oCurrentGraphicObject) Then
 			&apos; Nothing is selected
-			oGraphic = ImportBitmapIntoDraw(ConvertToURL( sTmpPath &amp; constOLyFileName &amp; &quot;.&quot; &amp; sExtension) )
+			oGraphic = ImportBitmapIntoDraw (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension))
 		Else
 			&apos; OlyObject is selected
-			oGraphic = ImportBitmapIntoDraw(ConvertToURL( sTmpPath &amp; constOLyFileName &amp; &quot;.&quot; &amp; sExtension ), oSelection.getByIndex(0))
+			oGraphic = ImportBitmapIntoDraw (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension), oCurrentGraphicObject.getByIndex(0))
 		End If
 	End If
 	
 	
 	&apos; select the object
-	oDocCtrl.select(oGraphic)
+	oDocCtrl.select (oGraphic)
+	AttachAttributes (oGraphic, sIdentifier, sNumber)
 
-	InsertAttribute(oGraphic, &quot;OOoLilyPondCode&quot;, sCode)
-	InsertAttribute(oGraphic, &quot;OOoLilyPondTemplate&quot;, sTemplate)
-	InsertAttribute(oGraphic, &quot;OOoLilyPondLineWidth&quot;, sLineWidth)
-	InsertAttribute(oGraphic, &quot;OOoLilyPondStaffSize&quot;, sStaffSize)
-	InsertAttribute(oGraphic, &quot;OOoLilyPondCustom1&quot;, sCustom1)
-	InsertAttribute(oGraphic, &quot;OOoLilyPondCustom2&quot;, sCustom2)
-	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultCode&quot;, BoolToString(bUseDefaultCode))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultLineWidth&quot;, BoolToString(bUseDefaultLineWidth))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultStaffSize&quot;, BoolToString(bUseDefaultStaffSize))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultCustom1&quot;, BoolToString(bUseDefaultCustom1))
-	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultCustom2&quot;, BoolToString(bUseDefaultCustom2))
 	Exit Sub
 	
 	ErrorHandler:
@@ -475,6 +783,8 @@ Function ReadAttributes( oShape As Object ) As Boolean
 	&apos; Read the graphic&apos;s size and crop settings:
 	oShapeCrop = oShape.GraphicCrop
 	oShapeSize = oShape.Size
+	
+	bHasSeparateImages = False  &apos; global variable
 
 	If bInWriter Then
 		iAnchor=oShape.AnchorType
@@ -518,6 +828,37 @@ Function ReadAttributes( oShape As Object ) As Boolean
 		bUseDefaultStaffSize=StringToBool(oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondUseDefaultStaffSize&quot;).Value)
 		bUseDefaultCustom1=StringToBool(oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondUseDefaultCustom1&quot;).Value)
 		bUseDefaultCustom2=StringToBool(oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondUseDefaultCustom2&quot;).Value)
+		
+		&apos; Option... attributes exist since OOoLilyPond 0.5.13:
+		bOption1 = False
+		bOption2 = False
+		bOption3 = False
+		bOption4 = False
+		If oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondOption1Value&quot;) Then
+			bOption1 = StringToBool (oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondOption1Value&quot;).Value)
+		End If
+		If oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondOption2Value&quot;) Then
+			bOption2 = StringToBool (oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondOption2Value&quot;).Value)
+		End If
+		If oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondOption3Value&quot;) Then
+			bOption3 = StringToBool (oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondOption3Value&quot;).Value)
+		End If
+		If oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondOption4Value&quot;) Then
+			bOption4 = StringToBool (oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondOption4Value&quot;).Value)
+		End If
+		
+		&apos; Maybe the template is included within the OLy object:
+		If oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondTemplateCode&quot;) Then
+			sTemplateCode = oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondTemplateCode&quot;).Value
+			bContainsTemplate = True
+			bTemplateSaved = False
+		Else
+			bContainsTemplate = False
+		End If
+		
+		bHasSeparateImages = (GetObjectIdentifier (oShape) &lt;&gt; &quot;&quot;)
+		bSaveAsSeparateImages = bHasSeparateImages
+		
 	Else
 		&apos;Prevent loosing the code for OOoLilyPond 0.3 Objects
 		bUseDefaultCode=False
@@ -525,6 +866,37 @@ Function ReadAttributes( oShape As Object ) As Boolean
 
     ReadAttributes=True
     
+End Function
+
+
+Function IsOLyObject (oShape As Object) As Boolean
+	&apos; Test if a graphic object is an OOoLilyPond object
+
+	IsOLyObject = ((oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondArgs&quot;)) Or (oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondCode&quot;)))
+End Function
+
+
+Function GetObjectIdentifier (oShape As Object) As String
+	&apos; Return the &quot;OOoLilyPondIdentifier&quot; string of a graphic object
+	&apos; If it has none, return empty string
+
+	If oShape.UserDefinedAttributes().hasByName (&quot;OOoLilyPondIdentifier&quot;) Then
+		GetObjectIdentifier = oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondIdentifier&quot;).Value
+	Else
+		GetObjectIdentifier = &quot;&quot;
+	End If
+End Function
+
+
+Function GetObjectImageNum (oShape As Object) As String
+	&apos; Return the &quot;OOoLilyPondImageNum&quot; string of a graphic object
+	&apos; If it has none, return empty string
+
+	If oShape.UserDefinedAttributes().hasByName (&quot;OOoLilyPondImageNum&quot;) Then
+		GetObjectImageNum = oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondImageNum&quot;).Value
+	Else
+		GetObjectImageNum = &quot;&quot;
+	End If
 End Function
 
 

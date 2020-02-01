@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE script:module PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "module.dtd">
+<script:module xmlns:script="http://openoffice.org/2000/script" script:name="Batch" script:language="StarBasic" script:moduleType="normal">&apos; Subs and Functions related with batch processing of all existing OLy objects in a Writer document
+
+Option Explicit
+
+Private iAskDialogReturnValue As Integer
+
+
+Function ConfirmBatchOperation () As Integer
+&apos; 1 = Abort
+&apos; 2 = No
+&apos; 3 = Yes
+&apos; 4 = All
+
+	iAskDialogReturnValue = 2
+	oAskDialog.Execute()
+	ConfirmBatchOperation = iAskDialogReturnValue
+End Function
+
+
+Sub AskDlgAbortButton ()
+	iAskDialogReturnValue = 1
+	oAskDialog.EndExecute()
+End Sub
+
+Sub AskDlgNoButton ()
+	iAskDialogReturnValue = 2
+	oAskDialog.EndExecute()
+End Sub
+
+Sub AskDlgYesButton ()
+	iAskDialogReturnValue = 3
+	oAskDialog.EndExecute()
+End Sub
+
+Sub AskDlgAllButton ()
+	iAskDialogReturnValue = 4
+	oAskDialog.EndExecute()
+End Sub
+
+
+Sub PerformBatchProcessing ()
+&apos; This is the main function for batch processing
+&apos; It initializes OOoLilyPond and recompiles matching objects without opening the editor dialog.
+	Dim oDrawPage As Object
+	Dim oCurrentObject As Object
+	Dim oProgressBar As Object
+	Dim iCount As Integer
+	Dim i As Integer
+	Dim iLastObject As Integer
+	
+	Dim oGraphic As Object
+	&apos; Dim oDocCtrl As Object
+	Dim oGraphicObjects ()
+	Dim sIdentifiers ()
+	Dim sImageNums ()
+	Dim sCurrentImageNum As String
+	Dim sCurrentIdentifier As String
+	Dim iPosInList As Integer
+	Dim iAnswer As Integer
+
+	oBatchDialog.EndExecute()
+	oAskDialog = createUnoDialog (DialogLibraries.GetByName (constOLyLibraryName).GetByName(&quot;GUI_Ask&quot;))
+	ReadDialogStringsFromVar (oAskDialog, sAskDialogStrings, &quot;&quot;)
+
+	oDrawPage = oDoc.DrawPage
+	iCount = oDrawPage.Count
+	oGraphicObjects = DimArray (iCount) 
+	sIdentifiers = DimArray (iCount) 
+	sImageNums = DimArray (iCount) 
+	iLastObject = -1
+	&apos; Prepare list of objects to be processed:
+	For i = 0 to iCount - 1
+		oCurrentObject = oDrawPage.getByIndex (i)
+		If IsOLyObject (oCurrentObject) Then
+			sCurrentIdentifier = GetObjectIdentifier (oCurrentObject)
+			If sCurrentIdentifier = &quot;&quot; Then  &apos; not a multi-image object
+				iLastObject = iLastObject + 1
+				oGraphicObjects (iLastObject) = oCurrentObject
+				sIdentifiers (iLastObject) = &quot;&quot;
+				sImageNums (iLastObject) = &quot;&quot;
+			Else							 &apos; multi-image object
+				sCurrentImageNum = GetObjectImageNum (oCurrentObject)
+				iPosInList = PosInArray (sIdentifiers, sCurrentIdentifier, iLastObject)
+				If iPosInList = -1 Then				&apos; array does not yet contain a sibling
+					iLastObject = iLastObject + 1
+					oGraphicObjects (iLastObject) = oCurrentObject
+					sIdentifiers (iLastObject) = sCurrentIdentifier
+					sImageNums (iLastObject) = sCurrentImageNum
+				Else								&apos; array already contains a sibling
+					&apos; Dim sImNum As String	&apos; obsolete, just for debugging
+					&apos; sImNum = sImageNums (iPosInList)
+					If HasHigherValue (sImageNums (iPosInList), sCurrentImageNum) Then
+						oGraphicObjects (iPosInList) = oCurrentObject  &apos; replace objects with higher ImageNum
+						sIdentifiers (iPosInList) = sCurrentIdentifier
+						sImageNums (iPosInList) = sCurrentImageNum
+					End If
+				End If
+			End If
+		End If
+	next i
+	
+	bKeepCrop = CheckBoxStateToBool (oBatchDialog.getControl(&quot;bKeepCrop&quot;).getState())
+	oProgressBar = oDocCtrl.StatusIndicator
+	oProgressBar.start (oMessages.getPropertyValue (&quot;sMsgBatchProcessing&quot;), iLastObject + 1)
+	If CheckBoxStateToBool (oBatchDialog.getControl(&quot;bAsk&quot;).getState()) Then
+		iAnswer = 2  &apos; &quot;No&quot;
+	Else
+		iAnswer = 4  &apos; &quot;All&quot;
+	End If
+	
+	&apos; now process objects from the list:
+	For i = 0 to iLastObject
+		
+		oProgressBar.setValue (i + 1)
+		oProgressBar.setText (oMessages.getPropertyValue (&quot;sMsgBatchProcessing&quot;) &amp; i + 1 &amp; &quot;/&quot; &amp; iLastObject + 1)
+		
+		oCurrentGraphicObject = oGraphicObjects (i)  &apos; global variable		
+		oDocCtrl.select (oCurrentGraphicObject)
+		If ReadSelectionObject () Then  &apos; create Cursor and read Attributes if Object is selected
+		&apos; Now we know which template to use
+			ReadTemplate (True)
+			bSaveAsSeparateImages = bHasSeparateImages
+			If oBatchDialog.getControl(&quot;SeparateImages_Yes&quot;).getState() Then bSaveAsSeparateImages = True
+			If oBatchDialog.getControl(&quot;SeparateImages_No&quot;).getState() Then bSaveAsSeparateImages = False
+			bIncludeTemplate = bContainsTemplate
+			If oBatchDialog.getControl(&quot;IncludeTemplate_Yes&quot;).getState() Then bIncludeTemplate = True
+			If oBatchDialog.getControl(&quot;IncludeTemplate_No&quot;).getState() Then bIncludeTemplate = False
+			
+			If MeetsCondition (&quot;A&quot;) And  MeetsCondition (&quot;B&quot;) Then
+				If iAnswer &lt; 4 Then iAnswer = ConfirmBatchOperation ()
+				If iAnswer &lt; 2 Then Exit For	&apos;	&quot;Abort&quot;
+				If iAnswer &gt; 2 Then				&apos;	&quot;Yes&quot; or &quot;All&quot;
+					PerformReplacement (&quot;A&quot;)
+					PerformReplacement (&quot;B&quot;)
+					Make (true)
+				End If
+			End If
+		End If
+	next i
+	oProgressBar.end()
+End Sub
+
+
+Function MeetsCondition (sID As String) As Boolean
+&apos; Indicates if the current OLy object meets the condition set in a rule in the Batch dialogue.
+&apos; sID = &quot;A&quot;: rule 1
+&apos; sID = &quot;B&quot;: rule 2
+
+	Dim sSearchField As String
+	
+	On Error Goto ErrorHandler  &apos; might happen if an argument for getControl() is invalid
+
+	If oBatchDialog.getControl (&quot;NoCondition_&quot; &amp; sID).getState() Then
+		MeetsCondition = True
+		Exit Function
+	End If
+	
+	sSearchField = &quot;&quot;
+	
+	Select Case oBatchDialog.getControl (&quot;sSearchField_&quot; &amp; sID).getText()
+	Case &quot;Code&quot;
+		sSearchField = sCode
+	Case &quot;Staff Size&quot;
+		If bStaffSizeFieldExists Then sSearchField = sStaffSize
+	Case &quot;Line Width&quot;
+		If bLineWidthFieldExists Then sSearchField = sLineWidth
+	Case &quot;Custom 1&quot;
+		If bCustom1FieldExists Then sSearchField = sCustom1
+	Case &quot;Custom 2&quot;
+		If bCustom2FieldExists Then sSearchField = sCustom2
+	Case &quot;Template name&quot;
+		sSearchField = sTemplate
+	Case &quot;Option 1&quot;
+		If bOption1FieldExists Then sSearchField = LyBoolToString (bOption1)
+	Case &quot;Option 2&quot;
+		If bOption2FieldExists Then sSearchField = LyBoolToString (bOption2)
+	Case &quot;Option 3&quot;
+		If bOption3FieldExists Then sSearchField = LyBoolToString (bOption3)
+	Case &quot;Option 4&quot;
+		If bOption4FieldExists Then sSearchField = LyBoolToString (bOption4)
+	Case &quot;(Staff Size label)&quot;
+		If bStaffSizeLabelExists Then sSearchField = sStaffSizeLabel
+	Case &quot;(Line Width label)&quot;
+		If bLineWidthLabelExists Then sSearchField = sLineWidthLabel
+	Case &quot;(Custom 1 label)&quot;
+		If bCustom1LabelExists Then sSearchField = sCustom1Label
+	Case &quot;(Custom 2 label)&quot;
+		If bCustom2LabelExists Then sSearchField = sCustom2Label
+	Case &quot;(Option 1 label)&quot;
+		If bOption1LabelExists Then sSearchField = sOption1Label
+	Case &quot;(Option 2 label)&quot;
+		If bOption2LabelExists Then sSearchField = sOption2Label
+	Case &quot;(Option 3 label)&quot;
+		If bOption3LabelExists Then sSearchField = sOption3Label
+	Case &quot;(Option 4 label)&quot;
+		If bOption4LabelExists Then sSearchField = sOption4Label
+	End Select
+	
+	If oBatchDialog.getControl (&quot;ConditionContains_&quot; &amp; sID).getState() Then
+		Dim iSearchMode As Integer
+		iSearchMode = 0
+		If CheckBoxStateToBool (oBatchDialog.getControl (&quot;IgnoreCase_&quot; &amp; sID).getState()) Then iSearchMode = 1
+		MeetsCondition = (InStr (1, sSearchField, oBatchDialog.getControl (&quot;sSearch_&quot; &amp; sID).getText(), iSearchMode) &gt; 0)
+		Exit Function
+	End If
+	
+	If oBatchDialog.getControl (&quot;ConditionIs_&quot; &amp; sID).getState() Then
+		MeetsCondition = (sSearchField = oBatchDialog.getControl (&quot;sSearch_&quot; &amp; sID).getText())
+		Exit Function
+	End If
+
+	ErrorHandler:
+	MeetsCondition = False
+End Function
+
+
+Sub PerformReplacement (sID As String)
+&apos; Perform the changes set in a rule in the Batch dialogue.
+&apos; sID = &quot;A&quot;: rule 1
+&apos; sID = &quot;B&quot;: rule 2
+
+	Dim sReplaceString As String
+
+	On Error Goto ErrorHandler  &apos; might happen if an argument for getControl() is invalid
+
+	If oBatchDialog.getControl (&quot;NoChange_&quot; &amp; sID).getState() Then
+		Exit Sub
+	End If
+
+	If oBatchDialog.getControl (&quot;SetUseDefault_&quot; &amp; sID).getState() Then
+		Select Case oBatchDialog.getControl (&quot;sSearchField_&quot; &amp; sID).getText()
+		Case &quot;Code&quot;
+			sCode = sDefaultCode
+			bUseDefaultCode = True
+		Case &quot;Staff Size&quot;
+			sStaffSize = sDefaultStaffSize
+			bUseDefaultStaffSize = True
+		Case &quot;Line Width&quot;
+			sLineWidth = sDefaultLineWidth
+			bUseDefaultLineWidth = True
+		Case &quot;Custom 1&quot;
+			sCustom1 = sDefaultCustom1
+			bUseDefaultCustom1 = True
+		Case &quot;Custom 2&quot;
+			sCustom2 = sDefaultCustom2
+			bUseDefaultCustom2 = True
+		Case &quot;Template name&quot;
+			sTemplate = sWriterDefaultTemplate
+		Case &quot;Option 1&quot;
+			If bOption1FieldExists Then bOption1 = bDefaultOption1
+		Case &quot;Option 2&quot;
+			If bOption2FieldExists Then bOption2 = bDefaultOption2
+		Case &quot;Option 3&quot;
+			If bOption3FieldExists Then bOption3 = bDefaultOption3
+		Case &quot;Option 4&quot;
+			If bOption4FieldExists Then bOption4 = bDefaultOption4
+		End Select
+		Exit Sub
+	End If
+	
+	sReplaceString = oBatchDialog.getControl (&quot;sReplace_&quot; &amp; sID).getText()
+
+	If oBatchDialog.getControl (&quot;ReplaceWholeField_&quot; &amp; sID).getState() Then
+		Select Case oBatchDialog.getControl (&quot;sSearchField_&quot; &amp; sID).getText()
+		Case &quot;Code&quot;
+			sCode = sReplaceString
+			bUseDefaultCode = False
+		Case &quot;Staff Size&quot;
+			sStaffSize = sReplaceString
+			bUseDefaultStaffSize = False
+		Case &quot;Line Width&quot;
+			sLineWidth = sReplaceString
+			bUseDefaultLineWidth = False
+		Case &quot;Custom 1&quot;
+			sCustom1 = sReplaceString
+			bUseDefaultCustom1 = False
+		Case &quot;Custom 2&quot;
+			sCustom2 = sReplaceString
+			bUseDefaultCustom2 = False
+		Case &quot;Template name&quot;
+			sTemplate = sReplaceString
+		Case &quot;Option 1&quot;
+			If bOption1FieldExists Then bOption1 = sReplaceString
+		Case &quot;Option 2&quot;
+			If bOption2FieldExists Then bOption2 = sReplaceString
+		Case &quot;Option 3&quot;
+			If bOption3FieldExists Then bOption3 = sReplaceString
+		Case &quot;Option 4&quot;
+			If bOption4FieldExists Then bOption4 = sReplaceString
+		End Select
+		Exit Sub
+	End If
+	
+	Dim ISearchMode As Integer
+	iSearchMode = 0
+	If CheckBoxStateToBool (oBatchDialog.getControl (&quot;IgnoreCase_&quot; &amp; sID).getState()) Then iSearchMode = 1
+
+	If oBatchDialog.getControl (&quot;ReplaceSearchedString_&quot; &amp; sID).getState() Then
+		Select Case oBatchDialog.getControl (&quot;sSearchField_&quot; &amp; sID).getText()
+		Case &quot;Code&quot;
+			ReplaceSubStrings (sCode, oBatchDialog.getControl (&quot;sSearch_&quot; &amp; sID).getText(), sReplaceString, iSearchMode)
+			bUseDefaultCode = False
+		Case &quot;Staff Size&quot;
+			ReplaceSubStrings (sStaffSize, oBatchDialog.getControl (&quot;sSearch_&quot; &amp; sID).getText(), sReplaceString, iSearchMode)
+			bUseDefaultStaffSize = False
+		Case &quot;Line Width&quot;
+			ReplaceSubStrings (sLineWidth, oBatchDialog.getControl (&quot;sSearch_&quot; &amp; sID).getText(), sReplaceString, iSearchMode)
+			bUseDefaultLineWidth = False
+		Case &quot;Custom 1&quot;
+			ReplaceSubStrings (sCustom1, oBatchDialog.getControl (&quot;sSearch_&quot; &amp; sID).getText(), sReplaceString, iSearchMode)
+			bUseDefaultCustom1 = False
+		Case &quot;Custom 2&quot;
+			ReplaceSubStrings (sCustom2, oBatchDialog.getControl (&quot;sSearch_&quot; &amp; sID).getText(), sReplaceString, iSearchMode)
+			bUseDefaultCustom2 = False
+		Case &quot;Template name&quot;
+			ReplaceSubStrings (sTemplate, oBatchDialog.getControl (&quot;sSearch_&quot; &amp; sID).getText(), sReplaceString, iSearchMode)
+		&apos; &quot;Option 1&quot; ... &quot;Option 4&quot; not available
+		End Select
+		Exit Sub
+	End If
+		
+	ErrorHandler:
+End Sub
+
+
+Sub SearchFieldChanged_A
+&apos; Is called when Search field has been changed in Rule 1
+	GrayOutBatchOptions (&quot;A&quot;)
+End Sub
+
+Sub SearchFieldChanged_B
+&apos; Is called when Search field has been changed in Rule 2
+	GrayOutBatchOptions (&quot;B&quot;)
+End Sub
+
+
+Sub GrayOutBatchOptions (sID As String)
+&apos; Grey out the radio buttons in the Batch dialogue that should not be available
+&apos; sID = &quot;A&quot;: rule 1
+&apos; sID = &quot;B&quot;: rule 2
+
+	Dim sControlStr As String
+
+	On Error GoTo ErrorHandler
+	sControlStr = Left (oBatchDialog.getControl (&quot;sSearchField_&quot; &amp; sID).getText(), 1)
+	If sControlStr = &quot;(&quot; Then  &apos; contains &quot;...label&quot;
+		oBatchDialog.getControl(&quot;NoChange_&quot; &amp; sID).setState (True)
+		oBatchDialog.getControl(&quot;SetUseDefault_&quot; &amp; sID).setEnable (False)
+		oBatchDialog.getControl(&quot;ReplaceWholeField_&quot; &amp; sID).setEnable (False)
+		oBatchDialog.getControl(&quot;ReplaceSearchedString_&quot; &amp; sID).setEnable (False)
+		oBatchDialog.getControl(&quot;ConditionContains_&quot; &amp; sID).setEnable (True)
+	Else  &apos; nothing with &quot;...label&quot;
+		oBatchDialog.getControl(&quot;SetUseDefault_&quot; &amp; sID).setEnable (True)
+		oBatchDialog.getControl(&quot;ReplaceWholeField_&quot; &amp; sID).setEnable (True)
+		If sControlStr = &quot;O&quot; Then  &apos; begins with &quot;Option...&quot; 
+			If oBatchDialog.getControl(&quot;ConditionContains_&quot; &amp; sID).getState () Then
+				oBatchDialog.getControl(&quot;ConditionIs_&quot; &amp; sID).setState (True)
+			End If
+			If oBatchDialog.getControl(&quot;ReplaceSearchedString_&quot; &amp; sID).getState () Then
+				oBatchDialog.getControl(&quot;ReplaceWholeField_&quot; &amp; sID).setState (True)
+			End If
+			oBatchDialog.getControl(&quot;ReplaceSearchedString_&quot; &amp; sID).setEnable (False)
+			oBatchDialog.getControl(&quot;ConditionContains_&quot; &amp; sID).setEnable (False)
+		Else  &apos; not an &quot;Option...&quot; checkbox
+			oBatchDialog.getControl(&quot;ReplaceSearchedString_&quot; &amp; sID).setEnable (True)
+			oBatchDialog.getControl(&quot;ConditionContains_&quot; &amp; sID).setEnable (True)
+		End If
+	End If
+	ErrorHandler:
+End Sub
+
+
+</script:module>

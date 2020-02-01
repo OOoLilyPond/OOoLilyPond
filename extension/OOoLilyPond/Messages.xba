@@ -62,11 +62,21 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   &apos; &quot;sTemplatePath&quot;
   oMessages.addProperty (&quot;sMsgTemplatePathFail2&quot;, BagAttr, Chr(34) &amp; &quot;.&quot; &amp; Chr(10) &amp; &quot;Please adjust the path in the configuration dialog.&quot;)
   
+  &apos; Query before replacing actual templates with default ones:
+  
+  oMessages.addProperty (&quot;sMsgConfirmRestoreTemplates&quot;, BagAttr, &quot;Do you really want to restore the original templates delivered with OLy?&quot; &amp; Chr(10) &amp; _
+  	&quot;Your actual templates will be backed up in a subfolder.&quot;)
+  
   &apos; Old templates just have been backed up:
   
   oMessages.addProperty (&quot;sMsgTemplatesBackedUp1&quot;, BagAttr, &quot;Your old templates are backed up under &quot; &amp; Chr(34))
   &apos; &quot;sBackupPath&quot;
   oMessages.addProperty (&quot;sMsgTemplatesBackedUp2&quot;, BagAttr, Chr(34) &amp; &quot;.&quot;)
+  
+  &apos; Query before replacing actual language files with default ones:
+  
+  oMessages.addProperty (&quot;sMsgConfirmRestoreLanguageFiles&quot;, BagAttr, &quot;Do you really want to restore the original language files delivered with OLy?&quot; &amp; Chr(10) &amp; _
+  	&quot;Your actual language files will be backed up in a subfolder.&quot;)
   
   &apos; Old language files just have been backed up:
   
@@ -74,6 +84,10 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   &apos; &quot;sBackupPath&quot;
   oMessages.addProperty (&quot;sMsgLanguageFilesBackedUp2&quot;, BagAttr, Chr(34) &amp; &quot;.&quot;)
  
+  &apos; Query before resetting all configuration data to default values:
+  
+  oMessages.addProperty (&quot;sMsgConfirmDefaultConfig&quot;, BagAttr, &quot;Do you really want to reset all your actual configuration data to the default values?&quot;)
+  
   
   &apos; The following two messages regarding language folder/files will not be translated in the language files, 
   &apos; because they are needed BEFORE any language file is read:
@@ -108,6 +122,47 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   &apos; &quot;sTemplatePath&quot;
   oMessages.addProperty (&quot;sMsgTemplatePathNotFound2&quot;, BagAttr, Chr(34) &amp; &quot; is not found.&quot;)
   
+  &apos; The object includes a template which might get lost:
+  
+  oMessages.addProperty (&quot;sMsgWannaSaveOrIncludeTemplate&quot;, BagAttr, &quot;A template is included inside this object.&quot; &amp; Chr(10) _ 
+  		&amp; Chr(10) _ 
+  		&amp; &quot;Currently, OLy is configured to save the object without template.&quot; &amp; Chr(10) _ 
+  		&amp; &quot;That means you will lose the template when clicking the [LilyPond] button.&quot; &amp; Chr(10) _ 
+  		&amp; &quot;You can change this setting by clicking the [Config] button and enabling the option &quot;&amp; Chr(34) &amp; &quot;Include Template in document&quot;&amp; Chr(34) &amp; &quot;. &quot; &amp; Chr(10) _ 
+  		&amp; Chr(10) _ 
+  		&amp; &quot;You can also save the included template into a new template file:&quot; &amp; Chr(10) _ 
+  		&amp; &quot;Open the template editor ([Edit] button) and click the &quot; &amp; Chr(34) &amp; &quot;save&quot;&amp; Chr(34) &amp; &quot; or &quot;&amp; Chr(34) &amp; &quot;save as&quot;&amp; Chr(34) &amp; &quot; button.&quot; &amp; Chr(10) _ 
+  		&amp; Chr(10) _ 
+  		&amp; &quot;Do you want to open the template editor now?&quot;)
+
+   oMessages.addProperty (&quot;sMsgWannaSaveTemplate&quot;, BagAttr, &quot;A template is included inside this object.&quot; &amp; Chr(10) _ 
+  		&amp; Chr(10) _ 
+  		&amp; &quot;It might be lost now when switching to another one.&quot; &amp; Chr(10) &amp; Chr(10) _ 
+  		&amp; &quot;You can save the included template into a new template file:&quot; &amp; Chr(10) _ 
+  		&amp; &quot;Open the template editor ([Edit] button) and click the &quot; &amp; Chr(34) &amp; &quot;save&quot;&amp; Chr(34) &amp; &quot; or &quot;&amp; Chr(34) &amp; &quot;save as&quot;&amp; Chr(34) &amp; &quot; button.&quot; &amp; Chr(10) _ 
+  		&amp; Chr(10) _ 
+  		&amp; &quot;Do you want to open the template editor now?&quot;)
+
+  oMessages.addProperty (&quot;sMsgTemplateEditButton&quot;, BagAttr, &quot;Click the [Edit] button to save the template into your template folder.&quot;)
+
+  &apos; If the current template is found in a location different from the template folder, 
+  &apos; this is indicated by a label below the template dropdown box in the editor window:
+
+  &apos; The template is included in the OLy object itself:
+  oMessages.addProperty (&quot;sMsgTemplateInObject&quot;, BagAttr, &quot;Template included in OLy object&quot;)
+
+  &apos; The template file is found in the folder where the containing LibreOffice document is saved:
+  oMessages.addProperty (&quot;sMsgTemplateInDocFolder&quot;, BagAttr, &quot;Template found in document folder&quot;)
+
+  &apos; The template file is found in a subfolder of the template folder
+  oMessages.addProperty (&quot;sMsgTemplateInSubFolder1&quot;, BagAttr, &quot;Template found in subfolder &quot; &amp; Chr(34))
+  &apos; (folder&apos;s name)
+  oMessages.addProperty (&quot;sMsgTemplateInSubFolder2&quot;, BagAttr, Chr(34))  
+  
+  &apos; A template file with the given name is nowhere found:
+  oMessages.addProperty (&quot;sMsgTemplateNotFound&quot;, BagAttr, &quot;Template not found&quot;)  
+  
+
   &apos; There is no file that contains LilyPond&apos;s output messages:
   
   oMessages.addProperty (&quot;sMsgNoLyOutput&quot;, BagAttr, &quot;There is no LilyPond output file.&quot;)
@@ -212,6 +267,15 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   
   oMessages.addProperty (&quot;sMsgNoOlyObject&quot;, BagAttr, &quot;The selected object is not an OLy object ...&quot;)
   
+  &apos; OLy has been called with the cursor placed where no OLy object can be created:
+  
+  oMessages.addProperty (&quot;sMsgNoOlyObjectsHere&quot;, BagAttr, &quot;You cannot create an OLy object here.&quot; &amp; Chr(10) &amp; Chr(10) &amp; _
+  		&quot;Apart from the normal text area, OLy objects are only possible in&quot; &amp; Chr(10) &amp; Chr(10) &amp; _
+  		&quot;- Table cells,&quot; &amp; Chr(10) &amp; _
+  		&quot;- Text frames,&quot; &amp; Chr(10) &amp; _
+  		&quot;- footnotes and endnotes,&quot; &amp; Chr(10) &amp; _
+  		&quot;- headers and footers.&quot;)
+  
   &apos; After LilyPond has been called, no graphics output file is found:
   
   oMessages.addProperty (&quot;sMsgNoEpsOutputFound&quot;, BagAttr, &quot;No eps output is found.&quot;)
@@ -225,6 +289,10 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   		&quot;2.) your template and your code do not include &quot;&quot;lilypond-book-preamble.ly&quot;&quot;. &quot; &amp; Chr(10) &amp; Chr (10) &amp; _
   		&quot;(This is necessary if Ly Output reports successful compiling, but only *.eps and/or *.pdf files have been created, but no *.svg files.)&quot; )
   oMessages.addProperty (&quot;sMsgNoPngOutputFound&quot;, BagAttr, &quot;No png output is found.&quot;)
+  oMessages.addProperty (&quot;sMsgNoFirstFileFound&quot;, BagAttr, &quot;No OOoLilyPond-1.* file is found.&quot; &amp; Chr(10) _
+  		&amp; &quot;Please make sure you meet all requirements for inserting as separate images:&quot; &amp; Chr(10) &amp; Chr(10) _
+  		&amp; &quot;1.) File type must be pdf_to_svg or eps&quot; &amp; Chr(10) _
+  		&amp; &quot;2.) The template or code must include lilypond-book-preamble.ly&quot;)
   
   &apos; InsertOOoLilyPondObject caused runtime error 1: &quot;End of content node doesn&apos;t have the proper start node&quot;
   
@@ -296,6 +364,16 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   &apos; (file name)
   oMessages.addProperty (&quot;sMsgCannotDeleteTemplate2&quot;, BagAttr, Chr(10) &amp; &quot;The file could not be found.&quot;)
   
+  &apos; Confirmations for file operations:
+  
+  oMessages.addProperty (&quot;sMsgConfirmDeleteTemplate1&quot;, BagAttr, &quot;Do you really want to delete the template file &quot; &amp; Chr(34))
+  &apos; (file name)
+  oMessages.addProperty (&quot;sMsgConfirmDeleteTemplate2&quot;, BagAttr, Chr(34) &amp; &quot;?&quot;)
+  
+  oMessages.addProperty (&quot;sMsgConfirmOverwriteTemplate1&quot;, BagAttr, &quot;The template file &quot;&amp; Chr(34))
+  &apos; (file name)
+  oMessages.addProperty (&quot;sMsgConfirmOverwriteTemplate2&quot;, BagAttr, Chr(34) &amp; &quot;already exists.&quot; &amp; Chr(10) &amp; &quot;Do you really want to overwrite it?&quot;)
+  
   &apos; User deleted a template that was specified as default template. New default template has to be chosen.
   
   oMessages.addProperty (&quot;sMsgDefaultTemplateDeleted1&quot;, BagAttr, &quot;You have deleted the template &quot; &amp; Chr(34))
@@ -315,6 +393,14 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   &apos; An internal error in that should never happen in OOoLilyPond, just notify in case: 
   
   oMessages.addProperty (&quot;sMsgImportBitmapError&quot;, BagAttr, &quot;ImportBitmapIntoWriter: the second argument must be either a TextCursor or a TextGraphic.&quot;)
+  
+  
+  &apos; &quot;Batch&quot; module
+  &apos; ---------------
+  
+  &apos; Status bar message during batch processing: 
+  oMessages.addProperty (&quot;sMsgBatchProcessing&quot;, BagAttr, &quot;Batch processing OOoLilyPond objects... &quot;)
+  
 End Sub
 
 
@@ -455,9 +541,10 @@ Sub ReadDialogStrings (oDialog As Object)	&apos; Called from ReadLanguageFile() 
 End Sub
 
 
-Sub ReadDialogStringsFromVar (oDialog As Object, sSource As String)	&apos; Called if a Dialog other than oEditorDialog is created.
+Sub ReadDialogStringsFromVar (oDialog As Object, sSource As String, sID As String)	&apos; Called if a Dialog other than oEditorDialog is created.
 																	&apos; Works as ReadDialogStrings, except that it reads from a String variable 
 																	&apos; instead out of sLanguageCode.
+																	&apos; sID will be added to the dialog control&apos;s names
 
 	&apos; Dim iLineEndPos As Integer		&apos; position of the first sign that terminates a line from the text file. Can be Chr(13) or Chr(10) or both.
 	Dim iEqPos As Integer			&apos; position of the first &quot;equal&quot; sign
@@ -490,7 +577,7 @@ Sub ReadDialogStringsFromVar (oDialog As Object, sSource As String)	&apos; Calle
 				&apos; split up sKey into sName and sPart if it contains a dot
 				iDotPos = InStr (sKey, &quot;.&quot;)
 				if iDotPos &gt; 0 Then
-					sName = Left (sKey, iDotPos-1)
+					sName = Left (sKey, iDotPos-1) &amp; sID
 					sPart = Right (sKey, Len(sKey)-iDotPos)
 					&apos; as long as sValue contains the sequence &quot;%10&quot;, replace it with Chr(10):
 					iBreakPos = InStr (sValue, &quot;%10&quot;)
@@ -540,13 +627,14 @@ Sub ReadSection (sDestination As String)	&apos; Called from ReadLanguageFile() i
 											&apos; other than oEditorDialog
 											&apos; Contents of the section will be stored in sDestination.
 
-	Dim iSectionEndPos As Integer	&apos; position of the next &quot;[&quot; sign. Might be zero if no other section follows.
+	Dim iSectionEndPos As Integer	&apos; position of the next &quot;[&quot; sign at the beginning of a line. Might be zero if no other section follows.
 	
-	iSectionEndPos = InStr (sLanguageCode, &quot;[&quot;)	&apos; indicates the start of another section
+	iSectionEndPos = TagPos (sLanguageCode, Chr(10) &amp; &quot;[&quot;, Chr(13) &amp; &quot;[&quot;)	&apos; indicates the start of another section
 	If iSectionEndPos = 0 Then
 		sDestination = sLanguageCode
 		sLanguageCode = &quot;&quot;
 	Else
+		iSectionEndPos = iSectionEndPos + 1	&apos; Skip preceeding Chr(10) / Chr (13)
 		sDestination = Left (sLanguageCode, iSectionEndPos - 1)
 		sLanguageCode = Mid (sLanguageCode, iSectionEndPos)
 	End If
@@ -645,6 +733,12 @@ Sub ReadLanguageFile()	&apos; If a language file is specified, read out its cont
 				ReadSection (sConfigDialogStrings)
 			Case &quot;[OutputDialog]&quot;
 				ReadSection (sOutputDialogStrings)
+			Case &quot;[BatchDialog]&quot;
+				ReadSection (sBatchDialogStrings)
+			Case &quot;[BatchDialogRuleSet]&quot;
+				ReadSection (sBatchDialogRuleSetStrings)
+			Case &quot;[AskDialog]&quot;
+				ReadSection (sAskDialogStrings)
 			End Select			
 		End If		
 		iLineEndPos = TagPos (sLanguageCode, Chr(13), Chr(10))
