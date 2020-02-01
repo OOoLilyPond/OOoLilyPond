@@ -27,7 +27,7 @@ Sub ConfigDialog()
 
 	&apos; Create the dialog object
 	oConfigDialog = createUnoDialog (DialogLibraries.GetByName (constOLyLibraryName).GetByName (&quot;GUI_Config&quot;))
-	ReadDialogStringsFromVar (oConfigDialog, sConfigDialogStrings)
+	ReadDialogStringsFromVar (oConfigDialog, sConfigDialogStrings, &quot;&quot;)
 	&apos; Update the values
 	ConfigDialogUpdate()
 	ConfigDialogGrayOut()
@@ -73,6 +73,7 @@ Sub ConfigDialogUpdate()
 	oConfigDialog.getControl(&quot;bWriterUseLineWidthFromTemplate&quot;).setState(BoolToCheckBoxState(bWriterUseLineWidthFromTemplate))
 	oConfigDialog.getControl(&quot;bWriterUseStaffSizeFromTemplate&quot;).setState(BoolToCheckBoxState(bWriterUseStaffSizeFromTemplate))
 	oConfigDialog.getControl(&quot;bWriterKeepCrop&quot;).setState(BoolToCheckBoxState(bWriterKeepCrop))
+	oConfigDialog.getControl(&quot;bNewObjectsAsSeparateImages&quot;).setState(BoolToCheckBoxState(bNewObjectsAsSeparateImages))
 	
 	If iWriterDefaultAnchor = com.sun.star.text.TextContentAnchorType.AS_CHARACTER Then oConfigDialog.getControl(&quot;WriterAnchorAsCharacter&quot;).setState(true)
 	If iWriterDefaultAnchor = com.sun.star.text.TextContentAnchorType.AT_PARAGRAPH Then  oConfigDialog.getControl(&quot;WriterAnchorToParagraph&quot;).setState(true)
@@ -98,6 +99,9 @@ Sub ConfigDialogUpdate()
 	Else
 		oConfigDialog.getControl(&quot;ImpressInsertDirect&quot;).setState(true)
 	End If 
+
+	&apos; Include Template:
+	oConfigDialog.getControl(&quot;bIncludeTemplate&quot;).setState(BoolToCheckBoxState(bIncludeTemplate))
 
 	&apos; Warnings
 	If bIgnoreWarnings Then
@@ -147,7 +151,7 @@ Sub CopyTemplates()
 
 	&apos; Backup .ly files
 	&apos; Subdir named according to actual date and time in format YYYY-MM-DD_hh-mm-ss
-	sBackupPath = sTemplatePath &amp; Left (CDateToISO (Now), 4) &amp; &quot;-&quot; &amp; Mid (CDateToISO (Now), 5, 2) &amp; &quot;-&quot; &amp; Right (CDateToISO (Now), 2) &amp; &quot;_&quot; &amp; Left (TimeValue (Now), 2) &amp; &quot;-&quot; &amp; Mid (TimeValue (Now), 4, 2) &amp; &quot;-&quot; &amp; Right (TimeValue (Now), 2) &amp; &quot;/&quot;
+	sBackupPath = sTemplatePath &amp; TimeStamp () &amp; &quot;/&quot;
 	sFiles = oFileAccess.getFolderContents (sTemplatePath, False)
 	For i=LBound (sFiles) To UBound (sFiles)
 		If Right (sFiles (i),3)=&quot;.ly&quot; Then
@@ -211,7 +215,7 @@ Sub CopyLanguageFiles()
 
 	&apos; Backup .ini files
 	&apos; Subdir named according to actual date and time in format YYYYMMDDhhmmss
-	sBackupPath = sLanguagePath &amp; Left (CDateToISO (Now), 4) &amp; &quot;-&quot; &amp; Mid (CDateToISO (Now), 5, 2) &amp; &quot;-&quot; &amp; Right (CDateToISO (Now), 2) &amp; &quot;_&quot; &amp; Left (TimeValue (Now), 2) &amp; &quot;-&quot; &amp; Mid (TimeValue (Now), 4, 2) &amp; &quot;-&quot; &amp; Right (TimeValue (Now), 2) &amp; &quot;/&quot;
+	sBackupPath = sLanguagePath &amp; TimeStamp () &amp; &quot;/&quot;
 	sFiles = oFileAccess.getFolderContents(sLanguagePath, False)
 	For i=LBound(sFiles) To UBound(sFiles)
 		If Right(sFiles(i),4)=&quot;.ini&quot; Then
@@ -300,7 +304,8 @@ Sub ApplyConfig
 	bWriterUseLineWidthFromTemplate = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bWriterUseLineWidthFromTemplate&quot;).getState())
 	bWriterUseStaffSizeFromTemplate = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bWriterUseStaffSizeFromTemplate&quot;).getState())
 	bWriterKeepCrop = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bWriterKeepCrop&quot;).getState())
-	
+	bNewObjectsAsSeparateImages = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bNewObjectsAsSeparateImages&quot;).getState())
+		
 	if oConfigDialog.getControl(&quot;WriterAnchorAsCharacter&quot;).getState() then iWriterDefaultAnchor = com.sun.star.text.TextContentAnchorType.AS_CHARACTER
 	if oConfigDialog.getControl(&quot;WriterAnchorToParagraph&quot;).getState() then iWriterDefaultAnchor = com.sun.star.text.TextContentAnchorType.AT_PARAGRAPH
 	if oConfigDialog.getControl(&quot;WriterAnchorToPage&quot;).getState() then iWriterDefaultAnchor = com.sun.star.text.TextContentAnchorType.AT_PAGE
@@ -321,6 +326,8 @@ Sub ApplyConfig
 	
 	bImpressInsertViaClipboard = oConfigDialog.getControl(&quot;ImpressInsertViaClipboard&quot;).getState()
 	
+	bIncludeTemplate = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bIncludeTemplate&quot;).getState())
+	
 	SetDocTypeSpecificDefaults()
 	
 	&apos; Change the font of the editor pane:
@@ -331,7 +338,7 @@ Sub ApplyConfig
 	oFieldModel.FontDescriptor = MyFont
 	
 	ReadLanguageFile()
-	ReadDialogStringsFromVar (oEditorDialog, sEditorDialogStrings)
+	ReadDialogStringsFromVar (oEditorDialog, sEditorDialogStrings, &quot;&quot;)
 
 End Sub
 
@@ -412,6 +419,7 @@ Sub DefaultConfig()
 	bWriterUseLineWidthFromTemplate = False
 	bWriterInsertViaClipboard = True
 	bWriterKeepCrop = False
+	bNewObjectsAsSeparateImages = False
 
 
 	&apos; Impress specific settings
@@ -437,7 +445,8 @@ Sub DefaultConfig()
 	
 	SetDocTypeSpecificDefaults()
 	
-	bKeepTempFiles = False	
+	bKeepTempFiles = False
+	bIncludeTemplate = False
 End Sub
 
 
@@ -529,6 +538,8 @@ Sub ReadConfig()
 				bWriterInsertViaClipboard = StringToBool(sValue)
 			Case &quot;bWriterKeepCrop&quot;
 				bWriterKeepCrop = StringToBool(sValue)
+			Case &quot;bNewObjectsAsSeparateImages&quot;
+				bNewObjectsAsSeparateImages = StringToBool(sValue)
 		
 			
 			&apos; Impress specific settings
@@ -546,6 +557,11 @@ Sub ReadConfig()
 				bImpressInsertViaClipboard = StringToBool(sValue)
 			Case &quot;bImpressKeepCrop&quot;
 				bImpressKeepCrop = StringToBool(sValue)
+
+			Case &quot;bIncludeTemplate&quot;
+				bIncludeTemplate = StringToBool(sValue)
+				
+			
 			End Select
 		end if
 	wend
@@ -597,6 +613,7 @@ Sub SaveConfig
 	oTextOutputStream.writeString(&quot;iWriterDefaultWrap=&quot; &amp; CStr(iWriterDefaultWrap) &amp; Chr(10))
 	oTextOutputStream.writeString(&quot;bWriterInsertViaClipboard=&quot; &amp; BoolToString(bWriterInsertViaClipboard) &amp; Chr(10))
 	oTextOutputStream.writeString(&quot;bWriterKeepCrop=&quot; &amp; BoolToString(bWriterKeepCrop) &amp; Chr(10))
+	oTextOutputStream.writeString(&quot;bNewObjectsAsSeparateImages=&quot; &amp; BoolToString(bNewObjectsAsSeparateImages) &amp; Chr(10))
 	
 	&apos; Impress specific
 	oTextOutputStream.writeString(&quot;sImpressDefaultTemplate=&quot; &amp; sImpressDefaultTemplate &amp; Chr(10))
@@ -606,6 +623,8 @@ Sub SaveConfig
 	oTextOutputStream.writeString(&quot;bImpressUseStaffSizeFromTemplate=&quot; &amp; BoolToString(bImpressUseStaffSizeFromTemplate) &amp; Chr(10))
 	oTextOutputStream.writeString(&quot;bImpressInsertViaClipboard=&quot; &amp; BoolToString(bImpressInsertViaClipboard) &amp; Chr(10))
 	oTextOutputStream.writeString(&quot;bImpressKeepCrop=&quot; &amp; BoolToString(bImpressKeepCrop) &amp; Chr(10))
+
+	oTextOutputStream.writeString(&quot;bIncludeTemplate=&quot; &amp; BoolToString(bIncludeTemplate) &amp; Chr(10))
 	
 	oTextOutputStream.writeString(&quot;*** End of configuration file ***&quot; &amp; Chr(10) )
 		
@@ -639,6 +658,8 @@ End Sub
 &apos; *******************
 
 Sub DefaultConfigButton()
+	If MsgBox (oMessages.getPropertyValue (&quot;sMsgConfirmDefaultConfig&quot;), iMsgBox_YN+iMsgBox_Q, _ 
+		oMessages.getPropertyValue (&quot;sCaptionRUSure&quot;)) &lt;&gt; iAnswer_Yes Then Exit Sub
 	&apos; load default configuration...
 	DefaultConfig()
 	ConfigDialogUpdate()
@@ -646,12 +667,16 @@ End Sub
 
 
 Sub RestoreTemplatesButton()
+	If MsgBox (oMessages.getPropertyValue (&quot;sMsgConfirmRestoreTemplates&quot;), iMsgBox_YN+iMsgBox_Q, _ 
+		oMessages.getPropertyValue (&quot;sCaptionRUSure&quot;)) &lt;&gt; iAnswer_Yes Then Exit Sub
 	sTemplatePath = AddSlash(ConvertToURL(oConfigDialog.getControl(&quot;sTemplatePath&quot;).getText()))
 	CopyTemplates()	
 End Sub
 
 
 Sub RestoreLanguageFilesButton()
+	If MsgBox (oMessages.getPropertyValue (&quot;sMsgConfirmRestoreLanguageFiles&quot;), iMsgBox_YN+iMsgBox_Q, _ 
+		oMessages.getPropertyValue (&quot;sCaptionRUSure&quot;)) &lt;&gt; iAnswer_Yes Then Exit Sub
 	CopyLanguageFiles()	
 End Sub
 

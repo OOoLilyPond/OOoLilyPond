@@ -5,6 +5,6 @@
  <library:element library:name="GUI_Editor"/>
  <library:element library:name="GUI_Tmpl"/>
  <library:element library:name="GUI_Out"/>
- <library:element library:name="Process"/>
- <library:element library:name="Ask"/>
+ <library:element library:name="GUI_Batch"/>
+ <library:element library:name="GUI_Ask"/>
 </library:library>

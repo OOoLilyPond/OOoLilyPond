@@ -18,7 +18,7 @@ Const sEndTagScm = &quot;#!OOoLilyPondEnd!#&quot;
 
 Function TagPos(sText, sA, sB As String) As Integer
 	&apos; indicates the nearest position of either argument &quot;sA&quot; or &quot;sB&quot; in &quot;sText&quot;.
-	&apos; Will be used for locating both versions of a start/end tag
+	&apos; Will be used for locating both versions of a start/end tag and other stuff
 	
 	Dim posA As Integer
 	Dim posB As Integer
@@ -294,27 +294,18 @@ Function ListOfTemplates (oComboBox) As Integer
 End Function
 
 
-Function ReadTemplate() As Boolean
+Function ReadTemplateFile (bShowError As Boolean) As Boolean
 	&apos; Reads the template file into sTemplateCode
 	&apos; Extracts the content between the OOoLilyPond Start end End tags
 	&apos; for being used as template specific default values.
 
-	Dim sDefaultValue As String
-	Dim iTagPos As Integer
-	Dim sFieldName As String &apos; Code, StaffSize, LineWidth, Custom1 or Custom2
-	Dim sTemplateFile As String &apos; path to template file
-	Dim sCodeToParse As String &apos; copy of sTemplateCode
-	Dim sStaffSizeFromTemplate As String	
-	Dim sLineWidthFromTemplate As String
-	Dim bCodeFieldExists As Boolean
-	
 	Dim sURL
 	Dim sParts
 	Dim sPath 
-	
 	Dim sDirEntry As String
+	Dim sTemplateFile As String &apos; path to template file
 	
-	sURL=ThisComponent.getURL()  &apos; see GetRelativeIncludeStatement ()
+	sURL=oDoc.getURL()  &apos; see GetRelativeIncludeStatement ()
 	sPath = &quot;&quot;
 	If  Not IsNull(sURL) And Len(sURL) &gt; 0 Then
 		sParts=Split(sURL,&quot;/&quot;)
@@ -336,15 +327,50 @@ Function ReadTemplate() As Boolean
 				sDirEntry = Dir
 				sTemplateFile = sTemplatePath &amp; sDirEntry &amp; &quot;/&quot; &amp; sTemplate &amp; &quot;.ly&quot;
 			Loop
+			If oFileAccess.exists (sTemplateFile) Then  &apos; Template found in subfolder &quot;sDirEntry&quot;
+				sTemplateLocationLabel = oMessages.getPropertyValue (&quot;sMsgTemplateInSubFolder1&quot;) &amp; sDirEntry &amp; oMessages.getPropertyValue (&quot;sMsgTemplateInSubFolder2&quot;)
+			End If
 		End If
+	Else   &apos; Template found in the documents&apos;s folder
+		sTemplateLocationLabel = oMessages.getPropertyValue (&quot;sMsgTemplateInDocFolder&quot;)
 	End If	
 		
 	If Not StringFromFile(sTemplateCode, sTemplateFile) Then
 		&apos; MsgBox(&quot;Cannot open the template file:&quot; &amp; Chr(10) &amp; ConvertFromURL(sTemplateFile), iMsgBox_E, &quot;Error&quot;)
-		MsgBox (oMessages.getPropertyValue (&quot;sMsgCannotOpenTemplate1&quot;) &amp; ConvertFromURL(sTemplateFile) &amp; oMessages.getPropertyValue (&quot;sMsgCannotOpenTemplate2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
-		ReadTemplate=False
+		If bShowError Then MsgBox (oMessages.getPropertyValue (&quot;sMsgCannotOpenTemplate1&quot;) &amp; ConvertFromURL(sTemplateFile) &amp; oMessages.getPropertyValue (&quot;sMsgCannotOpenTemplate2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		sTemplateLocationLabel = oMessages.getPropertyValue (&quot;sMsgTemplateNotFound&quot;)
+		ReadTemplateFile = False
+		sTemplateLocationHelptext = &quot;&quot;
 		Exit Function
 	End If
+	sTemplateLocationHelptext = oMessages.getPropertyValue (&quot;sMsgTemplateEditButton&quot;)
+	ReadTemplateFile = True
+End Function
+
+
+Function ReadTemplate (bShowError As Boolean) As Boolean
+	&apos; Reads the template file into sTemplateCode
+	&apos; Extracts the content between the OOoLilyPond Start end End tags
+	&apos; for being used as template specific default values.
+
+	Dim sDefaultValue As String
+	Dim iTagPos As Integer
+	Dim sFieldName As String &apos; Code, StaffSize, LineWidth, Custom1 or Custom2
+	Dim sCodeToParse As String &apos; copy of sTemplateCode
+	Dim sStaffSizeFromTemplate As String	
+	Dim sLineWidthFromTemplate As String
+	Dim bCodeFieldExists As Boolean
+	
+	If Not bContainsTemplate Then
+		sTemplateLocationLabel = &quot;&quot;
+		If Not ReadTemplateFile (bShowError) Then
+			ReadTemplate = False
+			Exit Function
+		End If
+	Else  &apos; Template contained in OLy object
+		sTemplateLocationLabel = oMessages.getPropertyValue (&quot;sMsgTemplateInObject&quot;)
+	End If
+	
 	sCodeToParse = sTemplateCode
 
 	bCodeFieldExists = False
@@ -639,7 +665,7 @@ Sub TmplDialog
 	
 	&apos; Create the dialog object
 	oTemplateEditorDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Tmpl&quot;) )
-	ReadDialogStringsFromVar (oTemplateEditorDialog, sTemplateDialogStrings)
+	ReadDialogStringsFromVar (oTemplateEditorDialog, sTemplateDialogStrings, &quot;&quot;)
 
 	&apos; Set title
 	oTemplateEditorDialog.setTitle (sTemplate &amp; &quot;.ly - &quot; &amp; oTemplateEditorDialog.getTitle)
@@ -676,6 +702,10 @@ Sub TmplDeleteButton
 
 	Dim sFile As String
 	sFile = sTemplatePath &amp; sTemplate &amp; &quot;.ly&quot;
+	
+	If MsgBox (oMessages.getPropertyValue (&quot;sMsgConfirmDeleteTemplate1&quot;) &amp; sTemplate &amp; &quot;.ly&quot; _
+		&amp; oMessages.getPropertyValue (&quot;sMsgConfirmDeleteTemplate2&quot;), iMsgBox_YN+iMsgBox_Q, _ 
+		oMessages.getPropertyValue (&quot;sCaptionRUSure&quot;)) &lt;&gt; iAnswer_Yes Then Exit Sub
 
 	If oFileAccess.exists( sFile ) Then
 		oFileAccess.kill(sFile )
@@ -704,9 +734,6 @@ Sub TmplSaveAsButton
 	&apos; Not yet handled errors:
 	&apos; - Forbidden charachters in template name.
 	
-	&apos; Not implemented yet:
-	&apos; Check whether file already exists
-
 	Dim sFile As String
 	Dim sReply As String
 	
@@ -717,9 +744,16 @@ Sub TmplSaveAsButton
 	
 	sFile = sTemplatePath &amp; sReply &amp; &quot;.ly&quot;
 	
+	If oFileAccess.exists (ConvertFromURL (sFile)) Then
+		If MsgBox (oMessages.getPropertyValue (&quot;sMsgConfirmOverwriteTemplate1&quot;) &amp; sTemplate &amp; &quot;.ly&quot; _
+			&amp; oMessages.getPropertyValue (&quot;sMsgConfirmOverwriteTemplate2&quot;), iMsgBox_YN+iMsgBox_Q, _ 
+			oMessages.getPropertyValue (&quot;sCaptionRUSure&quot;)) &lt;&gt; iAnswer_Yes Then Exit Sub
+	End If
+	
 	If StringToFile(oTemplateEditorDialog.getControl(&quot;sTemplateCode&quot;).getText(), sFile) Then
 		sTemplate = sReply
 		oTemplateEditorDialog.endExecute()
+		bTemplateSaved = True
 	Else
 		&apos; Nothing. Error Message is now produced in StringToFile()
 	End If
@@ -734,8 +768,15 @@ Sub TmplSaveButton
 	
 	sFile = sTemplatePath &amp; sTemplate &amp; &quot;.ly&quot;
 	
+	If oFileAccess.exists (ConvertFromURL (sFile)) Then
+		If MsgBox (oMessages.getPropertyValue (&quot;sMsgConfirmOverwriteTemplate1&quot;) &amp; sTemplate &amp; &quot;.ly&quot; _
+			&amp; oMessages.getPropertyValue (&quot;sMsgConfirmOverwriteTemplate2&quot;), iMsgBox_YN+iMsgBox_Q, _ 
+			oMessages.getPropertyValue (&quot;sCaptionRUSure&quot;)) &lt;&gt; iAnswer_Yes Then Exit Sub
+	End If
+	
 	If StringToFile(oTemplateEditorDialog.getControl(&quot;sTemplateCode&quot;).getText(), sFile) Then
 		oTemplateEditorDialog.endExecute()
+		bTemplateSaved = True
 	Else
 		&apos; Nothing. Error Message is now produced in StringToFile()
 	End If

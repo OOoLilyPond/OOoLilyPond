@@ -12,7 +12,7 @@ Function GetRelativeIncludeStatement As String
 	Dim sParts
 	Dim sPath 
 	
-	sURL=ThisComponent.getURL()
+	sURL=oDoc.getURL()
 	If  Not IsNull(sURL) And Len(sURL) &gt; 0 Then
 		sParts=Split(sURL,&quot;/&quot;)
 		ReDim Preserve sParts(0 to UBound(sParts) -1)
