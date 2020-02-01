@@ -131,6 +131,35 @@ End Sub
 
 
 Sub BatchTest1()
+
+	Dim sConditionFrameLabel As String
+	Dim iNumPos As Integer
+
+	OOoLilyPondInit ()
+	If Not bInWriter Then Exit Sub
+	oBatchDialog = createUnoDialog (DialogLibraries.GetByName (constOLyLibraryName).GetByName(&quot;GUI_Batch&quot;))
+	
+	oBatchDialog.getControl(&quot;bKeepCrop&quot;).setState (BoolToCheckBoxState (bKeepCrop))
+	ReadDialogStringsFromVar (oBatchDialog, sBatchDialogStrings, &quot;&quot;)
+	ReadDialogStringsFromVar (oBatchDialog, sBatchDialogRuleSetStrings, &quot;_A&quot;)
+	ReadDialogStringsFromVar (oBatchDialog, sBatchDialogRuleSetStrings, &quot;_B&quot;)
+	
+	&apos; Add numbers in frame&apos;s captions:
+	sConditionFrameLabel = oBatchDialog.getModel().getByName (&quot;ConditionFrame_A&quot;).Label
+	iNumPos = InStr (sConditionFrameLabel, &quot;#&quot;)
+	If iNumPos &gt; 0 Then
+		Mid (sConditionFrameLabel, iNumPos, 1, &quot;1&quot;)
+		oBatchDialog.getModel().getByName (&quot;ConditionFrame_A&quot;).Label = sConditionFrameLabel
+		Mid (sConditionFrameLabel, iNumPos, 1, &quot;2&quot;)
+		oBatchDialog.getModel().getByName (&quot;ConditionFrame_B&quot;).Label = sConditionFrameLabel
+	End If
+	
+	oBatchDialog.Execute()
+
+End Sub
+
+
+Sub BatchTest2()
 	&apos; This is the main function for batch processing
 	&apos; It initializes OOoLilyPond and recompiles matching objects without opening the editor dialog.
 	Dim oDrawPage As Object

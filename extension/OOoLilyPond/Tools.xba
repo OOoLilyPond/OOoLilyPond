@@ -5,6 +5,31 @@
 Option Explicit
 
 
+Sub ReplaceSubStrings (sProcess As String, sFind As String, sReplace As String, iSearchMode As Integer)
+&apos; Search for every appearance of sFind inside sProcess and replace them by sReplace
+&apos; ... a little more complicated because iSearchMode allows case-insensitive searching
+
+	Dim iPos As Integer
+	Dim iStartPos As Integer
+	Dim iLen As Integer
+	Dim sResult As String
+	
+	iStartPos = 1
+	iLen = Len (sFind)
+	sResult = &quot;&quot;
+	iPos = InStr (1, sProcess, sFind, iSearchMode)
+	While iPos &gt; 0
+		sResult = sResult &amp; Mid (sProcess, iStartPos, iPos - iStartPos) &amp; sReplace
+		iStartPos = iPos + iLen
+		iPos = InStr (iStartPos, sProcess, sFind, iSearchMode)
+	Wend
+	if iStartPos &lt;= Len (sProcess) Then
+		sResult = sResult &amp; Mid (sProcess, iStartPos)
+	End If
+	sProcess = sResult
+End Sub
+
+
 Function HasHigherValue (s1 As String, s2 As String) As Boolean
 &apos; Return True if s1 represents a higher numeric value than s2
 &apos; Take into account that string comparison via &quot;&lt;&quot; or &quot;&gt;&quot; performs an alphabetical comparison, 

@@ -19,7 +19,7 @@ Sub EditorDialog()
 	
 	&apos; Create the dialog object
 	oEditorDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Editor&quot;) )
-	ReadDialogStringsFromVar (oEditorDialog, sEditorDialogStrings)
+	ReadDialogStringsFromVar (oEditorDialog, sEditorDialogStrings, &quot;&quot;)
 	&apos; Preserve original field labels for LineWidth, StaffSize, Custom1, Custom2, Option1 ... Option4:
 	sDefaultLineWidthLabel = oEditorDialog.getModel().getByName(&quot;LabelLineWidth&quot;).Label
 	sDefaultStaffSizeLabel = oEditorDialog.getModel().getByName(&quot;LabelStaffSize&quot;).Label
@@ -200,6 +200,7 @@ Sub GreyOut()
 	
 	&apos; indicate if Template location is other than standard template folder:
 	oEditorDialog.getModel().getByName (&quot;TemplateLocationLabel&quot;).Label = sTemplateLocationLabel
+	oEditorDialog.getModel().getByName (&quot;TemplateLocationLabel&quot;).helptext = sTemplateLocationHelptext
 	oEditorDialog.getModel().getByName (&quot;TemplateLocationLabel&quot;).EnableVisible = (sTemplateLocationLabel &lt;&gt; &quot;&quot;)
 
 End Sub
@@ -322,7 +323,7 @@ Sub ShowLilyPondOutput()
 
 		&apos; DialogLibraries.LoadLibrary (constOlyLibraryName)
 		oOutputDialog = createUnoDialog (DialogLibraries.GetByName (constOLyLibraryName).GetByName (&quot;GUI_Out&quot;))
-		ReadDialogStringsFromVar (oOutputDialog, sOutputDialogStrings)
+		ReadDialogStringsFromVar (oOutputDialog, sOutputDialogStrings, &quot;&quot;)
 		oOutputDialog.getControl(&quot;sOutput&quot;).setText(sOutput)
 		oOutputDialog.Execute()
 	

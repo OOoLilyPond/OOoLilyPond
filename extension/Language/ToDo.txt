@@ -6,6 +6,8 @@ sMsgWannaSaveOrIncludeTemplate=A template is included inside this object.%10%10C
 
 sMsgWannaSaveTemplate=A template is included inside this object.%10%10It might be lost now when switching to another one.%10%10You can save the included template into a new template file:%10Open the template editor ([Edit] button) and click the "save" or "save as" button.%10%10Do you want to open the template editor now?
 
+sMsgTemplateEditButton=Click the [Edit] button to save the template into your template folder.
+
 ' Confirmations for file operations:
 
 sMsgConfirmDeleteTemplate1=Do you really want to delete the template file "
@@ -34,13 +36,74 @@ sMsgTemplateInSubFolder2="
 sMsgTemplateNotFound=Template not found
 
 
+' "Batch" module
+' ---------------
+
+' Status bar message during batch processing: 
+sMsgBatchProcessing=Batch processing OOoLilyPond objects... 
+
+
+' "Config" module
+' ----------------
+
+' Query before replacing actual templates with default ones:
+sMsgConfirmRestoreTemplates=Do you really want to restore the original templates delivered with OLy?%10Your actual templates will be backed up in a subfolder.
+
+' Query before replacing actual language files with default ones:
+sMsgConfirmRestoreLanguageFiles=Do you really want to restore the original language files delivered with OLy?%10Your actual language files will be backed up in a subfolder.
+
+' Query before resetting all configuration data to default values:
+sMsgConfirmDefaultConfig=Do you really want to reset all your actual configuration data to the default values?
+
 [EditorDialog]
 
-bSaveAsSeparateImages.label=Insert as separate images
+bSaveAsSeparateImages.label=Insert as separate images (system-by-system)
 bSaveAsSeparateImages.helptext=If the sheet music consists of multiple lines, insert them as separate images
-TemplateInObjectLabel.helptext=Click the [Edit] button to save the template into your template folder.
 
 [ConfigDialog]
 
-bNewObjectsAsSeparateImages.label=Insert as separate images
+bNewObjectsAsSeparateImages.label=Insert as separate images (system-by-system)
 bNewObjectsAsSeparateImages.helptext=If the sheet music consists of multiple lines, insert them as separate images (default for new objects)
+bIncludeTemplate.label=Include Template in document
+
+[BatchDialog]
+
+DialogTitle=Batch processing OOoLilyPond objects
+CreateBackup.label=Create backup
+bAsk.label=Ask for each object
+bKeepCrop.label=Keep Size & Crop Settings
+SeparateImagesFrame.label=Insert as separate images?
+SeparateImages_Yes.label=Yes
+SeparateImages_No.label=No
+SeparateImages_DontChange.label=Don't change
+IncludeTemplateFrame.label=Include template in object?
+IncludeTemplate_Yes.label=Yes
+IncludeTemplate_No.label=No
+IncludeTemplate_DontChange.label=Don't change
+Process.label=Start
+Cancel.label=Cancel
+
+[BatchDialogRuleSet]
+
+' The # sign will be replaced by a number:
+ConditionFrame.label= Rule #:
+SearchLabel.label=Field to search and process:
+ConditionLine.label=Condition:
+NoCondition.label=no condition
+ConditionContains.label=contains:
+ConditionIs.label=is:
+IgnoreCase.label=ignore case
+ChangeLine.label=Change: 
+NoChange.label=No change
+SetUseDefault.label=Reset to default
+ReplaceWholeField.label=Replace whole field by:
+ReplaceSearchedString.label=Replace only searched string by:
+
+[AskDialog]
+
+DialogTitle=Batch processing OOoLilyPond objects...
+Question.label=Do you want to process this object?
+All.label=All
+Yes.label=Yes
+No.label=No
+Abort.label=Abort

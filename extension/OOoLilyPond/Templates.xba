@@ -18,7 +18,7 @@ Const sEndTagScm = &quot;#!OOoLilyPondEnd!#&quot;
 
 Function TagPos(sText, sA, sB As String) As Integer
 	&apos; indicates the nearest position of either argument &quot;sA&quot; or &quot;sB&quot; in &quot;sText&quot;.
-	&apos; Will be used for locating both versions of a start/end tag
+	&apos; Will be used for locating both versions of a start/end tag and other stuff
 	
 	Dim posA As Integer
 	Dim posB As Integer
@@ -340,8 +340,10 @@ Function ReadTemplateFile (bShowError As Boolean) As Boolean
 		If bShowError Then MsgBox (oMessages.getPropertyValue (&quot;sMsgCannotOpenTemplate1&quot;) &amp; ConvertFromURL(sTemplateFile) &amp; oMessages.getPropertyValue (&quot;sMsgCannotOpenTemplate2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 		sTemplateLocationLabel = oMessages.getPropertyValue (&quot;sMsgTemplateNotFound&quot;)
 		ReadTemplateFile = False
+		sTemplateLocationHelptext = &quot;&quot;
 		Exit Function
 	End If
+	sTemplateLocationHelptext = oMessages.getPropertyValue (&quot;sMsgTemplateEditButton&quot;)
 	ReadTemplateFile = True
 End Function
 
@@ -663,7 +665,7 @@ Sub TmplDialog
 	
 	&apos; Create the dialog object
 	oTemplateEditorDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Tmpl&quot;) )
-	ReadDialogStringsFromVar (oTemplateEditorDialog, sTemplateDialogStrings)
+	ReadDialogStringsFromVar (oTemplateEditorDialog, sTemplateDialogStrings, &quot;&quot;)
 
 	&apos; Set title
 	oTemplateEditorDialog.setTitle (sTemplate &amp; &quot;.ly - &quot; &amp; oTemplateEditorDialog.getTitle)
