@@ -471,29 +471,26 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 
 	&apos;If there is no pdf output
  	If sFormat = &quot;pdf to svg&quot; Then
- 		bNoFileCreated = True
- 		If Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.pdf&quot;) Then	&apos; no PDF created
- 			&apos; MsgBox(&quot;No pdf output is found&quot;, 0, &quot;Error&quot;)
- 			MsgBox (oMessages.getPropertyValue (&quot;sMsgNoPdfOutputFound&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
- 		Else																	&apos; PDF created
-			If oFileAccess.exists(sTmpPath &amp; &quot;PdfToSvg-cannot_execute&quot;) Then		&apos; PdfToSvg execution error
-				If StringFromFile (sLilyPondOutput, sTmpPath &amp; constOLyFileName &amp; &quot;-PdfToSvg.out&quot;) Then  &apos; can happen under Linux if pdf2svg can&apos;t find a pdf file
-					MsgBox (oMessages.getPropertyValue (&quot;sMsgPdfToSvgConversionFailed&quot;) &amp; Chr(10) &amp; Chr(10) &amp; sLilyPondOutput, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
-				Else
-					MsgBox (oMessages.getPropertyValue (&quot;sMsgPdfToSvgCannotExecute&quot;) &amp; Chr(10) &amp; Chr(10) &amp; sPdfToSvgPrologue &amp; ConvertFromURL(sTmpPath) &amp; constOLyFileName &amp; &quot;.pdf&quot; &amp; sPdfToSvgEpilogue, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
-				End If
-			Else																	&apos; No PdfToSvg execution error
-				If Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.svg&quot;) Then
+ 		If Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.svg&quot;) Then
+ 			bNoFileCreated = True
+			If Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.pdf&quot;) Then	&apos; no PDF created
+	 			&apos; MsgBox(&quot;No pdf output is found&quot;, 0, &quot;Error&quot;)
+	 			MsgBox (oMessages.getPropertyValue (&quot;sMsgNoPdfOutputFound&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+	 		Else																	&apos; PDF created
+				If oFileAccess.exists(sTmpPath &amp; &quot;PdfToSvg-cannot_execute&quot;) Then		&apos; PdfToSvg execution error
+					If StringFromFile (sLilyPondOutput, sTmpPath &amp; constOLyFileName &amp; &quot;-PdfToSvg.out&quot;) Then  &apos; can happen under Linux if pdf2svg can&apos;t find a pdf file
+						MsgBox (oMessages.getPropertyValue (&quot;sMsgPdfToSvgConversionFailed&quot;) &amp; Chr(10) &amp; Chr(10) &amp; sLilyPondOutput, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+					Else
+						MsgBox (oMessages.getPropertyValue (&quot;sMsgPdfToSvgCannotExecute&quot;) &amp; Chr(10) &amp; Chr(10) &amp; sPdfToSvgPrologue &amp; ConvertFromURL(sTmpPath) &amp; constOLyFileName &amp; &quot;.pdf&quot; &amp; sPdfToSvgEpilogue, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+					End If
+				Else																	&apos; No PdfToSvg execution error
 					If StringFromFile (sLilyPondOutput, sTmpPath &amp; constOLyFileName &amp; &quot;-PdfToSvg.out&quot;) Then
 						MsgBox (oMessages.getPropertyValue (&quot;sMsgPdfToSvgConversionFailed&quot;) &amp; Chr(10) &amp; Chr(10) &amp; sLilyPondOutput, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 					Else
 						MsgBox (oMessages.getPropertyValue (&quot;sMsgPdfToSvgConversionFailed&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 					End If
-				Else
-					&apos; everything&apos;s okay, SVG file is present
-					bNoFileCreated = True
 				End If
-			End If
+ 			End If
  		End If
  	End If
  	
@@ -602,6 +599,7 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 	Exit Sub
 	
 End Sub
+
 
 Sub InsertAttribute(oGraphic As Object, sName, sValue As String)
 	&apos; Add a user defined attribute to the image.
