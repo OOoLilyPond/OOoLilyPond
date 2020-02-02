@@ -9,6 +9,16 @@ Option Explicit
 &apos;    Open / Update the OOoLilyPond Editor dialogue
 &apos; ***************************************************
 
+Sub ReadValues()
+
+	Dim iLower As Integer
+	Dim iUpper As Integer
+	
+	iLower = oEditorDialog.getControl(&quot;iFrom&quot;).getValue()
+	iUpper = oEditorDialog.getControl(&quot;iTo&quot;).getValue()
+	
+End Sub
+
 Sub EditorDialog()
 
 	Dim oFieldModel As Object
@@ -105,6 +115,8 @@ Sub EditorDialog()
 	
 	oEditorDialog.getControl(&quot;bKeepCrop&quot;).setState (BoolToCheckBoxState(bKeepCrop And bShapeIsSelected))
 	oEditorDialog.getControl(&quot;bSaveAsSeparateImages&quot;).setState (BoolToCheckBoxState (bSaveAsSeparateImages And bInWriter))
+	If iFrom &gt; 0 Then oEditorDialog.getControl(&quot;iFrom&quot;).setValue (iFrom)
+	If iTo   &gt; 0 Then oEditorDialog.getControl(&quot;iTo&quot;).setValue (iTo)	
 
 	&apos; grey out inactive control elements
 	GreyOut()
@@ -181,9 +193,9 @@ Sub GreyOut()
 	&apos; grey out &quot;from&quot; and &quot;to&quot; fields when SeparateImages not checked
 	bEnableFromTo = bEnableSeparateImages And CheckBoxStateToBool (oEditorDialog.getControl (&quot;bSaveAsSeparateImages&quot;).GetState)
 	oEditorDialog.getControl (&quot;LabelFrom&quot;).setEnable (bEnableFromTo)
-	oEditorDialog.getControl (&quot;sFrom&quot;).    setEnable (bEnableFromTo)
+	oEditorDialog.getControl (&quot;iFrom&quot;).    setEnable (bEnableFromTo)
 	oEditorDialog.getControl (&quot;LabelTo&quot;).  setEnable (bEnableFromTo)
-	oEditorDialog.getControl (&quot;sTo&quot;).      setEnable (bEnableFromTo)
+	oEditorDialog.getControl (&quot;iTo&quot;).      setEnable (bEnableFromTo)
 	
 	&apos; grey out KeepCrop checkbox when no current OLy object is selected
 	oEditorDialog.getControl(&quot;bKeepCrop&quot;).setEnable(bShapeIsSelected)
@@ -439,6 +451,8 @@ Sub LilyPondButton()
 	
 	bKeepCrop = CheckBoxStateToBool (oEditorDialog.getControl(&quot;bKeepCrop&quot;).getState())
 	bSaveAsSeparateImages = CheckBoxStateToBool (oEditorDialog.getControl(&quot;bSaveAsSeparateImages&quot;).getState())
+	iFrom = oEditorDialog.getControl(&quot;iFrom&quot;).getValue()
+	iTo   = oEditorDialog.getControl(&quot;iTo&quot;).getValue()
 
 	&apos; Create the LilyPond music and insert it...
 	Make (false)	&apos; bSilent = false: don&apos;t suppress displaying errors in Editor dialog

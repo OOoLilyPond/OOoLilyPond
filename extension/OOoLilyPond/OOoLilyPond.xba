@@ -659,6 +659,18 @@ Sub AttachAttributes (oGraphic As Object, sIdentifier As String, sImageNum As St
 		RemoveAttribute (oGraphic, &quot;OOoLilyPondIdentifier&quot;)
 		RemoveAttribute (oGraphic, &quot;OOoLilyPondImageNum&quot;)
 	End If
+	
+	If bInWriter And iFrom &gt; 0 Then 
+		InsertAttribute (oGraphic, &quot;OOoLilyPondFirstImage&quot;, iFrom)
+	Else
+		RemoveAttribute (oGraphic, &quot;OOoLilyPondFirstImage&quot;)
+	End If
+
+	If bInWriter And iTo &gt; 0 Then 
+		InsertAttribute (oGraphic, &quot;OOoLilyPondLastImage&quot;, iTo)
+	Else
+		RemoveAttribute (oGraphic, &quot;OOoLilyPondLastImage&quot;)
+	End If
 End Sub
 
 
@@ -887,6 +899,17 @@ Function ReadAttributes( oShape As Object ) As Boolean
 		
 		bHasSeparateImages = (GetObjectIdentifier (oShape) &lt;&gt; &quot;&quot;)
 		bSaveAsSeparateImages = bHasSeparateImages
+		
+		If oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondFirstImage&quot;) Then
+			iFrom = CInt (oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondFirstImage&quot;).Value)
+		Else
+			iFrom = 0
+		End If
+		If oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondLastImage&quot;) Then
+			iTo = CInt (oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondLastImage&quot;).Value)
+		Else
+			iTo = 0
+		End If
 		
 	Else
 		&apos;Prevent loosing the code for OOoLilyPond 0.3 Objects

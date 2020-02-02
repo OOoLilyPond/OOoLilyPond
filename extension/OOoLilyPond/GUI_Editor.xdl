@@ -126,11 +126,7 @@
   <dlg:text dlg:style-id="3" dlg:id="TemplateLocationLabel" dlg:tab-index="47" dlg:visible="false" dlg:left="198" dlg:top="221" dlg:width="171" dlg:height="8" dlg:help-text="Click the [Edit] button to save the template into your template folder."/>
   <dlg:text dlg:id="LabelFrom" dlg:tab-index="48" dlg:left="8" dlg:top="272" dlg:width="48" dlg:height="8" dlg:value="from:" dlg:align="right"/>
   <dlg:text dlg:id="LabelTo" dlg:tab-index="49" dlg:left="80" dlg:top="272" dlg:width="48" dlg:height="8" dlg:value="to:" dlg:align="right"/>
-  <dlg:textfield dlg:id="sFrom" dlg:tab-index="15" dlg:left="58" dlg:top="270" dlg:width="18" dlg:height="12">
-   <script:event script:event-name="on-textchange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.LineWidthModified?language=Basic&amp;location=application" script:language="Script"/>
-  </dlg:textfield>
-  <dlg:textfield dlg:id="sTo" dlg:tab-index="16" dlg:left="130" dlg:top="270" dlg:width="18" dlg:height="12">
-   <script:event script:event-name="on-textchange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.LineWidthModified?language=Basic&amp;location=application" script:language="Script"/>
-  </dlg:textfield>
+  <dlg:numericfield dlg:id="iFrom" dlg:tab-index="15" dlg:left="58" dlg:top="270" dlg:width="18" dlg:height="12" dlg:help-text="Number of the first image to be inserted" dlg:decimal-accuracy="0" dlg:value-min="1" dlg:value-max="9999"/>
+  <dlg:numericfield dlg:id="iTo" dlg:tab-index="16" dlg:left="130" dlg:top="270" dlg:width="18" dlg:height="12" dlg:help-text="Number of the last image to be inserted" dlg:decimal-accuracy="0" dlg:value-min="1" dlg:value-max="9999"/>
  </dlg:bulletinboard>
 </dlg:window>

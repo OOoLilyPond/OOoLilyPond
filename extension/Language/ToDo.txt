@@ -60,6 +60,16 @@ sMsgConfirmDefaultConfig=Do you really want to reset all your actual configurati
 bSaveAsSeparateImages.label=Insert as separate images (system-by-system)
 bSaveAsSeparateImages.helptext=If the sheet music consists of multiple lines, insert them as separate images
 
+
+
+' *****
+iFrom.label=from:
+iFrom.helptext=Number of the first image to be inserted
+iTo.label=to:
+iTo.helptext=Number of the last image to be inserted
+
+
+
 [ConfigDialog]
 
 bNewObjectsAsSeparateImages.label=Insert as separate images (system-by-system)
