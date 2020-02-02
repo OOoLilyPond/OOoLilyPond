@@ -471,10 +471,10 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 
 	&apos;If there is no pdf output
  	If sFormat = &quot;pdf to svg&quot; Then
+ 		bNoFileCreated = True
  		If Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.pdf&quot;) Then	&apos; no PDF created
  			&apos; MsgBox(&quot;No pdf output is found&quot;, 0, &quot;Error&quot;)
  			MsgBox (oMessages.getPropertyValue (&quot;sMsgNoPdfOutputFound&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
- 			bNoFileCreated = True
  		Else																	&apos; PDF created
 			If oFileAccess.exists(sTmpPath &amp; &quot;PdfToSvg-cannot_execute&quot;) Then		&apos; PdfToSvg execution error
 				If StringFromFile (sLilyPondOutput, sTmpPath &amp; constOLyFileName &amp; &quot;-PdfToSvg.out&quot;) Then  &apos; can happen under Linux if pdf2svg can&apos;t find a pdf file
@@ -491,6 +491,7 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 					End If
 				Else
 					&apos; everything&apos;s okay, SVG file is present
+					bNoFileCreated = True
 				End If
 			End If
  		End If
