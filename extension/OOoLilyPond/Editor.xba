@@ -9,16 +9,6 @@ Option Explicit
 &apos;    Open / Update the OOoLilyPond Editor dialogue
 &apos; ***************************************************
 
-Sub ReadValues()
-
-	Dim iLower As Integer
-	Dim iUpper As Integer
-	
-	iLower = oEditorDialog.getControl(&quot;iFrom&quot;).getValue()
-	iUpper = oEditorDialog.getControl(&quot;iTo&quot;).getValue()
-	
-End Sub
-
 Sub EditorDialog()
 
 	Dim oFieldModel As Object
