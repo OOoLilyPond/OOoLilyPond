@@ -279,6 +279,7 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   &apos; After LilyPond has been called, no graphics output file is found:
   
   oMessages.addProperty (&quot;sMsgNoEpsOutputFound&quot;, BagAttr, &quot;No eps output is found.&quot;)
+  oMessages.addProperty (&quot;sMsgNoPdfOutputFound&quot;, BagAttr, &quot;No pdf output is found.&quot;)
   oMessages.addProperty (&quot;sMsgNoSvgOutputFound&quot;, BagAttr, &quot;No svg output is found.&quot; &amp; Chr(10) &amp; Chr(10) &amp; _ 
   		&quot;If there are no compiler messages, you should check LilyPond&apos;s output messages by clicking the &quot;&quot;Ly Output&quot;&quot; button.&quot; &amp; Chr(10) &amp; Chr(10) &amp; _
   		&quot;Please make sure that&quot; &amp; Chr(10) &amp; Chr(10) &amp; _
