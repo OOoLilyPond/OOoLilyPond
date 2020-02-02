@@ -152,6 +152,7 @@ Sub GreyOut()
 
 	Dim bWrapSettings As Boolean
 	Dim bEnableSeparateImages As Boolean
+	Dim bEnableFromTo As Boolean
 
 	&apos; Check if dialog is existing
 	If IsNull(oEditorDialog) Then 
@@ -176,6 +177,13 @@ Sub GreyOut()
 	&apos; grey out and un-check SeparateImages checkbox when Anchor is NOT &quot;as Character&quot;
 	oEditorDialog.getControl (&quot;bSaveAsSeparateImages&quot;).setEnable (bEnableSeparateImages)
 	If Not bEnableSeparateImages Then oEditorDialog.getControl (&quot;bSaveAsSeparateImages&quot;).SetState (BoolToCheckBoxState (False))
+	
+	&apos; grey out &quot;from&quot; and &quot;to&quot; fields when SeparateImages not checked
+	bEnableFromTo = bEnableSeparateImages And CheckBoxStateToBool (oEditorDialog.getControl (&quot;bSaveAsSeparateImages&quot;).GetState)
+	oEditorDialog.getControl (&quot;LabelFrom&quot;).setEnable (bEnableFromTo)
+	oEditorDialog.getControl (&quot;sFrom&quot;).    setEnable (bEnableFromTo)
+	oEditorDialog.getControl (&quot;LabelTo&quot;).  setEnable (bEnableFromTo)
+	oEditorDialog.getControl (&quot;sTo&quot;).      setEnable (bEnableFromTo)
 	
 	&apos; grey out KeepCrop checkbox when no current OLy object is selected
 	oEditorDialog.getControl(&quot;bKeepCrop&quot;).setEnable(bShapeIsSelected)
@@ -376,6 +384,11 @@ End Sub
 &apos; *******************
 
 Sub AnchorButton()
+	GreyOut()
+End Sub
+
+
+Sub SeparateImagesModified()
 	GreyOut()
 End Sub
 
