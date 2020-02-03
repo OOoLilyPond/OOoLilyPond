@@ -411,7 +411,7 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 	&apos; Calls the subroutines that generate the image and
 	&apos; insert the image into the document.
 	Dim bNoFileCreated As Boolean
-	Dim bNoFirstFileCreated As Boolean
+	&apos; Dim bNoFirstFileCreated As Boolean
 	Dim oViewCursor As Object
 	Dim oSelection As Object
 	Dim oAnchor As Object
@@ -419,9 +419,10 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 	Dim sIdentifier As String
 	Dim sImageNum As String
 	Dim iImageNum As Integer
+	Dim iFirstImageNum As Integer
 
 	bNoFileCreated = False
-	bNoFirstFileCreated = False
+	&apos; bNoFirstFileCreated = False
 	&apos; Test if there is LilyPond code
 	If sCode = &quot;&quot; then 
 		&apos; Msgbox (&quot;Enter LilyPond code...&quot;, iMsgBox_E, &quot;Error&quot;)
@@ -522,7 +523,20 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 			If Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;-1.&quot; &amp; sExtension) Then
  				&apos; MsgBox(&quot;No eps output is found&quot;, 0, &quot;Error&quot;)
  				MsgBox (oMessages.getPropertyValue (&quot;sMsgNoFirstFileFound&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
- 				bNoFirstFileCreated = True
+ 				&apos; bNoFirstFileCreated = True
+ 				Exit Sub
+ 			End If
+ 			If iFrom &lt; 2 Then
+ 				iFirstImageNum = 1
+ 			Else
+ 				iFirstImageNum = iFrom
+ 			End If
+			&apos; same with # iFirstImageNum
+ 			If Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;-&quot; &amp; CStr (iFirstImageNum) &amp; &quot;.&quot; &amp; sExtension) Then
+ 				&apos; MsgBox: not enough pictures to start with iFirstImageNum
+ 				MsgBox (oMessages.getPropertyValue (&quot;sMsgNoFirstFileFound&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+ 				&apos; (replace by maching error message...)
+ 				&apos; bNoFirstFileCreated = True
  				Exit Sub
  			End If
 		End If
@@ -534,12 +548,12 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 		If bSaveAsSeparateImages Then
 
 			sIdentifier = TimeStamp ()
-			iImageNum = 1
-			sImageNum = &quot;-&quot; &amp; Val (iImageNum)
+			iImageNum = iFirstImageNum
+			sImageNum = &quot;-&quot; &amp; CStr (iImageNum)
 
 			Do While oFileAccess.exists (sTmpPath &amp; constOLyFileName &amp; sImageNum &amp; &quot;.&quot; &amp; sExtension)
 				If bWriterInsertViaClipboard Then
-					If iImageNum = 1 Then
+					If iImageNum = iFirstImageNum Then
 						InsertOOoLilyPondObjectViaClipboard (sIdentifier, sImageNum, true)
 					Else
 						oCurrentCursor.goRight (0, false)
@@ -547,7 +561,7 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 						InsertOOoLilyPondObjectViaClipboard (sIdentifier, sImageNum, false)
 					End If
 				Else
-					If iImageNum = 1 Then
+					If iImageNum = iFirstImageNum Then
 						InsertOOoLilyPondObject (sIdentifier, sImageNum, true)
 					Else
 						oCurrentCursor.getText.insertControlCharacter (oCurrentCursor.getStart(), com.sun.star.text.ControlCharacter.PARAGRAPH_BREAK, False)
@@ -556,7 +570,7 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 				End If
 				oCurrentCursor.goRight (0, false)
 				iImageNum = iImageNum + 1
-				sImageNum = &quot;-&quot; &amp; Val (iImageNum)
+				sImageNum = &quot;-&quot; &amp; CStr (iImageNum)
 			Loop
 		Else	&apos; not bSaveAsSeparateImages
 			If bWriterInsertViaClipboard Then
