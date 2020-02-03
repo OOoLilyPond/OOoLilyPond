@@ -533,8 +533,9 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
  			End If
 			&apos; same with # iFirstImageNum
  			If Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;-&quot; &amp; CStr (iFirstImageNum) &amp; &quot;.&quot; &amp; sExtension) Then
- 				&apos; MsgBox: not enough pictures to start with iFirstImageNum
- 				MsgBox (oMessages.getPropertyValue (&quot;sMsgNoFirstFileFound&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+ 				&apos; MsgBox: not enough images to start with iFirstImageNum
+ 				MsgBox (oMessages.getPropertyValue (&quot;sMsgNotEnoughImages1&quot;) &amp; CStr (iFirstImageNum) &amp; oMessages.getPropertyValue (&quot;sMsgNotEnoughImages2&quot;), _ 
+ 				iMsgBox_O + iMsgBox_S, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
  				&apos; (replace by maching error message...)
  				&apos; bNoFirstFileCreated = True
  				Exit Sub
@@ -551,7 +552,7 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 			iImageNum = iFirstImageNum
 			sImageNum = &quot;-&quot; &amp; CStr (iImageNum)
 
-			Do While oFileAccess.exists (sTmpPath &amp; constOLyFileName &amp; sImageNum &amp; &quot;.&quot; &amp; sExtension)
+			Do While oFileAccess.exists (sTmpPath &amp; constOLyFileName &amp; sImageNum &amp; &quot;.&quot; &amp; sExtension) And ((iImageNum &lt;= iTo) Or (iTo = 0))
 				If bWriterInsertViaClipboard Then
 					If iImageNum = iFirstImageNum Then
 						InsertOOoLilyPondObjectViaClipboard (sIdentifier, sImageNum, true)

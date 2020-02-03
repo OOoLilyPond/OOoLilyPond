@@ -8,9 +8,15 @@ sMsgWannaSaveTemplate=Dieses Objekt beinhaltet eine Vorlage.%10%10Sie geht verlo
 
 sMsgTemplateEditButton=Klicken Sie auf die [Bearb.]-Taste, um die Vorlage in Ihrem Vorlagen-Ordner abzuspeichern
 
-' if the "from" field in the editor window contains a higher image number than the "to" field:
+' Wenn im Editor-Fenster das Feld "von" eine höhere Zahl enthält als das Feld "bis":
 
-sMsgChangeFromTo=For the first image to be inserted, you cannot specify a higher image number than for the last image.%10Like this, no image would be inserted at all.
+sMsgChangeFromTo=Die Nummer für das erste einzufügende Bild darf nicht höher sein als die für das letzte Bild.%10Das würde bedeuten, dass überhaupt kein Bild eingefügt wird.
+
+' Wenn im Editor-Fenster die Bild-Nummer im Feld "von" höher ist als die des letzten Bildes, das erstellt wurde:
+
+sMsgNotEnoughImages1=Sie haben Bild Nummer 
+' (Hier wird die Zahl eingefügt...)
+sMsgNotEnoughImages2= als erstes Bild gewählt, das eingefügt werden soll.%10Aber Ihre Noten bestehen nicht aus so vielen Bildern.%10Das würde bedeuten, dass überhaupt kein Bild eingefügt wird.%10%10Bitte wählen Sie eine kleinere Bild-Nummer.
 
 ' Bestätigung für Datei-Operationen:
 
@@ -65,6 +71,11 @@ sMsgConfirmDefaultConfig=Möchten Sie wirklich alle Einstellungen hier auf die S
 
 bSaveAsSeparateImages.label=Separate Bilder einfügen (zeilenweise)
 bSaveAsSeparateImages.helptext=Wenn die Noten mehrere Systeme (Akkoladen) umfassen, werden sie als mehrere separate Bilder eingefügt
+LabelFrom.label=von:
+LabelFrom.helptext=Nummer des ersten Bildes, das eingefügt werden soll
+LabelTo.label=bis:
+LabelTo.helptext=Nummer des letzten Bildes, das eingefügt werden soll
+
 
 [ConfigDialog]
 

@@ -193,6 +193,14 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
 
   oMessages.addProperty (&quot;sMsgChangeFromTo&quot;, BagAttr, &quot;For the first image to be inserted, you cannot specify a higher image number than for the last image.&quot; &amp; Chr(10) &amp; &quot;Like this, no image would be inserted at all.&quot;)
   
+  &apos; if the &quot;from&quot; field in the editor window contains a higher image number than the last image that has been produced:
+  
+  oMessages.addProperty (&quot;sMsgNotEnoughImages1&quot;, BagAttr, &quot;You have chosen image number &quot;)
+  &apos; (number is inserted here...)
+  oMessages.addProperty (&quot;sMsgNotEnoughImages2&quot;, BagAttr, &quot; to be inserted in the first place, but your snippet does not have that many images.&quot; &amp; Chr(10) _
+		&amp; &quot;Like this, no image would be inserted at all.&quot; &amp; Chr(10) &amp; Chr(10) _
+		&amp; &quot;Please choose a lower image number.&quot;)
+
   
   &apos; &quot;LilyPond&quot; module
   &apos; ------------------
