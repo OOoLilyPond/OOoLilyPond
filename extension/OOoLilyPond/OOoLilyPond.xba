@@ -427,6 +427,7 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 	If sCode = &quot;&quot; then 
 		&apos; Msgbox (&quot;Enter LilyPond code...&quot;, iMsgBox_E, &quot;Error&quot;)
 		Msgbox (oMessages.getPropertyValue (&quot;sMsgEnterLyCode&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		If iAskDialogReturnValue = 4 Then iAskDialogReturnValue = 3
 		exit sub
 	end if
 
@@ -502,6 +503,7 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 	End If
 	
 	If bNoFileCreated Then
+		If iAskDialogReturnValue = 4 Then iAskDialogReturnValue = 3
  		If iNErr &gt;= 1 And Not bIgnoreWarnings And Not bSilent Then   &apos;If there were errors or warnings
  	 		iErrNum = 1
   			DisplayError()
@@ -524,6 +526,7 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
  				&apos; MsgBox(&quot;No eps output is found&quot;, 0, &quot;Error&quot;)
  				MsgBox (oMessages.getPropertyValue (&quot;sMsgNoFirstFileFound&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
  				&apos; bNoFirstFileCreated = True
+ 				If iAskDialogReturnValue = 4 Then iAskDialogReturnValue = 3
  				Exit Sub
  			End If
  			If iFrom &lt; 2 Then
@@ -538,6 +541,7 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
  				iMsgBox_O + iMsgBox_S, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
  				&apos; (replace by maching error message...)
  				&apos; bNoFirstFileCreated = True
+ 				If iAskDialogReturnValue = 4 Then iAskDialogReturnValue = 3
  				Exit Sub
  			End If
 		End If
@@ -611,6 +615,7 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 		Case Else
 			Msgbox (Error, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 		End Select
+		If iAskDialogReturnValue = 4 Then iAskDialogReturnValue = 3
 	Exit Sub
 	
 End Sub

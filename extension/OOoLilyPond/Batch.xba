@@ -129,6 +129,7 @@ Sub PerformBatchProcessing ()
 			If oBatchDialog.getControl(&quot;IncludeTemplate_No&quot;).getState() Then bIncludeTemplate = False
 			
 			If MeetsCondition (&quot;A&quot;) And  MeetsCondition (&quot;B&quot;) Then
+				If (iAnswer = 4) And (iAskDialogReturnValue = 3) Then iAnswer = 3  &apos; Leave a chance to abort if errors have occured
 				If iAnswer &lt; 4 Then iAnswer = ConfirmBatchOperation ()
 				If iAnswer &lt; 2 Then Exit For	&apos;	&quot;Abort&quot;
 				If iAnswer &gt; 2 Then				&apos;	&quot;Yes&quot; or &quot;All&quot;
