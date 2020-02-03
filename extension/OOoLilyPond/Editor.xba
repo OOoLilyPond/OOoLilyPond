@@ -13,6 +13,7 @@ Sub EditorDialog()
 
 	Dim oFieldModel As Object
 	Dim myFont As New com.sun.star.awt.FontDescriptor
+	Dim sImageNum As String
 
 	&apos; Load the library OOoLilyPond...
 	&apos; DialogLibraries.LoadLibrary (constOLyLibraryName)
@@ -20,6 +21,11 @@ Sub EditorDialog()
 	&apos; Create the dialog object
 	oEditorDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Editor&quot;) )
 	ReadDialogStringsFromVar (oEditorDialog, sEditorDialogStrings, &quot;&quot;)
+	sImageNum = GetObjectImageNum (oCurrentGraphicObject)
+	If Len (sImageNum) &gt; 0 Then
+		oEditorDialog.getModel().Title = oEditorDialog.getModel().Title  &amp; &quot;   [&quot; &amp; constOLyFileName &amp; sImageNum &amp; &quot;.&quot; &amp; sExtension &amp; &quot;]&quot;
+	End If
+	
 	&apos; Preserve original field labels for LineWidth, StaffSize, Custom1, Custom2, Option1 ... Option4:
 	sDefaultLineWidthLabel = oEditorDialog.getModel().getByName(&quot;LabelLineWidth&quot;).Label
 	sDefaultStaffSizeLabel = oEditorDialog.getModel().getByName(&quot;LabelStaffSize&quot;).Label
