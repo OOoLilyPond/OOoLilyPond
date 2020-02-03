@@ -443,6 +443,11 @@ Sub LilyPondButton()
 	bSaveAsSeparateImages = CheckBoxStateToBool (oEditorDialog.getControl(&quot;bSaveAsSeparateImages&quot;).getState())
 	iFrom = oEditorDialog.getControl(&quot;iFrom&quot;).getValue()
 	iTo   = oEditorDialog.getControl(&quot;iTo&quot;).getValue()
+	
+	If bSaveAsSeparateImages And (iTo &gt; 0) And (iTo &lt; iFrom) Then
+		MsgBox (oMessages.getPropertyValue (&quot;sMsgChangeFromTo&quot;), iMsgBox_O + iMsgBox_S, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		Exit Sub
+	End If
 
 	&apos; Create the LilyPond music and insert it...
 	Make (false)	&apos; bSilent = false: don&apos;t suppress displaying errors in Editor dialog

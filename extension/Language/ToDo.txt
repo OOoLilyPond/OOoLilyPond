@@ -8,6 +8,10 @@ sMsgWannaSaveTemplate=A template is included inside this object.%10%10It might b
 
 sMsgTemplateEditButton=Click the [Edit] button to save the template into your template folder.
 
+' if the "from" field in the editor window contains a higher image number than the "to" field:
+
+sMsgChangeFromTo=For the first image to be inserted, you cannot specify a higher image number than for the last image.%10Like this, no image would be inserted at all.
+
 ' Confirmations for file operations:
 
 sMsgConfirmDeleteTemplate1=Do you really want to delete the template file "

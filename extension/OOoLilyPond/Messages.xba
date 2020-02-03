@@ -189,6 +189,10 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   
   oMessages.addProperty (&quot;sMsgEnterNewTemplateName&quot;, BagAttr, &quot;Please enter a new template name and click OK.&quot;)
   
+  &apos; if the &quot;from&quot; field in the editor window contains a higher image number than the &quot;to&quot; field:
+
+  oMessages.addProperty (&quot;sMsgChangeFromTo&quot;, BagAttr, &quot;For the first image to be inserted, you cannot specify a higher image number than for the last image.&quot; &amp; Chr(10) &amp; &quot;Like this, no image would be inserted at all.&quot;)
+  
   
   &apos; &quot;LilyPond&quot; module
   &apos; ------------------

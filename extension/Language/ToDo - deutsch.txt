@@ -8,6 +8,10 @@ sMsgWannaSaveTemplate=Dieses Objekt beinhaltet eine Vorlage.%10%10Sie geht verlo
 
 sMsgTemplateEditButton=Klicken Sie auf die [Bearb.]-Taste, um die Vorlage in Ihrem Vorlagen-Ordner abzuspeichern
 
+' if the "from" field in the editor window contains a higher image number than the "to" field:
+
+sMsgChangeFromTo=For the first image to be inserted, you cannot specify a higher image number than for the last image.%10Like this, no image would be inserted at all.
+
 ' Bestätigung für Datei-Operationen:
 
 sMsgConfirmDeleteTemplate1=Möchten Sie die Vorlagen-Datei "
