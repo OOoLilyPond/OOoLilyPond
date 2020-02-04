@@ -21,7 +21,11 @@ Sub EditorDialog()
 	&apos; Create the dialog object
 	oEditorDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Editor&quot;) )
 	ReadDialogStringsFromVar (oEditorDialog, sEditorDialogStrings, &quot;&quot;)
-	sImageNum = GetObjectImageNum (oCurrentGraphicObject)
+	if bShapeIsSelected Then
+		sImageNum = GetObjectImageNum (oCurrentGraphicObject)
+	Else
+		sImageNum = &quot;&quot;
+	End If
 	If Len (sImageNum) &gt; 0 Then
 		oEditorDialog.getModel().Title = oEditorDialog.getModel().Title  &amp; &quot;   [&quot; &amp; constOLyFileName &amp; sImageNum &amp; &quot;.&quot; &amp; sExtension &amp; &quot;]&quot;
 	End If
