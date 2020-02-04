@@ -72,9 +72,9 @@ sMsgConfirmDefaultConfig=Möchten Sie wirklich alle Einstellungen hier auf die S
 bSaveAsSeparateImages.label=Separate Bilder einfügen (zeilenweise)
 bSaveAsSeparateImages.helptext=Wenn die Noten mehrere Systeme (Akkoladen) umfassen, werden sie als mehrere separate Bilder eingefügt
 LabelFrom.label=von:
-LabelFrom.helptext=Nummer des ersten Bildes, das eingefügt werden soll
+iFrom.helptext=Nummer des ersten Bildes, das eingefügt werden soll
 LabelTo.label=bis:
-LabelTo.helptext=Nummer des letzten Bildes, das eingefügt werden soll
+iTo.helptext=Nummer des letzten Bildes, das eingefügt werden soll
 
 
 [ConfigDialog]
