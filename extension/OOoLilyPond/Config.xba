@@ -45,7 +45,7 @@ Sub ConfigDialogUpdate()
 	&apos; To do: don&apos;t read the template list twice
 	&apos; just copy it instead.
 	oConfigDialog.getControl(&quot;sFormat&quot;).removeItems(0, oConfigDialog.getControl(&quot;sFormat&quot;).getItemCount)
-	oConfigDialog.getControl(&quot;sFormat&quot;).addItems(Array(&quot;png&quot;,&quot;eps&quot;,&quot;svg&quot;,&quot;pdf to svg&quot;),0)
+	oConfigDialog.getControl(&quot;sFormat&quot;).addItems (Array (&quot;png&quot;, &quot;eps&quot;, &quot;svg&quot;, &quot;svg [-dcrop]&quot;, &quot;pdf to svg&quot;), 0)
 	ListOfTemplates(oConfigDialog.getControl(&quot;sWriterDefaultTemplate&quot;))
 	ListOfTemplates(oConfigDialog.getControl(&quot;sImpressDefaultTemplate&quot;))
 	
@@ -278,7 +278,7 @@ Sub ApplyConfig
 	sTemplatePath = AddSlash(ConvertToURL(oConfigDialog.getControl(&quot;sTemplatePath&quot;).getText()))
 	sLanguagePath = AddSlash(ConvertToURL(oConfigDialog.getControl(&quot;sLanguagePath&quot;).getText()))
 	sFormat = oConfigDialog.getControl(&quot;sFormat&quot;).getText()
-	If sFormat = &quot;pdf to svg&quot; Then
+	If sFormat = &quot;pdf to svg&quot; Or sFormat = &quot;svg [-dcrop]&quot; Then
 		sExtension = &quot;svg&quot;
 	Else
 		sExtension = sFormat
@@ -509,7 +509,7 @@ Sub ReadConfig()
 				iGraphicDPI = sValue
 			Case &quot;sFormat&quot;
 				sFormat = sValue
-				If sFormat = &quot;pdf to svg&quot; Then
+				If sFormat = &quot;pdf to svg&quot; Or sFormat = &quot;svg [-dcrop]&quot; Then
 					sExtension = &quot;svg&quot;
 				Else
 					sExtension = sFormat

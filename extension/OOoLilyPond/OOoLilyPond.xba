@@ -420,6 +420,7 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 	Dim sImageNum As String
 	Dim iImageNum As Integer
 	Dim iFirstImageNum As Integer
+	Dim sFileNameAddition As String
 
 	bNoFileCreated = False
 	&apos; bNoFirstFileCreated = False
@@ -450,6 +451,12 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 
   	ParseOutput(sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;)
   	
+  	If sFormat = &quot;svg [-dcrop]&quot; Then
+  		sFileNameAddition = &quot;.cropped&quot;
+  	Else
+  		sFileNameAddition = &quot;&quot;
+  	End If
+  	
 	&apos;If there is no eps output
  	If sFormat = &quot;eps&quot; And (Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.eps&quot;)) Then
  		&apos; MsgBox(&quot;No eps output is found&quot;, 0, &quot;Error&quot;)
@@ -458,7 +465,7 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
  	End If
  
 	&apos;If there is no svg output
- 	If sFormat = &quot;svg&quot; And (Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.svg&quot;)) Then
+ 	If (sFormat = &quot;svg&quot; Or sFormat = &quot;svg [-dcrop]&quot;) And (Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; sFileNameAddition &amp; &quot;.svg&quot;)) Then
  		&apos; MsgBox(&quot;No svg output is found&quot;, 0, &quot;Error&quot;)
  		MsgBox (oMessages.getPropertyValue (&quot;sMsgNoSvgOutputFound&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
  		bNoFileCreated = True
@@ -559,18 +566,18 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 			Do While oFileAccess.exists (sTmpPath &amp; constOLyFileName &amp; sImageNum &amp; &quot;.&quot; &amp; sExtension) And ((iImageNum &lt;= iTo) Or (iTo = 0))
 				If bWriterInsertViaClipboard Then
 					If iImageNum = iFirstImageNum Then
-						InsertOOoLilyPondObjectViaClipboard (sIdentifier, sImageNum, true)
+						InsertOOoLilyPondObjectViaClipboard (sIdentifier, sImageNum, sFileNameAddition, true)
 					Else
 						oCurrentCursor.goRight (0, false)
 						oCurrentCursor.getText.insertControlCharacter (oCurrentCursor.getStart(), com.sun.star.text.ControlCharacter.PARAGRAPH_BREAK, False)
-						InsertOOoLilyPondObjectViaClipboard (sIdentifier, sImageNum, false)
+						InsertOOoLilyPondObjectViaClipboard (sIdentifier, sImageNum, sFileNameAddition, false)
 					End If
 				Else
 					If iImageNum = iFirstImageNum Then
-						InsertOOoLilyPondObject (sIdentifier, sImageNum, true)
+						InsertOOoLilyPondObject (sIdentifier, sImageNum, sFileNameAddition, true)
 					Else
 						oCurrentCursor.getText.insertControlCharacter (oCurrentCursor.getStart(), com.sun.star.text.ControlCharacter.PARAGRAPH_BREAK, False)
-						InsertOOoLilyPondObject (sIdentifier, sImageNum, false)
+						InsertOOoLilyPondObject (sIdentifier, sImageNum, sFileNameAddition, false)
 					End If
 				End If
 				oCurrentCursor.goRight (0, false)
@@ -579,16 +586,16 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 			Loop
 		Else	&apos; not bSaveAsSeparateImages
 			If bWriterInsertViaClipboard Then
-				InsertOOoLilyPondObjectViaClipboard (&quot;&quot;, &quot;&quot;, true)
+				InsertOOoLilyPondObjectViaClipboard (&quot;&quot;, &quot;&quot;, sFileNameAddition, true)
 			Else
-				InsertOOoLilyPondObject (&quot;&quot;, &quot;&quot;, true)
+				InsertOOoLilyPondObject (&quot;&quot;, &quot;&quot;, sFileNameAddition, true)
 			End If
 		End If
 	Else				&apos; We are in Impress or Draw...
 		If bImpressInsertViaClipboard Then
-			InsertOOoLilyPondObjectViaClipboard (&quot;&quot;, &quot;&quot;, true)
+			InsertOOoLilyPondObjectViaClipboard (&quot;&quot;, &quot;&quot;, sFileNameAddition, true)
 		Else
-			InsertOOoLilyPondObject (&quot;&quot;, &quot;&quot;, true)
+			InsertOOoLilyPondObject (&quot;&quot;, &quot;&quot;, sFileNameAddition, true)
 		End If
 	End If
 	
@@ -694,7 +701,7 @@ Sub AttachAttributes (oGraphic As Object, sIdentifier As String, sImageNum As St
 End Sub
 
 
-Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As String, bFirstCall As Boolean)
+Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As String, sAddition As String, bFirstCall As Boolean)
 	&apos; Dim oDoc, oDocCtrl
 	Dim oDispatcher, oAttributes, oViewCursor, oGraphic, oLilyPondAttribute As Object
 	Dim oText as Object
@@ -713,7 +720,7 @@ Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As Strin
 		oText = oDoc.Text
 		
 		&apos;Import the new image to the clipboard and paste it...
-   		ImportGraphicIntoClipboard (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension))	
+   		ImportGraphicIntoClipboard (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension))	
 		oDispatcher.executeDispatch (oDocCtrl.Frame, &quot;.uno:Paste&quot;, &quot;&quot;, 0, Array())
 	  	oGraphic = oDocCtrl.getSelection().GetByIndex(0)
 
@@ -757,7 +764,7 @@ Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As Strin
 		
 		&apos;Import the new image to the clipboard and paste it...
 		&apos; To do: don&apos;t use dispatcher
-   		ImportGraphicIntoClipboard(ConvertToURL( sTmpPath &amp; constOLyFileName &amp; &quot;.&quot; &amp; sExtension))	
+   		ImportGraphicIntoClipboard(ConvertToURL( sTmpPath &amp; constOLyFileName &amp; sAddition &amp; &quot;.&quot; &amp; sExtension))	
 		oDispatcher.executeDispatch( oDocCtrl.Frame, &quot;.uno:Paste&quot;, &quot;&quot;, 0, Array())
 	  	oGraphic = oDocCtrl.getSelection().getByIndex(0)
 
@@ -769,7 +776,7 @@ Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As Strin
 End Sub
 
 
-Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, bFirstCall)
+Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, sAddition As String, bFirstCall)
 	Dim oAttributes As Object
 	Dim oGraphic As Object
 	Dim oLilyPondAttribute As Object
@@ -783,18 +790,18 @@ Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, bFirstCal
 		Select Case oCurrentGraphicObject.getImplementationName()		
 		Case &quot;com.sun.star.drawing.SvxShapeCollection&quot;  &apos; OLy &lt; 0.4 in Writer
 			If bFirstCall Then oCurrentGraphicObject(0).getParent().remove(oCurrentGraphicObject(0)) &apos; Delete old OLyObject
-			oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension), oCurrentCursor, true)
+			oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), oCurrentCursor, true)
 
 		Case &quot;SwXTextGraphicObject&quot; &apos; Graphic is selected in Writer
 			If bFirstCall Then
-				oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension), oCurrentGraphicObject, false)
+				oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), oCurrentGraphicObject, false)
 				oCurrentCursor.goRight (1, false)
 			Else
-				oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension), oCurrentCursor, true)
+				oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), oCurrentCursor, true)
 			End If
 			
 		Case &quot;SwXTextRanges&quot; &apos; Nothing or normal text selection in Writer
-			oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension), oCurrentCursor, false)
+			oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), oCurrentCursor, false)
 
 		End Select
 
@@ -810,10 +817,10 @@ Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, bFirstCal
 
 		If  IsNull(oCurrentGraphicObject) Then
 			&apos; Nothing is selected
-			oGraphic = ImportBitmapIntoDraw (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension))
+			oGraphic = ImportBitmapIntoDraw (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension))
 		Else
 			&apos; OlyObject is selected
-			oGraphic = ImportBitmapIntoDraw (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; &quot;.&quot; &amp; sExtension), oCurrentGraphicObject.getByIndex(0))
+			oGraphic = ImportBitmapIntoDraw (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), oCurrentGraphicObject.getByIndex(0))
 		End If
 	End If
 	

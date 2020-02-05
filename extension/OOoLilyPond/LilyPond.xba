@@ -52,7 +52,7 @@ Function CallLilyPond() As Boolean
 	If 	Val(sLilyPondVersionMajor)=2 and Val(sLilyPondVersionMinor)&lt;=10 Then
 		sBackendOpt=&quot;-b eps&quot;
 	End If
-	If sFormat=&quot;svg&quot; Then
+	If sFormat=&quot;svg&quot; Or sFormat=&quot;svg [-dcrop]&quot; Then
 		sBackendOpt=&quot;-dbackend=svg&quot;
 	End If
 	
@@ -62,6 +62,9 @@ Function CallLilyPond() As Boolean
 		&amp; Chr(34) &amp; sLilyPondExecutable &amp; Chr(34) &amp; &quot; -dno-point-and-click&quot;
 		If Len(sActualIncludeStatement) &gt; 0 Then
 			sCommand = sCommand &amp; &quot; &quot; &amp; sActualIncludeStatement
+		End If
+		If sFormat=&quot;svg [-dcrop]&quot; Then
+			sCommand = sCommand &amp; &quot; -dcrop&quot;
 		End If
 		If sFormat=&quot;png&quot; Then
 			If bTransparentBackground Then
@@ -80,7 +83,7 @@ Function CallLilyPond() As Boolean
 		ElseIf sFormat=&quot;eps&quot; Then
 			sCommand = sCommand &amp; &quot; &quot; &amp; sBackendOpt &amp; &quot; -f eps &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; constOLyFileName &amp; &quot;.ly&quot; &amp; Chr (34) _
 			&amp; &quot; &gt;&quot; &amp; constOLyFileName &amp; &quot;.out 2&gt;&amp;1; &quot;
-		ElseIf sFormat=&quot;svg&quot; Then
+		ElseIf sFormat=&quot;svg&quot; Or sFormat=&quot;svg [-dcrop]&quot; Then
 			sCommand = sCommand &amp; &quot; &quot; &amp; sBackendOpt &amp; &quot; &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; constOLyFileName &amp; &quot;.ly&quot; &amp; Chr (34) _
 			&amp; &quot; &gt;&quot; &amp; constOLyFileName &amp; &quot;.out 2&gt;&amp;1; &quot;
 		End If
@@ -100,6 +103,9 @@ Function CallLilyPond() As Boolean
 		If Len(sActualIncludeStatement) &gt; 0 Then
 			sCommand = sCommand &amp; &quot; &quot; &amp; sActualIncludeStatement
 		End If
+		If sFormat=&quot;svg [-dcrop]&quot; Then
+			sCommand = sCommand &amp; &quot; -dcrop&quot;
+		End If
 		If sFormat=&quot;png&quot; Then
 			If bTransparentBackground Then
 				sCommand = sCommand &amp; &quot; -dno-delete-intermediate-files -dpixmap-format=pngalpha --png &quot; &amp; sBackendOpt &amp; &quot; -dresolution=&quot; _
@@ -116,7 +122,7 @@ Function CallLilyPond() As Boolean
 		ElseIf sFormat=&quot;eps&quot; Then
 			sCommand = sCommand &amp; &quot; &quot; &amp; sBackendOpt &amp; &quot; -f eps &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; constOLyFileName &amp; &quot;.ly&quot; &amp; Chr (34) _
 			&amp; &quot; &gt;&quot; &amp; constOLyFileName &amp; &quot;.out 2&gt;&amp;1&quot; &amp; Chr(13) &amp; Chr(10)
-		ElseIf sFormat=&quot;svg&quot; Then
+		ElseIf sFormat=&quot;svg&quot; Or sFormat=&quot;svg [-dcrop]&quot; Then
 			sCommand = sCommand &amp; &quot; &quot; &amp; sBackendOpt &amp; &quot; &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; constOLyFileName &amp; &quot;.ly&quot; &amp; Chr (34) _
 			&amp; &quot; &gt;&quot; &amp; constOLyFileName &amp; &quot;.out 2&gt;&amp;1&quot; &amp; Chr(13) &amp; Chr(10)
 		End If
