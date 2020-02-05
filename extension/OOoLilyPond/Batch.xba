@@ -106,8 +106,10 @@ Sub PerformBatchProcessing ()
 	oProgressBar.start (oMessages.getPropertyValue (&quot;sMsgBatchProcessing&quot;), iLastObject + 1)
 	If CheckBoxStateToBool (oBatchDialog.getControl(&quot;bAsk&quot;).getState()) Then
 		iAnswer = 2  &apos; &quot;No&quot;
+		iAskDialogReturnValue = 2
 	Else
 		iAnswer = 4  &apos; &quot;All&quot;
+		iAskDialogReturnValue = 4
 	End If
 	
 	&apos; now process objects from the list:
