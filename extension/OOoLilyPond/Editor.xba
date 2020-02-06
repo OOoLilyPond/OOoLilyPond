@@ -21,10 +21,14 @@ Sub EditorDialog()
 	&apos; Create the dialog object
 	oEditorDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Editor&quot;) )
 	ReadDialogStringsFromVar (oEditorDialog, sEditorDialogStrings, &quot;&quot;)
+	sImageNum = &quot;&quot;
 	if bShapeIsSelected Then
-		sImageNum = GetObjectImageNum (oCurrentGraphicObject)
-	Else
-		sImageNum = &quot;&quot;
+		Select Case oCurrentGraphicObject.getImplementationName()
+		Case &quot;com.sun.star.drawing.SvxShapeCollection&quot; 	&apos; inserted into Writer via Clipboard OR inserted into Draw/Impress
+			sImageNum = GetObjectImageNum (oCurrentGraphicObject.getByIndex(0))
+		Case &quot;SwXTextGraphicObject&quot;						&apos; Graphic is selected in Writer
+			sImageNum = GetObjectImageNum (oCurrentGraphicObject)
+		End Select
 	End If
 	If Len (sImageNum) &gt; 0 Then
 		oEditorDialog.getModel().Title = oEditorDialog.getModel().Title  &amp; &quot;   [&quot; &amp; constOLyFileName &amp; sImageNum &amp; &quot;.&quot; &amp; sExtension &amp; &quot;]&quot;
