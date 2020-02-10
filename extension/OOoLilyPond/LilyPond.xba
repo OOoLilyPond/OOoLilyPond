@@ -293,6 +293,7 @@ Sub ParseOutput(sFile as String)
 	Dim iStartPos As Integer
 	Dim iNameLength As Integer
 	Dim iWinComp As Integer  &apos; compensation for Windows
+	Dim iNoColumnComp As Integer   &apos; compensation if error message contains no column number
 	
 	if Not oFileAccess.exists(sFile) then
 		&apos; Msgbox(&quot;The LilyPond output file does not exist:&quot; &amp; Chr(10) &amp; sFile, iMsgBox_E, &quot;Error&quot;)
@@ -321,7 +322,12 @@ Sub ParseOutput(sFile as String)
 		sLine = oTextInputStream.readLine()
 		vArray = Split(sLine, &quot;:&quot;)
 		If isArray(vArray) Then
-			If UBound(vArray)&gt;=(LBound(vArray)+4+iWinComp) Then		
+			If UBound(vArray)&gt;=(LBound(vArray)+3+iWinComp) Then	
+				If UBound(vArray)=(LBound(vArray)+3+iWinComp) Then	&apos; exactly that value? -&gt; no column number
+					iNoColumnComp = -1
+				Else												&apos; more? -&gt; normal error message, contains column number
+					iNoColumnComp = 0
+				End If
 				iStartPos = Len (vArray(LBound(vArray)+iWinComp)) - iNameLength
 				if iStartPos &lt; 1 Then  &apos; make sure that arguments for Mid(...) are valid
 					iStartPos = 1
@@ -329,7 +335,11 @@ Sub ParseOutput(sFile as String)
 				If Mid (vArray(LBound(vArray)+iWinComp), iStartPos) = constOLyFileName &amp; &quot;.ly&quot; Then
 					iNErr = iNErr + 1
 					iErrRow(iNErr) = Val(vArray(LBound(vArray)+1+iWinComp))
-					iErrCol(iNErr) = Val(vArray(LBound(vArray)+2+iWinComp))
+					If iNoColumnComp = 0 Then
+						iErrCol(iNErr) = Val(vArray(LBound(vArray)+2+iWinComp))
+					Else
+						iErrCol(iNErr) = 1
+					End If
 					&apos; If (vArray(LBound(vArray)+3+iWinComp) = &quot; &quot; &amp; oMessages.getPropertyValue (&quot;sErrorKeyWord1&quot;)) Or (vArray(LBound(vArray)+3+iWinComp) = &quot; &quot; &amp; oMessages.getPropertyValue (&quot;sErrorKeyWord2&quot;)) Then  
 					&apos; &apos; (ToDo: What if LilyPond&apos;s error message is in another language?)
 					&apos; &apos; Done: Key words can be customized
@@ -337,8 +347,8 @@ Sub ParseOutput(sFile as String)
 					&apos; Else
 					&apos; 	iErrClass(iNErr)=1 &apos;Warning
 					&apos; EndIf
-					sErrMsg(iNErr) = vArray(LBound(vArray)+3+iWinComp)
-					For i = (4+iWinComp) to UBound(vArray) - LBound(vArray)
+					sErrMsg(iNErr) = vArray(LBound(vArray)+3+iWinComp+iNoColumnComp)
+					For i = (4+iWinComp+iNoColumnComp) to UBound(vArray) - LBound(vArray)
 						sErrMsg(iNErr) = sErrMsg(iNErr) &amp; &quot;:&quot; &amp; vArray(LBound(vArray)+i)
 					Next
 				End If
