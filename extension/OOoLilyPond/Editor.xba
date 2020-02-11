@@ -44,16 +44,6 @@ Sub EditorDialog()
 	sDefaultOption3Label = oEditorDialog.getModel().getByName(&quot;bOption3&quot;).Label
 	sDefaultOption4Label = oEditorDialog.getModel().getByName(&quot;bOption4&quot;).Label
 	
-	&apos; Make sure sLineWidthLabel etc. are always usable: 
-	If Not bLineWidthLabelExists Then sLineWidthLabel = sDefaultLineWidthLabel
-	If Not bStaffSizeLabelExists Then sStaffSizeLabel = sDefaultStaffSizeLabel
-	If Not bCustom1LabelExists   Then sCustom1Label   = sDefaultCustom1Label
-	If Not bCustom2LabelExists   Then sCustom2Label   = sDefaultCustom2Label
-	If Not bOption1LabelExists   Then sOption1Label   = sDefaultOption1Label
-	If Not bOption2LabelExists   Then sOption2Label   = sDefaultOption2Label
-	If Not bOption3LabelExists   Then sOption3Label   = sDefaultOption3Label
-	If Not bOption4LabelExists   Then sOption4Label   = sDefaultOption4Label
-	
 	&apos; Change the font of the editor pane
 	oFieldModel = oEditorDialog.getControl(&quot;sCode&quot;).getModel()
 	MyFont.Name = sEditorFontName
@@ -91,6 +81,12 @@ Sub EditorDialog()
 		UseDefaultCustom2()
 	Else
 		oEditorDialog.getControl(&quot;sCustom2&quot;).setText(sCustom2)
+	End If
+	If Not bShapeIsSelected Then
+		bOption1 = bDefaultOption1
+		bOption2 = bDefaultOption2
+		bOption3 = bDefaultOption3
+		bOption4 = bDefaultOption4
 	End If
 	oEditorDialog.getControl(&quot;bOption1&quot;).setState(BoolToCheckBoxState(bOption1))
 	oEditorDialog.getControl(&quot;bOption2&quot;).setState(BoolToCheckBoxState(bOption2))
@@ -203,6 +199,16 @@ Sub GreyOut()
 	
 	&apos; grey out KeepCrop checkbox when no current OLy object is selected
 	oEditorDialog.getControl(&quot;bKeepCrop&quot;).setEnable(bShapeIsSelected)
+	
+	&apos; Make sure sLineWidthLabel etc. are always usable: 
+	If Not bLineWidthLabelExists Then sLineWidthLabel = sDefaultLineWidthLabel
+	If Not bStaffSizeLabelExists Then sStaffSizeLabel = sDefaultStaffSizeLabel
+	If Not bCustom1LabelExists   Then sCustom1Label   = sDefaultCustom1Label
+	If Not bCustom2LabelExists   Then sCustom2Label   = sDefaultCustom2Label
+	If Not bOption1LabelExists   Then sOption1Label   = sDefaultOption1Label
+	If Not bOption2LabelExists   Then sOption2Label   = sDefaultOption2Label
+	If Not bOption3LabelExists   Then sOption3Label   = sDefaultOption3Label
+	If Not bOption4LabelExists   Then sOption4Label   = sDefaultOption4Label
 
 	&apos; grey out input fields
 	UpdateFieldAppearance (&quot;LineWidth&quot;, sLineWidthLabel, sDefaultLineWidth, &quot;##t&quot;, &quot;##f&quot;, bLineWidthFieldExists)
@@ -210,18 +216,18 @@ Sub GreyOut()
 	UpdateFieldAppearance (&quot;Custom1&quot;,   sCustom1Label,   sDefaultCustom1,   &quot;##t&quot;, &quot;##f&quot;, bCustom1FieldExists)
 	UpdateFieldAppearance (&quot;Custom2&quot;  , sCustom2Label,   sDefaultCustom2,   &quot;##t&quot;, &quot;##f&quot;, bCustom2FieldExists)
 	
-	&apos; grey out option checkboxes
-	oEditorDialog.getControl(&quot;bOption1&quot;).setEnable(bOption1FieldExists)
-	oEditorDialog.getControl(&quot;bOption2&quot;).setEnable(bOption2FieldExists)
-	oEditorDialog.getControl(&quot;bOption3&quot;).setEnable(bOption3FieldExists)
-	oEditorDialog.getControl(&quot;bOption4&quot;).setEnable(bOption4FieldExists)
-	
 	&apos; labels for option checkboxes
 	oEditorDialog.getModel().getByName(&quot;bOption1&quot;).Label = sOption1Label
 	oEditorDialog.getModel().getByName(&quot;bOption2&quot;).Label = sOption2Label
 	oEditorDialog.getModel().getByName(&quot;bOption3&quot;).Label = sOption3Label
 	oEditorDialog.getModel().getByName(&quot;bOption4&quot;).Label = sOption4Label
 	
+	&apos; grey out option checkboxes
+	oEditorDialog.getControl(&quot;bOption1&quot;).setEnable(bOption1FieldExists)
+	oEditorDialog.getControl(&quot;bOption2&quot;).setEnable(bOption2FieldExists)
+	oEditorDialog.getControl(&quot;bOption3&quot;).setEnable(bOption3FieldExists)
+	oEditorDialog.getControl(&quot;bOption4&quot;).setEnable(bOption4FieldExists)
+
 	&apos; indicate if Template location is other than standard template folder:
 	oEditorDialog.getModel().getByName (&quot;TemplateLocationLabel&quot;).Label = sTemplateLocationLabel
 	oEditorDialog.getModel().getByName (&quot;TemplateLocationLabel&quot;).helptext = sTemplateLocationHelptext
@@ -574,6 +580,8 @@ Sub TemplateChanged()
 		If bUseDefaultStaffSize Then UseDefaultStaffSize()
 		If bUseDefaultCustom1 Then UseDefaultCustom1()
 		If bUseDefaultCustom2 Then UseDefaultCustom2()
+		
+		&apos; UseDefaultOptions()   &apos; better don&apos;t do that
 
 		GreyOut()
 	End If
@@ -744,6 +752,17 @@ Sub UseDefaultCustom2
 		bUseDefaultCustom2 = False
 	End If
 	UpdateFieldAppearance (&quot;Custom2&quot;, sCustom2Label, sDefaultCustom2, &quot;##t&quot;, &quot;##f&quot;, bCustom2FieldExists)
+End Sub
+
+Sub UseDefaultOptions
+	bOption1 = bDefaultOption1
+	bOption2 = bDefaultOption2
+	bOption3 = bDefaultOption3
+	bOption4 = bDefaultOption4
+	oEditorDialog.getControl(&quot;bOption1&quot;).setState(BoolToCheckBoxState(bOption1))
+	oEditorDialog.getControl(&quot;bOption2&quot;).setState(BoolToCheckBoxState(bOption2))
+	oEditorDialog.getControl(&quot;bOption3&quot;).setState(BoolToCheckBoxState(bOption3))
+	oEditorDialog.getControl(&quot;bOption4&quot;).setState(BoolToCheckBoxState(bOption4))
 End Sub
 
 </script:module>
