@@ -534,6 +534,10 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
  				MsgBox (oMessages.getPropertyValue (&quot;sMsgNoFirstFileFound&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
  				&apos; bNoFirstFileCreated = True
  				If iAskDialogReturnValue = 4 Then iAskDialogReturnValue = 3
+ 				If iNErr &gt;= 1 And Not bIgnoreWarnings And Not bSilent Then   &apos;If there were errors or warnings
+ 			 		iErrNum = 1
+  					DisplayError()
+ 				End If
  				Exit Sub
  			End If
  			If iFrom &lt; 2 Then
@@ -549,6 +553,10 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
  				&apos; (replace by maching error message...)
  				&apos; bNoFirstFileCreated = True
  				If iAskDialogReturnValue = 4 Then iAskDialogReturnValue = 3
+ 				If iNErr &gt;= 1 And Not bIgnoreWarnings And Not bSilent Then   &apos;If there were errors or warnings
+ 			 		iErrNum = 1
+  					DisplayError()
+ 				End If
  				Exit Sub
  			End If
 		End If
