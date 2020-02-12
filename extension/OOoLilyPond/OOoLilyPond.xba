@@ -291,13 +291,14 @@ Sub EraseImageSiblings()
 					If oCurrentObject.SupportsService(&quot;com.sun.star.drawing.Shape&quot;) Or oCurrentObject.SupportsService(&quot;com.sun.star.text.TextGraphicObject&quot;) Then
 						oTextCursor = oCurrentObject.getAnchor().getText().createTextCursorByRange (oCurrentObject.getAnchor())
 						oCurrentObject.Dispose	&apos; erase image
-						if oTextCursor.goLeft (1, True) Then
-							sTempStr = oTextCursor.getString ()
-							iStrLen = Len (sTempStr)
-							if Len (sTempStr) = 2 Then
-								sCharNum = Asc (sTempStr)
-								If sCharNum = &quot;13&quot; Then oTextCursor.setString (&quot;&quot;)  &apos; erase &quot;new paragraph&quot; control char
-							End If
+						If Not oTextCursor.goLeft (1, True) Then   &apos; We are at the beginning of a document or table cell or...
+							oTextCursor.goRight (1, True)
+						End If
+						sTempStr = oTextCursor.getString ()
+						iStrLen = Len (sTempStr)
+						if Len (sTempStr) = 2 Then
+							sCharNum = Asc (sTempStr)
+							If sCharNum = &quot;13&quot; Then oTextCursor.setString (&quot;&quot;)  &apos; erase &quot;new paragraph&quot; control char
 						End If
         			End If
 				Else
@@ -578,6 +579,7 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 					Else
 						oCurrentCursor.goRight (0, false)
 						oCurrentCursor.getText.insertControlCharacter (oCurrentCursor.getStart(), com.sun.star.text.ControlCharacter.PARAGRAPH_BREAK, False)
+						Wait (100)
 						InsertOOoLilyPondObjectViaClipboard (sIdentifier, sImageNum, sFileNameAddition, false)
 					End If
 				Else
