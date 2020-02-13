@@ -1,11 +1,7 @@
 \include "lilypond-book-preamble.ly"
 #(set-global-staff-size %{OOoLilyPondStaffSize%} 20 %{OOoLilyPondEnd%})
-#(define version-seen #t)  % don't remove, because
-% the version warning has a slightly different format than normal error messages.
-% This (still) would crash OLy's message handling...
 
 \paper {
-  #(define dump-extents #t)
   line-width = %{OOoLilyPondLineWidth%}17\cm%{OOoLilyPondEnd%}
 }
 

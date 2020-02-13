@@ -31,7 +31,6 @@
 #(set-global-staff-size %{OOoLilyPondStaffSize%}20%{OOoLilyPondEnd%})
 
 \paper {
-  #(define dump-extents #t)
   ragged-right = ##t
   line-width = %{OOoLilyPondLineWidth%}17\cm%{OOoLilyPondEnd%}
 }
