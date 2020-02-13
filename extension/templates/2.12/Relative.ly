@@ -15,7 +15,7 @@ g8 a b g c a d d, | g2 \bar "|."%{OOoLilyPondEnd%}
 
 \paper {
   ragged-right = ##t
-  line-width = %{OOoLilyPondLineWidth%}17\cm%{OOoLilyPondEnd%}
+  line-width = %{OOoLilyPondLineWidth%}17 \cm%{OOoLilyPondEnd%}
 }
 
 \layout {

@@ -14,7 +14,7 @@
 
 \paper {
   ragged-right = ##t
-  line-width = %{OOoLilyPondLineWidth%}17\cm%{OOoLilyPondEnd%}
+  line-width = %{OOoLilyPondLineWidth%}17 \cm%{OOoLilyPondEnd%}
 }
 
 \layout {

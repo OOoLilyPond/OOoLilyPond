@@ -2,7 +2,7 @@
 #(set-global-staff-size %{OOoLilyPondStaffSize%} 20 %{OOoLilyPondEnd%})
 
 \paper {
-  line-width = %{OOoLilyPondLineWidth%}17\cm%{OOoLilyPondEnd%}
+  line-width = %{OOoLilyPondLineWidth%}17 \cm%{OOoLilyPondEnd%}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
