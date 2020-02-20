@@ -22,7 +22,7 @@
    <dlg:radio dlg:id="ReplaceWholeField_A" dlg:tab-index="13" dlg:left="10" dlg:top="152" dlg:width="114" dlg:height="8" dlg:value="Replace whole field by:"/>
    <dlg:radio dlg:id="ReplaceSearchedString_A" dlg:tab-index="14" dlg:left="10" dlg:top="162" dlg:width="114" dlg:height="8" dlg:value="Replace only searched string by:"/>
   </dlg:radiogroup>
-  <dlg:checkbox dlg:id="bKeepCrop" dlg:tab-index="32" dlg:left="274" dlg:top="96" dlg:width="120" dlg:height="7" dlg:help-text="When editing/replacing an existing object, preserve its current size and crop settings" dlg:value="Keep Size &amp; Crop Settings" dlg:checked="false"/>
+  <dlg:checkbox dlg:id="bKeepCrop" dlg:tab-index="32" dlg:left="274" dlg:top="96" dlg:width="120" dlg:height="8" dlg:help-text="When editing/replacing an existing object, preserve its current size and crop settings" dlg:value="Keep Size &amp; Crop Settings" dlg:checked="false"/>
   <dlg:radiogroup>
    <dlg:radio dlg:id="NoCondition_B" dlg:tab-index="19" dlg:left="142" dlg:top="54" dlg:width="114" dlg:height="8" dlg:value="no condition" dlg:checked="true"/>
    <dlg:radio dlg:id="ConditionContains_B" dlg:tab-index="20" dlg:left="142" dlg:top="64" dlg:width="56" dlg:height="8" dlg:value="contains:"/>
