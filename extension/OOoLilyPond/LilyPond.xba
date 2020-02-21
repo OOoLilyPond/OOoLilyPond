@@ -15,7 +15,9 @@ Function GetRelativeIncludeStatement As String
 	sURL=oDoc.getURL()
 	If  Not IsNull(sURL) And Len(sURL) &gt; 0 Then
 		sParts=Split(sURL,&quot;/&quot;)
-		ReDim Preserve sParts(0 to UBound(sParts) -1)
+		Dim iUBound As Integer
+		iUBound = UBound(sParts) -1
+		ReDim Preserve sParts (0 to iUBound)
 		sPath=ConvertFromURL(Join(sParts,&quot;/&quot;))
 		If GetPathSeparator() = &quot;\&quot; Then
 			While InStr (sPath, &quot;\&quot;) &gt; 0	&apos;  replace &quot;\&quot; by &quot;/&quot;, even in Windows LilyPond expects paths to be written with forward slashes
