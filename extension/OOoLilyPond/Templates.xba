@@ -392,6 +392,14 @@ Function ReadTemplate (bShowError As Boolean) As Boolean
 	bOption3LabelExists = False
 	bOption4LabelExists = False
 	
+	&apos; prevent having old values from previously loaded template:
+	bDefaultOption1 = False
+	bDefaultOption2 = False
+	bDefaultOption3 = False
+	bDefaultOption4 = False
+	If bUseDefaultCustom1 Then sDefaultCustom1 = &quot;&quot;
+	If bUseDefaultCustom2 Then sDefaultCustom2 = &quot;&quot;
+	
 	iTagPos = TagPos(sCodeToParse, sStartTagHead, sStartTagHeadScm)
 
 	While iTagPos &gt; 0

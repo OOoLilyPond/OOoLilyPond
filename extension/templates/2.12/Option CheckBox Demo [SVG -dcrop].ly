@@ -25,7 +25,6 @@
 %{OOoLilyPondEnd%}
 }
 
-\include "lilypond-book-preamble.ly"
 #(set-global-staff-size #!OOoLilyPondStaffSize!# 20 #!OOoLilyPondEnd!#)
 
 %                         #!  and  !#  enclose block comments in scheme.
@@ -35,11 +34,19 @@
 %   In your templates, you can use either of them for tags like "OOoLilyPondStaffSize" etc. 
 %   On compilation, OLy will use scheme block comments for OOoLilyPondStaffSize (as above), 
 %   all other tags will be written with LilyPond block comments. 
+#(define version-seen #t)  
 
 \paper {
   ragged-right = %{OOoLilyPondCustom2%}##t%{OOoLilyPondEnd%} 
   line-width = %{OOoLilyPondLineWidth%}17 \cm%{OOoLilyPondEnd%}
-}
+
+  #(define fonts
+     (make-pango-font-tree
+      "TeXGyreSchola"           ; adjust this font name according to your needs
+      "TeXGyreHeros"            ; adjust this font name according to your needs
+      "TeXGyreCursor"           ; adjust this font name according to your needs
+      (/ staff-height pt 20)))
+}                              % Those 3 font families have to be installed on your system
 
 \layout {
   indent = 0 \cm

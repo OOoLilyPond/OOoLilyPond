@@ -9,13 +9,13 @@
    <dlg:radio dlg:id="WriterNoWrap" dlg:tab-index="12" dlg:left="80" dlg:top="78" dlg:width="75" dlg:height="8" dlg:help-text="The text is not flowing around the OOoLilyPond object." dlg:tabstop="true" dlg:value="No Wrap" dlg:checked="true"/>
    <dlg:radio dlg:id="WriterOptimalPageWrap" dlg:tab-index="13" dlg:left="80" dlg:top="88" dlg:width="75" dlg:height="8" dlg:help-text="The text is flowing on the right or left side of the OOoLilyPond object." dlg:tabstop="true" dlg:value="Optimal Page Wrap"/>
   </dlg:radiogroup>
-  <dlg:button dlg:id="OKButton" dlg:tab-index="1" dlg:left="321" dlg:top="313" dlg:width="90" dlg:height="12" dlg:help-text="Apply and save configuration to file" dlg:value="OK">
+  <dlg:button dlg:id="OKButton" dlg:tab-index="1" dlg:left="321" dlg:top="313" dlg:width="91" dlg:height="12" dlg:help-text="Apply and save configuration to file" dlg:value="OK">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.ConfigOKButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
   <dlg:radiogroup>
    <dlg:radio dlg:id="WriterWrapThrough" dlg:tab-index="14" dlg:left="80" dlg:top="98" dlg:width="75" dlg:height="8" dlg:help-text="The text is flowing through the OOoLilyPond object." dlg:tabstop="true" dlg:value="Wrap Through"/>
   </dlg:radiogroup>
-  <dlg:button dlg:id="ResetButton" dlg:tab-index="54" dlg:left="321" dlg:top="296" dlg:width="90" dlg:height="12" dlg:help-text="Reset all values to default" dlg:value="Reset to Default">
+  <dlg:button dlg:id="ResetButton" dlg:tab-index="54" dlg:left="321" dlg:top="296" dlg:width="91" dlg:height="12" dlg:help-text="Reset all values to default" dlg:value="Reset to Default">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.DefaultConfigButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
   <dlg:button dlg:id="RestoreTemplates" dlg:tab-index="55" dlg:left="321" dlg:top="260" dlg:width="91" dlg:height="12" dlg:help-text="Restore the original templates delivered with OLy. Your actual templates will be backed up in a subfolder." dlg:value="Restore Templates">
@@ -46,7 +46,7 @@
   <dlg:textfield dlg:id="sTemplatePath" dlg:tab-index="48" dlg:left="173" dlg:top="124" dlg:width="201" dlg:height="12" dlg:help-text="The path where OOoLiliyPond looks for templates."/>
   <dlg:textfield dlg:id="sLilyPondExecutable" dlg:tab-index="49" dlg:left="173" dlg:top="203" dlg:width="201" dlg:height="12" dlg:help-text="The LilyPond executable."/>
   <dlg:numericfield dlg:id="iGraphicDPI" dlg:tab-index="52" dlg:left="228" dlg:top="242" dlg:width="30" dlg:height="12" dlg:help-text="Resolution for pixel based (png-format) OOoLilyPond objects." dlg:decimal-accuracy="0" dlg:value="300" dlg:value-min="75" dlg:value-max="2400" dlg:value-step="0"/>
-  <dlg:combobox dlg:id="sFormat" dlg:tab-index="51" dlg:left="174" dlg:top="242" dlg:width="50" dlg:height="12" dlg:help-text="The png format looks better on the screen. The eps and svg formats are optimized for printing." dlg:spin="true"/>
+  <dlg:combobox dlg:id="sFormat" dlg:tab-index="51" dlg:left="174" dlg:top="242" dlg:width="50" dlg:height="12" dlg:help-text="The png format looks better on the screen. The eps, svg and pdf formats are optimized for printing." dlg:spin="true"/>
   <dlg:checkbox dlg:id="bIgnoreWarnings" dlg:tab-index="53" dlg:left="173" dlg:top="218" dlg:width="143" dlg:height="10" dlg:help-text="Don&apos;t list warnings and error messages from LilyPond" dlg:value="Ignore messages from LilyPond" dlg:checked="false"/>
   <dlg:textfield dlg:id="sExtEditorExecutable" dlg:tab-index="47" dlg:left="173" dlg:top="150" dlg:width="201" dlg:height="12" dlg:help-text="The external Editor&apos;s executable with or without path."/>
   <dlg:textfield dlg:id="sIncludeStatement" dlg:tab-index="46" dlg:left="173" dlg:top="72" dlg:width="237" dlg:height="12" dlg:help-text="The path(s) where LilyPond looks for include files (multiple statements possible)"/>
@@ -95,7 +95,7 @@
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.RestoreLanguageFilesButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
   <dlg:combobox dlg:id="sLanguageFileName" dlg:tab-index="59" dlg:left="173" dlg:top="20" dlg:width="143" dlg:height="12" dlg:help-text="Specify a file name for the language file that contains OLy&apos;s translation strings" dlg:spin="true" dlg:linecount="24"/>
-  <dlg:text dlg:id="LabelFormatInfo" dlg:tab-index="50" dlg:left="174" dlg:top="264" dlg:width="134" dlg:height="66" dlg:value="eps: Only with OpenOffice&#x0a;&#x0a;pdf to svg: Only with LibreOffice, &#x0a;                   external converter required&#x0a;&#x0a;svg: Only with LibreOffice, use Template&#x0a;        without &quot;lilypond-book-preamble.ly&quot;" dlg:tabstop="false" dlg:nolabel="true"/>
+  <dlg:text dlg:id="LabelFormatInfo" dlg:tab-index="50" dlg:left="174" dlg:top="264" dlg:width="143" dlg:height="66" dlg:value="eps: Only with OpenOffice&#x0a;&#x0a;pdf to svg: Only with LibreOffice, &#x0a;  external converter required&#x0a;&#x0a;svg &amp; svg [-dcrop]: Only with LibreOffice, use &#x0a;  template without &quot;lilypond-book-preamble.ly&quot;" dlg:tabstop="false" dlg:nolabel="true"/>
   <dlg:button dlg:id="ExtEditorPickButton" dlg:tab-index="60" dlg:left="376" dlg:top="150" dlg:width="35" dlg:height="12" dlg:help-text="Select an executable file" dlg:value="Select">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.ExtEditorPickButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>

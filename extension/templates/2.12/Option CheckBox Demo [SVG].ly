@@ -1,6 +1,9 @@
-\transpose %{OOoLilyPondCustom1%}c c%{OOoLilyPondEnd%} 
-{
-%{OOoLilyPondCode%}\key c \major
+\paper {
+  indent = %{OOoLilyPondCustom1%}0 \mm%{OOoLilyPondEnd%}
+} % -----------------------------------------------------
+
+%{OOoLilyPondCode%}{
+\key c \major
 
 \relative c' {
   c4 d e f  g a b c
@@ -22,10 +25,36 @@
   do re mi fa so la ti do
   do ti la so fa mi re do
 }
-%{OOoLilyPondEnd%}
+
 }
 
-\include "lilypond-book-preamble.ly"
+% -------------------------------------------------------
+
+\paper {
+  paper-height = 10 \cm
+  short-indent = \indent
+  ragged-right = ##t
+  
+  left-margin   = 0
+  right-margin  = 0
+  top-margin    = 0
+  bottom-margin = 0
+  print-page-number = ##f
+  
+  page-count = 1
+}
+
+\header {
+  tagline = ##f
+}
+
+\layout {
+  \context {
+    \Score
+    \remove "Bar_number_engraver"
+  }
+}%{OOoLilyPondEnd%}
+
 #(set-global-staff-size #!OOoLilyPondStaffSize!# 20 #!OOoLilyPondEnd!#)
 
 %                         #!  and  !#  enclose block comments in scheme.
@@ -35,14 +64,21 @@
 %   In your templates, you can use either of them for tags like "OOoLilyPondStaffSize" etc. 
 %   On compilation, OLy will use scheme block comments for OOoLilyPondStaffSize (as above), 
 %   all other tags will be written with LilyPond block comments. 
+#(define version-seen #t)  
 
 \paper {
   ragged-right = %{OOoLilyPondCustom2%}##t%{OOoLilyPondEnd%} 
-  line-width = %{OOoLilyPondLineWidth%}17 \cm%{OOoLilyPondEnd%}
-}
+  paper-width  = %{OOoLilyPondLineWidth%}17 \cm%{OOoLilyPondEnd%}
+  
+  #(define fonts
+     (make-pango-font-tree
+      "TeXGyreSchola"           ; adjust this font name according to your needs
+      "TeXGyreHeros"            ; adjust this font name according to your needs
+      "TeXGyreCursor"           ; adjust this font name according to your needs
+      (/ staff-height pt 20)))
+}                              % Those 3 font families have to be installed on your system
 
 \layout {
-  indent = 0 \cm
   \context {
     \Staff
     
@@ -83,7 +119,7 @@
 
 % Here you can define new labels for dialog control elements:
 
-% %{OOoLilyPondCustom1Label%}Transpose:%{OOoLilyPondEnd%}
+% %{OOoLilyPondCustom1Label%}Indent:%{OOoLilyPondEnd%}
 % %{OOoLilyPondCustom2Label%}ragged-right%{OOoLilyPondEnd%}
 % %{OOoLilyPondOption1Label%}Bar numbers%{OOoLilyPondEnd%}
 % %{OOoLilyPondOption2Label%}Bars%{OOoLilyPondEnd%}

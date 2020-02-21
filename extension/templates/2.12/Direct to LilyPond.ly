@@ -7,7 +7,6 @@
 #(set-global-staff-size 20)
 
 \paper {
-  #(define dump-extents #t)
   ragged-right = ##t
   line-width = 17\cm
 }
