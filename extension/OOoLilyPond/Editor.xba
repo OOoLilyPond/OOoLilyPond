@@ -13,6 +13,7 @@ Sub EditorDialog()
 
 	Dim oFieldModel As Object
 	Dim myFont As New com.sun.star.awt.FontDescriptor
+	Dim sImageNum As String
 
 	&apos; Load the library OOoLilyPond...
 	&apos; DialogLibraries.LoadLibrary (constOLyLibraryName)
@@ -20,6 +21,19 @@ Sub EditorDialog()
 	&apos; Create the dialog object
 	oEditorDialog = createUnoDialog( DialogLibraries.GetByName(constOLyLibraryName).GetByName(&quot;GUI_Editor&quot;) )
 	ReadDialogStringsFromVar (oEditorDialog, sEditorDialogStrings, &quot;&quot;)
+	sImageNum = &quot;&quot;
+	if bShapeIsSelected Then
+		Select Case oCurrentGraphicObject.getImplementationName()
+		Case &quot;com.sun.star.drawing.SvxShapeCollection&quot; 	&apos; inserted into Writer via Clipboard OR inserted into Draw/Impress
+			sImageNum = GetObjectImageNum (oCurrentGraphicObject.getByIndex(0))
+		Case &quot;SwXTextGraphicObject&quot;						&apos; Graphic is selected in Writer
+			sImageNum = GetObjectImageNum (oCurrentGraphicObject)
+		End Select
+	End If
+	If Len (sImageNum) &gt; 0 Then
+		oEditorDialog.getModel().Title = oEditorDialog.getModel().Title  &amp; &quot;   [&quot; &amp; constOLyFileName &amp; sImageNum &amp; &quot;.&quot; &amp; sExtension &amp; &quot;]&quot;
+	End If
+	
 	&apos; Preserve original field labels for LineWidth, StaffSize, Custom1, Custom2, Option1 ... Option4:
 	sDefaultLineWidthLabel = oEditorDialog.getModel().getByName(&quot;LabelLineWidth&quot;).Label
 	sDefaultStaffSizeLabel = oEditorDialog.getModel().getByName(&quot;LabelStaffSize&quot;).Label
@@ -105,6 +119,8 @@ Sub EditorDialog()
 	
 	oEditorDialog.getControl(&quot;bKeepCrop&quot;).setState (BoolToCheckBoxState(bKeepCrop And bShapeIsSelected))
 	oEditorDialog.getControl(&quot;bSaveAsSeparateImages&quot;).setState (BoolToCheckBoxState (bSaveAsSeparateImages And bInWriter))
+	If iFrom &gt; 0 Then oEditorDialog.getControl(&quot;iFrom&quot;).setValue (iFrom)
+	If iTo   &gt; 0 Then oEditorDialog.getControl(&quot;iTo&quot;).setValue (iTo)	
 
 	&apos; grey out inactive control elements
 	GreyOut()
@@ -152,6 +168,7 @@ Sub GreyOut()
 
 	Dim bWrapSettings As Boolean
 	Dim bEnableSeparateImages As Boolean
+	Dim bEnableFromTo As Boolean
 
 	&apos; Check if dialog is existing
 	If IsNull(oEditorDialog) Then 
@@ -176,6 +193,13 @@ Sub GreyOut()
 	&apos; grey out and un-check SeparateImages checkbox when Anchor is NOT &quot;as Character&quot;
 	oEditorDialog.getControl (&quot;bSaveAsSeparateImages&quot;).setEnable (bEnableSeparateImages)
 	If Not bEnableSeparateImages Then oEditorDialog.getControl (&quot;bSaveAsSeparateImages&quot;).SetState (BoolToCheckBoxState (False))
+	
+	&apos; grey out &quot;from&quot; and &quot;to&quot; fields when SeparateImages not checked
+	bEnableFromTo = bEnableSeparateImages And CheckBoxStateToBool (oEditorDialog.getControl (&quot;bSaveAsSeparateImages&quot;).GetState)
+	oEditorDialog.getControl (&quot;LabelFrom&quot;).setEnable (bEnableFromTo)
+	oEditorDialog.getControl (&quot;iFrom&quot;).    setEnable (bEnableFromTo)
+	oEditorDialog.getControl (&quot;LabelTo&quot;).  setEnable (bEnableFromTo)
+	oEditorDialog.getControl (&quot;iTo&quot;).      setEnable (bEnableFromTo)
 	
 	&apos; grey out KeepCrop checkbox when no current OLy object is selected
 	oEditorDialog.getControl(&quot;bKeepCrop&quot;).setEnable(bShapeIsSelected)
@@ -380,6 +404,11 @@ Sub AnchorButton()
 End Sub
 
 
+Sub SeparateImagesModified()
+	GreyOut()
+End Sub
+
+
 Sub ConfigButton()
 	ConfigDialog()
 	ListOfTemplates(oEditorDialog.getControl(&quot;sTemplate&quot;))
@@ -426,6 +455,13 @@ Sub LilyPondButton()
 	
 	bKeepCrop = CheckBoxStateToBool (oEditorDialog.getControl(&quot;bKeepCrop&quot;).getState())
 	bSaveAsSeparateImages = CheckBoxStateToBool (oEditorDialog.getControl(&quot;bSaveAsSeparateImages&quot;).getState())
+	iFrom = oEditorDialog.getControl(&quot;iFrom&quot;).getValue()
+	iTo   = oEditorDialog.getControl(&quot;iTo&quot;).getValue()
+	
+	If bSaveAsSeparateImages And (iTo &gt; 0) And (iTo &lt; iFrom) Then
+		MsgBox (oMessages.getPropertyValue (&quot;sMsgChangeFromTo&quot;), iMsgBox_O + iMsgBox_S, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		Exit Sub
+	End If
 
 	&apos; Create the LilyPond music and insert it...
 	Make (false)	&apos; bSilent = false: don&apos;t suppress displaying errors in Editor dialog

@@ -8,6 +8,17 @@ sMsgWannaSaveTemplate=A template is included inside this object.%10%10It might b
 
 sMsgTemplateEditButton=Click the [Edit] button to save the template into your template folder.
 
+' if the "from" field in the editor window contains a higher image number than the "to" field:
+
+sMsgChangeFromTo=For the first image to be inserted, you cannot specify a higher image number than for the last image.%10Like this, no image would be inserted at all.
+
+' if the "from" field in the editor window contains a higher image number than the last image that has been produced:
+
+sMsgNotEnoughImages1=You have chosen image number 
+' (number is inserted here...)
+sMsgNotEnoughImages2= to be inserted in the first place, but your snippet does not have that many images.%10Like this, no image would be inserted at all.%10%10Please choose a lower image number.
+
+
 ' Confirmations for file operations:
 
 sMsgConfirmDeleteTemplate1=Do you really want to delete the template file "
@@ -59,6 +70,11 @@ sMsgConfirmDefaultConfig=Do you really want to reset all your actual configurati
 
 bSaveAsSeparateImages.label=Insert as separate images (system-by-system)
 bSaveAsSeparateImages.helptext=If the sheet music consists of multiple lines, insert them as separate images
+LabelFrom.label=from:
+iFrom.helptext=Number of the first image to be inserted
+LabelTo.label=to:
+iTo.helptext=Number of the last image to be inserted
+
 
 [ConfigDialog]
 
