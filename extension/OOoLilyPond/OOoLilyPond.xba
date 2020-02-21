@@ -422,6 +422,7 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 	Dim iImageNum As Integer
 	Dim iFirstImageNum As Integer
 	Dim sFileNameAddition As String
+	Dim sLilyPondOutput As String
 
 	bNoFileCreated = False
 	&apos; bNoFirstFileCreated = False
