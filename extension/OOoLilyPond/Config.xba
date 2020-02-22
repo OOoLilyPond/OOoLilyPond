@@ -64,6 +64,7 @@ Sub ConfigDialogUpdate()
 	oConfigDialog.getControl(&quot;sIncludeStatement&quot;).setText(sIncludeStatement)
 	oConfigDialog.getControl(&quot;sPdfToSvgPrologue&quot;).setText(sPdfToSvgPrologue)
 	oConfigDialog.getControl(&quot;sPdfToSvgEpilogue&quot;).setText(sPdfToSvgEpilogue)
+	oConfigDialog.getControl(&quot;bUseSecondSvgParam&quot;).setState(BoolToCheckBoxState(bUseSecondSvgParam))
 	oConfigDialog.getControl(&quot;sLanguageFileName&quot;).setText(sLanguageFileName)
 
 	&apos; Writer configuration
@@ -259,7 +260,10 @@ Sub ConfigDialogGrayOut()
 	oConfigDialog.getControl(&quot;LabelImpressLineWidth&quot;).setEnable( _
 	Not CheckBoxStateToBool(oConfigDialog.getControl(&quot;bImpressUseLineWidthFromTemplate&quot;).getState()))
 	oConfigDialog.getControl(&quot;LabelImpressStaffSize&quot;).setEnable( _
-	Not CheckBoxStateToBool(oConfigDialog.getControl(&quot;bImpressUseStaffSizeFromTemplate&quot;).getState()))	
+	Not CheckBoxStateToBool(oConfigDialog.getControl(&quot;bImpressUseStaffSizeFromTemplate&quot;).getState()))
+	
+	oConfigDialog.getControl(&quot;LabelSvgFilename&quot;).setEnable( _
+	CheckBoxStateToBool(oConfigDialog.getControl(&quot;bUseSecondSvgParam&quot;).getState()))
 End Sub
 
 &apos; ******************************************************
@@ -291,6 +295,7 @@ Sub ApplyConfig
 	sExtEditorExecutable = oConfigDialog.getControl(&quot;sExtEditorExecutable&quot;).getText()
 	sPdfToSvgPrologue = oConfigDialog.getControl(&quot;sPdfToSvgPrologue&quot;).getText()
 	sPdfToSvgEpilogue = oConfigDialog.getControl(&quot;sPdfToSvgEpilogue&quot;).getText()
+	bUseSecondSvgParam = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bUseSecondSvgParam&quot;).getState())
 	sLanguageFileName = oConfigDialog.getControl(&quot;sLanguageFileName&quot;).getText()
 	sIncludeStatement = oConfigDialog.getControl(&quot;sIncludeStatement&quot;).getText()
 	While InStr (sIncludeStatement, &quot;\&quot;) &gt; 0	&apos;  replace &quot;\&quot; by &quot;/&quot;, even in Windows LilyPond expects paths to be written with forward slashes
@@ -343,6 +348,12 @@ Sub ApplyConfig
 End Sub
 
 
+Sub UseSvgParamChanged()
+	bUseSecondSvgParam = CheckBoxStateToBool (oConfigDialog.getControl (&quot;bUseSecondSvgParam&quot;).getState())
+	oEditorDialog.getModel().getByName  (&quot;LabelSvgFilename&quot;).enableVisible = bUseSecondSvgParam
+End Sub
+
+
 Sub DefaultConfig()
 	&apos; The factory default configuration is defined here
 	&apos; Most values are overwritten by what is read from the
@@ -379,8 +390,9 @@ Sub DefaultConfig()
 	 	End If
 		sLilyPondExecutable = sWinProgramFilesFolder &amp; &quot;\LilyPond\usr\bin\lilypond.exe&quot;
 		sExtEditorExecutable = sWinProgramFilesFolder &amp; &quot;\Frescobaldi\frescobaldi.exe&quot;
-		sPdfToSvgPrologue = Chr(34) &amp; &quot;C:\path\filename.exe&quot; &amp; Chr(34) &amp; &quot; -parameter &quot; &amp; Chr(34) 
-		sPdfToSvgEpilogue = Chr(34) &amp; &quot; -etc&quot;
+		sPdfToSvgPrologue = Chr(34) &amp; &quot;C:\path\filename.exe&quot; &amp; Chr(34) &amp; &quot; -parameter&quot;
+		sPdfToSvgEpilogue = &quot;-etc&quot;
+		bUseSecondSvgParam = False
 		sIncludeStatement = &quot;-I&quot; &amp; Chr(34) &amp; ConvertFromURL(Environ(&quot;USERPROFILE&quot;)) &amp; &quot;/&quot; &amp; Chr(34) &amp; &quot; -I&quot; &amp; Chr(34) &amp; ConvertFromURL(Environ(&quot;ProgramFiles&quot;)) &amp; &quot;/&quot; &amp; Chr(34)
 		While InStr (sIncludeStatement, &quot;\&quot;) &gt; 0	&apos; replace &quot;\&quot; by &quot;/&quot;, even in Windows LilyPond expects paths to be written with forward slashes
 			Mid (sIncludeStatement, InStr (sIncludeStatement, &quot;\&quot;), 1, &quot;/&quot;)
@@ -402,8 +414,9 @@ Sub DefaultConfig()
  			sLilyPondExecutable = &quot;lilypond&quot;
  			sExtEditorExecutable = &quot;frescobaldi&quot;
  		End If
- 		sPdfToSvgPrologue = &quot;pdf2svg &quot; &amp; Chr(34) 
-		sPdfToSvgEpilogue = Chr(34) &amp; &quot; OOoLilyPond.svg&quot;
+ 		sPdfToSvgPrologue = &quot;pdf2svg&quot;
+		sPdfToSvgEpilogue = &quot;&quot;
+		bUseSecondSvgParam = True
 		
 		sIncludeStatement = &quot;-I&quot; &amp; Chr(34) &amp; ConvertFromURL(Environ(&quot;HOME&quot;)) &amp; Chr(34)
 	End If
@@ -503,6 +516,8 @@ Sub ReadConfig()
 				sPdfToSvgPrologue = sValue
 			Case &quot;sPdfToSvgEpilogue&quot;
 				sPdfToSvgEpilogue = sValue
+			Case &quot;bUseSecondSvgParam&quot;
+				bUseSecondSvgParam = StringToBool(sValue)
 			Case &quot;sIncludeStatement&quot;
 				sIncludeStatement = sValue
 			Case &quot;iGraphicDPI&quot;
@@ -601,6 +616,7 @@ Sub SaveConfig
 	oTextOutputStream.writeString(&quot;sExtEditorExecutable=&quot; &amp; sExtEditorExecutable &amp; Chr(10) )
 	oTextOutputStream.writeString(&quot;sPdfToSvgPrologue=&quot; &amp; sPdfToSvgPrologue &amp; Chr(10) )
 	oTextOutputStream.writeString(&quot;sPdfToSvgEpilogue=&quot; &amp; sPdfToSvgEpilogue &amp; Chr(10) )
+	oTextOutputStream.writeString(&quot;bUseSecondSvgParam=&quot; &amp; BoolToString(bUseSecondSvgParam) &amp; Chr(10))	
 	oTextOutputStream.writeString(&quot;sIncludeStatement=&quot; &amp; sIncludeStatement &amp; Chr(10) )
 	
 	&apos; Writer specific

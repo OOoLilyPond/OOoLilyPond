@@ -92,8 +92,14 @@ Function CallLilyPond() As Boolean
 		sCommand=sCommand &amp; &quot;if [ $? -ge 126 ]; then touch LilyPond-cannot_execute; fi&quot; &apos; not found -&gt; 127, denied -&gt;126
 		If sFormat=&quot;pdf to svg&quot; Then
 			sCommand = sCommand _ 
-			&amp; &quot;; &quot; &amp; sPdfToSvgPrologue &amp; ConvertFromURL(sTmpPath) &amp; constOLyFileName &amp; &quot;.pdf&quot; &amp; sPdfToSvgEpilogue _
-			&amp; &quot; &gt;&quot; &amp; constOLyFileName &amp; &quot;-PdfToSvg.out 2&gt;&amp;1; &quot; _
+			&amp; &quot;; &quot; &amp; sPdfToSvgPrologue &amp; &quot; &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; constOLyFileName &amp; &quot;.pdf&quot; &amp; Chr(34)
+			If bUseSecondSvgParam Then
+				sCommand = sCommand &amp; &quot; &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; constOLyFileName &amp; &quot;.svg&quot; &amp; Chr(34)
+			End If
+			If Len (sPdfToSvgEpilogue) &gt; 0 Then
+				sCommand = sCommand &amp; &quot; &quot; &amp; sPdfToSvgEpilogue
+			End If
+			sCommand = sCommand &amp; &quot; &gt;&quot; &amp; constOLyFileName &amp; &quot;-PdfToSvg.out 2&gt;&amp;1; &quot; _
 			&amp; &quot;if [ $? -ge 126 ]; then touch PdfToSvg-cannot_execute; fi&quot; &apos; not found -&gt; 127, denied -&gt;126
 		End If
 		BashCommand(sCommand)
@@ -133,8 +139,14 @@ Function CallLilyPond() As Boolean
 		&apos;ToDo: 9009 and 3 OK? Other errors? Wrong Permissions?
 		If sFormat=&quot;pdf to svg&quot; Then
 			sCommand = sCommand _ 
-			&amp; sPdfToSvgPrologue &amp; ConvertFromURL(sTmpPath) &amp; constOLyFileName &amp; &quot;.pdf&quot; &amp; sPdfToSvgEpilogue _
-			&amp; &quot; &gt;&quot; &amp; constOLyFileName &amp; &quot;-PdfToSvg.out 2&gt;&amp;1&quot; &amp; Chr (13) &amp; Chr (10) _
+			&amp; sPdfToSvgPrologue &amp; &quot; &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; constOLyFileName &amp; &quot;.pdf&quot; &amp; Chr(34)
+			If bUseSecondSvgParam Then
+				sCommand = sCommand &amp; &quot; &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; constOLyFileName &amp; &quot;.svg&quot; &amp; Chr(34)
+			End If
+			If Len (sPdfToSvgEpilogue) &gt; 0 Then
+				sCommand = sCommand &amp; &quot; &quot; &amp; sPdfToSvgEpilogue
+			End If
+			sCommand = sCommand &amp; &quot; &gt;&quot; &amp; constOLyFileName &amp; &quot;-PdfToSvg.out 2&gt;&amp;1&quot; &amp; Chr (13) &amp; Chr (10) _
 			&amp; &quot;if %ERRORLEVEL% equ 9009 echo cannot execute &gt;PdfToSvg-cannot_execute&quot; &amp; Chr(13) &amp; Chr(10) _
 			&amp; &quot;if %ERRORLEVEL% equ 3 echo cannot execute &gt;PdfToSvg-cannot_execute&quot; &amp; Chr(13) &amp; Chr(10)
 			&apos;ToDo: 9009 and 3 OK? Other errors? Wrong Permissions?
@@ -218,11 +230,11 @@ Sub CleanUpAfterwards()
 	Exit Sub
 	
 	ErrorHandler:
-		If Err &lt;&gt; 1 Then
+		&apos; If Err &lt;&gt; 1 Then
 			MsgBox (Err &amp; Chr(10) &amp; Error, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
-		Else	&apos; Error 1: &quot;A file or directory could not be deleted&quot;
+		&apos; Else	&apos; Error 1: &quot;A file or directory could not be deleted&quot;
 			&apos; Nothing. This can happen in old-fashioned OpenOffice if you use the &quot;direct&quot; method to insert images. Apparently, it works anyway, don&apos;t know why... 
-		End If
+		&apos; End If
 	Resume Next
 End Sub
 
