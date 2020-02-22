@@ -438,6 +438,8 @@ End Sub
 
 Sub LilyPondButton()
 
+	oEditorDialog.getControl (&quot;LilyPondButton&quot;).setEnable (False)  &apos; avoid multiple button presses
+
 	If bContainsTemplate And Not bIncludeTemplate And Not bTemplateSaved Then
 		Select Case MsgBox (oMessages.getPropertyValue (&quot;sMsgWannaSaveOrIncludeTemplate&quot;), iMsgBox_I + iMsgBox_YNC + iMsgBox_1, oMessages.getPropertyValue (&quot;sCaptionInfo&quot;))
 			Case iAnswer_Yes
@@ -471,6 +473,8 @@ Sub LilyPondButton()
 
 	&apos; Create the LilyPond music and insert it...
 	Make (false)	&apos; bSilent = false: don&apos;t suppress displaying errors in Editor dialog
+	
+	oEditorDialog.getControl (&quot;LilyPondButton&quot;).setEnable (True)
 
 End Sub
 
