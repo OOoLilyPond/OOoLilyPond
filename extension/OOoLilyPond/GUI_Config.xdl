@@ -117,9 +117,9 @@
   <dlg:textfield dlg:id="sPdfToSvgEpilogue" dlg:tab-index="47" dlg:left="376" dlg:top="176" dlg:width="35" dlg:height="12" dlg:help-text="second part (following the pdf file name)"/>
   <dlg:checkbox dlg:id="bIncludeTemplate" dlg:tab-index="20" dlg:left="10" dlg:top="195" dlg:width="153" dlg:height="8" dlg:value="Include Template in document" dlg:checked="false"/>
   <dlg:checkbox dlg:id="bNewObjectsAsSeparateImages" dlg:tab-index="15" dlg:left="10" dlg:top="118" dlg:width="147" dlg:height="9" dlg:help-text="If the sheet music consists of multiple lines, insert them as separate images (default for new objects)" dlg:value="Insert as separate images (system-by-system)" dlg:checked="false"/>
-  <dlg:checkbox dlg:id="bUseSecondSvgParam" dlg:tab-index="46" dlg:left="346" dlg:top="180" dlg:width="6" dlg:height="8" dlg:checked="false">
+  <dlg:checkbox dlg:id="bUseSecondSvgParam" dlg:tab-index="46" dlg:left="346" dlg:top="180" dlg:width="8" dlg:height="8" dlg:checked="false">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.ConfigDialogGrayOut?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
-  <dlg:text dlg:id="LabelSvgFilename" dlg:tab-index="74" dlg:left="354" dlg:top="178" dlg:width="20" dlg:height="9" dlg:value="&quot;*.svg&quot;"/>
+  <dlg:text dlg:id="LabelSvgFilename" dlg:tab-index="74" dlg:left="355" dlg:top="178" dlg:width="20" dlg:height="9" dlg:value="&quot;*.svg&quot;"/>
  </dlg:bulletinboard>
 </dlg:window>
