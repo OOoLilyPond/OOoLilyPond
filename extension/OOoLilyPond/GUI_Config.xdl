@@ -53,10 +53,10 @@
   <dlg:textfield dlg:id="sEditorFontName" dlg:tab-index="36" dlg:left="173" dlg:top="46" dlg:width="102" dlg:height="12" dlg:help-text="Specify the font name for the editor pane"/>
   <dlg:textfield dlg:id="sEditorFontSize" dlg:tab-index="37" dlg:left="281" dlg:top="46" dlg:width="35" dlg:height="12" dlg:help-text="Specify the font size for the editor pane"/>
   <dlg:radiogroup>
-   <dlg:radio dlg:id="WriterInsertViaClipboard" dlg:tab-index="17" dlg:left="10" dlg:top="141" dlg:width="145" dlg:height="8" dlg:help-text="Insert Images via Clipboard. Recommended for OpenOffice." dlg:value="Via Clipboard (OpenOffice)"/>
-   <dlg:radio dlg:id="WriterInsertDirect" dlg:tab-index="18" dlg:left="10" dlg:top="151" dlg:width="145" dlg:height="8" dlg:help-text="Insert Images without Clipboard use. Recommended for LibreOffice." dlg:value="Direct (LibreOffice)"/>
-   <dlg:radio dlg:id="ImpressInsertViaClipboard" dlg:tab-index="32" dlg:left="10" dlg:top="282" dlg:width="145" dlg:height="8" dlg:help-text="Insert Images via Clipboard. Recommended for OpenOffice." dlg:value="Via Clipboard (OpenOffice)"/>
-   <dlg:radio dlg:id="ImpressInsertDirect" dlg:tab-index="33" dlg:left="10" dlg:top="292" dlg:width="145" dlg:height="8" dlg:help-text="Insert Images without Clipboard use. Recommended for LibreOffice." dlg:value="Direct (LibreOffice)"/>
+   <dlg:radio dlg:id="WriterInsertViaClipboard" dlg:tab-index="17" dlg:left="10" dlg:top="141" dlg:width="145" dlg:height="8" dlg:help-text="Insert Images via Clipboard." dlg:value="Via Clipboard"/>
+   <dlg:radio dlg:id="WriterInsertDirect" dlg:tab-index="18" dlg:left="10" dlg:top="151" dlg:width="145" dlg:height="8" dlg:help-text="Insert Images without Clipboard use (recommended)." dlg:value="Direct"/>
+   <dlg:radio dlg:id="ImpressInsertViaClipboard" dlg:tab-index="32" dlg:left="10" dlg:top="282" dlg:width="145" dlg:height="8" dlg:help-text="Insert Images via Clipboard." dlg:value="Via Clipboard"/>
+   <dlg:radio dlg:id="ImpressInsertDirect" dlg:tab-index="33" dlg:left="10" dlg:top="292" dlg:width="145" dlg:height="8" dlg:help-text="Insert Images without Clipboard use (recommended)." dlg:value="Direct"/>
   </dlg:radiogroup>
   <dlg:checkbox dlg:id="bWriterKeepCrop" dlg:tab-index="19" dlg:left="10" dlg:top="170" dlg:width="147" dlg:height="9" dlg:help-text="When editing/replacing an existing object in Writer, preserve its current size and crop settings" dlg:value="Keep Size &amp; Crop Settings" dlg:checked="false"/>
   <dlg:checkbox dlg:id="bImpressKeepCrop" dlg:tab-index="34" dlg:left="10" dlg:top="310" dlg:width="147" dlg:height="9" dlg:help-text="When editing/replacing an existing object in Impress/Draw, preserve its current size and crop settings" dlg:value="Keep Size &amp; Crop Settings" dlg:checked="false"/>
