@@ -430,7 +430,7 @@ Sub DefaultConfig()
 	bWriterUseStaffSizeFromTemplate = False
 	sWriterDefaultLineWidth = &quot;17.5\cm&quot;
 	bWriterUseLineWidthFromTemplate = False
-	bWriterInsertViaClipboard = True
+	bWriterInsertViaClipboard = False
 	bWriterKeepCrop = False
 	bNewObjectsAsSeparateImages = False
 
@@ -441,7 +441,7 @@ Sub DefaultConfig()
 	bImpressUseStaffSizeFromTemplate = False
 	sImpressDefaultLineWidth = &quot;19.5\cm&quot;
 	bImpressuseLineWidthFromTemplate = False
-	bImpressInsertViaClipboard = True
+	bImpressInsertViaClipboard = False
 	bImpressKeepCrop = False
 
 
