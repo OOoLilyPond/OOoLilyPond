@@ -257,6 +257,8 @@ Sub EraseImageSiblings()
 	Dim iStrLen As Integer
 	Dim sCharNum As String
 	Dim iCharNum As Integer
+	Dim iIntendedLength As Integer
+	Dim sIntendedCharNum As String
 	
 	Dim sTempIdentifier As String
 	Dim sTempImageNum As String
@@ -270,6 +272,14 @@ Sub EraseImageSiblings()
 	Case &quot;SwXTextGraphicObject&quot; &apos; Graphic is selected in Writer
 		oShape = oCurrentGraphicObject
 	End Select
+	
+	If sOSType = &quot;Windows&quot; Then
+		iIntendedLength = 2
+		sIntendedCharNum = &quot;13&quot;
+	Else	&apos; Unix or Mac
+		iIntendedLength = 1
+		sIntendedCharNum = &quot;10&quot;
+	End If
 	
 	oDrawPage = oDoc.DrawPage
 	iCount = oDrawPage.Count
@@ -296,9 +306,9 @@ Sub EraseImageSiblings()
 						End If
 						sTempStr = oTextCursor.getString ()
 						iStrLen = Len (sTempStr)
-						if Len (sTempStr) = 2 Then
+						If Len (sTempStr) = iIntendedLength Then
 							sCharNum = Asc (sTempStr)
-							If sCharNum = &quot;13&quot; Then oTextCursor.setString (&quot;&quot;)  &apos; erase &quot;new paragraph&quot; control char
+							If sCharNum = sIntendedCharNum Then oTextCursor.setString (&quot;&quot;)  &apos; erase &quot;new paragraph&quot; control char
 						End If
         			End If
 				Else
@@ -378,13 +388,15 @@ Sub ConvertSeparateImageFiles ()
 
 	Dim sDirEntry As String
 	Dim sCommand As String
+	Dim sConvTmpPath As String
 
 	If sFormat &lt;&gt; &quot;pdf to svg&quot; Then Exit Sub
-	
+
+	sConvTmpPath = ConvertFromURL(sTmpPath)
 	If (sOSType = &quot;Unix&quot;) Or (sOSType = &quot;Mac&quot;) Then
-		sCommand = &quot;cd &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; Chr(34)
+		sCommand = &quot;cd &quot; &amp; Chr(34) &amp; sConvTmpPath &amp; Chr(34)
 	ElseIf sOSType = &quot;Windows&quot; Then
-		sCommand = &quot;cd /d &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; Chr(34) &amp; Chr(13) &amp; Chr(10) 	
+		sCommand = &quot;cd /d &quot; &amp; Chr(34) &amp; sConvTmpPath &amp; Chr(34) &amp; Chr(13) &amp; Chr(10) 	
 	End If
 	
 	sDirEntry = Dir (sTmpPath &amp; constOLyFileName &amp; &quot;-*.pdf&quot;)
@@ -394,7 +406,13 @@ Sub ConvertSeparateImageFiles ()
 		ElseIf sOSType = &quot;Windows&quot; Then
 			sCommand = sCommand &amp; Chr(13) &amp; Chr(10)
 		End If
-		sCommand = sCommand &amp; sPdfToSvgPrologue &amp; ConvertFromURL(sTmpPath) &amp; sDirEntry &amp; sPdfToSvgEpilogue
+		sCommand = sCommand &amp; sPdfToSvgPrologue &amp; &quot; &quot; &amp; Chr(34) &amp; sConvTmpPath &amp; sDirEntry &amp; Chr(34) 
+		If bUseSecondSvgParam Then
+			sCommand = sCommand &amp; &quot; &quot; &amp; Chr(34) &amp; sConvTmpPath &amp; Left (sDirEntry, Len (sDirEntry) - 3) &amp; &quot;svg&quot; &amp; Chr(34)
+		End If
+		If Len (sPdfToSvgEpilogue) &gt; 0 Then
+			sCommand = sCommand &amp; &quot; &quot; &amp; sPdfToSvgEpilogue
+		End If
 	sDirEntry = Dir
 	Loop
 	
@@ -422,6 +440,7 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 	Dim iImageNum As Integer
 	Dim iFirstImageNum As Integer
 	Dim sFileNameAddition As String
+	Dim sLilyPondOutput As String
 
 	bNoFileCreated = False
 	&apos; bNoFirstFileCreated = False

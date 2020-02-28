@@ -400,10 +400,15 @@ End Function
 
 
 Function TimeStamp () As String
-	Dim vCurrentTime
-	vCurrentTime = Now
-	TimeStamp = Left (CDateToISO (vCurrentTime), 4) &amp; &quot;-&quot; &amp; Mid (CDateToISO (vCurrentTime), 5, 2) &amp; &quot;-&quot; &amp; Right (CDateToISO (vCurrentTime), 2) &amp; &quot;_&quot; _
-  				&amp; Left (TimeValue (vCurrentTime), 2) &amp; &quot;-&quot; &amp; Mid (TimeValue (vCurrentTime), 4, 2) &amp; &quot;-&quot; &amp; Right (TimeValue (vCurrentTime), 2)
+	Dim sCurrentTime As String
+	Dim sDateStr As String
+	Dim sTempStr As String
+	
+	sCurrentTime = Now
+	sDateStr = CDateToISO (sCurrentTime)
+	sTempStr = Left (sDateStr, 4) &amp; &quot;-&quot; &amp; Mid (sDateStr, 5, 2) &amp; &quot;-&quot; &amp; Right (sDateStr, 2) &amp; &quot;_&quot; _
+  			   &amp; Mid (sCurrentTime, 12, 2) &amp; &quot;-&quot; &amp; Mid (sCurrentTime, 15, 2) &amp; &quot;-&quot; &amp; Right (sCurrentTime, 2)
+  	TimeStamp = sTempStr
 End Function
 
 
