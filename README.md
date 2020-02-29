@@ -1,17 +1,17 @@
-Wiki:  [Home](https://github.com/openlilylib/LO-ly/wiki#ooolilypond) | [Download](https://github.com/openlilylib/LO-ly/wiki/Downloads#downloads) | [Installation](https://github.com/openlilylib/LO-ly/wiki/Installation#installation) | [Introduction](https://github.com/openlilylib/LO-ly/wiki/Introduction#introduction) | [Reference](https://github.com/openlilylib/LO-ly/wiki/Editor-(main-window-reference)#editor-main-window-reference) | [Configuration](https://github.com/openlilylib/LO-ly/wiki/Config#configuration-dialogue)
+Wiki:  [Home](https://github.com/openlilylib/LO-ly/wiki#ooolilypond) | [Download](https://github.com/openlilylib/LO-ly/wiki/Downloads#downloads) | [Installation](https://github.com/openlilylib/LO-ly/wiki/Installation#installation) | [Tutorial](https://github.com/openlilylib/LO-ly/wiki/Tutorial#tutorial) | [Advanced features](https://github.com/openlilylib/LO-ly/wiki/Advanced-features#advanced-features) | [Reference](https://github.com/openlilylib/LO-ly/wiki/Editor-(main-window-reference)#editor-main-window-reference) | [Configuration](https://github.com/openlilylib/LO-ly/wiki/Config#configuration-dialogue)
 
 # OOoLilyPond
 
 OOoLilyPond (OLy) is a LibreOffice/OpenOffice extension to include LilyPond music fragments in text documents.
 
-<a href="http://lilypondblog.org/wp-content/uploads/2017/03/OLy-Editor-Window-02-1.gif"><img class="aligncenter wp-image-4674 size-medium" src="http://lilypondblog.org/wp-content/uploads/2017/03/OLy-Editor-Window-02-1-300x276.gif" width="300" height="276" /></a>
+![editor object](https://raw.githubusercontent.com/KlausBlum/OLy-resources/master/images/editor-object-01.png)
 
 ## Installation
 
-Being a [LibreOffice]/[OpenOffice] extension, you need a version of LibreOffice / OpenOffice installed on your computer, first.  
-  Second, the music engraving software [LilyPond] must be installed on your system.  
-  Then just download the latest OLy release from the [download] page.  
-  The extension can be installed either by opening it with LibreOffice or by following these steps in the menu:
+* Being a [LibreOffice]/[OpenOffice] extension, you need a version of LibreOffice / OpenOffice installed on your computer, first.  
+* Second, the music engraving software [LilyPond] must be installed on your system.  
+* Then just download the latest OLy release from the [download] page.  
+* The extension can be installed either by opening it with LibreOffice or by following these steps in the menu:
 
 *Extras > Extension Manager… > Add…*
 
@@ -41,14 +41,13 @@ OOoLilyPond (OLy) works with recent versions of LibreOffice and OpenOffice. Olde
 
 Update: Some partial incompatibilities have occured in LibreOffice 6.1.0 to 6.1.4 - see [Issue 22].
 
-Any content (LilyPond code, templates, OLy configuration files) created with/for OLy 0.4.x will work with OLy 0.5.x - and vice versa. (Fully compatible, forward and backward.)
-Older snippets created with OLy 0.3.x will also work with 0.4.x and 0.5.x, but not (necessarily) vice versa.
+Any content (LilyPond code, templates, OLy configuration files) created with/for older OLy versions (OLy 0.3.x, OLy 0.4.x, OLy 0.5.x) will work with OLy 1.0.x, but not necessarily vice versa.
 
 
 [LibreOffice]: http://libreoffice.org/
 [OpenOffice]: http://www.openoffice.org/
 [LilyPond]: http://lilypond.org
-[download]: https://github.com/openlilylib/LO-ly/wiki/Downloads
+[download]: https://github.com/openlilylib/LO-ly/wiki/Downloads#downloads
 [introduction]: http://lilypond.org/introduction.html
 [Introduction into OOoLilyPond]: http://lilypondblog.org/2017/04/ooolilypond-creating-musical-snippets-in-libreoffice-documents/
 [Scores of Beauty]: http://lilypondblog.org/
@@ -59,6 +58,8 @@ Older snippets created with OLy 0.3.x will also work with 0.4.x and 0.5.x, but n
 Copyright © 2005 Geoffroy Piroux  
 Copyright © 2009 Samuel Hartmann  
 Copyright © 2017 Klaus Blum
+
+<a id="envelope">![a](https://raw.githubusercontent.com/KlausBlum/OLy-resources/master/images/score-a.png)</a>![b](https://raw.githubusercontent.com/KlausBlum/OLy-resources/master/images/score-b.png)![c](https://raw.githubusercontent.com/KlausBlum/OLy-resources/master/images/score-c.png)![d](https://raw.githubusercontent.com/KlausBlum/OLy-resources/master/images/score-d.png)![e](https://raw.githubusercontent.com/KlausBlum/OLy-resources/master/images/score-e.png)![f](https://raw.githubusercontent.com/KlausBlum/OLy-resources/master/images/score-f.png)
 
 ## License
 
