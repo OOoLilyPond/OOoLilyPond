@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE dlg:window PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "dialog.dtd">
-<dlg:window xmlns:dlg="http://openoffice.org/2000/dialog" xmlns:script="http://openoffice.org/2000/script" dlg:id="GUI_Tmpl" dlg:left="14" dlg:top="8" dlg:width="289" dlg:height="249" dlg:closeable="true" dlg:moveable="true" dlg:title="OOoLilyPond Template Editor">
+<dlg:window xmlns:dlg="http://openoffice.org/2000/dialog" xmlns:script="http://openoffice.org/2000/script" dlg:id="GUI_Tmpl" dlg:left="14" dlg:top="8" dlg:width="289" dlg:height="249" dlg:closeable="true" dlg:moveable="true" dlg:title="OOoLilyPond Template editor">
  <dlg:styles>
   <dlg:style dlg:style-id="0" dlg:font-name="Courier" dlg:font-stylename="Regular" dlg:font-family="modern"/>
  </dlg:styles>
@@ -8,7 +8,7 @@
   <dlg:button dlg:id="Save" dlg:tab-index="1" dlg:left="6" dlg:top="227" dlg:width="55" dlg:height="16" dlg:value="Save">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Templates.TmplSaveButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
-  <dlg:button dlg:id="SaveAs" dlg:tab-index="2" dlg:left="66" dlg:top="227" dlg:width="55" dlg:height="16" dlg:value="Save As">
+  <dlg:button dlg:id="SaveAs" dlg:tab-index="2" dlg:left="66" dlg:top="227" dlg:width="55" dlg:height="16" dlg:value="Save as">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Templates.TmplSaveAsButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
   <dlg:button dlg:id="Cancel" dlg:tab-index="3" dlg:left="228" dlg:top="227" dlg:width="55" dlg:height="16" dlg:value="Cancel">
