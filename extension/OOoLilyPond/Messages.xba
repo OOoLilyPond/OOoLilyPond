@@ -62,10 +62,10 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   &apos; &quot;sTemplatePath&quot;
   oMessages.addProperty (&quot;sMsgTemplatePathFail2&quot;, BagAttr, Chr(34) &amp; &quot;.&quot; &amp; Chr(10) &amp; &quot;Please adjust the path in the configuration dialog.&quot;)
   
-  &apos; Query before replacing actual templates with default ones:
+  &apos; Query before replacing current templates with default ones:
   
   oMessages.addProperty (&quot;sMsgConfirmRestoreTemplates&quot;, BagAttr, &quot;Do you really want to restore the original templates delivered with OLy?&quot; &amp; Chr(10) &amp; _
-  	&quot;Your actual templates will be backed up in a subfolder.&quot;)
+  	&quot;Your current templates will be backed up in a subfolder.&quot;)
   
   &apos; Old templates just have been backed up:
   
@@ -73,10 +73,10 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   &apos; &quot;sBackupPath&quot;
   oMessages.addProperty (&quot;sMsgTemplatesBackedUp2&quot;, BagAttr, Chr(34) &amp; &quot;.&quot;)
   
-  &apos; Query before replacing actual language files with default ones:
+  &apos; Query before replacing current language files with default ones:
   
   oMessages.addProperty (&quot;sMsgConfirmRestoreLanguageFiles&quot;, BagAttr, &quot;Do you really want to restore the original language files delivered with OLy?&quot; &amp; Chr(10) &amp; _
-  	&quot;Your actual language files will be backed up in a subfolder.&quot;)
+  	&quot;Your current language files will be backed up in a subfolder.&quot;)
   
   &apos; Old language files just have been backed up:
   
@@ -86,7 +86,7 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
  
   &apos; Query before resetting all configuration data to default values:
   
-  oMessages.addProperty (&quot;sMsgConfirmDefaultConfig&quot;, BagAttr, &quot;Do you really want to reset all your actual configuration data to the default values?&quot;)
+  oMessages.addProperty (&quot;sMsgConfirmDefaultConfig&quot;, BagAttr, &quot;Do you really want to reset all your current configuration data to the default values?&quot;)
   
   
   &apos; The following two messages regarding language folder/files will not be translated in the language files, 

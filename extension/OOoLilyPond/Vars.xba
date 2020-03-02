@@ -54,7 +54,7 @@ Private sTemplateLocationLabel As String  &apos; &lt;&gt; &quot;&quot; if templa
 Private sTemplateLocationHelptext As String
 Private bNewObjectsAsSeparateImages As Boolean  &apos; Config Dialog: default for new objects
 Private bHasSeparateImages As Boolean  &apos; selected object consists of separate images?
-Private bSaveAsSeparateImages As Boolean  &apos; save actual snippet as separate images?
+Private bSaveAsSeparateImages As Boolean  &apos; save current snippet as separate images?
 Private iFrom As Integer  &apos; if &gt; 0: first image to be inserted
 Private iTo As Integer    &apos; if &gt; 0: last image to be inserted
 Private bUseSecondSvgParam As Boolean  &apos; insert &quot;filename.svg&quot; into PdfToSvg command or not?
