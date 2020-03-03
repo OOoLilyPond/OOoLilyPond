@@ -59,7 +59,15 @@ Sub PerformBatchProcessing ()
 	Dim sCurrentIdentifier As String
 	Dim iPosInList As Integer
 	Dim iAnswer As Integer
+	Dim bAsk As Boolean  &apos; checkbox state from Batch dialog
+	
+	oBatchDialog.getControl (&quot;Process&quot;).setEnable (False)  &apos; avoid multiple button presses
 
+	bAsk = CheckBoxStateToBool (oBatchDialog.getControl(&quot;bAsk&quot;).getState())
+	if bAsk &lt;&gt; bAskForEachObjectDefault Then
+		bAskForEachObjectDefault = bAsk
+		SaveConfig()
+	End If
 	oBatchDialog.EndExecute()
 	oAskDialog = createUnoDialog (DialogLibraries.GetByName (constOLyLibraryName).GetByName(&quot;GUI_Ask&quot;))
 	ReadDialogStringsFromVar (oAskDialog, sAskDialogStrings, &quot;&quot;)
@@ -104,7 +112,7 @@ Sub PerformBatchProcessing ()
 	bKeepCrop = CheckBoxStateToBool (oBatchDialog.getControl(&quot;bKeepCrop&quot;).getState())
 	oProgressBar = oDocCtrl.StatusIndicator
 	oProgressBar.start (oMessages.getPropertyValue (&quot;sMsgBatchProcessing&quot;), iLastObject + 1)
-	If CheckBoxStateToBool (oBatchDialog.getControl(&quot;bAsk&quot;).getState()) Then
+	If bAsk Then
 		iAnswer = 2  &apos; &quot;No&quot;
 		iAskDialogReturnValue = 2
 	Else

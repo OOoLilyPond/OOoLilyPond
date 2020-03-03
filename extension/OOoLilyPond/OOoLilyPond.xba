@@ -139,6 +139,7 @@ Sub BatchTest1()
 	If Not bInWriter Then Exit Sub
 	oBatchDialog = createUnoDialog (DialogLibraries.GetByName (constOLyLibraryName).GetByName(&quot;GUI_Batch&quot;))
 	
+	oBatchDialog.getControl(&quot;bAsk&quot;).setState (BoolToCheckBoxState (bAskForEachObjectDefault))
 	oBatchDialog.getControl(&quot;bKeepCrop&quot;).setState (BoolToCheckBoxState (bKeepCrop))
 	ReadDialogStringsFromVar (oBatchDialog, sBatchDialogStrings, &quot;&quot;)
 	ReadDialogStringsFromVar (oBatchDialog, sBatchDialogRuleSetStrings, &quot;_A&quot;)
