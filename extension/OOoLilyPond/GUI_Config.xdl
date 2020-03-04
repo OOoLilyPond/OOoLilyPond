@@ -95,7 +95,7 @@
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.RestoreLanguageFilesButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
   <dlg:combobox dlg:id="sLanguageFileName" dlg:tab-index="35" dlg:left="173" dlg:top="20" dlg:width="143" dlg:height="12" dlg:help-text="Specify a file name for the language file that contains OLy&apos;s translation strings" dlg:spin="true" dlg:linecount="24"/>
-  <dlg:text dlg:id="LabelFormatInfo" dlg:tab-index="62" dlg:left="174" dlg:top="264" dlg:width="143" dlg:height="66" dlg:value="eps: Only with OpenOffice&#x0a;&#x0a;pdf to svg: External converter required&#x0a;&#x0a;svg &amp; svg [-dcrop]: Only with LibreOffice, use &#x0a;  template without &quot;lilypond-book-preamble.ly&quot;" dlg:tabstop="false" dlg:nolabel="true"/>
+  <dlg:text dlg:id="LabelFormatInfo" dlg:tab-index="62" dlg:left="174" dlg:top="264" dlg:width="143" dlg:height="66" dlg:value="eps: only with OpenOffice&#x0a;&#x0a;pdf to svg: external converter required&#x0a;&#x0a;svg &amp; svg [-dcrop]: only with LibreOffice, use &#x0a;  template without &quot;lilypond-book-preamble.ly&quot;" dlg:tabstop="false" dlg:nolabel="true"/>
   <dlg:button dlg:id="ExtEditorPickButton" dlg:tab-index="44" dlg:left="376" dlg:top="150" dlg:width="35" dlg:height="12" dlg:help-text="Select an executable file" dlg:value="Select">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.ExtEditorPickButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
