@@ -434,6 +434,7 @@ Sub DefaultConfig()
 	bWriterKeepCrop = False
 	bNewObjectsAsSeparateImages = False
 	bAskForEachObjectDefault = true		&apos; checkbox in Batch dialog
+	bCreateBackupDefault = false		&apos; checkbox in Batch dialog
 
 
 	&apos; Impress specific settings
@@ -558,6 +559,8 @@ Sub ReadConfig()
 				bNewObjectsAsSeparateImages = StringToBool(sValue)
 			Case &quot;bAskForEachObjectDefault&quot;
 				bAskForEachObjectDefault = StringToBool(sValue)
+			Case &quot;bCreateBackupDefault&quot;
+				bCreateBackupDefault = StringToBool(sValue)
 		
 			
 			&apos; Impress specific settings
@@ -634,6 +637,7 @@ Sub SaveConfig
 	oTextOutputStream.writeString(&quot;bWriterKeepCrop=&quot; &amp; BoolToString(bWriterKeepCrop) &amp; Chr(10))
 	oTextOutputStream.writeString(&quot;bNewObjectsAsSeparateImages=&quot; &amp; BoolToString(bNewObjectsAsSeparateImages) &amp; Chr(10))
 	oTextOutputStream.writeString(&quot;bAskForEachObjectDefault=&quot; &amp; BoolToString(bAskForEachObjectDefault) &amp; Chr(10))
+	oTextOutputStream.writeString(&quot;bCreateBackupDefault=&quot; &amp; BoolToString(bCreateBackupDefault) &amp; Chr(10))
 	
 	&apos; Impress specific
 	oTextOutputStream.writeString(&quot;sImpressDefaultTemplate=&quot; &amp; sImpressDefaultTemplate &amp; Chr(10))

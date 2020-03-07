@@ -411,6 +411,13 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   &apos; &quot;Batch&quot; module
   &apos; ---------------
   
+  &apos; The containing document just has been backed up:
+
+  oMessages.addProperty (&quot;sMsgDocumentBackedUp1&quot;, BagAttr, &quot;Your document is backed up as &quot; &amp; Chr (10) &amp; Chr (34))
+  &apos; &quot;sBackupPath&quot;
+  oMessages.addProperty (&quot;sMsgDocumentBackedUp2&quot;, BagAttr, Chr (34))
+
+  
   &apos; Status bar message during batch processing: 
   oMessages.addProperty (&quot;sMsgBatchProcessing&quot;, BagAttr, &quot;Batch processing OOoLilyPond objects... &quot;)
   

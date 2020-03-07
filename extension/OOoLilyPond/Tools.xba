@@ -5,6 +5,32 @@
 Option Explicit
 
 
+Sub CreateBackup (sSuffix As String)
+	Dim sURL
+	Dim sBackupURL As String
+	Dim sParts
+	Dim iUBound As Integer
+
+
+	On Error GoTo ErrorHandler
+
+	sURL = oDoc.getURL()  &apos; see GetRelativeIncludeStatement ()
+	If  Not IsNull (sURL) And Len (sURL) &gt; 0 Then
+		sParts = Split (sURL, &quot;.&quot;)
+		iUBound = UBound (sParts) - 1
+		sParts (iUbound) = sParts (iUbound) &amp; sSuffix
+		sBackupURL = Join (sParts, &quot;.&quot;)	
+		oDoc.StoreToURL (sBackupURL, Array())
+		MsgBox (oMessages.getPropertyValue (&quot;sMsgDocumentBackedUp1&quot;) &amp; ConvertFromURL (sBackupURL) &amp; oMessages.getPropertyValue (&quot;sMsgDocumentBackedUp2&quot;), iMsgBox_I, oMessages.getPropertyValue (&quot;sCaptionInfo&quot;))	
+	End If
+
+	Exit Sub
+	
+	ErrorHandler:
+	MsgBox (oMessages.getPropertyValue (&quot;sMsgCouldNotWriteToFile1&quot;) &amp; ConvertFromURL (sBackupURL) &amp; oMessages.getPropertyValue (&quot;sMsgCouldNotWriteToFile2&quot;) &amp; Error, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+End Sub
+
+
 Sub ReplaceSubStrings (sProcess As String, sFind As String, sReplace As String, iSearchMode As Integer)
 &apos; Search for every appearance of sFind inside sProcess and replace them by sReplace
 &apos; ... a little more complicated because iSearchMode allows case-insensitive searching

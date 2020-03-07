@@ -59,15 +59,35 @@ Sub PerformBatchProcessing ()
 	Dim sCurrentIdentifier As String
 	Dim iPosInList As Integer
 	Dim iAnswer As Integer
-	Dim bAsk As Boolean  &apos; checkbox state from Batch dialog
+	Dim bAsk As Boolean  			&apos; checkbox state from Batch dialog
+	Dim bCreateBackup As Boolean	&apos; checkbox state from Batch dialog
+	Dim bSaveConfig As Boolean
+	Dim sURL As String
+	
 	
 	oBatchDialog.getControl (&quot;Process&quot;).setEnable (False)  &apos; avoid multiple button presses
 
+	bSaveConfig = False
 	bAsk = CheckBoxStateToBool (oBatchDialog.getControl(&quot;bAsk&quot;).getState())
 	if bAsk &lt;&gt; bAskForEachObjectDefault Then
 		bAskForEachObjectDefault = bAsk
-		SaveConfig()
+		bSaveConfig = True
 	End If
+
+	bCreateBackup = False
+	sURL = oDoc.getURL()  &apos; see GetRelativeIncludeStatement ()
+	If (Not IsNull (sURL)) And Len (sURL) &gt; 0 Then
+		bCreateBackup = CheckBoxStateToBool (oBatchDialog.getControl(&quot;CreateBackup&quot;).getState())
+		If bCreateBackup &lt;&gt; bCreateBackupDefault Then
+			bCreateBackupDefault = bCreateBackup
+			bSaveConfig = True
+		End If
+	End If
+	
+	If bSaveConfig Then SaveConfig()
+	
+	If bCreateBackup Then CreateBackup (&quot;_&quot; &amp; TimeStamp ())
+		
 	oBatchDialog.EndExecute()
 	oAskDialog = createUnoDialog (DialogLibraries.GetByName (constOLyLibraryName).GetByName(&quot;GUI_Ask&quot;))
 	ReadDialogStringsFromVar (oAskDialog, sAskDialogStrings, &quot;&quot;)

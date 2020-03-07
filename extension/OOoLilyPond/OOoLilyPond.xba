@@ -134,12 +134,24 @@ Sub BatchTest1()
 
 	Dim sConditionFrameLabel As String
 	Dim iNumPos As Integer
+	Dim sURL As String
+	Dim bHasURL As Boolean
 
 	OOoLilyPondInit ()
 	If Not bInWriter Then Exit Sub
+	
+	sURL = oDoc.getURL()  &apos; see GetRelativeIncludeStatement ()
+	bHasURL = (Not IsNull (sURL)) And Len (sURL) &gt; 0
+	
 	oBatchDialog = createUnoDialog (DialogLibraries.GetByName (constOLyLibraryName).GetByName(&quot;GUI_Batch&quot;))
 	
 	oBatchDialog.getControl(&quot;bAsk&quot;).setState (BoolToCheckBoxState (bAskForEachObjectDefault))
+	oBatchDialog.getControl(&quot;CreateBackup&quot;).setEnable (bHasURL)
+	If bHasURL Then
+		oBatchDialog.getControl(&quot;CreateBackup&quot;).setState (BoolToCheckBoxState (bCreateBackupDefault))
+	Else
+		oBatchDialog.getControl(&quot;CreateBackup&quot;).setState (BoolToCheckBoxState (False))
+	End If
 	oBatchDialog.getControl(&quot;bKeepCrop&quot;).setState (BoolToCheckBoxState (bKeepCrop))
 	ReadDialogStringsFromVar (oBatchDialog, sBatchDialogStrings, &quot;&quot;)
 	ReadDialogStringsFromVar (oBatchDialog, sBatchDialogRuleSetStrings, &quot;_A&quot;)

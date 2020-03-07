@@ -9,7 +9,7 @@
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Batch.PerformBatchProcessing?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
   <dlg:button dlg:id="Cancel" dlg:tab-index="1" dlg:left="339" dlg:top="194" dlg:width="55" dlg:height="16" dlg:value="Cancel" dlg:button-type="cancel"/>
-  <dlg:checkbox dlg:id="CreateBackup" dlg:tab-index="30" dlg:disabled="true" dlg:visible="false" dlg:left="274" dlg:top="67" dlg:width="120" dlg:height="8" dlg:value="Create backup" dlg:checked="false"/>
+  <dlg:checkbox dlg:id="CreateBackup" dlg:tab-index="30" dlg:left="274" dlg:top="67" dlg:width="120" dlg:height="8" dlg:value="Create backup" dlg:checked="false"/>
   <dlg:titledbox dlg:style-id="0" dlg:id="ConditionFrame_A" dlg:tab-index="2" dlg:left="5" dlg:top="4" dlg:width="126" dlg:height="206">
    <dlg:title dlg:value="Rule 1:"/>
   </dlg:titledbox>
