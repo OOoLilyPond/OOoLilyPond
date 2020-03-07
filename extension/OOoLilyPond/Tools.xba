@@ -10,7 +10,7 @@ Sub CreateBackup (sSuffix As String)
 	Dim sBackupURL As String
 	Dim sParts
 	Dim iUBound As Integer
-
+	Dim args(0) As New com.sun.star.beans.PropertyValue
 
 	On Error GoTo ErrorHandler
 
@@ -19,8 +19,18 @@ Sub CreateBackup (sSuffix As String)
 		sParts = Split (sURL, &quot;.&quot;)
 		iUBound = UBound (sParts) - 1
 		sParts (iUbound) = sParts (iUbound) &amp; sSuffix
-		sBackupURL = Join (sParts, &quot;.&quot;)	
-		oDoc.StoreToURL (sBackupURL, Array())
+		sBackupURL = Join (sParts, &quot;.&quot;)
+		
+		If oFileAccess.exists (ConvertFromURL (sBackupURL)) Then 
+			If MsgBox (oMessages.getPropertyValue (&quot;sMsgConfirmOverwriteFile1&quot;) &amp; ConvertFromURL (sBackupURL) _
+				&amp; oMessages.getPropertyValue (&quot;sMsgConfirmOverwriteFile2&quot;), iMsgBox_YN+iMsgBox_Q, _ 
+				oMessages.getPropertyValue (&quot;sCaptionRUSure&quot;)) &lt;&gt; iAnswer_Yes Then Exit Sub
+			oFileAccess.kill (ConvertFromURL (sBackupURL))
+		End If
+	
+		args(0).Name = &quot;Overwrite&quot;
+		args(0).Value = True
+		oDoc.StoreToURL (sBackupURL, args())
 		MsgBox (oMessages.getPropertyValue (&quot;sMsgDocumentBackedUp1&quot;) &amp; ConvertFromURL (sBackupURL) &amp; oMessages.getPropertyValue (&quot;sMsgDocumentBackedUp2&quot;), iMsgBox_I, oMessages.getPropertyValue (&quot;sCaptionInfo&quot;))	
 	End If
 
