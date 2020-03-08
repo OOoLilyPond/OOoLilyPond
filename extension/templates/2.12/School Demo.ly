@@ -4,9 +4,7 @@
 }
 
 % ------------------------------------------------------------
-%{OOoLilyPondCode%}% https://github.com/openlilylib/LO-ly/wiki/Understanding-templates#understanding-templates
-
-\new Staff \relative c' {
+%{OOoLilyPondCode%}\new Staff \relative c' {
   % \set Staff.instrumentName = \markup \fontsize #4 "a)"
   \clef "treble"  % "alto", "tenor", "bass", "treble_8", "treble^8", ...
   \key c \major  % c \minor
@@ -14,6 +12,10 @@
   % \cadenzaOn
   
   c4 d e f  g a b c
+  \clef bass
+  c, b a g
+  
+  % \bar "|."                   % bar lines: |.  ||  !  ;
   
 } 
 \addlyrics { 
@@ -41,7 +43,8 @@
 %   On compilation, OLy will use scheme block comments for OOoLilyPondStaffSize (as above), 
 %   all other tags will be written with LilyPond block comments. 
 
-OptionTwoFalseCommand = \with { %{OOoLilyPondOption2False%}\remove "Bar_engraver"%{OOoLilyPondEnd%} }
+OptionTwoFalseCommand   = \with { %{OOoLilyPondOption2False%}\remove "Bar_engraver"%{OOoLilyPondEnd%} }
+OptionThreeFalseCommand = \with { %{OOoLilyPondOption3False%}\remove "Time_signature_engraver"%{OOoLilyPondEnd%} }
 %   NOTE: A pair of tags cannot be used multiple times in a template!
 %     Therefore the \remove "Bar_engraver" command is packed into a variable "OptionTwoFalseCommand"
 %     that can be used multiple times without problems.
@@ -51,10 +54,15 @@ OptionTwoFalseCommand = \with { %{OOoLilyPondOption2False%}\remove "Bar_engraver
 }
 
 \layout {
-  \context { \Staff         \OptionTwoFalseCommand }
-  \context { \DrumStaff     \OptionTwoFalseCommand }
-  \context { \RhythmicStaff \OptionTwoFalseCommand }
-  \context { \TabStaff      \OptionTwoFalseCommand }
+  \context { 
+    \Staff
+    \OptionTwoFalseCommand
+    \OptionThreeFalseCommand
+    \override Clef.full-size-change = ##t 
+  }
+  \context { \DrumStaff     \OptionTwoFalseCommand \OptionThreeFalseCommand}
+  \context { \RhythmicStaff \OptionTwoFalseCommand \OptionThreeFalseCommand}
+  \context { \TabStaff      \OptionTwoFalseCommand \OptionThreeFalseCommand}
   \context {
     \Score
     %      The code between the following two tags will be visible for LilyPond if Option3 is set to FALSE.
@@ -63,10 +71,15 @@ OptionTwoFalseCommand = \with { %{OOoLilyPondOption2False%}\remove "Bar_engraver
     
     %      The code between the following two tags will be visible for LilyPond if Option3 is set to TRUE.
     %      (It will be commented out if Option3 is set to FALSE.)
-    %{OOoLilyPondOption3False%}\remove "Time_signature_engraver"%{OOoLilyPondEnd%}
-
+    
     %{OOoLilyPondOption4False%}\remove "Bar_number_engraver"%{OOoLilyPondEnd%}
-    \override Score.BarNumber.break-visibility = #'#(#t #t #t)
+    \override BarNumber.break-visibility = #end-of-line-invisible
+    \override BarNumber.self-alignment-X = #LEFT
+    \override BreakAlignment.break-align-orders = #(
+      make-vector 3 '(
+      left-edge span-bar breathing-sign staff-bar
+      clef key-cancellation key-signature time-signature
+    ))
   }
   \context {
     \Voice
