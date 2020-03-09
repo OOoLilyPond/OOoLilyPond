@@ -5,17 +5,16 @@
 
 % ------------------------------------------------------------
 %{OOoLilyPondCode%}\new Staff \relative c' {
-  % \set Staff.instrumentName = \markup \fontsize #4 "a)"
   \clef "treble"  % "alto", "tenor", "bass", "treble_8", "treble^8", ...
   \key c \major  % c \minor
   \time 4/4
+  
+  % \set Staff.instrumentName = \markup \fontsize #4 "a)"
   % \cadenzaOn
   
   c4 d e f  g a b c
-  \clef bass
-  c, b a g
   
-  % \bar "|."                   % bar lines: |.  ||  !  ;
+  % \bar "|."      % bar lines: "|.",  "||",  "!",  ";",  ""
   
 } 
 \addlyrics { 
@@ -38,16 +37,16 @@
 %                         #!  and  !#  enclose block comments in scheme.
 %                                      just as  
 %                         %{  and  %}  do in LilyPond expressions.
-%
+
 %   In your templates, you can use either of them for tags like "OOoLilyPondStaffSize" etc. 
 %   On compilation, OLy will use scheme block comments for OOoLilyPondStaffSize (as above), 
 %   all other tags will be written with LilyPond block comments. 
 
-OptionTwoFalseCommand   = \with { %{OOoLilyPondOption2False%}\remove "Bar_engraver"%{OOoLilyPondEnd%} }
-OptionThreeFalseCommand = \with { %{OOoLilyPondOption3False%}\remove "Time_signature_engraver"%{OOoLilyPondEnd%} }
 %   NOTE: A pair of tags cannot be used multiple times in a template!
 %     Therefore the \remove "Bar_engraver" command is packed into a variable "OptionTwoFalseCommand"
 %     that can be used multiple times without problems.
+OptionTwoFalseCommand   = \with { %{OOoLilyPondOption2False%}\remove "Bar_engraver"%{OOoLilyPondEnd%} }
+OptionThreeFalseCommand = \with { %{OOoLilyPondOption3False%}\remove "Time_signature_engraver"%{OOoLilyPondEnd%} }
 
 \paper {
   line-width = %{OOoLilyPondLineWidth%}17 \cm%{OOoLilyPondEnd%}
@@ -99,8 +98,8 @@ OptionThreeFalseCommand = \with { %{OOoLilyPondOption3False%}\remove "Time_signa
 
 % Here you can define new labels for dialog control elements:
 
-% %{OOoLilyPondCustom1Label%}indent:%{OOoLilyPondEnd%}
-% %{OOoLilyPondCustom2Label%}ragged-right%{OOoLilyPondEnd%}
+% %{OOoLilyPondCustom1Label%}Indent:%{OOoLilyPondEnd%}
+% %{OOoLilyPondCustom2Label%}Ragged-right%{OOoLilyPondEnd%}
 % %{OOoLilyPondOption1Label%}Stems%{OOoLilyPondEnd%}
 % %{OOoLilyPondOption2Label%}Bars%{OOoLilyPondEnd%}
 % %{OOoLilyPondOption3Label%}Time signature%{OOoLilyPondEnd%}
