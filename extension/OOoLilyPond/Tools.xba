@@ -425,13 +425,13 @@ Sub SortStringArray(StringArray As Variant)
 End Sub
 
 
-Function TmpFileName(sPrefix , sSuffix As String) As String
+Function TmpFileName (sPrefix, sSuffix As String) As String
 	&apos; The Function returns the name of a file that does not already exist.
 	&apos; This prevents unintended overwriting of existing files.
 
 	Do
-		TmpFileName=sPrefix &amp; Int(Str(Rnd*1e6)) &amp; sSuffix
-	Loop While oFileAccess.exists(TmpFileName)
+		TmpFileName=sPrefix &amp; CStr (Int (Rnd*1e6)) &amp; sSuffix
+	Loop While oFileAccess.exists (TmpFileName)
 End Function
 
 
