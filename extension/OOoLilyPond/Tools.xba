@@ -577,6 +577,11 @@ Function StringToBool (sString As String) As Boolean
 End Function
 
 
+Function LyStringToBool (sString As String) As Boolean
+	LyStringToBool= Not (StrComp(sString, &quot;##f&quot;, 0) = 0)
+End Function
+
+
 Function LyBoolToString (bBoolean As Boolean) As String
 	If bBoolean Then
 		LyBoolToString = &quot;##t&quot;

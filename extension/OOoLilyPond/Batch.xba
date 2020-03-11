@@ -313,13 +313,13 @@ Sub PerformReplacement (sID As String)
 		Case &quot;Template name&quot;
 			sTemplate = sReplaceString
 		Case &quot;Option 1&quot;
-			If bOption1FieldExists Then bOption1 = sReplaceString
+			If bOption1FieldExists Then bOption1 = LyStringToBool (sReplaceString)
 		Case &quot;Option 2&quot;
-			If bOption2FieldExists Then bOption2 = sReplaceString
+			If bOption2FieldExists Then bOption2 = LyStringToBool (sReplaceString)
 		Case &quot;Option 3&quot;
-			If bOption3FieldExists Then bOption3 = sReplaceString
+			If bOption3FieldExists Then bOption3 = LyStringToBool (sReplaceString)
 		Case &quot;Option 4&quot;
-			If bOption4FieldExists Then bOption4 = sReplaceString
+			If bOption4FieldExists Then bOption4 = LyStringToBool (sReplaceString)
 		End Select
 		Exit Sub
 	End If
