@@ -279,6 +279,7 @@ Sub PerformReplacement (sID As String)
 			bUseDefaultCustom2 = True
 		Case &quot;Template name&quot;
 			sTemplate = sWriterDefaultTemplate
+			ReadTemplate (True)
 		Case &quot;Option 1&quot;
 			If bOption1FieldExists Then bOption1 = bDefaultOption1
 		Case &quot;Option 2&quot;
@@ -312,6 +313,7 @@ Sub PerformReplacement (sID As String)
 			bUseDefaultCustom2 = False
 		Case &quot;Template name&quot;
 			sTemplate = sReplaceString
+			ReadTemplate (True)
 		Case &quot;Option 1&quot;
 			If bOption1FieldExists Then bOption1 = LyStringToBool (sReplaceString)
 		Case &quot;Option 2&quot;
@@ -347,6 +349,7 @@ Sub PerformReplacement (sID As String)
 			bUseDefaultCustom2 = False
 		Case &quot;Template name&quot;
 			ReplaceSubStrings (sTemplate, oBatchDialog.getControl (&quot;sSearch_&quot; &amp; sID).getText(), sReplaceString, iSearchMode)
+			ReadTemplate (True)
 		&apos; &quot;Option 1&quot; ... &quot;Option 4&quot; not available
 		End Select
 		Exit Sub
