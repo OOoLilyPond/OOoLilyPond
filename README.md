@@ -53,7 +53,18 @@ Any content (LilyPond code, templates, OLy configuration files) created with/for
 [Scores of Beauty]: http://lilypondblog.org/
 [Issue 22]: https://github.com/openlilylib/LO-ly/issues/22#issuecomment-462500338
 
-## Authors
+### Contributors
+
+[Urs Liska](https://github.com/uliska) (infrastructure, GitHub repo)  
+[Joram Berger](https://github.com/joram-berger) (infrastructure, feature ideas, improvements, translation)  
+[Hannes E. Schäuble](https://github.com/edgar79) (improvements and fixes)  
+[Ipsilon Fede](https://github.com/yfede) (feature ideas)  
+[tapanis](https://github.com/tapanis) (error reports)  
+Valentin Villenave (translation)  
+Olivier Miakinen (translation)  
+Fernando Villagran (translation)
+
+### Authors
 
 Copyright © 2005 Geoffroy Piroux  
 Copyright © 2009 Samuel Hartmann  
