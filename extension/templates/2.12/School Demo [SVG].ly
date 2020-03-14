@@ -12,6 +12,8 @@
   \time 4/4
   
   % \set Staff.instrumentName = \markup \fontsize #4 "a)"
+  % \set Score.proportionalNotationDuration = #(ly:make-moment 1/4)  % instead of 1/4,
+  %    you can also try 1/2, 1/1 or 1/8, 1/16, ...
   % \cadenzaOn
   
   c4 d e f  g a b c
