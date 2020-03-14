@@ -1,6 +1,30 @@
-*******************************************
-OOoLilyPond Version History (November 2019)
-*******************************************
+****************************************
+OOoLilyPond Version History (March 2020)
+****************************************
+
+Complete documentation: 
+https://github.com/openlilylib/LO-ly/wiki#ooolilypond
+
+
+Changes to OOoLilyPond 0.5.12 since 0.5.11 (March 2020):
+========================================================
+
+* New feature: Editor fields can auto-change to checkboxes
+* New feature: "Option" checkboxes
+* New feature: Batch processing (Writer only)
+* New feature: Insert as separate images (system-by-system)
+* New feature: Template can be included in OLy object
+* New feature: "SVG [-dcrop]" file format allows automatic cropping for SVG images
+* Improvement: OLy objects now possible in table cells, text frames, headers and footers, footnotes and endnotes
+* Improvement: "Direct" image insertion should now also work in OpenOffice
+* Improvement: Confirmation dialog boxes before overwriting or erasing template files
+* improvement: Label indicates template location other than template folder
+* improvement: complete Spanish translation
+* Added template: School Demo (with switchable bar lines, stems, time signature etc.)
+* Various small bugfixes
+
+Complete presentation of the new features:
+https://github.com/openlilylib/LO-ly/wiki/Whats-new
 
 
 Changes to OOoLilyPond 0.5.12 since 0.5.11 (November 2019):
