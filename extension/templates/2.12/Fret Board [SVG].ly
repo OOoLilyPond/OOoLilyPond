@@ -27,7 +27,7 @@ c:7 c:maj c:m7
 >>
 
 
-#(set-global-staff-size %{OOoLilyPondStaffSize%}20%{OOoLilyPondEnd%})
+#(set-global-staff-size #!OOoLilyPondStaffSize!# 20 #!OOoLilyPondEnd!#)
 #(define version-seen #t)
 
 \paper {

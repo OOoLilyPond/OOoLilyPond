@@ -1,5 +1,5 @@
 \include "lilypond-book-preamble.ly"
-#(set-global-staff-size %{OOoLilyPondStaffSize%} 20 %{OOoLilyPondEnd%})
+#(set-global-staff-size #!OOoLilyPondStaffSize!# 20 #!OOoLilyPondEnd!#)
 
 \paper {
   line-width = %{OOoLilyPondLineWidth%}17 \cm%{OOoLilyPondEnd%}

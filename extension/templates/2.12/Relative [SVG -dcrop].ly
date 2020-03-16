@@ -10,7 +10,7 @@
 g8 a b g c a d d, | g2 \bar "|."%{OOoLilyPondEnd%}
 }
 
-#(set-global-staff-size %{OOoLilyPondStaffSize%}20%{OOoLilyPondEnd%})
+#(set-global-staff-size #!OOoLilyPondStaffSize!# 20 #!OOoLilyPondEnd!#)
 #(define version-seen #t)  
 
 \paper {

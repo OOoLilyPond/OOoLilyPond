@@ -25,7 +25,7 @@ mychords = \chordmode{
 >>
 
 
-#(set-global-staff-size %{OOoLilyPondStaffSize%}20%{OOoLilyPondEnd%})
+#(set-global-staff-size #!OOoLilyPondStaffSize!# 20 #!OOoLilyPondEnd!#)
 #(define version-seen #t)  
 
 \paper {
