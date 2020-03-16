@@ -1,4 +1,4 @@
-\include "deutsch.ly"
+\language "deutsch"
 \transpose %{OOoLilyPondCustom1%}c c'%{OOoLilyPondEnd%}
 {
 %{OOoLilyPondCode%}% Hilfen zum Einstieg (URL in Web-Browser kopieren):

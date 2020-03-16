@@ -1,4 +1,4 @@
-\include "italiano.ly"
+\language "italiano"
 \transpose %{OOoLilyPondCustom1%}do do'%{OOoLilyPondEnd%}
 {
 %{OOoLilyPondCode%}% For getting started read (copy URL into your web browser):
