@@ -12,8 +12,7 @@
   \time 4/4
   
   % \set Staff.instrumentName = \markup \fontsize #4 "a)"
-  % \set Score.proportionalNotationDuration = #(ly:make-moment 1/4)  % instead of 1/4,
-  %    you can also try 1/2, 1/1 or 1/8, 1/16, ...
+  % \set Score.proportionalNotationDuration = #(ly:make-moment 1/4) % or 1/2, 1/8, ...
   % \cadenzaOn
   
   c4 d e f  g a b c
@@ -88,14 +87,16 @@ OptionThreeFalseCommand = \with { %{OOoLilyPondOption3False%}\remove "Time_signa
   \context { \TabStaff      \OptionTwoFalseCommand \OptionThreeFalseCommand}
   \context {
     \Score
-    %      The code between the following two tags will be visible for LilyPond if Option3 is set to FALSE.
-    %      (It will be commented out if Option3 is set to TRUE.)
-    %{OOoLilyPondOption3True%}\numericTimeSignature%{OOoLilyPondEnd%}
-    
     %      The code between the following two tags will be visible for LilyPond if Option3 is set to TRUE.
     %      (It will be commented out if Option3 is set to FALSE.)
     
+    %{OOoLilyPondOption3True%}\numericTimeSignature%{OOoLilyPondEnd%}
+    
+    %      The code between the following two tags will be visible for LilyPond if Option4 is set to FALSE.
+    %      (It will be commented out if Option4 is set to TRUE.)
+    
     %{OOoLilyPondOption4False%}\remove "Bar_number_engraver"%{OOoLilyPondEnd%}
+    
     \override BarNumber.break-visibility = #end-of-line-invisible
     \override BarNumber.self-alignment-X = #LEFT
     \override BreakAlignment.break-align-orders = #(
