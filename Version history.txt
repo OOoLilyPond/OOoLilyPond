@@ -21,6 +21,7 @@ Changes to OOoLilyPond 0.5.12 since 0.5.11 (March 2020):
 * improvement: Label indicates template location other than template folder
 * improvement: complete Spanish translation
 * Added template: School Demo (with switchable bar lines, stems, time signature etc.)
+* bugfix: Editing "deutsch.ly" or "italiano.ly" templates in Frescobaldi could possibly crash LilyPond
 * Various small bugfixes
 
 Complete presentation of the new features:
