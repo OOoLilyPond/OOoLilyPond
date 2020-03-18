@@ -122,7 +122,7 @@
   </dlg:checkbox>
   <dlg:text dlg:id="LabelSvgFilename" dlg:tab-index="75" dlg:left="355" dlg:top="178" dlg:width="20" dlg:height="9" dlg:value="&quot;*.svg&quot;"/>
   <dlg:radiogroup>
-   <dlg:radio dlg:id="WriterAnchorToCharacter" dlg:tab-index="9" dlg:left="10" dlg:top="88" dlg:width="60" dlg:height="8" dlg:help-text="The OOoLilyPond object is inserted into the Text like a character." dlg:tabstop="true" dlg:value="To character"/>
+   <dlg:radio dlg:id="WriterAnchorToCharacter" dlg:tab-index="9" dlg:left="10" dlg:top="88" dlg:width="60" dlg:height="8" dlg:help-text="The OOoLilyPond object is inserted like an image and can be placed freely. The object keeps the position relative to the character." dlg:tabstop="true" dlg:value="To character"/>
   </dlg:radiogroup>
  </dlg:bulletinboard>
 </dlg:window>
