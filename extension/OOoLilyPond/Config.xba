@@ -77,6 +77,7 @@ Sub ConfigDialogUpdate()
 	oConfigDialog.getControl(&quot;bNewObjectsAsSeparateImages&quot;).setState(BoolToCheckBoxState(bNewObjectsAsSeparateImages))
 	
 	If iWriterDefaultAnchor = com.sun.star.text.TextContentAnchorType.AS_CHARACTER Then oConfigDialog.getControl(&quot;WriterAnchorAsCharacter&quot;).setState(true)
+	If iWriterDefaultAnchor = com.sun.star.text.TextContentAnchorType.AT_CHARACTER Then oConfigDialog.getControl(&quot;WriterAnchorToCharacter&quot;).setState(true)
 	If iWriterDefaultAnchor = com.sun.star.text.TextContentAnchorType.AT_PARAGRAPH Then  oConfigDialog.getControl(&quot;WriterAnchorToParagraph&quot;).setState(true)
 	If iWriterDefaultAnchor = com.sun.star.text.TextContentAnchorType.AT_PAGE Then oConfigDialog.getControl(&quot;WriterAnchorToPage&quot;).setState(true)
 	If iWriterDefaultWrap = com.sun.star.text.WrapTextMode.NONE Then oConfigDialog.getControl(&quot;WriterNoWrap&quot;).setState(true)
@@ -312,6 +313,7 @@ Sub ApplyConfig
 	bNewObjectsAsSeparateImages = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bNewObjectsAsSeparateImages&quot;).getState())
 		
 	if oConfigDialog.getControl(&quot;WriterAnchorAsCharacter&quot;).getState() then iWriterDefaultAnchor = com.sun.star.text.TextContentAnchorType.AS_CHARACTER
+	if oConfigDialog.getControl(&quot;WriterAnchorToCharacter&quot;).getState() then iWriterDefaultAnchor = com.sun.star.text.TextContentAnchorType.AT_CHARACTER
 	if oConfigDialog.getControl(&quot;WriterAnchorToParagraph&quot;).getState() then iWriterDefaultAnchor = com.sun.star.text.TextContentAnchorType.AT_PARAGRAPH
 	if oConfigDialog.getControl(&quot;WriterAnchorToPage&quot;).getState() then iWriterDefaultAnchor = com.sun.star.text.TextContentAnchorType.AT_PAGE
 
