@@ -106,6 +106,7 @@ Sub EditorDialog()
 
 	&apos; Anchor settings
 	If iAnchor = com.sun.star.text.TextContentAnchorType.AS_CHARACTER Then oEditorDialog.getControl(&quot;AnchorAsCharacter&quot;).setState(true)
+	If iAnchor = com.sun.star.text.TextContentAnchorType.AT_CHARACTER Then oEditorDialog.getControl(&quot;AnchorToCharacter&quot;).setState(true)
 	If iAnchor = com.sun.star.text.TextContentAnchorType.AT_PARAGRAPH Then  oEditorDialog.getControl(&quot;AnchorToParagraph&quot;).setState(true)
 	If iAnchor = com.sun.star.text.TextContentAnchorType.AT_PAGE Then oEditorDialog.getControl(&quot;AnchorToPage&quot;).setState(true)
 
@@ -177,6 +178,7 @@ Sub GreyOut()
 	&apos; grey out Anchor and Wrap radio buttons when we are not in Writer
 	oEditorDialog.getControl(&quot;AnchorFrameControl&quot;).setEnable(bInWriter)
 	oEditorDialog.getControl(&quot;AnchorAsCharacter&quot;).setEnable(bInWriter)
+	oEditorDialog.getControl(&quot;AnchorToCharacter&quot;).setEnable(bInWriter)
 	oEditorDialog.getControl(&quot;AnchorToParagraph&quot;).setEnable(bInWriter)
 	oEditorDialog.getControl(&quot;AnchorToPage&quot;).setEnable(bInWriter)
 
@@ -454,8 +456,9 @@ Sub LilyPondButton()
 
 	&apos; all values except for the Anchor, Wrap and Size/Crop settings should already be updated
 	if oEditorDialog.getControl(&quot;AnchorAsCharacter&quot;).getState() then iAnchor = com.sun.star.text.TextContentAnchorType.AS_CHARACTER
+	if oEditorDialog.getControl(&quot;AnchorToCharacter&quot;).getState() then iAnchor = com.sun.star.text.TextContentAnchorType.AT_CHARACTER
 	if oEditorDialog.getControl(&quot;AnchorToParagraph&quot;).getState() then iAnchor = com.sun.star.text.TextContentAnchorType.AT_PARAGRAPH
-	if oEditorDialog.getControl(&quot;AnchorToPage&quot;).getState() then iAnchor = com.sun.star.text.TextContentAnchorType.AT_PAGE
+	if oEditorDialog.getControl(&quot;AnchorToPage&quot;).getState()      then iAnchor = com.sun.star.text.TextContentAnchorType.AT_PAGE
 
 	if oEditorDialog.getControl(&quot;NoWrap&quot;).getState() then iWrap = com.sun.star.text.WrapTextMode.NONE
 	if oEditorDialog.getControl(&quot;OptimalPageWrap&quot;).getState() then iWrap = com.sun.star.text.WrapTextMode.DYNAMIC
