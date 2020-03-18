@@ -446,7 +446,7 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 	&apos; Dim bNoFirstFileCreated As Boolean
 	Dim oViewCursor As Object
 	Dim oSelection As Object
-	Dim oAnchor As Object
+	&apos; Dim oAnchor As Object		&apos; not in use
 	
 	Dim sIdentifier As String
 	Dim sImageNum As String
@@ -556,7 +556,14 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 		If oCurrentGraphicObject.getImplementationName() = &quot;SwXTextRanges&quot; Then &apos; Nothing or normal text selection in Writer
 			oCurrentCursor = oCurrentGraphicObject(0).getText().createTextCursorByRange (oCurrentGraphicObject(0))
 		Else		&apos; an object is selected
-			oCurrentCursor = oCurrentGraphicObject(0).getAnchor().getText().createTextCursorByRange (oCurrentGraphicObject(0).getAnchor())
+			Dim oDebugObject
+			Dim oDebugAnchor
+			Dim oDebugText
+			oDebugObject = oCurrentGraphicObject(0)
+			oDebugAnchor = oDebugObject.getAnchor()
+			oDebugText = oDebugAnchor.getText()
+			oCurrentCursor = oDebugText.createTextCursorByRange (oDebugAnchor)
+			&apos; oCurrentCursor = oCurrentGraphicObject(0).getAnchor().getText().createTextCursorByRange (oCurrentGraphicObject(0).getAnchor())
 		EndIf
 		
 		If bSaveAsSeparateImages Then
@@ -822,7 +829,7 @@ Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, sAddition
 	Dim oAttributes As Object
 	Dim oGraphic As Object
 	Dim oLilyPondAttribute As Object
-	Dim oCursor As Object
+	&apos; Dim oCursor As Object		&apos; not in use
 
 	On Error GoTo ErrorHandler
 
