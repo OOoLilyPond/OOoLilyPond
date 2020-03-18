@@ -435,8 +435,32 @@ Sub ConvertSeparateImageFiles ()
 		sCommand = sCommand &amp; Chr(13) &amp; Chr(10)
 		WindowsCommand (sCommand)
 	End If
-	
+
 End Sub
+
+
+Function GetCursorForWriter (oGraphicObject As Object) As Object
+
+	Dim oTempCursor As Object
+	Dim oTempAnchor
+	Dim oTempText
+	
+	If oGraphicObject.getImplementationName() = &quot;SwXTextRanges&quot; Then &apos; Nothing or normal text selection in Writer
+		oTempCursor = oGraphicObject(0).getText().createTextCursorByRange (oGraphicObject(0))
+	Else		&apos; an object is selected
+		oTempAnchor = oGraphicObject(0).getAnchor()
+		If IsNull (oTempAnchor) Then	&apos; happens when AnchorType is AT_PAGE
+			oTempCursor = oTempAnchor
+		Else
+			oTempText = oTempAnchor.getText()
+			oTempCursor = oTempText.createTextCursorByRange (oTempAnchor)
+			&apos; oCurrentCursor = oGraphicObject(0).getAnchor().getText().createTextCursorByRange (oGraphicObject(0).getAnchor())
+		End If
+	EndIf
+
+	GetCursorForWriter = oTempCursor
+
+End Function
 
 
 Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditorDialog doesn&apos;t exist (batch processing)
@@ -446,7 +470,7 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 	&apos; Dim bNoFirstFileCreated As Boolean
 	Dim oViewCursor As Object
 	Dim oSelection As Object
-	Dim oAnchor As Object
+	&apos; Dim oAnchor As Object		&apos; not in use
 	
 	Dim sIdentifier As String
 	Dim sImageNum As String
@@ -553,11 +577,7 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
  	
 	If bInWriter Then	&apos; We are in Writer...
 	
-		If oCurrentGraphicObject.getImplementationName() = &quot;SwXTextRanges&quot; Then &apos; Nothing or normal text selection in Writer
-			oCurrentCursor = oCurrentGraphicObject(0).getText().createTextCursorByRange (oCurrentGraphicObject(0))
-		Else		&apos; an object is selected
-			oCurrentCursor = oCurrentGraphicObject(0).getAnchor().getText().createTextCursorByRange (oCurrentGraphicObject(0).getAnchor())
-		EndIf
+		oCurrentCursor = GetCursorForWriter (oCurrentGraphicObject)		&apos; might eventually be Null
 		
 		If bSaveAsSeparateImages Then
 			ConvertSeparateImageFiles ()
@@ -745,7 +765,11 @@ End Sub
 
 Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As String, sAddition As String, bFirstCall As Boolean)
 	&apos; Dim oDoc, oDocCtrl
-	Dim oDispatcher, oAttributes, oViewCursor, oGraphic, oLilyPondAttribute As Object
+	Dim oDispatcher As Object
+	Dim oAttributes As Object
+	Dim oViewCursor As Object
+	Dim oGraphic As Object
+	Dim oLilyPondAttribute As Object
 	Dim oText as Object
 		
 	oDispatcher = createUnoService(&quot;com.sun.star.frame.DispatchHelper&quot;)
@@ -764,6 +788,7 @@ Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As Strin
 		&apos;Import the new image to the clipboard and paste it...
    		ImportGraphicIntoClipboard (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension))	
 		oDispatcher.executeDispatch (oDocCtrl.Frame, &quot;.uno:Paste&quot;, &quot;&quot;, 0, Array())
+		&apos; Wait (100)	&apos; doesn&apos;t help against strange LO behavior  :(
 	  	oGraphic = oDocCtrl.getSelection().GetByIndex(0)
 
 		&apos; set image properties
@@ -771,6 +796,8 @@ Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As Strin
 		&apos; -------------------------------------------------------------------------------------------------------
 		&apos; If you find yourself here with a BASIC error message like &quot;Property or Method not found: AnchorType&quot;,	 |
 		&apos; you&apos;ve probably changed from &quot;Insert Image - Direct&quot; to &quot;Insert Image - Via Clipboard&quot;.				 |
+		&apos; This is generally not recommended anymore as LibreOffice does unforeseeable things here.               |
+		&apos;                                                                                                        |
 		&apos; Possible workaround:																					 |
 		&apos; First, return to your document and close the OOoLilyPond window to stop macro execution.				 |
 		&apos; Undo you last action in LibreOffice (&quot;Insert Clipboard&quot;) to make your OOoLilyPond object usable again. |
@@ -793,8 +820,11 @@ Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As Strin
 			oDispatcher.executeDispatch (oDocCtrl.Frame, &quot;.uno:Escape&quot;, &quot;&quot;, 0, Array())
 			&apos; oCursor.goRight (0,false)
 			&apos; oViewCursor.gotoRange (oCursor, False)
-			oCurrentCursor.goRight (0,false)
-			oViewCursor.gotoRange (oCurrentCursor, False)
+			If Not IsNull (oCurrentCursor) Then
+				&apos; de-select object to avoid trouble when re-launching OLy again:
+				oCurrentCursor.goRight (0,false)
+				oViewCursor.gotoRange (oCurrentCursor, False)
+			End If
 		&apos; end if
 
 	else &apos;We are in Impress
@@ -822,7 +852,7 @@ Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, sAddition
 	Dim oAttributes As Object
 	Dim oGraphic As Object
 	Dim oLilyPondAttribute As Object
-	Dim oCursor As Object
+	&apos; Dim oCursor As Object		&apos; not in use
 
 	On Error GoTo ErrorHandler
 
@@ -832,14 +862,22 @@ Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, sAddition
 		Select Case oCurrentGraphicObject.getImplementationName()		
 		Case &quot;com.sun.star.drawing.SvxShapeCollection&quot;  &apos; OLy &lt; 0.4 in Writer
 			If bFirstCall Then oCurrentGraphicObject(0).getParent().remove(oCurrentGraphicObject(0)) &apos; Delete old OLyObject
-			oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), oCurrentCursor, true)
+			If Not IsNull (oCurrentCursor) Then
+				oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), oCurrentCursor, true)
+			Else
+				oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), oCurrentGraphicObject(0), true)
+			End If
 
 		Case &quot;SwXTextGraphicObject&quot; &apos; Graphic is selected in Writer
 			If bFirstCall Then
 				oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), oCurrentGraphicObject, false)
-				oCurrentCursor.goRight (1, false)
+				If Not IsNull (oCurrentCursor) Then oCurrentCursor.goRight (1, false)
 			Else
-				oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), oCurrentCursor, true)
+				If Not IsNull (oCurrentCursor) Then
+					oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), oCurrentCursor, true)
+				Else
+					oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), oCurrentGraphicObject, true)
+				End If
 			End If
 			
 		Case &quot;SwXTextRanges&quot; &apos; Nothing or normal text selection in Writer
