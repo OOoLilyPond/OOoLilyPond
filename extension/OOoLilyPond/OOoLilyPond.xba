@@ -442,20 +442,18 @@ End Sub
 Function GetCursorForWriter (oGraphicObject As Object) As Object
 
 	Dim oTempCursor As Object
-	Dim oDebugObject
-	Dim oDebugAnchor
-	Dim oDebugText
+	Dim oTempAnchor
+	Dim oTempText
 	
 	If oGraphicObject.getImplementationName() = &quot;SwXTextRanges&quot; Then &apos; Nothing or normal text selection in Writer
 		oTempCursor = oGraphicObject(0).getText().createTextCursorByRange (oGraphicObject(0))
 	Else		&apos; an object is selected
-		oDebugObject = oGraphicObject(0)
-		oDebugAnchor = oDebugObject.getAnchor()
-		If IsNull (oDebugAnchor) Then	&apos; happens when AnchorType is AT_PAGE
-			oTempCursor = oDebugAnchor
+		oTempAnchor = oGraphicObject(0).getAnchor()
+		If IsNull (oTempAnchor) Then	&apos; happens when AnchorType is AT_PAGE
+			oTempCursor = oTempAnchor
 		Else
-			oDebugText = oDebugAnchor.getText()
-			oTempCursor = oDebugText.createTextCursorByRange (oDebugAnchor)
+			oTempText = oTempAnchor.getText()
+			oTempCursor = oTempText.createTextCursorByRange (oTempAnchor)
 			&apos; oCurrentCursor = oGraphicObject(0).getAnchor().getText().createTextCursorByRange (oGraphicObject(0).getAnchor())
 		End If
 	EndIf
