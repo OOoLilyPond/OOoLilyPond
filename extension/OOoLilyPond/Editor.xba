@@ -34,7 +34,7 @@ Sub EditorDialog()
 		oEditorDialog.getModel().Title = oEditorDialog.getModel().Title  &amp; &quot;   [&quot; &amp; constOLyFileName &amp; sImageNum &amp; &quot;.&quot; &amp; sExtension &amp; &quot;]&quot;
 	End If
 	
-	&apos; Preserve original field labels for LineWidth, StaffSize, Custom1, Custom2, Option1 ... Option4:
+	&apos; Preserve original field labels for LineWidth, StaffSize, Custom1, Custom2, Option1 ... Option8:
 	sDefaultLineWidthLabel = oEditorDialog.getModel().getByName(&quot;LabelLineWidth&quot;).Label
 	sDefaultStaffSizeLabel = oEditorDialog.getModel().getByName(&quot;LabelStaffSize&quot;).Label
 	sDefaultCustom1Label = oEditorDialog.getModel().getByName(&quot;LabelCustom1&quot;).Label
@@ -43,6 +43,10 @@ Sub EditorDialog()
 	sDefaultOption2Label = oEditorDialog.getModel().getByName(&quot;bOption2&quot;).Label
 	sDefaultOption3Label = oEditorDialog.getModel().getByName(&quot;bOption3&quot;).Label
 	sDefaultOption4Label = oEditorDialog.getModel().getByName(&quot;bOption4&quot;).Label
+	sDefaultOption5Label = oEditorDialog.getModel().getByName(&quot;bOption5&quot;).Label
+	sDefaultOption6Label = oEditorDialog.getModel().getByName(&quot;bOption6&quot;).Label
+	sDefaultOption7Label = oEditorDialog.getModel().getByName(&quot;bOption7&quot;).Label
+	sDefaultOption8Label = oEditorDialog.getModel().getByName(&quot;bOption8&quot;).Label
 	
 	&apos; Change the font of the editor pane
 	oFieldModel = oEditorDialog.getControl(&quot;sCode&quot;).getModel()
@@ -87,11 +91,19 @@ Sub EditorDialog()
 		bOption2 = bDefaultOption2
 		bOption3 = bDefaultOption3
 		bOption4 = bDefaultOption4
+		bOption5 = bDefaultOption5
+		bOption6 = bDefaultOption6
+		bOption7 = bDefaultOption7
+		bOption8 = bDefaultOption8
 	End If
 	oEditorDialog.getControl(&quot;bOption1&quot;).setState(BoolToCheckBoxState(bOption1))
 	oEditorDialog.getControl(&quot;bOption2&quot;).setState(BoolToCheckBoxState(bOption2))
 	oEditorDialog.getControl(&quot;bOption3&quot;).setState(BoolToCheckBoxState(bOption3))
 	oEditorDialog.getControl(&quot;bOption4&quot;).setState(BoolToCheckBoxState(bOption4))
+	oEditorDialog.getControl(&quot;bOption5&quot;).setState(BoolToCheckBoxState(bOption1))
+	oEditorDialog.getControl(&quot;bOption6&quot;).setState(BoolToCheckBoxState(bOption2))
+	oEditorDialog.getControl(&quot;bOption7&quot;).setState(BoolToCheckBoxState(bOption3))
+	oEditorDialog.getControl(&quot;bOption8&quot;).setState(BoolToCheckBoxState(bOption4))
 	
 	&apos; Fill the Template Combobox
 	Select Case ListOfTemplates(oEditorDialog.getControl(&quot;sTemplate&quot;))
@@ -211,6 +223,10 @@ Sub GreyOut()
 	If Not bOption2LabelExists   Then sOption2Label   = sDefaultOption2Label
 	If Not bOption3LabelExists   Then sOption3Label   = sDefaultOption3Label
 	If Not bOption4LabelExists   Then sOption4Label   = sDefaultOption4Label
+	If Not bOption5LabelExists   Then sOption5Label   = sDefaultOption5Label
+	If Not bOption6LabelExists   Then sOption6Label   = sDefaultOption6Label
+	If Not bOption7LabelExists   Then sOption7Label   = sDefaultOption7Label
+	If Not bOption8LabelExists   Then sOption8Label   = sDefaultOption8Label
 
 	&apos; grey out input fields
 	UpdateFieldAppearance (&quot;LineWidth&quot;, sLineWidthLabel, sDefaultLineWidth, &quot;##t&quot;, &quot;##f&quot;, bLineWidthFieldExists)
@@ -223,12 +239,20 @@ Sub GreyOut()
 	oEditorDialog.getModel().getByName(&quot;bOption2&quot;).Label = sOption2Label
 	oEditorDialog.getModel().getByName(&quot;bOption3&quot;).Label = sOption3Label
 	oEditorDialog.getModel().getByName(&quot;bOption4&quot;).Label = sOption4Label
+	oEditorDialog.getModel().getByName(&quot;bOption5&quot;).Label = sOption5Label
+	oEditorDialog.getModel().getByName(&quot;bOption6&quot;).Label = sOption6Label
+	oEditorDialog.getModel().getByName(&quot;bOption7&quot;).Label = sOption7Label
+	oEditorDialog.getModel().getByName(&quot;bOption8&quot;).Label = sOption8Label
 	
 	&apos; grey out option checkboxes
 	oEditorDialog.getControl(&quot;bOption1&quot;).setEnable(bOption1FieldExists)
 	oEditorDialog.getControl(&quot;bOption2&quot;).setEnable(bOption2FieldExists)
 	oEditorDialog.getControl(&quot;bOption3&quot;).setEnable(bOption3FieldExists)
 	oEditorDialog.getControl(&quot;bOption4&quot;).setEnable(bOption4FieldExists)
+	oEditorDialog.getControl(&quot;bOption5&quot;).setEnable(bOption5FieldExists)
+	oEditorDialog.getControl(&quot;bOption6&quot;).setEnable(bOption6FieldExists)
+	oEditorDialog.getControl(&quot;bOption7&quot;).setEnable(bOption7FieldExists)
+	oEditorDialog.getControl(&quot;bOption8&quot;).setEnable(bOption8FieldExists)
 
 	&apos; indicate if Template location is other than standard template folder:
 	oEditorDialog.getModel().getByName (&quot;TemplateLocationLabel&quot;).Label = sTemplateLocationLabel
@@ -533,6 +557,22 @@ Sub ImportButton()
 		oEditorDialog.getControl(&quot;bOption4&quot;).setState(BoolToCheckBoxState(bOption4))
 	End If
 	
+	If bOption5FieldExists Then
+		oEditorDialog.getControl(&quot;bOption5&quot;).setState(BoolToCheckBoxState(bOption5))
+	End If
+
+	If bOption6FieldExists Then
+		oEditorDialog.getControl(&quot;bOption6&quot;).setState(BoolToCheckBoxState(bOption6))
+	End If
+	
+	If bOption7FieldExists Then
+		oEditorDialog.getControl(&quot;bOption7&quot;).setState(BoolToCheckBoxState(bOption7))
+	End If
+	
+	If bOption8FieldExists Then
+		oEditorDialog.getControl(&quot;bOption8&quot;).setState(BoolToCheckBoxState(bOption8))
+	End If
+	
 	
 	
 End Sub
@@ -678,6 +718,22 @@ Sub Option4Modified
 	bOption4 = CheckBoxStateToBool (oEditorDialog.getControl(&quot;bOption4&quot;).getState())
 End Sub
 
+Sub Option5Modified
+	bOption5 = CheckBoxStateToBool (oEditorDialog.getControl(&quot;bOption5&quot;).getState())
+End Sub
+
+Sub Option6Modified
+	bOption6 = CheckBoxStateToBool (oEditorDialog.getControl(&quot;bOption6&quot;).getState())
+End Sub
+
+Sub Option7Modified
+	bOption7 = CheckBoxStateToBool (oEditorDialog.getControl(&quot;bOption7&quot;).getState())
+End Sub
+
+Sub Option8Modified
+	bOption8 = CheckBoxStateToBool (oEditorDialog.getControl(&quot;bOption8&quot;).getState())
+End Sub
+
 
 
 &apos; ****************************************
@@ -766,10 +822,18 @@ Sub UseDefaultOptions
 	bOption2 = bDefaultOption2
 	bOption3 = bDefaultOption3
 	bOption4 = bDefaultOption4
+	bOption5 = bDefaultOption8
+	bOption6 = bDefaultOption6
+	bOption7 = bDefaultOption7
+	bOption8 = bDefaultOption8
 	oEditorDialog.getControl(&quot;bOption1&quot;).setState(BoolToCheckBoxState(bOption1))
 	oEditorDialog.getControl(&quot;bOption2&quot;).setState(BoolToCheckBoxState(bOption2))
 	oEditorDialog.getControl(&quot;bOption3&quot;).setState(BoolToCheckBoxState(bOption3))
 	oEditorDialog.getControl(&quot;bOption4&quot;).setState(BoolToCheckBoxState(bOption4))
+	oEditorDialog.getControl(&quot;bOption5&quot;).setState(BoolToCheckBoxState(bOption5))
+	oEditorDialog.getControl(&quot;bOption6&quot;).setState(BoolToCheckBoxState(bOption6))
+	oEditorDialog.getControl(&quot;bOption7&quot;).setState(BoolToCheckBoxState(bOption7))
+	oEditorDialog.getControl(&quot;bOption8&quot;).setState(BoolToCheckBoxState(bOption8))
 End Sub
 
 </script:module>

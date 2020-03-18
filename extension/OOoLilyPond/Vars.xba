@@ -89,16 +89,28 @@ Private bOption1 As Boolean
 Private bOption2 As Boolean
 Private bOption3 As Boolean
 Private bOption4 As Boolean
+Private bOption5 As Boolean
+Private bOption6 As Boolean
+Private bOption7 As Boolean
+Private bOption8 As Boolean
 
 &apos; code segments to be switched on/off by bOption1 ... bOption4
 Private sOption1True As String
 Private sOption2True As String
 Private sOption3True As String
 Private sOption4True As String
+Private sOption5True As String
+Private sOption6True As String
+Private sOption7True As String
+Private sOption8True As String
 Private sOption1False As String
 Private sOption2False As String
 Private sOption3False As String
 Private sOption4False As String
+Private sOption5False As String
+Private sOption6False As String
+Private sOption7False As String
+Private sOption8False As String
 
 &apos; OOoLilyPond object default data
 Private sDefaultCode As String
@@ -110,6 +122,10 @@ Private bDefaultOption1 As Boolean
 Private bDefaultOption2 As Boolean
 Private bDefaultOption3 As Boolean
 Private bDefaultOption4 As Boolean
+Private bDefaultOption5 As Boolean
+Private bDefaultOption6 As Boolean
+Private bDefaultOption7 As Boolean
+Private bDefaultOption8 As Boolean
 
 Private sDefaultLineWidthLabel As String 
 Private sDefaultStaffSizeLabel As String 
@@ -119,6 +135,10 @@ Private sDefaultOption1Label As String
 Private sDefaultOption2Label As String 
 Private sDefaultOption3Label As String 
 Private sDefaultOption4Label As String 
+Private sDefaultOption5Label As String 
+Private sDefaultOption6Label As String 
+Private sDefaultOption7Label As String 
+Private sDefaultOption8Label As String 
 
 Private sLineWidthLabel As String
 Private sStaffSizeLabel As String
@@ -128,6 +148,10 @@ Private sOption1Label As String
 Private sOption2Label As String
 Private sOption3Label As String
 Private sOption4Label As String
+Private sOption5Label As String
+Private sOption6Label As String
+Private sOption7Label As String
+Private sOption8Label As String
 
 Private iAnchor, iWrap As Integer
 
@@ -181,6 +205,10 @@ Private bOption1FieldExists As Boolean
 Private bOption2FieldExists As Boolean
 Private bOption3FieldExists As Boolean
 Private bOption4FieldExists As Boolean
+Private bOption5FieldExists As Boolean
+Private bOption6FieldExists As Boolean
+Private bOption7FieldExists As Boolean
+Private bOption8FieldExists As Boolean
 
 Private bLineWidthLabelExists As Boolean
 Private bStaffSizeLabelExists As Boolean
@@ -190,6 +218,10 @@ Private bOption1LabelExists As Boolean
 Private bOption2LabelExists As Boolean
 Private bOption3LabelExists As Boolean
 Private bOption4LabelExists As Boolean
+Private bOption5LabelExists As Boolean
+Private bOption6LabelExists As Boolean
+Private bOption7LabelExists As Boolean
+Private bOption8LabelExists As Boolean
 
 &apos; some global objects:
 Private oDoc As Object		&apos; ThisComponent

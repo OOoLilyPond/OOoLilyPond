@@ -832,7 +832,7 @@ Sub ConfigOKButton
 	&apos;Read the values from the dialog
 	ApplyConfig()
 	
-	&apos; Preserve original field labels for LineWidth, StaffSize, Custom1, Custom2, Option1 ... Option4:
+	&apos; Preserve original field labels for LineWidth, StaffSize, Custom1, Custom2, Option1 ... Option8:
 	sDefaultLineWidthLabel = oEditorDialog.getModel().getByName(&quot;LabelLineWidth&quot;).Label
 	sDefaultStaffSizeLabel = oEditorDialog.getModel().getByName(&quot;LabelStaffSize&quot;).Label
 	sDefaultCustom1Label = oEditorDialog.getModel().getByName(&quot;LabelCustom1&quot;).Label
@@ -841,6 +841,10 @@ Sub ConfigOKButton
 	sDefaultOption2Label = oEditorDialog.getModel().getByName(&quot;bOption2&quot;).Label
 	sDefaultOption3Label = oEditorDialog.getModel().getByName(&quot;bOption3&quot;).Label
 	sDefaultOption4Label = oEditorDialog.getModel().getByName(&quot;bOption4&quot;).Label
+	sDefaultOption5Label = oEditorDialog.getModel().getByName(&quot;bOption5&quot;).Label
+	sDefaultOption6Label = oEditorDialog.getModel().getByName(&quot;bOption6&quot;).Label
+	sDefaultOption7Label = oEditorDialog.getModel().getByName(&quot;bOption7&quot;).Label
+	sDefaultOption8Label = oEditorDialog.getModel().getByName(&quot;bOption8&quot;).Label
 	
 	&apos;Read translation strings from language file, in case another language has been chosen
 	&apos; ReadLanguageFile()	&apos; already called at the end of ApplyConfig()

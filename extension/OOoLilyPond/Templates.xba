@@ -166,6 +166,14 @@ Function ApplyTemplate() As Boolean
 			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option3Value&quot; &amp; sStartTagTail &amp; LyBoolToString (bOption3) &amp; sEndTag
 		Case &quot;Option4Value&quot;
 			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option4Value&quot; &amp; sStartTagTail &amp; LyBoolToString (bOption4) &amp; sEndTag
+		Case &quot;Option5Value&quot;
+			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option5Value&quot; &amp; sStartTagTail &amp; LyBoolToString (bOption5) &amp; sEndTag
+		Case &quot;Option6Value&quot;
+			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option6Value&quot; &amp; sStartTagTail &amp; LyBoolToString (bOption6) &amp; sEndTag
+		Case &quot;Option7Value&quot;
+			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option7Value&quot; &amp; sStartTagTail &amp; LyBoolToString (bOption7) &amp; sEndTag
+		Case &quot;Option8Value&quot;
+			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option8Value&quot; &amp; sStartTagTail &amp; LyBoolToString (bOption8) &amp; sEndTag
 			
 		Case &quot;Option1True&quot;
 			If bOption1 Then
@@ -215,6 +223,54 @@ Function ApplyTemplate() As Boolean
 			Else
 				sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option4False&quot; &amp; sStartTagTail &amp; sOption4False &amp; sEndTag
 			End If
+		Case &quot;Option5True&quot;
+			If bOption5 Then
+				sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option5True&quot;  &amp; sStartTagTail &amp; sOption5True &amp; sEndTag
+			Else
+				sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option5True&quot;  &amp; sStartTagTail &amp; &quot; %{&quot; &amp; sOption5True  &amp; &quot; %} &quot; &amp; sEndTag
+			End If
+		Case &quot;Option5False&quot;
+			If bOption5 Then
+				sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option5False&quot; &amp; sStartTagTail &amp; &quot; %{&quot; &amp; sOption5False &amp; &quot; %} &quot; &amp; sEndTag
+			Else
+				sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option5False&quot; &amp; sStartTagTail &amp; sOption5False &amp; sEndTag
+			End If
+		Case &quot;Option6True&quot;
+			If bOption6 Then
+				sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option6True&quot;  &amp; sStartTagTail &amp; sOption6True &amp; sEndTag
+			Else
+				sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option6True&quot;  &amp; sStartTagTail &amp; &quot; %{&quot; &amp; sOption6True  &amp; &quot; %} &quot; &amp; sEndTag
+			End If
+		Case &quot;Option6False&quot;
+			If bOption6 Then
+				sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option6False&quot; &amp; sStartTagTail &amp; &quot; %{&quot; &amp; sOption6False &amp; &quot; %} &quot; &amp; sEndTag
+			Else
+				sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option6False&quot; &amp; sStartTagTail &amp; sOption6False &amp; sEndTag
+			End If
+		Case &quot;Option7True&quot;
+			If bOption7 Then
+				sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option7True&quot;  &amp; sStartTagTail &amp; sOption7True &amp; sEndTag
+			Else
+				sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option7True&quot;  &amp; sStartTagTail &amp; &quot; %{&quot; &amp; sOption7True  &amp; &quot; %} &quot; &amp; sEndTag
+			End If
+		Case &quot;Option7False&quot;
+			If bOption7 Then
+				sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option7False&quot; &amp; sStartTagTail &amp; &quot; %{&quot; &amp; sOption7False &amp; &quot; %} &quot; &amp; sEndTag
+			Else
+				sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option7False&quot; &amp; sStartTagTail &amp; sOption7False &amp; sEndTag
+			End If
+		Case &quot;Option8True&quot;
+			If bOption8 Then
+				sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option8True&quot;  &amp; sStartTagTail &amp; sOption8True &amp; sEndTag
+			Else
+				sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option8True&quot;  &amp; sStartTagTail &amp; &quot; %{&quot; &amp; sOption8True  &amp; &quot; %} &quot; &amp; sEndTag
+			End If
+		Case &quot;Option8False&quot;
+			If bOption8 Then
+				sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option8False&quot; &amp; sStartTagTail &amp; &quot; %{&quot; &amp; sOption8False &amp; &quot; %} &quot; &amp; sEndTag
+			Else
+				sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option8False&quot; &amp; sStartTagTail &amp; sOption8False &amp; sEndTag
+			End If
 			
 		Case &quot;LineWidthLabel&quot;
 			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;LineWidthLabel&quot; &amp; sStartTagTail &amp; sLineWidthLabel &amp; sEndTag
@@ -232,6 +288,14 @@ Function ApplyTemplate() As Boolean
 			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option3Label&quot; &amp; sStartTagTail &amp; sOption3Label &amp; sEndTag
 		Case &quot;Option4Label&quot;
 			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option4Label&quot; &amp; sStartTagTail &amp; sOption4Label &amp; sEndTag
+		Case &quot;Option5Label&quot;
+			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option5Label&quot; &amp; sStartTagTail &amp; sOption5Label &amp; sEndTag
+		Case &quot;Option6Label&quot;
+			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option6Label&quot; &amp; sStartTagTail &amp; sOption6Label &amp; sEndTag
+		Case &quot;Option7Label&quot;
+			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option7Label&quot; &amp; sStartTagTail &amp; sOption7Label &amp; sEndTag
+		Case &quot;Option8Label&quot;
+			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option8Label&quot; &amp; sStartTagTail &amp; sOption8Label &amp; sEndTag
 		End Select
 
 		&apos; Skip template code until end tag
@@ -384,6 +448,10 @@ Function ReadTemplate (bShowError As Boolean) As Boolean
 	bOption2FieldExists = False
 	bOption3FieldExists = False
 	bOption4FieldExists = False
+	bOption5FieldExists = False
+	bOption6FieldExists = False
+	bOption7FieldExists = False
+	bOption8FieldExists = False
 	
 	bLineWidthLabelExists = False
 	bStaffSizeLabelExists = False
@@ -399,6 +467,10 @@ Function ReadTemplate (bShowError As Boolean) As Boolean
 	bDefaultOption2 = False
 	bDefaultOption3 = False
 	bDefaultOption4 = False
+	bDefaultOption5 = False
+	bDefaultOption6 = False
+	bDefaultOption7 = False
+	bDefaultOption8 = False
 	If bUseDefaultCustom1 Then sDefaultCustom1 = &quot;&quot;
 	If bUseDefaultCustom2 Then sDefaultCustom2 = &quot;&quot;
 	
@@ -476,6 +548,22 @@ Function ReadTemplate (bShowError As Boolean) As Boolean
 				RemoveSpaces (sDefaultValue)
 				bDefaultOption4 = (sDefaultValue = &quot;##t&quot;)
 				bOption4FieldExists = True
+			Case &quot;Option5Value&quot;
+				RemoveSpaces (sDefaultValue)
+				bDefaultOption5 = (sDefaultValue = &quot;##t&quot;)
+				bOption5FieldExists = True
+			Case &quot;Option6Value&quot;
+				RemoveSpaces (sDefaultValue)
+				bDefaultOption6 = (sDefaultValue = &quot;##t&quot;)
+				bOption6FieldExists = True
+			Case &quot;Option7Value&quot;
+				RemoveSpaces (sDefaultValue)
+				bDefaultOption7 = (sDefaultValue = &quot;##t&quot;)
+				bOption7FieldExists = True
+			Case &quot;Option8Value&quot;
+				RemoveSpaces (sDefaultValue)
+				bDefaultOption8 = (sDefaultValue = &quot;##t&quot;)
+				bOption8FieldExists = True
 			&apos; Code sections to be switched on/off by Option1...Option4 
 			&apos; are read from the template but cannot be modified in the Editor
 			Case &quot;Option1True&quot;
@@ -502,6 +590,30 @@ Function ReadTemplate (bShowError As Boolean) As Boolean
 			Case &quot;Option4False&quot;
 				sOption4False = sDefaultValue
 				bOption4FieldExists = True
+			Case &quot;Option5True&quot;
+				sOption5True = sDefaultValue
+				bOption5FieldExists = True
+			Case &quot;Option5False&quot;
+				sOption5False = sDefaultValue
+				bOption5FieldExists = True
+			Case &quot;Option6True&quot;
+				sOption6True = sDefaultValue
+				bOption6FieldExists = True
+			Case &quot;Option6False&quot;
+				sOption6False = sDefaultValue
+				bOption6FieldExists = True
+			Case &quot;Option7True&quot;
+				sOption7True = sDefaultValue
+				bOption7FieldExists = True
+			Case &quot;Option7False&quot;
+				sOption7False = sDefaultValue
+				bOption7FieldExists = True
+			Case &quot;Option8True&quot;
+				sOption8True = sDefaultValue
+				bOption8FieldExists = True
+			Case &quot;Option8False&quot;
+				sOption8False = sDefaultValue
+				bOption8FieldExists = True
 			&apos; Labels for control elements in the Editor window
 			Case &quot;LineWidthLabel&quot;
 				sLineWidthLabel = sDefaultValue
@@ -527,6 +639,18 @@ Function ReadTemplate (bShowError As Boolean) As Boolean
 			Case &quot;Option4Label&quot;
 				sOption4Label = sDefaultValue
 				bOption4LabelExists = True
+			Case &quot;Option5Label&quot;
+				sOption5Label = sDefaultValue
+				bOption5LabelExists = True
+			Case &quot;Option6Label&quot;
+				sOption6Label = sDefaultValue
+				bOption6LabelExists = True
+			Case &quot;Option7Label&quot;
+				sOption7Label = sDefaultValue
+				bOption7LabelExists = True
+			Case &quot;Option8Label&quot;
+				sOption8Label = sDefaultValue
+				bOption8LabelExists = True
 		End Select
 
 		&apos; Look for next start tag
@@ -641,6 +765,18 @@ Function ReadTempLyFile() As Boolean
 			Case &quot;Option4Value&quot;
 				RemoveSpaces (sDefaultValue)
 				bDefaultOption4 = (sDefaultValue = &quot;##t&quot;)
+			Case &quot;Option5Value&quot;
+				RemoveSpaces (sDefaultValue)
+				bDefaultOption5 = (sDefaultValue = &quot;##t&quot;)
+			Case &quot;Option6Value&quot;
+				RemoveSpaces (sDefaultValue)
+				bDefaultOption6 = (sDefaultValue = &quot;##t&quot;)
+			Case &quot;Option7Value&quot;
+				RemoveSpaces (sDefaultValue)
+				bDefaultOption7 = (sDefaultValue = &quot;##t&quot;)
+			Case &quot;Option8Value&quot;
+				RemoveSpaces (sDefaultValue)
+				bDefaultOption8 = (sDefaultValue = &quot;##t&quot;)
 		End Select
 
 		&apos; Look for next start tag

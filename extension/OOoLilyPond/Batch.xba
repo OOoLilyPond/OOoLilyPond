@@ -211,6 +211,14 @@ Function MeetsCondition (sID As String) As Boolean
 		If bOption3FieldExists Then sSearchField = LyBoolToString (bOption3)
 	Case &quot;Option 4&quot;
 		If bOption4FieldExists Then sSearchField = LyBoolToString (bOption4)
+	Case &quot;Option 5&quot;
+		If bOption5FieldExists Then sSearchField = LyBoolToString (bOption5)
+	Case &quot;Option 6&quot;
+		If bOption6FieldExists Then sSearchField = LyBoolToString (bOption6)
+	Case &quot;Option 7&quot;
+		If bOption7FieldExists Then sSearchField = LyBoolToString (bOption7)
+	Case &quot;Option 8&quot;
+		If bOption8FieldExists Then sSearchField = LyBoolToString (bOption8)
 	Case &quot;(Staff Size label)&quot;
 		If bStaffSizeLabelExists Then sSearchField = sStaffSizeLabel
 	Case &quot;(Line Width label)&quot;
@@ -227,6 +235,14 @@ Function MeetsCondition (sID As String) As Boolean
 		If bOption3LabelExists Then sSearchField = sOption3Label
 	Case &quot;(Option 4 label)&quot;
 		If bOption4LabelExists Then sSearchField = sOption4Label
+	Case &quot;(Option 5 label)&quot;
+		If bOption5LabelExists Then sSearchField = sOption5Label
+	Case &quot;(Option 6 label)&quot;
+		If bOption6LabelExists Then sSearchField = sOption6Label
+	Case &quot;(Option 7 label)&quot;
+		If bOption7LabelExists Then sSearchField = sOption7Label
+	Case &quot;(Option 8 label)&quot;
+		If bOption8LabelExists Then sSearchField = sOption8Label
 	End Select
 	
 	If oBatchDialog.getControl (&quot;ConditionContains_&quot; &amp; sID).getState() Then
@@ -288,6 +304,14 @@ Sub PerformReplacement (sID As String)
 			If bOption3FieldExists Then bOption3 = bDefaultOption3
 		Case &quot;Option 4&quot;
 			If bOption4FieldExists Then bOption4 = bDefaultOption4
+		Case &quot;Option 5&quot;
+			If bOption5FieldExists Then bOption5 = bDefaultOption5
+		Case &quot;Option 6&quot;
+			If bOption6FieldExists Then bOption6 = bDefaultOption6
+		Case &quot;Option 7&quot;
+			If bOption7FieldExists Then bOption7 = bDefaultOption7
+		Case &quot;Option 8&quot;
+			If bOption8FieldExists Then bOption8 = bDefaultOption8
 		End Select
 		Exit Sub
 	End If
@@ -322,6 +346,14 @@ Sub PerformReplacement (sID As String)
 			If bOption3FieldExists Then bOption3 = LyStringToBool (sReplaceString)
 		Case &quot;Option 4&quot;
 			If bOption4FieldExists Then bOption4 = LyStringToBool (sReplaceString)
+		Case &quot;Option 5&quot;
+			If bOption5FieldExists Then bOption5 = LyStringToBool (sReplaceString)
+		Case &quot;Option 6&quot;
+			If bOption6FieldExists Then bOption6 = LyStringToBool (sReplaceString)
+		Case &quot;Option 7&quot;
+			If bOption7FieldExists Then bOption7 = LyStringToBool (sReplaceString)
+		Case &quot;Option 8&quot;
+			If bOption8FieldExists Then bOption8 = LyStringToBool (sReplaceString)
 		End Select
 		Exit Sub
 	End If
@@ -350,7 +382,7 @@ Sub PerformReplacement (sID As String)
 		Case &quot;Template name&quot;
 			ReplaceSubStrings (sTemplate, oBatchDialog.getControl (&quot;sSearch_&quot; &amp; sID).getText(), sReplaceString, iSearchMode)
 			ReadTemplate (True)
-		&apos; &quot;Option 1&quot; ... &quot;Option 4&quot; not available
+		&apos; &quot;Option 1&quot; ... &quot;Option 8&quot; not available
 		End Select
 		Exit Sub
 	End If

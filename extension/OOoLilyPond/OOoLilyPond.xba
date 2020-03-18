@@ -736,6 +736,10 @@ Sub AttachAttributes (oGraphic As Object, sIdentifier As String, sImageNum As St
 	InsertAttribute(oGraphic, &quot;OOoLilyPondOption2Value&quot;, BoolToString(bOption2))
 	InsertAttribute(oGraphic, &quot;OOoLilyPondOption3Value&quot;, BoolToString(bOption3))
 	InsertAttribute(oGraphic, &quot;OOoLilyPondOption4Value&quot;, BoolToString(bOption4))
+	InsertAttribute(oGraphic, &quot;OOoLilyPondOption5Value&quot;, BoolToString(bOption5))
+	InsertAttribute(oGraphic, &quot;OOoLilyPondOption6Value&quot;, BoolToString(bOption6))
+	InsertAttribute(oGraphic, &quot;OOoLilyPondOption7Value&quot;, BoolToString(bOption7))
+	InsertAttribute(oGraphic, &quot;OOoLilyPondOption8Value&quot;, BoolToString(bOption8))
 	If bIncludeTemplate Then 
 		InsertAttribute (oGraphic, &quot;OOoLilyPondTemplateCode&quot;, sTemplateCode)
 	Else
@@ -977,11 +981,15 @@ Function ReadAttributes( oShape As Object ) As Boolean
 		bUseDefaultCustom1=StringToBool(oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondUseDefaultCustom1&quot;).Value)
 		bUseDefaultCustom2=StringToBool(oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondUseDefaultCustom2&quot;).Value)
 		
-		&apos; Option... attributes exist since OOoLilyPond 0.5.13:
+		&apos; Option... attributes exist since OOoLilyPond 1.0.0 and some 0.5.12.x development versions:
 		bOption1 = False
 		bOption2 = False
 		bOption3 = False
 		bOption4 = False
+		bOption5 = False
+		bOption6 = False
+		bOption7 = False
+		bOption8 = False
 		If oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondOption1Value&quot;) Then
 			bOption1 = StringToBool (oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondOption1Value&quot;).Value)
 		End If
@@ -993,6 +1001,18 @@ Function ReadAttributes( oShape As Object ) As Boolean
 		End If
 		If oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondOption4Value&quot;) Then
 			bOption4 = StringToBool (oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondOption4Value&quot;).Value)
+		End If
+		If oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondOption5Value&quot;) Then
+			bOption5 = StringToBool (oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondOption5Value&quot;).Value)
+		End If
+		If oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondOption6Value&quot;) Then
+			bOption6 = StringToBool (oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondOption6Value&quot;).Value)
+		End If
+		If oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondOption7Value&quot;) Then
+			bOption7 = StringToBool (oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondOption7Value&quot;).Value)
+		End If
+		If oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondOption8Value&quot;) Then
+			bOption8 = StringToBool (oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondOption8Value&quot;).Value)
 		End If
 		
 		&apos; Maybe the template is included within the OLy object:

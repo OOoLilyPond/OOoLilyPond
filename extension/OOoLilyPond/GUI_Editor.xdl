@@ -120,9 +120,9 @@
   <dlg:checkbox dlg:id="bSaveAsSeparateImages" dlg:tab-index="15" dlg:left="10" dlg:top="268" dlg:width="140" dlg:height="8" dlg:help-text="If the sheet music consists of multiple lines, insert them as separate images" dlg:value="Insert as separate images (system-by-system)" dlg:checked="false">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.SeparateImagesModified?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
-  <dlg:text dlg:style-id="3" dlg:id="TemplateLocationLabel" dlg:tab-index="48" dlg:visible="false" dlg:left="198" dlg:top="218" dlg:width="171" dlg:height="8" dlg:help-text="Click the [Edit] button to save the template into your template folder."/>
-  <dlg:text dlg:id="LabelFrom" dlg:tab-index="49" dlg:left="8" dlg:top="278" dlg:width="48" dlg:height="8" dlg:value="from:" dlg:align="right"/>
-  <dlg:text dlg:id="LabelTo" dlg:tab-index="50" dlg:left="80" dlg:top="278" dlg:width="48" dlg:height="8" dlg:value="to:" dlg:align="right"/>
+  <dlg:text dlg:style-id="3" dlg:id="TemplateLocationLabel" dlg:tab-index="52" dlg:visible="false" dlg:left="198" dlg:top="218" dlg:width="171" dlg:height="8" dlg:help-text="Click the [Edit] button to save the template into your template folder."/>
+  <dlg:text dlg:id="LabelFrom" dlg:tab-index="53" dlg:left="8" dlg:top="278" dlg:width="48" dlg:height="8" dlg:value="from:" dlg:align="right"/>
+  <dlg:text dlg:id="LabelTo" dlg:tab-index="54" dlg:left="80" dlg:top="278" dlg:width="48" dlg:height="8" dlg:value="to:" dlg:align="right"/>
   <dlg:numericfield dlg:id="iFrom" dlg:tab-index="16" dlg:left="58" dlg:top="276" dlg:width="18" dlg:height="12" dlg:help-text="Number of the first image to be inserted" dlg:decimal-accuracy="0" dlg:value-min="1" dlg:value-max="9999"/>
   <dlg:numericfield dlg:id="iTo" dlg:tab-index="17" dlg:left="130" dlg:top="276" dlg:width="18" dlg:height="12" dlg:help-text="Number of the last image to be inserted" dlg:decimal-accuracy="0" dlg:value-min="1" dlg:value-max="9999"/>
   <dlg:radiogroup>
@@ -130,20 +130,20 @@
     <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.AnchorButton?language=Basic&amp;location=application" script:language="Script"/>
    </dlg:radio>
   </dlg:radiogroup>
-  <dlg:checkbox dlg:id="bOption5" dlg:tab-index="51" dlg:left="166" dlg:top="243" dlg:width="48" dlg:height="8" dlg:value="Option 5" dlg:checked="false">
-   <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.Option1Modified?language=Basic&amp;location=application" script:language="Script"/>
+  <dlg:checkbox dlg:id="bOption5" dlg:tab-index="48" dlg:left="166" dlg:top="243" dlg:width="48" dlg:height="8" dlg:value="Option 5" dlg:checked="false">
+   <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.Option5Modified?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
   <dlg:checkbox dlg:id="bOption2" dlg:tab-index="45" dlg:left="218" dlg:top="230" dlg:width="48" dlg:height="8" dlg:value="Option 2" dlg:checked="false">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.Option2Modified?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
-  <dlg:checkbox dlg:id="bOption6" dlg:tab-index="52" dlg:left="218" dlg:top="243" dlg:width="48" dlg:height="8" dlg:value="Option 6" dlg:checked="false">
-   <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.Option2Modified?language=Basic&amp;location=application" script:language="Script"/>
+  <dlg:checkbox dlg:id="bOption6" dlg:tab-index="49" dlg:left="218" dlg:top="243" dlg:width="48" dlg:height="8" dlg:value="Option 6" dlg:checked="false">
+   <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.Option6Modified?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
-  <dlg:checkbox dlg:id="bOption7" dlg:tab-index="53" dlg:left="270" dlg:top="243" dlg:width="48" dlg:height="8" dlg:value="Option 7" dlg:checked="false">
-   <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.Option3Modified?language=Basic&amp;location=application" script:language="Script"/>
+  <dlg:checkbox dlg:id="bOption7" dlg:tab-index="50" dlg:left="270" dlg:top="243" dlg:width="48" dlg:height="8" dlg:value="Option 7" dlg:checked="false">
+   <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.Option7Modified?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
-  <dlg:checkbox dlg:id="bOption8" dlg:tab-index="54" dlg:left="322" dlg:top="243" dlg:width="48" dlg:height="8" dlg:value="Option 8" dlg:checked="false">
-   <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.Option4Modified?language=Basic&amp;location=application" script:language="Script"/>
+  <dlg:checkbox dlg:id="bOption8" dlg:tab-index="51" dlg:left="322" dlg:top="243" dlg:width="48" dlg:height="8" dlg:value="Option 8" dlg:checked="false">
+   <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.Option8Modified?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
  </dlg:bulletinboard>
 </dlg:window>
