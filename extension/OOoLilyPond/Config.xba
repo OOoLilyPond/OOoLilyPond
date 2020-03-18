@@ -547,7 +547,7 @@ Sub ReadConfig()
 				bWriterUseLineWidthFromTemplate = StringToBool(sValue)
 			Case &quot;bWriterUseStaffSizeFromTemplate&quot;
 				bWriterUseStaffSizeFromTemplate = StringToBool(sValue)
-			Case &quot;sWriterDefaultAnchor&quot;
+			Case &quot;iWriterDefaultAnchor&quot;
 				iWriterDefaultAnchor = CInt(sValue)
 			Case &quot;iWriterDefaultWrap&quot;
 				iWriterDefaultWrap = CInt(sValue)
