@@ -461,6 +461,10 @@ Function ReadTemplate (bShowError As Boolean) As Boolean
 	bOption2LabelExists = False
 	bOption3LabelExists = False
 	bOption4LabelExists = False
+	bOption5LabelExists = False
+	bOption6LabelExists = False
+	bOption7LabelExists = False
+	bOption8LabelExists = False
 	
 	&apos; prevent having old values from previously loaded template:
 	bDefaultOption1 = False
@@ -564,7 +568,7 @@ Function ReadTemplate (bShowError As Boolean) As Boolean
 				RemoveSpaces (sDefaultValue)
 				bDefaultOption8 = (sDefaultValue = &quot;##t&quot;)
 				bOption8FieldExists = True
-			&apos; Code sections to be switched on/off by Option1...Option4 
+			&apos; Code sections to be switched on/off by Option1...Option8
 			&apos; are read from the template but cannot be modified in the Editor
 			Case &quot;Option1True&quot;
 				sOption1True = sDefaultValue

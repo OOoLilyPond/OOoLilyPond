@@ -94,7 +94,7 @@ Private bOption6 As Boolean
 Private bOption7 As Boolean
 Private bOption8 As Boolean
 
-&apos; code segments to be switched on/off by bOption1 ... bOption4
+&apos; code segments to be switched on/off by bOption1 ... bOption8
 Private sOption1True As String
 Private sOption2True As String
 Private sOption3True As String
