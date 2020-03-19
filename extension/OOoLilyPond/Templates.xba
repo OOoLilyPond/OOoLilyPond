@@ -98,7 +98,7 @@ Function ApplyTemplate() As Boolean
 	&apos; Output into sLilyPondCode
 
 	Dim iTagPos As Integer
-	Dim sFieldName As String &apos; Code, StaffSize, LineWidth, Custom1 or Custom2
+	Dim sFieldName As String &apos; Code, StaffSize, LineWidth, Custom1 ... Custom4
 	Dim sCodeToParse As String &apos; copy of sTemplateCode
 	Dim sTemplateFile As String &apos; path to template file, only needed for error message
 
@@ -149,15 +149,17 @@ Function ApplyTemplate() As Boolean
 			iStaffSizeStartPos = Len(sLilyPondCode) + 1 + Len(sStartTagHead) + Len(sStartTagTail) + 11	&apos; equals to Len(&quot;StaffSize&quot;) plus two whitespaces
 			sLilyPondCode = sLilyPondCode &amp; sStartTagHeadScm &amp; &quot;StaffSize&quot; &amp; sStartTagTailScm &amp; &quot; &quot; &amp; sStaffSize &amp; &quot; &quot; &amp; sEndTagScm
 		Case &quot;Custom1&quot;
-			&apos; iCustom1StartPos = Len(sLilyPondCode) + 1
-			&apos; sLilyPondCode = sLilyPondCode &amp; sCustom1
 			iCustom1StartPos = Len(sLilyPondCode) + 1 + Len(sStartTagHead) + Len(sStartTagTail) + 7	&apos; equals to Len(&quot;Custom1&quot;)
 			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Custom1&quot; &amp; sStartTagTail &amp; sCustom1 &amp; sEndTag
 		Case &quot;Custom2&quot;
-			&apos; iCustom2StartPos = Len(sLilyPondCode) + 1
-			&apos; sLilyPondCode = sLilyPondCode &amp; sCustom2
 			iCustom2StartPos = Len(sLilyPondCode) + 1 + Len(sStartTagHead) + Len(sStartTagTail) + 7	&apos; equals to Len(&quot;Custom2&quot;)
 			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Custom2&quot; &amp; sStartTagTail &amp; sCustom2 &amp; sEndTag
+		Case &quot;Custom3&quot;
+			iCustom3StartPos = Len(sLilyPondCode) + 1 + Len(sStartTagHead) + Len(sStartTagTail) + 7	&apos; equals to Len(&quot;Custom3&quot;)
+			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Custom3&quot; &amp; sStartTagTail &amp; sCustom3 &amp; sEndTag
+		Case &quot;Custom4&quot;
+			iCustom4StartPos = Len(sLilyPondCode) + 1 + Len(sStartTagHead) + Len(sStartTagTail) + 7	&apos; equals to Len(&quot;Custom4&quot;)
+			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Custom4&quot; &amp; sStartTagTail &amp; sCustom4 &amp; sEndTag
 		Case &quot;Option1Value&quot;
 			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option1Value&quot; &amp; sStartTagTail &amp; LyBoolToString (bOption1) &amp; sEndTag
 		Case &quot;Option2Value&quot;
@@ -224,6 +226,10 @@ Function ApplyTemplate() As Boolean
 			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Custom1Label&quot; &amp; sStartTagTail &amp; sCustom1Label &amp; sEndTag
 		Case &quot;Custom2Label&quot;
 			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Custom2Label&quot; &amp; sStartTagTail &amp; sCustom2Label &amp; sEndTag
+		Case &quot;Custom3Label&quot;
+			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Custom3Label&quot; &amp; sStartTagTail &amp; sCustom3Label &amp; sEndTag
+		Case &quot;Custom4Label&quot;
+			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Custom4Label&quot; &amp; sStartTagTail &amp; sCustom4Label &amp; sEndTag
 		Case &quot;Option1Label&quot;
 			sLilyPondCode = sLilyPondCode &amp; sStartTagHead &amp; &quot;Option1Label&quot; &amp; sStartTagTail &amp; sOption1Label &amp; sEndTag
 		Case &quot;Option2Label&quot;
@@ -357,7 +363,7 @@ Function ReadTemplate (bShowError As Boolean) As Boolean
 
 	Dim sDefaultValue As String
 	Dim iTagPos As Integer
-	Dim sFieldName As String &apos; Code, StaffSize, LineWidth, Custom1 or Custom2
+	Dim sFieldName As String &apos; Code, StaffSize, LineWidth, Custom1 ... Custom4
 	Dim sCodeToParse As String &apos; copy of sTemplateCode
 	Dim sStaffSizeFromTemplate As String	
 	Dim sLineWidthFromTemplate As String
@@ -381,6 +387,8 @@ Function ReadTemplate (bShowError As Boolean) As Boolean
 	bStaffSizeFieldExists = False
 	bCustom1FieldExists = False
 	bCustom2FieldExists = False
+	bCustom3FieldExists = False
+	bCustom4FieldExists = False
 	bOption1FieldExists = False
 	bOption2FieldExists = False
 	bOption3FieldExists = False
@@ -390,6 +398,8 @@ Function ReadTemplate (bShowError As Boolean) As Boolean
 	bStaffSizeLabelExists = False
 	bCustom1LabelExists = False
 	bCustom2LabelExists = False
+	bCustom3LabelExists = False
+	bCustom4LabelExists = False
 	bOption1LabelExists = False
 	bOption2LabelExists = False
 	bOption3LabelExists = False
@@ -402,6 +412,8 @@ Function ReadTemplate (bShowError As Boolean) As Boolean
 	bDefaultOption4 = False
 	If bUseDefaultCustom1 Then sDefaultCustom1 = &quot;&quot;
 	If bUseDefaultCustom2 Then sDefaultCustom2 = &quot;&quot;
+	If bUseDefaultCustom3 Then sDefaultCustom3 = &quot;&quot;
+	If bUseDefaultCustom4 Then sDefaultCustom4 = &quot;&quot;
 	
 	iTagPos = TagPos(sCodeToParse, sStartTagHead, sStartTagHeadScm)
 
@@ -462,6 +474,14 @@ Function ReadTemplate (bShowError As Boolean) As Boolean
 				RemoveSpaces (sDefaultValue)
 				sDefaultCustom2 = sDefaultValue
 				bCustom2FieldExists = True
+			Case &quot;Custom3&quot;
+				RemoveSpaces (sDefaultValue)
+				sDefaultCustom3 = sDefaultValue
+				bCustom3FieldExists = True
+			Case &quot;Custom4&quot;
+				RemoveSpaces (sDefaultValue)
+				sDefaultCustom4 = sDefaultValue
+				bCustom4FieldExists = True
 			&apos; Option CheckBoxes (have no default setting)
 			Case &quot;Option1Value&quot;
 				RemoveSpaces (sDefaultValue)
@@ -518,6 +538,12 @@ Function ReadTemplate (bShowError As Boolean) As Boolean
 			Case &quot;Custom2Label&quot;
 				sCustom2Label = sDefaultValue
 				bCustom2LabelExists = True
+			Case &quot;Custom3Label&quot;
+				sCustom3Label = sDefaultValue
+				bCustom3LabelExists = True
+			Case &quot;Custom4Label&quot;
+				sCustom4Label = sDefaultValue
+				bCustom4LabelExists = True
 			Case &quot;Option1Label&quot;
 				sOption1Label = sDefaultValue
 				bOption1LabelExists = True
@@ -564,7 +590,7 @@ Function ReadTempLyFile() As Boolean
 
 	Dim sDefaultValue As String
 	Dim iTagPos As Integer
-	Dim sFieldName As String &apos; Code, StaffSize, LineWidth, Custom1 or Custom2
+	Dim sFieldName As String &apos; Code, StaffSize, LineWidth, Custom1 ... Custom4
 	Dim sTempLyFile As String &apos; path to temporary file
 	Dim sCodeToParse As String &apos; contents of temporary file
 	Dim bCodeFieldExists As Boolean
@@ -632,6 +658,12 @@ Function ReadTempLyFile() As Boolean
 			Case &quot;Custom2&quot;
 				RemoveSpaces (sDefaultValue)
 				sCustom2 = sDefaultValue
+			Case &quot;Custom3&quot;
+				RemoveSpaces (sDefaultValue)
+				sCustom3 = sDefaultValue
+			Case &quot;Custom4&quot;
+				RemoveSpaces (sDefaultValue)
+				sCustom4 = sDefaultValue
 			Case &quot;Option1Value&quot;
 				RemoveSpaces (sDefaultValue)
 				bDefaultOption1 = (sDefaultValue = &quot;##t&quot;)
