@@ -47,13 +47,15 @@
    <dlg:title dlg:value="Insert as separate images (system-by-system)?"/>
   </dlg:titledbox>
   <dlg:text dlg:id="SearchLabel_A" dlg:tab-index="41" dlg:left="10" dlg:top="14" dlg:width="100" dlg:height="8" dlg:value="Field to search and process:"/>
-  <dlg:combobox dlg:id="sSearchField_A" dlg:tab-index="3" dlg:left="10" dlg:top="24" dlg:width="116" dlg:height="12" dlg:value="Code" dlg:hide-inactive-selection="false" dlg:spin="true" dlg:linecount="18">
+  <dlg:combobox dlg:id="sSearchField_A" dlg:tab-index="3" dlg:left="10" dlg:top="24" dlg:width="116" dlg:height="12" dlg:value="Code" dlg:hide-inactive-selection="false" dlg:spin="true" dlg:linecount="22">
    <dlg:menupopup>
     <dlg:menuitem dlg:value="Code"/>
     <dlg:menuitem dlg:value="Line Width"/>
     <dlg:menuitem dlg:value="Staff Size"/>
     <dlg:menuitem dlg:value="Custom 1"/>
     <dlg:menuitem dlg:value="Custom 2"/>
+    <dlg:menuitem dlg:value="Custom 3"/>
+    <dlg:menuitem dlg:value="Custom 4"/>
     <dlg:menuitem dlg:value="Template name"/>
     <dlg:menuitem dlg:value="Option 1"/>
     <dlg:menuitem dlg:value="Option 2"/>
@@ -63,6 +65,8 @@
     <dlg:menuitem dlg:value="(Line Width label)"/>
     <dlg:menuitem dlg:value="(Custom 1 label)"/>
     <dlg:menuitem dlg:value="(Custom 2 label)"/>
+    <dlg:menuitem dlg:value="(Custom 3 label)"/>
+    <dlg:menuitem dlg:value="(Custom 4 label)"/>
     <dlg:menuitem dlg:value="(Option 1 label)"/>
     <dlg:menuitem dlg:value="(Option 2 label)"/>
     <dlg:menuitem dlg:value="(Option 3 label)"/>
@@ -71,13 +75,15 @@
    <script:event script:event-name="on-textchange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Batch.SearchFieldChanged_A?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:combobox>
   <dlg:text dlg:id="SearchLabel_B" dlg:tab-index="42" dlg:left="142" dlg:top="14" dlg:width="100" dlg:height="8" dlg:value="Field to search and process"/>
-  <dlg:combobox dlg:id="sSearchField_B" dlg:tab-index="17" dlg:left="142" dlg:top="24" dlg:width="116" dlg:height="12" dlg:value="Code" dlg:hide-inactive-selection="false" dlg:spin="true" dlg:linecount="18">
+  <dlg:combobox dlg:id="sSearchField_B" dlg:tab-index="17" dlg:left="142" dlg:top="24" dlg:width="116" dlg:height="12" dlg:value="Code" dlg:hide-inactive-selection="false" dlg:spin="true" dlg:linecount="22">
    <dlg:menupopup>
     <dlg:menuitem dlg:value="Code"/>
     <dlg:menuitem dlg:value="Line Width"/>
     <dlg:menuitem dlg:value="Staff Size"/>
     <dlg:menuitem dlg:value="Custom 1"/>
     <dlg:menuitem dlg:value="Custom 2"/>
+    <dlg:menuitem dlg:value="Custom 3"/>
+    <dlg:menuitem dlg:value="Custom 4"/>
     <dlg:menuitem dlg:value="Template name"/>
     <dlg:menuitem dlg:value="Option 1"/>
     <dlg:menuitem dlg:value="Option 2"/>
@@ -87,6 +93,8 @@
     <dlg:menuitem dlg:value="(Line Width label)"/>
     <dlg:menuitem dlg:value="(Custom 1 label)"/>
     <dlg:menuitem dlg:value="(Custom 2 label)"/>
+    <dlg:menuitem dlg:value="(Custom 3 label)"/>
+    <dlg:menuitem dlg:value="(Custom 4 label)"/>
     <dlg:menuitem dlg:value="(Option 1 label)"/>
     <dlg:menuitem dlg:value="(Option 2 label)"/>
     <dlg:menuitem dlg:value="(Option 3 label)"/>
