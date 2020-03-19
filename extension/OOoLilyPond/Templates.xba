@@ -362,6 +362,7 @@ Function ReadTemplate (bShowError As Boolean) As Boolean
 	Dim sStaffSizeFromTemplate As String	
 	Dim sLineWidthFromTemplate As String
 	Dim bCodeFieldExists As Boolean
+	Dim sTemplateFile As String
 	
 	If Not bContainsTemplate Then
 		sTemplateLocationLabel = &quot;&quot;
@@ -403,6 +404,8 @@ Function ReadTemplate (bShowError As Boolean) As Boolean
 	If bUseDefaultCustom2 Then sDefaultCustom2 = &quot;&quot;
 	
 	iTagPos = TagPos(sCodeToParse, sStartTagHead, sStartTagHeadScm)
+
+	sTemplateFile = sTemplate &amp; &quot;.ly&quot;	&apos; only needed here for error messages
 
 	While iTagPos &gt; 0
 		sCodeToParse = Mid(sCodeToParse, iTagPos + Len(sStartTagHead))
