@@ -134,12 +134,6 @@
     <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.AnchorButton?language=Basic&amp;location=application" script:language="Script"/>
    </dlg:radio>
   </dlg:radiogroup>
-  <dlg:checkbox dlg:id="CheckBox1" dlg:tab-index="55" dlg:left="270" dlg:top="284" dlg:width="48" dlg:height="8" dlg:value="Default" dlg:checked="true">
-   <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.UseDefaultCustom1?language=Basic&amp;location=application" script:language="Script"/>
-  </dlg:checkbox>
-  <dlg:checkbox dlg:id="CheckBox2" dlg:tab-index="56" dlg:left="322" dlg:top="284" dlg:width="48" dlg:height="8" dlg:value="Default" dlg:checked="true">
-   <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.UseDefaultCustom2?language=Basic&amp;location=application" script:language="Script"/>
-  </dlg:checkbox>
   <dlg:text dlg:id="LabelCustom3" dlg:tab-index="53" dlg:left="270" dlg:top="261" dlg:width="48" dlg:height="8" dlg:value="Custom 3:"/>
   <dlg:text dlg:id="LabelCustom4" dlg:tab-index="54" dlg:left="322" dlg:top="261" dlg:width="48" dlg:height="8" dlg:value="Custom 4:"/>
   <dlg:checkbox dlg:id="bCustom3" dlg:tab-index="58" dlg:visible="false" dlg:left="270" dlg:top="273" dlg:width="48" dlg:height="10" dlg:checked="false">
@@ -154,5 +148,11 @@
   <dlg:textfield dlg:id="sCustom4" dlg:tab-index="52" dlg:left="322" dlg:top="270" dlg:width="48" dlg:height="12">
    <script:event script:event-name="on-textchange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.Custom4Modified?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:textfield>
+  <dlg:checkbox dlg:id="bUseDefaultCustom3" dlg:tab-index="55" dlg:left="270" dlg:top="284" dlg:width="48" dlg:height="8" dlg:value="Default" dlg:checked="true">
+   <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.UseDefaultCustom3?language=Basic&amp;location=application" script:language="Script"/>
+  </dlg:checkbox>
+  <dlg:checkbox dlg:id="bUseDefaultCustom4" dlg:tab-index="56" dlg:left="322" dlg:top="284" dlg:width="48" dlg:height="8" dlg:value="Default" dlg:checked="true">
+   <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.UseDefaultCustom4?language=Basic&amp;location=application" script:language="Script"/>
+  </dlg:checkbox>
  </dlg:bulletinboard>
 </dlg:window>
