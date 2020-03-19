@@ -34,11 +34,13 @@ Sub EditorDialog()
 		oEditorDialog.getModel().Title = oEditorDialog.getModel().Title  &amp; &quot;   [&quot; &amp; constOLyFileName &amp; sImageNum &amp; &quot;.&quot; &amp; sExtension &amp; &quot;]&quot;
 	End If
 	
-	&apos; Preserve original field labels for LineWidth, StaffSize, Custom1, Custom2, Option1 ... Option4:
+	&apos; Preserve original field labels for LineWidth, StaffSize, Custom1 ... Custom4, Option1 ... Option4:
 	sDefaultLineWidthLabel = oEditorDialog.getModel().getByName(&quot;LabelLineWidth&quot;).Label
 	sDefaultStaffSizeLabel = oEditorDialog.getModel().getByName(&quot;LabelStaffSize&quot;).Label
 	sDefaultCustom1Label = oEditorDialog.getModel().getByName(&quot;LabelCustom1&quot;).Label
 	sDefaultCustom2Label = oEditorDialog.getModel().getByName(&quot;LabelCustom2&quot;).Label
+	sDefaultCustom3Label = oEditorDialog.getModel().getByName(&quot;LabelCustom3&quot;).Label
+	sDefaultCustom4Label = oEditorDialog.getModel().getByName(&quot;LabelCustom4&quot;).Label
 	sDefaultOption1Label = oEditorDialog.getModel().getByName(&quot;bOption1&quot;).Label
 	sDefaultOption2Label = oEditorDialog.getModel().getByName(&quot;bOption2&quot;).Label
 	sDefaultOption3Label = oEditorDialog.getModel().getByName(&quot;bOption3&quot;).Label
@@ -82,6 +84,19 @@ Sub EditorDialog()
 	Else
 		oEditorDialog.getControl(&quot;sCustom2&quot;).setText(sCustom2)
 	End If
+
+	If bUseDefaultCustom3 Then
+		UseDefaultCustom3()
+	Else
+		oEditorDialog.getControl(&quot;sCustom3&quot;).setText(sCustom3)
+	End If
+	
+	If bUseDefaultCustom4 Then
+		UseDefaultCustom4()
+	Else
+		oEditorDialog.getControl(&quot;sCustom4&quot;).setText(sCustom4)
+	End If
+
 	If Not bShapeIsSelected Then
 		bOption1 = bDefaultOption1
 		bOption2 = bDefaultOption2
@@ -207,6 +222,8 @@ Sub GreyOut()
 	If Not bStaffSizeLabelExists Then sStaffSizeLabel = sDefaultStaffSizeLabel
 	If Not bCustom1LabelExists   Then sCustom1Label   = sDefaultCustom1Label
 	If Not bCustom2LabelExists   Then sCustom2Label   = sDefaultCustom2Label
+	If Not bCustom3LabelExists   Then sCustom3Label   = sDefaultCustom3Label
+	If Not bCustom4LabelExists   Then sCustom4Label   = sDefaultCustom4Label
 	If Not bOption1LabelExists   Then sOption1Label   = sDefaultOption1Label
 	If Not bOption2LabelExists   Then sOption2Label   = sDefaultOption2Label
 	If Not bOption3LabelExists   Then sOption3Label   = sDefaultOption3Label
@@ -217,6 +234,8 @@ Sub GreyOut()
 	UpdateFieldAppearance (&quot;StaffSize&quot;, sStaffSizeLabel, sDefaultStaffSize,  &quot;#t&quot;,  &quot;#f&quot;, bStaffSizeFieldExists)
 	UpdateFieldAppearance (&quot;Custom1&quot;,   sCustom1Label,   sDefaultCustom1,   &quot;##t&quot;, &quot;##f&quot;, bCustom1FieldExists)
 	UpdateFieldAppearance (&quot;Custom2&quot;  , sCustom2Label,   sDefaultCustom2,   &quot;##t&quot;, &quot;##f&quot;, bCustom2FieldExists)
+	UpdateFieldAppearance (&quot;Custom3&quot;,   sCustom3Label,   sDefaultCustom3,   &quot;##t&quot;, &quot;##f&quot;, bCustom3FieldExists)
+	UpdateFieldAppearance (&quot;Custom4&quot;  , sCustom4Label,   sDefaultCustom4,   &quot;##t&quot;, &quot;##f&quot;, bCustom4FieldExists)
 	
 	&apos; labels for option checkboxes
 	oEditorDialog.getModel().getByName(&quot;bOption1&quot;).Label = sOption1Label
@@ -330,6 +349,16 @@ Sub GotoError(n)
 		oErrField = oEditorDialog.getControl(&quot;sCustom2&quot;)
 	End If
 
+	If  ( iLilyPondCodePos &gt;= iCustom3StartPos ) And ( iLilyPondCodePos &lt;= iCustom3StartPos + Len(sCustom3)  ) Then
+		iErrPos = iLilyPondCodePos - iCustom3StartPos
+		oErrField = oEditorDialog.getControl(&quot;sCustom3&quot;)
+	End If
+
+	If  ( iLilyPondCodePos &gt;= iCustom4StartPos ) And ( iLilyPondCodePos &lt;= iCustom4StartPos + Len(sCustom4)  ) Then
+		iErrPos = iLilyPondCodePos - iCustom4StartPos
+		oErrField = oEditorDialog.getControl(&quot;sCustom4&quot;)
+	End If
+
 	If Not IsNull(oErrField) Then &apos; If error is within a OOoLilyPond Field
 		
 		oSelection = createUnoStruct( &quot;com.sun.star.awt.Selection&quot; )
@@ -426,6 +455,8 @@ Sub ConfigButton()
 	If bUseDefaultStaffSize Then UseDefaultStaffSize()
 	If bUseDefaultCustom1 Then UseDefaultCustom1()
 	If bUseDefaultCustom2 Then UseDefaultCustom2()
+	If bUseDefaultCustom3 Then UseDefaultCustom3()
+	If bUseDefaultCustom4 Then UseDefaultCustom4()
 
 	GreyOut()
 End Sub
@@ -517,6 +548,14 @@ Sub ImportButton()
 		oEditorDialog.getControl(&quot;sCustom2&quot;).setText(sCustom2)
 	End If
 	
+	If bCustom3FieldExists Then
+		oEditorDialog.getControl(&quot;sCustom3&quot;).setText(sCustom3)
+	End If
+	
+	If bCustom4FieldExists Then
+		oEditorDialog.getControl(&quot;sCustom4&quot;).setText(sCustom4)
+	End If
+	
 	If bOption1FieldExists Then
 		oEditorDialog.getControl(&quot;bOption1&quot;).setState(BoolToCheckBoxState(bOption1))
 	End If
@@ -587,6 +626,8 @@ Sub TemplateChanged()
 		If bUseDefaultStaffSize Then UseDefaultStaffSize()
 		If bUseDefaultCustom1 Then UseDefaultCustom1()
 		If bUseDefaultCustom2 Then UseDefaultCustom2()
+		If bUseDefaultCustom3 Then UseDefaultCustom3()
+		If bUseDefaultCustom4 Then UseDefaultCustom4()
 		
 		UseDefaultOptions()   &apos; better don&apos;t do that?
 
@@ -630,6 +671,20 @@ Sub Custom2Modified
 	UpdateFieldAppearance (&quot;Custom2&quot;, sCustom2Label, sDefaultCustom2, &quot;##t&quot;, &quot;##f&quot;, bCustom2FieldExists)
 End Sub
 
+Sub Custom3Modified
+	sCustom3 = oEditorDialog.getControl(&quot;sCustom3&quot;).getText()
+	bUseDefaultCustom3 = False
+	oEditorDialog.getControl(&quot;bUseDefaultCustom3&quot;).setState(BoolToCheckBoxState(False))
+	UpdateFieldAppearance (&quot;Custom3&quot;, sCustom3Label, sDefaultCustom3, &quot;##t&quot;, &quot;##f&quot;, bCustom3FieldExists)
+End Sub
+
+Sub Custom4Modified
+	sCustom4 = oEditorDialog.getControl(&quot;sCustom4&quot;).getText()
+	bUseDefaultCustom4 = False
+	oEditorDialog.getControl(&quot;bUseDefaultCustom4&quot;).setState(BoolToCheckBoxState(False))
+	UpdateFieldAppearance (&quot;Custom4&quot;, sCustom4Label, sDefaultCustom4, &quot;##t&quot;, &quot;##f&quot;, bCustom4FieldExists)
+End Sub
+
 Sub LineWidthCheckBoxModified
 	sLineWidth = LyBoolToString (CheckBoxStateToBool (oEditorDialog.getControl(&quot;bLineWidth&quot;).getState()))
 	oEditorDialog.getControl(&quot;sLineWidth&quot;).setText(sLineWidth)
@@ -660,6 +715,22 @@ Sub Custom2CheckBoxModified
 	bUseDefaultCustom2 = False
 	oEditorDialog.getControl(&quot;bUseDefaultCustom2&quot;).setState(BoolToCheckBoxState(False))
 	UpdateFieldAppearance (&quot;Custom2&quot;, sCustom2Label, sDefaultCustom2, &quot;##t&quot;, &quot;##f&quot;, bCustom2FieldExists)
+End Sub
+
+Sub Custom3CheckBoxModified
+	sCustom3 = LyBoolToString (CheckBoxStateToBool (oEditorDialog.getControl(&quot;bCustom3&quot;).getState()))
+	oEditorDialog.getControl(&quot;sCustom3&quot;).setText(sCustom3)
+	bUseDefaultCustom3 = False
+	oEditorDialog.getControl(&quot;bUseDefaultCustom3&quot;).setState(BoolToCheckBoxState(False))
+	UpdateFieldAppearance (&quot;Custom3&quot;, sCustom3Label, sDefaultCustom3, &quot;##t&quot;, &quot;##f&quot;, bCustom3FieldExists)
+End Sub
+
+Sub Custom4CheckBoxModified
+	sCustom4 = LyBoolToString (CheckBoxStateToBool (oEditorDialog.getControl(&quot;bCustom4&quot;).getState()))
+	oEditorDialog.getControl(&quot;sCustom4&quot;).setText(sCustom4)
+	bUseDefaultCustom4 = False
+	oEditorDialog.getControl(&quot;bUseDefaultCustom4&quot;).setState(BoolToCheckBoxState(False))
+	UpdateFieldAppearance (&quot;Custom4&quot;, sCustom4Label, sDefaultCustom4, &quot;##t&quot;, &quot;##f&quot;, bCustom4FieldExists)
 End Sub
 
 Sub Option1Modified
@@ -759,6 +830,30 @@ Sub UseDefaultCustom2
 		bUseDefaultCustom2 = False
 	End If
 	UpdateFieldAppearance (&quot;Custom2&quot;, sCustom2Label, sDefaultCustom2, &quot;##t&quot;, &quot;##f&quot;, bCustom2FieldExists)
+End Sub
+
+Sub UseDefaultCustom3
+	If CheckBoxStateToBool(oEditorDialog.getControl(&quot;bUseDefaultCustom3&quot;).getState()) Then
+		oEditorDialog.getControl(&quot;sCustom3&quot;).setText(sDefaultCustom3)
+		oEditorDialog.getControl(&quot;bUseDefaultCustom3&quot;).setState(BoolToCheckBoxState(True))
+		bUseDefaultCustom3 = True
+		sCustom3 = sDefaultCustom3
+	Else
+		bUseDefaultCustom3 = False
+	End If
+	UpdateFieldAppearance (&quot;Custom3&quot;, sCustom3Label, sDefaultCustom3, &quot;##t&quot;, &quot;##f&quot;, bCustom3FieldExists)
+End Sub
+
+Sub UseDefaultCustom4
+	If CheckBoxStateToBool(oEditorDialog.getControl(&quot;bUseDefaultCustom4&quot;).getState()) Then
+		oEditorDialog.getControl(&quot;sCustom4&quot;).setText(sDefaultCustom4)
+		oEditorDialog.getControl(&quot;bUseDefaultCustom4&quot;).setState(BoolToCheckBoxState(True))
+		bUseDefaultCustom4 = True
+		sCustom4 = sDefaultCustom4
+	Else
+		bUseDefaultCustom4 = False
+	End If
+	UpdateFieldAppearance (&quot;Custom4&quot;, sCustom4Label, sDefaultCustom4, &quot;##t&quot;, &quot;##f&quot;, bCustom4FieldExists)
 End Sub
 
 Sub UseDefaultOptions

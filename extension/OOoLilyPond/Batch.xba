@@ -201,6 +201,10 @@ Function MeetsCondition (sID As String) As Boolean
 		If bCustom1FieldExists Then sSearchField = sCustom1
 	Case &quot;Custom 2&quot;
 		If bCustom2FieldExists Then sSearchField = sCustom2
+	Case &quot;Custom 3&quot;
+		If bCustom3FieldExists Then sSearchField = sCustom3
+	Case &quot;Custom 4&quot;
+		If bCustom4FieldExists Then sSearchField = sCustom4
 	Case &quot;Template name&quot;
 		sSearchField = sTemplate
 	Case &quot;Option 1&quot;
@@ -219,6 +223,10 @@ Function MeetsCondition (sID As String) As Boolean
 		If bCustom1LabelExists Then sSearchField = sCustom1Label
 	Case &quot;(Custom 2 label)&quot;
 		If bCustom2LabelExists Then sSearchField = sCustom2Label
+	Case &quot;(Custom 3 label)&quot;
+		If bCustom3LabelExists Then sSearchField = sCustom3Label
+	Case &quot;(Custom 4 label)&quot;
+		If bCustom4LabelExists Then sSearchField = sCustom4Label
 	Case &quot;(Option 1 label)&quot;
 		If bOption1LabelExists Then sSearchField = sOption1Label
 	Case &quot;(Option 2 label)&quot;
@@ -277,6 +285,12 @@ Sub PerformReplacement (sID As String)
 		Case &quot;Custom 2&quot;
 			sCustom2 = sDefaultCustom2
 			bUseDefaultCustom2 = True
+		Case &quot;Custom 3&quot;
+			sCustom3 = sDefaultCustom3
+			bUseDefaultCustom3 = True
+		Case &quot;Custom 4&quot;
+			sCustom4 = sDefaultCustom4
+			bUseDefaultCustom4 = True
 		Case &quot;Template name&quot;
 			sTemplate = sWriterDefaultTemplate
 			ReadTemplate (True)
@@ -311,6 +325,12 @@ Sub PerformReplacement (sID As String)
 		Case &quot;Custom 2&quot;
 			sCustom2 = sReplaceString
 			bUseDefaultCustom2 = False
+		Case &quot;Custom 3&quot;
+			sCustom3 = sReplaceString
+			bUseDefaultCustom3 = False
+		Case &quot;Custom 4&quot;
+			sCustom4 = sReplaceString
+			bUseDefaultCustom4 = False
 		Case &quot;Template name&quot;
 			sTemplate = sReplaceString
 			ReadTemplate (True)
@@ -347,6 +367,12 @@ Sub PerformReplacement (sID As String)
 		Case &quot;Custom 2&quot;
 			ReplaceSubStrings (sCustom2, oBatchDialog.getControl (&quot;sSearch_&quot; &amp; sID).getText(), sReplaceString, iSearchMode)
 			bUseDefaultCustom2 = False
+		Case &quot;Custom 3&quot;
+			ReplaceSubStrings (sCustom3, oBatchDialog.getControl (&quot;sSearch_&quot; &amp; sID).getText(), sReplaceString, iSearchMode)
+			bUseDefaultCustom3 = False
+		Case &quot;Custom 4&quot;
+			ReplaceSubStrings (sCustom4, oBatchDialog.getControl (&quot;sSearch_&quot; &amp; sID).getText(), sReplaceString, iSearchMode)
+			bUseDefaultCustom4 = False
 		Case &quot;Template name&quot;
 			ReplaceSubStrings (sTemplate, oBatchDialog.getControl (&quot;sSearch_&quot; &amp; sID).getText(), sReplaceString, iSearchMode)
 			ReadTemplate (True)
