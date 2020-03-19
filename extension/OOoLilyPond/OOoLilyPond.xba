@@ -980,13 +980,23 @@ Function ReadAttributes( oShape As Object ) As Boolean
 		sStaffSize=oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondStaffSize&quot;).Value
 		sCustom1=oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondCustom1&quot;).Value
 		sCustom2=oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondCustom2&quot;).Value
-		sCustom3=oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondCustom3&quot;).Value
-		sCustom4=oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondCustom4&quot;).Value
 		bUseDefaultStaffSize=StringToBool(oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondUseDefaultStaffSize&quot;).Value)
 		bUseDefaultCustom1=StringToBool(oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondUseDefaultCustom1&quot;).Value)
 		bUseDefaultCustom2=StringToBool(oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondUseDefaultCustom2&quot;).Value)
-		bUseDefaultCustom3=StringToBool(oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondUseDefaultCustom3&quot;).Value)
-		bUseDefaultCustom4=StringToBool(oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondUseDefaultCustom4&quot;).Value)
+		
+		&apos; Custom3 and Custom4 attributes exist since OOoLilyPond 1.0.0:
+		If oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondCustom3&quot;) Then
+			sCustom3=oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondCustom3&quot;).Value
+		End If
+		If oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondCustom4&quot;) Then
+			sCustom4=oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondCustom4&quot;).Value
+		End If
+		If oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondUseDefaultCustom3&quot;) Then
+			bUseDefaultCustom3=StringToBool(oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondUseDefaultCustom3&quot;).Value)
+		End If
+		If oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondUseDefaultCustom4&quot;) Then
+			bUseDefaultCustom4=StringToBool(oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondUseDefaultCustom4&quot;).Value)
+		End If
 		
 		&apos; Option... attributes exist since OOoLilyPond 0.5.13:
 		bOption1 = False
