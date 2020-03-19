@@ -143,16 +143,16 @@
   <dlg:text dlg:id="LabelCustom3" dlg:tab-index="53" dlg:left="270" dlg:top="261" dlg:width="48" dlg:height="8" dlg:value="Custom 3:"/>
   <dlg:text dlg:id="LabelCustom4" dlg:tab-index="54" dlg:left="322" dlg:top="261" dlg:width="48" dlg:height="8" dlg:value="Custom 4:"/>
   <dlg:checkbox dlg:id="bCustom3" dlg:tab-index="58" dlg:visible="false" dlg:left="270" dlg:top="273" dlg:width="48" dlg:height="10" dlg:checked="false">
-   <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.Custom1CheckBoxModified?language=Basic&amp;location=application" script:language="Script"/>
+   <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.Custom3CheckBoxModified?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
   <dlg:checkbox dlg:id="bCustom4" dlg:tab-index="57" dlg:visible="false" dlg:left="322" dlg:top="273" dlg:width="48" dlg:height="10" dlg:checked="false">
-   <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.Custom2CheckBoxModified?language=Basic&amp;location=application" script:language="Script"/>
+   <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.Custom4CheckBoxModified?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
   <dlg:textfield dlg:id="sCustom3" dlg:tab-index="51" dlg:left="270" dlg:top="270" dlg:width="48" dlg:height="12">
-   <script:event script:event-name="on-textchange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.Custom1Modified?language=Basic&amp;location=application" script:language="Script"/>
+   <script:event script:event-name="on-textchange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.Custom3Modified?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:textfield>
   <dlg:textfield dlg:id="sCustom4" dlg:tab-index="52" dlg:left="322" dlg:top="270" dlg:width="48" dlg:height="12">
-   <script:event script:event-name="on-textchange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.Custom2Modified?language=Basic&amp;location=application" script:language="Script"/>
+   <script:event script:event-name="on-textchange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.Custom4Modified?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:textfield>
  </dlg:bulletinboard>
 </dlg:window>
