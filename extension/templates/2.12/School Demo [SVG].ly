@@ -99,11 +99,11 @@ OptionThreeFalseCommand = \with { %{OOoLilyPondOption3False%}\remove "Time_signa
     
     \override BarNumber.break-visibility = #end-of-line-invisible
     \override BarNumber.self-alignment-X = #LEFT
-    \override BreakAlignment.break-align-orders = #(
-      make-vector 3 '(
-      left-edge span-bar breathing-sign staff-bar
-      clef key-cancellation key-signature time-signature
-    ))
+    \override BreakAlignment.break-align-orders = 
+    #(make-vector 3 
+       '( left-edge span-bar breathing-sign staff-bar
+          clef key-cancellation key-signature time-signature
+          ))
   }
   \context {
     \Voice
