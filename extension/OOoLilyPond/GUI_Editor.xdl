@@ -72,16 +72,16 @@
   <dlg:checkbox dlg:style-id="2" dlg:id="bUseDefaultCode" dlg:tab-index="35" dlg:left="8" dlg:top="190" dlg:width="62" dlg:height="10" dlg:value="Default code" dlg:checked="true">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.UseDefaultCode?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
-  <dlg:checkbox dlg:style-id="2" dlg:id="bUseDefaultLineWidth" dlg:tab-index="31" dlg:left="166" dlg:top="250" dlg:width="48" dlg:height="8" dlg:value="Default" dlg:checked="true">
+  <dlg:checkbox dlg:style-id="2" dlg:id="bUseDefaultLineWidth" dlg:tab-index="31" dlg:left="166" dlg:top="249" dlg:width="48" dlg:height="8" dlg:value="Default" dlg:checked="true">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.UseDefaultLineWidth?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
-  <dlg:checkbox dlg:style-id="2" dlg:id="bUseDefaultStaffSize" dlg:tab-index="32" dlg:left="218" dlg:top="250" dlg:width="48" dlg:height="8" dlg:value="Default" dlg:checked="true">
+  <dlg:checkbox dlg:style-id="2" dlg:id="bUseDefaultStaffSize" dlg:tab-index="32" dlg:left="218" dlg:top="249" dlg:width="48" dlg:height="8" dlg:value="Default" dlg:checked="true">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.UseDefaultStaffSize?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
-  <dlg:checkbox dlg:style-id="2" dlg:id="bUseDefaultCustom1" dlg:tab-index="33" dlg:left="270" dlg:top="250" dlg:width="48" dlg:height="8" dlg:value="Default" dlg:checked="true">
+  <dlg:checkbox dlg:style-id="2" dlg:id="bUseDefaultCustom1" dlg:tab-index="33" dlg:left="270" dlg:top="249" dlg:width="48" dlg:height="8" dlg:value="Default" dlg:checked="true">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.UseDefaultCustom1?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
-  <dlg:checkbox dlg:style-id="2" dlg:id="bUseDefaultCustom2" dlg:tab-index="34" dlg:left="322" dlg:top="250" dlg:width="48" dlg:height="8" dlg:value="Default" dlg:checked="true">
+  <dlg:checkbox dlg:style-id="2" dlg:id="bUseDefaultCustom2" dlg:tab-index="34" dlg:left="322" dlg:top="249" dlg:width="48" dlg:height="8" dlg:value="Default" dlg:checked="true">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.UseDefaultCustom2?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
   <dlg:button dlg:id="LyOutput" dlg:tab-index="36" dlg:left="242" dlg:top="298" dlg:width="44" dlg:height="14" dlg:help-text="Show LilyPond&apos;s Output message from its last call" dlg:value="Ly Output">
@@ -96,16 +96,16 @@
   </dlg:button>
   <dlg:text dlg:id="TemplateLabel" dlg:tab-index="9" dlg:left="150" dlg:top="206" dlg:width="46" dlg:height="10" dlg:value="Template:" dlg:align="right"/>
   <dlg:text dlg:style-id="3" dlg:id="sErrNum" dlg:tab-index="39" dlg:left="6" dlg:top="287" dlg:width="40" dlg:height="10" dlg:align="center"/>
-  <dlg:checkbox dlg:id="bCustom2" dlg:tab-index="40" dlg:visible="false" dlg:left="322" dlg:top="239" dlg:width="48" dlg:height="10" dlg:checked="false">
+  <dlg:checkbox dlg:id="bCustom2" dlg:tab-index="40" dlg:visible="false" dlg:left="322" dlg:top="239" dlg:width="48" dlg:height="8" dlg:checked="false">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.Custom2CheckBoxModified?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
-  <dlg:checkbox dlg:id="bCustom1" dlg:tab-index="41" dlg:visible="false" dlg:left="270" dlg:top="239" dlg:width="48" dlg:height="10" dlg:checked="false">
+  <dlg:checkbox dlg:id="bCustom1" dlg:tab-index="41" dlg:visible="false" dlg:left="270" dlg:top="239" dlg:width="48" dlg:height="8" dlg:checked="false">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.Custom1CheckBoxModified?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
-  <dlg:checkbox dlg:id="bStaffSize" dlg:tab-index="42" dlg:visible="false" dlg:left="218" dlg:top="239" dlg:width="48" dlg:height="10" dlg:checked="false">
+  <dlg:checkbox dlg:id="bStaffSize" dlg:tab-index="42" dlg:visible="false" dlg:left="218" dlg:top="239" dlg:width="48" dlg:height="8" dlg:checked="false">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.StaffSizeCheckBoxModified?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
-  <dlg:checkbox dlg:id="bLineWidth" dlg:tab-index="43" dlg:visible="false" dlg:left="166" dlg:top="239" dlg:width="48" dlg:height="10" dlg:checked="false">
+  <dlg:checkbox dlg:id="bLineWidth" dlg:tab-index="43" dlg:visible="false" dlg:left="166" dlg:top="239" dlg:width="48" dlg:height="8" dlg:checked="false">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.LineWidthCheckBoxModified?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
   <dlg:checkbox dlg:id="bOption1" dlg:tab-index="44" dlg:left="166" dlg:top="266" dlg:width="48" dlg:height="8" dlg:value="Option 1" dlg:checked="false">
@@ -114,10 +114,10 @@
   <dlg:checkbox dlg:id="bOption2" dlg:tab-index="45" dlg:left="218" dlg:top="266" dlg:width="48" dlg:height="8" dlg:value="Option 2" dlg:checked="false">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.Option2Modified?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
-  <dlg:checkbox dlg:id="bOption3" dlg:tab-index="46" dlg:left="166" dlg:top="278" dlg:width="48" dlg:height="8" dlg:value="Option 3" dlg:checked="false">
+  <dlg:checkbox dlg:id="bOption3" dlg:tab-index="46" dlg:left="166" dlg:top="277" dlg:width="48" dlg:height="8" dlg:value="Option 3" dlg:checked="false">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.Option3Modified?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
-  <dlg:checkbox dlg:id="bOption4" dlg:tab-index="47" dlg:left="218" dlg:top="278" dlg:width="48" dlg:height="8" dlg:value="Option 4" dlg:checked="false">
+  <dlg:checkbox dlg:id="bOption4" dlg:tab-index="47" dlg:left="218" dlg:top="277" dlg:width="48" dlg:height="8" dlg:value="Option 4" dlg:checked="false">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.Option4Modified?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
   <dlg:checkbox dlg:id="bKeepCrop" dlg:tab-index="14" dlg:left="10" dlg:top="257" dlg:width="140" dlg:height="8" dlg:help-text="When editing/replacing an existing object, preserve its current size and crop settings" dlg:value="Keep size &amp; crop settings" dlg:checked="false"/>
@@ -134,24 +134,24 @@
     <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.AnchorButton?language=Basic&amp;location=application" script:language="Script"/>
    </dlg:radio>
   </dlg:radiogroup>
-  <dlg:text dlg:id="LabelCustom3" dlg:tab-index="53" dlg:left="270" dlg:top="261" dlg:width="48" dlg:height="8" dlg:value="Custom 3:"/>
-  <dlg:text dlg:id="LabelCustom4" dlg:tab-index="54" dlg:left="322" dlg:top="261" dlg:width="48" dlg:height="8" dlg:value="Custom 4:"/>
-  <dlg:checkbox dlg:id="bCustom3" dlg:tab-index="58" dlg:visible="false" dlg:left="270" dlg:top="273" dlg:width="48" dlg:height="10" dlg:checked="false">
+  <dlg:text dlg:id="LabelCustom3" dlg:tab-index="53" dlg:left="270" dlg:top="265" dlg:width="48" dlg:height="8" dlg:value="Custom 3:"/>
+  <dlg:text dlg:id="LabelCustom4" dlg:tab-index="54" dlg:left="322" dlg:top="265" dlg:width="48" dlg:height="8" dlg:value="Custom 4:"/>
+  <dlg:checkbox dlg:id="bCustom3" dlg:tab-index="58" dlg:visible="false" dlg:left="270" dlg:top="277" dlg:width="48" dlg:height="8" dlg:checked="false">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.Custom3CheckBoxModified?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
-  <dlg:checkbox dlg:id="bCustom4" dlg:tab-index="57" dlg:visible="false" dlg:left="322" dlg:top="273" dlg:width="48" dlg:height="10" dlg:checked="false">
+  <dlg:checkbox dlg:id="bCustom4" dlg:tab-index="57" dlg:visible="false" dlg:left="322" dlg:top="277" dlg:width="48" dlg:height="8" dlg:checked="false">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.Custom4CheckBoxModified?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
-  <dlg:textfield dlg:id="sCustom3" dlg:tab-index="51" dlg:left="270" dlg:top="270" dlg:width="48" dlg:height="12">
+  <dlg:textfield dlg:id="sCustom3" dlg:tab-index="51" dlg:left="270" dlg:top="274" dlg:width="48" dlg:height="12">
    <script:event script:event-name="on-textchange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.Custom3Modified?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:textfield>
-  <dlg:textfield dlg:id="sCustom4" dlg:tab-index="52" dlg:left="322" dlg:top="270" dlg:width="48" dlg:height="12">
+  <dlg:textfield dlg:id="sCustom4" dlg:tab-index="52" dlg:left="322" dlg:top="274" dlg:width="48" dlg:height="12">
    <script:event script:event-name="on-textchange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.Custom4Modified?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:textfield>
-  <dlg:checkbox dlg:style-id="2" dlg:id="bUseDefaultCustom3" dlg:tab-index="55" dlg:left="270" dlg:top="284" dlg:width="48" dlg:height="8" dlg:value="Default" dlg:checked="true">
+  <dlg:checkbox dlg:style-id="2" dlg:id="bUseDefaultCustom3" dlg:tab-index="55" dlg:left="270" dlg:top="287" dlg:width="48" dlg:height="8" dlg:value="Default" dlg:checked="true">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.UseDefaultCustom3?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
-  <dlg:checkbox dlg:style-id="2" dlg:id="bUseDefaultCustom4" dlg:tab-index="56" dlg:left="322" dlg:top="284" dlg:width="48" dlg:height="8" dlg:value="Default" dlg:checked="true">
+  <dlg:checkbox dlg:style-id="2" dlg:id="bUseDefaultCustom4" dlg:tab-index="56" dlg:left="322" dlg:top="287" dlg:width="48" dlg:height="8" dlg:value="Default" dlg:checked="true">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.UseDefaultCustom4?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
  </dlg:bulletinboard>
