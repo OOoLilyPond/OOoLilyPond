@@ -115,7 +115,7 @@
   <dlg:text dlg:id="LabelPdfFilename" dlg:tab-index="73" dlg:left="320" dlg:top="178" dlg:width="20" dlg:height="9" dlg:help-text="OOoLilyPond.pdf (path and filename inside the command)" dlg:value="&quot;*.pdf&quot;"/>
   <dlg:textfield dlg:id="sPdfToSvgPrologue" dlg:tab-index="46" dlg:left="173" dlg:top="176" dlg:width="145" dlg:height="12" dlg:help-text="first part (prior to the pdf file name)"/>
   <dlg:textfield dlg:id="sPdfToSvgEpilogue" dlg:tab-index="48" dlg:left="376" dlg:top="176" dlg:width="35" dlg:height="12" dlg:help-text="second part (following the pdf file name)"/>
-  <dlg:checkbox dlg:id="bIncludeTemplate" dlg:tab-index="21" dlg:left="10" dlg:top="322" dlg:width="153" dlg:height="8" dlg:value="Include template in document" dlg:checked="false"/>
+  <dlg:checkbox dlg:id="bIncludeTemplate" dlg:tab-index="21" dlg:left="10" dlg:top="320" dlg:width="153" dlg:height="8" dlg:value="Include template in OLy object" dlg:checked="false"/>
   <dlg:checkbox dlg:id="bNewObjectsAsSeparateImages" dlg:tab-index="16" dlg:left="10" dlg:top="128" dlg:width="147" dlg:height="9" dlg:help-text="If the sheet music consists of multiple lines, insert them as separate images (default for new objects)" dlg:value="Insert as separate images (system-by-system)" dlg:checked="false"/>
   <dlg:checkbox dlg:id="bUseSecondSvgParam" dlg:tab-index="47" dlg:left="346" dlg:top="180" dlg:width="8" dlg:height="8" dlg:checked="false">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.ConfigDialogGrayOut?language=Basic&amp;location=application" script:language="Script"/>

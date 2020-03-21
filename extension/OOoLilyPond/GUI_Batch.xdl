@@ -116,7 +116,7 @@
   <dlg:fixedline dlg:id="ChangeLine_A" dlg:tab-index="10" dlg:left="10" dlg:top="120" dlg:width="116" dlg:height="8" dlg:value="Change: "/>
   <dlg:fixedline dlg:id="ChangeLine_B" dlg:tab-index="24" dlg:left="142" dlg:top="120" dlg:width="116" dlg:height="8" dlg:value="Change: "/>
   <dlg:titledbox dlg:id="IncludeTemplateFrame" dlg:tab-index="37" dlg:left="269" dlg:top="150" dlg:width="138" dlg:height="34">
-   <dlg:title dlg:value="Include template in object?"/>
+   <dlg:title dlg:value="Include template in OLy object?"/>
   </dlg:titledbox>
  </dlg:bulletinboard>
 </dlg:window>
