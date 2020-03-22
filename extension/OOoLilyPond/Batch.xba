@@ -385,12 +385,12 @@ Sub PerformReplacement (sID As String)
 End Sub
 
 
-Sub SearchFieldChanged_A
+Sub GrayOutBatchOptions_A
 &apos; Is called when Search field has been changed in Rule 1
 	GrayOutBatchOptions (&quot;A&quot;)
 End Sub
 
-Sub SearchFieldChanged_B
+Sub GrayOutBatchOptions_B
 &apos; Is called when Search field has been changed in Rule 2
 	GrayOutBatchOptions (&quot;B&quot;)
 End Sub
@@ -421,11 +421,12 @@ Sub GrayOutBatchOptions (sID As String)
 			If oBatchDialog.getControl(&quot;ReplaceSearchedString_&quot; &amp; sID).getState () Then
 				oBatchDialog.getControl(&quot;ReplaceWholeField_&quot; &amp; sID).setState (True)
 			End If
-			oBatchDialog.getControl(&quot;ReplaceSearchedString_&quot; &amp; sID).setEnable (False)
 			oBatchDialog.getControl(&quot;ConditionContains_&quot; &amp; sID).setEnable (False)
+			oBatchDialog.getControl(&quot;ReplaceSearchedString_&quot; &amp; sID).setEnable (False)
 		Else  &apos; not an &quot;Option...&quot; checkbox
-			oBatchDialog.getControl(&quot;ReplaceSearchedString_&quot; &amp; sID).setEnable (True)
 			oBatchDialog.getControl(&quot;ConditionContains_&quot; &amp; sID).setEnable (True)
+			oBatchDialog.getControl(&quot;ReplaceSearchedString_&quot; &amp; sID).setEnable (Len (oBatchDialog.getControl (&quot;sSearch_&quot; &amp; sID).getText()) &gt; 0)
+			&apos;	True if sSearch... contains at least one character
 		End If
 	End If
 	ErrorHandler:
