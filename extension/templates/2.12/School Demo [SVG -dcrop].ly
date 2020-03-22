@@ -1,6 +1,6 @@
 \layout {
   indent = %{OOoLilyPondCustom1%}0 \mm%{OOoLilyPondEnd%}
-  ragged-right = %{OOoLilyPondCustom2%}##t%{OOoLilyPondEnd%} 
+  ragged-right = %{OOoLilyPondCustom3%}##t%{OOoLilyPondEnd%} 
 }
 
 % ------------------------------------------------------------
@@ -9,7 +9,6 @@
   \key c \major  % c \minor
   \time 4/4
   
-  % \set Staff.instrumentName = \markup \fontsize #4 "a)"
   % \set Score.proportionalNotationDuration = #(ly:make-moment 1/4) % or 1/2, 1/8, ...
   % \cadenzaOn
   
@@ -46,6 +45,7 @@
 %   NOTE: A pair of tags cannot be used multiple times in a template!
 %     Therefore the \remove "Bar_engraver" command is packed into a variable "OptionTwoFalseCommand"
 %     that can be used multiple times without problems.
+CustomTwoCommand = \with { instrumentName = \markup \fontsize %{OOoLilyPondCustom2%}#4    ""%{OOoLilyPondEnd%} }
 OptionTwoFalseCommand   = \with { %{OOoLilyPondOption2False%}\remove "Bar_engraver"%{OOoLilyPondEnd%} }
 OptionThreeFalseCommand = \with { %{OOoLilyPondOption3False%}\remove "Time_signature_engraver"%{OOoLilyPondEnd%} }
 
@@ -65,11 +65,12 @@ OptionThreeFalseCommand = \with { %{OOoLilyPondOption3False%}\remove "Time_signa
     \Staff
     \OptionTwoFalseCommand
     \OptionThreeFalseCommand
+    \CustomTwoCommand
     \override Clef.full-size-change = ##t 
   }
-  \context { \DrumStaff     \OptionTwoFalseCommand \OptionThreeFalseCommand}
-  \context { \RhythmicStaff \OptionTwoFalseCommand \OptionThreeFalseCommand}
-  \context { \TabStaff      \OptionTwoFalseCommand \OptionThreeFalseCommand}
+  \context { \DrumStaff     \OptionTwoFalseCommand \OptionThreeFalseCommand \CustomTwoCommand}
+  \context { \RhythmicStaff \OptionTwoFalseCommand \OptionThreeFalseCommand \CustomTwoCommand}
+  \context { \TabStaff      \OptionTwoFalseCommand \OptionThreeFalseCommand \CustomTwoCommand}
   \context {
     \Score
     %      The code between the following two tags will be visible for LilyPond if Option3 is set to TRUE.
@@ -84,11 +85,11 @@ OptionThreeFalseCommand = \with { %{OOoLilyPondOption3False%}\remove "Time_signa
     
     \override BarNumber.break-visibility = #end-of-line-invisible
     \override BarNumber.self-alignment-X = #LEFT
-    \override BreakAlignment.break-align-orders = #(
-      make-vector 3 '(
-      left-edge span-bar breathing-sign staff-bar
-      clef key-cancellation key-signature time-signature
-    ))
+    \override BreakAlignment.break-align-orders = 
+    #(make-vector 3 
+       '( left-edge span-bar breathing-sign staff-bar
+          clef key-cancellation key-signature time-signature
+          ))
   }
   \context {
     \Voice
@@ -109,7 +110,8 @@ OptionThreeFalseCommand = \with { %{OOoLilyPondOption3False%}\remove "Time_signa
 % Here you can define new labels for dialog control elements:
 
 % %{OOoLilyPondCustom1Label%}Indent:%{OOoLilyPondEnd%}
-% %{OOoLilyPondCustom2Label%}Ragged-right%{OOoLilyPondEnd%}
+% %{OOoLilyPondCustom2Label%}#Size + "Name"%{OOoLilyPondEnd%}
+% %{OOoLilyPondCustom3Label%}Ragged-right%{OOoLilyPondEnd%}
 % %{OOoLilyPondOption1Label%}Stems%{OOoLilyPondEnd%}
 % %{OOoLilyPondOption2Label%}Bars%{OOoLilyPondEnd%}
 % %{OOoLilyPondOption3Label%}Time signature%{OOoLilyPondEnd%}

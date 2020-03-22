@@ -114,6 +114,8 @@ Sub OOoLilyPondInit()
 	bUseDefaultStaffSize = True
 	bUseDefaultCustom1 = True
 	bUseDefaultCustom2 = True
+	bUseDefaultCustom3 = True
+	bUseDefaultCustom4 = True
 End Sub
 
 
@@ -727,11 +729,16 @@ Sub AttachAttributes (oGraphic As Object, sIdentifier As String, sImageNum As St
 	InsertAttribute(oGraphic, &quot;OOoLilyPondStaffSize&quot;, sStaffSize)
 	InsertAttribute(oGraphic, &quot;OOoLilyPondCustom1&quot;, sCustom1)
 	InsertAttribute(oGraphic, &quot;OOoLilyPondCustom2&quot;, sCustom2)
+	InsertAttribute(oGraphic, &quot;OOoLilyPondCustom3&quot;, sCustom3)
+	InsertAttribute(oGraphic, &quot;OOoLilyPondCustom4&quot;, sCustom4)
+
 	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultCode&quot;, BoolToString(bUseDefaultCode))
 	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultLineWidth&quot;, BoolToString(bUseDefaultLineWidth))
 	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultStaffSize&quot;, BoolToString(bUseDefaultStaffSize))
 	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultCustom1&quot;, BoolToString(bUseDefaultCustom1))
 	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultCustom2&quot;, BoolToString(bUseDefaultCustom2))
+	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultCustom3&quot;, BoolToString(bUseDefaultCustom3))
+	InsertAttribute(oGraphic, &quot;OOoLilyPondUseDefaultCustom4&quot;, BoolToString(bUseDefaultCustom4))
 	InsertAttribute(oGraphic, &quot;OOoLilyPondOption1Value&quot;, BoolToString(bOption1))
 	InsertAttribute(oGraphic, &quot;OOoLilyPondOption2Value&quot;, BoolToString(bOption2))
 	InsertAttribute(oGraphic, &quot;OOoLilyPondOption3Value&quot;, BoolToString(bOption3))
@@ -976,6 +983,20 @@ Function ReadAttributes( oShape As Object ) As Boolean
 		bUseDefaultStaffSize=StringToBool(oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondUseDefaultStaffSize&quot;).Value)
 		bUseDefaultCustom1=StringToBool(oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondUseDefaultCustom1&quot;).Value)
 		bUseDefaultCustom2=StringToBool(oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondUseDefaultCustom2&quot;).Value)
+		
+		&apos; Custom3 and Custom4 attributes exist since OOoLilyPond 1.0.0:
+		If oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondCustom3&quot;) Then
+			sCustom3=oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondCustom3&quot;).Value
+		End If
+		If oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondCustom4&quot;) Then
+			sCustom4=oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondCustom4&quot;).Value
+		End If
+		If oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondUseDefaultCustom3&quot;) Then
+			bUseDefaultCustom3=StringToBool(oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondUseDefaultCustom3&quot;).Value)
+		End If
+		If oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondUseDefaultCustom4&quot;) Then
+			bUseDefaultCustom4=StringToBool(oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondUseDefaultCustom4&quot;).Value)
+		End If
 		
 		&apos; Option... attributes exist since OOoLilyPond 0.5.13:
 		bOption1 = False
