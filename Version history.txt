@@ -11,6 +11,7 @@ Changes to OOoLilyPond 1.0.0 since 0.5.12 (March 2020):
 
 * New feature: Editor fields can auto-change to checkboxes
 * New feature: "Option" checkboxes
+* New feature: Two more "Custom" fields
 * New feature: Batch processing (Writer only)
 * New feature: Insert as separate images (system-by-system)
 * New feature: Template can be included in OLy object
@@ -20,7 +21,8 @@ Changes to OOoLilyPond 1.0.0 since 0.5.12 (March 2020):
 * Improvement: Confirmation dialog boxes before overwriting or erasing template files
 * improvement: Label indicates template location other than template folder
 * improvement: complete Spanish translation
-* Added template: School Demo (with switchable bar lines, stems, time signature etc.)
+* improvement: add Anchor "To character" option
+* Added template: "School Demo" and "School Piano Demo" (with switchable bar lines, stems, time signature etc.)
 * bugfix: Editing "deutsch.ly" or "italiano.ly" templates in Frescobaldi could possibly crash LilyPond
 * bugfix: Re-opening an OLy object anchored to page (Writer) could crash OLy
 * Various small bugfixes
