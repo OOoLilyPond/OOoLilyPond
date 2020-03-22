@@ -52,6 +52,7 @@ Sub ReplaceSubStrings (sProcess As String, sFind As String, sReplace As String, 
 	
 	iStartPos = 1
 	iLen = Len (sFind)
+	If iLen = 0 Then Exit Sub
 	sResult = &quot;&quot;
 	iPos = InStr (1, sProcess, sFind, iSearchMode)
 	While iPos &gt; 0
