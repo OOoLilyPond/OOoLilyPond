@@ -350,6 +350,7 @@ Function ReadGraphicObject (oGraphicObject As Object) As Boolean
 				ReadGraphicObject = False
 				Exit Function
 			End If
+			iAnchorPageNo = oShape.AnchorPageNo
 		Else &apos; OLy object in Draw / Impress
 			If Not ReadAttributes (oShape) Then  &apos;Read the OLy fields from the Object Attributes
 				ReadGraphicObject = False
@@ -357,7 +358,6 @@ Function ReadGraphicObject (oGraphicObject As Object) As Boolean
 			End If
 		End If
 		oShapePosition = oShape.position()  &apos;global variable, used in InsertOOoLilyPondObjectViaClipboard ()
-		iAnchorPageNo = oShape.AnchorPageNo
 		bShapeIsSelected = True
 				
 	Case &quot;SwXTextGraphicObject&quot; &apos; Graphic is selected in Writer
