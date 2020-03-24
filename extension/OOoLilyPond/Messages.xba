@@ -315,6 +315,8 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   					&amp; &quot;3.) Copy the object to its destination inside the table.&quot; &amp; Chr(10) &amp; Chr(10) _ 
   					&amp; &quot;Please also ensure that the graphics format (eps, svg, ...) you&apos;ve specified in the Config dialog is compatible with your Office version (OpenOffice or LibreOffice).&quot;)
   
+  oMessages.addProperty (&quot;sMsgPasteError&quot;, BagAttr, &quot;Internal error in Writer:&quot; &amp; Chr(10) &amp; &quot;Pasted object is not a graphic object.&quot; &amp; Chr(10) &amp; Chr(10) &amp; &quot;Please click the &quot; &amp; Chr(34) &amp; &quot;Undo&quot; &amp; Chr(34) &amp; &quot; button to undo your last action. This will make your OLy object usable again.&quot;)
+  
   
   &apos; &quot;Templates&quot; module
   &apos; -------------------

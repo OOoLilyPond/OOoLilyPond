@@ -452,7 +452,9 @@ Function GetCursorForWriter (oGraphicObject As Object) As Object
 	Else		&apos; an object is selected
 		oTempAnchor = oGraphicObject(0).getAnchor()
 		If IsNull (oTempAnchor) Then	&apos; happens when AnchorType is AT_PAGE
-			oTempCursor = oTempAnchor
+			&apos; oTempCursor = oTempAnchor
+			oTempCursor = oDoc.Text.createTextCursor()
+			oTempCursor.gotoStart(False)
 		Else
 			oTempText = oTempAnchor.getText()
 			oTempCursor = oTempText.createTextCursorByRange (oTempAnchor)
@@ -579,7 +581,7 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
  	
 	If bInWriter Then	&apos; We are in Writer...
 	
-		oCurrentCursor = GetCursorForWriter (oCurrentGraphicObject)		&apos; might eventually be Null
+		oCurrentCursor = GetCursorForWriter (oCurrentGraphicObject)		&apos; will be Null when Anchor is AT_PAGE
 		
 		If bSaveAsSeparateImages Then
 			ConvertSeparateImageFiles ()
@@ -636,7 +638,7 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 						Wait (100)
 						InsertOOoLilyPondObjectViaClipboard (sIdentifier, sImageNum, sFileNameAddition, false)
 					End If
-				Else
+				Else &apos; insert... Direct
 					If iImageNum = iFirstImageNum Then
 						InsertOOoLilyPondObject (sIdentifier, sImageNum, sFileNameAddition, true)
 					Else
@@ -785,6 +787,9 @@ Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As Strin
 
 		&apos;ToDo: Don&apos;t use the Dispatcher
 		if bShapeIsSelected And bFirstCall then
+			&apos; shot into the dark:
+			&apos; make sure the object is REALLY selected...
+			oDocCtrl.select (oCurrentGraphicObject)
 			&apos;Remove the old image...
 			oDispatcher.executeDispatch( oDocCtrl.Frame, &quot;.uno:Cut&quot;, &quot;&quot;, 0, Array())
 		end if
@@ -797,9 +802,16 @@ Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As Strin
 		oDispatcher.executeDispatch (oDocCtrl.Frame, &quot;.uno:Paste&quot;, &quot;&quot;, 0, Array())
 		&apos; Wait (100)	&apos; doesn&apos;t help against strange LO behavior  :(
 	  	oGraphic = oDocCtrl.getSelection().GetByIndex(0)
+	  		  	
+	  	If oGraphic.getImplementationName() = &quot;SwXTextRange&quot; Then
+	  		&apos; Now this should never happen again...
+	  		Msgbox (oMessages.getPropertyValue (&quot;sMsgPasteError&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+	  		Exit Sub
+	  	End If
 
 		&apos; set image properties
 		oGraphic.AnchorType = iAnchor
+		&apos; Now the following should never ever happen anymore: 
 		&apos; -------------------------------------------------------------------------------------------------------
 		&apos; If you find yourself here with a BASIC error message like &quot;Property or Method not found: AnchorType&quot;,	 |
 		&apos; you&apos;ve probably changed from &quot;Insert Image - Direct&quot; to &quot;Insert Image - Via Clipboard&quot;.				 |
@@ -824,14 +836,12 @@ Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As Strin
 		&apos; if (not bShapeIsSelected) or (not bFirstCall) then
 			&apos; Show cursor...
 			&apos; To do: don&apos;t use dispatcher
-			oDispatcher.executeDispatch (oDocCtrl.Frame, &quot;.uno:Escape&quot;, &quot;&quot;, 0, Array())
-			&apos; oCursor.goRight (0,false)
-			&apos; oViewCursor.gotoRange (oCursor, False)
-			If Not IsNull (oCurrentCursor) Then
+			&apos; oDispatcher.executeDispatch (oDocCtrl.Frame, &quot;.uno:Escape&quot;, &quot;&quot;, 0, Array())
+			&apos; If Not IsNull (oCurrentCursor) Then
 				&apos; de-select object to avoid trouble when re-launching OLy again:
-				oCurrentCursor.goRight (0,false)
-				oViewCursor.gotoRange (oCurrentCursor, False)
-			End If
+				&apos; oCurrentCursor.goRight (0,false)
+				&apos; oViewCursor.gotoRange (oCurrentCursor, False)
+			&apos; End If
 		&apos; end if
 
 	else &apos;We are in Impress
@@ -841,7 +851,7 @@ Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As Strin
 			oDispatcher.executeDispatch(oDocCtrl.Frame,&quot;.uno:Cut&quot;,&quot;&quot;, 0, Array() )
 		end if
 		
-		&apos;Import the new image to the clipboard and paste it...
+		&apos; Import the new image to the clipboard and paste it...
 		&apos; To do: don&apos;t use dispatcher
    		ImportGraphicIntoClipboard(ConvertToURL( sTmpPath &amp; constOLyFileName &amp; sAddition &amp; &quot;.&quot; &amp; sExtension))	
 		oDispatcher.executeDispatch( oDocCtrl.Frame, &quot;.uno:Paste&quot;, &quot;&quot;, 0, Array())
@@ -856,6 +866,8 @@ End Sub
 
 
 Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, sAddition As String, bFirstCall)
+	&apos; bFirstCall: (True)  = existing object is replaced
+	&apos;			  (False) = new object is created
 	Dim oAttributes As Object
 	Dim oGraphic As Object
 	Dim oLilyPondAttribute As Object
@@ -871,7 +883,7 @@ Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, sAddition
 			If bFirstCall Then oCurrentGraphicObject(0).getParent().remove(oCurrentGraphicObject(0)) &apos; Delete old OLyObject
 			If Not IsNull (oCurrentCursor) Then
 				oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), oCurrentCursor, true)
-			Else
+			Else &apos; happens when Anchor is AT_PAGE
 				oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), oCurrentGraphicObject(0), true)
 			End If
 
