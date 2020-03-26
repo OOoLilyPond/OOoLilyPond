@@ -41,8 +41,11 @@ End Sub
 
 
 Sub PerformBatchProcessing ()
-&apos; This is the main function for batch processing
-&apos; It initializes OOoLilyPond and recompiles matching objects without opening the editor dialog.
+&apos; This function is called when the &quot;Start&quot; button in the Batch dialog is pressed.
+&apos; It creates a list of all OOoLilyPond objects, 
+&apos; checks if they match the search criteria, 
+&apos; performs the specified replacements
+&apos; and recompiles them without opening the editor dialog.
 	Dim oDrawPage As Object
 	Dim oCurrentObject As Object
 	Dim oProgressBar As Object

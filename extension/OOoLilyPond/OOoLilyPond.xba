@@ -133,6 +133,8 @@ End Sub
 
 
 Sub BatchTest1()
+	&apos; This is the main function for batch processing
+	&apos; It initializes OOoLilyPond and opens the Batch dialog.
 
 	Dim sConditionFrameLabel As String
 	Dim iNumPos As Integer
@@ -171,80 +173,6 @@ Sub BatchTest1()
 	
 	oBatchDialog.Execute()
 
-End Sub
-
-
-Sub BatchTest2()
-	&apos; This is the main function for batch processing
-	&apos; It initializes OOoLilyPond and recompiles matching objects without opening the editor dialog.
-	Dim oDrawPage As Object
-	Dim oCurrentObject As Object
-	Dim iCount As Integer
-	Dim i As Integer
-	Dim iLastObject As Integer
-	
-	Dim oGraphic As Object
-	&apos; Dim oDocCtrl As Object
-	Dim oGraphicObjects ()
-	Dim sIdentifiers ()
-	Dim sImageNums ()
-	Dim sCurrentImageNum As String
-	Dim sCurrentIdentifier As String
-	Dim iPosInList As Integer
-
-
-	OOoLilyPondInit ()
-	If Not bInWriter Then Exit Sub
-
-	oDrawPage = oDoc.DrawPage
-	iCount = oDrawPage.Count
-	oGraphicObjects = DimArray (iCount) 
-	sIdentifiers = DimArray (iCount) 
-	sImageNums = DimArray (iCount) 
-	iLastObject = -1
-	&apos; Prepare list of objects to be processed:
-	For i = 0 to iCount - 1
-		oCurrentObject = oDrawPage.getByIndex (i)
-		If IsOLyObject (oCurrentObject) Then
-			sCurrentIdentifier = GetObjectIdentifier (oCurrentObject)
-			If sCurrentIdentifier = &quot;&quot; Then  &apos; not a multi-image object
-				iLastObject = iLastObject + 1
-				oGraphicObjects (iLastObject) = oCurrentObject
-				sIdentifiers (i) = &quot;&quot;
-				sImageNums (i) = &quot;&quot;
-			Else							 &apos; multi-image object
-				sCurrentImageNum = GetObjectImageNum (oCurrentObject)
-				iPosInList = PosInArray (sIdentifiers, sCurrentIdentifier, iLastObject)
-				If iPosInList = -1 Then				&apos; array does not yet contain a sibling
-					iLastObject = iLastObject + 1
-					oGraphicObjects (iLastObject) = oCurrentObject
-					sIdentifiers (i) = sCurrentIdentifier
-					sImageNums (i) = sCurrentImageNum
-				Else								&apos; array already contains a sibling
-					&apos; Dim sImNum As String	&apos; obsolete, just for debugging
-					&apos; sImNum = sImageNums (iPosInList)
-					If HasHigherValue (sImageNums (iPosInList), sCurrentImageNum) Then
-						oGraphicObjects (iPosInList) = oCurrentObject  &apos; replace objects with higher ImageNum
-						sIdentifiers (iPosInList) = sCurrentIdentifier
-						sImageNums (iPosInList) = sCurrentImageNum
-					End If
-				End If
-			End If
-		End If
-	next i
-	
-	&apos; now process objects from the list:
-	For i = 0 to iLastObject
-		oCurrentGraphicObject = oGraphicObjects (i)  &apos; global variable
-		
-		oDocCtrl.select (oCurrentGraphicObject)
-		
-		If ReadSelectionObject () Then  &apos; create Cursor and read Attributes if Object is selected
-		&apos; Now we know which template to use
-			ReadTemplate (True)
-			Make (true)
-		End If
-	next i
 End Sub
 
 
@@ -450,7 +378,6 @@ End Sub
 Function GetCursorForWriter (oGraphicObject As Object) As Object
 
 	Dim oTempCursor As Object
-	&apos; Dim oSaveCursor As Object
 	Dim oViewCursor As Object
 	Dim oTempAnchor
 	Dim oTempText
@@ -460,21 +387,14 @@ Function GetCursorForWriter (oGraphicObject As Object) As Object
 	Else		&apos; an object is selected
 		oTempAnchor = oGraphicObject(0).getAnchor()
 		If IsNull (oTempAnchor) Then	&apos; happens when AnchorType is AT_PAGE
-			&apos; oTempCursor = oTempAnchor
 			oViewCursor = oDocCtrl.getViewCursor()
-			&apos; oSaveCursor = oDoc.Text.createTextCursorByRange (oViewCursor) &apos; save current cursor position
-			&apos;   doesn&apos;t work: no valid range
 			If iAnchorPageNo &gt; 0 Then 
 				oViewCursor.jumpToPage (iAnchorPageNo)
 			End If
 			oTempCursor = oDoc.Text.createTextCursorByRange (oViewCursor)
-			&apos; oViewCursor.gotoRange (oSaveCursor, False) &apos; restore former cursor position
-			&apos; oTempCursor = oDoc.Text.createTextCursor()
-			&apos; oTempCursor.gotoStart(False)
 		Else
 			oTempText = oTempAnchor.getText()
 			oTempCursor = oTempText.createTextCursorByRange (oTempAnchor)
-			&apos; oCurrentCursor = oGraphicObject(0).getAnchor().getText().createTextCursorByRange (oGraphicObject(0).getAnchor())
 		End If
 	EndIf
 
