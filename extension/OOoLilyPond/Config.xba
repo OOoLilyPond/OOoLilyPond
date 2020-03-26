@@ -435,8 +435,9 @@ Sub DefaultConfig()
 	bWriterInsertViaClipboard = False
 	bWriterKeepCrop = False
 	bNewObjectsAsSeparateImages = False
-	bAskForEachObjectDefault = true		&apos; checkbox in Batch dialog
-	bCreateBackupDefault = false		&apos; checkbox in Batch dialog
+	bAskForEachObjectDefault = true			&apos; checkbox in Batch dialog
+	bCreateBackupDefault = false			&apos; checkbox in Batch dialog
+	bBatchKeepCropDefault = bWriterKeepCrop &apos; checkbox in Batch dialog
 
 
 	&apos; Impress specific settings
@@ -669,7 +670,6 @@ Sub SetDocTypeSpecificDefaults()
 		bUseLineWidthFromTemplate=bWriterUseLineWidthFromTemplate
 		bUseStaffSizeFromTemplate=bWriterUseStaffSizeFromTemplate
 		bKeepCrop=bWriterKeepCrop
-		bBatchKeepCropDefault=bWriterKeepCrop
 		
 	Else &apos; We are in Impress or Draw
 		sDefaultLineWidth=sImpressDefaultLineWidth
