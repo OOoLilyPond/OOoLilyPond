@@ -137,7 +137,10 @@ Private sOption2Label As String
 Private sOption3Label As String
 Private sOption4Label As String
 
-Private iAnchor, iWrap As Integer
+Private iAnchor As Integer
+Private iOriginalAnchor As Integer
+Private iAnchorPageNo As Integer
+Private iWrap As Integer
 
 &apos; Use Default Flags
 Private bUseDefaultCode As Boolean

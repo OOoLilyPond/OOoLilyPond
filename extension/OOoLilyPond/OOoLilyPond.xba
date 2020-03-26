@@ -350,6 +350,7 @@ Function ReadGraphicObject (oGraphicObject As Object) As Boolean
 				ReadGraphicObject = False
 				Exit Function
 			End If
+			iAnchorPageNo = oShape.AnchorPageNo
 		Else &apos; OLy object in Draw / Impress
 			If Not ReadAttributes (oShape) Then  &apos;Read the OLy fields from the Object Attributes
 				ReadGraphicObject = False
@@ -364,6 +365,11 @@ Function ReadGraphicObject (oGraphicObject As Object) As Boolean
 			ReadGraphicObject = False
 			Exit Function
 		End If
+		Dim oTempPoint As New com.sun.star.awt.Point
+		oTempPoint.X = oGraphicObject.HoriOrientPosition
+		oTempPoint.Y = oGraphicObject.VertOrientPosition
+		oShapePosition = oTempPoint
+		iAnchorPageNo = oGraphicObject.AnchorPageNo
 		bShapeIsSelected = True
 		
 	Case &quot;SwXTextRanges&quot; &apos; Nothing or normal text selection in Writer
@@ -444,6 +450,8 @@ End Sub
 Function GetCursorForWriter (oGraphicObject As Object) As Object
 
 	Dim oTempCursor As Object
+	&apos; Dim oSaveCursor As Object
+	Dim oViewCursor As Object
 	Dim oTempAnchor
 	Dim oTempText
 	
@@ -452,7 +460,17 @@ Function GetCursorForWriter (oGraphicObject As Object) As Object
 	Else		&apos; an object is selected
 		oTempAnchor = oGraphicObject(0).getAnchor()
 		If IsNull (oTempAnchor) Then	&apos; happens when AnchorType is AT_PAGE
-			oTempCursor = oTempAnchor
+			&apos; oTempCursor = oTempAnchor
+			oViewCursor = oDocCtrl.getViewCursor()
+			&apos; oSaveCursor = oDoc.Text.createTextCursorByRange (oViewCursor) &apos; save current cursor position
+			&apos;   doesn&apos;t work: no valid range
+			If iAnchorPageNo &gt; 0 Then 
+				oViewCursor.jumpToPage (iAnchorPageNo)
+			End If
+			oTempCursor = oDoc.Text.createTextCursorByRange (oViewCursor)
+			&apos; oViewCursor.gotoRange (oSaveCursor, False) &apos; restore former cursor position
+			&apos; oTempCursor = oDoc.Text.createTextCursor()
+			&apos; oTempCursor.gotoStart(False)
 		Else
 			oTempText = oTempAnchor.getText()
 			oTempCursor = oTempText.createTextCursorByRange (oTempAnchor)
@@ -579,7 +597,7 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
  	
 	If bInWriter Then	&apos; We are in Writer...
 	
-		oCurrentCursor = GetCursorForWriter (oCurrentGraphicObject)		&apos; might eventually be Null
+		oCurrentCursor = GetCursorForWriter (oCurrentGraphicObject)
 		
 		If bSaveAsSeparateImages Then
 			ConvertSeparateImageFiles ()
@@ -636,7 +654,7 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 						Wait (100)
 						InsertOOoLilyPondObjectViaClipboard (sIdentifier, sImageNum, sFileNameAddition, false)
 					End If
-				Else
+				Else &apos; insert... Direct
 					If iImageNum = iFirstImageNum Then
 						InsertOOoLilyPondObject (sIdentifier, sImageNum, sFileNameAddition, true)
 					Else
@@ -785,6 +803,9 @@ Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As Strin
 
 		&apos;ToDo: Don&apos;t use the Dispatcher
 		if bShapeIsSelected And bFirstCall then
+			&apos; shot into the dark:
+			&apos; make sure the object is REALLY selected...
+			oDocCtrl.select (oCurrentGraphicObject)
 			&apos;Remove the old image...
 			oDispatcher.executeDispatch( oDocCtrl.Frame, &quot;.uno:Cut&quot;, &quot;&quot;, 0, Array())
 		end if
@@ -797,9 +818,16 @@ Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As Strin
 		oDispatcher.executeDispatch (oDocCtrl.Frame, &quot;.uno:Paste&quot;, &quot;&quot;, 0, Array())
 		&apos; Wait (100)	&apos; doesn&apos;t help against strange LO behavior  :(
 	  	oGraphic = oDocCtrl.getSelection().GetByIndex(0)
+	  		  	
+	  	If oGraphic.getImplementationName() = &quot;SwXTextRange&quot; Then
+	  		&apos; Now this should never happen again...
+	  		Msgbox (oMessages.getPropertyValue (&quot;sMsgPasteError&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+	  		Exit Sub
+	  	End If
 
 		&apos; set image properties
 		oGraphic.AnchorType = iAnchor
+		&apos; Now the following should never ever happen anymore: 
 		&apos; -------------------------------------------------------------------------------------------------------
 		&apos; If you find yourself here with a BASIC error message like &quot;Property or Method not found: AnchorType&quot;,	 |
 		&apos; you&apos;ve probably changed from &quot;Insert Image - Direct&quot; to &quot;Insert Image - Via Clipboard&quot;.				 |
@@ -820,18 +848,18 @@ Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As Strin
 		oGraphic.TopMargin = 0
 		oGraphic.BottomMargin = 0
 		oGraphic.VertOrient = 0
+		
+		if bShapeIsSelected And (iAnchor = iOriginalAnchor) And Not IsNull (oShapePosition) Then oGraphic.position = oShapePosition
 
 		&apos; if (not bShapeIsSelected) or (not bFirstCall) then
 			&apos; Show cursor...
 			&apos; To do: don&apos;t use dispatcher
-			oDispatcher.executeDispatch (oDocCtrl.Frame, &quot;.uno:Escape&quot;, &quot;&quot;, 0, Array())
-			&apos; oCursor.goRight (0,false)
-			&apos; oViewCursor.gotoRange (oCursor, False)
-			If Not IsNull (oCurrentCursor) Then
+			&apos; oDispatcher.executeDispatch (oDocCtrl.Frame, &quot;.uno:Escape&quot;, &quot;&quot;, 0, Array())
+			&apos; If Not IsNull (oCurrentCursor) Then
 				&apos; de-select object to avoid trouble when re-launching OLy again:
-				oCurrentCursor.goRight (0,false)
-				oViewCursor.gotoRange (oCurrentCursor, False)
-			End If
+				&apos; oCurrentCursor.goRight (0,false)
+				&apos; oViewCursor.gotoRange (oCurrentCursor, False)
+			&apos; End If
 		&apos; end if
 
 	else &apos;We are in Impress
@@ -841,7 +869,7 @@ Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As Strin
 			oDispatcher.executeDispatch(oDocCtrl.Frame,&quot;.uno:Cut&quot;,&quot;&quot;, 0, Array() )
 		end if
 		
-		&apos;Import the new image to the clipboard and paste it...
+		&apos; Import the new image to the clipboard and paste it...
 		&apos; To do: don&apos;t use dispatcher
    		ImportGraphicIntoClipboard(ConvertToURL( sTmpPath &amp; constOLyFileName &amp; sAddition &amp; &quot;.&quot; &amp; sExtension))	
 		oDispatcher.executeDispatch( oDocCtrl.Frame, &quot;.uno:Paste&quot;, &quot;&quot;, 0, Array())
@@ -856,6 +884,8 @@ End Sub
 
 
 Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, sAddition As String, bFirstCall)
+	&apos; bFirstCall: (True)  = existing object is replaced
+	&apos;			  (False) = new object is created
 	Dim oAttributes As Object
 	Dim oGraphic As Object
 	Dim oLilyPondAttribute As Object
@@ -867,13 +897,18 @@ Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, sAddition
 	If bInWriter Then
 
 		Select Case oCurrentGraphicObject.getImplementationName()		
-		Case &quot;com.sun.star.drawing.SvxShapeCollection&quot;  &apos; OLy &lt; 0.4 in Writer
+		Case &quot;com.sun.star.drawing.SvxShapeCollection&quot;  &apos; OLy &lt; 0.4 in Writer or inserted &quot;via clipboard&quot;
 			If bFirstCall Then oCurrentGraphicObject(0).getParent().remove(oCurrentGraphicObject(0)) &apos; Delete old OLyObject
 			If Not IsNull (oCurrentCursor) Then
 				oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), oCurrentCursor, true)
-			Else
+			Else &apos; should never be the case
 				oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), oCurrentGraphicObject(0), true)
 			End If
+			if bShapeIsSelected And (iAnchor = iOriginalAnchor) And Not IsNull (oShapePosition) Then
+				oGraphic.HoriOrientPosition = oShapePosition.X
+				oGraphic.VertOrientPosition = oShapePosition.Y
+				oGraphic.AnchorPageNo = iAnchorPageNo
+			End If		
 
 		Case &quot;SwXTextGraphicObject&quot; &apos; Graphic is selected in Writer
 			If bFirstCall Then
@@ -947,7 +982,8 @@ Function ReadAttributes( oShape As Object ) As Boolean
 	Else
 		iAnchor=-1
 		iWrap=-1
-	End IF
+	End If
+	iOriginalAnchor = iAnchor
 
 	If oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondArgs&quot;) Then
 		&apos;Object created by OOoLilyPond Versions &lt;= 0.2.1

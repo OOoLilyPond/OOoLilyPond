@@ -361,6 +361,8 @@ Function ImportBitmapIntoWriter (sFile As String, oTextGraphicOrCursor As Object
 	&apos; As of LO 6.1.2, this ability has been restored for compatibility reasons, so the above code line works again.
 
 	&apos; Create a new TextGraphic Object, if needed
+	Dim oDebugObj As Object
+	oDebugObj = oTextGraphicOrCursor
 	Select Case oTextGraphicOrCursor.getImplementationName()
 	Case &quot;SwXTextCursor&quot;
 		oTextGraphic = oDoc.createInstance(&quot;com.sun.star.text.GraphicObject&quot;)
@@ -372,7 +374,19 @@ Function ImportBitmapIntoWriter (sFile As String, oTextGraphicOrCursor As Object
 			oTextGraphic = oDoc.createInstance(&quot;com.sun.star.text.GraphicObject&quot;)
 			oTextGraphic.GraphicURL = sNewURL
 			oTextGraphic.AnchorType = com.sun.star.text.TextContentAnchorType.AS_CHARACTER
+			&apos; oTextGraphic.AnchorType = iAnchor
+			&apos; if iAnchorPageNo &gt; 0 Then oTextGraphic.AnchorPageNo = iAnchorPageNo
 			oTextGraphicOrCursor.getAnchor().getText().insertTextContent (oTextGraphicOrCursor, oTextGraphic, False)
+		Else
+			oTextGraphic = oTextGraphicOrCursor
+			oTextGraphic.GraphicURL = sNewURL
+		End If
+	Case &quot;SwXShape&quot; &apos; obsolete, should never be the case
+		If bForceNewObject Then  &apos; as with SwXTextCursor
+			oTextGraphic = oDoc.createInstance(&quot;com.sun.star.text.GraphicObject&quot;)
+			oTextGraphic.GraphicURL = sNewURL
+			oTextGraphic.AnchorType = com.sun.star.text.TextContentAnchorType.AS_CHARACTER &apos; will later be set to AT_PAGE
+			oTextGraphic.getAnchor().getText().insertTextContent (oTextGraphicOrCursor, oTextGraphic, False)
 		Else
 			oTextGraphic = oTextGraphicOrCursor
 			oTextGraphic.GraphicURL = sNewURL
