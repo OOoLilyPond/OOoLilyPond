@@ -58,11 +58,10 @@ Private bSaveAsSeparateImages As Boolean  &apos; save current snippet as separat
 Private iFrom As Integer  &apos; if &gt; 0: first image to be inserted
 Private iTo As Integer    &apos; if &gt; 0: last image to be inserted
 Private bUseSecondSvgParam As Boolean  &apos; insert &quot;filename.svg&quot; into PdfToSvg command or not?
-Private bAskForEachObjectDefault
+Private bAskForEachObjectDefault As Boolean  &apos; remembered state for &quot;Ask for each object&quot; from Batch dialog
+Private bCreateBackupDefault	 As Boolean  &apos; remembered state for &quot;Create backup&quot; from Batch dialog
+Private bBatchKeepCropDefault	 As Boolean  &apos; remembered state for &quot;Keep size &amp; crop settings&quot; from Batch dialog
 
-  &apos; remembered state for &quot;Ask for each object&quot; from Batch dialog
-Private bCreateBackupDefault	  &apos; remembered state for &quot;Create backup&quot; from Batch dialog
-	
 
 &apos; Environment
 Private sOSType As String

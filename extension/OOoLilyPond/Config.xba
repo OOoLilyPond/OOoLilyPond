@@ -563,6 +563,8 @@ Sub ReadConfig()
 				bAskForEachObjectDefault = StringToBool(sValue)
 			Case &quot;bCreateBackupDefault&quot;
 				bCreateBackupDefault = StringToBool(sValue)
+			Case &quot;bBatchKeepCropDefault&quot;
+				bBatchKeepCropDefault = StringToBool(sValue)
 		
 			
 			&apos; Impress specific settings
@@ -640,6 +642,7 @@ Sub SaveConfig
 	oTextOutputStream.writeString(&quot;bNewObjectsAsSeparateImages=&quot; &amp; BoolToString(bNewObjectsAsSeparateImages) &amp; Chr(10))
 	oTextOutputStream.writeString(&quot;bAskForEachObjectDefault=&quot; &amp; BoolToString(bAskForEachObjectDefault) &amp; Chr(10))
 	oTextOutputStream.writeString(&quot;bCreateBackupDefault=&quot; &amp; BoolToString(bCreateBackupDefault) &amp; Chr(10))
+	oTextOutputStream.writeString(&quot;bBatchKeepCropDefault=&quot; &amp; BoolToString(bBatchKeepCropDefault) &amp; Chr(10))
 	
 	&apos; Impress specific
 	oTextOutputStream.writeString(&quot;sImpressDefaultTemplate=&quot; &amp; sImpressDefaultTemplate &amp; Chr(10))
@@ -666,6 +669,7 @@ Sub SetDocTypeSpecificDefaults()
 		bUseLineWidthFromTemplate=bWriterUseLineWidthFromTemplate
 		bUseStaffSizeFromTemplate=bWriterUseStaffSizeFromTemplate
 		bKeepCrop=bWriterKeepCrop
+		bBatchKeepCropDefault=bWriterKeepCrop
 		
 	Else &apos; We are in Impress or Draw
 		sDefaultLineWidth=sImpressDefaultLineWidth

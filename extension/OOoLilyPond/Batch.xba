@@ -68,6 +68,7 @@ Sub PerformBatchProcessing ()
 	oBatchDialog.getControl (&quot;Process&quot;).setEnable (False)  &apos; avoid multiple button presses
 
 	bSaveConfig = False
+	
 	bAsk = CheckBoxStateToBool (oBatchDialog.getControl(&quot;bAsk&quot;).getState())
 	if bAsk &lt;&gt; bAskForEachObjectDefault Then
 		bAskForEachObjectDefault = bAsk
@@ -82,6 +83,12 @@ Sub PerformBatchProcessing ()
 			bCreateBackupDefault = bCreateBackup
 			bSaveConfig = True
 		End If
+	End If
+	
+	bKeepCrop = CheckBoxStateToBool (oBatchDialog.getControl(&quot;bKeepCrop&quot;).getState())
+	if bKeepCrop &lt;&gt; bBatchKeepCropDefault Then
+		bBatchKeepCropDefault = bKeepCrop
+		bSaveConfig = True
 	End If
 	
 	If bSaveConfig Then SaveConfig()
@@ -129,7 +136,6 @@ Sub PerformBatchProcessing ()
 		End If
 	next i
 	
-	bKeepCrop = CheckBoxStateToBool (oBatchDialog.getControl(&quot;bKeepCrop&quot;).getState())
 	oProgressBar = oDocCtrl.StatusIndicator
 	oProgressBar.start (oMessages.getPropertyValue (&quot;sMsgBatchProcessing&quot;), iLastObject + 1)
 	If bAsk Then
