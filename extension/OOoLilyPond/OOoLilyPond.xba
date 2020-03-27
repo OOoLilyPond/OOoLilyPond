@@ -827,7 +827,11 @@ Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, sAddition
 			if bShapeIsSelected And (iAnchor = iOriginalAnchor) And Not IsNull (oShapePosition) Then
 				oGraphic.HoriOrientPosition = oShapePosition.X
 				oGraphic.VertOrientPosition = oShapePosition.Y
-				oGraphic.AnchorPageNo = iAnchorPageNo
+				If iAnchor = 2 Then  &apos; AT_PAGE
+					oGraphic.AnchorPageNo = iAnchorPageNo
+					&apos; OpenOffice was crashed by this when iAnchor was AS_CHARACTER
+					&apos; No problem with LibreOffice
+				End If
 			End If		
 
 		Case &quot;SwXTextGraphicObject&quot; &apos; Graphic is selected in Writer
