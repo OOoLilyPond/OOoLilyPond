@@ -771,7 +771,9 @@ Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As Strin
 		oGraphic.HoriOrient = com.sun.star.text.HoriOrientation.NONE
 		if iAnchor = com.sun.star.text.TextContentAnchorType.AT_CHARACTER Then
 			oGraphic.HoriOrientRelation = com.sun.star.text.RelOrientation.CHAR
+			oGraphic.VertOrientRelation = com.sun.star.text.RelOrientation.CHAR
 		Else
+			oGraphic.HoriOrientRelation = com.sun.star.text.RelOrientation.PRINT_AREA
 			oGraphic.HoriOrientRelation = com.sun.star.text.RelOrientation.PRINT_AREA
 		End If
 		
@@ -869,7 +871,9 @@ Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, sAddition
 		oGraphic.HoriOrient = com.sun.star.text.HoriOrientation.NONE
 		if iAnchor = com.sun.star.text.TextContentAnchorType.AT_CHARACTER Then
 			oGraphic.HoriOrientRelation = com.sun.star.text.RelOrientation.CHAR
+			oGraphic.VertOrientRelation = com.sun.star.text.RelOrientation.CHAR
 		Else
+			oGraphic.HoriOrientRelation = com.sun.star.text.RelOrientation.PRINT_AREA
 			oGraphic.HoriOrientRelation = com.sun.star.text.RelOrientation.PRINT_AREA
 		End If
 		
