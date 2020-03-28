@@ -768,6 +768,14 @@ Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As Strin
 		oGraphic.TopMargin = 0
 		oGraphic.BottomMargin = 0
 		oGraphic.VertOrient = 0
+		oGraphic.HoriOrient = com.sun.star.text.HoriOrientation.NONE
+		if iAnchor = com.sun.star.text.TextContentAnchorType.AT_CHARACTER Then
+			oGraphic.HoriOrientRelation = com.sun.star.text.RelOrientation.CHAR
+			oGraphic.VertOrientRelation = com.sun.star.text.RelOrientation.CHAR
+		Else
+			oGraphic.HoriOrientRelation = com.sun.star.text.RelOrientation.PRINT_AREA
+			oGraphic.HoriOrientRelation = com.sun.star.text.RelOrientation.PRINT_AREA
+		End If
 		
 		if bShapeIsSelected And (iAnchor = iOriginalAnchor) And Not IsNull (oShapePosition) Then oGraphic.position = oShapePosition
 
@@ -824,10 +832,15 @@ Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, sAddition
 			Else &apos; should never be the case
 				oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), oCurrentGraphicObject(0), true)
 			End If
+			oGraphic.VertOrient = 0
 			if bShapeIsSelected And (iAnchor = iOriginalAnchor) And Not IsNull (oShapePosition) Then
 				oGraphic.HoriOrientPosition = oShapePosition.X
 				oGraphic.VertOrientPosition = oShapePosition.Y
-				oGraphic.AnchorPageNo = iAnchorPageNo
+				If iAnchor = 2 Then  &apos; AT_PAGE
+					oGraphic.AnchorPageNo = iAnchorPageNo
+					&apos; OpenOffice was crashed by this when iAnchor was AS_CHARACTER
+					&apos; No problem with LibreOffice
+				End If
 			End If		
 
 		Case &quot;SwXTextGraphicObject&quot; &apos; Graphic is selected in Writer
@@ -841,9 +854,11 @@ Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, sAddition
 					oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), oCurrentGraphicObject, true)
 				End If
 			End If
+			oGraphic.VertOrient = 0
 			
 		Case &quot;SwXTextRanges&quot; &apos; Nothing or normal text selection in Writer
 			oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), oCurrentCursor, false)
+			oGraphic.VertOrient = 0
 
 		End Select
 
@@ -853,7 +868,14 @@ Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, sAddition
 
 		oGraphic.TopMargin = 0
 		oGraphic.BottomMargin = 0
-		oGraphic.VertOrient = 0
+		oGraphic.HoriOrient = com.sun.star.text.HoriOrientation.NONE
+		if iAnchor = com.sun.star.text.TextContentAnchorType.AT_CHARACTER Then
+			oGraphic.HoriOrientRelation = com.sun.star.text.RelOrientation.CHAR
+			oGraphic.VertOrientRelation = com.sun.star.text.RelOrientation.CHAR
+		Else
+			oGraphic.HoriOrientRelation = com.sun.star.text.RelOrientation.PRINT_AREA
+			oGraphic.HoriOrientRelation = com.sun.star.text.RelOrientation.PRINT_AREA
+		End If
 		
 	Else &apos;We are in Impress or Draw
 
