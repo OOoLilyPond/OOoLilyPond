@@ -132,7 +132,7 @@ Sub OOoLilyPond()
 End Sub
 
 
-Sub BatchTest1()
+Sub OOoLilyPondBatch()
 	&apos; This is the main function for batch processing
 	&apos; It initializes OOoLilyPond and opens the Batch dialog.
 
