@@ -26,7 +26,7 @@
 						<value>com.sun.star.text.TextDocument</value>
 					</prop>
 					<prop oor:name="URL" oor:type="xs:string">
-						<value>vnd.sun.star.script:OOoLilyPond.OOoLilyPond.BatchTest1?language=Basic&amp;location=application</value>
+						<value>vnd.sun.star.script:OOoLilyPond.OOoLilyPond.OOoLilyPondBatch?language=Basic&amp;location=application</value>
 					</prop>
 					<prop oor:name="Title" oor:type="xs:string">
 						<value>Batch</value>
@@ -57,7 +57,7 @@
 						<value>com.sun.star.text.TextDocument</value>
 					</prop>
 					<prop oor:name="URL" oor:type="xs:string">
-						<value>vnd.sun.star.script:OOoLilyPond.OOoLilyPond.BatchTest1?language=Basic&amp;location=application</value>
+						<value>vnd.sun.star.script:OOoLilyPond.OOoLilyPond.OOoLilyPondBatch?language=Basic&amp;location=application</value>
 					</prop>
 					<prop oor:name="Title" oor:type="xs:string">
 						<value>OOoLilyPond-Batch</value>
