@@ -155,11 +155,21 @@ Sub PerformBatchProcessing ()
 		oProgressBar.setValue (i + 1)
 		oProgressBar.setText (oMessages.getPropertyValue (&quot;sMsgBatchProcessing&quot;) &amp; i + 1 &amp; &quot;/&quot; &amp; iLastObject + 1)
 		
+		&apos; Objects from OLy versions prior to 1.0.0 have no Custom 3 and 4 values.
+		&apos; This might only be a problem when an existing template is changed to use these fields. 
+		&apos; To be on the safe side, provide the default values from the template:
+		bUseDefaultCustom3 = True
+		bUseDefaultCustom4 = True
+		
 		oCurrentGraphicObject = oGraphicObjects (i)  &apos; global variable		
 		oDocCtrl.select (oCurrentGraphicObject)
 		If ReadSelectionObject () Then  &apos; create Cursor and read Attributes if Object is selected
 		&apos; Now we know which template to use
 			ReadTemplate (True)
+			&apos; if bUseDefaultCustom3 or 4 are still False, fill in the default values:
+			if bUseDefaultCustom3 Then sCustom3 = sDefaultCustom3
+			if bUseDefaultCustom4 Then sCustom4 = sDefaultCustom4
+			
 			bSaveAsSeparateImages = bHasSeparateImages
 			If oBatchDialog.getControl(&quot;SeparateImages_Yes&quot;).getState() Then bSaveAsSeparateImages = True
 			If oBatchDialog.getControl(&quot;SeparateImages_No&quot;).getState() Then bSaveAsSeparateImages = False
