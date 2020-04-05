@@ -392,7 +392,7 @@ Sub DefaultConfig()
 	 	End If
 		sLilyPondExecutable = sWinProgramFilesFolder &amp; &quot;\LilyPond\usr\bin\lilypond.exe&quot;
 		sExtEditorExecutable = sWinProgramFilesFolder &amp; &quot;\Frescobaldi\frescobaldi.exe&quot;
-		sPdfToSvgPrologue = Chr(34) &amp; &quot;C:\Portable\poppler-0.68.0\bin\pdftocairo.exe&quot; &amp; Chr(34)
+		sPdfToSvgPrologue = Chr(34) &amp; &quot;C:\Portable\poppler-0.68.0\bin\pdftocairo.exe&quot; &amp; Chr(34) &amp; &quot; -svg&quot;
 		sPdfToSvgEpilogue = &quot;&quot;
 		bUseSecondSvgParam = False
 		sIncludeStatement = &quot;-I&quot; &amp; Chr(34) &amp; ConvertFromURL(Environ(&quot;USERPROFILE&quot;)) &amp; &quot;/&quot; &amp; Chr(34) &amp; &quot; -I&quot; &amp; Chr(34) &amp; ConvertFromURL(Environ(&quot;ProgramFiles&quot;)) &amp; &quot;/&quot; &amp; Chr(34)
