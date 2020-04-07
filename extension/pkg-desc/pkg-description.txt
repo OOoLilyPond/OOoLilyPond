@@ -9,4 +9,4 @@ http://lilypond.org
 Copyright (c) 2006-2009 Samuel Hartmann
 (samuel_hartmann@users.sourceforge.net)
 (c) 2017 Klaus Blum
-http://lilypond.1069038.n5.nabble.com/template/NamlServlet.jtp?macro=user_nodes&user=4585 
+(ooolilypond@web.de)
