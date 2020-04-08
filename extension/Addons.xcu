@@ -7,33 +7,38 @@
 	<node oor:name="AddonUI">
 		<node oor:name="OfficeToolBar">
 			<node oor:name="OOoLilyPond.OfficeToolBar" oor:op="replace">
-				<node oor:name="m1" oor:op="replace">
-					<prop oor:name="Context" oor:type="xs:string">
-						<value>com.sun.star.text.TextDocument,com.sun.star.drawing.DrawingDocument,com.sun.star.presentation.PresentationDocument</value>
-					</prop>
-					<prop oor:name="URL" oor:type="xs:string">
-						<value>vnd.sun.star.script:OOoLilyPond.OOoLilyPond.OOoLilyPond?language=Basic&amp;location=application</value>
-					</prop>
-					<prop oor:name="Title" oor:type="xs:string">
-						<value>OLy</value>
-					</prop>
-					<prop oor:name="Target" oor:type="xs:string">
-						<value>_self</value>
-					</prop>
-				</node>
-				<node oor:name="m2" oor:op="replace">
-					<prop oor:name="Context" oor:type="xs:string">
-						<value>com.sun.star.text.TextDocument</value>
-					</prop>
-					<prop oor:name="URL" oor:type="xs:string">
-						<value>vnd.sun.star.script:OOoLilyPond.OOoLilyPond.OOoLilyPondBatch?language=Basic&amp;location=application</value>
-					</prop>
-					<prop oor:name="Title" oor:type="xs:string">
-						<value>Batch</value>
-					</prop>
-					<prop oor:name="Target" oor:type="xs:string">
-						<value>_self</value>
-					</prop>
+				<prop oor:name="Title">
+					<value>OOoLilyPond</value>
+				</prop>
+				<node oor:name="ToolBarItems">
+					<node oor:name="m1" oor:op="replace">
+						<prop oor:name="Context" oor:type="xs:string">
+							<value>com.sun.star.text.TextDocument,com.sun.star.drawing.DrawingDocument,com.sun.star.presentation.PresentationDocument</value>
+						</prop>
+						<prop oor:name="URL" oor:type="xs:string">
+							<value>vnd.sun.star.script:OOoLilyPond.OOoLilyPond.OOoLilyPond?language=Basic&amp;location=application</value>
+						</prop>
+						<prop oor:name="Title" oor:type="xs:string">
+							<value>OLy</value>
+						</prop>
+						<prop oor:name="Target" oor:type="xs:string">
+							<value>_self</value>
+						</prop>
+					</node>
+					<node oor:name="m2" oor:op="replace">
+						<prop oor:name="Context" oor:type="xs:string">
+							<value>com.sun.star.text.TextDocument</value>
+						</prop>
+						<prop oor:name="URL" oor:type="xs:string">
+							<value>vnd.sun.star.script:OOoLilyPond.OOoLilyPond.OOoLilyPondBatch?language=Basic&amp;location=application</value>
+						</prop>
+						<prop oor:name="Title" oor:type="xs:string">
+							<value>Batch</value>
+						</prop>
+						<prop oor:name="Target" oor:type="xs:string">
+							<value>_self</value>
+						</prop>
+					</node>
 				</node>
 			</node>
 		</node>
@@ -60,7 +65,7 @@
 						<value>vnd.sun.star.script:OOoLilyPond.OOoLilyPond.OOoLilyPondBatch?language=Basic&amp;location=application</value>
 					</prop>
 					<prop oor:name="Title" oor:type="xs:string">
-						<value>OOoLilyPond-Batch</value>
+						<value>Batch</value>
 					</prop>
 					<prop oor:name="Target" oor:type="xs:string">
 						<value>_self</value>
