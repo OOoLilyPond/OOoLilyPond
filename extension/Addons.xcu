@@ -65,7 +65,7 @@
 						<value>vnd.sun.star.script:OOoLilyPond.OOoLilyPond.OOoLilyPondBatch?language=Basic&amp;location=application</value>
 					</prop>
 					<prop oor:name="Title" oor:type="xs:string">
-						<value>Batch</value>
+						<value>OOoLilyPond-Batch</value>
 					</prop>
 					<prop oor:name="Target" oor:type="xs:string">
 						<value>_self</value>
