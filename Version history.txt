@@ -1,19 +1,19 @@
 ****************************************
-OOoLilyPond Version History (March 2020)
+OOoLilyPond Version History (April 2020)
 ****************************************
 
 Complete documentation: 
 https://github.com/openlilylib/LO-ly/wiki#ooolilypond
 
 
-Changes to OOoLilyPond 1.0.0 since 0.5.12 (March 2020):
+Changes to OOoLilyPond 1.0.0 since 0.5.12 (April 2020):
 =======================================================
 
 * New feature: Editor fields can auto-change to checkboxes
 * New feature: "Option" checkboxes
 * New feature: Two more "Custom" fields
 * New feature: Batch processing (Writer only)
-* New feature: Insert as separate images (system-by-system)
+* New feature: Insert as separate images (system-by-system) (Writer only)
 * New feature: Template can be included in OLy object
 * New feature: "SVG [-dcrop]" file format allows automatic cropping for SVG images
 * Improvement: OLy objects now possible in table cells, text frames, headers and footers, footnotes and endnotes
