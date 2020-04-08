@@ -1,28 +1,39 @@
-UPDATE March 2018: It seems that updating via the extension manager does NOT work at the moment. 
+It seems that updating via the extension manager does NOT work at the moment. 
 You can download the most recent version at 
 https://github.com/openlilylib/LO-ly/wiki/Downloads
 and open it in LibreOffice / OpenOffice.
 
 direct link for LibreOffice:
-https://github.com/openlilylib/LO-ly/releases/download/0.5.12/OOoLilyPond-0.5.12.oxt
+https://github.com/openlilylib/LO-ly/releases/download/1.0.0/OOoLilyPond-1.0.0.oxt
 direct link for OpenOffice:
-https://github.com/openlilylib/LO-ly/releases/download/0.5.12/OOoLilyPond-0.5.12_for_Apache_OpenOffice.oxt
+https://github.com/openlilylib/LO-ly/releases/download/1.0.0/OOoLilyPond-1.0.0_for_Apache_OpenOffice.oxt
 
 
-Changes to OOoLilyPond 0.5.12 since 0.5.11 (November 2019):
-===========================================================
+Changes to OOoLilyPond 1.0.0 since 0.5.12 (April 2020):
+=======================================================
 
-* Fixed: Include statement had been ignored if the containing Office document had never been saved to a file.
-* Added template: Piano.ly (Only a [SVG] version existed so far)
-* Fixed: All temporary image files are deleted after running OOoLilyPond.
-* New feature: OLy now recognizes template files that are located in the folder of the containing Office document. 
-    (This makes it easier to share your documents with other persons - sharing your templates might be required as well.)
-    If no template with the right name is found there, OLy looks in the template folder (as before). 
-    In addition, if the template folder doesn't contain a matching file, OLy will search in its subfolder(s).
-    (There you can store templates that you don't want to be listed in the Editor dialog.)
-* New feature: When compilation errors are displayed in the Editor dialog, also count them and display an error number.
-* New feature: Field names (Line Width, Staff Size, Custom 1, Costom 2) can be configured. F.ex. to replace 
-    the "Custom 1" caption by "Transpose:", include the following line in your code: 
-    % %{OOoLilyPondCustom1Label%}Transpose:%{OOoLilyPondEnd%}
-    This feature is fully backward compatible: Older OLy versions simply ignore that. 
-* Built-in templates now use the new "Field names" feature.
+* New feature: Editor fields can auto-change to checkboxes
+* New feature: "Option" checkboxes
+* New feature: Two more "Custom" fields
+* New feature: Batch processing (Writer only)
+* New feature: Insert as separate images (system-by-system) (Writer only)
+* New feature: Template can be included in OLy object
+* New feature: "SVG [-dcrop]" file format allows automatic cropping for SVG images
+* Improvement: OLy objects now possible in table cells, text frames, headers and footers, footnotes and endnotes
+* Improvement: "Direct" image insertion should now also work in OpenOffice
+* Improvement: Confirmation dialog boxes before overwriting or erasing template files
+* improvement: Label indicates template location other than template folder
+* improvement: complete Spanish translation
+* improvement: add Anchor "To character" option
+* Added template: "School Demo" and "School Piano Demo" (with switchable bar lines, stems, time signature etc.)
+* bugfix: Editing "deutsch.ly" or "italiano.ly" templates in Frescobaldi could possibly crash LilyPond
+* bugfix: Re-opening an OLy object anchored to page (Writer) could crash OLy
+* Various small bugfixes
+
+Complete presentation of the new features:
+https://github.com/openlilylib/LO-ly/wiki/Whats-new
+
+This release includes some changes to the templates and language files. So, after updating to 1.0.0, please open the config dialog and click the "Restore templates" and "Restore language files" buttons. 
+(Your current templates and language files will be backed up in a subfolder. If you like, you can delete that subfolder.)
+
+Also it is recommended to choose the "Insert images: Direct" method. It will be more reliable, even with OpenOffice.
