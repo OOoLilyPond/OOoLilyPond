@@ -68,7 +68,7 @@ Fernando Villagran (translation)
 
 Copyright © 2005 Geoffroy Piroux  
 Copyright © 2009 Samuel Hartmann  
-Copyright © 2017 Klaus Blum
+Copyright © 2017 Klaus Blum (current maintainer)
 
 <a id="envelope">![a](https://raw.githubusercontent.com/KlausBlum/OLy-resources/master/images/score-a.png)</a>![b](https://raw.githubusercontent.com/KlausBlum/OLy-resources/master/images/score-b.png)![c](https://raw.githubusercontent.com/KlausBlum/OLy-resources/master/images/score-c.png)![d](https://raw.githubusercontent.com/KlausBlum/OLy-resources/master/images/score-d.png)![e](https://raw.githubusercontent.com/KlausBlum/OLy-resources/master/images/score-e.png)![f](https://raw.githubusercontent.com/KlausBlum/OLy-resources/master/images/score-f.png)
 
