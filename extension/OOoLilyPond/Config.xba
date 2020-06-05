@@ -406,8 +406,8 @@ Sub DefaultConfig()
 		End If
 		sTmpPath = ConvertToURL(Environ(&quot;HOME&quot;)) &amp; &quot;/.cache/ooolilypond/tmp/&quot;
 		If Not oFileAccess.exists(sTmpPath) then oFileAccess.createFolder(sTmpPath)
-		sTemplatePath = ConvertToURL(Environ(&quot;HOME&quot;)) &amp; &quot;/OOoLilyPond-Templates/&quot;
-		sLanguagePath = ConvertToURL(Environ(&quot;HOME&quot;)) &amp; &quot;/OOoLilyPond-Language/&quot;
+		sTemplatePath = ConvertToURL(Environ(&quot;HOME&quot;)) &amp; &quot;/.config/ooolilypond/Templates/&quot;
+		sLanguagePath = ConvertToURL(Environ(&quot;HOME&quot;)) &amp; &quot;/.config/ooolilypond/Language/&quot;
 	 	&apos; LilyPond Executable (not an URL)
 	 	If sOSType=&quot;Unix&quot; Then
  			sLilyPondExecutable = &quot;lilypond&quot;
