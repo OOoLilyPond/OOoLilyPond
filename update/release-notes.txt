@@ -28,6 +28,7 @@ Changes to OOoLilyPond 1.0.0 since 0.5.12 (April 2020):
 * Added template: "School Demo" and "School Piano Demo" (with switchable bar lines, stems, time signature etc.)
 * bugfix: Editing "deutsch.ly" or "italiano.ly" templates in Frescobaldi could possibly crash LilyPond
 * bugfix: Re-opening an OLy object anchored to page (Writer) could crash OLy
+* bugfix for Linux: now XDG-compliant location for "templates" and "language" folders
 * Various small bugfixes
 
 Complete presentation of the new features:
