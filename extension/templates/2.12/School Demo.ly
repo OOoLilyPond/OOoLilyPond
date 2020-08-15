@@ -1,3 +1,6 @@
+\include "lilypond-book-preamble.ly"
+#(set-global-staff-size #!OOoLilyPondStaffSize!# 20 #!OOoLilyPondEnd!#)
+
 \layout {
   indent = %{OOoLilyPondCustom1%}0 \mm%{OOoLilyPondEnd%}
   ragged-right = %{OOoLilyPondCustom3%}##t%{OOoLilyPondEnd%} 
@@ -30,9 +33,6 @@
 }
 %{OOoLilyPondEnd%}
 % ------------------------------------------------------------
-
-\include "lilypond-book-preamble.ly"
-#(set-global-staff-size #!OOoLilyPondStaffSize!# 20 #!OOoLilyPondEnd!#)
 
 %                         #!  and  !#  enclose block comments in scheme.
 %                                      just as  

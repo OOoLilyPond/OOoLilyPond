@@ -1,3 +1,6 @@
+#(set-global-staff-size #!OOoLilyPondStaffSize!# 20 #!OOoLilyPondEnd!#)
+#(define version-seen #t)  
+
 \layout {
   indent = %{OOoLilyPondCustom1%}0 \mm%{OOoLilyPondEnd%}
   ragged-right = %{OOoLilyPondCustom3%}##t%{OOoLilyPondEnd%} 
@@ -30,9 +33,6 @@
 }
 %{OOoLilyPondEnd%}
 % ------------------------------------------------------------
-
-#(set-global-staff-size #!OOoLilyPondStaffSize!# 20 #!OOoLilyPondEnd!#)
-#(define version-seen #t)  
 
 %                         #!  and  !#  enclose block comments in scheme.
 %                                      just as  
