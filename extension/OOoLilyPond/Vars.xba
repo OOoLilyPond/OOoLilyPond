@@ -20,7 +20,6 @@ Private sAskDialogStrings As String
 
 &apos; Paths
 Private sConfigFile As String
-Private sTmpPath As String
 Private sLilyPondExecutable As String
 Private sTemplatePath As String
 Private sLanguagePath As String
@@ -30,6 +29,9 @@ Private sEditorFontName As String
 Private sEditorFontSize As String
 Private sPdfToSvgPrologue As String
 Private sPdfToSvgEpilogue As String
+Private sTmpPath As String
+Private sTempLyFilePath As String		&apos; Path for tremp. file sent to external editor (sTmpPath or document path)
+Private bTempLyFileCreated As Boolean
 
 &apos; Settings
 Private sFormat As String

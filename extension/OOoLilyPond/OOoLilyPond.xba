@@ -106,6 +106,10 @@ Sub OOoLilyPondInit()
 	
 	bSaveAsSeparateImages = bNewObjectsAsSeparateImages
 	bTemplateSaved = False
+	
+	&apos; Path for temp. LY file sent to external editor: 
+	sTempLyFilePath = sTmpPath
+	bTempLyFileCreated = False
 
 	&apos; By default use default values ;-)
 	&apos; Will be overwritten if values are read from existing object

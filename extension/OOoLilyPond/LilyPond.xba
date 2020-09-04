@@ -54,7 +54,7 @@ Function CallLilyPond() As Boolean
 	If 	Val(sLilyPondVersionMajor)=2 and Val(sLilyPondVersionMinor)&lt;=10 Then
 		sBackendOpt=&quot;-b eps&quot;
 	End If
-	If sFormat=&quot;svg&quot; Or sFormat=&quot;svg [-dcrop]&quot; Then
+	If sFormat=&quot;svg&quot; Or sFormat=&quot;svg [-dcrop]&quot; Then 
 		sBackendOpt=&quot;-dbackend=svg&quot;
 	End If
 	
