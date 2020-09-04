@@ -305,22 +305,13 @@ Function ReadTemplateFile (bShowError As Boolean) As Boolean
 	&apos; Extracts the content between the OOoLilyPond Start end End tags
 	&apos; for being used as template specific default values.
 
-	Dim sURL
-	Dim sParts
-	Dim sPath 
+	&apos; Dim sURL
+	&apos; Dim sParts
+	&apos; Dim sPath 
 	Dim sDirEntry As String
 	Dim sTemplateFile As String &apos; path to template file
 	
-	sURL=oDoc.getURL()  &apos; see GetRelativeIncludeStatement ()
-	sPath = &quot;&quot;
-	If  Not IsNull(sURL) And Len(sURL) &gt; 0 Then
-		sParts=Split(sURL,&quot;/&quot;)
-		Dim iUBound As Integer
-		iUBound = UBound(sParts) -1
-		ReDim Preserve sParts (0 to iUBound)
-		sPath = Join(sParts,&quot;/&quot;)	
-		sTemplateFile = sPath &amp; &quot;/&quot; &amp; sTemplate &amp; &quot;.ly&quot;  &apos; First look in the documents&apos;s folder
-	End If
+	sTemplateFile = GetDocPath() &amp; &quot;/&quot; &amp; sTemplate &amp; &quot;.ly&quot;  &apos; First look in the documents&apos;s folder
 	
 	If Not oFileAccess.exists (sTemplateFile) Then
 		sTemplateFile = sTemplatePath &amp; sTemplate &amp; &quot;.ly&quot;  &apos; Second, look in the Template folder
