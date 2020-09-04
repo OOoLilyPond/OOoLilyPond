@@ -439,7 +439,7 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 
 	CleanUp()
 
-	If Not WriteLyFile() Then 
+	If Not WriteLyFile (sTmpPath &amp; constOLyFileName &amp; &quot;.ly&quot;) Then 
 		Exit Sub
 	End If
 

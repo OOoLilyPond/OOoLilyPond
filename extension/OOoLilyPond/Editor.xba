@@ -517,8 +517,8 @@ Sub ExtEditorButton()
 	If Not ApplyTemplate() Then 
 		Exit Sub
 	End If
-	CleanUp()
-	If Not WriteTempLyFile() Then 
+	CleanUp()	&apos; ToDo: only delete temp. file if still present?
+	If Not WriteLyFile (sTmpPath &amp; constOLyFileName &amp; &quot;Temp.ly&quot;) Then 
 		Exit Sub
 	End If
 	CallExtEditor()

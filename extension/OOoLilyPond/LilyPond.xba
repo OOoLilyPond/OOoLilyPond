@@ -377,22 +377,21 @@ Sub ParseOutput(sFile as String)
 End sub
 
 
-Function WriteLyFile() As Boolean
+Function WriteLyFile (sLyFile As String) As Boolean
 
 	Dim oTextStream As Object
-	Dim sLyFile As String
 
 	WriteLyFile=False
 
 	&apos; Open output stream
-	oTextStream  = createUnoService(&quot;com.sun.star.io.TextOutputStream&quot;)
+	oTextStream  = createUnoService (&quot;com.sun.star.io.TextOutputStream&quot;)
 
-	sLyFile = sTmpPath &amp; constOLyFileName &amp; &quot;.ly&quot;
-	If oFileAccess.exists( sLyFile ) Then oFileAccess.kill(sLyFile )	
-    oTextStream.setOutputStream(oFileAccess.openFileWrite(sLyFile))
+	&apos; sLyFile = sTmpPath &amp; constOLyFileName &amp; &quot;.ly&quot;     &apos; replaced by parameter
+	If oFileAccess.exists (sLyFile) Then oFileAccess.kill (sLyFile )	
+    oTextStream.setOutputStream (oFileAccess.openFileWrite (sLyFile))
  
 	&apos; Write LilyPond Code
-    oTextStream.writeString(sLilyPondCode)
+    oTextStream.writeString (sLilyPondCode)
 
 	oTextStream.closeOutput()
 
@@ -400,28 +399,5 @@ Function WriteLyFile() As Boolean
 	
 End Function
 
-
-Function WriteTempLyFile() As Boolean
-
-	Dim oTextStream As Object
-	Dim sLyFile As String
-	
-	WriteTempLyFile=False
-
-	&apos; Open output stream
-	oTextStream  = createUnoService(&quot;com.sun.star.io.TextOutputStream&quot;)
-
-	sLyFile = sTmpPath &amp; constOLyFileName &amp; &quot;Temp.ly&quot;
-	If oFileAccess.exists( sLyFile ) Then oFileAccess.kill(sLyFile )	
-    oTextStream.setOutputStream(oFileAccess.openFileWrite(sLyFile))
- 
-	&apos; Write LilyPond Code
-    oTextStream.writeString(sLilyPondCode)
-
-	oTextStream.closeOutput()
-
-	WriteTempLyFile=True
-	
-End Function
 
 </script:module>
