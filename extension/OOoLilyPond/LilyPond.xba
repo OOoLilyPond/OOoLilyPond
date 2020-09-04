@@ -5,12 +5,11 @@
 Option Explicit
 
 
-&apos;Returns the include statement with the absolute path of the LO-file
-&apos;Returns an empty String if the file is not yet saved
-Function GetRelativeIncludeStatement As String
+Function GetDocPath() As String
+	&apos; Returns the absolute path of the LO-file as URL
+	&apos; Returns an empty String if the file is not yet saved
 	Dim sURL
 	Dim sParts
-	Dim sPath 
 	
 	sURL=oDoc.getURL()
 	If  Not IsNull(sURL) And Len(sURL) &gt; 0 Then
@@ -18,7 +17,21 @@ Function GetRelativeIncludeStatement As String
 		Dim iUBound As Integer
 		iUBound = UBound(sParts) -1
 		ReDim Preserve sParts (0 to iUBound)
-		sPath=ConvertFromURL(Join(sParts,&quot;/&quot;))
+		GetDocPath = Join (sParts,&quot;/&quot;)
+	Else
+		GetDocPath=&quot;&quot;
+	End If
+End Function
+
+
+&apos;Returns the include statement with the absolute path of the LO-file
+&apos;Returns an empty String if the file is not yet saved
+Function GetRelativeIncludeStatement As String
+	Dim sPath 
+	
+	sPath = GetDocPath ()
+	If Len (sPath) &gt; 0 Then
+		sPath = ConvertFromURL (sPath)
 		If GetPathSeparator() = &quot;\&quot; Then
 			While InStr (sPath, &quot;\&quot;) &gt; 0	&apos;  replace &quot;\&quot; by &quot;/&quot;, even in Windows LilyPond expects paths to be written with forward slashes
 				Mid (sPath, InStr (sPath, &quot;\&quot;), 1, &quot;/&quot;)
