@@ -12,14 +12,14 @@ Function GetDocPath() As String
 	Dim sParts
 	
 	sURL=oDoc.getURL()
-	If  Not IsNull(sURL) And Len(sURL) &gt; 0 Then
-		sParts=Split(sURL,&quot;/&quot;)
+	If  Not IsNull (sURL) And Len (sURL) &gt; 0 Then
+		sParts = Split (sURL,&quot;/&quot;)
 		Dim iUBound As Integer
-		iUBound = UBound(sParts) -1
+		iUBound = UBound (sParts) -1
 		ReDim Preserve sParts (0 to iUBound)
 		GetDocPath = Join (sParts,&quot;/&quot;)
 	Else
-		GetDocPath=&quot;&quot;
+		GetDocPath = &quot;&quot;
 	End If
 End Function
 
@@ -37,9 +37,9 @@ Function GetRelativeIncludeStatement As String
 				Mid (sPath, InStr (sPath, &quot;\&quot;), 1, &quot;/&quot;)
 			Wend
 		End If
-		GetRelativeIncludeStatement=&quot;-I&quot; &amp; Chr(34) &amp; sPath &amp; Chr(34)
+		GetRelativeIncludeStatement = &quot;-I&quot; &amp; Chr(34) &amp; sPath &amp; Chr(34)
 	Else
-		GetRelativeIncludeStatement=&quot;&quot;
+		GetRelativeIncludeStatement = &quot;&quot;
 	End If
 End Function
 

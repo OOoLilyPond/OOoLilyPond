@@ -305,9 +305,6 @@ Function ReadTemplateFile (bShowError As Boolean) As Boolean
 	&apos; Extracts the content between the OOoLilyPond Start end End tags
 	&apos; for being used as template specific default values.
 
-	&apos; Dim sURL
-	&apos; Dim sParts
-	&apos; Dim sPath 
 	Dim sDirEntry As String
 	Dim sTemplateFile As String &apos; path to template file
 	
