@@ -348,6 +348,15 @@ Sub ApplyConfig
 	
 	ReadLanguageFile()
 	ReadDialogStringsFromVar (oEditorDialog, sEditorDialogStrings, &quot;&quot;)
+	
+	&apos; Path for temp. LY file sent to external editor: 
+	sTempLyFilePath = &quot;&quot;
+	If bTempLyFileInDocFolder Then
+		sTempLyFilePath = GetDocPath ()	&apos; empty string if unavailable
+	End If 	
+	If sTempLyFilePath = &quot;&quot; Then 
+		sTempLyFilePath = sTmpPath
+	End If
 
 End Sub
 
