@@ -413,7 +413,8 @@ Sub CallExtEditor()
  		End If
 		
 		sCommand = sExtEditorExecutable
-		sParam = ConvertFromURL (sTempLyFilePath) &amp; &quot;\&quot; &amp; constOLyFileName &amp; &quot;Temp.ly&quot;
+		&apos; sParam = ConvertFromURL (sTempLyFilePath) &amp; &quot;\&quot; &amp; constOLyFileName &amp; &quot;Temp.ly&quot;
+		sParam = Chr(34) &amp; ConvertFromURL (sTempLyFilePath) &amp; constOLyFileName &amp; &quot;Temp.ly&quot; &amp; Chr(34)
 		On Error GoTo ErrorHandler
 	 	Shell (sCommand, 1, sParam, False)
 	End If
@@ -517,7 +518,7 @@ Sub ExtEditorButton()
 	If Not ApplyTemplate() Then 
 		Exit Sub
 	End If
-	CleanUp()	&apos; ToDo: only delete temp. file if still present?
+	CleanUpAfterwards ()	&apos; i.e. without deleting &quot;OOoLilyPond.out&quot;
 	If Not WriteLyFile (sTempLyFilePath &amp; constOLyFileName &amp; &quot;Temp.ly&quot;) Then 
 		Exit Sub
 	End If

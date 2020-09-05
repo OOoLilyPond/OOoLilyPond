@@ -17,7 +17,7 @@ Function GetDocPath() As String
 		Dim iUBound As Integer
 		iUBound = UBound (sParts) -1
 		ReDim Preserve sParts (0 to iUBound)
-		GetDocPath = Join (sParts,&quot;/&quot;)
+		GetDocPath = Join (sParts,&quot;/&quot;) &amp; &quot;/&quot;
 	Else
 		GetDocPath = &quot;&quot;
 	End If
