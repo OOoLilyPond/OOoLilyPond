@@ -184,27 +184,12 @@ Function CallLilyPond() As Boolean
 End Function
 
 
-Sub CleanUp()
-	On Error GoTo ErrorHandler
-	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;)
-	CleanUpAfterwards()
-	Exit Sub
-	
-	ErrorHandler:
-		If Err &lt;&gt; 1 Then
-			MsgBox (Err &amp; Chr(10) &amp; Error, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
-		Else	&apos; Error 1: &quot;A file or directory could not be deleted&quot;
-			&apos; Nothing. This can happen in old-fashioned OpenOffice if you use the &quot;direct&quot; method to insert images. Apparently, it works anyway, don&apos;t know why... 
-		End If
-	Resume Next
-End Sub
-
-
 Function DeleteTempFilesOfType (sFileType As String) As Integer  &apos; 0: success, 1: error
 	Dim sDirEntry As String
 	Dim sCurrentFile As String
 
 	On Error GoTo ErrorHandler
+	
 	sDirEntry = Dir (sTmpPath &amp; constOLyFileName &amp; &quot;*.&quot; &amp; sFileType)
 	Do While sDirEntry &lt;&gt; &quot;&quot;
 		&apos; If oFileAccess.exists (sTmpPath &amp; sDirEntry) Then 
@@ -212,6 +197,16 @@ Function DeleteTempFilesOfType (sFileType As String) As Integer  &apos; 0: succe
 		&apos; End If
 		sDirEntry = Dir
 	Loop
+	
+	If bTempLyFileCreated And bTempLyFileInDocFolder Then
+		sDirEntry = Dir (sTempLyFilePath &amp; constOLyFileName &amp; &quot;Temp*.&quot; &amp; sFileType)
+		Do While sDirEntry &lt;&gt; &quot;&quot;
+			&apos; If oFileAccess.exists (sTmpPath &amp; sDirEntry) Then 
+				oFileAccess.kill (sTempLyFilePath &amp; sDirEntry)
+			&apos; End If
+			sDirEntry = Dir
+		Loop
+	End If
 	
 	DeleteTempFilesOfType = 0
 	Exit Function
@@ -241,6 +236,22 @@ Sub CleanUpAfterwards()
 	If 	oFileAccess.exists(sTmpPath &amp; &quot;LilyPond-cannot_execute&quot;) Then oFileAccess.kill(sTmpPath &amp; &quot;LilyPond-cannot_execute&quot;)
 	If 	oFileAccess.exists(sTmpPath &amp; &quot;ExtEditor-cannot_execute&quot;) Then oFileAccess.kill(sTmpPath &amp; &quot;ExtEditor-cannot_execute&quot;)
 	If 	oFileAccess.exists(sTmpPath &amp; &quot;PdfToSvg-cannot_execute&quot;) Then oFileAccess.kill(sTmpPath &amp; &quot;PdfToSvg-cannot_execute&quot;)
+	Exit Sub
+	
+	ErrorHandler:
+		If Err &lt;&gt; 1 Then
+			MsgBox (Err &amp; Chr(10) &amp; Error, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		Else	&apos; Error 1: &quot;A file or directory could not be deleted&quot;
+			&apos; Nothing. This can happen in old-fashioned OpenOffice if you use the &quot;direct&quot; method to insert images. Apparently, it works anyway, don&apos;t know why... 
+		End If
+	Resume Next
+End Sub
+
+
+Sub CleanUp()
+	On Error GoTo ErrorHandler
+	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;)
+	CleanUpAfterwards()
 	Exit Sub
 	
 	ErrorHandler:
