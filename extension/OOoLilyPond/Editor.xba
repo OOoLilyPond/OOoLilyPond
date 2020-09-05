@@ -521,6 +521,7 @@ Sub ExtEditorButton()
 	If Not WriteLyFile (sTempLyFilePath &amp; constOLyFileName &amp; &quot;Temp.ly&quot;) Then 
 		Exit Sub
 	End If
+	bTempLyFileCreated = True
 	CallExtEditor()
 	
 End Sub
