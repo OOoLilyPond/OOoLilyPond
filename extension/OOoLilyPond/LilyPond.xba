@@ -5,28 +5,41 @@
 Option Explicit
 
 
+Function GetDocPath() As String
+	&apos; Returns the absolute path of the LO-file as URL
+	&apos; Returns an empty String if the file is not yet saved
+	Dim sURL
+	Dim sParts
+	
+	sURL=oDoc.getURL()
+	If  Not IsNull (sURL) And Len (sURL) &gt; 0 Then
+		sParts = Split (sURL,&quot;/&quot;)
+		Dim iUBound As Integer
+		iUBound = UBound (sParts) -1
+		ReDim Preserve sParts (0 to iUBound)
+		GetDocPath = Join (sParts,&quot;/&quot;) &amp; &quot;/&quot;
+	Else
+		GetDocPath = &quot;&quot;
+	End If
+End Function
+
+
 &apos;Returns the include statement with the absolute path of the LO-file
 &apos;Returns an empty String if the file is not yet saved
 Function GetRelativeIncludeStatement As String
-	Dim sURL
-	Dim sParts
 	Dim sPath 
 	
-	sURL=oDoc.getURL()
-	If  Not IsNull(sURL) And Len(sURL) &gt; 0 Then
-		sParts=Split(sURL,&quot;/&quot;)
-		Dim iUBound As Integer
-		iUBound = UBound(sParts) -1
-		ReDim Preserve sParts (0 to iUBound)
-		sPath=ConvertFromURL(Join(sParts,&quot;/&quot;))
+	sPath = GetDocPath ()
+	If Len (sPath) &gt; 0 Then
+		sPath = ConvertFromURL (sPath)
 		If GetPathSeparator() = &quot;\&quot; Then
 			While InStr (sPath, &quot;\&quot;) &gt; 0	&apos;  replace &quot;\&quot; by &quot;/&quot;, even in Windows LilyPond expects paths to be written with forward slashes
 				Mid (sPath, InStr (sPath, &quot;\&quot;), 1, &quot;/&quot;)
 			Wend
 		End If
-		GetRelativeIncludeStatement=&quot;-I&quot; &amp; Chr(34) &amp; sPath &amp; Chr(34)
+		GetRelativeIncludeStatement = &quot;-I&quot; &amp; Chr(34) &amp; sPath &amp; Chr(34)
 	Else
-		GetRelativeIncludeStatement=&quot;&quot;
+		GetRelativeIncludeStatement = &quot;&quot;
 	End If
 End Function
 
@@ -54,7 +67,7 @@ Function CallLilyPond() As Boolean
 	If 	Val(sLilyPondVersionMajor)=2 and Val(sLilyPondVersionMinor)&lt;=10 Then
 		sBackendOpt=&quot;-b eps&quot;
 	End If
-	If sFormat=&quot;svg&quot; Or sFormat=&quot;svg [-dcrop]&quot; Then
+	If sFormat=&quot;svg&quot; Or sFormat=&quot;svg [-dcrop]&quot; Then 
 		sBackendOpt=&quot;-dbackend=svg&quot;
 	End If
 	
@@ -171,27 +184,12 @@ Function CallLilyPond() As Boolean
 End Function
 
 
-Sub CleanUp()
-	On Error GoTo ErrorHandler
-	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;)
-	CleanUpAfterwards()
-	Exit Sub
-	
-	ErrorHandler:
-		If Err &lt;&gt; 1 Then
-			MsgBox (Err &amp; Chr(10) &amp; Error, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
-		Else	&apos; Error 1: &quot;A file or directory could not be deleted&quot;
-			&apos; Nothing. This can happen in old-fashioned OpenOffice if you use the &quot;direct&quot; method to insert images. Apparently, it works anyway, don&apos;t know why... 
-		End If
-	Resume Next
-End Sub
-
-
 Function DeleteTempFilesOfType (sFileType As String) As Integer  &apos; 0: success, 1: error
 	Dim sDirEntry As String
 	Dim sCurrentFile As String
 
 	On Error GoTo ErrorHandler
+	
 	sDirEntry = Dir (sTmpPath &amp; constOLyFileName &amp; &quot;*.&quot; &amp; sFileType)
 	Do While sDirEntry &lt;&gt; &quot;&quot;
 		&apos; If oFileAccess.exists (sTmpPath &amp; sDirEntry) Then 
@@ -199,6 +197,16 @@ Function DeleteTempFilesOfType (sFileType As String) As Integer  &apos; 0: succe
 		&apos; End If
 		sDirEntry = Dir
 	Loop
+	
+	If bTempLyFileCreated And bTempLyFileInDocFolder Then
+		sDirEntry = Dir (sTempLyFilePath &amp; constOLyFileName &amp; &quot;Temp*.&quot; &amp; sFileType)
+		Do While sDirEntry &lt;&gt; &quot;&quot;
+			&apos; If oFileAccess.exists (sTmpPath &amp; sDirEntry) Then 
+				oFileAccess.kill (sTempLyFilePath &amp; sDirEntry)
+			&apos; End If
+			sDirEntry = Dir
+		Loop
+	End If
 	
 	DeleteTempFilesOfType = 0
 	Exit Function
@@ -228,6 +236,22 @@ Sub CleanUpAfterwards()
 	If 	oFileAccess.exists(sTmpPath &amp; &quot;LilyPond-cannot_execute&quot;) Then oFileAccess.kill(sTmpPath &amp; &quot;LilyPond-cannot_execute&quot;)
 	If 	oFileAccess.exists(sTmpPath &amp; &quot;ExtEditor-cannot_execute&quot;) Then oFileAccess.kill(sTmpPath &amp; &quot;ExtEditor-cannot_execute&quot;)
 	If 	oFileAccess.exists(sTmpPath &amp; &quot;PdfToSvg-cannot_execute&quot;) Then oFileAccess.kill(sTmpPath &amp; &quot;PdfToSvg-cannot_execute&quot;)
+	Exit Sub
+	
+	ErrorHandler:
+		If Err &lt;&gt; 1 Then
+			MsgBox (Err &amp; Chr(10) &amp; Error, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		Else	&apos; Error 1: &quot;A file or directory could not be deleted&quot;
+			&apos; Nothing. This can happen in old-fashioned OpenOffice if you use the &quot;direct&quot; method to insert images. Apparently, it works anyway, don&apos;t know why... 
+		End If
+	Resume Next
+End Sub
+
+
+Sub CleanUp()
+	On Error GoTo ErrorHandler
+	If 	oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;) Then oFileAccess.kill(sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;)
+	CleanUpAfterwards()
 	Exit Sub
 	
 	ErrorHandler:
@@ -377,22 +401,21 @@ Sub ParseOutput(sFile as String)
 End sub
 
 
-Function WriteLyFile() As Boolean
+Function WriteLyFile (sLyFile As String) As Boolean
 
 	Dim oTextStream As Object
-	Dim sLyFile As String
 
 	WriteLyFile=False
 
 	&apos; Open output stream
-	oTextStream  = createUnoService(&quot;com.sun.star.io.TextOutputStream&quot;)
+	oTextStream  = createUnoService (&quot;com.sun.star.io.TextOutputStream&quot;)
 
-	sLyFile = sTmpPath &amp; constOLyFileName &amp; &quot;.ly&quot;
-	If oFileAccess.exists( sLyFile ) Then oFileAccess.kill(sLyFile )	
-    oTextStream.setOutputStream(oFileAccess.openFileWrite(sLyFile))
+	&apos; sLyFile = sTmpPath &amp; constOLyFileName &amp; &quot;.ly&quot;     &apos; replaced by parameter
+	If oFileAccess.exists (sLyFile) Then oFileAccess.kill (sLyFile )	
+    oTextStream.setOutputStream (oFileAccess.openFileWrite (sLyFile))
  
 	&apos; Write LilyPond Code
-    oTextStream.writeString(sLilyPondCode)
+    oTextStream.writeString (sLilyPondCode)
 
 	oTextStream.closeOutput()
 
@@ -400,28 +423,5 @@ Function WriteLyFile() As Boolean
 	
 End Function
 
-
-Function WriteTempLyFile() As Boolean
-
-	Dim oTextStream As Object
-	Dim sLyFile As String
-	
-	WriteTempLyFile=False
-
-	&apos; Open output stream
-	oTextStream  = createUnoService(&quot;com.sun.star.io.TextOutputStream&quot;)
-
-	sLyFile = sTmpPath &amp; constOLyFileName &amp; &quot;Temp.ly&quot;
-	If oFileAccess.exists( sLyFile ) Then oFileAccess.kill(sLyFile )	
-    oTextStream.setOutputStream(oFileAccess.openFileWrite(sLyFile))
- 
-	&apos; Write LilyPond Code
-    oTextStream.writeString(sLilyPondCode)
-
-	oTextStream.closeOutput()
-
-	WriteTempLyFile=True
-	
-End Function
 
 </script:module>

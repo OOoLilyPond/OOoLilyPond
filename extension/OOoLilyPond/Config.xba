@@ -61,6 +61,7 @@ Sub ConfigDialogUpdate()
 	oConfigDialog.getControl(&quot;sEditorFontName&quot;).setText(sEditorFontName)
 	oConfigDialog.getControl(&quot;sEditorFontSize&quot;).setText(sEditorFontSize)
 	oConfigDialog.getControl(&quot;sExtEditorExecutable&quot;).setText(ConvertFromURL(sExtEditorExecutable))
+	oConfigDialog.getControl(&quot;bTempLyFileInDocFolder&quot;).setState(BoolToCheckBoxState(bTempLyFileInDocFolder))
 	oConfigDialog.getControl(&quot;sIncludeStatement&quot;).setText(sIncludeStatement)
 	oConfigDialog.getControl(&quot;sPdfToSvgPrologue&quot;).setText(sPdfToSvgPrologue)
 	oConfigDialog.getControl(&quot;sPdfToSvgEpilogue&quot;).setText(sPdfToSvgEpilogue)
@@ -294,6 +295,7 @@ Sub ApplyConfig
 	sEditorFontName = oConfigDialog.getControl(&quot;sEditorFontName&quot;).getText()
 	sEditorFontSize = oConfigDialog.getControl(&quot;sEditorFontSize&quot;).getText()
 	sExtEditorExecutable = oConfigDialog.getControl(&quot;sExtEditorExecutable&quot;).getText()
+	bTempLyFileInDocFolder = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bTempLyFileInDocFolder&quot;).getState())
 	sPdfToSvgPrologue = oConfigDialog.getControl(&quot;sPdfToSvgPrologue&quot;).getText()
 	sPdfToSvgEpilogue = oConfigDialog.getControl(&quot;sPdfToSvgEpilogue&quot;).getText()
 	bUseSecondSvgParam = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bUseSecondSvgParam&quot;).getState())
@@ -346,6 +348,15 @@ Sub ApplyConfig
 	
 	ReadLanguageFile()
 	ReadDialogStringsFromVar (oEditorDialog, sEditorDialogStrings, &quot;&quot;)
+	
+	&apos; Path for temp. LY file sent to external editor: 
+	sTempLyFilePath = &quot;&quot;
+	If bTempLyFileInDocFolder Then
+		sTempLyFilePath = GetDocPath ()	&apos; empty string if unavailable
+	End If 	
+	If sTempLyFilePath = &quot;&quot; Then 
+		sTempLyFilePath = sTmpPath
+	End If
 
 End Sub
 
@@ -465,6 +476,7 @@ Sub DefaultConfig()
 	
 	bKeepTempFiles = False
 	bIncludeTemplate = False
+	bTempLyFileInDocFolder = False
 End Sub
 
 
@@ -517,6 +529,8 @@ Sub ReadConfig()
 				sEditorFontSize = sValue
 			Case &quot;sExtEditorExecutable&quot;
 				sExtEditorExecutable = sValue
+			Case &quot;bTempLyFileInDocFolder&quot;
+				bTempLyFileInDocFolder = StringToBool(sValue)
 			Case &quot;sPdfToSvgPrologue&quot;
 				sPdfToSvgPrologue = sValue
 			Case &quot;sPdfToSvgEpilogue&quot;
@@ -625,6 +639,7 @@ Sub SaveConfig
 	oTextOutputStream.writeString(&quot;sEditorFontName=&quot; &amp; sEditorFontName &amp; Chr(10) )
 	oTextOutputStream.writeString(&quot;sEditorFontSize=&quot; &amp; sEditorFontSize &amp; Chr(10) )
 	oTextOutputStream.writeString(&quot;sExtEditorExecutable=&quot; &amp; sExtEditorExecutable &amp; Chr(10) )
+	oTextOutputStream.writeString(&quot;bTempLyFileInDocFolder=&quot; &amp; BoolToString(bTempLyFileInDocFolder) &amp; Chr(10))	
 	oTextOutputStream.writeString(&quot;sPdfToSvgPrologue=&quot; &amp; sPdfToSvgPrologue &amp; Chr(10) )
 	oTextOutputStream.writeString(&quot;sPdfToSvgEpilogue=&quot; &amp; sPdfToSvgEpilogue &amp; Chr(10) )
 	oTextOutputStream.writeString(&quot;bUseSecondSvgParam=&quot; &amp; BoolToString(bUseSecondSvgParam) &amp; Chr(10))	

@@ -9,22 +9,22 @@
    <dlg:radio dlg:id="WriterNoWrap" dlg:tab-index="13" dlg:left="80" dlg:top="78" dlg:width="75" dlg:height="8" dlg:help-text="The text is not flowing around the OOoLilyPond object." dlg:tabstop="true" dlg:value="No wrap" dlg:checked="true"/>
    <dlg:radio dlg:id="WriterOptimalPageWrap" dlg:tab-index="14" dlg:left="80" dlg:top="88" dlg:width="75" dlg:height="8" dlg:help-text="The text is flowing on the right or left side of the OOoLilyPond object." dlg:tabstop="true" dlg:value="Optimal page wrap"/>
   </dlg:radiogroup>
-  <dlg:button dlg:id="OKButton" dlg:tab-index="0" dlg:left="321" dlg:top="313" dlg:width="91" dlg:height="12" dlg:help-text="Apply and save configuration to file" dlg:value="OK">
+  <dlg:button dlg:id="OKButton" dlg:tab-index="0" dlg:left="321" dlg:top="315" dlg:width="91" dlg:height="12" dlg:help-text="Apply and save configuration to file" dlg:value="OK">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.ConfigOKButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
   <dlg:radiogroup>
    <dlg:radio dlg:id="WriterWrapThrough" dlg:tab-index="15" dlg:left="80" dlg:top="98" dlg:width="75" dlg:height="8" dlg:help-text="The text is flowing through the OOoLilyPond object." dlg:tabstop="true" dlg:value="Wrap through"/>
   </dlg:radiogroup>
-  <dlg:button dlg:id="ResetButton" dlg:tab-index="53" dlg:left="321" dlg:top="296" dlg:width="91" dlg:height="12" dlg:help-text="Reset all values to default" dlg:value="Reset to default">
+  <dlg:button dlg:id="ResetButton" dlg:tab-index="54" dlg:left="321" dlg:top="298" dlg:width="91" dlg:height="12" dlg:help-text="Reset all values to default" dlg:value="Reset to default">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.DefaultConfigButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
-  <dlg:button dlg:id="RestoreTemplates" dlg:tab-index="51" dlg:left="321" dlg:top="260" dlg:width="91" dlg:height="12" dlg:help-text="Restore the original templates delivered with OLy. Your current templates will be backed up in a subfolder." dlg:value="Restore templates">
+  <dlg:button dlg:id="RestoreTemplates" dlg:tab-index="52" dlg:left="321" dlg:top="262" dlg:width="91" dlg:height="12" dlg:help-text="Restore the original templates delivered with OLy. Your current templates will be backed up in a subfolder." dlg:value="Restore templates">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.RestoreTemplatesButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
-  <dlg:text dlg:id="LabelWriterLineWidth" dlg:tab-index="55" dlg:left="9" dlg:top="37" dlg:width="41" dlg:height="10" dlg:value="Line width:" dlg:align="right"/>
-  <dlg:text dlg:id="LabelWriterStaffSize" dlg:tab-index="56" dlg:left="9" dlg:top="52" dlg:width="41" dlg:height="10" dlg:value="Staff size:" dlg:align="right"/>
-  <dlg:text dlg:id="LabelImpressStaffSize" dlg:tab-index="59" dlg:left="9" dlg:top="246" dlg:width="41" dlg:height="10" dlg:value="Staff size:" dlg:align="right"/>
-  <dlg:text dlg:id="LabelImpressLineWidth" dlg:tab-index="58" dlg:left="9" dlg:top="232" dlg:width="41" dlg:height="10" dlg:value="Line width:" dlg:align="right"/>
+  <dlg:text dlg:id="LabelWriterLineWidth" dlg:tab-index="56" dlg:left="9" dlg:top="37" dlg:width="41" dlg:height="10" dlg:value="Line width:" dlg:align="right"/>
+  <dlg:text dlg:id="LabelWriterStaffSize" dlg:tab-index="57" dlg:left="9" dlg:top="52" dlg:width="41" dlg:height="10" dlg:value="Staff size:" dlg:align="right"/>
+  <dlg:text dlg:id="LabelImpressStaffSize" dlg:tab-index="60" dlg:left="9" dlg:top="246" dlg:width="41" dlg:height="10" dlg:value="Staff size:" dlg:align="right"/>
+  <dlg:text dlg:id="LabelImpressLineWidth" dlg:tab-index="59" dlg:left="9" dlg:top="232" dlg:width="41" dlg:height="10" dlg:value="Line width:" dlg:align="right"/>
   <dlg:combobox dlg:id="sWriterDefaultTemplate" dlg:tab-index="2" dlg:left="53" dlg:top="20" dlg:width="105" dlg:height="12" dlg:help-text="Default template to use for OOoLilyPond objects in Writer documents" dlg:spin="true" dlg:linecount="24"/>
   <dlg:textfield dlg:id="sWriterDefaultLineWidth" dlg:tab-index="3" dlg:left="53" dlg:top="35" dlg:width="38" dlg:height="12"/>
   <dlg:textfield dlg:id="sWriterDefaultStaffSize" dlg:tab-index="5" dlg:left="53" dlg:top="50" dlg:width="38" dlg:height="12"/>
@@ -44,10 +44,10 @@
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.ConfigDialogGrayOut?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
   <dlg:textfield dlg:id="sTemplatePath" dlg:tab-index="38" dlg:left="173" dlg:top="124" dlg:width="201" dlg:height="12" dlg:help-text="The path where OOoLiliyPond looks for templates."/>
-  <dlg:textfield dlg:id="sLilyPondExecutable" dlg:tab-index="45" dlg:left="173" dlg:top="203" dlg:width="201" dlg:height="12" dlg:help-text="The LilyPond executable."/>
-  <dlg:numericfield dlg:id="iGraphicDPI" dlg:tab-index="49" dlg:left="228" dlg:top="242" dlg:width="30" dlg:height="12" dlg:help-text="Resolution for pixel based (png-format) OOoLilyPond objects." dlg:decimal-accuracy="0" dlg:value="300" dlg:value-min="75" dlg:value-max="2400" dlg:value-step="0"/>
-  <dlg:combobox dlg:id="sFormat" dlg:tab-index="48" dlg:left="174" dlg:top="242" dlg:width="50" dlg:height="12" dlg:help-text="The png format looks better on the screen. The eps, svg and pdf formats are optimized for printing." dlg:spin="true"/>
-  <dlg:checkbox dlg:id="bIgnoreWarnings" dlg:tab-index="47" dlg:left="173" dlg:top="218" dlg:width="143" dlg:height="10" dlg:help-text="Don&apos;t list warnings and error messages from LilyPond" dlg:value="Ignore messages from LilyPond" dlg:checked="false"/>
+  <dlg:textfield dlg:id="sLilyPondExecutable" dlg:tab-index="46" dlg:left="173" dlg:top="216" dlg:width="201" dlg:height="12" dlg:help-text="The LilyPond executable."/>
+  <dlg:numericfield dlg:id="iGraphicDPI" dlg:tab-index="50" dlg:left="228" dlg:top="258" dlg:width="30" dlg:height="12" dlg:help-text="Resolution for pixel based (png-format) OOoLilyPond objects." dlg:decimal-accuracy="0" dlg:value="300" dlg:value-min="75" dlg:value-max="2400" dlg:value-step="0"/>
+  <dlg:combobox dlg:id="sFormat" dlg:tab-index="49" dlg:left="174" dlg:top="258" dlg:width="50" dlg:height="12" dlg:help-text="The png format looks better on the screen. The eps, svg and pdf formats are optimized for printing." dlg:spin="true"/>
+  <dlg:checkbox dlg:id="bIgnoreWarnings" dlg:tab-index="48" dlg:left="173" dlg:top="231" dlg:width="143" dlg:height="10" dlg:help-text="Don&apos;t list warnings and error messages from LilyPond" dlg:value="Ignore messages from LilyPond" dlg:checked="false"/>
   <dlg:textfield dlg:id="sExtEditorExecutable" dlg:tab-index="40" dlg:left="173" dlg:top="150" dlg:width="201" dlg:height="12" dlg:help-text="The external Editor&apos;s executable with or without path."/>
   <dlg:textfield dlg:id="sIncludeStatement" dlg:tab-index="35" dlg:left="173" dlg:top="72" dlg:width="237" dlg:height="12" dlg:help-text="The path(s) where LilyPond looks for include files (multiple statements possible)"/>
   <dlg:textfield dlg:id="sEditorFontName" dlg:tab-index="33" dlg:left="173" dlg:top="46" dlg:width="102" dlg:height="12" dlg:help-text="Specify the font name for the editor pane"/>
@@ -72,57 +72,58 @@
   <dlg:titledbox dlg:id="WriterInsertImagesFrame" dlg:tab-index="17" dlg:left="8" dlg:top="141" dlg:width="150" dlg:height="33">
    <dlg:title dlg:value="Insert images"/>
   </dlg:titledbox>
-  <dlg:text dlg:id="LabelWriterDefaultTemplate" dlg:tab-index="57" dlg:left="9" dlg:top="22" dlg:width="41" dlg:height="10" dlg:value="Template:" dlg:align="right"/>
-  <dlg:text dlg:id="LabelLanguageFileName" dlg:tab-index="70" dlg:left="174" dlg:top="9" dlg:width="143" dlg:height="10" dlg:value="Language file:"/>
-  <dlg:text dlg:id="LabelEditorFontName" dlg:tab-index="67" dlg:left="174" dlg:top="35" dlg:width="102" dlg:height="9" dlg:value="Editor font name:"/>
-  <dlg:text dlg:id="LabelEditorFontSize" dlg:tab-index="68" dlg:left="282" dlg:top="35" dlg:width="35" dlg:height="9" dlg:value="Size:"/>
-  <dlg:text dlg:id="LabelIncludeStatement" dlg:tab-index="65" dlg:left="173" dlg:top="61" dlg:width="88" dlg:height="9" dlg:value="Include statement(s):"/>
-  <dlg:text dlg:id="ExampleIncludeStatement" dlg:tab-index="66" dlg:left="327" dlg:top="61" dlg:width="81" dlg:height="9" dlg:value="-I&quot;path1&quot; -I&quot;path2&quot; ... " dlg:align="right" dlg:nolabel="true"/>
-  <dlg:text dlg:id="LabelExtEditorExecutable" dlg:tab-index="64" dlg:left="173" dlg:top="139" dlg:width="199" dlg:height="9" dlg:value="External editor executable:"/>
-  <dlg:text dlg:id="LabelTemplatePath" dlg:tab-index="60" dlg:left="173" dlg:top="113" dlg:width="201" dlg:height="9" dlg:value="Template path:"/>
-  <dlg:text dlg:id="LabelLilyPondExecutable" dlg:tab-index="61" dlg:left="173" dlg:top="192" dlg:width="201" dlg:height="9" dlg:value="LilyPond executable:"/>
-  <dlg:text dlg:id="LabelFormat" dlg:tab-index="62" dlg:left="174" dlg:top="232" dlg:width="51" dlg:height="10" dlg:value="Format:"/>
-  <dlg:text dlg:id="LabelDPI" dlg:tab-index="54" dlg:left="260" dlg:top="244" dlg:width="16" dlg:height="9" dlg:help-text="dots per inch" dlg:value="dpi"/>
-  <dlg:text dlg:id="LabelGraphicDPIResolution" dlg:tab-index="63" dlg:left="229" dlg:top="232" dlg:width="89" dlg:height="10" dlg:value="Resolution (png):"/>
-  <dlg:text dlg:id="LabelImpressDefaultTemplate" dlg:tab-index="71" dlg:left="9" dlg:top="217" dlg:width="41" dlg:height="10" dlg:value="Template:" dlg:align="right"/>
+  <dlg:text dlg:id="LabelWriterDefaultTemplate" dlg:tab-index="58" dlg:left="9" dlg:top="22" dlg:width="41" dlg:height="10" dlg:value="Template:" dlg:align="right"/>
+  <dlg:text dlg:id="LabelLanguageFileName" dlg:tab-index="71" dlg:left="174" dlg:top="9" dlg:width="143" dlg:height="10" dlg:value="Language file:"/>
+  <dlg:text dlg:id="LabelEditorFontName" dlg:tab-index="68" dlg:left="174" dlg:top="35" dlg:width="102" dlg:height="9" dlg:value="Editor font name:"/>
+  <dlg:text dlg:id="LabelEditorFontSize" dlg:tab-index="69" dlg:left="282" dlg:top="35" dlg:width="35" dlg:height="9" dlg:value="Size:"/>
+  <dlg:text dlg:id="LabelIncludeStatement" dlg:tab-index="66" dlg:left="173" dlg:top="61" dlg:width="88" dlg:height="9" dlg:value="Include statement(s):"/>
+  <dlg:text dlg:id="ExampleIncludeStatement" dlg:tab-index="67" dlg:left="327" dlg:top="61" dlg:width="81" dlg:height="9" dlg:value="-I&quot;path1&quot; -I&quot;path2&quot; ... " dlg:align="right" dlg:nolabel="true"/>
+  <dlg:text dlg:id="LabelExtEditorExecutable" dlg:tab-index="65" dlg:left="173" dlg:top="139" dlg:width="199" dlg:height="9" dlg:value="External editor executable:"/>
+  <dlg:text dlg:id="LabelTemplatePath" dlg:tab-index="61" dlg:left="173" dlg:top="113" dlg:width="201" dlg:height="9" dlg:value="Template path:"/>
+  <dlg:text dlg:id="LabelLilyPondExecutable" dlg:tab-index="62" dlg:left="173" dlg:top="205" dlg:width="201" dlg:height="9" dlg:value="LilyPond executable:"/>
+  <dlg:text dlg:id="LabelFormat" dlg:tab-index="63" dlg:left="174" dlg:top="247" dlg:width="51" dlg:height="9" dlg:value="Format:"/>
+  <dlg:text dlg:id="LabelDPI" dlg:tab-index="55" dlg:left="260" dlg:top="260" dlg:width="16" dlg:height="9" dlg:help-text="dots per inch" dlg:value="dpi"/>
+  <dlg:text dlg:id="LabelGraphicDPIResolution" dlg:tab-index="64" dlg:left="229" dlg:top="247" dlg:width="67" dlg:height="9" dlg:value="Resolution (png):"/>
+  <dlg:text dlg:id="LabelImpressDefaultTemplate" dlg:tab-index="72" dlg:left="9" dlg:top="217" dlg:width="41" dlg:height="10" dlg:value="Template:" dlg:align="right"/>
   <dlg:titledbox dlg:id="ImpressDefaultsFrame" dlg:tab-index="21" dlg:left="6" dlg:top="203" dlg:width="155" dlg:height="112">
    <dlg:title dlg:value="Default values for Impress and Draw"/>
   </dlg:titledbox>
   <dlg:titledbox dlg:id="ImpressInsertImagesFrame" dlg:tab-index="27" dlg:left="8" dlg:top="263" dlg:width="150" dlg:height="33">
    <dlg:title dlg:value="Insert images"/>
   </dlg:titledbox>
-  <dlg:button dlg:id="RestoreLanguageFiles" dlg:tab-index="52" dlg:left="321" dlg:top="278" dlg:width="91" dlg:height="12" dlg:help-text="Restore the original language files delivered with OLy. Your current templates will be backed up in a subfolder." dlg:value="Restore language files">
+  <dlg:button dlg:id="RestoreLanguageFiles" dlg:tab-index="53" dlg:left="321" dlg:top="280" dlg:width="91" dlg:height="12" dlg:help-text="Restore the original language files delivered with OLy. Your current templates will be backed up in a subfolder." dlg:value="Restore language files">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.RestoreLanguageFilesButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
   <dlg:combobox dlg:id="sLanguageFileName" dlg:tab-index="32" dlg:left="173" dlg:top="20" dlg:width="143" dlg:height="12" dlg:help-text="Specify a file name for the language file that contains OLy&apos;s translation strings" dlg:spin="true" dlg:linecount="24"/>
-  <dlg:text dlg:id="LabelFormatInfo" dlg:tab-index="69" dlg:left="174" dlg:top="264" dlg:width="143" dlg:height="66" dlg:value="eps: only with OpenOffice&#x0a;&#x0a;pdf to svg: external converter required&#x0a;&#x0a;svg &amp; svg [-dcrop]: only with LibreOffice, use &#x0a;  template without &quot;lilypond-book-preamble.ly&quot;" dlg:tabstop="false" dlg:nolabel="true"/>
+  <dlg:text dlg:id="LabelFormatInfo" dlg:tab-index="70" dlg:left="174" dlg:top="274" dlg:width="143" dlg:height="58" dlg:value="eps: only with OpenOffice&#x0a;&#x0a;pdf to svg: external converter required&#x0a;&#x0a;svg &amp; svg [-dcrop]: only with LibreOffice, use &#x0a;  template without &quot;lilypond-book-preamble.ly&quot;" dlg:tabstop="false" dlg:nolabel="true"/>
   <dlg:button dlg:id="ExtEditorPickButton" dlg:tab-index="41" dlg:left="376" dlg:top="150" dlg:width="35" dlg:height="12" dlg:help-text="Select an executable file" dlg:value="Select">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.ExtEditorPickButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
-  <dlg:button dlg:id="LilyPondPickButton" dlg:tab-index="46" dlg:left="376" dlg:top="203" dlg:width="35" dlg:height="12" dlg:help-text="Select an executable file" dlg:value="Select">
+  <dlg:button dlg:id="LilyPondPickButton" dlg:tab-index="47" dlg:left="376" dlg:top="216" dlg:width="35" dlg:height="12" dlg:help-text="Select an executable file" dlg:value="Select">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.LilyPondPickButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
   <dlg:button dlg:id="TemplatePathPickButton" dlg:tab-index="39" dlg:left="376" dlg:top="124" dlg:width="35" dlg:height="12" dlg:help-text="Select a folder" dlg:value="Select">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.TemplatePathPickButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
-  <dlg:text dlg:id="LabelLanguagePath" dlg:tab-index="72" dlg:left="173" dlg:top="87" dlg:width="201" dlg:height="9" dlg:value="Language file path:"/>
+  <dlg:text dlg:id="LabelLanguagePath" dlg:tab-index="73" dlg:left="173" dlg:top="87" dlg:width="201" dlg:height="9" dlg:value="Language file path:"/>
   <dlg:textfield dlg:id="sLanguagePath" dlg:tab-index="36" dlg:left="173" dlg:top="98" dlg:width="201" dlg:height="12" dlg:help-text="The path where OOoLiliyPond looks for language files."/>
   <dlg:button dlg:id="LanguagePathPickButton" dlg:tab-index="37" dlg:left="376" dlg:top="98" dlg:width="35" dlg:height="12" dlg:help-text="Select a folder" dlg:value="Select">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.LanguagePathPickButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
-  <dlg:checkbox dlg:id="bTransparentBackground" dlg:tab-index="50" dlg:left="278" dlg:top="246" dlg:width="132" dlg:height="10" dlg:help-text="Create png graphics without opaque white background (svg never has a white background)" dlg:value="Transparent background for png" dlg:checked="false"/>
-  <dlg:text dlg:id="LabelPdfToSvgConverter" dlg:tab-index="73" dlg:left="173" dlg:top="165" dlg:width="199" dlg:height="9" dlg:help-text="specify a command to convert a PDF file to SVG format" dlg:value="External PDF to SVG conversion command:"/>
-  <dlg:text dlg:id="LabelPdfFilename" dlg:tab-index="74" dlg:left="320" dlg:top="178" dlg:width="20" dlg:height="9" dlg:help-text="OOoLilyPond.pdf (path and filename inside the command)" dlg:value="&quot;*.pdf&quot;"/>
-  <dlg:textfield dlg:id="sPdfToSvgPrologue" dlg:tab-index="42" dlg:left="173" dlg:top="176" dlg:width="145" dlg:height="12" dlg:help-text="first part (prior to the pdf file name)"/>
-  <dlg:textfield dlg:id="sPdfToSvgEpilogue" dlg:tab-index="44" dlg:left="376" dlg:top="176" dlg:width="35" dlg:height="12" dlg:help-text="second part (following the pdf file name)"/>
+  <dlg:checkbox dlg:id="bTransparentBackground" dlg:tab-index="51" dlg:left="302" dlg:top="249" dlg:width="109" dlg:height="10" dlg:help-text="Create png graphics without opaque white background (svg never has a white background)" dlg:value="Transparent background for png" dlg:checked="false"/>
+  <dlg:text dlg:id="LabelPdfToSvgConverter" dlg:tab-index="74" dlg:left="173" dlg:top="178" dlg:width="199" dlg:height="9" dlg:help-text="specify a command to convert a PDF file to SVG format" dlg:value="External PDF to SVG conversion command:"/>
+  <dlg:text dlg:id="LabelPdfFilename" dlg:tab-index="75" dlg:left="320" dlg:top="191" dlg:width="20" dlg:height="9" dlg:help-text="OOoLilyPond.pdf (path and filename inside the command)" dlg:value="&quot;*.pdf&quot;"/>
+  <dlg:textfield dlg:id="sPdfToSvgPrologue" dlg:tab-index="43" dlg:left="173" dlg:top="189" dlg:width="145" dlg:height="12" dlg:help-text="first part (prior to the pdf file name)"/>
+  <dlg:textfield dlg:id="sPdfToSvgEpilogue" dlg:tab-index="45" dlg:left="376" dlg:top="189" dlg:width="35" dlg:height="12" dlg:help-text="second part (following the pdf file name)"/>
   <dlg:checkbox dlg:id="bIncludeTemplate" dlg:tab-index="31" dlg:left="10" dlg:top="320" dlg:width="153" dlg:height="8" dlg:value="Include template in OLy object" dlg:checked="false"/>
   <dlg:checkbox dlg:id="bNewObjectsAsSeparateImages" dlg:tab-index="16" dlg:left="10" dlg:top="128" dlg:width="147" dlg:height="9" dlg:help-text="If the sheet music consists of multiple lines, insert them as separate images (default for new objects)" dlg:value="Insert as separate images (system-by-system)" dlg:checked="false"/>
-  <dlg:checkbox dlg:id="bUseSecondSvgParam" dlg:tab-index="43" dlg:left="346" dlg:top="180" dlg:width="8" dlg:height="8" dlg:checked="false">
+  <dlg:checkbox dlg:id="bUseSecondSvgParam" dlg:tab-index="44" dlg:left="346" dlg:top="193" dlg:width="8" dlg:height="8" dlg:checked="false">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.ConfigDialogGrayOut?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
-  <dlg:text dlg:id="LabelSvgFilename" dlg:tab-index="75" dlg:left="355" dlg:top="178" dlg:width="20" dlg:height="9" dlg:value="&quot;*.svg&quot;"/>
+  <dlg:text dlg:id="LabelSvgFilename" dlg:tab-index="76" dlg:left="355" dlg:top="191" dlg:width="20" dlg:height="9" dlg:value="&quot;*.svg&quot;"/>
   <dlg:radiogroup>
    <dlg:radio dlg:id="WriterAnchorToCharacter" dlg:tab-index="9" dlg:left="10" dlg:top="88" dlg:width="60" dlg:height="8" dlg:help-text="The OOoLilyPond object is inserted like an image and can be placed freely. The object keeps the position relative to the character." dlg:tabstop="true" dlg:value="To character"/>
   </dlg:radiogroup>
+  <dlg:checkbox dlg:id="bTempLyFileInDocFolder" dlg:tab-index="42" dlg:left="173" dlg:top="165" dlg:width="143" dlg:height="10" dlg:help-text="Save the temporary LY file in the folder of the containing document" dlg:value="Temporary file in document folder" dlg:checked="false"/>
  </dlg:bulletinboard>
 </dlg:window>
