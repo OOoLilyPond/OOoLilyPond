@@ -1,10 +1,10 @@
-Wiki:  [Home](https://github.com/openlilylib/LO-ly/wiki#ooolilypond) | [Download](https://github.com/openlilylib/LO-ly/wiki/Downloads#downloads) | [Installation](https://github.com/openlilylib/LO-ly/wiki/Installation#installation) | [Tutorial](https://github.com/openlilylib/LO-ly/wiki/Tutorial#tutorial) | [Advanced features](https://github.com/openlilylib/LO-ly/wiki/Advanced-features#advanced-features) | [Reference](https://github.com/openlilylib/LO-ly/wiki/Editor-(main-window-reference)#editor-main-window-reference) | [Configuration](https://github.com/openlilylib/LO-ly/wiki/Config#configuration-dialogue)
+Wiki:  [Home](https://github.com/ooolilypond/OOoLilyPond/wiki#ooolilypond) | [Download](https://github.com/ooolilypond/OOoLilyPond/wiki/Downloads#downloads) | [Installation](https://github.com/ooolilypond/OOoLilyPond/wiki/Installation#installation) | [Tutorial](https://github.com/ooolilypond/OOoLilyPond/wiki/Tutorial#tutorial) | [Advanced features](https://github.com/ooolilypond/OOoLilyPond/wiki/Advanced-features#advanced-features) | [Reference](https://github.com/ooolilypond/OOoLilyPond/wiki/Editor-(main-window-reference)#editor-main-window-reference) | [Configuration](https://github.com/ooolilypond/OOoLilyPond/wiki/Config#configuration-dialogue)
 
 # OOoLilyPond
 
 OOoLilyPond (OLy) is a LibreOffice/OpenOffice extension to include LilyPond music fragments in text documents.
 
-![editor object](https://raw.githubusercontent.com/KlausBlum/OLy-resources/master/images/editor-object-02.gif)
+![editor object](https://raw.githubusercontent.com/ooolilypond/wiki-resources/master/images/editor-object-02.gif)
 
 ## Installation
 
@@ -19,7 +19,7 @@ and then choosing the downloaded extension file (.oxt).
 
 Your toolbars in Writer, Impress and Draw should now have a new "OLy" button which launches the extension.
 
-**You can find a detailed documentation [here in the wiki](https://github.com/openlilylib/LO-ly/wiki/Installation#installation).**
+**You can find a detailed documentation [here in the wiki](https://github.com/ooolilypond/OOoLilyPond/wiki/Installation#installation).**
 
 ## Usage
 
@@ -47,11 +47,11 @@ Any content (LilyPond code, templates, OLy configuration files) created with/for
 [LibreOffice]: http://libreoffice.org/
 [OpenOffice]: http://www.openoffice.org/
 [LilyPond]: http://lilypond.org
-[download]: https://github.com/openlilylib/LO-ly/wiki/Downloads#downloads
+[download]: https://github.com/ooolilypond/OOoLilyPond/wiki/Downloads#downloads
 [introduction]: http://lilypond.org/introduction.html
 [Introduction into OOoLilyPond]: http://lilypondblog.org/2017/04/ooolilypond-creating-musical-snippets-in-libreoffice-documents/
 [Scores of Beauty]: http://lilypondblog.org/
-[Issue 22]: https://github.com/openlilylib/LO-ly/issues/22#issuecomment-462500338
+[Issue 22]: https://github.com/ooolilypond/OOoLilyPond/issues/22#issuecomment-462500338
 
 ### Contributors
 
@@ -70,7 +70,7 @@ Copyright © 2005 Geoffroy Piroux
 Copyright © 2009 Samuel Hartmann  
 Copyright © 2017 Klaus Blum (current maintainer)
 
-<a id="envelope">![a](https://raw.githubusercontent.com/KlausBlum/OLy-resources/master/images/score-a.png)</a>![b](https://raw.githubusercontent.com/KlausBlum/OLy-resources/master/images/score-b.png)![c](https://raw.githubusercontent.com/KlausBlum/OLy-resources/master/images/score-c.png)![d](https://raw.githubusercontent.com/KlausBlum/OLy-resources/master/images/score-d.png)![e](https://raw.githubusercontent.com/KlausBlum/OLy-resources/master/images/score-e.png)![f](https://raw.githubusercontent.com/KlausBlum/OLy-resources/master/images/score-f.png)
+<a id="envelope">![a](https://raw.githubusercontent.com/ooolilypond/wiki-resources/master/images/score-a.png)</a>![b](https://raw.githubusercontent.com/ooolilypond/wiki-resources/master/images/score-b.png)![c](https://raw.githubusercontent.com/ooolilypond/wiki-resources/master/images/score-c.png)![d](https://raw.githubusercontent.com/ooolilypond/wiki-resources/master/images/score-d.png)![e](https://raw.githubusercontent.com/ooolilypond/wiki-resources/master/images/score-e.png)![f](https://raw.githubusercontent.com/ooolilypond/wiki-resources/master/images/score-f.png)
 
 ## License
 
