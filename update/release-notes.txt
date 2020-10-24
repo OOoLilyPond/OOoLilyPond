@@ -4,9 +4,9 @@ https://github.com/openlilylib/LO-ly/wiki/Downloads
 and open it in LibreOffice / OpenOffice.
 
 direct link for LibreOffice:
-https://github.com/openlilylib/LO-ly/releases/download/1.0.0/OOoLilyPond-1.0.0.oxt
+https://github.com/ooolilypond/OOoLilyPond/releases/download/1.0.0/OOoLilyPond-1.0.0.oxt
 direct link for OpenOffice:
-https://github.com/openlilylib/LO-ly/releases/download/1.0.0/OOoLilyPond-1.0.0_for_Apache_OpenOffice.oxt
+https://github.com/ooolilypond/OOoLilyPond/releases/download/1.0.0/OOoLilyPond-1.0.0_for_Apache_OpenOffice.oxt
 
 
 Changes to OOoLilyPond 1.0.0 since 0.5.12 (April 2020):
