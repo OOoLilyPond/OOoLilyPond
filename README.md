@@ -1,11 +1,11 @@
 ### Enter site:  
-[Home](https://github.com/ooolilypond/OOoLilyPond/wiki#ooolilypond) | [News](https://github.com/ooolilypond/OOoLilyPond/wiki/News#-news-) | [Download](https://github.com/ooolilypond/OOoLilyPond/wiki/Downloads#downloads) | [Installation](https://github.com/ooolilypond/OOoLilyPond/wiki/Installation#installation) | [Tutorial](https://github.com/ooolilypond/OOoLilyPond/wiki/Tutorial#tutorial) | [Advanced features](https://github.com/ooolilypond/OOoLilyPond/wiki/Advanced-features#advanced-features) | [Reference](https://github.com/ooolilypond/OOoLilyPond/wiki/Editor-(main-window-reference)#editor-main-window-reference) | [Configuration](https://github.com/ooolilypond/OOoLilyPond/wiki/Config#configuration-dialogue)
+[Home](https://github.com/OOoLilyPond/OOoLilyPond/wiki#ooolilypond) | [News](https://github.com/OOoLilyPond/OOoLilyPond/wiki/News#-news-) | [Download](https://github.com/OOoLilyPond/OOoLilyPond/wiki/Downloads#downloads) | [Installation](https://github.com/OOoLilyPond/OOoLilyPond/wiki/Installation#installation) | [Tutorial](https://github.com/OOoLilyPond/OOoLilyPond/wiki/Tutorial#tutorial) | [Advanced features](https://github.com/OOoLilyPond/OOoLilyPond/wiki/Advanced-features#advanced-features) | [Reference](https://github.com/OOoLilyPond/OOoLilyPond/wiki/Editor-(main-window-reference)#editor-main-window-reference) | [Configuration](https://github.com/OOoLilyPond/OOoLilyPond/wiki/Config#configuration-dialogue)
 
 # OOoLilyPond
 
 OOoLilyPond (OLy) is a LibreOffice/OpenOffice extension to include LilyPond music fragments in text documents.
 
-![editor object](https://raw.githubusercontent.com/ooolilypond/wiki-resources/master/images/editor-object-02.gif)
+![editor object](https://raw.githubusercontent.com/OOoLilyPond/wiki-resources/master/images/editor-object-02.gif)
 
 ## Installation
 
@@ -20,7 +20,7 @@ and then choosing the downloaded extension file (.oxt).
 
 Your toolbars in Writer, Impress and Draw should now have a new "OLy" button which launches the extension.
 
-**You can find a detailed documentation [here in the wiki](https://github.com/ooolilypond/OOoLilyPond/wiki/Installation#installation).**
+**You can find a detailed documentation [here in the wiki](https://github.com/OOoLilyPond/OOoLilyPond/wiki/Installation#installation).**
 
 ## Usage
 
@@ -40,7 +40,7 @@ If you want to get to know LilyPond, a good place to start is the [introduction]
 
 OOoLilyPond (OLy) works with recent versions of LibreOffice and OpenOffice. Older versions should work as well. It has even been tested with OpenOffice 2.4 without issues. 
 
-(Some partial incompatibilities have occured in LibreOffice 6.1.0 to 6.1.4 - see [Troubleshooting](https://github.com/ooolilypond/OOoLilyPond/wiki/Troubleshooting#execution-aborts-with-error-message-incorrect-property-value)).
+(Some partial incompatibilities have occured in LibreOffice 6.1.0 to 6.1.4 - see [Troubleshooting](https://github.com/OOoLilyPond/OOoLilyPond/wiki/Troubleshooting#execution-aborts-with-error-message-incorrect-property-value)).
 
 Any content (LilyPond code, templates, OLy configuration files) created with/for older OLy versions (OLy 0.3.x, OLy 0.4.x, OLy 0.5.x) will work with OLy 1.0.x, but not necessarily vice versa.
 
@@ -48,7 +48,7 @@ Any content (LilyPond code, templates, OLy configuration files) created with/for
 [LibreOffice]: http://libreoffice.org/
 [OpenOffice]: http://www.openoffice.org/
 [LilyPond]: http://lilypond.org
-[download]: https://github.com/ooolilypond/OOoLilyPond/wiki/Downloads#downloads
+[download]: https://github.com/OOoLilyPond/OOoLilyPond/wiki/Downloads#downloads
 [introduction]: http://lilypond.org/introduction.html
 [Introduction into OOoLilyPond]: http://lilypondblog.org/2017/04/ooolilypond-creating-musical-snippets-in-libreoffice-documents/
 
@@ -69,7 +69,7 @@ Copyright © 2005 Geoffroy Piroux
 Copyright © 2009 Samuel Hartmann  
 Copyright © 2017 Klaus Blum (current maintainer)
 
-<a id="envelope">![a](https://raw.githubusercontent.com/ooolilypond/wiki-resources/master/images/score-a.png)</a>![b](https://raw.githubusercontent.com/ooolilypond/wiki-resources/master/images/score-b.png)![c](https://raw.githubusercontent.com/ooolilypond/wiki-resources/master/images/score-c.png)![d](https://raw.githubusercontent.com/ooolilypond/wiki-resources/master/images/score-d.png)![e](https://raw.githubusercontent.com/ooolilypond/wiki-resources/master/images/score-e.png)![f](https://raw.githubusercontent.com/ooolilypond/wiki-resources/master/images/score-f.png)
+<a id="envelope">![a](https://raw.githubusercontent.com/OOoLilyPond/wiki-resources/master/images/score-a.png)</a>![b](https://raw.githubusercontent.com/OOoLilyPond/wiki-resources/master/images/score-b.png)![c](https://raw.githubusercontent.com/OOoLilyPond/wiki-resources/master/images/score-c.png)![d](https://raw.githubusercontent.com/OOoLilyPond/wiki-resources/master/images/score-d.png)![e](https://raw.githubusercontent.com/OOoLilyPond/wiki-resources/master/images/score-e.png)![f](https://raw.githubusercontent.com/OOoLilyPond/wiki-resources/master/images/score-f.png)
 
 ## License
 
