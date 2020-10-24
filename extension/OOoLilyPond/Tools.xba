@@ -121,10 +121,17 @@ Function AddSlash( sPath as String) as String
 end Function
 
 
-sub BashCommand(sCommand)
+sub BashCommand (sCommand)
 	&apos;Executes the command sCommand in a bash and returnes when finished
 	&apos;The command must not include any single quote (&apos;)
 	Shell(&quot;bash -c &apos;&quot; &amp; sCommand &amp; &quot;&apos;&quot;, 1, &quot;&quot;, True)
+end sub
+
+
+sub BashCommandNoSync (sCommand)
+	&apos;Executes the command sCommand in a bash without waiting for it to be finished
+	&apos;The command must not include any single quote (&apos;)
+	Shell(&quot;bash -c &apos;&quot; &amp; sCommand &amp; &quot;&apos;&quot;, 1, &quot;&quot;, False)
 end sub
 
 

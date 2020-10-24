@@ -403,7 +403,7 @@ Sub CallExtEditor()
 		sCommand=&quot;cd &quot; &amp; Chr(34) &amp; ConvertFromURL (sTempLyFilePath) &amp; Chr(34) &amp; &quot;; &quot; _
 		&amp; Chr(34) &amp; sExtEditorExecutable &amp; Chr(34) &amp; &quot; &quot; &amp; constOLyFileName &amp; &quot;Temp.ly; if [ $? -ge 127 ]; then touch ExtEditor-cannot_execute; fi; if [ $? -ge 126 ]; then touch ExtEditor-cannot_execute; fi&quot; &apos; not found -&gt; 127, denied -&gt;126
 		&apos; On Error GoTo ErrorHandler	&apos; doesn&apos;t work here, so let&apos;s use the cannot_execute-File...			
-		BashCommand(sCommand)
+		BashCommandNoSync (sCommand)
 	ElseIf sOSType = &quot;Windows&quot; Then
 		
 		If Not oFileAccess.exists (sExtEditorExecutable) Then
