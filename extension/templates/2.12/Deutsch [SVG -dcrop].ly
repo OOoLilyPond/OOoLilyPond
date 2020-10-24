@@ -2,7 +2,7 @@
 \transpose %{OOoLilyPondCustom1%}c c'%{OOoLilyPondEnd%}
 {
 %{OOoLilyPondCode%}% Hilfen zum Einstieg (URL in Web-Browser kopieren):
-% https://github.com/openlilylib/LO-ly (Englisch)
+% https://github.com/OOoLilyPond (Englisch)
 % http://lilypond.org/doc/stable/Documentation/learning/simple-notation%
 
 \key e \major e8 fis gis e fis h,4. | e2\fermata \bar "|."

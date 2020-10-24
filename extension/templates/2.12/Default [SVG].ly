@@ -1,7 +1,7 @@
 \transpose %{OOoLilyPondCustom1%}c c'%{OOoLilyPondEnd%}
 {
 %{OOoLilyPondCode%}% For getting started read (copy URL into your web browser):
-% https://github.com/openlilylib/LO-ly
+% https://github.com/OOoLilyPond
 % http://lilypond.org/doc/stable/Documentation/learning/simple-notation%
 
 % Use the "Custom 1" to transpose your music expression. E. g. try "e a'".

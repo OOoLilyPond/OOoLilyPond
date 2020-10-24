@@ -2,7 +2,7 @@
 % For more information plase read the LilyPond documentation:
 % http://lilypond.org/doc/stable/Documentation/notation/index
 
-\include "deutsch.ly"
+\language "deutsch"
 #(set-global-staff-size 20)
 
 \paper {
