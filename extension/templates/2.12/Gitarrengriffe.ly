@@ -7,11 +7,11 @@
 %                            #"x;3-2;2-1;3-3;3-4;x;"
 
 mychords = \chordmode{
-  %{OOoLilyPondCode%}%% Für Dokumentation zu Bund-Diagrammen siehe:
-  % http://lilypond.org/doc/stable/Documentation/notation/fretted-string-instruments
-  
-  c d:m e:aug f:dim \break
-  g:7 a:maj h:m7%{OOoLilyPondEnd%}
+%{OOoLilyPondCode%}%% Für Dokumentation zu Bund-Diagrammen siehe:
+% http://lilypond.org/doc/stable/Documentation/notation/fretted-string-instruments
+
+c d:m e:aug f:dim \break
+g:7 a:maj h:m7%{OOoLilyPondEnd%}
 }
 
 \transpose %{OOoLilyPondCustom1%}c c%{OOoLilyPondEnd%}
