@@ -26,13 +26,15 @@ Your toolbars in Writer, Impress and Draw should now have a new "OLy" button whi
 
 [LilyPond] is a powerful musical typesetting software that compiles given source code into graphical output, just like LaTeX does with mathematical formulas. 
 
-OOoLilyPond enables you to enter LilyPond code from within your Office document.  
+OOoLilyPond (OLy) enables you to enter LilyPond code from within your Office document.  
   Both the resulting image and its source code will be embedded within the document.  
   No need to keep any additional files other than the Writer/Draw/Impress document itself.
 
 To create a new OLy object, just click the "OLy" button and an editor window will open. Enter some LilyPond code and click the "LilyPond" button. After successful compiling, the editor window will close and the resulting image will be visible in your document. 
 
 To edit an existing object, select it first and then click the "OLy" button. In the editor window you will have access to your code again.
+
+Read more about how to use OLy: [Tutorial](https://github.com/OOoLilyPond/OOoLilyPond/wiki/Tutorial#tutorial)
 
 If you want to get to know LilyPond, a good place to start is the [introduction] into LilyPond.
 
