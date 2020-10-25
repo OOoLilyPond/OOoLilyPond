@@ -1,12 +1,12 @@
 It seems that updating via the extension manager does NOT work at the moment. 
 You can download the most recent version at 
-https://github.com/openlilylib/LO-ly/wiki/Downloads
+https://github.com/OOoLilyPond/OOoLilyPond/wiki/Downloads
 and open it in LibreOffice / OpenOffice.
 
 direct link for LibreOffice:
-https://github.com/ooolilypond/OOoLilyPond/releases/download/1.0.1/OOoLilyPond-1.0.1.oxt
+https://github.com/OOoLilyPond/OOoLilyPond/releases/download/1.0.1/OOoLilyPond-1.0.1.oxt
 direct link for OpenOffice:
-https://github.com/ooolilypond/OOoLilyPond/releases/download/1.0.1/OOoLilyPond-1.0.1_for_Apache_OpenOffice.oxt
+https://github.com/OOoLilyPond/OOoLilyPond/releases/download/1.0.1/OOoLilyPond-1.0.1_for_Apache_OpenOffice.oxt
 
 
 Changes to OOoLilyPond 1.0.1 since 1.0.0 (October 2020):
