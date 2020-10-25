@@ -1,40 +1,22 @@
 It seems that updating via the extension manager does NOT work at the moment. 
 You can download the most recent version at 
-https://github.com/openlilylib/LO-ly/wiki/Downloads
+https://github.com/OOoLilyPond/OOoLilyPond/wiki/Downloads
 and open it in LibreOffice / OpenOffice.
 
 direct link for LibreOffice:
-https://github.com/openlilylib/LO-ly/releases/download/1.0.0/OOoLilyPond-1.0.0.oxt
+https://github.com/OOoLilyPond/OOoLilyPond/releases/download/1.0.1/OOoLilyPond-1.0.1.oxt
 direct link for OpenOffice:
-https://github.com/openlilylib/LO-ly/releases/download/1.0.0/OOoLilyPond-1.0.0_for_Apache_OpenOffice.oxt
+https://github.com/OOoLilyPond/OOoLilyPond/releases/download/1.0.1/OOoLilyPond-1.0.1_for_Apache_OpenOffice.oxt
 
 
-Changes to OOoLilyPond 1.0.0 since 0.5.12 (April 2020):
-=======================================================
+Changes to OOoLilyPond 1.0.1 since 1.0.0 (October 2020):
+==========================================================
 
-* New feature: Editor fields can auto-change to checkboxes
-* New feature: "Option" checkboxes
-* New feature: Two more "Custom" fields
-* New feature: Batch processing (Writer only)
-* New feature: Insert as separate images (system-by-system) (Writer only)
-* New feature: Template can be included in OLy object
-* New feature: "SVG [-dcrop]" file format allows automatic cropping for SVG images
-* Improvement: OLy objects now possible in table cells, text frames, headers and footers, footnotes and endnotes
-* Improvement: "Direct" image insertion should now also work in OpenOffice
-* Improvement: Confirmation dialog boxes before overwriting or erasing template files
-* improvement: Label indicates template location other than template folder
-* improvement: complete Spanish translation
-* improvement: add Anchor "To character" option
-* Added template: "School Demo" and "School Piano Demo" (with switchable bar lines, stems, time signature etc.)
-* bugfix: Editing "deutsch.ly" or "italiano.ly" templates in Frescobaldi could possibly crash LilyPond
-* bugfix: Re-opening an OLy object anchored to page (Writer) could crash OLy
-* bugfix for Linux: now XDG-compliant location for "templates" and "language" folders
-* Various small bugfixes
+* New feature: Option to save temporary LY file into LO document folder
+* Improvement (Linux only): When calling an external editor from within OLy, it is no more necessary to close the external editor prior to continue working in LibreOffice/OpenOffice.
+* Minor bugfix: wrong helptext for "Import" button (English and Spanish version only)
+* Updated templates: "School Demo" and "School Piano Demo" now allow font changes again
+* Location for extension updates now points to new location at github.com/OOoLilyPond
 
-Complete presentation of the new features:
-https://github.com/openlilylib/LO-ly/wiki/Whats-new
-
-This release includes some changes to the templates and language files. So, after updating to 1.0.0, please open the config dialog and click the "Restore templates" and "Restore language files" buttons. 
+This release includes some changes to templates and language files. So, after updating to 1.0.1, please open the config dialog and click the "Restore templates" and "Restore language files" buttons. 
 (Your current templates and language files will be backed up in a subfolder. If you like, you can delete that subfolder.)
-
-Also it is recommended to choose the "Insert images: Direct" method. It will be more reliable, even with OpenOffice.

@@ -1,8 +1,8 @@
 \transpose %{OOoLilyPondCustom1%}c c'%{OOoLilyPondEnd%}
 {
 %{OOoLilyPondCode%}% For getting started read (copy URL into your web browser):
-% https://github.com/openlilylib/LO-ly
-% http://lilypond.org/doc/stable/Documentation/learning/simple-notation%
+% https://github.com/OOoLilyPond
+% http://lilypond.org/doc/stable/Documentation/learning/simple-notation
 
 % Use the "Custom 1" to transpose your music expression. E. g. try "e a'".
 % Use the "Custom 2" field for image height of your musical snippet.

@@ -2,8 +2,8 @@
 \transpose %{OOoLilyPondCustom1%}do do'%{OOoLilyPondEnd%}
 {
 %{OOoLilyPondCode%}% For getting started read (copy URL into your web browser):
-% https://github.com/openlilylib/LO-ly
-% http://lilypond.org/doc/stable/Documentation/learning/simple-notation%
+% https://github.com/OOoLilyPond
+% http://lilypond.org/doc/stable/Documentation/learning/simple-notation
 
 \key mi \major mi8 fad sold mi fad si,4. | mi2\fermata \bar "|."%{OOoLilyPondEnd%}
 }

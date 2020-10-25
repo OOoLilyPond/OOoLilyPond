@@ -1,9 +1,23 @@
-****************************************
-OOoLilyPond Version History (April 2020)
-****************************************
+*******************************************
+OOoLilyPond Version History (October 2020):
+*******************************************
 
 Complete documentation: 
-https://github.com/openlilylib/LO-ly/wiki#ooolilypond
+https://github.com/OOoLilyPond/OOoLilyPond/wiki#ooolilypond
+
+
+Changes to OOoLilyPond 1.0.1 since 1.0.0 (October 2020):
+==========================================================
+
+* New feature: Option to save temporary LY file into LO document folder
+* Improvement (Linux only): When calling an external editor from within OLy, it is no more necessary to close the external editor prior to continue working in LibreOffice/OpenOffice.
+* Minor bugfix: wrong helptext for "Import" button (English and Spanish version only)
+* Updated templates: "School Demo" and "School Piano Demo" now allow font changes again
+* Location for extension updates now points to new location at github.com/OOoLilyPond
+
+This release includes some changes to templates and language files. So, after updating to 1.0.1, please open the config dialog and click the "Restore templates" and "Restore language files" buttons. 
+(Your current templates and language files will be backed up in a subfolder. If you like, you can delete that subfolder.)
+
 
 
 Changes to OOoLilyPond 1.0.0 since 0.5.12 (April 2020):

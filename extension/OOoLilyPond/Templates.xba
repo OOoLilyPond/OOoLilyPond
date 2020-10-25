@@ -305,22 +305,10 @@ Function ReadTemplateFile (bShowError As Boolean) As Boolean
 	&apos; Extracts the content between the OOoLilyPond Start end End tags
 	&apos; for being used as template specific default values.
 
-	Dim sURL
-	Dim sParts
-	Dim sPath 
 	Dim sDirEntry As String
 	Dim sTemplateFile As String &apos; path to template file
 	
-	sURL=oDoc.getURL()  &apos; see GetRelativeIncludeStatement ()
-	sPath = &quot;&quot;
-	If  Not IsNull(sURL) And Len(sURL) &gt; 0 Then
-		sParts=Split(sURL,&quot;/&quot;)
-		Dim iUBound As Integer
-		iUBound = UBound(sParts) -1
-		ReDim Preserve sParts (0 to iUBound)
-		sPath = Join(sParts,&quot;/&quot;)	
-		sTemplateFile = sPath &amp; &quot;/&quot; &amp; sTemplate &amp; &quot;.ly&quot;  &apos; First look in the documents&apos;s folder
-	End If
+	sTemplateFile = GetDocPath() &amp; &quot;/&quot; &amp; sTemplate &amp; &quot;.ly&quot;  &apos; First look in the documents&apos;s folder
 	
 	If Not oFileAccess.exists (sTemplateFile) Then
 		sTemplateFile = sTemplatePath &amp; sTemplate &amp; &quot;.ly&quot;  &apos; Second, look in the Template folder
@@ -596,9 +584,9 @@ Function ReadTempLyFile() As Boolean
 	Dim bCodeFieldExists As Boolean
 
 	
-	sTempLyFile = sTmpPath &amp; constOLyFileName &amp; &quot;Temp.ly&quot;
+	sTempLyFile = sTempLyFilePath &amp; constOLyFileName &amp; &quot;Temp.ly&quot;
 
-	If Not StringFromFile(sCodeToParse, sTempLyFile) Then
+	If Not StringFromFile (sCodeToParse, sTempLyFile) Then
 		&apos; MsgBox(&quot;Cannot open the temporary file:&quot; &amp; Chr(10) &amp; ConvertFromURL(sTempLyFile), iMsgBox_E, &quot;Error&quot;)
 		MsgBox (oMessages.getPropertyValue (&quot;sMsgCannotOpenTempfile1&quot;) &amp; ConvertFromURL(sTempLyFile) &amp; oMessages.getPropertyValue (&quot;sMsgCannotOpenTempfile2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 		ReadTempLyFile=False
@@ -607,24 +595,24 @@ Function ReadTempLyFile() As Boolean
 
 	bCodeFieldExists = False
 
-	iTagPos = TagPos(sCodeToParse, sStartTagHead, sStartTagHeadScm)
+	iTagPos = TagPos (sCodeToParse, sStartTagHead, sStartTagHeadScm)
 
 	While iTagPos &gt; 0
-		sCodeToParse = Mid(sCodeToParse, iTagPos + Len(sStartTagHead))
-		iTagPos = TagPos(sCodeToParse, sStartTagTail, sStartTagTailScm)
-		sFieldName = Left(sCodeToParse, iTagPos-1)
+		sCodeToParse = Mid (sCodeToParse, iTagPos + Len(sStartTagHead))
+		iTagPos = TagPos (sCodeToParse, sStartTagTail, sStartTagTailScm)
+		sFieldName = Left (sCodeToParse, iTagPos-1)
 		If sFieldName = &quot;End&quot; Then
 			&apos; Message: End tag without preceeding start tag. 
 			MsgBox (oMessages.getPropertyValue (&quot;sMsgLonelyEndTag1&quot;) &amp; sEndTag &amp; oMessages.getPropertyValue (&quot;sMsgLonelyEndTag2&quot;) &amp; ConvertFromURL(sTempLyFile) &amp; oMessages.getPropertyValue (&quot;sMsgLonelyEndTag3&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionTempfileError&quot;))
 			ReadTempLyFile = False
 			Exit Function
 		End If
-		sCodeToParse = Mid(sCodeToParse, iTagPos + Len(sStartTagTail))
+		sCodeToParse = Mid (sCodeToParse, iTagPos + Len(sStartTagTail))
 
 		&apos; Read the template code until end tag
 		&apos; (this can be used as default value the corresponding)
 		
-		iTagPos = TagPos(sCodeToParse, sEndTag, sEndTagScm)
+		iTagPos = TagPos (sCodeToParse, sEndTag, sEndTagScm)
 		If iTagPos = 0 Then
 			&apos; Message: &quot;Error in temp. file: missing end tag (sEndTag) for tag (sFieldName)&quot;
 			MsgBox (oMessages.getPropertyValue (&quot;sMsgMissingEndTag1&quot;) &amp; sEndTag &amp; oMessages.getPropertyValue (&quot;sMsgMissingEndTag2&quot;) &amp; sFieldName &amp; oMessages.getPropertyValue (&quot;sMsgMissingEndTag3&quot;) &amp; ConvertFromURL(sTempLyFile) &amp; oMessages.getPropertyValue (&quot;sMsgMissingEndTag4&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionTempfileError&quot;))
@@ -632,10 +620,10 @@ Function ReadTempLyFile() As Boolean
 			Exit Function
 		End If
 
-		sDefaultValue=Left(sCodeToParse, iTagPos-1)
-		sCodeToParse = Mid(sCodeToParse, iTagPos + Len(sEndTag))
+		sDefaultValue=Left (sCodeToParse, iTagPos-1)
+		sCodeToParse = Mid (sCodeToParse, iTagPos + Len(sEndTag))
 		
-		If CBool(TagPos(sDefaultValue, sStartTagHead, sStartTagHeadScm)) Then
+		If CBool (TagPos (sDefaultValue, sStartTagHead, sStartTagHeadScm)) Then
 			&apos; Message: &quot;Error in temp. file: missing or misspelled end tag (sEndTag) for tag (sFieldName)&quot;
 			MsgBox (oMessages.getPropertyValue (&quot;sMsgMisspelledEndTag1&quot;) &amp; sEndTag &amp; oMessages.getPropertyValue (&quot;sMsgMisspelledEndTag2&quot;) &amp; sFieldName &amp; oMessages.getPropertyValue (&quot;sMsgMisspelledEndTag3&quot;) &amp; ConvertFromURL(sTempLyFile) &amp; oMessages.getPropertyValue (&quot;sMsgMisspelledEndTag4&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionTempfileError&quot;))
 			ReadTempLyFile = False
@@ -679,7 +667,7 @@ Function ReadTempLyFile() As Boolean
 		End Select
 
 		&apos; Look for next start tag
-		iTagPos = TagPos(sCodeToParse, sStartTagHead, sStartTagHeadScm)
+		iTagPos = TagPos (sCodeToParse, sStartTagHead, sStartTagHeadScm)
 		
 	Wend
 		

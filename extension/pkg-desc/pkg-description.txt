@@ -3,7 +3,7 @@ in OpenOffice.org or LibreOffice Writer, Draw and Impress documents.
 The music expression is entered as a text code and then
 translated to an image (png, eps or svg) using LilyPond.
 
-https://github.com/openlilylib/LO-ly
+https://github.com/OOoLilyPond
 http://lilypond.org
 
 Copyright (c) 2006-2009 Samuel Hartmann

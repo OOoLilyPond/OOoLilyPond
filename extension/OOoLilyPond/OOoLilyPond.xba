@@ -106,6 +106,16 @@ Sub OOoLilyPondInit()
 	
 	bSaveAsSeparateImages = bNewObjectsAsSeparateImages
 	bTemplateSaved = False
+	
+	&apos; Path for temp. LY file sent to external editor: 
+	sTempLyFilePath = &quot;&quot;
+	If bTempLyFileInDocFolder Then
+		sTempLyFilePath = GetDocPath ()	&apos; empty string if unavailable
+	End If 	
+	If sTempLyFilePath = &quot;&quot; Then 
+		sTempLyFilePath = sTmpPath
+	End If
+	bTempLyFileCreated = False
 
 	&apos; By default use default values ;-)
 	&apos; Will be overwritten if values are read from existing object
@@ -435,7 +445,7 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 
 	CleanUp()
 
-	If Not WriteLyFile() Then 
+	If Not WriteLyFile (sTmpPath &amp; constOLyFileName &amp; &quot;.ly&quot;) Then 
 		Exit Sub
 	End If
 

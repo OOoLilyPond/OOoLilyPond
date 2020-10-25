@@ -91,7 +91,7 @@
   <dlg:button dlg:id="ExtEditorButton" dlg:tab-index="4" dlg:left="74" dlg:top="186" dlg:width="121" dlg:height="14" dlg:help-text="Open the current code as temoprary .LY file in external editor" dlg:value="Open as temp. file in ext. editor">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.ExtEditorButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
-  <dlg:button dlg:id="ImportButton" dlg:tab-index="5" dlg:left="198" dlg:top="186" dlg:width="135" dlg:height="14" dlg:help-text="Open the current code as temoprary .LY file in external editor" dlg:value="Import from temp. file">
+  <dlg:button dlg:id="ImportButton" dlg:tab-index="5" dlg:left="198" dlg:top="186" dlg:width="135" dlg:height="14" dlg:help-text="Replace the current code with the content of the temporary .LY file" dlg:value="Import from temp. file">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Editor.ImportButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
   <dlg:text dlg:id="TemplateLabel" dlg:tab-index="47" dlg:left="150" dlg:top="206" dlg:width="46" dlg:height="10" dlg:value="Template:" dlg:align="right"/>

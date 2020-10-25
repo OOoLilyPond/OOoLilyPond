@@ -6,7 +6,7 @@
 
 	<identifier value="net.sourceforge.ooolilypond"/>
 
-	<version value="1.0.0"/>
+	<version value="1.0.1"/>
 
 	<dependencies>
 		<OpenOffice.org-minimal-version value="2.3" dep:name="OpenOffice.org 2.3"/>
@@ -17,19 +17,12 @@
 	</display-name>
 
 	<publisher>
-		<name xlink:href="https://github.com/openlilylib/LO-ly" 
+		<name xlink:href="https://github.com/OOoLilyPond" 
 		lang="en">Samuel Hartmann, Klaus Blum et al.</name>
 	</publisher>
 
 	<update-information>
-		<src xlink:href="https://raw.githubusercontent.com/openlilylib/LO-ly/master/update/ooolilypond-update.xml"/>
-		<src xlink:href="https://raw.githubusercontent.com/openlilylib/LiLily/master/update/ooolilypond-update.xml"/>
-		<src xlink:href="https://raw.githubusercontent.com/openlilylib/OLy/master/update/ooolilypond-update.xml"/>
-		<src xlink:href="https://raw.githubusercontent.com/openlilylib/LiLy/master/update/ooolilypond-update.xml"/>
-		<src xlink:href="https://raw.githubusercontent.com/openlilylib/LoLy/master/update/ooolilypond-update.xml"/>
-		<src xlink:href="https://raw.githubusercontent.com/openlilylib/LoLyPond/master/update/ooolilypond-update.xml"/>
-		<src xlink:href="https://raw.githubusercontent.com/openlilylib/OOoLilyPond/master/update/ooolilypond-update.xml"/>
-		<src xlink:href="https://raw.githubusercontent.com/openlilylib/LibOLilyPond/master/update/ooolilypond-update.xml"/>
+		<src xlink:href="https://raw.githubusercontent.com/OOoLilyPond/OOoLilyPond/master/update/ooolilypond-update.xml"/>
 	</update-information>
 
 </description>
