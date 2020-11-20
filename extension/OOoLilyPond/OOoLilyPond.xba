@@ -283,7 +283,7 @@ Function ReadGraphicObject (oGraphicObject As Object) As Boolean
 
 	bShapeIsSelected = False  &apos;global variable, used in InsertOOoLilyPondObjectViaClipboard ()
 	Select Case oGraphicObject.getImplementationName()
-	Case &quot;com.sun.star.drawing.SvxShapeCollection&quot; 	&apos; inserted into Writer via Clipboard OR inserted into Draw/Impress
+	Case &quot;com.sun.star.drawing.SvxShapeCollection&quot; 	&apos; inserted into Writer via Clipboard OR inserted into Draw/Impress OR into Calc
 		oShape = oGraphicObject.getByIndex(0)
 		If bInWriter Then &apos; OLy &lt; 0.4 in Writer
 			&apos; oCursor = oDoc.Text.createTextCursorByRange(oSelection(0).getAnchor())
