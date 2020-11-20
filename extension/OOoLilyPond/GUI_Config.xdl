@@ -86,7 +86,7 @@
   <dlg:text dlg:id="LabelGraphicDPIResolution" dlg:tab-index="64" dlg:left="229" dlg:top="247" dlg:width="67" dlg:height="9" dlg:value="Resolution (png):"/>
   <dlg:text dlg:id="LabelImpressDefaultTemplate" dlg:tab-index="72" dlg:left="9" dlg:top="217" dlg:width="41" dlg:height="10" dlg:value="Template:" dlg:align="right"/>
   <dlg:titledbox dlg:id="ImpressDefaultsFrame" dlg:tab-index="21" dlg:left="6" dlg:top="203" dlg:width="155" dlg:height="112">
-   <dlg:title dlg:value="Default values for Impress and Draw"/>
+   <dlg:title dlg:value="Default values for Impress, Draw and Calc"/>
   </dlg:titledbox>
   <dlg:titledbox dlg:id="ImpressInsertImagesFrame" dlg:tab-index="27" dlg:left="8" dlg:top="263" dlg:width="150" dlg:height="33">
    <dlg:title dlg:value="Insert images"/>
