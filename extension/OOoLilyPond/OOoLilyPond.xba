@@ -316,6 +316,9 @@ Function ReadGraphicObject (oGraphicObject As Object) As Boolean
 	Case &quot;SwXTextRanges&quot; &apos; Nothing or normal text selection in Writer
 		&apos; oCursor = oDoc.Text.createTextCursorByRange(oGraphicObject(0))
 			
+	Case &quot;ScCellObj&quot; &apos; Nothing or normal text selection in Writer
+		&apos; oCursor = oDoc.Text.createTextCursorByRange(oGraphicObject(0))
+			
 	Case Else
 		&apos; Msgbox (&quot;The selected object is not an OLy object ...&quot;, 0, &quot;Error&quot;)
 		Msgbox (oMessages.getPropertyValue (&quot;sMsgNoOlyObject&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
@@ -607,7 +610,7 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 			End If
 		End If
 	Else				&apos; We are in Impress or Draw...
-		If bImpressInsertViaClipboard Then
+		If bImpressInsertViaClipboard or bInCalc Then
 			InsertOOoLilyPondObjectViaClipboard (&quot;&quot;, &quot;&quot;, sFileNameAddition, true)
 		Else
 			InsertOOoLilyPondObject (&quot;&quot;, &quot;&quot;, sFileNameAddition, true)
