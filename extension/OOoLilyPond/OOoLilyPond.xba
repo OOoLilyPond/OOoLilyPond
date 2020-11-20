@@ -292,10 +292,14 @@ Function ReadGraphicObject (oGraphicObject As Object) As Boolean
 				Exit Function
 			End If
 			iAnchorPageNo = oShape.AnchorPageNo
-		Else &apos; OLy object in Draw / Impress
+		Else &apos; OLy object in Draw / Impress / Calc
 			If Not ReadAttributes (oShape) Then  &apos;Read the OLy fields from the Object Attributes
 				ReadGraphicObject = False
 				Exit Function
+			End If
+			If bInCalc Then
+				oAnchorCellInCalc = oShape.getAnchor()
+				&apos; the cell where the object is located, regardless whether it&apos;s anchored to that cell or to the page
 			End If
 		End If
 		oShapePosition = oShape.position()  &apos;global variable, used in InsertOOoLilyPondObjectViaClipboard ()
@@ -316,8 +320,9 @@ Function ReadGraphicObject (oGraphicObject As Object) As Boolean
 	Case &quot;SwXTextRanges&quot; &apos; Nothing or normal text selection in Writer
 		&apos; oCursor = oDoc.Text.createTextCursorByRange(oGraphicObject(0))
 			
-	Case &quot;ScCellObj&quot; &apos; Nothing or normal text selection in Writer
-		&apos; oCursor = oDoc.Text.createTextCursorByRange(oGraphicObject(0))
+	Case &quot;ScCellObj&quot; &apos; a cell (but no object) selected in Calc
+		oAnchorCellInCalc = oGraphicObject
+		&apos; the currently selected cell
 			
 	Case Else
 		&apos; Msgbox (&quot;The selected object is not an OLy object ...&quot;, 0, &quot;Error&quot;)
