@@ -48,8 +48,11 @@ Sub OOoLilyPondInit()
 	bWrongDocumentType = False
 	If oDoc.getImplementationName() =  &quot;SwXTextDocument&quot; Then
 		bInWriter = True
-	Elseif oDoc.getImplementationName() = &quot;SdXImpressDocument&quot; Then
+	Elseif oDoc.getImplementationName() = &quot;SdXImpressDocument&quot; or oDoc.getImplementationName() = &quot;ScModelObj&quot; Then
 		bInWriter = False
+		if oDoc.getImplementationName() = &quot;ScModelObj&quot; Then
+			bInCalc = True
+		End If
 	Else
 	    bWrongDocumentType = True
 		&apos; before displaying the error message, first care about config and translation stuff...

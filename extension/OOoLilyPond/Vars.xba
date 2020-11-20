@@ -69,6 +69,7 @@ Private bBatchKeepCropDefault	 As Boolean  &apos; remembered state for &quot;Kee
 &apos; Environment
 Private sOSType As String
 Private bInWriter As Boolean
+Private bInCalc   As Boolean
 Private sLilyPondVersionMajor As String
 Private sLilyPondVersionMinor As String
 
