@@ -811,7 +811,7 @@ Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As Strin
 			&apos; End If
 		&apos; end if
 
-	else &apos;We are in Impress
+	else &apos;We are in Impress / Draw / Calc
 		
 		if  bShapeIsSelected then
 			&apos; Remove the old image...
@@ -825,6 +825,7 @@ Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As Strin
 	  	oGraphic = oDocCtrl.getSelection().getByIndex(0)
 
 		if bShapeIsSelected then oGraphic.position = oShapePosition
+		if bInCalc then oGraphic.Anchor = oAnchorCellInCalc
 
 	end if
 	
