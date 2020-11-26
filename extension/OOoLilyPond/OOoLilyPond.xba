@@ -615,7 +615,7 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 			End If
 		End If
 	Else				&apos; We are in Impress or Draw...
-		If bImpressInsertViaClipboard or bInCalc Then
+		If bImpressInsertViaClipboard Then
 			InsertOOoLilyPondObjectViaClipboard (&quot;&quot;, &quot;&quot;, sFileNameAddition, true)
 		Else
 			InsertOOoLilyPondObject (&quot;&quot;, &quot;&quot;, sFileNameAddition, true)
@@ -901,12 +901,16 @@ Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, sAddition
 		
 	Else &apos;We are in Impress or Draw
 
-		If  IsNull(oCurrentGraphicObject) Then
+		If  IsNull (oCurrentGraphicObject) Then
 			&apos; Nothing is selected
 			oGraphic = ImportBitmapIntoDraw (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension))
 		Else
-			&apos; OlyObject is selected
-			oGraphic = ImportBitmapIntoDraw (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), oCurrentGraphicObject.getByIndex(0))
+			If oCurrentGraphicObject.getImplementationName = &quot;ScCellObj&quot; Then &apos; Cell in Calc selected, but no graphic object
+				oGraphic = ImportBitmapIntoDraw (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension))
+			Else
+				&apos; OlyObject is selected
+				oGraphic = ImportBitmapIntoDraw (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), oCurrentGraphicObject.getByIndex(0))
+			End If
 		End If
 	End If
 	
