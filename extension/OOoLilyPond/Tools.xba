@@ -297,10 +297,11 @@ Function ImportBitmapIntoDraw (sURL As String, Optional oGraphicShape) As Object
 		Else  &apos; we are in Calc
 			oPages = oDocCtrl.getModel().getDrawPages
 			oDrawPage = oPages.getByIndex (iCalcSheetNumber)
-			oGraphicShape = oDoc.createInstance (&quot;com.sun.star.drawing.GraphicObjectShape&quot;)
-			oGraphicShape.graphicURL = sNewURL
-			oDrawPage.add (oGraphicShape)
+			
 		End If
+		oGraphicShape = oDoc.createInstance (&quot;com.sun.star.drawing.GraphicObjectShape&quot;)
+		oGraphicShape.graphicURL = sNewURL
+		oDrawPage.add (oGraphicShape)
 	Else
 		oGraphicShape.graphicURL=sNewURL
 	End If
