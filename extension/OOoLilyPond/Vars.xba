@@ -144,6 +144,7 @@ Private iAnchor As Integer
 Private iOriginalAnchor As Integer
 Private iAnchorPageNo As Integer
 Private iWrap As Integer
+Private iCalcSheetNumber As Integer
 
 &apos; Use Default Flags
 Private bUseDefaultCode As Boolean

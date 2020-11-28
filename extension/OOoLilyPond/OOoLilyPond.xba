@@ -280,7 +280,9 @@ End Sub
 Function ReadGraphicObject (oGraphicObject As Object) As Boolean
 
 	Dim oShape As Object
-
+	Dim oRangeAddress As Object
+		
+	
 	bShapeIsSelected = False  &apos;global variable, used in InsertOOoLilyPondObjectViaClipboard ()
 	Select Case oGraphicObject.getImplementationName()
 	Case &quot;com.sun.star.drawing.SvxShapeCollection&quot; 	&apos; inserted into Writer via Clipboard OR inserted into Draw/Impress OR into Calc
@@ -322,7 +324,26 @@ Function ReadGraphicObject (oGraphicObject As Object) As Boolean
 			
 	Case &quot;ScCellObj&quot; &apos; a cell (but no object) selected in Calc
 		oAnchorCellInCalc = oGraphicObject
+		oRangeAddress = oGraphicObject.getRangeAddress()
+		iCalcSheetNumber = oRangeAddress.Sheet
 		&apos; the currently selected cell
+		
+	Case &quot;ScCellRangeObj&quot; &apos; a cell range, i.e. multiple cells (but no object) selected in Calc
+		&apos; oGraphicObject is equal to  oDocCtrl.getSelection() passed as parameter to ReadGraphicObject()
+		Dim oSheets As Object
+		Dim oSheet As Object
+		Dim iTableColumnNumber As Long
+		Dim iTableRowNumber As Long
+		
+		oRangeAddress = oGraphicObject.getRangeAddress()
+		iCalcSheetNumber = oRangeAddress.Sheet
+		&apos; https://ask.libreoffice.org/en/question/63307/getcellbyposition/
+		oSheets = oDoc.getSheets()
+		oSheet = oSheets.getByIndex (iCalcSheetNumber)
+		iTableRowNumber = oRangeAddress.StartRow
+		iTableColumnNumber = oRangeAddress.StartColumn
+		oAnchorCellInCalc = oSheet.getCellByPosition (iTableColumnNumber, iTableRowNumber)
+		&apos; the leftmost &amp; topmost cell from the currently selected cell range
 			
 	Case Else
 		&apos; Msgbox (&quot;The selected object is not an OLy object ...&quot;, 0, &quot;Error&quot;)
@@ -839,6 +860,7 @@ Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, sAddition
 	Dim oAttributes As Object
 	Dim oGraphic As Object
 	Dim oLilyPondAttribute As Object
+	Dim sImplementationName As String
 	&apos; Dim oCursor As Object		&apos; not in use
 
 	On Error GoTo ErrorHandler
@@ -899,19 +921,21 @@ Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, sAddition
 			oGraphic.HoriOrientRelation = com.sun.star.text.RelOrientation.PRINT_AREA
 		End If
 		
-	Else &apos;We are in Impress or Draw
+	Else &apos;We are in Draw or Impress or Calc
 
 		If  IsNull (oCurrentGraphicObject) Then
 			&apos; Nothing is selected
 			oGraphic = ImportBitmapIntoDraw (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension))
 		Else
-			If oCurrentGraphicObject.getImplementationName = &quot;ScCellObj&quot; Then &apos; Cell in Calc selected, but no graphic object
+			sImplementationName = oCurrentGraphicObject.getImplementationName()
+			If (sImplementationName = &quot;ScCellObj&quot;) or (sImplementationName = &quot;ScCellRangeObj&quot;) Then &apos; Cell or cell range in Calc selected, but no graphic object
 				oGraphic = ImportBitmapIntoDraw (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension))
 			Else
 				&apos; OlyObject is selected
 				oGraphic = ImportBitmapIntoDraw (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), oCurrentGraphicObject.getByIndex(0))
 			End If
 		End If
+		if bInCalc then oGraphic.Anchor = oAnchorCellInCalc
 	End If
 	
 	
