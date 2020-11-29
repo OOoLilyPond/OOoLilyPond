@@ -292,7 +292,7 @@ Function ImportBitmapIntoDraw (sURL As String, Optional oGraphicShape) As Object
 
 	&apos;Insert the Bitmap
 	If IsMissing (oGraphicShape) Then
-		If (iDocumentType = 3) Then  &apos;  we are in Calc
+		If (iDocumentType = 1) Then  &apos;  we are in Calc
 			oPages = oDocCtrl.getModel().getDrawPages
 			oDrawPage = oPages.getByIndex (iCalcSheetNumber)
 		Else  &apos; we are in Impress or Draw

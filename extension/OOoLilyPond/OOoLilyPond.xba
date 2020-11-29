@@ -313,7 +313,7 @@ Function ReadGraphicObject (oGraphicObject As Object) As Boolean
 				ReadGraphicObject = False
 				Exit Function
 			End If
-			If (iDocumentType = 3) Then  &apos; we are in Calc
+			If (iDocumentType = 1) Then  &apos; we are in Calc
 				oAnchorCellInCalc = oShape.getAnchor()
 				&apos; the cell where the object is located, regardless whether it&apos;s anchored to that cell or to the page
 			End If
@@ -860,7 +860,7 @@ Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As Strin
 	  	oGraphic = oDocCtrl.getSelection().getByIndex(0)
 
 		if bShapeIsSelected then oGraphic.position = oShapePosition
-		if (iDocumentType = 3) then oGraphic.Anchor = oAnchorCellInCalc  &apos; in Calc
+		if (iDocumentType = 1) then oGraphic.Anchor = oAnchorCellInCalc  &apos; in Calc
 
 	end if
 	
@@ -949,7 +949,7 @@ Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, sAddition
 				oGraphic = ImportBitmapIntoDraw (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), oCurrentGraphicObject.getByIndex(0))
 			End If
 		End If
-		if (iDocumentType = 3) then oGraphic.Anchor = oAnchorCellInCalc  &apos; in Calc
+		if (iDocumentType = 1) then oGraphic.Anchor = oAnchorCellInCalc  &apos; in Calc
 	End If
 	
 	
