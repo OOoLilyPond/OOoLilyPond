@@ -70,6 +70,7 @@ Private bBatchKeepCropDefault	 As Boolean  &apos; remembered state for &quot;Kee
 Private sOSType As String
 Private bInWriter As Boolean
 Private bInCalc   As Boolean
+Private iDocumentType As Integer
 Private sLilyPondVersionMajor As String
 Private sLilyPondVersionMinor As String
 

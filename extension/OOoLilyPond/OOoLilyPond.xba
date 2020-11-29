@@ -43,9 +43,24 @@ Sub OOoLilyPondInit()
 	&apos; Get the current document and controller
  	oDoc = ThisComponent
 	oDocCtrl = oDoc.getCurrentController()
-
-	&apos; Test if we are in OOoWriter or OOoImpress
+	
 	bWrongDocumentType = False
+
+	&apos; Test if we are in OOoWriter or OOoImpress or...
+	
+	Select Case oDoc.Identifier
+	Case &quot;com.sun.star.text.TextDocument&quot;
+		iDocumentType = 0
+	Case &quot;com.sun.star.sheet.SpreadsheetDocument&quot;
+		iDocumentType = 1
+	Case &quot;com.sun.star.presentation.PresentationDocument&quot;
+		iDocumentType = 2
+	Case &quot;com.sun.star.drawing.DrawingDocument&quot;
+		iDocumentType = 3
+	Case Else
+		bWrongDocumentType = True
+	End Select
+	
 	If oDoc.getImplementationName() =  &quot;SwXTextDocument&quot; Then
 		bInWriter = True
 	Elseif oDoc.getImplementationName() = &quot;SdXImpressDocument&quot; or oDoc.getImplementationName() = &quot;ScModelObj&quot; Then
