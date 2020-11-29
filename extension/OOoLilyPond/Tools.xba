@@ -292,12 +292,11 @@ Function ImportBitmapIntoDraw (sURL As String, Optional oGraphicShape) As Object
 
 	&apos;Insert the Bitmap
 	If IsMissing (oGraphicShape) Then
-		If not bInCalc Then &apos;  we are in Draw or Impress
-			oDrawPage=oDocCtrl.getCurrentPage()
-		Else  &apos; we are in Calc
+		If (iDocumentType = 3) Then  &apos;  we are in Calc
 			oPages = oDocCtrl.getModel().getDrawPages
 			oDrawPage = oPages.getByIndex (iCalcSheetNumber)
-			
+		Else  &apos; we are in Impress or Draw
+			oDrawPage=oDocCtrl.getCurrentPage()
 		End If
 		oGraphicShape = oDoc.createInstance (&quot;com.sun.star.drawing.GraphicObjectShape&quot;)
 		oGraphicShape.graphicURL = sNewURL

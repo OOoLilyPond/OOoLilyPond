@@ -293,10 +293,10 @@ Sub PerformReplacement (sID As String)
 			sCode = sDefaultCode
 			bUseDefaultCode = True
 		Case &quot;Staff Size&quot;
-			sStaffSize = sDefaultStaffSize
+			sStaffSize = sDefaultStaffSize (iDocumentType)
 			bUseDefaultStaffSize = True
 		Case &quot;Line Width&quot;
-			sLineWidth = sDefaultLineWidth
+			sLineWidth = sDefaultLineWidth (iDocumentType)
 			bUseDefaultLineWidth = True
 		Case &quot;Custom 1&quot;
 			sCustom1 = sDefaultCustom1

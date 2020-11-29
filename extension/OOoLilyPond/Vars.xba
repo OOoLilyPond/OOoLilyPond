@@ -43,20 +43,20 @@ Private bUseStaffSizeFromTemplate (4) As Boolean
 Private bUseLineWidthFromTemplate (4) As Boolean
 
 
-Private bWriterInsertViaClipboard As Boolean
-Private bImpressInsertViaClipboard As Boolean
-Private bWriterKeepCrop As Boolean
-Private bImpressKeepCrop As Boolean
-Private sWriterDefaultTemplate As String
-Private sImpressDefaultTemplate As String
-Private sWriterDefaultStaffSize As String
-Private sWriterDefaultLineWidth As String
-Private bWriterUseStaffSizeFromTemplate As Boolean
-Private bWriterUseLineWidthFromTemplate As Boolean
-Private sImpressDefaultStaffSize As String
-Private sImpressDefaultLineWidth As String
-Private bImpressUseStaffSizeFromTemplate As Boolean
-Private bImpressUseLineWidthFromTemplate As Boolean
+&apos; Private bWriterInsertViaClipboard As Boolean
+&apos; Private bImpressInsertViaClipboard As Boolean
+&apos; Private bWriterKeepCrop As Boolean
+&apos; Private bImpressKeepCrop As Boolean
+&apos; Private sWriterDefaultTemplate As String
+&apos; Private sImpressDefaultTemplate As String
+&apos; Private sWriterDefaultStaffSize As String
+&apos; Private sWriterDefaultLineWidth As String
+&apos; Private bWriterUseStaffSizeFromTemplate As Boolean
+&apos; Private bWriterUseLineWidthFromTemplate As Boolean
+&apos; Private sImpressDefaultStaffSize As String
+&apos; Private sImpressDefaultLineWidth As String
+&apos; Private bImpressUseStaffSizeFromTemplate As Boolean
+&apos; Private bImpressUseLineWidthFromTemplate As Boolean
 
 
 Private iWriterDefaultAnchor As Integer
@@ -90,8 +90,8 @@ Private bBatchKeepCropDefault	 As Boolean  &apos; remembered state for &quot;Kee
 
 &apos; Environment
 Private sOSType As String
-Private bInWriter As Boolean
-Private bInCalc   As Boolean
+&apos; Private bInWriter As Boolean
+&apos; Private bInCalc   As Boolean
 Private iDocumentType As Integer
 Private sLilyPondVersionMajor As String
 Private sLilyPondVersionMinor As String
@@ -130,8 +130,8 @@ Private sOption4False As String
 
 &apos; OOoLilyPond object default data
 Private sDefaultCode As String
-Private sDefaultLineWidth As String
-Private sDefaultStaffSize As String
+&apos; Private sDefaultLineWidth As String    &apos; replaced by array with the same name, see above
+&apos; Private sDefaultStaffSize As String    &apos; replaced by array with the same name, see above
 Private sDefaultCustom1 As String
 Private sDefaultCustom2 As String
 Private sDefaultCustom3 As String
@@ -177,8 +177,8 @@ Private bUseDefaultCustom1 As Boolean
 Private bUseDefaultCustom2 As Boolean
 Private bUseDefaultCustom3 As Boolean
 Private bUseDefaultCustom4 As Boolean
-Private bUseLineWidthFromTemplate As String
-Private bUseStaffSizeFromTemplate As String
+&apos; Private bUseLineWidthFromTemplate As String    &apos; replaced by array with the same name, see above
+&apos; Private bUseStaffSizeFromTemplate As String    &apos; replaced by array with the same name, see above
 
 &apos; Code related strings
 Private sTemplateCode As String &apos; String containing the template 

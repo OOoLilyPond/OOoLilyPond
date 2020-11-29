@@ -522,29 +522,50 @@ Sub DefaultConfig()
 
 
 	&apos; Writer specific settings
-	sWriterDefaultTemplate = &quot;Default&quot;
+	sDefaultTemplate (0) = &quot;Default&quot;
+	sDefaultStaffSize (0) = &quot;20&quot;
+	bUseStaffSizeFromTemplate (0) = False
+	sDefaultLineWidth (0) = &quot;17.5\cm&quot;
+	bUseLineWidthFromTemplate (0) = False
+	bInsertViaClipboard (0) = False
+	bKeepCrop (0) = False
+
 	iWriterDefaultAnchor = com.sun.star.text.TextContentAnchorType.AS_CHARACTER
 	iWriterDefaultWrap = com.sun.star.text.WrapTextMode.NONE
-	sWriterDefaultStaffSize = &quot;20&quot;
-	bWriterUseStaffSizeFromTemplate = False
-	sWriterDefaultLineWidth = &quot;17.5\cm&quot;
-	bWriterUseLineWidthFromTemplate = False
-	bWriterInsertViaClipboard = False
-	bWriterKeepCrop = False
+	
 	bNewObjectsAsSeparateImages = False
+	
 	bAskForEachObjectDefault = true			&apos; checkbox in Batch dialog
 	bCreateBackupDefault = false			&apos; checkbox in Batch dialog
-	bBatchKeepCropDefault = bWriterKeepCrop &apos; checkbox in Batch dialog
+	bBatchKeepCropDefault = bKeepCrop (0)   &apos; checkbox in Batch dialog
 
 
+	&apos; Calc specific settings
+	sDefaultTemplate (1) = &quot;Default&quot;
+	sDefaultStaffSize (1) = &quot;20&quot;
+	bUseStaffSizeFromTemplate (1) = False
+	sDefaultLineWidth (1) = &quot;17.5\cm&quot;
+	bUseLineWidthFromTemplate (1) = False
+	bInsertViaClipboard (1) = False
+	bKeepCrop (1) = False
+	
 	&apos; Impress specific settings
-	sImpressDefaultTemplate = &quot;Default&quot;
-	sImpressDefaultStaffSize = &quot;32&quot;
-	bImpressUseStaffSizeFromTemplate = False
-	sImpressDefaultLineWidth = &quot;19.5\cm&quot;
-	bImpressuseLineWidthFromTemplate = False
-	bImpressInsertViaClipboard = False
-	bImpressKeepCrop = False
+	sDefaultTemplate (2) = &quot;Default&quot;
+	sDefaultStaffSize (2) = &quot;32&quot;
+	bUseStaffSizeFromTemplate (2) = False
+	sDefaultLineWidth (2) = &quot;19.5\cm&quot;
+	bUseLineWidthFromTemplate (2) = False
+	bInsertViaClipboard (2) = False
+	bKeepCrop (2) = False
+	
+	&apos; Draw specific settings
+	sDefaultTemplate (3) = &quot;Default&quot;
+	sDefaultStaffSize (3) = &quot;32&quot;
+	bUseStaffSizeFromTemplate (3) = False
+	sDefaultLineWidth (3) = &quot;19.5\cm&quot;
+	bUseLineWidthFromTemplate (3) = False
+	bInsertViaClipboard (3) = False
+	bKeepCrop (3) = False
 
 
 	&apos; General Settings
@@ -641,25 +662,28 @@ Sub ReadConfig()
 				
 			&apos; Writer specific settings
 			Case &quot;sWriterDefaultTemplate&quot;
-				sWriterDefaultTemplate = sValue
+				sDefaultTemplate (0) = sValue
 			Case &quot;sWriterDefaultLineWidth&quot;
-				sWriterDefaultLineWidth = sValue
+				sDefaultLineWidth (0) = sValue
 			Case &quot;sWriterDefaultStaffSize&quot;
-				sWriterDefaultStaffSize = sValue
+				sDefaultStaffSize (0) = sValue
 			Case &quot;bWriterUseLineWidthFromTemplate&quot;
-				bWriterUseLineWidthFromTemplate = StringToBool(sValue)
+				bUseLineWidthFromTemplate (0) = StringToBool(sValue)
 			Case &quot;bWriterUseStaffSizeFromTemplate&quot;
-				bWriterUseStaffSizeFromTemplate = StringToBool(sValue)
+				bUseStaffSizeFromTemplate (0) = StringToBool(sValue)
+			Case &quot;bWriterInsertViaClipboard&quot;
+				bInsertViaClipboard (0) = StringToBool(sValue)
+			Case &quot;bWriterKeepCrop&quot;
+				bKeepCrop (0) = StringToBool(sValue)
+				
 			Case &quot;iWriterDefaultAnchor&quot;
 				iWriterDefaultAnchor = CInt(sValue)
 			Case &quot;iWriterDefaultWrap&quot;
 				iWriterDefaultWrap = CInt(sValue)
-			Case &quot;bWriterInsertViaClipboard&quot;
-				bWriterInsertViaClipboard = StringToBool(sValue)
-			Case &quot;bWriterKeepCrop&quot;
-				bWriterKeepCrop = StringToBool(sValue)
+				
 			Case &quot;bNewObjectsAsSeparateImages&quot;
 				bNewObjectsAsSeparateImages = StringToBool(sValue)
+				
 			Case &quot;bAskForEachObjectDefault&quot;
 				bAskForEachObjectDefault = StringToBool(sValue)
 			Case &quot;bCreateBackupDefault&quot;
@@ -668,21 +692,53 @@ Sub ReadConfig()
 				bBatchKeepCropDefault = StringToBool(sValue)
 		
 			
+			&apos; Calc specific settings
+			Case &quot;sCalcDefaultTemplate&quot;
+				sDefaultTemplate (1) = sValue
+			Case &quot;sCalcDefaultLineWidth&quot;
+				sDefaultLineWidth (1) = sValue
+			Case &quot;sCalcDefaultStaffSize&quot;
+				sDefaultStaffSize (1) = sValue
+			Case &quot;bCalcUseLineWidthFromTemplate&quot;
+				bUseLineWidthFromTemplate (1) = StringToBool(sValue)
+			Case &quot;bCalcUseStaffSizeFromTemplate&quot;
+				bUseStaffSizeFromTemplate (1) = StringToBool(sValue)
+			Case &quot;bCalcInsertViaClipboard&quot;
+				bInsertViaClipboard (1) = StringToBool(sValue)
+			Case &quot;bCalcKeepCrop&quot;
+				bKeepCrop (1) = StringToBool(sValue)
+				
 			&apos; Impress specific settings
 			Case &quot;sImpressDefaultTemplate&quot;
-				sImpressDefaultTemplate = sValue
+				sDefaultTemplate (2) = sValue
 			Case &quot;sImpressDefaultLineWidth&quot;
-				sImpressDefaultLineWidth = sValue
+				sDefaultLineWidth (2) = sValue
 			Case &quot;sImpressDefaultStaffSize&quot;
-				sImpressDefaultStaffSize = sValue
+				sDefaultStaffSize (2) = sValue
 			Case &quot;bImpressUseLineWidthFromTemplate&quot;
-				bImpressUseLineWidthFromTemplate = StringToBool(sValue)
+				bUseLineWidthFromTemplate (2) = StringToBool(sValue)
 			Case &quot;bImpressUseStaffSizeFromTemplate&quot;
-				bImpressUseStaffSizeFromTemplate = StringToBool(sValue)
+				bUseStaffSizeFromTemplate (2) = StringToBool(sValue)
 			Case &quot;bImpressInsertViaClipboard&quot;
-				bImpressInsertViaClipboard = StringToBool(sValue)
+				bInsertViaClipboard (2) = StringToBool(sValue)
 			Case &quot;bImpressKeepCrop&quot;
-				bImpressKeepCrop = StringToBool(sValue)
+				bKeepCrop (2) = StringToBool(sValue)
+			
+			&apos; Draw specific settings
+			Case &quot;sDrawDefaultTemplate&quot;
+				sDefaultTemplate (3) = sValue
+			Case &quot;sDrawDefaultLineWidth&quot;
+				sDefaultLineWidth (3) = sValue
+			Case &quot;sDrawDefaultStaffSize&quot;
+				sDefaultStaffSize (3) = sValue
+			Case &quot;bDrawUseLineWidthFromTemplate&quot;
+				bUseLineWidthFromTemplate (3) = StringToBool(sValue)
+			Case &quot;bDrawUseStaffSizeFromTemplate&quot;
+				bUseStaffSizeFromTemplate (3) = StringToBool(sValue)
+			Case &quot;bDrawInsertViaClipboard&quot;
+				bInsertViaClipboard (3) = StringToBool(sValue)
+			Case &quot;bDrawKeepCrop&quot;
+				bKeepCrop (3) = StringToBool(sValue)
 
 			Case &quot;bIncludeTemplate&quot;
 				bIncludeTemplate = StringToBool(sValue)
@@ -732,28 +788,49 @@ Sub SaveConfig
 	oTextOutputStream.writeString(&quot;sIncludeStatement=&quot; &amp; sIncludeStatement &amp; Chr(10) )
 	
 	&apos; Writer specific
-	oTextOutputStream.writeString(&quot;sWriterDefaultTemplate=&quot; &amp; sWriterDefaultTemplate &amp; Chr(10))
-	oTextOutputStream.writeString(&quot;sWriterDefaultLineWidth=&quot; &amp; sWriterDefaultLineWidth &amp; Chr(10))
-	oTextOutputStream.writeString(&quot;sWriterDefaultStaffSize=&quot; &amp; sWriterDefaultStaffSize &amp; Chr(10))
-	oTextOutputStream.writeString(&quot;bWriterUseLineWidthFromTemplate=&quot; &amp; BoolToString(bWriterUseLineWidthFromTemplate) &amp; Chr(10))
-	oTextOutputStream.writeString(&quot;bWriterUseStaffSizeFromTemplate=&quot; &amp; BoolToString(bWriterUseStaffSizeFromTemplate) &amp; Chr(10))
+	oTextOutputStream.writeString(&quot;sWriterDefaultTemplate=&quot; &amp; sDefaultTemplate (0) &amp; Chr(10))
+	oTextOutputStream.writeString(&quot;sWriterDefaultLineWidth=&quot; &amp; sDefaultLineWidth (0) &amp; Chr(10))
+	oTextOutputStream.writeString(&quot;sWriterDefaultStaffSize=&quot; &amp; sDefaultStaffSize (0) &amp; Chr(10))
+	oTextOutputStream.writeString(&quot;bWriterUseLineWidthFromTemplate=&quot; &amp; BoolToString (bUseLineWidthFromTemplate (0)) &amp; Chr(10))
+	oTextOutputStream.writeString(&quot;bWriterUseStaffSizeFromTemplate=&quot; &amp; BoolToString (bUseStaffSizeFromTemplate (0)) &amp; Chr(10))
+	oTextOutputStream.writeString(&quot;bWriterInsertViaClipboard=&quot; &amp; BoolToString (bInsertViaClipboard (0)) &amp; Chr(10))
+	oTextOutputStream.writeString(&quot;bWriterKeepCrop=&quot; &amp; BoolToString (bKeepCrop (0)) &amp; Chr(10))
+	
 	oTextOutputStream.writeString(&quot;iWriterDefaultAnchor=&quot; &amp; CStr(iWriterDefaultAnchor) &amp; Chr(10))
 	oTextOutputStream.writeString(&quot;iWriterDefaultWrap=&quot; &amp; CStr(iWriterDefaultWrap) &amp; Chr(10))
-	oTextOutputStream.writeString(&quot;bWriterInsertViaClipboard=&quot; &amp; BoolToString(bWriterInsertViaClipboard) &amp; Chr(10))
-	oTextOutputStream.writeString(&quot;bWriterKeepCrop=&quot; &amp; BoolToString(bWriterKeepCrop) &amp; Chr(10))
+	
 	oTextOutputStream.writeString(&quot;bNewObjectsAsSeparateImages=&quot; &amp; BoolToString(bNewObjectsAsSeparateImages) &amp; Chr(10))
+	
 	oTextOutputStream.writeString(&quot;bAskForEachObjectDefault=&quot; &amp; BoolToString(bAskForEachObjectDefault) &amp; Chr(10))
 	oTextOutputStream.writeString(&quot;bCreateBackupDefault=&quot; &amp; BoolToString(bCreateBackupDefault) &amp; Chr(10))
 	oTextOutputStream.writeString(&quot;bBatchKeepCropDefault=&quot; &amp; BoolToString(bBatchKeepCropDefault) &amp; Chr(10))
 	
+	&apos; Calc specific
+	oTextOutputStream.writeString(&quot;sCalcDefaultTemplate=&quot; &amp; sDefaultTemplate (1) &amp; Chr(10))
+	oTextOutputStream.writeString(&quot;sCalcDefaultLineWidth=&quot; &amp; sDefaultLineWidth (1) &amp; Chr(10))
+	oTextOutputStream.writeString(&quot;sCalcDefaultStaffSize=&quot; &amp; sDefaultStaffSize (1) &amp; Chr(10))
+	oTextOutputStream.writeString(&quot;bCalcUseLineWidthFromTemplate=&quot; &amp; BoolToString (bUseLineWidthFromTemplate (1)) &amp; Chr(10))
+	oTextOutputStream.writeString(&quot;bCalcUseStaffSizeFromTemplate=&quot; &amp; BoolToString (bUseStaffSizeFromTemplate (1)) &amp; Chr(10))
+	oTextOutputStream.writeString(&quot;bCalcInsertViaClipboard=&quot; &amp; BoolToString (bInsertViaClipboard (1)) &amp; Chr(10))
+	oTextOutputStream.writeString(&quot;bCalcKeepCrop=&quot; &amp; BoolToString (bKeepCrop (1)) &amp; Chr(10))
+	
 	&apos; Impress specific
-	oTextOutputStream.writeString(&quot;sImpressDefaultTemplate=&quot; &amp; sImpressDefaultTemplate &amp; Chr(10))
-	oTextOutputStream.writeString(&quot;sImpressDefaultLineWidth=&quot; &amp; sImpressDefaultLineWidth &amp; Chr(10))
-	oTextOutputStream.writeString(&quot;sImpressDefaultStaffSize=&quot; &amp; sImpressDefaultStaffSize &amp; Chr(10))
-	oTextOutputStream.writeString(&quot;bImpressUseLineWidthFromTemplate=&quot; &amp; BoolToString(bImpressUseLineWidthFromTemplate) &amp; Chr(10))
-	oTextOutputStream.writeString(&quot;bImpressUseStaffSizeFromTemplate=&quot; &amp; BoolToString(bImpressUseStaffSizeFromTemplate) &amp; Chr(10))
-	oTextOutputStream.writeString(&quot;bImpressInsertViaClipboard=&quot; &amp; BoolToString(bImpressInsertViaClipboard) &amp; Chr(10))
-	oTextOutputStream.writeString(&quot;bImpressKeepCrop=&quot; &amp; BoolToString(bImpressKeepCrop) &amp; Chr(10))
+	oTextOutputStream.writeString(&quot;sImpressDefaultTemplate=&quot; &amp; sDefaultTemplate (2) &amp; Chr(10))
+	oTextOutputStream.writeString(&quot;sImpressDefaultLineWidth=&quot; &amp; sDefaultLineWidth (2) &amp; Chr(10))
+	oTextOutputStream.writeString(&quot;sImpressDefaultStaffSize=&quot; &amp; sDefaultStaffSize (2) &amp; Chr(10))
+	oTextOutputStream.writeString(&quot;bImpressUseLineWidthFromTemplate=&quot; &amp; BoolToString (bUseLineWidthFromTemplate (2)) &amp; Chr(10))
+	oTextOutputStream.writeString(&quot;bImpressUseStaffSizeFromTemplate=&quot; &amp; BoolToString (bUseStaffSizeFromTemplate (2)) &amp; Chr(10))
+	oTextOutputStream.writeString(&quot;bImpressInsertViaClipboard=&quot; &amp; BoolToString (bInsertViaClipboard (2)) &amp; Chr(10))
+	oTextOutputStream.writeString(&quot;bImpressKeepCrop=&quot; &amp; BoolToString (bKeepCrop (2)) &amp; Chr(10))
+	
+	&apos; Draw specific
+	oTextOutputStream.writeString(&quot;sDrawDefaultTemplate=&quot; &amp; sDefaultTemplate (3) &amp; Chr(10))
+	oTextOutputStream.writeString(&quot;sDrawDefaultLineWidth=&quot; &amp; sDefaultLineWidth (3) &amp; Chr(10))
+	oTextOutputStream.writeString(&quot;sDrawDefaultStaffSize=&quot; &amp; sDefaultStaffSize (3) &amp; Chr(10))
+	oTextOutputStream.writeString(&quot;bDrawUseLineWidthFromTemplate=&quot; &amp; BoolToString (bUseLineWidthFromTemplate (3)) &amp; Chr(10))
+	oTextOutputStream.writeString(&quot;bDrawUseStaffSizeFromTemplate=&quot; &amp; BoolToString (bUseStaffSizeFromTemplate (3)) &amp; Chr(10))
+	oTextOutputStream.writeString(&quot;bDrawInsertViaClipboard=&quot; &amp; BoolToString (bInsertViaClipboard (3)) &amp; Chr(10))
+	oTextOutputStream.writeString(&quot;bDrawKeepCrop=&quot; &amp; BoolToString (bKeepCrop (3)) &amp; Chr(10))
 
 	oTextOutputStream.writeString(&quot;bIncludeTemplate=&quot; &amp; BoolToString(bIncludeTemplate) &amp; Chr(10))
 	
@@ -763,22 +840,22 @@ Sub SaveConfig
 End Sub
 
 
-Sub SetDocTypeSpecificDefaults()
+Sub SetDocTypeSpecificDefaults()   &apos; hopefully obsolete now
 	&apos; Set default values that depend whether we are in a Writer or Impress Document
-	If bInWriter Then
-		sDefaultLineWidth=sWriterDefaultLineWidth
-		sDefaultStaffSize=sWriterDefaultStaffSize
-		bUseLineWidthFromTemplate=bWriterUseLineWidthFromTemplate
-		bUseStaffSizeFromTemplate=bWriterUseStaffSizeFromTemplate
-		bKeepCrop=bWriterKeepCrop
-		
-	Else &apos; We are in Impress or Draw
-		sDefaultLineWidth=sImpressDefaultLineWidth
-		sDefaultStaffSize=sImpressDefaultStaffSize
-		bUseLineWidthFromTemplate=bImpressUseLineWidthFromTemplate
-		bUseStaffSizeFromTemplate=bImpressUseStaffSizeFromTemplate
-		bKeepCrop=bImpressKeepCrop
-	End If
+&apos;	If bInWriter Then
+&apos;		sDefaultLineWidth=sWriterDefaultLineWidth
+&apos;		sDefaultStaffSize=sWriterDefaultStaffSize
+&apos;		bUseLineWidthFromTemplate=bWriterUseLineWidthFromTemplate
+&apos;		bUseStaffSizeFromTemplate=bWriterUseStaffSizeFromTemplate
+&apos;		bKeepCrop=bWriterKeepCrop
+&apos;		
+&apos;	Else &apos; We are in Impress or Draw
+&apos;		sDefaultLineWidth=sImpressDefaultLineWidth
+&apos;		sDefaultStaffSize=sImpressDefaultStaffSize
+&apos;		bUseLineWidthFromTemplate=bImpressUseLineWidthFromTemplate
+&apos;		bUseStaffSizeFromTemplate=bImpressUseStaffSizeFromTemplate
+&apos;		bKeepCrop=bImpressKeepCrop
+&apos;	End If
 End Sub
 
 
