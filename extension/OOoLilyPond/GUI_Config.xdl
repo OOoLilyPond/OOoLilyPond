@@ -21,10 +21,10 @@
   <dlg:button dlg:id="RestoreTemplates" dlg:tab-index="52" dlg:left="321" dlg:top="262" dlg:width="91" dlg:height="12" dlg:help-text="Restore the original templates delivered with OLy. Your current templates will be backed up in a subfolder." dlg:value="Restore templates">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.RestoreTemplatesButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
-  <dlg:text dlg:id="LabelWriterLineWidth" dlg:tab-index="56" dlg:left="9" dlg:top="68" dlg:width="41" dlg:height="10" dlg:page="1" dlg:value="Line width:" dlg:align="right"/>
+  <dlg:text dlg:id="LabelWriterLineWidth" dlg:tab-index="56" dlg:left="9" dlg:top="67" dlg:width="41" dlg:height="10" dlg:page="1" dlg:value="Line width:" dlg:align="right"/>
   <dlg:text dlg:id="LabelWriterStaffSize" dlg:tab-index="57" dlg:left="9" dlg:top="82" dlg:width="41" dlg:height="10" dlg:page="1" dlg:value="Staff size:" dlg:align="right"/>
-  <dlg:text dlg:id="LabelImpressStaffSize" dlg:tab-index="60" dlg:left="0" dlg:top="81" dlg:width="41" dlg:height="10" dlg:page="3" dlg:value="Staff size:" dlg:align="right"/>
-  <dlg:text dlg:id="LabelImpressLineWidth" dlg:tab-index="59" dlg:left="0" dlg:top="67" dlg:width="41" dlg:height="10" dlg:page="3" dlg:value="Line width:" dlg:align="right"/>
+  <dlg:text dlg:id="LabelImpressStaffSize" dlg:tab-index="60" dlg:left="9" dlg:top="67" dlg:width="41" dlg:height="10" dlg:page="3" dlg:value="Staff size:" dlg:align="right"/>
+  <dlg:text dlg:id="LabelImpressLineWidth" dlg:tab-index="59" dlg:left="9" dlg:top="82" dlg:width="41" dlg:height="10" dlg:page="3" dlg:value="Line width:" dlg:align="right"/>
   <dlg:combobox dlg:id="sWriterDefaultTemplate" dlg:tab-index="2" dlg:left="53" dlg:top="50" dlg:width="105" dlg:height="12" dlg:page="1" dlg:help-text="Default template to use for OOoLilyPond objects in Writer documents" dlg:spin="true" dlg:linecount="24"/>
   <dlg:textfield dlg:id="sWriterDefaultLineWidth" dlg:tab-index="3" dlg:left="53" dlg:top="65" dlg:width="38" dlg:height="12" dlg:page="1"/>
   <dlg:textfield dlg:id="sWriterDefaultStaffSize" dlg:tab-index="5" dlg:left="53" dlg:top="80" dlg:width="38" dlg:height="12" dlg:page="1"/>
@@ -34,13 +34,13 @@
   <dlg:checkbox dlg:id="bWriterUseStaffSizeFromTemplate" dlg:tab-index="6" dlg:left="96" dlg:top="83" dlg:width="60" dlg:height="10" dlg:page="1" dlg:value="From template" dlg:checked="false">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.ConfigDialogGrayOut?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
-  <dlg:combobox dlg:id="sImpressDefaultTemplate" dlg:tab-index="22" dlg:left="0" dlg:top="50" dlg:width="105" dlg:height="12" dlg:page="3" dlg:help-text="Default template to use for OOoLilyPond objects in Impress and Draw documents" dlg:spin="true" dlg:linecount="24"/>
-  <dlg:textfield dlg:id="sImpressDefaultLineWidth" dlg:tab-index="23" dlg:left="0" dlg:top="65" dlg:width="38" dlg:height="12" dlg:page="3"/>
-  <dlg:textfield dlg:id="sImpressDefaultStaffSize" dlg:tab-index="25" dlg:left="0" dlg:top="80" dlg:width="38" dlg:height="12" dlg:page="3"/>
-  <dlg:checkbox dlg:id="bImpressUseLineWidthFromTemplate" dlg:tab-index="24" dlg:left="0" dlg:top="69" dlg:width="60" dlg:height="10" dlg:page="3" dlg:value="From template" dlg:checked="false">
+  <dlg:combobox dlg:id="sImpressDefaultTemplate" dlg:tab-index="22" dlg:left="53" dlg:top="50" dlg:width="105" dlg:height="12" dlg:page="3" dlg:help-text="Default template to use for OOoLilyPond objects in Impress and Draw documents" dlg:spin="true" dlg:linecount="24"/>
+  <dlg:textfield dlg:id="sImpressDefaultLineWidth" dlg:tab-index="23" dlg:left="53" dlg:top="80" dlg:width="38" dlg:height="12" dlg:page="3"/>
+  <dlg:textfield dlg:id="sImpressDefaultStaffSize" dlg:tab-index="25" dlg:left="53" dlg:top="65" dlg:width="38" dlg:height="12" dlg:page="3"/>
+  <dlg:checkbox dlg:id="bImpressUseLineWidthFromTemplate" dlg:tab-index="24" dlg:left="96" dlg:top="69" dlg:width="60" dlg:height="10" dlg:page="3" dlg:value="From template" dlg:checked="false">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.ConfigDialogGrayOut?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
-  <dlg:checkbox dlg:id="bImpressUseStaffSizeFromTemplate" dlg:tab-index="26" dlg:left="0" dlg:top="83" dlg:width="60" dlg:height="10" dlg:page="3" dlg:value="From template" dlg:checked="false">
+  <dlg:checkbox dlg:id="bImpressUseStaffSizeFromTemplate" dlg:tab-index="26" dlg:left="96" dlg:top="83" dlg:width="60" dlg:height="10" dlg:page="3" dlg:value="From template" dlg:checked="false">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.ConfigDialogGrayOut?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
   <dlg:textfield dlg:id="sTemplatePath" dlg:tab-index="38" dlg:left="173" dlg:top="124" dlg:width="201" dlg:height="12" dlg:help-text="The path where OOoLiliyPond looks for templates."/>
@@ -55,11 +55,11 @@
   <dlg:radiogroup>
    <dlg:radio dlg:id="WriterInsertViaClipboard" dlg:tab-index="18" dlg:left="10" dlg:top="182" dlg:width="145" dlg:height="8" dlg:page="1" dlg:help-text="Insert Images via Clipboard." dlg:value="Via clipboard" dlg:checked="true"/>
    <dlg:radio dlg:id="WriterInsertDirect" dlg:tab-index="19" dlg:left="10" dlg:top="192" dlg:width="145" dlg:height="8" dlg:page="1" dlg:help-text="Insert Images without Clipboard use (recommended)." dlg:value="Direct"/>
-   <dlg:radio dlg:id="ImpressInsertViaClipboard" dlg:tab-index="28" dlg:left="0" dlg:top="182" dlg:width="145" dlg:height="8" dlg:page="3" dlg:help-text="Insert Images via Clipboard." dlg:value="Via clipboard" dlg:checked="true"/>
-   <dlg:radio dlg:id="ImpressInsertDirect" dlg:tab-index="29" dlg:left="0" dlg:top="192" dlg:width="145" dlg:height="8" dlg:page="3" dlg:help-text="Insert Images without Clipboard use (recommended)." dlg:value="Direct"/>
+   <dlg:radio dlg:id="ImpressInsertViaClipboard" dlg:tab-index="28" dlg:left="10" dlg:top="182" dlg:width="145" dlg:height="8" dlg:page="3" dlg:help-text="Insert Images via Clipboard." dlg:value="Via clipboard" dlg:checked="true"/>
+   <dlg:radio dlg:id="ImpressInsertDirect" dlg:tab-index="29" dlg:left="10" dlg:top="192" dlg:width="145" dlg:height="8" dlg:page="3" dlg:help-text="Insert Images without Clipboard use (recommended)." dlg:value="Direct"/>
   </dlg:radiogroup>
   <dlg:checkbox dlg:id="bWriterKeepCrop" dlg:tab-index="20" dlg:left="10" dlg:top="210" dlg:width="147" dlg:height="9" dlg:page="1" dlg:help-text="When editing/replacing an existing object in Writer, preserve its current size and crop settings" dlg:value="Keep size &amp; crop settings" dlg:checked="false"/>
-  <dlg:checkbox dlg:id="bImpressKeepCrop" dlg:tab-index="30" dlg:left="0" dlg:top="210" dlg:width="147" dlg:height="9" dlg:page="3" dlg:help-text="When editing/replacing an existing object in Impress/Draw, preserve its current size and crop settings" dlg:value="Keep size &amp; crop settings" dlg:checked="false"/>
+  <dlg:checkbox dlg:id="bImpressKeepCrop" dlg:tab-index="30" dlg:left="10" dlg:top="210" dlg:width="147" dlg:height="9" dlg:page="3" dlg:help-text="When editing/replacing an existing object in Impress/Draw, preserve its current size and crop settings" dlg:value="Keep size &amp; crop settings" dlg:checked="false"/>
   <dlg:titledbox dlg:id="WriterDefaultsFrame" dlg:tab-index="1" dlg:left="6" dlg:top="38" dlg:width="155" dlg:height="187" dlg:page="1">
    <dlg:title dlg:value="Default values for Writer"/>
   </dlg:titledbox>
@@ -84,11 +84,11 @@
   <dlg:text dlg:id="LabelFormat" dlg:tab-index="63" dlg:left="174" dlg:top="247" dlg:width="51" dlg:height="9" dlg:value="Format:"/>
   <dlg:text dlg:id="LabelDPI" dlg:tab-index="55" dlg:left="260" dlg:top="260" dlg:width="16" dlg:height="9" dlg:help-text="dots per inch" dlg:value="dpi"/>
   <dlg:text dlg:id="LabelGraphicDPIResolution" dlg:tab-index="64" dlg:left="229" dlg:top="247" dlg:width="67" dlg:height="9" dlg:value="Resolution (png):"/>
-  <dlg:text dlg:id="LabelImpressDefaultTemplate" dlg:tab-index="72" dlg:left="0" dlg:top="52" dlg:width="41" dlg:height="10" dlg:page="3" dlg:value="Template:" dlg:align="right"/>
-  <dlg:titledbox dlg:id="ImpressDefaultsFrame" dlg:tab-index="21" dlg:left="0" dlg:top="38" dlg:width="155" dlg:height="187" dlg:page="3">
+  <dlg:text dlg:id="LabelImpressDefaultTemplate" dlg:tab-index="72" dlg:left="9" dlg:top="52" dlg:width="41" dlg:height="10" dlg:page="3" dlg:value="Template:" dlg:align="right"/>
+  <dlg:titledbox dlg:id="ImpressDefaultsFrame" dlg:tab-index="21" dlg:left="6" dlg:top="38" dlg:width="155" dlg:height="187" dlg:page="3">
    <dlg:title dlg:value="Default values for Impress, Draw and Calc"/>
   </dlg:titledbox>
-  <dlg:titledbox dlg:id="ImpressInsertImagesFrame" dlg:tab-index="27" dlg:left="0" dlg:top="172" dlg:width="150" dlg:height="33" dlg:page="3">
+  <dlg:titledbox dlg:id="ImpressInsertImagesFrame" dlg:tab-index="27" dlg:left="8" dlg:top="172" dlg:width="150" dlg:height="33" dlg:page="3">
    <dlg:title dlg:value="Insert images"/>
   </dlg:titledbox>
   <dlg:button dlg:id="RestoreLanguageFiles" dlg:tab-index="53" dlg:left="321" dlg:top="280" dlg:width="91" dlg:height="12" dlg:help-text="Restore the original language files delivered with OLy. Your current templates will be backed up in a subfolder." dlg:value="Restore language files">
@@ -138,5 +138,51 @@
   <dlg:button dlg:id="WriterTabButton" dlg:tab-index="81" dlg:left="6" dlg:top="20" dlg:width="30" dlg:height="12" dlg:value="Writer" dlg:grab-focus="false">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.WriterTabButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
+  <dlg:titledbox dlg:id="FrameControl1" dlg:tab-index="82" dlg:left="6" dlg:top="38" dlg:width="155" dlg:height="187" dlg:page="4">
+   <dlg:title dlg:value="Default values for Impress, Draw and Calc"/>
+  </dlg:titledbox>
+  <dlg:combobox dlg:id="ComboBox1" dlg:tab-index="83" dlg:left="53" dlg:top="50" dlg:width="105" dlg:height="12" dlg:page="4" dlg:help-text="Default template to use for OOoLilyPond objects in Impress and Draw documents" dlg:spin="true" dlg:linecount="24"/>
+  <dlg:textfield dlg:id="TextField1" dlg:tab-index="84" dlg:left="53" dlg:top="80" dlg:width="38" dlg:height="12" dlg:page="4"/>
+  <dlg:checkbox dlg:id="CheckBox1" dlg:tab-index="85" dlg:left="96" dlg:top="69" dlg:width="60" dlg:height="10" dlg:page="4" dlg:value="From template" dlg:checked="false">
+   <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.ConfigDialogGrayOut?language=Basic&amp;location=application" script:language="Script"/>
+  </dlg:checkbox>
+  <dlg:textfield dlg:id="TextField2" dlg:tab-index="86" dlg:left="53" dlg:top="65" dlg:width="38" dlg:height="12" dlg:page="4"/>
+  <dlg:checkbox dlg:id="CheckBox2" dlg:tab-index="87" dlg:left="96" dlg:top="83" dlg:width="60" dlg:height="10" dlg:page="4" dlg:value="From template" dlg:checked="false">
+   <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.ConfigDialogGrayOut?language=Basic&amp;location=application" script:language="Script"/>
+  </dlg:checkbox>
+  <dlg:titledbox dlg:id="FrameControl2" dlg:tab-index="88" dlg:left="8" dlg:top="172" dlg:width="150" dlg:height="33" dlg:page="4">
+   <dlg:title dlg:value="Insert images"/>
+  </dlg:titledbox>
+  <dlg:radiogroup>
+   <dlg:radio dlg:id="OptionButton1" dlg:tab-index="89" dlg:left="10" dlg:top="182" dlg:width="145" dlg:height="8" dlg:page="4" dlg:help-text="Insert Images via Clipboard." dlg:value="Via clipboard" dlg:checked="true"/>
+   <dlg:radio dlg:id="OptionButton2" dlg:tab-index="90" dlg:left="10" dlg:top="192" dlg:width="145" dlg:height="8" dlg:page="4" dlg:help-text="Insert Images without Clipboard use (recommended)." dlg:value="Direct"/>
+  </dlg:radiogroup>
+  <dlg:checkbox dlg:id="CheckBox3" dlg:tab-index="91" dlg:left="10" dlg:top="210" dlg:width="147" dlg:height="9" dlg:page="4" dlg:help-text="When editing/replacing an existing object in Impress/Draw, preserve its current size and crop settings" dlg:value="Keep size &amp; crop settings" dlg:checked="false"/>
+  <dlg:text dlg:id="Label1" dlg:tab-index="92" dlg:left="9" dlg:top="82" dlg:width="41" dlg:height="10" dlg:page="4" dlg:value="Line width:" dlg:align="right"/>
+  <dlg:text dlg:id="Label2" dlg:tab-index="93" dlg:left="9" dlg:top="67" dlg:width="41" dlg:height="10" dlg:page="4" dlg:value="Staff size:" dlg:align="right"/>
+  <dlg:text dlg:id="Label3" dlg:tab-index="94" dlg:left="9" dlg:top="52" dlg:width="41" dlg:height="10" dlg:page="4" dlg:value="Template:" dlg:align="right"/>
+  <dlg:titledbox dlg:id="FrameControl3" dlg:tab-index="95" dlg:left="6" dlg:top="38" dlg:width="155" dlg:height="187" dlg:page="2">
+   <dlg:title dlg:value="Default values for Impress, Draw and Calc"/>
+  </dlg:titledbox>
+  <dlg:combobox dlg:id="ComboBox2" dlg:tab-index="96" dlg:left="53" dlg:top="50" dlg:width="105" dlg:height="12" dlg:page="2" dlg:help-text="Default template to use for OOoLilyPond objects in Impress and Draw documents" dlg:spin="true" dlg:linecount="24"/>
+  <dlg:textfield dlg:id="TextField3" dlg:tab-index="97" dlg:left="53" dlg:top="80" dlg:width="38" dlg:height="12" dlg:page="2"/>
+  <dlg:checkbox dlg:id="CheckBox4" dlg:tab-index="98" dlg:left="96" dlg:top="69" dlg:width="60" dlg:height="10" dlg:page="2" dlg:value="From template" dlg:checked="false">
+   <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.ConfigDialogGrayOut?language=Basic&amp;location=application" script:language="Script"/>
+  </dlg:checkbox>
+  <dlg:textfield dlg:id="TextField4" dlg:tab-index="99" dlg:left="53" dlg:top="65" dlg:width="38" dlg:height="12" dlg:page="2"/>
+  <dlg:checkbox dlg:id="CheckBox5" dlg:tab-index="100" dlg:left="96" dlg:top="83" dlg:width="60" dlg:height="10" dlg:page="2" dlg:value="From template" dlg:checked="false">
+   <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.ConfigDialogGrayOut?language=Basic&amp;location=application" script:language="Script"/>
+  </dlg:checkbox>
+  <dlg:titledbox dlg:id="FrameControl4" dlg:tab-index="101" dlg:left="8" dlg:top="172" dlg:width="150" dlg:height="33" dlg:page="2">
+   <dlg:title dlg:value="Insert images"/>
+  </dlg:titledbox>
+  <dlg:radiogroup>
+   <dlg:radio dlg:id="OptionButton3" dlg:tab-index="102" dlg:left="10" dlg:top="182" dlg:width="145" dlg:height="8" dlg:page="2" dlg:help-text="Insert Images via Clipboard." dlg:value="Via clipboard" dlg:checked="true"/>
+   <dlg:radio dlg:id="OptionButton4" dlg:tab-index="103" dlg:left="10" dlg:top="192" dlg:width="145" dlg:height="8" dlg:page="2" dlg:help-text="Insert Images without Clipboard use (recommended)." dlg:value="Direct"/>
+  </dlg:radiogroup>
+  <dlg:checkbox dlg:id="CheckBox6" dlg:tab-index="104" dlg:left="10" dlg:top="210" dlg:width="147" dlg:height="9" dlg:page="2" dlg:help-text="When editing/replacing an existing object in Impress/Draw, preserve its current size and crop settings" dlg:value="Keep size &amp; crop settings" dlg:checked="false"/>
+  <dlg:text dlg:id="Label4" dlg:tab-index="105" dlg:left="9" dlg:top="82" dlg:width="41" dlg:height="10" dlg:page="2" dlg:value="Line width:" dlg:align="right"/>
+  <dlg:text dlg:id="Label5" dlg:tab-index="106" dlg:left="9" dlg:top="67" dlg:width="41" dlg:height="10" dlg:page="2" dlg:value="Staff size:" dlg:align="right"/>
+  <dlg:text dlg:id="Label6" dlg:tab-index="107" dlg:left="9" dlg:top="52" dlg:width="41" dlg:height="10" dlg:page="2" dlg:value="Template:" dlg:align="right"/>
  </dlg:bulletinboard>
 </dlg:window>

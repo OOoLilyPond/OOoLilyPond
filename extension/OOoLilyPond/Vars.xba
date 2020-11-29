@@ -33,20 +33,42 @@ Private sTmpPath As String
 Private sTempLyFilePath As String		&apos; Path for tremp. file sent to external editor (sTmpPath or document path)
 Private bTempLyFileCreated As Boolean
 
+&apos; Document type-specific settings
+Private bInsertViaClipboard (4) As Boolean
+Private bKeepCrop (4) As Boolean
+Private sDefaultTemplate (4) As String
+Private sDefaultStaffSize (4) As String
+Private sDefaultLineWidth (4) As String
+Private bUseStaffSizeFromTemplate (4) As Boolean
+Private bUseLineWidthFromTemplate (4) As Boolean
+
+
+Private bWriterInsertViaClipboard As Boolean
+Private bImpressInsertViaClipboard As Boolean
+Private bWriterKeepCrop As Boolean
+Private bImpressKeepCrop As Boolean
+Private sWriterDefaultTemplate As String
+Private sImpressDefaultTemplate As String
+Private sWriterDefaultStaffSize As String
+Private sWriterDefaultLineWidth As String
+Private bWriterUseStaffSizeFromTemplate As Boolean
+Private bWriterUseLineWidthFromTemplate As Boolean
+Private sImpressDefaultStaffSize As String
+Private sImpressDefaultLineWidth As String
+Private bImpressUseStaffSizeFromTemplate As Boolean
+Private bImpressUseLineWidthFromTemplate As Boolean
+
+
+Private iWriterDefaultAnchor As Integer
+Private iWriterDefaultWrap As Integer
+
+
 &apos; Settings
 Private sFormat As String
 Private sExtension As String  &apos; needed because sFormat = &quot;pdf to svg&quot; means sExtension = &quot;svg&quot;
 Private iGraphicDPI As Integer
 Private bTransparentBackground As Boolean
-Private sWriterDefaultTemplate As String
-Private sImpressDefaultTemplate As String
-Private iWriterDefaultAnchor As Integer
-Private iWriterDefaultWrap As Integer
 Private bIgnoreWarnings As Boolean
-Private bWriterInsertViaClipboard As Boolean
-Private bImpressInsertViaClipboard As Boolean
-Private bWriterKeepCrop As Boolean
-Private bImpressKeepCrop As Boolean
 Private sLanguageFileName As String
 Private bKeepTempFiles As Boolean
 Private bTempLyFileInDocFolder As Boolean  &apos; save temp. LY file for ext. editor into LO document folder? 

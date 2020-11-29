@@ -5,16 +5,6 @@
 
 Option Explicit
 
-Dim sWriterDefaultStaffSize As String
-Dim sWriterDefaultLineWidth As String
-Dim bWriterUseStaffSizeFromTemplate As Boolean
-Dim bWriterUseLineWidthFromTemplate As Boolean
-Dim sImpressDefaultStaffSize As String
-Dim sImpressDefaultLineWidth As String
-Dim bImpressUseStaffSizeFromTemplate As Boolean
-Dim bImpressUseLineWidthFromTemplate As Boolean
-
-
 &apos; **********************************
 &apos;    Open and update the dialogue
 &apos; **********************************

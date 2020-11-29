@@ -311,7 +311,7 @@ Sub PerformReplacement (sID As String)
 			sCustom4 = sDefaultCustom4
 			bUseDefaultCustom4 = True
 		Case &quot;Template name&quot;
-			sTemplate = sWriterDefaultTemplate
+			sTemplate = sDefaultTemplate (0)
 			ReadTemplate (True)
 		Case &quot;Option 1&quot;
 			If bOption1FieldExists Then bOption1 = bDefaultOption1
