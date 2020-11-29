@@ -59,14 +59,19 @@ Sub ConfigDialogUpdate()
 	oConfigDialog.getControl(&quot;sLanguageFileName&quot;).setText(sLanguageFileName)
 
 	&apos; Writer configuration
-	oConfigDialog.getControl(&quot;sWriterDefaultTemplate&quot;).setText(sWriterDefaultTemplate)
-	oConfigDialog.getControl(&quot;sWriterDefaultLineWidth&quot;).setText(sWriterDefaultLineWidth)
-	oConfigDialog.getControl(&quot;sWriterDefaultStaffSize&quot;).setText(sWriterDefaultStaffSize)
-	oConfigDialog.getControl(&quot;bWriterUseLineWidthFromTemplate&quot;).setState(BoolToCheckBoxState(bWriterUseLineWidthFromTemplate))
-	oConfigDialog.getControl(&quot;bWriterUseStaffSizeFromTemplate&quot;).setState(BoolToCheckBoxState(bWriterUseStaffSizeFromTemplate))
-	oConfigDialog.getControl(&quot;bWriterKeepCrop&quot;).setState(BoolToCheckBoxState(bWriterKeepCrop))
-	oConfigDialog.getControl(&quot;bNewObjectsAsSeparateImages&quot;).setState(BoolToCheckBoxState(bNewObjectsAsSeparateImages))
+	oConfigDialog.getControl (&quot;sWriterDefaultTemplate&quot;).setText (sDefaultTemplate (0))
+	oConfigDialog.getControl (&quot;sWriterDefaultLineWidth&quot;).setText (sDefaultLineWidth (0))
+	oConfigDialog.getControl (&quot;sWriterDefaultStaffSize&quot;).setText (sDefaultStaffSize (0))
+	oConfigDialog.getControl (&quot;bWriterUseLineWidthFromTemplate&quot;).setState (BoolToCheckBoxState (bUseLineWidthFromTemplate (0)))
+	oConfigDialog.getControl (&quot;bWriterUseStaffSizeFromTemplate&quot;).setState (BoolToCheckBoxState (bUseStaffSizeFromTemplate (0)))
+	oConfigDialog.getControl (&quot;bWriterKeepCrop&quot;).setState (BoolToCheckBoxState (bKeepCrop (0)))
+	If bInsertViaClipboard (0) Then
+		oConfigDialog.getControl (&quot;WriterInsertViaClipboard&quot;).setState (true)
+	Else
+		oConfigDialog.getControl (&quot;WriterInsertDirect&quot;).setState (true)
+	End If 
 	
+	oConfigDialog.getControl (&quot;bNewObjectsAsSeparateImages&quot;).setState (BoolToCheckBoxState (bNewObjectsAsSeparateImages))
 	If iWriterDefaultAnchor = com.sun.star.text.TextContentAnchorType.AS_CHARACTER Then oConfigDialog.getControl(&quot;WriterAnchorAsCharacter&quot;).setState(true)
 	If iWriterDefaultAnchor = com.sun.star.text.TextContentAnchorType.AT_CHARACTER Then oConfigDialog.getControl(&quot;WriterAnchorToCharacter&quot;).setState(true)
 	If iWriterDefaultAnchor = com.sun.star.text.TextContentAnchorType.AT_PARAGRAPH Then  oConfigDialog.getControl(&quot;WriterAnchorToParagraph&quot;).setState(true)
@@ -74,23 +79,45 @@ Sub ConfigDialogUpdate()
 	If iWriterDefaultWrap = com.sun.star.text.WrapTextMode.NONE Then oConfigDialog.getControl(&quot;WriterNoWrap&quot;).setState(true)
 	If iWriterDefaultWrap = com.sun.star.text.WrapTextMode.DYNAMIC Then oConfigDialog.getControl(&quot;WriterOptimalPageWrap&quot;).setState(true)
 	If iWriterDefaultWrap = com.sun.star.text.WrapTextMode.THROUGHT Then oConfigDialog.getControl(&quot;WriterWrapThrough&quot;).setState(true)
-	If bWriterInsertViaClipboard Then
-		oConfigDialog.getControl(&quot;WriterInsertViaClipboard&quot;).setState(true)
+	
+
+	&apos; Calc configuration
+	oConfigDialog.getControl (&quot;sCalcDefaultTemplate&quot;).setText (sDefaultTemplate (1))
+	oConfigDialog.getControl (&quot;sCalcDefaultLineWidth&quot;).setText (sDefaultLineWidth (1))
+	oConfigDialog.getControl (&quot;sCalcDefaultStaffSize&quot;).setText (sDefaultStaffSize (1))
+	oConfigDialog.getControl (&quot;bCalcUseLineWidthFromTemplate&quot;).setState (BoolToCheckBoxState (bUseLineWidthFromTemplate (1)))
+	oConfigDialog.getControl (&quot;bCalcUseStaffSizeFromTemplate&quot;).setState (BoolToCheckBoxState (bUseStaffSizeFromTemplate (1)))
+	oConfigDialog.getControl (&quot;bCalcKeepCrop&quot;).setState (BoolToCheckBoxState (bKeepCrop (1)))
+	If bInsertViaClipboard (1) Then
+		oConfigDialog.getControl (&quot;CalcInsertViaClipboard&quot;).setState (true)
 	Else
-		oConfigDialog.getControl(&quot;WriterInsertDirect&quot;).setState(true)
+		oConfigDialog.getControl (&quot;CalcInsertDirect&quot;).setState (true)
 	End If 
 
 	&apos; Impress configuration
-	oConfigDialog.getControl(&quot;sImpressDefaultTemplate&quot;).setText(sImpressDefaultTemplate)
-	oConfigDialog.getControl(&quot;sImpressDefaultLineWidth&quot;).setText(sImpressDefaultLineWidth)
-	oConfigDialog.getControl(&quot;sImpressDefaultStaffSize&quot;).setText(sImpressDefaultStaffSize)
-	oConfigDialog.getControl(&quot;bImpressUseLineWidthFromTemplate&quot;).setState(BoolToCheckBoxState(bImpressUseLineWidthFromTemplate))
-	oConfigDialog.getControl(&quot;bImpressUseStaffSizeFromTemplate&quot;).setState(BoolToCheckBoxState(bImpressUseStaffSizeFromTemplate))
-	oConfigDialog.getControl(&quot;bImpressKeepCrop&quot;).setState(BoolToCheckBoxState(bImpressKeepCrop))
-	If bImpressInsertViaClipboard Then
-		oConfigDialog.getControl(&quot;ImpressInsertViaClipboard&quot;).setState(true)
+	oConfigDialog.getControl (&quot;sImpressDefaultTemplate&quot;).setText (sDefaultTemplate (2))
+	oConfigDialog.getControl (&quot;sImpressDefaultLineWidth&quot;).setText (sDefaultLineWidth (2))
+	oConfigDialog.getControl (&quot;sImpressDefaultStaffSize&quot;).setText (sDefaultStaffSize (2))
+	oConfigDialog.getControl (&quot;bImpressUseLineWidthFromTemplate&quot;).setState (BoolToCheckBoxState (bUseLineWidthFromTemplate (2)))
+	oConfigDialog.getControl (&quot;bImpressUseStaffSizeFromTemplate&quot;).setState (BoolToCheckBoxState (bUseStaffSizeFromTemplate (2)))
+	oConfigDialog.getControl (&quot;bImpressKeepCrop&quot;).setState (BoolToCheckBoxState (bKeepCrop (2)))
+	If bInsertViaClipboard (2) Then
+		oConfigDialog.getControl (&quot;ImpressInsertViaClipboard&quot;).setState (true)
 	Else
-		oConfigDialog.getControl(&quot;ImpressInsertDirect&quot;).setState(true)
+		oConfigDialog.getControl (&quot;ImpressInsertDirect&quot;).setState (true)
+	End If 
+
+	&apos; Draw configuration
+	oConfigDialog.getControl (&quot;sDrawDefaultTemplate&quot;).setText (sDefaultTemplate (3))
+	oConfigDialog.getControl (&quot;sDrawDefaultLineWidth&quot;).setText (sDefaultLineWidth (3))
+	oConfigDialog.getControl (&quot;sDrawDefaultStaffSize&quot;).setText (sDefaultStaffSize (3))
+	oConfigDialog.getControl (&quot;bDrawUseLineWidthFromTemplate&quot;).setState (BoolToCheckBoxState (bUseLineWidthFromTemplate (3)))
+	oConfigDialog.getControl (&quot;bDrawUseStaffSizeFromTemplate&quot;).setState (BoolToCheckBoxState (bUseStaffSizeFromTemplate (3)))
+	oConfigDialog.getControl (&quot;bDrawKeepCrop&quot;).setState (BoolToCheckBoxState (bKeepCrop (3)))
+	If bInsertViaClipboard (3) Then
+		oConfigDialog.getControl (&quot;DrawInsertViaClipboard&quot;).setState (true)
+	Else
+		oConfigDialog.getControl (&quot;DrawInsertDirect&quot;).setState (true)
 	End If 
 
 	&apos; Include Template:
@@ -102,6 +129,18 @@ Sub ConfigDialogUpdate()
 	Else
 		oConfigDialog.getControl(&quot;bIgnoreWarnings&quot;).setState(-1)
 	End If
+	
+	&apos; Select tab for current document type:
+	Select Case iDocumentType
+	Case 0
+		WriterTabButton ()
+	Case 1
+		CalcTabButton ()
+	Case 2
+		ImpressTabButton ()
+	Case 3
+		DrawTabButton ()
+	End Select
 End Sub
 
 
@@ -333,14 +372,16 @@ Sub ApplyConfig
 	Wend
 	
 	&apos; Writer specific settings
-	sWriterDefaultTemplate =  oConfigDialog.getControl(&quot;sWriterDefaultTemplate&quot;).getText()
-	sWriterDefaultLineWidth = oConfigDialog.getControl(&quot;sWriterDefaultLineWidth&quot;).getText()
-	sWriterDefaultStaffSize = oConfigDialog.getControl(&quot;sWriterDefaultStaffSize&quot;).getText()
-	bWriterUseLineWidthFromTemplate = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bWriterUseLineWidthFromTemplate&quot;).getState())
-	bWriterUseStaffSizeFromTemplate = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bWriterUseStaffSizeFromTemplate&quot;).getState())
-	bWriterKeepCrop = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bWriterKeepCrop&quot;).getState())
-	bNewObjectsAsSeparateImages = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bNewObjectsAsSeparateImages&quot;).getState())
-		
+	sDefaultTemplate (0) =  oConfigDialog.getControl (&quot;sWriterDefaultTemplate&quot;).getText ()
+	sDefaultLineWidth (0) = oConfigDialog.getControl (&quot;sWriterDefaultLineWidth&quot;).getText ()
+	sDefaultStaffSize (0) = oConfigDialog.getControl (&quot;sWriterDefaultStaffSize&quot;).getText ()
+	bUseLineWidthFromTemplate (0) = CheckBoxStateToBool (oConfigDialog.getControl (&quot;bWriterUseLineWidthFromTemplate&quot;).getState ())
+	bUseStaffSizeFromTemplate (0) = CheckBoxStateToBool (oConfigDialog.getControl (&quot;bWriterUseStaffSizeFromTemplate&quot;).getState ())
+	bKeepCrop (0) = CheckBoxStateToBool (oConfigDialog.getControl (&quot;bWriterKeepCrop&quot;).getState ())
+	bInsertViaClipboard (0) = oConfigDialog.getControl (&quot;WriterInsertViaClipboard&quot;).getState ()
+	
+	bNewObjectsAsSeparateImages = CheckBoxStateToBool (oConfigDialog.getControl (&quot;bNewObjectsAsSeparateImages&quot;).getState ())
+			
 	if oConfigDialog.getControl(&quot;WriterAnchorAsCharacter&quot;).getState() then iWriterDefaultAnchor = com.sun.star.text.TextContentAnchorType.AS_CHARACTER
 	if oConfigDialog.getControl(&quot;WriterAnchorToCharacter&quot;).getState() then iWriterDefaultAnchor = com.sun.star.text.TextContentAnchorType.AT_CHARACTER
 	if oConfigDialog.getControl(&quot;WriterAnchorToParagraph&quot;).getState() then iWriterDefaultAnchor = com.sun.star.text.TextContentAnchorType.AT_PARAGRAPH
@@ -350,17 +391,35 @@ Sub ApplyConfig
 	if oConfigDialog.getControl(&quot;WriterOptimalPageWrap&quot;).getState() then iWriterDefaultWrap = com.sun.star.text.WrapTextMode.DYNAMIC
 	if oConfigDialog.getControl(&quot;WriterWrapThrough&quot;).getState() then iWriterDefaultWrap = com.sun.star.text.WrapTextMode.THROUGHT
 	
-	bWriterInsertViaClipboard = oConfigDialog.getControl(&quot;WriterInsertViaClipboard&quot;).getState()
 
-	&apos; Impress specific settings
-	sImpressDefaultTemplate =  oConfigDialog.getControl(&quot;sImpressDefaultTemplate&quot;).getText()
-	sImpressDefaultLineWidth = oConfigDialog.getControl(&quot;sImpressDefaultLineWidth&quot;).getText()
-	sImpressDefaultStaffSize = oConfigDialog.getControl(&quot;sImpressDefaultStaffSize&quot;).getText()
-	bImpressUseLineWidthFromTemplate = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bImpressUseLineWidthFromTemplate&quot;).getState())
-	bImpressUseStaffSizeFromTemplate = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bImpressUseStaffSizeFromTemplate&quot;).getState())
-	bImpressKeepCrop = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bImpressKeepCrop&quot;).getState())
+	&apos; Calc specific settings
+	sDefaultTemplate (1) =  oConfigDialog.getControl (&quot;sCalcDefaultTemplate&quot;).getText ()
+	sDefaultLineWidth (1) = oConfigDialog.getControl (&quot;sCalcDefaultLineWidth&quot;).getText ()
+	sDefaultStaffSize (1) = oConfigDialog.getControl (&quot;sCalcDefaultStaffSize&quot;).getText ()
+	bUseLineWidthFromTemplate (1) = CheckBoxStateToBool (oConfigDialog.getControl (&quot;bCalcUseLineWidthFromTemplate&quot;).getState ())
+	bUseStaffSizeFromTemplate (1) = CheckBoxStateToBool (oConfigDialog.getControl (&quot;bCalcUseStaffSizeFromTemplate&quot;).getState ())
+	bKeepCrop (1) = CheckBoxStateToBool (oConfigDialog.getControl (&quot;bCalcKeepCrop&quot;).getState ())
+	bInsertViaClipboard (1) = oConfigDialog.getControl (&quot;CalcInsertViaClipboard&quot;).getState ()
 	
-	bImpressInsertViaClipboard = oConfigDialog.getControl(&quot;ImpressInsertViaClipboard&quot;).getState()
+	&apos; Impress specific settings
+	sDefaultTemplate (2) =  oConfigDialog.getControl (&quot;sImpressDefaultTemplate&quot;).getText ()
+	sDefaultLineWidth (2) = oConfigDialog.getControl (&quot;sImpressDefaultLineWidth&quot;).getText ()
+	sDefaultStaffSize (2) = oConfigDialog.getControl (&quot;sImpressDefaultStaffSize&quot;).getText ()
+	bUseLineWidthFromTemplate (2) = CheckBoxStateToBool (oConfigDialog.getControl (&quot;bImpressUseLineWidthFromTemplate&quot;).getState ())
+	bUseStaffSizeFromTemplate (2) = CheckBoxStateToBool (oConfigDialog.getControl (&quot;bImpressUseStaffSizeFromTemplate&quot;).getState ())
+	bKeepCrop (2) = CheckBoxStateToBool (oConfigDialog.getControl (&quot;bImpressKeepCrop&quot;).getState ())
+	bInsertViaClipboard (2) = oConfigDialog.getControl (&quot;ImpressInsertViaClipboard&quot;).getState ()
+	
+	&apos; Draw specific settings
+	sDefaultTemplate (3) =  oConfigDialog.getControl (&quot;sDrawDefaultTemplate&quot;).getText ()
+	sDefaultLineWidth (3) = oConfigDialog.getControl (&quot;sDrawDefaultLineWidth&quot;).getText ()
+	sDefaultStaffSize (3) = oConfigDialog.getControl (&quot;sDrawDefaultStaffSize&quot;).getText ()
+	bUseLineWidthFromTemplate (3) = CheckBoxStateToBool (oConfigDialog.getControl (&quot;bDrawUseLineWidthFromTemplate&quot;).getState ())
+	bUseStaffSizeFromTemplate (3) = CheckBoxStateToBool (oConfigDialog.getControl (&quot;bDrawUseStaffSizeFromTemplate&quot;).getState ())
+	bKeepCrop (3) = CheckBoxStateToBool (oConfigDialog.getControl (&quot;bDrawKeepCrop&quot;).getState ())
+	bInsertViaClipboard (3) = oConfigDialog.getControl (&quot;DrawInsertViaClipboard&quot;).getState ()
+	
+	
 	
 	bIncludeTemplate = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bIncludeTemplate&quot;).getState())
 	
