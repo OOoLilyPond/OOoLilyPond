@@ -115,6 +115,43 @@ Sub ConfigDialogUpdate()
 End Sub
 
 
+Sub WriterTabButton ()
+	oConfigDialog.Model.Step = 1
+	oConfigDialog.getControl (&quot;WriterTabButton&quot;).getModel().State  = 1
+	oConfigDialog.getControl (&quot;CalcTabButton&quot;).getModel().State    = 0
+	oConfigDialog.getControl (&quot;ImpressTabButton&quot;).getModel().State = 0
+	oConfigDialog.getControl (&quot;DrawTabButton&quot;).getModel().State    = 0
+End Sub
+
+
+Sub CalcTabButton ()
+	oConfigDialog.Model.Step = 2
+	oConfigDialog.getControl (&quot;WriterTabButton&quot;).getModel().State  = 0
+	oConfigDialog.getControl (&quot;CalcTabButton&quot;).getModel().State    = 1
+	oConfigDialog.getControl (&quot;ImpressTabButton&quot;).getModel().State = 0
+	oConfigDialog.getControl (&quot;DrawTabButton&quot;).getModel().State    = 0
+End Sub
+
+
+Sub ImpressTabButton ()
+	oConfigDialog.Model.Step = 3
+	oConfigDialog.getControl (&quot;WriterTabButton&quot;).getModel().State  = 0
+	oConfigDialog.getControl (&quot;CalcTabButton&quot;).getModel().State    = 0
+	oConfigDialog.getControl (&quot;ImpressTabButton&quot;).getModel().State = 1
+	oConfigDialog.getControl (&quot;DrawTabButton&quot;).getModel().State    = 0
+End Sub
+
+
+Sub DrawTabButton ()
+	oConfigDialog.Model.Step = 4
+	oConfigDialog.getControl (&quot;WriterTabButton&quot;).getModel().State  = 0
+	oConfigDialog.getControl (&quot;CalcTabButton&quot;).getModel().State    = 0
+	oConfigDialog.getControl (&quot;ImpressTabButton&quot;).getModel().State = 0
+	oConfigDialog.getControl (&quot;DrawTabButton&quot;).getModel().State    = 1
+End Sub
+
+
+
 Sub CopyTemplates()
 	&apos; Copy original templates to the user templates dir.
 	&apos; User template files are backed up in a subfolder.
