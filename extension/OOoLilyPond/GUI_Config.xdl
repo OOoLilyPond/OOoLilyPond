@@ -151,7 +151,6 @@
    <dlg:title dlg:value="Default values for Spreadsheets"/>
   </dlg:titledbox>
   <dlg:combobox dlg:id="sCalcDefaultTemplate" dlg:tab-index="96" dlg:left="53" dlg:top="50" dlg:width="105" dlg:height="12" dlg:page="2" dlg:help-text="Default template to use for OOoLilyPond objects in Impress and Draw documents" dlg:spin="true" dlg:linecount="24"/>
-  <dlg:textfield dlg:id="sCalcDefaultStaffSizt" dlg:tab-index="99" dlg:left="53" dlg:top="65" dlg:width="38" dlg:height="12" dlg:page="2"/>
   <dlg:textfield dlg:id="sCalcDefaultLineWidth" dlg:tab-index="97" dlg:left="53" dlg:top="80" dlg:width="38" dlg:height="12" dlg:page="2"/>
   <dlg:combobox dlg:id="sDrawDefaultTemplate" dlg:tab-index="83" dlg:left="53" dlg:top="50" dlg:width="105" dlg:height="12" dlg:page="4" dlg:help-text="Default template to use for OOoLilyPond objects in Impress and Draw documents" dlg:spin="true" dlg:linecount="24"/>
   <dlg:textfield dlg:id="sDrawDefaultStaffSize" dlg:tab-index="86" dlg:left="53" dlg:top="65" dlg:width="38" dlg:height="12" dlg:page="4"/>
@@ -194,5 +193,6 @@
   <dlg:radiogroup>
    <dlg:radio dlg:id="DrawAnchorToPage" dlg:tab-index="109" dlg:left="10" dlg:top="108" dlg:width="145" dlg:height="8" dlg:page="2" dlg:help-text="The OOoLilyPond object is inserted into the Text like a character." dlg:tabstop="true" dlg:value="To page" dlg:checked="true"/>
   </dlg:radiogroup>
+  <dlg:textfield dlg:id="sCalcDefaultStaffSize" dlg:tab-index="99" dlg:left="53" dlg:top="65" dlg:width="38" dlg:height="12" dlg:page="2"/>
  </dlg:bulletinboard>
 </dlg:window>
