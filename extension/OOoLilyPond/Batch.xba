@@ -283,20 +283,22 @@ Sub PerformReplacement (sID As String)
 
 	On Error Goto ErrorHandler  &apos; might happen if an argument for getControl() is invalid
 
+	&apos; &quot;No change&quot;
 	If oBatchDialog.getControl (&quot;NoChange_&quot; &amp; sID).getState() Then
 		Exit Sub
 	End If
 
+	&apos; &quot;Reset to default value&quot;
 	If oBatchDialog.getControl (&quot;SetUseDefault_&quot; &amp; sID).getState() Then
 		Select Case oBatchDialog.getControl (&quot;sSearchField_&quot; &amp; sID).getText()
 		Case &quot;Code&quot;
 			sCode = sDefaultCode
 			bUseDefaultCode = True
 		Case &quot;Staff Size&quot;
-			sStaffSize = sDefaultStaffSize (iDocumentType)
+			sStaffSize = sEditorDefaultStaffSize
 			bUseDefaultStaffSize = True
 		Case &quot;Line Width&quot;
-			sLineWidth = sDefaultLineWidth (iDocumentType)
+			sLineWidth = sEditorDefaultLineWidth
 			bUseDefaultLineWidth = True
 		Case &quot;Custom 1&quot;
 			sCustom1 = sDefaultCustom1
@@ -327,6 +329,7 @@ Sub PerformReplacement (sID As String)
 	
 	sReplaceString = oBatchDialog.getControl (&quot;sReplace_&quot; &amp; sID).getText()
 
+	&apos; &quot;Replace whole field by:&quot;
 	If oBatchDialog.getControl (&quot;ReplaceWholeField_&quot; &amp; sID).getState() Then
 		Select Case oBatchDialog.getControl (&quot;sSearchField_&quot; &amp; sID).getText()
 		Case &quot;Code&quot;
@@ -369,6 +372,7 @@ Sub PerformReplacement (sID As String)
 	iSearchMode = 0
 	If CheckBoxStateToBool (oBatchDialog.getControl (&quot;IgnoreCase_&quot; &amp; sID).getState()) Then iSearchMode = 1
 
+	&apos; &quot;Replace only searched string by:&quot;
 	If oBatchDialog.getControl (&quot;ReplaceSearchedString_&quot; &amp; sID).getState() Then
 		Select Case oBatchDialog.getControl (&quot;sSearchField_&quot; &amp; sID).getText()
 		Case &quot;Code&quot;

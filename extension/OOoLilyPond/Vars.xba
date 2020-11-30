@@ -130,8 +130,8 @@ Private sOption4False As String
 
 &apos; OOoLilyPond object default data
 Private sDefaultCode As String
-&apos; Private sDefaultLineWidth As String    &apos; replaced by array with the same name, see above
-&apos; Private sDefaultStaffSize As String    &apos; replaced by array with the same name, see above
+Private sEditorDefaultLineWidth As String
+Private sEditorDefaultStaffSize As String
 Private sDefaultCustom1 As String
 Private sDefaultCustom2 As String
 Private sDefaultCustom3 As String

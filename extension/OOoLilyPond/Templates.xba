@@ -552,10 +552,10 @@ Function ReadTemplate (bShowError As Boolean) As Boolean
 	Wend
 
 	If bUseLineWidthFromTemplate (iDocumentType) Then
-		sDefaultLineWidth (iDocumentType) = sLineWidthFromTemplate
+		sEditorDefaultLineWidth = sLineWidthFromTemplate
 	End If
 	If bUseStaffSizeFromTemplate (iDocumentType) Then
-		sDefaultStaffSize (iDocumentType) = sStaffSizeFromTemplate
+		sEditorDefaultStaffSize = sStaffSizeFromTemplate
 	EndIf
 		
 	If Not bCodeFieldExists Then

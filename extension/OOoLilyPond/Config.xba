@@ -315,20 +315,36 @@ Sub ConfigDialogGrayOut()
 	Not CheckBoxStateToBool(oConfigDialog.getControl(&quot;bWriterUseLineWidthFromTemplate&quot;).getState()))
 	oConfigDialog.getControl(&quot;sWriterDefaultStaffSize&quot;).setEnable( _
 	Not CheckBoxStateToBool(oConfigDialog.getControl(&quot;bWriterUseStaffSizeFromTemplate&quot;).getState()))
+	oConfigDialog.getControl(&quot;sCalcDefaultLineWidth&quot;).setEnable( _
+	Not CheckBoxStateToBool(oConfigDialog.getControl(&quot;bCalcUseLineWidthFromTemplate&quot;).getState()))
+	oConfigDialog.getControl(&quot;sCalcDefaultStaffSize&quot;).setEnable( _
+	Not CheckBoxStateToBool(oConfigDialog.getControl(&quot;bCalcUseStaffSizeFromTemplate&quot;).getState()))
 	oConfigDialog.getControl(&quot;sImpressDefaultLineWidth&quot;).setEnable( _
 	Not CheckBoxStateToBool(oConfigDialog.getControl(&quot;bImpressUseLineWidthFromTemplate&quot;).getState()))
 	oConfigDialog.getControl(&quot;sImpressDefaultStaffSize&quot;).setEnable( _
 	Not CheckBoxStateToBool(oConfigDialog.getControl(&quot;bImpressUseStaffSizeFromTemplate&quot;).getState()))	
+	oConfigDialog.getControl(&quot;sDrawDefaultLineWidth&quot;).setEnable( _
+	Not CheckBoxStateToBool(oConfigDialog.getControl(&quot;bDrawUseLineWidthFromTemplate&quot;).getState()))
+	oConfigDialog.getControl(&quot;sDrawDefaultStaffSize&quot;).setEnable( _
+	Not CheckBoxStateToBool(oConfigDialog.getControl(&quot;bDrawUseStaffSizeFromTemplate&quot;).getState()))
 
 	&apos; Gray out lables
 	oConfigDialog.getControl(&quot;LabelWriterLineWidth&quot;).setEnable( _
 	Not CheckBoxStateToBool(oConfigDialog.getControl(&quot;bWriterUseLineWidthFromTemplate&quot;).getState()))
 	oConfigDialog.getControl(&quot;LabelWriterStaffSize&quot;).setEnable( _
 	Not CheckBoxStateToBool(oConfigDialog.getControl(&quot;bWriterUseStaffSizeFromTemplate&quot;).getState()))
+	oConfigDialog.getControl(&quot;LabelCalcLineWidth&quot;).setEnable( _
+	Not CheckBoxStateToBool(oConfigDialog.getControl(&quot;bCalcUseLineWidthFromTemplate&quot;).getState()))
+	oConfigDialog.getControl(&quot;LabelCalcStaffSize&quot;).setEnable( _
+	Not CheckBoxStateToBool(oConfigDialog.getControl(&quot;bCalcUseStaffSizeFromTemplate&quot;).getState()))
 	oConfigDialog.getControl(&quot;LabelImpressLineWidth&quot;).setEnable( _
 	Not CheckBoxStateToBool(oConfigDialog.getControl(&quot;bImpressUseLineWidthFromTemplate&quot;).getState()))
 	oConfigDialog.getControl(&quot;LabelImpressStaffSize&quot;).setEnable( _
 	Not CheckBoxStateToBool(oConfigDialog.getControl(&quot;bImpressUseStaffSizeFromTemplate&quot;).getState()))
+	oConfigDialog.getControl(&quot;LabelDrawLineWidth&quot;).setEnable( _
+	Not CheckBoxStateToBool(oConfigDialog.getControl(&quot;bDrawUseLineWidthFromTemplate&quot;).getState()))
+	oConfigDialog.getControl(&quot;LabelDrawStaffSize&quot;).setEnable( _
+	Not CheckBoxStateToBool(oConfigDialog.getControl(&quot;bDrawUseStaffSizeFromTemplate&quot;).getState()))
 	
 	oConfigDialog.getControl(&quot;LabelSvgFilename&quot;).setEnable( _
 	CheckBoxStateToBool(oConfigDialog.getControl(&quot;bUseSecondSvgParam&quot;).getState()))
@@ -865,22 +881,11 @@ Sub SaveConfig
 End Sub
 
 
-Sub SetDocTypeSpecificDefaults()   &apos; hopefully obsolete now
+Sub SetDocTypeSpecificDefaults() 
+
 	&apos; Set default values that depend whether we are in a Writer or Impress Document
-&apos;	If bInWriter Then
-&apos;		sDefaultLineWidth=sWriterDefaultLineWidth
-&apos;		sDefaultStaffSize=sWriterDefaultStaffSize
-&apos;		bUseLineWidthFromTemplate=bWriterUseLineWidthFromTemplate
-&apos;		bUseStaffSizeFromTemplate=bWriterUseStaffSizeFromTemplate
-&apos;		bKeepCrop=bWriterKeepCrop
-&apos;		
-&apos;	Else &apos; We are in Impress or Draw
-&apos;		sDefaultLineWidth=sImpressDefaultLineWidth
-&apos;		sDefaultStaffSize=sImpressDefaultStaffSize
-&apos;		bUseLineWidthFromTemplate=bImpressUseLineWidthFromTemplate
-&apos;		bUseStaffSizeFromTemplate=bImpressUseStaffSizeFromTemplate
-&apos;		bKeepCrop=bImpressKeepCrop
-&apos;	End If
+	sEditorDefaultLineWidth = sDefaultLineWidth (iDocumentType)
+	sEditorDefaultStaffSize = sDefaultStaffSize (iDocumentType)
 End Sub
 
 
