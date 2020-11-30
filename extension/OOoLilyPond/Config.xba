@@ -599,7 +599,11 @@ Sub ReadConfig()
 	Dim sName As String
 	Dim sValue As String
 	Dim sLength As Integer
-
+	Dim bNoCalcAndDrawSettings As Boolean
+	
+	&apos; OLy versions up to 1.0.1 did not save dedicated settings for Calc and Draw. 
+	bNoCalcAndDrawSettings = True
+	
 	&apos; Open input stream
 	oTextInputStream  = createUnoService(&quot;com.sun.star.io.TextInputStream&quot;)
     oTextInputStream.setInputStream(oFileAccess.openFileRead(sConfigFile))
@@ -694,7 +698,8 @@ Sub ReadConfig()
 			
 			&apos; Calc specific settings
 			Case &quot;sCalcDefaultTemplate&quot;
-				sDefaultTemplate (1) = sValue
+				sDefaultTemplate (1) = sValue		&apos; use this entry to determine if there are
+				bNoCalcAndDrawSettings = false		&apos; Calc and Draw settings in config file
 			Case &quot;sCalcDefaultLineWidth&quot;
 				sDefaultLineWidth (1) = sValue
 			Case &quot;sCalcDefaultStaffSize&quot;
@@ -749,6 +754,26 @@ Sub ReadConfig()
 	wend
 
 	oTextInputStream.closeInput()
+	
+	if bNoCalcAndDrawSettings Then  &apos; as long as config file has no dedicated settings...
+		&apos; propose Writer settings for Calc:
+		sDefaultTemplate (1) = sDefaultTemplate (0)
+		sDefaultLineWidth (1) = sDefaultLineWidth (0)
+		sDefaultStaffSize (1) = sDefaultStaffSize (0)
+		bUseLineWidthFromTemplate (1) = bUseLineWidthFromTemplate (0)
+		bUseStaffSizeFromTemplate (1) = bUseStaffSizeFromTemplate (0)
+		bInsertViaClipboard (1) = bInsertViaClipboard (0)
+		bKeepCrop (1) = bKeepCrop (0)
+	
+		&apos; propose Impress settings for Draw:
+		sDefaultTemplate (3) = sDefaultTemplate (2)
+		sDefaultLineWidth (3) = sDefaultLineWidth (2)
+		sDefaultStaffSize (3) = sDefaultStaffSize (2)
+		bUseLineWidthFromTemplate (3) = bUseLineWidthFromTemplate (2)
+		bUseStaffSizeFromTemplate (3) = bUseStaffSizeFromTemplate (2)
+		bInsertViaClipboard (3) = bInsertViaClipboard (2)
+		bKeepCrop (3) = bKeepCrop (2)
+	End If
 
 	SetDocTypeSpecificDefaults()
 	
