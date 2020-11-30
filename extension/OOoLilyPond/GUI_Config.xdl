@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE dlg:window PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "dialog.dtd">
-<dlg:window xmlns:dlg="http://openoffice.org/2000/dialog" xmlns:script="http://openoffice.org/2000/script" dlg:id="GUI_Config" dlg:tab-index="0" dlg:left="29" dlg:top="35" dlg:width="420" dlg:height="333" dlg:page="2" dlg:closeable="true" dlg:moveable="true" dlg:title="OOoLilyPond Configuration">
+<dlg:window xmlns:dlg="http://openoffice.org/2000/dialog" xmlns:script="http://openoffice.org/2000/script" dlg:id="GUI_Config" dlg:tab-index="0" dlg:left="29" dlg:top="35" dlg:width="420" dlg:height="333" dlg:page="4" dlg:closeable="true" dlg:moveable="true" dlg:title="OOoLilyPond Configuration">
  <dlg:bulletinboard>
   <dlg:radiogroup>
    <dlg:radio dlg:id="WriterAnchorAsCharacter" dlg:tab-index="8" dlg:left="10" dlg:top="108" dlg:width="60" dlg:height="8" dlg:page="1" dlg:help-text="The OOoLilyPond object is inserted into the Text like a character." dlg:tabstop="true" dlg:value="As character" dlg:checked="true"/>
@@ -23,8 +23,8 @@
   </dlg:button>
   <dlg:text dlg:id="LabelWriterLineWidth" dlg:tab-index="56" dlg:left="9" dlg:top="67" dlg:width="41" dlg:height="10" dlg:page="1" dlg:value="Line width:" dlg:align="right"/>
   <dlg:text dlg:id="LabelWriterStaffSize" dlg:tab-index="57" dlg:left="9" dlg:top="82" dlg:width="41" dlg:height="10" dlg:page="1" dlg:value="Staff size:" dlg:align="right"/>
-  <dlg:text dlg:id="LabelImpressStaffSize" dlg:tab-index="60" dlg:left="9" dlg:top="67" dlg:width="41" dlg:height="10" dlg:page="3" dlg:value="Staff size:" dlg:align="right"/>
-  <dlg:text dlg:id="LabelImpressLineWidth" dlg:tab-index="59" dlg:left="9" dlg:top="82" dlg:width="41" dlg:height="10" dlg:page="3" dlg:value="Line width:" dlg:align="right"/>
+  <dlg:text dlg:id="LabelImpressStaffSize" dlg:tab-index="60" dlg:left="9" dlg:top="82" dlg:width="41" dlg:height="10" dlg:page="3" dlg:value="Staff size:" dlg:align="right"/>
+  <dlg:text dlg:id="LabelImpressLineWidth" dlg:tab-index="59" dlg:left="9" dlg:top="67" dlg:width="41" dlg:height="10" dlg:page="3" dlg:value="Line width:" dlg:align="right"/>
   <dlg:combobox dlg:id="sWriterDefaultTemplate" dlg:tab-index="2" dlg:left="53" dlg:top="50" dlg:width="105" dlg:height="12" dlg:page="1" dlg:help-text="Default template to use for OOoLilyPond objects in Writer documents" dlg:spin="true" dlg:linecount="24"/>
   <dlg:textfield dlg:id="sWriterDefaultLineWidth" dlg:tab-index="3" dlg:left="53" dlg:top="65" dlg:width="38" dlg:height="12" dlg:page="1"/>
   <dlg:textfield dlg:id="sWriterDefaultStaffSize" dlg:tab-index="5" dlg:left="53" dlg:top="80" dlg:width="38" dlg:height="12" dlg:page="1"/>
@@ -34,9 +34,9 @@
   <dlg:checkbox dlg:id="bWriterUseStaffSizeFromTemplate" dlg:tab-index="6" dlg:left="96" dlg:top="83" dlg:width="60" dlg:height="10" dlg:page="1" dlg:value="From template" dlg:checked="false">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.ConfigDialogGrayOut?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
-  <dlg:combobox dlg:id="sImpressDefaultTemplate" dlg:tab-index="22" dlg:left="53" dlg:top="50" dlg:width="105" dlg:height="12" dlg:page="3" dlg:help-text="Default template to use for OOoLilyPond objects in Impress and Draw documents" dlg:spin="true" dlg:linecount="24"/>
-  <dlg:textfield dlg:id="sImpressDefaultLineWidth" dlg:tab-index="23" dlg:left="53" dlg:top="80" dlg:width="38" dlg:height="12" dlg:page="3"/>
-  <dlg:textfield dlg:id="sImpressDefaultStaffSize" dlg:tab-index="25" dlg:left="53" dlg:top="65" dlg:width="38" dlg:height="12" dlg:page="3"/>
+  <dlg:combobox dlg:id="sImpressDefaultTemplate" dlg:tab-index="22" dlg:left="53" dlg:top="50" dlg:width="105" dlg:height="12" dlg:page="3" dlg:help-text="Default template to use for OOoLilyPond objects in Impress documents" dlg:spin="true" dlg:linecount="24"/>
+  <dlg:textfield dlg:id="sImpressDefaultLineWidth" dlg:tab-index="23" dlg:left="53" dlg:top="65" dlg:width="38" dlg:height="12" dlg:page="3"/>
+  <dlg:textfield dlg:id="sImpressDefaultStaffSize" dlg:tab-index="25" dlg:left="53" dlg:top="80" dlg:width="38" dlg:height="12" dlg:page="3"/>
   <dlg:checkbox dlg:id="bImpressUseLineWidthFromTemplate" dlg:tab-index="24" dlg:left="96" dlg:top="69" dlg:width="60" dlg:height="10" dlg:page="3" dlg:value="From template" dlg:checked="false">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.ConfigDialogGrayOut?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
@@ -139,32 +139,32 @@
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.WriterTabButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
   <dlg:text dlg:id="LabelCalcDefaultTemplate" dlg:tab-index="107" dlg:left="9" dlg:top="52" dlg:width="41" dlg:height="10" dlg:page="2" dlg:value="Template:" dlg:align="right"/>
-  <dlg:text dlg:id="LabelCalcStaffSize" dlg:tab-index="106" dlg:left="9" dlg:top="67" dlg:width="41" dlg:height="10" dlg:page="2" dlg:value="Staff size:" dlg:align="right"/>
-  <dlg:text dlg:id="LabelCalcLineWidth" dlg:tab-index="105" dlg:left="9" dlg:top="82" dlg:width="41" dlg:height="10" dlg:page="2" dlg:value="Line width:" dlg:align="right"/>
+  <dlg:text dlg:id="LabelCalcStaffSize" dlg:tab-index="106" dlg:left="9" dlg:top="82" dlg:width="41" dlg:height="10" dlg:page="2" dlg:value="Staff size:" dlg:align="right"/>
+  <dlg:text dlg:id="LabelCalcLineWidth" dlg:tab-index="105" dlg:left="9" dlg:top="67" dlg:width="41" dlg:height="10" dlg:page="2" dlg:value="Line width:" dlg:align="right"/>
   <dlg:text dlg:id="LabelDrawDefaultTemplate" dlg:tab-index="94" dlg:left="9" dlg:top="52" dlg:width="41" dlg:height="10" dlg:page="4" dlg:value="Template:" dlg:align="right"/>
-  <dlg:text dlg:id="LabelDrawStaffSize" dlg:tab-index="93" dlg:left="9" dlg:top="67" dlg:width="41" dlg:height="10" dlg:page="4" dlg:value="Staff size:" dlg:align="right"/>
-  <dlg:text dlg:id="LabelDrawLineWidth" dlg:tab-index="92" dlg:left="9" dlg:top="82" dlg:width="41" dlg:height="10" dlg:page="4" dlg:value="Line width:" dlg:align="right"/>
+  <dlg:text dlg:id="LabelDrawStaffSize" dlg:tab-index="93" dlg:left="9" dlg:top="82" dlg:width="41" dlg:height="10" dlg:page="4" dlg:value="Staff size:" dlg:align="right"/>
+  <dlg:text dlg:id="LabelDrawLineWidth" dlg:tab-index="92" dlg:left="9" dlg:top="67" dlg:width="41" dlg:height="10" dlg:page="4" dlg:value="Line width:" dlg:align="right"/>
   <dlg:titledbox dlg:id="DrawDefaultsFrame" dlg:tab-index="82" dlg:left="6" dlg:top="38" dlg:width="155" dlg:height="187" dlg:page="4">
    <dlg:title dlg:value="Default values for Drawings"/>
   </dlg:titledbox>
   <dlg:titledbox dlg:id="CalcDefaultsFrame" dlg:tab-index="95" dlg:left="6" dlg:top="38" dlg:width="155" dlg:height="187" dlg:page="2">
    <dlg:title dlg:value="Default values for Spreadsheets"/>
   </dlg:titledbox>
-  <dlg:combobox dlg:id="sCalcDefaultTemplate" dlg:tab-index="96" dlg:left="53" dlg:top="50" dlg:width="105" dlg:height="12" dlg:page="2" dlg:help-text="Default template to use for OOoLilyPond objects in Impress and Draw documents" dlg:spin="true" dlg:linecount="24"/>
-  <dlg:textfield dlg:id="sCalcDefaultLineWidth" dlg:tab-index="97" dlg:left="53" dlg:top="80" dlg:width="38" dlg:height="12" dlg:page="2"/>
-  <dlg:combobox dlg:id="sDrawDefaultTemplate" dlg:tab-index="83" dlg:left="53" dlg:top="50" dlg:width="105" dlg:height="12" dlg:page="4" dlg:help-text="Default template to use for OOoLilyPond objects in Impress and Draw documents" dlg:spin="true" dlg:linecount="24"/>
-  <dlg:textfield dlg:id="sDrawDefaultStaffSize" dlg:tab-index="86" dlg:left="53" dlg:top="65" dlg:width="38" dlg:height="12" dlg:page="4"/>
-  <dlg:textfield dlg:id="sDrawDefaultLineWidth" dlg:tab-index="84" dlg:left="53" dlg:top="80" dlg:width="38" dlg:height="12" dlg:page="4"/>
-  <dlg:checkbox dlg:id="bCalcUseLineWidthFromTemplate" dlg:tab-index="100" dlg:left="96" dlg:top="83" dlg:width="60" dlg:height="10" dlg:page="2" dlg:value="From template" dlg:checked="false">
+  <dlg:combobox dlg:id="sCalcDefaultTemplate" dlg:tab-index="96" dlg:left="53" dlg:top="50" dlg:width="105" dlg:height="12" dlg:page="2" dlg:help-text="Default template to use for OOoLilyPond objects in Calc documents" dlg:spin="true" dlg:linecount="24"/>
+  <dlg:textfield dlg:id="sCalcDefaultLineWidth" dlg:tab-index="97" dlg:left="53" dlg:top="65" dlg:width="38" dlg:height="12" dlg:page="2"/>
+  <dlg:combobox dlg:id="sDrawDefaultTemplate" dlg:tab-index="83" dlg:left="53" dlg:top="50" dlg:width="105" dlg:height="12" dlg:page="4" dlg:help-text="Default template to use for OOoLilyPond objects in Draw documents" dlg:spin="true" dlg:linecount="24"/>
+  <dlg:textfield dlg:id="sDrawDefaultStaffSize" dlg:tab-index="86" dlg:left="53" dlg:top="80" dlg:width="38" dlg:height="12" dlg:page="4"/>
+  <dlg:textfield dlg:id="sDrawDefaultLineWidth" dlg:tab-index="84" dlg:left="53" dlg:top="65" dlg:width="38" dlg:height="12" dlg:page="4"/>
+  <dlg:checkbox dlg:id="bCalcUseLineWidthFromTemplate" dlg:tab-index="100" dlg:left="96" dlg:top="69" dlg:width="60" dlg:height="10" dlg:page="2" dlg:value="From template" dlg:checked="false">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.ConfigDialogGrayOut?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
-  <dlg:checkbox dlg:id="bCalcUseStaffSizeFromTemplate" dlg:tab-index="98" dlg:left="96" dlg:top="69" dlg:width="60" dlg:height="10" dlg:page="2" dlg:value="From template" dlg:checked="false">
+  <dlg:checkbox dlg:id="bCalcUseStaffSizeFromTemplate" dlg:tab-index="98" dlg:left="96" dlg:top="83" dlg:width="60" dlg:height="10" dlg:page="2" dlg:value="From template" dlg:checked="false">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.ConfigDialogGrayOut?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
-  <dlg:checkbox dlg:id="bDrawUseStaffSizeFromTemplate" dlg:tab-index="85" dlg:left="96" dlg:top="69" dlg:width="60" dlg:height="10" dlg:page="4" dlg:value="From template" dlg:checked="false">
+  <dlg:checkbox dlg:id="bDrawUseStaffSizeFromTemplate" dlg:tab-index="85" dlg:left="96" dlg:top="83" dlg:width="60" dlg:height="10" dlg:page="4" dlg:value="From template" dlg:checked="false">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.ConfigDialogGrayOut?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
-  <dlg:checkbox dlg:id="bDrawUseLineWidthFromTemplate" dlg:tab-index="87" dlg:left="96" dlg:top="83" dlg:width="60" dlg:height="10" dlg:page="4" dlg:value="From template" dlg:checked="false">
+  <dlg:checkbox dlg:id="bDrawUseLineWidthFromTemplate" dlg:tab-index="87" dlg:left="96" dlg:top="69" dlg:width="60" dlg:height="10" dlg:page="4" dlg:value="From template" dlg:checked="false">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Config.ConfigDialogGrayOut?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:checkbox>
   <dlg:titledbox dlg:id="CalcInsertImagesFrame" dlg:tab-index="101" dlg:left="8" dlg:top="172" dlg:width="150" dlg:height="33" dlg:page="2">
@@ -193,6 +193,6 @@
   <dlg:radiogroup>
    <dlg:radio dlg:id="DrawAnchorToPage" dlg:tab-index="109" dlg:left="10" dlg:top="108" dlg:width="145" dlg:height="8" dlg:page="2" dlg:help-text="The OOoLilyPond object is inserted into the Text like a character." dlg:tabstop="true" dlg:value="To page" dlg:checked="true"/>
   </dlg:radiogroup>
-  <dlg:textfield dlg:id="sCalcDefaultStaffSize" dlg:tab-index="99" dlg:left="53" dlg:top="65" dlg:width="38" dlg:height="12" dlg:page="2"/>
+  <dlg:textfield dlg:id="sCalcDefaultStaffSize" dlg:tab-index="99" dlg:left="53" dlg:top="80" dlg:width="38" dlg:height="12" dlg:page="2"/>
  </dlg:bulletinboard>
 </dlg:window>
