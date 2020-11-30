@@ -169,7 +169,7 @@ Sub OOoLilyPondBatch()
 	Dim bHasURL As Boolean
 
 	OOoLilyPondInit ()
-	If (iDocumentType &lt;&gt; 1) Then Exit Sub  &apos; Only continue in Writer
+	If (iDocumentType &lt;&gt; 0) Then Exit Sub  &apos; Only continue in Writer
 	
 	sURL = oDoc.getURL()  &apos; see GetRelativeIncludeStatement ()
 	bHasURL = (Not IsNull (sURL)) And Len (sURL) &gt; 0
