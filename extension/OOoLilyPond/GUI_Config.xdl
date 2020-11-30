@@ -181,9 +181,9 @@
   <dlg:fixedline dlg:id="ImpressDefaultsLine" dlg:tab-index="111" dlg:left="9" dlg:top="35" dlg:width="149" dlg:height="9" dlg:page="3" dlg:value="Default values for Presentations"/>
   <dlg:fixedline dlg:id="DrawDefaultsLine" dlg:tab-index="112" dlg:left="9" dlg:top="35" dlg:width="149" dlg:height="9" dlg:page="4" dlg:value="Default values for Drawings"/>
   <dlg:radiogroup>
-   <dlg:radio dlg:id="CalcAnchorToCell" dlg:tab-index="106" dlg:left="10" dlg:top="108" dlg:width="145" dlg:height="8" dlg:page="2" dlg:help-text="The OOoLilyPond object is inserted into the Text like a character." dlg:tabstop="true" dlg:value="To cell" dlg:checked="true"/>
-   <dlg:radio dlg:id="CalcAnchorToCellResize" dlg:tab-index="107" dlg:left="10" dlg:top="118" dlg:width="145" dlg:height="8" dlg:page="2" dlg:help-text="The OOoLilyPond object is inserted like an image and can be placed freely. The object keeps the position relative to the character." dlg:tabstop="true" dlg:value="To cell (resize with cell)"/>
-   <dlg:radio dlg:id="CalcAnchorToPage" dlg:tab-index="108" dlg:left="10" dlg:top="128" dlg:width="145" dlg:height="8" dlg:page="2" dlg:help-text="The OOoLilyPond object is inserted like an image and can be placed freely. The object keeps the position relative to the paragraph." dlg:tabstop="true" dlg:value="To page"/>
+   <dlg:radio dlg:id="CalcAnchorToCell" dlg:tab-index="106" dlg:left="10" dlg:top="108" dlg:width="145" dlg:height="8" dlg:page="2" dlg:tabstop="true" dlg:value="To cell" dlg:checked="true"/>
+   <dlg:radio dlg:id="CalcAnchorToCellResize" dlg:tab-index="107" dlg:left="10" dlg:top="118" dlg:width="145" dlg:height="8" dlg:page="2" dlg:tabstop="true" dlg:value="To cell (resize with cell)"/>
+   <dlg:radio dlg:id="CalcAnchorToPage" dlg:tab-index="108" dlg:left="10" dlg:top="128" dlg:width="145" dlg:height="8" dlg:page="2" dlg:tabstop="true" dlg:value="To page"/>
   </dlg:radiogroup>
  </dlg:bulletinboard>
 </dlg:window>
