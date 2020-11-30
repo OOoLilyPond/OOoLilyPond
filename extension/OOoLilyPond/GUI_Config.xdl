@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE dlg:window PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "dialog.dtd">
-<dlg:window xmlns:dlg="http://openoffice.org/2000/dialog" xmlns:script="http://openoffice.org/2000/script" dlg:id="GUI_Config" dlg:tab-index="0" dlg:left="29" dlg:top="35" dlg:width="420" dlg:height="308" dlg:page="1" dlg:closeable="true" dlg:moveable="true" dlg:title="OOoLilyPond Configuration">
+<dlg:window xmlns:dlg="http://openoffice.org/2000/dialog" xmlns:script="http://openoffice.org/2000/script" dlg:id="GUI_Config" dlg:tab-index="0" dlg:left="29" dlg:top="35" dlg:width="420" dlg:height="308" dlg:page="2" dlg:closeable="true" dlg:moveable="true" dlg:title="OOoLilyPond Configuration">
  <dlg:bulletinboard>
   <dlg:radiogroup>
    <dlg:radio dlg:id="WriterAnchorAsCharacter" dlg:tab-index="8" dlg:left="10" dlg:top="108" dlg:width="60" dlg:height="8" dlg:page="1" dlg:help-text="The OOoLilyPond object is inserted into the Text like a character." dlg:tabstop="true" dlg:value="As character" dlg:checked="true"/>

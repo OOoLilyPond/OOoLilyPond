@@ -59,6 +59,7 @@ Private bUseLineWidthFromTemplate (4) As Boolean
 &apos; Private bImpressUseLineWidthFromTemplate As Boolean
 
 
+Private iCalcDefaultAnchor As Integer
 Private iWriterDefaultAnchor As Integer
 Private iWriterDefaultWrap As Integer
 

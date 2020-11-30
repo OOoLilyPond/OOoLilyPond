@@ -93,6 +93,10 @@ Sub ConfigDialogUpdate()
 	Else
 		oConfigDialog.getControl (&quot;CalcInsertDirect&quot;).setState (true)
 	End If 
+	
+	If iCalcDefaultAnchor = 1 Then oConfigDialog.getControl (&quot;CalcAnchorToCell&quot;).setState (true)
+	If iCalcDefaultAnchor = 2 Then oConfigDialog.getControl (&quot;CalcAnchorToCellResize&quot;).setState (true)
+	If iCalcDefaultAnchor = 3 Then oConfigDialog.getControl (&quot;CalcAnchorToPage&quot;).setState (true)
 
 	&apos; Impress configuration
 	oConfigDialog.getControl (&quot;sImpressDefaultTemplate&quot;).setText (sDefaultTemplate (2))
@@ -417,6 +421,11 @@ Sub ApplyConfig
 	bKeepCrop (1) = CheckBoxStateToBool (oConfigDialog.getControl (&quot;bCalcKeepCrop&quot;).getState ())
 	bInsertViaClipboard (1) = oConfigDialog.getControl (&quot;CalcInsertViaClipboard&quot;).getState ()
 	
+	if oConfigDialog.getControl (&quot;CalcAnchorToCell&quot;).getState() then iCalcDefaultAnchor = 1
+	if oConfigDialog.getControl (&quot;CalcAnchorToCellResize&quot;).getState() then iCalcDefaultAnchor = 2
+	if oConfigDialog.getControl (&quot;CalcAnchorToPage&quot;).getState() then iCalcDefaultAnchor = 3
+	
+	
 	&apos; Impress specific settings
 	sDefaultTemplate (2) =  oConfigDialog.getControl (&quot;sImpressDefaultTemplate&quot;).getText ()
 	sDefaultLineWidth (2) = oConfigDialog.getControl (&quot;sImpressDefaultLineWidth&quot;).getText ()
@@ -564,6 +573,8 @@ Sub DefaultConfig()
 	bUseLineWidthFromTemplate (1) = False
 	bInsertViaClipboard (1) = False
 	bKeepCrop (1) = False
+	
+	iCalcDefaultAnchor = 1  &apos; AnchorToCell
 	
 	&apos; Impress specific settings
 	sDefaultTemplate (2) = &quot;Default&quot;
@@ -728,6 +739,8 @@ Sub ReadConfig()
 				bInsertViaClipboard (1) = StringToBool(sValue)
 			Case &quot;bCalcKeepCrop&quot;
 				bKeepCrop (1) = StringToBool(sValue)
+			Case &quot;iCalcDefaultAnchor&quot;
+				iCalcDefaultAnchor = CInt(sValue)
 				
 			&apos; Impress specific settings
 			Case &quot;sImpressDefaultTemplate&quot;
@@ -854,6 +867,7 @@ Sub SaveConfig
 	oTextOutputStream.writeString(&quot;bCalcUseStaffSizeFromTemplate=&quot; &amp; BoolToString (bUseStaffSizeFromTemplate (1)) &amp; Chr(10))
 	oTextOutputStream.writeString(&quot;bCalcInsertViaClipboard=&quot; &amp; BoolToString (bInsertViaClipboard (1)) &amp; Chr(10))
 	oTextOutputStream.writeString(&quot;bCalcKeepCrop=&quot; &amp; BoolToString (bKeepCrop (1)) &amp; Chr(10))
+	oTextOutputStream.writeString(&quot;iCalcDefaultAnchor=&quot; &amp; CStr(iCalcDefaultAnchor) &amp; Chr(10))
 	
 	&apos; Impress specific
 	oTextOutputStream.writeString(&quot;sImpressDefaultTemplate=&quot; &amp; sDefaultTemplate (2) &amp; Chr(10))

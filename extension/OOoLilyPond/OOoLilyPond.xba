@@ -118,6 +118,9 @@ Sub OOoLilyPondInit()
 		iAnchor = iWriterDefaultAnchor
 		iWrap = iWriterDefaultWrap
 	End If
+	If iDocumentType = 1 Then
+		iAnchor = iCalcDefaultAnchor
+	End If
 	
 	sTemplate = sDefaultTemplate (iDocumentType)
 	
