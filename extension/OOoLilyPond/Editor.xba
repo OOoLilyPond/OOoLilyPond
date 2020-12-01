@@ -137,6 +137,9 @@ Sub EditorDialog()
 	&apos; grey out inactive control elements
 	GreyOut()
 	
+	&apos; set dialog page (1...4) depending on document type (0...3)
+	oEditorDialog.Model.Step = iDocumentType + 1
+	
 	&apos; open the dialog
     oEditorDialog.Execute()
 
