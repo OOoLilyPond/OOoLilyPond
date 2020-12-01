@@ -119,15 +119,21 @@ Sub EditorDialog()
 	End Select
 	oEditorDialog.getControl(&quot;sTemplate&quot;).setText(sTemplate)
 
-	&apos; Anchor settings
+	&apos; Anchor settings in Writer
 	If iAnchor = com.sun.star.text.TextContentAnchorType.AS_CHARACTER Then oEditorDialog.getControl(&quot;AnchorAsCharacter&quot;).setState(true)
 	If iAnchor = com.sun.star.text.TextContentAnchorType.AT_CHARACTER Then oEditorDialog.getControl(&quot;AnchorToCharacter&quot;).setState(true)
 	If iAnchor = com.sun.star.text.TextContentAnchorType.AT_PARAGRAPH Then  oEditorDialog.getControl(&quot;AnchorToParagraph&quot;).setState(true)
 	If iAnchor = com.sun.star.text.TextContentAnchorType.AT_PAGE Then oEditorDialog.getControl(&quot;AnchorToPage&quot;).setState(true)
 
+	&apos; Wrap settings in Writer
 	If iWrap = com.sun.star.text.WrapTextMode.NONE Then oEditorDialog.getControl(&quot;NoWrap&quot;).setState(true)
 	If iWrap = com.sun.star.text.WrapTextMode.DYNAMIC Then oEditorDialog.getControl(&quot;OptimalPageWrap&quot;).setState(true)
 	If iWrap = com.sun.star.text.WrapTextMode.THROUGHT Then oEditorDialog.getControl(&quot;WrapThrough&quot;).setState(true)	
+	
+	&apos; Anchor settings in Calc
+	If iAnchor = 1 Then oEditorDialog.getControl (&quot;CalcAnchorToCell&quot;).setState (true)
+	If iAnchor = 2 Then oEditorDialog.getControl (&quot;CalcAnchorToCellResize&quot;).setState (true)
+	If iAnchor = 3 Then oEditorDialog.getControl (&quot;CalcAnchorToPage&quot;).setState (true)
 	
 	oEditorDialog.getControl(&quot;bKeepCrop&quot;).setState (BoolToCheckBoxState(bKeepCrop And bShapeIsSelected))
 	oEditorDialog.getControl(&quot;bSaveAsSeparateImages&quot;).setState (BoolToCheckBoxState (bSaveAsSeparateImages And (iDocumentType = 0)))
@@ -205,6 +211,12 @@ Sub GreyOut()
 	oEditorDialog.getControl(&quot;NoWrap&quot;).setEnable(bWrapSettings)
 	oEditorDialog.getControl(&quot;OptimalPageWrap&quot;).setEnable(bWrapSettings)
 	oEditorDialog.getControl(&quot;WrapThrough&quot;).setEnable(bWrapSettings)
+
+	&apos; grey out Calc&apos;s Anchor radio buttons when we are not in Calc
+	oEditorDialog.getControl(&quot;CalcAnchorFrameControl&quot;).setEnable (iDocumentType = 1)
+	oEditorDialog.getControl(&quot;CalcAnchorToCell&quot;).setEnable (iDocumentType = 1)
+	oEditorDialog.getControl(&quot;CalcAnchorToCellResize&quot;).setEnable (iDocumentType = 1)
+	oEditorDialog.getControl(&quot;CalcAnchorToPage&quot;).setEnable (iDocumentType = 1)
 
 	&apos; grey out and un-check SeparateImages checkbox when Anchor is NOT &quot;as Character&quot;
 	oEditorDialog.getControl (&quot;bSaveAsSeparateImages&quot;).setEnable (bEnableSeparateImages)
