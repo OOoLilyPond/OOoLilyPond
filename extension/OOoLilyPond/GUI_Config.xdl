@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE dlg:window PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "dialog.dtd">
-<dlg:window xmlns:dlg="http://openoffice.org/2000/dialog" xmlns:script="http://openoffice.org/2000/script" dlg:id="GUI_Config" dlg:tab-index="0" dlg:left="29" dlg:top="35" dlg:width="420" dlg:height="308" dlg:page="2" dlg:closeable="true" dlg:moveable="true" dlg:title="OOoLilyPond Configuration">
+<dlg:window xmlns:dlg="http://openoffice.org/2000/dialog" xmlns:script="http://openoffice.org/2000/script" dlg:id="GUI_Config" dlg:tab-index="0" dlg:left="29" dlg:top="35" dlg:width="420" dlg:height="308" dlg:page="4" dlg:closeable="true" dlg:moveable="true" dlg:title="OOoLilyPond Configuration">
  <dlg:bulletinboard>
   <dlg:radiogroup>
    <dlg:radio dlg:id="WriterAnchorAsCharacter" dlg:tab-index="8" dlg:left="10" dlg:top="108" dlg:width="60" dlg:height="8" dlg:page="1" dlg:help-text="The OOoLilyPond object is inserted into the Text like a character." dlg:tabstop="true" dlg:value="As character" dlg:checked="true"/>
@@ -59,7 +59,7 @@
    <dlg:radio dlg:id="ImpressInsertDirect" dlg:tab-index="28" dlg:left="10" dlg:top="192" dlg:width="145" dlg:height="8" dlg:page="3" dlg:help-text="Insert Images without Clipboard use (recommended)." dlg:value="Direct"/>
   </dlg:radiogroup>
   <dlg:checkbox dlg:id="bWriterKeepCrop" dlg:tab-index="20" dlg:left="10" dlg:top="210" dlg:width="147" dlg:height="9" dlg:page="1" dlg:help-text="When editing/replacing an existing object in Writer, preserve its current size and crop settings" dlg:value="Keep size &amp; crop settings" dlg:checked="false"/>
-  <dlg:checkbox dlg:id="bImpressKeepCrop" dlg:tab-index="29" dlg:left="10" dlg:top="210" dlg:width="147" dlg:height="9" dlg:page="3" dlg:help-text="When editing/replacing an existing object in Impress/Draw, preserve its current size and crop settings" dlg:value="Keep size &amp; crop settings" dlg:checked="false"/>
+  <dlg:checkbox dlg:id="bImpressKeepCrop" dlg:tab-index="29" dlg:left="10" dlg:top="210" dlg:width="147" dlg:height="9" dlg:page="3" dlg:help-text="When editing/replacing an existing object in Impress, preserve its current size and crop settings" dlg:value="Keep size &amp; crop settings" dlg:checked="false"/>
   <dlg:titledbox dlg:id="AnchorFrameControl" dlg:tab-index="7" dlg:left="8" dlg:top="96" dlg:width="65" dlg:height="54" dlg:page="1">
    <dlg:title dlg:value="Anchor"/>
   </dlg:titledbox>
@@ -169,8 +169,8 @@
    <dlg:radio dlg:id="DrawInsertViaClipboard" dlg:tab-index="87" dlg:left="10" dlg:top="182" dlg:width="145" dlg:height="8" dlg:page="4" dlg:help-text="Insert Images via Clipboard." dlg:value="Via clipboard" dlg:checked="true"/>
    <dlg:radio dlg:id="DrawInsertDirect" dlg:tab-index="88" dlg:left="10" dlg:top="192" dlg:width="145" dlg:height="8" dlg:page="4" dlg:help-text="Insert Images without Clipboard use (recommended)." dlg:value="Direct"/>
   </dlg:radiogroup>
-  <dlg:checkbox dlg:id="bDrawKeepCrop" dlg:tab-index="89" dlg:left="10" dlg:top="210" dlg:width="147" dlg:height="9" dlg:page="4" dlg:help-text="When editing/replacing an existing object in Impress/Draw, preserve its current size and crop settings" dlg:value="Keep size &amp; crop settings" dlg:checked="false"/>
-  <dlg:checkbox dlg:id="bCalcKeepCrop" dlg:tab-index="101" dlg:left="10" dlg:top="210" dlg:width="147" dlg:height="9" dlg:page="2" dlg:help-text="When editing/replacing an existing object in Impress/Draw, preserve its current size and crop settings" dlg:value="Keep size &amp; crop settings" dlg:checked="false"/>
+  <dlg:checkbox dlg:id="bDrawKeepCrop" dlg:tab-index="89" dlg:left="10" dlg:top="210" dlg:width="147" dlg:height="9" dlg:page="4" dlg:help-text="When editing/replacing an existing object in Draw, preserve its current size and crop settings" dlg:value="Keep size &amp; crop settings" dlg:checked="false"/>
+  <dlg:checkbox dlg:id="bCalcKeepCrop" dlg:tab-index="101" dlg:left="10" dlg:top="210" dlg:width="147" dlg:height="9" dlg:page="2" dlg:help-text="When editing/replacing an existing object in Calc, preserve its current size and crop settings" dlg:value="Keep size &amp; crop settings" dlg:checked="false"/>
   <dlg:titledbox dlg:id="DrawAnchorFrameControl" dlg:tab-index="105" dlg:left="8" dlg:top="96" dlg:width="150" dlg:height="54" dlg:page="2">
    <dlg:title dlg:value="Anchor"/>
   </dlg:titledbox>
