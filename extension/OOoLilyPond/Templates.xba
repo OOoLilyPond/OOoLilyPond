@@ -551,11 +551,11 @@ Function ReadTemplate (bShowError As Boolean) As Boolean
 		
 	Wend
 
-	If bUseLineWidthFromTemplate Then
-		sDefaultLineWidth = sLineWidthFromTemplate
+	If bUseLineWidthFromTemplate (iDocumentType) Then
+		sEditorDefaultLineWidth = sLineWidthFromTemplate
 	End If
-	If bUseStaffSizeFromTemplate Then
-		sDefaultStaffSize = sStaffSizeFromTemplate
+	If bUseStaffSizeFromTemplate (iDocumentType) Then
+		sEditorDefaultStaffSize = sStaffSizeFromTemplate
 	EndIf
 		
 	If Not bCodeFieldExists Then
@@ -734,6 +734,7 @@ Sub TmplDeleteButton
 	&apos; File deletion not possible (permissions or so)
 
 	Dim sFile As String
+	Dim i As Integer
 	sFile = sTemplatePath &amp; sTemplate &amp; &quot;.ly&quot;
 	
 	If MsgBox (oMessages.getPropertyValue (&quot;sMsgConfirmDeleteTemplate1&quot;) &amp; sTemplate &amp; &quot;.ly&quot; _
@@ -748,14 +749,16 @@ Sub TmplDeleteButton
 		MsgBox (oMessages.getPropertyValue (&quot;sMsgCannotDeleteTemplate1&quot;) &amp; ConvertFromURL(sFile) &amp; oMessages.getPropertyValue (&quot;sMsgCannotDeleteTemplate2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 	End If
 
-	If sTemplate=sWriterDefaultTemplate or sTemplate=sImpressDefaultTemplate Then
-		&apos; MsgBox(&quot;You have deleted a default template. Please choose another default template in the configuration dialogue&quot;)
-		MsgBox (oMessages.getPropertyValue (&quot;sMsgDefaultTemplateDeleted1&quot;) &amp; sTemplate &amp; oMessages.getPropertyValue (&quot;sMsgDefaultTemplateDeleted2&quot;), iMsgBox_I, oMessages.getPropertyValue (&quot;sCaptionInfo&quot;))
-		ConfigDialog()
-	EndIf
+	For i = 0 to 3
+		If sTemplate = sDefaultTemplate (i) Then
+			&apos; MsgBox(&quot;You have deleted a default template. Please choose another default template in the configuration dialogue&quot;)
+			MsgBox (oMessages.getPropertyValue (&quot;sMsgDefaultTemplateDeleted1&quot;) &amp; sTemplate &amp; oMessages.getPropertyValue (&quot;sMsgDefaultTemplateDeleted2&quot;), iMsgBox_I, oMessages.getPropertyValue (&quot;sCaptionInfo&quot;))
+			ConfigDialog()
+		EndIf
+	Next i
 
 	&apos; Use the default template
-	sTemplate=IIf(bInWriter, sWriterDefaultTemplate, sImpressDefaultTemplate)
+	sTemplate = sDefaultTemplate (iDocumentType)
 
 End Sub
 

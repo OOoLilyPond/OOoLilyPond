@@ -43,21 +43,36 @@ Sub OOoLilyPondInit()
 	&apos; Get the current document and controller
  	oDoc = ThisComponent
 	oDocCtrl = oDoc.getCurrentController()
-
-	&apos; Test if we are in OOoWriter or OOoImpress
+	
 	bWrongDocumentType = False
-	If oDoc.getImplementationName() =  &quot;SwXTextDocument&quot; Then
-		bInWriter = True
-	Elseif oDoc.getImplementationName() = &quot;SdXImpressDocument&quot; or oDoc.getImplementationName() = &quot;ScModelObj&quot; Then
-		bInWriter = False
-		if oDoc.getImplementationName() = &quot;ScModelObj&quot; Then
-			bInCalc = True
-		End If
-	Else
-	    bWrongDocumentType = True
-		&apos; before displaying the error message, first care about config and translation stuff...
-		Exit Sub
-	End If
+
+	&apos; Test if we are in OOoWriter or OOoImpress or...
+	
+	Select Case oDoc.Identifier
+	Case &quot;com.sun.star.text.TextDocument&quot;
+		iDocumentType = 0
+	Case &quot;com.sun.star.sheet.SpreadsheetDocument&quot;
+		iDocumentType = 1
+	Case &quot;com.sun.star.presentation.PresentationDocument&quot;
+		iDocumentType = 2
+	Case &quot;com.sun.star.drawing.DrawingDocument&quot;
+		iDocumentType = 3
+	Case Else
+		bWrongDocumentType = True
+	End Select
+	
+	&apos; If oDoc.getImplementationName() =  &quot;SwXTextDocument&quot; Then
+	&apos;	bInWriter = True
+	&apos; Elseif oDoc.getImplementationName() = &quot;SdXImpressDocument&quot; or oDoc.getImplementationName() = &quot;ScModelObj&quot; Then
+	&apos;	bInWriter = False
+	&apos;	if oDoc.getImplementationName() = &quot;ScModelObj&quot; Then
+	&apos;		bInCalc = True
+	&apos;	End If
+	&apos; Else
+	&apos;     bWrongDocumentType = True
+	&apos;	&apos; before displaying the error message, first care about config and translation stuff...
+	&apos;	Exit Sub
+	&apos; End If
 
 	&apos; Set configuration to &quot;factory default&quot;, is overwritten by settings from configuration file
 	DefaultConfig()
@@ -99,13 +114,15 @@ Sub OOoLilyPondInit()
 	End If
 
 	&apos; Initialize Anchor and Wrap settings, we already know that ;-)
-	If bInWriter Then
-		sTemplate = sWriterDefaultTemplate
+	If iDocumentType = 0 Then
 		iAnchor = iWriterDefaultAnchor
 		iWrap = iWriterDefaultWrap
-	Else
-		sTemplate = sImpressDefaultTemplate
 	End If
+	If iDocumentType = 1 Then
+		iAnchor = iCalcDefaultAnchor
+	End If
+	
+	sTemplate = sDefaultTemplate (iDocumentType)
 	
 	bSaveAsSeparateImages = bNewObjectsAsSeparateImages
 	bTemplateSaved = False
@@ -155,7 +172,7 @@ Sub OOoLilyPondBatch()
 	Dim bHasURL As Boolean
 
 	OOoLilyPondInit ()
-	If Not bInWriter Then Exit Sub
+	If (iDocumentType &lt;&gt; 0) Then Exit Sub  &apos; Only continue in Writer
 	
 	sURL = oDoc.getURL()  &apos; see GetRelativeIncludeStatement ()
 	bHasURL = (Not IsNull (sURL)) And Len (sURL) &gt; 0
@@ -287,7 +304,7 @@ Function ReadGraphicObject (oGraphicObject As Object) As Boolean
 	Select Case oGraphicObject.getImplementationName()
 	Case &quot;com.sun.star.drawing.SvxShapeCollection&quot; 	&apos; inserted into Writer via Clipboard OR inserted into Draw/Impress OR into Calc
 		oShape = oGraphicObject.getByIndex(0)
-		If bInWriter Then &apos; OLy &lt; 0.4 in Writer
+		If (iDocumentType = 0) Then &apos; OLy &lt; 0.4 in Writer
 			&apos; oCursor = oDoc.Text.createTextCursorByRange(oSelection(0).getAnchor())
 			If Not ReadAttributes (oShape) Then  &apos;Read the OLy fields from the Object Attributes
 				ReadGraphicObject = False
@@ -299,7 +316,7 @@ Function ReadGraphicObject (oGraphicObject As Object) As Boolean
 				ReadGraphicObject = False
 				Exit Function
 			End If
-			If bInCalc Then
+			If (iDocumentType = 1) Then  &apos; we are in Calc
 				oAnchorCellInCalc = oShape.getAnchor()
 				&apos; the cell where the object is located, regardless whether it&apos;s anchored to that cell or to the page
 			End If
@@ -557,7 +574,7 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
   		Exit Sub
  	End If
  	
-	If bInWriter Then	&apos; We are in Writer...
+	If (iDocumentType = 0) Then	&apos; We are in Writer...
 	
 		oCurrentCursor = GetCursorForWriter (oCurrentGraphicObject)
 		
@@ -607,7 +624,7 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 			sImageNum = &quot;-&quot; &amp; CStr (iImageNum)
 
 			Do While oFileAccess.exists (sTmpPath &amp; constOLyFileName &amp; sImageNum &amp; &quot;.&quot; &amp; sExtension) And ((iImageNum &lt;= iTo) Or (iTo = 0))
-				If bWriterInsertViaClipboard Then
+				If bInsertViaClipboard (0) Then
 					If iImageNum = iFirstImageNum Then
 						InsertOOoLilyPondObjectViaClipboard (sIdentifier, sImageNum, sFileNameAddition, true)
 					Else
@@ -629,14 +646,14 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 				sImageNum = &quot;-&quot; &amp; CStr (iImageNum)
 			Loop
 		Else	&apos; not bSaveAsSeparateImages
-			If bWriterInsertViaClipboard Then
+			If bInsertViaClipboard (0) Then
 				InsertOOoLilyPondObjectViaClipboard (&quot;&quot;, &quot;&quot;, sFileNameAddition, true)
 			Else
 				InsertOOoLilyPondObject (&quot;&quot;, &quot;&quot;, sFileNameAddition, true)
 			End If
 		End If
-	Else				&apos; We are in Impress or Draw...
-		If bImpressInsertViaClipboard Then
+	Else				&apos; We are in Calc of Impress or Draw...
+		If bInsertViaClipboard (iDocumentType) Then
 			InsertOOoLilyPondObjectViaClipboard (&quot;&quot;, &quot;&quot;, sFileNameAddition, true)
 		Else
 			InsertOOoLilyPondObject (&quot;&quot;, &quot;&quot;, sFileNameAddition, true)
@@ -728,7 +745,7 @@ Sub AttachAttributes (oGraphic As Object, sIdentifier As String, sImageNum As St
 	Else
 		RemoveAttribute (oGraphic, &quot;OOoLilyPondTemplateCode&quot;)
 	End If
-	If bSaveAsSeparateImages And bInWriter Then 
+	If bSaveAsSeparateImages And (iDocumentType = 0) Then 
 		InsertAttribute (oGraphic, &quot;OOoLilyPondIdentifier&quot;, sIdentifier)
 		InsertAttribute (oGraphic, &quot;OOoLilyPondImageNum&quot;, sImageNum)
 	Else
@@ -736,13 +753,13 @@ Sub AttachAttributes (oGraphic As Object, sIdentifier As String, sImageNum As St
 		RemoveAttribute (oGraphic, &quot;OOoLilyPondImageNum&quot;)
 	End If
 	
-	If bInWriter And iFrom &gt; 0 Then 
+	If (iDocumentType = 0) And iFrom &gt; 0 Then 
 		InsertAttribute (oGraphic, &quot;OOoLilyPondFirstImage&quot;, iFrom)
 	Else
 		RemoveAttribute (oGraphic, &quot;OOoLilyPondFirstImage&quot;)
 	End If
 
-	If bInWriter And iTo &gt; 0 Then 
+	If (iDocumentType = 0) And iTo &gt; 0 Then 
 		InsertAttribute (oGraphic, &quot;OOoLilyPondLastImage&quot;, iTo)
 	Else
 		RemoveAttribute (oGraphic, &quot;OOoLilyPondLastImage&quot;)
@@ -761,7 +778,7 @@ Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As Strin
 		
 	oDispatcher = createUnoService(&quot;com.sun.star.frame.DispatchHelper&quot;)
 
-	if bInWriter then
+	if (iDocumentType = 0) then  &apos; we are in Writer
 
 		&apos;ToDo: Don&apos;t use the Dispatcher
 		if bShapeIsSelected And bFirstCall then
@@ -846,7 +863,7 @@ Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As Strin
 	  	oGraphic = oDocCtrl.getSelection().getByIndex(0)
 
 		if bShapeIsSelected then oGraphic.position = oShapePosition
-		if bInCalc then oGraphic.Anchor = oAnchorCellInCalc
+		if (iDocumentType = 1) then oGraphic.Anchor = oAnchorCellInCalc  &apos; in Calc
 
 	end if
 	
@@ -866,7 +883,7 @@ Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, sAddition
 	On Error GoTo ErrorHandler
 
 	&apos; insert the Bitmap
-	If bInWriter Then
+	If (iDocumentType = 0) Then  &apos; we are in Writer
 
 		Select Case oCurrentGraphicObject.getImplementationName()		
 		Case &quot;com.sun.star.drawing.SvxShapeCollection&quot;  &apos; OLy &lt; 0.4 in Writer or inserted &quot;via clipboard&quot;
@@ -935,7 +952,7 @@ Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, sAddition
 				oGraphic = ImportBitmapIntoDraw (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), oCurrentGraphicObject.getByIndex(0))
 			End If
 		End If
-		if bInCalc then oGraphic.Anchor = oAnchorCellInCalc
+		if (iDocumentType = 1) then oGraphic.Anchor = oAnchorCellInCalc  &apos; in Calc
 	End If
 	
 	
@@ -968,7 +985,7 @@ Function ReadAttributes( oShape As Object ) As Boolean
 	
 	bHasSeparateImages = False  &apos; global variable
 
-	If bInWriter Then
+	If (iDocumentType = 0) Then  &apos; we are in Writer
 		iAnchor=oShape.AnchorType
 		iWrap=oShape.Surround
 	Else
