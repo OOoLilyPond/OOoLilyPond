@@ -972,7 +972,14 @@ Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, sAddition
 				oGraphic = ImportBitmapIntoDraw (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), oCurrentGraphicObject.getByIndex(0))
 			End If
 		End If
-		if (iDocumentType = 1) then oGraphic.Anchor = oAnchorCellInCalc  &apos; in Calc
+		If (iDocumentType = 1) then   &apos; in Calc
+			If iAnchor = 3 Then     &apos; &quot;To Page&quot;
+				oGraphic.Anchor = oAnchorSheetInCalc
+			Else
+				oGraphic.Anchor = oAnchorCellInCalc
+				oGraphic.ResizeWithCell = (iAnchor = 2)
+			End If
+		End If
 	End If
 	
 	
