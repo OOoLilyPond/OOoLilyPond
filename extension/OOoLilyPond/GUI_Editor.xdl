@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE dlg:window PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "dialog.dtd">
-<dlg:window xmlns:dlg="http://openoffice.org/2000/dialog" xmlns:script="http://openoffice.org/2000/script" dlg:id="GUI_Editor" dlg:tab-index="0" dlg:left="42" dlg:top="23" dlg:width="378" dlg:height="316" dlg:page="2" dlg:closeable="true" dlg:moveable="true" dlg:title="OOoLilyPond Editor">
+<dlg:window xmlns:dlg="http://openoffice.org/2000/dialog" xmlns:script="http://openoffice.org/2000/script" dlg:id="GUI_Editor" dlg:tab-index="0" dlg:left="42" dlg:top="23" dlg:width="378" dlg:height="316" dlg:page="1" dlg:closeable="true" dlg:moveable="true" dlg:title="OOoLilyPond Editor">
  <dlg:styles>
   <dlg:style dlg:style-id="0" dlg:font-weight="150"/>
   <dlg:style dlg:style-id="1" dlg:font-name="Courier" dlg:font-stylename="Regular" dlg:font-family="modern"/>

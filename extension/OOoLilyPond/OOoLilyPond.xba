@@ -298,6 +298,9 @@ Function ReadGraphicObject (oGraphicObject As Object) As Boolean
 
 	Dim oShape As Object
 	Dim oRangeAddress As Object
+	Dim oSheets As Object
+	Dim iTableColumnNumber As Long
+	Dim iTableRowNumber As Long
 		
 	
 	bShapeIsSelected = False  &apos;global variable, used in InsertOOoLilyPondObjectViaClipboard ()
@@ -317,8 +320,26 @@ Function ReadGraphicObject (oGraphicObject As Object) As Boolean
 				Exit Function
 			End If
 			If (iDocumentType = 1) Then  &apos; we are in Calc
-				oAnchorCellInCalc = oShape.getAnchor()
+				oAnchorCellInCalc = oShape.getAnchor() 
 				&apos; the cell where the object is located, regardless whether it&apos;s anchored to that cell or to the page
+				oRangeAddress = oAnchorCellInCalc.getRangeAddress()
+				iCalcSheetNumber = oRangeAddress.Sheet
+				oSheets = oDoc.getSheets()
+				oAnchorSheetInCalc = oSheets.getByIndex (iCalcSheetNumber)
+				&apos; Determine how object is anchored in Calc:
+				Dim oAnchorFromProperty As Object
+				oAnchorFromProperty = oShape.Anchor
+				&apos; ScCellObj or ScTableSheetObj - depending on what the object actually is anchored to
+				If oAnchorFromProperty.getImplementationName = &quot;ScTableSheetObj&quot; Then
+					iAnchor = 3  &apos; &quot;To page&quot;
+				Else
+					If oShape.ResizeWithCell Then
+						iAnchor = 2  &apos; &quot;To cell (resize with cell)&quot;
+					Else
+						iAnchor = 1  &apos; &quot;To cell&quot;
+					End If
+				End If
+				
 			End If
 		End If
 		oShapePosition = oShape.position()  &apos;global variable, used in InsertOOoLilyPondObjectViaClipboard ()
@@ -340,26 +361,25 @@ Function ReadGraphicObject (oGraphicObject As Object) As Boolean
 		&apos; oCursor = oDoc.Text.createTextCursorByRange(oGraphicObject(0))
 			
 	Case &quot;ScCellObj&quot; &apos; a cell (but no object) selected in Calc
-		oAnchorCellInCalc = oGraphicObject
+		oAnchorCellInCalc = oGraphicObject	&apos; the currently selected cell
 		oRangeAddress = oGraphicObject.getRangeAddress()
 		iCalcSheetNumber = oRangeAddress.Sheet
-		&apos; the currently selected cell
+		oSheets = oDoc.getSheets()
+		oAnchorSheetInCalc = oSheets.getByIndex (iCalcSheetNumber)
+		
 		
 	Case &quot;ScCellRangeObj&quot; &apos; a cell range, i.e. multiple cells (but no object) selected in Calc
 		&apos; oGraphicObject is equal to  oDocCtrl.getSelection() passed as parameter to ReadGraphicObject()
-		Dim oSheets As Object
-		Dim oSheet As Object
-		Dim iTableColumnNumber As Long
-		Dim iTableRowNumber As Long
+		
 		
 		oRangeAddress = oGraphicObject.getRangeAddress()
 		iCalcSheetNumber = oRangeAddress.Sheet
 		&apos; https://ask.libreoffice.org/en/question/63307/getcellbyposition/
 		oSheets = oDoc.getSheets()
-		oSheet = oSheets.getByIndex (iCalcSheetNumber)
+		oAnchorSheetInCalc = oSheets.getByIndex (iCalcSheetNumber)
 		iTableRowNumber = oRangeAddress.StartRow
 		iTableColumnNumber = oRangeAddress.StartColumn
-		oAnchorCellInCalc = oSheet.getCellByPosition (iTableColumnNumber, iTableRowNumber)
+		oAnchorCellInCalc = oAnchorSheetInCalc.getCellByPosition (iTableColumnNumber, iTableRowNumber)
 		&apos; the leftmost &amp; topmost cell from the currently selected cell range
 			
 	Case Else

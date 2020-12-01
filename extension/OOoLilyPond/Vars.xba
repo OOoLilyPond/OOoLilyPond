@@ -198,6 +198,7 @@ Private oShapeSize As Object
 Private oShapePosition As Object
 Private oShapeCrop As Object
 Private oAnchorCellInCalc As Object
+Private oAnchorSheetInCalc As Object
 Private bShapeIsSelected As Boolean
 Private bKeepCrop As Boolean
 
