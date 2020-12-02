@@ -5,9 +5,12 @@
 Option Explicit
 
 Private iAskDialogReturnValue As Integer
+&apos; Global variable, stores the last answer from ConfirmBatchOperation ()
+&apos; May be changed from 4 to 3 by other functions if errors occured during compilation of Ly files
 
 
 Function ConfirmBatchOperation () As Integer
+&apos; Displays oAskDialog and saves the user&apos;s answer in global variable.
 &apos; 1 = Abort
 &apos; 2 = No
 &apos; 3 = Yes
@@ -40,13 +43,13 @@ Sub AskDlgAllButton ()
 End Sub
 
 
-Sub PerformBatchProcessing ()
-&apos; This function is called when the &quot;Start&quot; button in the Batch dialog is pressed.
+Sub GoThroughDrawPage (oDrawPage As Object, bAsk As Boolean)
+&apos; This function is called by PerformBatchProcessing ().
 &apos; It creates a list of all OOoLilyPond objects, 
 &apos; checks if they match the search criteria, 
 &apos; performs the specified replacements
 &apos; and recompiles them without opening the editor dialog.
-	Dim oDrawPage As Object
+
 	Dim oCurrentObject As Object
 	Dim oProgressBar As Object
 	Dim iCount As Integer
@@ -54,64 +57,14 @@ Sub PerformBatchProcessing ()
 	Dim iLastObject As Integer
 	
 	Dim oGraphic As Object
-	&apos; Dim oDocCtrl As Object
 	Dim oGraphicObjects ()
 	Dim sIdentifiers ()
 	Dim sImageNums ()
 	Dim sCurrentImageNum As String
 	Dim sCurrentIdentifier As String
 	Dim iPosInList As Integer
-	Dim iAnswer As Integer
-	Dim bAsk As Boolean  			&apos; checkbox state from Batch dialog
-	Dim bCreateBackup As Boolean	&apos; checkbox state from Batch dialog
-	Dim bSaveConfig As Boolean
-	Dim sURL As String
-	
-	
-	oBatchDialog.getControl (&quot;Process&quot;).setEnable (False)  &apos; avoid multiple button presses
+	Dim iAnswer As Integer	
 
-	bSaveConfig = False
-	
-	bAsk = CheckBoxStateToBool (oBatchDialog.getControl(&quot;bAsk&quot;).getState())
-	if bAsk &lt;&gt; bAskForEachObjectDefault Then
-		bAskForEachObjectDefault = bAsk
-		bSaveConfig = True
-	End If
-
-	bCreateBackup = False
-	sURL = oDoc.getURL()  &apos; see GetRelativeIncludeStatement ()
-	If (Not IsNull (sURL)) And Len (sURL) &gt; 0 Then
-		bCreateBackup = CheckBoxStateToBool (oBatchDialog.getControl(&quot;CreateBackup&quot;).getState())
-		If bCreateBackup &lt;&gt; bCreateBackupDefault Then
-			bCreateBackupDefault = bCreateBackup
-			bSaveConfig = True
-		End If
-	End If
-	
-	bKeepCrop = CheckBoxStateToBool (oBatchDialog.getControl(&quot;bKeepCrop&quot;).getState())
-	if bKeepCrop &lt;&gt; bBatchKeepCropDefault Then
-		bBatchKeepCropDefault = bKeepCrop
-		bSaveConfig = True
-	End If
-	
-	If bSaveConfig Then SaveConfig()
-	
-	If bCreateBackup Then CreateBackup (&quot;_&quot; &amp; TimeStamp ())
-		
-	oBatchDialog.EndExecute()
-	oAskDialog = createUnoDialog (DialogLibraries.GetByName (constOLyLibraryName).GetByName(&quot;GUI_Ask&quot;))
-	ReadDialogStringsFromVar (oAskDialog, sAskDialogStrings, &quot;&quot;)
-
-	Select Case iDocumentType
-	Case 0  &apos; Writer
-		oDrawPage = oDoc.DrawPage
-	Case 1  &apos; Calc
-		oDrawPage = oDoc.DrawPages.getByIndex (0)
-	Case 2  &apos; Impress
-	Case 3  &apos; Draw
-	Case Else
-	End Select
-	
 	iCount = oDrawPage.Count
 	oGraphicObjects = DimArray (iCount) 
 	sIdentifiers = DimArray (iCount) 
@@ -199,6 +152,66 @@ Sub PerformBatchProcessing ()
 		End If
 	next i
 	oProgressBar.end()
+End Sub
+
+
+Sub PerformBatchProcessing ()
+&apos; This function is called when the &quot;Start&quot; button in the Batch dialog is pressed.
+&apos; It provides a DrawPage and calls the GoThroughDrawPage function.
+
+	Dim bSaveConfig As Boolean
+	Dim bAsk As Boolean  			&apos; checkbox state from Batch dialog
+	Dim bCreateBackup As Boolean	&apos; checkbox state from Batch dialog
+	Dim sURL As String
+	Dim oDrawPage As Object	
+
+	oBatchDialog.getControl (&quot;Process&quot;).setEnable (False)  &apos; avoid multiple button presses
+
+	bSaveConfig = False
+	
+	bAsk = CheckBoxStateToBool (oBatchDialog.getControl(&quot;bAsk&quot;).getState())
+	if bAsk &lt;&gt; bAskForEachObjectDefault Then
+		bAskForEachObjectDefault = bAsk
+		bSaveConfig = True
+	End If
+
+	bCreateBackup = False
+	sURL = oDoc.getURL()  &apos; see GetRelativeIncludeStatement ()
+	If (Not IsNull (sURL)) And Len (sURL) &gt; 0 Then
+		bCreateBackup = CheckBoxStateToBool (oBatchDialog.getControl(&quot;CreateBackup&quot;).getState())
+		If bCreateBackup &lt;&gt; bCreateBackupDefault Then
+			bCreateBackupDefault = bCreateBackup
+			bSaveConfig = True
+		End If
+	End If
+	
+	bKeepCrop = CheckBoxStateToBool (oBatchDialog.getControl(&quot;bKeepCrop&quot;).getState())
+	if bKeepCrop &lt;&gt; bBatchKeepCropDefault Then
+		bBatchKeepCropDefault = bKeepCrop
+		bSaveConfig = True
+	End If
+	
+	If bSaveConfig Then SaveConfig()
+	
+	If bCreateBackup Then CreateBackup (&quot;_&quot; &amp; TimeStamp ())
+		
+	oBatchDialog.EndExecute()
+	oAskDialog = createUnoDialog (DialogLibraries.GetByName (constOLyLibraryName).GetByName(&quot;GUI_Ask&quot;))
+	ReadDialogStringsFromVar (oAskDialog, sAskDialogStrings, &quot;&quot;)
+
+	Select Case iDocumentType
+	Case 0  &apos; Writer
+		oDrawPage = oDoc.DrawPage
+	Case 1  &apos; Calc
+		oDrawPage = oDoc.DrawPages.getByIndex (0)
+	Case 2  &apos; Impress
+	Case 3  &apos; Draw
+	Case Else
+	End Select
+	
+	&apos; Scan DrawPage for OLy objects and process them: 
+	GoThroughDrawPage (oDrawPage, bAsk)
+	
 End Sub
 
 
