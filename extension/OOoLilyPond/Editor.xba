@@ -119,23 +119,32 @@ Sub EditorDialog()
 	End Select
 	oEditorDialog.getControl(&quot;sTemplate&quot;).setText(sTemplate)
 
-	&apos; Anchor settings
+	&apos; Anchor settings in Writer
 	If iAnchor = com.sun.star.text.TextContentAnchorType.AS_CHARACTER Then oEditorDialog.getControl(&quot;AnchorAsCharacter&quot;).setState(true)
 	If iAnchor = com.sun.star.text.TextContentAnchorType.AT_CHARACTER Then oEditorDialog.getControl(&quot;AnchorToCharacter&quot;).setState(true)
 	If iAnchor = com.sun.star.text.TextContentAnchorType.AT_PARAGRAPH Then  oEditorDialog.getControl(&quot;AnchorToParagraph&quot;).setState(true)
 	If iAnchor = com.sun.star.text.TextContentAnchorType.AT_PAGE Then oEditorDialog.getControl(&quot;AnchorToPage&quot;).setState(true)
 
+	&apos; Wrap settings in Writer
 	If iWrap = com.sun.star.text.WrapTextMode.NONE Then oEditorDialog.getControl(&quot;NoWrap&quot;).setState(true)
 	If iWrap = com.sun.star.text.WrapTextMode.DYNAMIC Then oEditorDialog.getControl(&quot;OptimalPageWrap&quot;).setState(true)
 	If iWrap = com.sun.star.text.WrapTextMode.THROUGHT Then oEditorDialog.getControl(&quot;WrapThrough&quot;).setState(true)	
 	
+	&apos; Anchor settings in Calc
+	If iAnchor = 1 Then oEditorDialog.getControl (&quot;CalcAnchorToCell&quot;).setState (true)
+	If iAnchor = 2 Then oEditorDialog.getControl (&quot;CalcAnchorToCellResize&quot;).setState (true)
+	If iAnchor = 3 Then oEditorDialog.getControl (&quot;CalcAnchorToPage&quot;).setState (true)
+	
 	oEditorDialog.getControl(&quot;bKeepCrop&quot;).setState (BoolToCheckBoxState(bKeepCrop And bShapeIsSelected))
-	oEditorDialog.getControl(&quot;bSaveAsSeparateImages&quot;).setState (BoolToCheckBoxState (bSaveAsSeparateImages And bInWriter))
+	oEditorDialog.getControl(&quot;bSaveAsSeparateImages&quot;).setState (BoolToCheckBoxState (bSaveAsSeparateImages And (iDocumentType = 0)))
 	If iFrom &gt; 0 Then oEditorDialog.getControl(&quot;iFrom&quot;).setValue (iFrom)
 	If iTo   &gt; 0 Then oEditorDialog.getControl(&quot;iTo&quot;).setValue (iTo)	
 
 	&apos; grey out inactive control elements
 	GreyOut()
+	
+	&apos; set dialog page (1...4) depending on document type (0...3)
+	oEditorDialog.Model.Step = iDocumentType + 1
 	
 	&apos; open the dialog
     oEditorDialog.Execute()
@@ -187,21 +196,27 @@ Sub GreyOut()
 		Exit Sub
 	End If
 
-	bWrapSettings = (Not oEditorDialog.getControl(&quot;AnchorAsCharacter&quot;).getState()) And bInWriter
-	bEnableSeparateImages = oEditorDialog.getControl(&quot;AnchorAsCharacter&quot;).getState() And bInWriter And (sFormat = &quot;eps&quot; Or sFormat = &quot;pdf to svg&quot; Or sFormat = &quot;pdf&quot;)  &apos; hopefully one day &quot;pdf&quot; will come true
+	bWrapSettings = (Not oEditorDialog.getControl(&quot;AnchorAsCharacter&quot;).getState()) And (iDocumentType = 0)
+	bEnableSeparateImages = oEditorDialog.getControl(&quot;AnchorAsCharacter&quot;).getState() And (iDocumentType = 0) And (sFormat = &quot;eps&quot; Or sFormat = &quot;pdf to svg&quot; Or sFormat = &quot;pdf&quot;)  &apos; hopefully one day &quot;pdf&quot; will come true
 
 	&apos; grey out Anchor and Wrap radio buttons when we are not in Writer
-	oEditorDialog.getControl(&quot;AnchorFrameControl&quot;).setEnable(bInWriter)
-	oEditorDialog.getControl(&quot;AnchorAsCharacter&quot;).setEnable(bInWriter)
-	oEditorDialog.getControl(&quot;AnchorToCharacter&quot;).setEnable(bInWriter)
-	oEditorDialog.getControl(&quot;AnchorToParagraph&quot;).setEnable(bInWriter)
-	oEditorDialog.getControl(&quot;AnchorToPage&quot;).setEnable(bInWriter)
+	oEditorDialog.getControl(&quot;AnchorFrameControl&quot;).setEnable (iDocumentType = 0)
+	oEditorDialog.getControl(&quot;AnchorAsCharacter&quot;).setEnable (iDocumentType = 0)
+	oEditorDialog.getControl(&quot;AnchorToCharacter&quot;).setEnable (iDocumentType = 0)
+	oEditorDialog.getControl(&quot;AnchorToParagraph&quot;).setEnable (iDocumentType = 0)
+	oEditorDialog.getControl(&quot;AnchorToPage&quot;).setEnable (iDocumentType = 0)
 
 	&apos; grey out Wrap radio buttons when Anchor is &quot;as Character&quot;
 	oEditorDialog.getControl(&quot;WrapFrameControl&quot;).setEnable(bWrapSettings)
 	oEditorDialog.getControl(&quot;NoWrap&quot;).setEnable(bWrapSettings)
 	oEditorDialog.getControl(&quot;OptimalPageWrap&quot;).setEnable(bWrapSettings)
 	oEditorDialog.getControl(&quot;WrapThrough&quot;).setEnable(bWrapSettings)
+
+	&apos; grey out Calc&apos;s Anchor radio buttons when we are not in Calc
+	oEditorDialog.getControl(&quot;CalcAnchorFrameControl&quot;).setEnable (iDocumentType = 1)
+	oEditorDialog.getControl(&quot;CalcAnchorToCell&quot;).setEnable (iDocumentType = 1)
+	oEditorDialog.getControl(&quot;CalcAnchorToCellResize&quot;).setEnable (iDocumentType = 1)
+	oEditorDialog.getControl(&quot;CalcAnchorToPage&quot;).setEnable (iDocumentType = 1)
 
 	&apos; grey out and un-check SeparateImages checkbox when Anchor is NOT &quot;as Character&quot;
 	oEditorDialog.getControl (&quot;bSaveAsSeparateImages&quot;).setEnable (bEnableSeparateImages)
@@ -230,12 +245,12 @@ Sub GreyOut()
 	If Not bOption4LabelExists   Then sOption4Label   = sDefaultOption4Label
 
 	&apos; grey out input fields
-	UpdateFieldAppearance (&quot;LineWidth&quot;, sLineWidthLabel, sDefaultLineWidth, &quot;##t&quot;, &quot;##f&quot;, bLineWidthFieldExists)
-	UpdateFieldAppearance (&quot;StaffSize&quot;, sStaffSizeLabel, sDefaultStaffSize,  &quot;#t&quot;,  &quot;#f&quot;, bStaffSizeFieldExists)
-	UpdateFieldAppearance (&quot;Custom1&quot;,   sCustom1Label,   sDefaultCustom1,   &quot;##t&quot;, &quot;##f&quot;, bCustom1FieldExists)
-	UpdateFieldAppearance (&quot;Custom2&quot;  , sCustom2Label,   sDefaultCustom2,   &quot;##t&quot;, &quot;##f&quot;, bCustom2FieldExists)
-	UpdateFieldAppearance (&quot;Custom3&quot;,   sCustom3Label,   sDefaultCustom3,   &quot;##t&quot;, &quot;##f&quot;, bCustom3FieldExists)
-	UpdateFieldAppearance (&quot;Custom4&quot;  , sCustom4Label,   sDefaultCustom4,   &quot;##t&quot;, &quot;##f&quot;, bCustom4FieldExists)
+	UpdateFieldAppearance (&quot;LineWidth&quot;, sLineWidthLabel, sEditorDefaultLineWidth,  &quot;##t&quot;, &quot;##f&quot;, bLineWidthFieldExists)
+	UpdateFieldAppearance (&quot;StaffSize&quot;, sStaffSizeLabel, sEditorDefaultStaffSize,   &quot;#t&quot;,  &quot;#f&quot;, bStaffSizeFieldExists)
+	UpdateFieldAppearance (&quot;Custom1&quot;,   sCustom1Label,   sDefaultCustom1,		   &quot;##t&quot;, &quot;##f&quot;, bCustom1FieldExists)
+	UpdateFieldAppearance (&quot;Custom2&quot;  , sCustom2Label,   sDefaultCustom2,		   &quot;##t&quot;, &quot;##f&quot;, bCustom2FieldExists)
+	UpdateFieldAppearance (&quot;Custom3&quot;,   sCustom3Label,   sDefaultCustom3,		   &quot;##t&quot;, &quot;##f&quot;, bCustom3FieldExists)
+	UpdateFieldAppearance (&quot;Custom4&quot;  , sCustom4Label,   sDefaultCustom4,		   &quot;##t&quot;, &quot;##f&quot;, bCustom4FieldExists)
 	
 	&apos; labels for option checkboxes
 	oEditorDialog.getModel().getByName(&quot;bOption1&quot;).Label = sOption1Label
@@ -496,6 +511,10 @@ Sub LilyPondButton()
 	if oEditorDialog.getControl(&quot;OptimalPageWrap&quot;).getState() then iWrap = com.sun.star.text.WrapTextMode.DYNAMIC
 	if oEditorDialog.getControl(&quot;WrapThrough&quot;).getState() then iWrap = com.sun.star.text.WrapTextMode.THROUGHT
 	
+	if oEditorDialog.getControl(&quot;CalcAnchorToCell&quot;).getState() then iAnchor = 1
+	if oEditorDialog.getControl(&quot;CalcAnchorToCellResize&quot;).getState() then iAnchor = 2
+	if oEditorDialog.getControl(&quot;CalcAnchorToPage&quot;).getState() then iAnchor = 3
+	
 	bKeepCrop = CheckBoxStateToBool (oEditorDialog.getControl(&quot;bKeepCrop&quot;).getState())
 	bSaveAsSeparateImages = CheckBoxStateToBool (oEditorDialog.getControl(&quot;bSaveAsSeparateImages&quot;).getState())
 	iFrom = oEditorDialog.getControl(&quot;iFrom&quot;).getValue()
@@ -649,14 +668,14 @@ Sub LineWidthModified
 	sLineWidth = oEditorDialog.getControl(&quot;sLineWidth&quot;).getText()
 	bUseDefaultLineWidth = False
 	oEditorDialog.getControl(&quot;bUseDefaultLineWidth&quot;).setState(BoolToCheckBoxState(False))
-	UpdateFieldAppearance (&quot;LineWidth&quot;, sLineWidthLabel, sDefaultLineWidth, &quot;##t&quot;, &quot;##f&quot;, bLineWidthFieldExists)
+	UpdateFieldAppearance (&quot;LineWidth&quot;, sLineWidthLabel, sEditorDefaultLineWidth, &quot;##t&quot;, &quot;##f&quot;, bLineWidthFieldExists)
 End Sub
 
 Sub StaffSizeModified
 	sStaffSize = oEditorDialog.getControl(&quot;sStaffSize&quot;).getText()
 	bUseDefaultStaffSize = False
 	oEditorDialog.getControl(&quot;bUseDefaultStaffSize&quot;).setState(BoolToCheckBoxState(False))
-	UpdateFieldAppearance (&quot;StaffSize&quot;, sStaffSizeLabel, sDefaultStaffSize, &quot;#t&quot;, &quot;#f&quot;, bStaffSizeFieldExists)
+	UpdateFieldAppearance (&quot;StaffSize&quot;, sStaffSizeLabel, sEditorDefaultStaffSize, &quot;#t&quot;, &quot;#f&quot;, bStaffSizeFieldExists)
 End Sub
 
 Sub Custom1Modified
@@ -692,7 +711,7 @@ Sub LineWidthCheckBoxModified
 	oEditorDialog.getControl(&quot;sLineWidth&quot;).setText(sLineWidth)
 	bUseDefaultLineWidth = False
 	oEditorDialog.getControl(&quot;bUseDefaultLineWidth&quot;).setState(BoolToCheckBoxState(False))
-	UpdateFieldAppearance (&quot;LineWidth&quot;, sLineWidthLabel, sDefaultLineWidth, &quot;##t&quot;, &quot;##f&quot;, bLineWidthFieldExists)
+	UpdateFieldAppearance (&quot;LineWidth&quot;, sLineWidthLabel, sEditorDefaultLineWidth, &quot;##t&quot;, &quot;##f&quot;, bLineWidthFieldExists)
 End Sub
 
 Sub StaffSizeCheckBoxModified
@@ -700,7 +719,7 @@ Sub StaffSizeCheckBoxModified
 	oEditorDialog.getControl(&quot;sStaffSize&quot;).setText(sStaffSize)
 	bUseDefaultStaffSize = False
 	oEditorDialog.getControl(&quot;bUseDefaultStaffSize&quot;).setState(BoolToCheckBoxState(False))
-	UpdateFieldAppearance (&quot;StaffSize&quot;, sStaffSizeLabel, sDefaultStaffSize, &quot;#t&quot;, &quot;#f&quot;, bStaffSizeFieldExists)
+	UpdateFieldAppearance (&quot;StaffSize&quot;, sStaffSizeLabel, sEditorDefaultStaffSize, &quot;#t&quot;, &quot;#f&quot;, bStaffSizeFieldExists)
 End Sub
 
 Sub Custom1CheckBoxModified
@@ -788,26 +807,26 @@ End Sub
 
 Sub UseDefaultLineWidth()
 	If CheckBoxStateToBool(oEditorDialog.getControl(&quot;bUseDefaultLineWidth&quot;).getState()) Then
-		oEditorDialog.getControl(&quot;sLineWidth&quot;).setText(sDefaultLineWidth)
+		oEditorDialog.getControl(&quot;sLineWidth&quot;).setText(sEditorDefaultLineWidth)
 		oEditorDialog.getControl(&quot;bUseDefaultLineWidth&quot;).setState(BoolToCheckBoxState(True))
 		bUseDefaultLineWidth = True
-		sLineWidth = sDefaultLineWidth
+		sLineWidth = sEditorDefaultLineWidth
 	Else
 		bUseDefaultLineWidth = False
 	End If
-	UpdateFieldAppearance (&quot;LineWidth&quot;, sLineWidthLabel, sDefaultLineWidth, &quot;##t&quot;, &quot;##f&quot;, bLineWidthFieldExists)
+	UpdateFieldAppearance (&quot;LineWidth&quot;, sLineWidthLabel, sEditorDefaultLineWidth, &quot;##t&quot;, &quot;##f&quot;, bLineWidthFieldExists)
 End Sub
 
 Sub UseDefaultStaffSize
 	If CheckBoxStateToBool(oEditorDialog.getControl(&quot;bUseDefaultStaffSize&quot;).getState()) Then
-		oEditorDialog.getControl(&quot;sStaffSize&quot;).setText(sDefaultStaffSize)
+		oEditorDialog.getControl(&quot;sStaffSize&quot;).setText(sEditorDefaultStaffSize)
 		oEditorDialog.getControl(&quot;bUseDefaultStaffSize&quot;).setState(BoolToCheckBoxState(True))
 		bUseDefaultStaffSize = True
-		sStaffSize = sDefaultStaffSize
+		sStaffSize = sEditorDefaultStaffSize
 	Else
 		bUseDefaultStaffSize = False
 	End If
-	UpdateFieldAppearance (&quot;StaffSize&quot;, sStaffSizeLabel, sDefaultStaffSize, &quot;#t&quot;, &quot;#f&quot;, bStaffSizeFieldExists)
+	UpdateFieldAppearance (&quot;StaffSize&quot;, sStaffSizeLabel, sEditorDefaultStaffSize, &quot;#t&quot;, &quot;#f&quot;, bStaffSizeFieldExists)
 End Sub
 
 Sub UseDefaultCustom1
