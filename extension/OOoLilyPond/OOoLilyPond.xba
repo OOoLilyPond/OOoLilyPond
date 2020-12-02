@@ -179,6 +179,8 @@ Sub OOoLilyPondBatch()
 	
 	oBatchDialog = createUnoDialog (DialogLibraries.GetByName (constOLyLibraryName).GetByName(&quot;GUI_Batch&quot;))
 	
+	oBatchDialog.Model.step = iDocumentType + 1
+	
 	oBatchDialog.getControl(&quot;bAsk&quot;).setState (BoolToCheckBoxState (bAskForEachObjectDefault))
 	oBatchDialog.getControl(&quot;CreateBackup&quot;).setEnable (bHasURL)
 	If bHasURL Then
