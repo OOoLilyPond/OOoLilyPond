@@ -5,6 +5,23 @@
 Option Explicit
 
 
+Function ResizeWithCellExists (oGraphicObject As Object) As Boolean
+	Dim bDummy As Boolean
+
+	On Error GoTo ErrorHandler
+	
+	bDummy = oGraphicObject.ResizeWithCell
+	&apos; This property is new in LibreOffice 7.
+	&apos; If a property with that name exists, the funcion continues with the following line:
+	ResizeWithCellExists = True
+	Exit Function
+
+	&apos; If not, it continues here:
+	ErrorHandler: 
+	ResizeWithCellExists = False
+End Function
+
+
 Sub CreateBackup (sSuffix As String)
 	Dim sURL
 	Dim sBackupURL As String

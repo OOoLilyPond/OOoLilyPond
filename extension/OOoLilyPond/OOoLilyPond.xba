@@ -333,10 +333,11 @@ Function ReadGraphicObject (oGraphicObject As Object) As Boolean
 				If oAnchorFromProperty.getImplementationName = &quot;ScTableSheetObj&quot; Then
 					iAnchor = 3  &apos; &quot;To page&quot;
 				Else
-					If oShape.ResizeWithCell Then
-						iAnchor = 2  &apos; &quot;To cell (resize with cell)&quot;
-					Else
-						iAnchor = 1  &apos; &quot;To cell&quot;
+					iAnchor = 1  &apos; &quot;To cell&quot;
+					If ResizeWithCellExists (oShape) Then
+						If oShape.ResizeWithCell Then
+							iAnchor = 2  &apos; &quot;To cell (resize with cell)&quot;
+						End If
 					End If
 				End If
 				
@@ -977,7 +978,9 @@ Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, sAddition
 				oGraphic.Anchor = oAnchorSheetInCalc
 			Else
 				oGraphic.Anchor = oAnchorCellInCalc
-				oGraphic.ResizeWithCell = (iAnchor = 2)
+				If ResizeWithCellExists (oGraphic) Then
+					oGraphic.ResizeWithCell = (iAnchor = 2)
+				End If
 			End If
 		End If
 	End If
