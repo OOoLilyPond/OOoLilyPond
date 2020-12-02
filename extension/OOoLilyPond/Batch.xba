@@ -205,10 +205,24 @@ Sub PerformBatchProcessing ()
 	Case 0  &apos; Writer
 		oDrawPage = oDoc.DrawPage
 	Case 1  &apos; Calc
-		oDrawPage = oDoc.DrawPages.getByIndex (0)
-	Case 2  &apos; Impress
-	Case 3  &apos; Draw
-	Case Else
+		Dim oSelectionObject As Object
+		Dim oShape As Object
+		Dim oRangeAddress As Object
+		Dim iCalcSheetNumber As Integer
+		
+		oSelectionObject = oDocCtrl.getSelection
+		Select Case oSelectionObject.getImplementationName()
+			Case &quot;com.sun.star.drawing.SvxShapeCollection&quot; 	&apos; inserted into Writer via Clipboard OR inserted into Draw/Impress OR into Calc
+				oShape = oSelectionObject.getByIndex(0)
+				&apos; the cell where the object is located, regardless whether it&apos;s anchored to that cell or to the page
+				oRangeAddress = oShape.getAnchor().getRangeAddress()
+			Case Else  &apos; ScCellObj (cell but no object selected) or ScCellRangeObj 
+				oRangeAddress = oSelectionObject.getRangeAddress()
+		End Select
+		iCalcSheetNumber = oRangeAddress.Sheet
+		oDrawPage = oDoc.DrawPages.getByIndex (iCalcSheetNumber)
+	Case Else  &apos; 2 (Impress) or 3 (Draw)
+		oDrawPage = oDocCtrl.CurrentPage
 	End Select
 	
 	&apos; Scan DrawPage for OLy objects and process them: 
