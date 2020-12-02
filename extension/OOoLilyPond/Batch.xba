@@ -198,6 +198,8 @@ Sub PerformBatchProcessing ()
 	oBatchDialog.EndExecute()
 	oAskDialog = createUnoDialog (DialogLibraries.GetByName (constOLyLibraryName).GetByName(&quot;GUI_Ask&quot;))
 	ReadDialogStringsFromVar (oAskDialog, sAskDialogStrings, &quot;&quot;)
+	
+	iAskDialogReturnValue = 2  &apos; 2 = &quot;No&quot; as initial value (Don&apos;t perform anything if set to 1 = &quot;Abort&quot;)
 
 	Select Case iDocumentType
 	Case 0  &apos; Writer
