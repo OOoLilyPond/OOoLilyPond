@@ -102,7 +102,16 @@ Sub PerformBatchProcessing ()
 	oAskDialog = createUnoDialog (DialogLibraries.GetByName (constOLyLibraryName).GetByName(&quot;GUI_Ask&quot;))
 	ReadDialogStringsFromVar (oAskDialog, sAskDialogStrings, &quot;&quot;)
 
-	oDrawPage = oDoc.DrawPage
+	Select Case iDocumentType
+	Case 0  &apos; Writer
+		oDrawPage = oDoc.DrawPage
+	Case 1  &apos; Calc
+		oDrawPage = oDoc.DrawPages.getByIndex (0)
+	Case 2  &apos; Impress
+	Case 3  &apos; Draw
+	Case Else
+	End Select
+	
 	iCount = oDrawPage.Count
 	oGraphicObjects = DimArray (iCount) 
 	sIdentifiers = DimArray (iCount) 
@@ -113,7 +122,7 @@ Sub PerformBatchProcessing ()
 		oCurrentObject = oDrawPage.getByIndex (i)
 		If IsOLyObject (oCurrentObject) Then
 			sCurrentIdentifier = GetObjectIdentifier (oCurrentObject)
-			If sCurrentIdentifier = &quot;&quot; Then  &apos; not a multi-image object
+			If (sCurrentIdentifier = &quot;&quot;) Or (iDocumentType &lt;&gt; 0) Then  &apos; not a multi-image object OR not in Writer
 				iLastObject = iLastObject + 1
 				oGraphicObjects (iLastObject) = oCurrentObject
 				sIdentifiers (iLastObject) = &quot;&quot;
