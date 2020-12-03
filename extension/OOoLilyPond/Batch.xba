@@ -43,7 +43,7 @@ Sub AskDlgAllButton ()
 End Sub
 
 
-Sub GoThroughDrawPage (oDrawPage As Object, bAsk As Boolean)
+Sub GoThroughDrawPage (oDrawPage As Object, bAsk As Boolean, bProgressBar As Boolean)
 &apos; This function is called by PerformBatchProcessing ().
 &apos; It creates a list of all OOoLilyPond objects inside the given DrawPage, 
 &apos; checks if they match the search criteria, 
@@ -101,8 +101,10 @@ Sub GoThroughDrawPage (oDrawPage As Object, bAsk As Boolean)
 		End If
 	next i
 	
-	oProgressBar = oDocCtrl.StatusIndicator
-	oProgressBar.start (oMessages.getPropertyValue (&quot;sMsgBatchProcessing&quot;), iLastObject + 1)
+	If bProgressBar Then
+		oProgressBar = oDocCtrl.StatusIndicator
+		oProgressBar.start (oMessages.getPropertyValue (&quot;sMsgBatchProcessing&quot;), iLastObject + 1)
+	End If
 	If bAsk Then
 		iAnswer = 2  &apos; &quot;No&quot;
 		iAskDialogReturnValue = 2
@@ -113,9 +115,10 @@ Sub GoThroughDrawPage (oDrawPage As Object, bAsk As Boolean)
 	
 	&apos; now process objects from the list:
 	For i = 0 to iLastObject
-		
-		oProgressBar.setValue (i + 1)
-		oProgressBar.setText (oMessages.getPropertyValue (&quot;sMsgBatchProcessing&quot;) &amp; i + 1 &amp; &quot;/&quot; &amp; iLastObject + 1)
+		If bProgressBar Then
+			oProgressBar.setValue (i + 1)
+			oProgressBar.setText (oMessages.getPropertyValue (&quot;sMsgBatchProcessing&quot;) &amp; i + 1 &amp; &quot;/&quot; &amp; iLastObject + 1)
+		End If
 		
 		&apos; Objects from OLy versions prior to 1.0.0 have no Custom 3 and 4 values.
 		&apos; This might only be a problem when an existing template is changed to use these fields. 
@@ -151,7 +154,7 @@ Sub GoThroughDrawPage (oDrawPage As Object, bAsk As Boolean)
 			End If
 		End If
 	next i
-	oProgressBar.end()
+	If bProgressBar Then oProgressBar.end()
 End Sub
 
 
@@ -243,11 +246,23 @@ Sub PerformBatchProcessing ()
 	&apos; Scan DrawPage(s) for OLy objects and process them: 
 	If bAllPages Then
 		Dim i As Integer
+		Dim sProgressMessage As String
+		Dim oProgressBar As Object
+		Select Case iDocumentType
+			Case 1: sProgressMessage = oMessages.getPropertyValue (&quot;sMsgBatchProcessing&quot;) &amp; &quot; &quot; &amp; oMessages.getPropertyValue (&quot;sMsgPagesInCalc&quot;) &amp; &quot; &quot;
+			Case 2: sProgressMessage = oMessages.getPropertyValue (&quot;sMsgBatchProcessing&quot;) &amp; &quot; &quot; &amp; oMessages.getPropertyValue (&quot;sMsgPagesInImpress&quot;) &amp; &quot; &quot;
+			Case 3: sProgressMessage = oMessages.getPropertyValue (&quot;sMsgBatchProcessing&quot;) &amp; &quot; &quot; &amp; oMessages.getPropertyValue (&quot;sMsgPagesInDraw&quot;) &amp; &quot; &quot;
+		End Select
+		oProgressBar = oDocCtrl.StatusIndicator
+		oProgressBar.start (oMessages.getPropertyValue (&quot;sMsgBatchProcessing&quot;), oPages.Count)
 		For i = 0 To oPages.Count - 1
-			If iAskDialogReturnValue &gt; 1 Then GoThroughDrawPage (oPages.getByIndex (i), bAsk)
+			oProgressBar.setValue (i + 1)
+			oProgressBar.setText ( sProgressMessage &amp; i + 1 &amp; &quot;/&quot; &amp; oPages.Count)
+			If iAskDialogReturnValue &gt; 1 Then GoThroughDrawPage (oPages.getByIndex (i), bAsk, False)
 		Next
+		oProgressBar.end()
 	Else
-		GoThroughDrawPage (oDrawPage, bAsk)
+		GoThroughDrawPage (oDrawPage, bAsk, True)
 	End If
 	
 End Sub

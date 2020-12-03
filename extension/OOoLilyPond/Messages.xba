@@ -429,10 +429,10 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   
   
   &apos; What the pages in different document types are called:
-  oMessages.addProperty (&quot;sMsgPageInWriter&quot;,  BagAttr, &quot;Page&quot;)
-  oMessages.addProperty (&quot;sMsgPageInCalc&quot;,    BagAttr, &quot;Sheet&quot;)
-  oMessages.addProperty (&quot;sMsgPageInImpress&quot;, BagAttr, &quot;Slide&quot;)
-  oMessages.addProperty (&quot;sMsgPageInDraw&quot;,    BagAttr, &quot;Page&quot;)
+  oMessages.addProperty (&quot;sMsgPagesInWriter&quot;,  BagAttr, &quot;Page&quot;)
+  oMessages.addProperty (&quot;sMsgPagesInCalc&quot;,    BagAttr, &quot;Sheet&quot;)
+  oMessages.addProperty (&quot;sMsgPagesInImpress&quot;, BagAttr, &quot;Slide&quot;)
+  oMessages.addProperty (&quot;sMsgPagesInDraw&quot;,    BagAttr, &quot;Page&quot;)
  
   
 End Sub
