@@ -408,9 +408,10 @@ Function ReadSelectionObject () As Boolean
 	If Not IsEmpty (oDocCtrl.getSelection) Then &apos; Is only empty in Impress or Draw when nothing is selected
 		oCurrentGraphicObject = oDocCtrl.getSelection
 		ReadSelectionObject = ReadGraphicObject (oCurrentGraphicObject)
+		Exit Function
 	End If
-	ReadSelectionObject = True
 	
+	ReadSelectionObject = True
 	Exit Function
 	
 	ErrorHandler:
