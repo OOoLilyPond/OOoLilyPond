@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE dlg:window PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "dialog.dtd">
-<dlg:window xmlns:dlg="http://openoffice.org/2000/dialog" xmlns:script="http://openoffice.org/2000/script" dlg:id="GUI_Batch" dlg:tab-index="0" dlg:left="32" dlg:top="10" dlg:width="412" dlg:height="216" dlg:closeable="true" dlg:moveable="true" dlg:title="Batch process OOoLilyPond objects">
+<dlg:window xmlns:dlg="http://openoffice.org/2000/dialog" xmlns:script="http://openoffice.org/2000/script" dlg:id="GUI_Batch" dlg:tab-index="0" dlg:left="32" dlg:top="10" dlg:width="412" dlg:height="216" dlg:page="2" dlg:closeable="true" dlg:moveable="true" dlg:title="Batch process OOoLilyPond objects">
  <dlg:styles>
   <dlg:style dlg:style-id="0" dlg:font-weight="150"/>
  </dlg:styles>
@@ -9,7 +9,7 @@
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Batch.PerformBatchProcessing?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
   <dlg:button dlg:id="Cancel" dlg:tab-index="1" dlg:left="347" dlg:top="194" dlg:width="58" dlg:height="16" dlg:value="Cancel" dlg:button-type="cancel"/>
-  <dlg:checkbox dlg:id="CreateBackup" dlg:tab-index="2" dlg:left="274" dlg:top="67" dlg:width="132" dlg:height="8" dlg:value="Create backup" dlg:checked="false"/>
+  <dlg:checkbox dlg:id="CreateBackup" dlg:tab-index="2" dlg:left="274" dlg:top="68" dlg:width="132" dlg:height="8" dlg:value="Create backup" dlg:checked="false"/>
   <dlg:titledbox dlg:style-id="0" dlg:id="ConditionFrame_A" dlg:tab-index="13" dlg:left="5" dlg:top="4" dlg:width="126" dlg:height="206">
    <dlg:title dlg:value="Rule 1:"/>
   </dlg:titledbox>
@@ -122,5 +122,8 @@
   <dlg:titledbox dlg:id="IncludeTemplateFrame" dlg:tab-index="9" dlg:left="269" dlg:top="150" dlg:width="138" dlg:height="34">
    <dlg:title dlg:value="Include template in OLy object?"/>
   </dlg:titledbox>
+  <dlg:checkbox dlg:id="bDrawBatchAllPages" dlg:tab-index="45" dlg:left="274" dlg:top="40" dlg:width="132" dlg:height="8" dlg:page="4" dlg:value="Process all pages" dlg:checked="false"/>
+  <dlg:checkbox dlg:id="bImpressBatchAllPages" dlg:tab-index="44" dlg:left="274" dlg:top="40" dlg:width="132" dlg:height="8" dlg:page="3" dlg:value="Process all slides" dlg:checked="false"/>
+  <dlg:checkbox dlg:id="bCalcBatchAllPages" dlg:tab-index="43" dlg:left="274" dlg:top="40" dlg:width="132" dlg:height="8" dlg:page="2" dlg:value="Process all sheets" dlg:checked="false"/>
  </dlg:bulletinboard>
 </dlg:window>

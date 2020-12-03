@@ -181,14 +181,18 @@ Sub OOoLilyPondBatch()
 	
 	oBatchDialog.Model.step = iDocumentType + 1
 	
-	oBatchDialog.getControl(&quot;bAsk&quot;).setState (BoolToCheckBoxState (bAskForEachObjectDefault))
-	oBatchDialog.getControl(&quot;CreateBackup&quot;).setEnable (bHasURL)
+	oBatchDialog.getControl (   &quot;bCalcBatchAllPages&quot;).setState (BoolToCheckBoxState (bBatchAllPagesDefault (1)))
+	oBatchDialog.getControl (&quot;bImpressBatchAllPages&quot;).setState (BoolToCheckBoxState (bBatchAllPagesDefault (2)))
+	oBatchDialog.getControl (   &quot;bDrawBatchAllPages&quot;).setState (BoolToCheckBoxState (bBatchAllPagesDefault (3)))
+
+	oBatchDialog.getControl (&quot;bAsk&quot;).setState (BoolToCheckBoxState (bAskForEachObjectDefault (iDocumentType)))
+	oBatchDialog.getControl (&quot;CreateBackup&quot;).setEnable (bHasURL)
 	If bHasURL Then
-		oBatchDialog.getControl(&quot;CreateBackup&quot;).setState (BoolToCheckBoxState (bCreateBackupDefault))
+		oBatchDialog.getControl (&quot;CreateBackup&quot;).setState (BoolToCheckBoxState (bCreateBackupDefault (iDocumentType)))
 	Else
-		oBatchDialog.getControl(&quot;CreateBackup&quot;).setState (BoolToCheckBoxState (False))
+		oBatchDialog.getControl (&quot;CreateBackup&quot;).setState (BoolToCheckBoxState (False))
 	End If
-	oBatchDialog.getControl(&quot;bKeepCrop&quot;).setState (BoolToCheckBoxState (bBatchKeepCropDefault))
+	oBatchDialog.getControl (&quot;bKeepCrop&quot;).setState (BoolToCheckBoxState (bBatchKeepCropDefault (iDocumentType)))
 	ReadDialogStringsFromVar (oBatchDialog, sBatchDialogStrings, &quot;&quot;)
 	ReadDialogStringsFromVar (oBatchDialog, sBatchDialogRuleSetStrings, &quot;_A&quot;)
 	ReadDialogStringsFromVar (oBatchDialog, sBatchDialogRuleSetStrings, &quot;_B&quot;)

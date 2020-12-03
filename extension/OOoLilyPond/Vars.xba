@@ -34,13 +34,18 @@ Private sTempLyFilePath As String		&apos; Path for tremp. file sent to external 
 Private bTempLyFileCreated As Boolean
 
 &apos; Document type-specific settings
-Private bInsertViaClipboard (4) As Boolean
-Private bKeepCrop (4) As Boolean
-Private sDefaultTemplate (4) As String
-Private sDefaultStaffSize (4) As String
-Private sDefaultLineWidth (4) As String
-Private bUseStaffSizeFromTemplate (4) As Boolean
-Private bUseLineWidthFromTemplate (4) As Boolean
+Private bInsertViaClipboard (0 to 3) As Boolean
+Private bKeepCrop (0 to 3) As Boolean
+Private sDefaultTemplate (0 to 3) As String
+Private sDefaultStaffSize (0 to 3) As String
+Private sDefaultLineWidth (0 to 3) As String
+Private bUseStaffSizeFromTemplate (0 to 3) As Boolean
+Private bUseLineWidthFromTemplate (0 to 3) As Boolean
+
+Private bBatchAllPagesDefault	 (0 to 3) As Boolean  &apos; remembered state for &quot;Process all sheets/slides/pages&quot; from Batch dialog
+Private bAskForEachObjectDefault (0 to 3) As Boolean  &apos; remembered state for &quot;Ask for each object&quot; from Batch dialog
+Private bCreateBackupDefault	 (0 to 3) As Boolean  &apos; remembered state for &quot;Create backup&quot; from Batch dialog
+Private bBatchKeepCropDefault	 (0 to 3) As Boolean  &apos; remembered state for &quot;Keep size &amp; crop settings&quot; from Batch dialog
 
 
 &apos; Private bWriterInsertViaClipboard As Boolean
@@ -84,10 +89,6 @@ Private bSaveAsSeparateImages As Boolean  &apos; save current snippet as separat
 Private iFrom As Integer  &apos; if &gt; 0: first image to be inserted
 Private iTo As Integer    &apos; if &gt; 0: last image to be inserted
 Private bUseSecondSvgParam As Boolean  &apos; insert &quot;filename.svg&quot; into PdfToSvg command or not?
-Private bAskForEachObjectDefault As Boolean  &apos; remembered state for &quot;Ask for each object&quot; from Batch dialog
-Private bCreateBackupDefault	 As Boolean  &apos; remembered state for &quot;Create backup&quot; from Batch dialog
-Private bBatchKeepCropDefault	 As Boolean  &apos; remembered state for &quot;Keep size &amp; crop settings&quot; from Batch dialog
-
 
 &apos; Environment
 Private sOSType As String

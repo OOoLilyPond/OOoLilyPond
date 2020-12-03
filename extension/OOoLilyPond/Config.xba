@@ -560,9 +560,13 @@ Sub DefaultConfig()
 	
 	bNewObjectsAsSeparateImages = False
 	
-	bAskForEachObjectDefault = true			&apos; checkbox in Batch dialog
-	bCreateBackupDefault = false			&apos; checkbox in Batch dialog
-	bBatchKeepCropDefault = bKeepCrop (0)   &apos; checkbox in Batch dialog
+	bBatchAllPagesDefault = Array (false, false, false, false)	&apos; checkbox in Batch dialog
+	bAskForEachObjectDefault = Array (true, true, true, true)	&apos; checkbox in Batch dialog
+	bCreateBackupDefault = Array (false, false, false, false)	&apos; checkbox in Batch dialog
+	Dim iC As Integer
+	For iC = 0 To 3
+		bBatchKeepCropDefault (iC) = bKeepCrop (iC)				&apos; checkbox in Batch dialog
+	Next
 
 
 	&apos; Calc specific settings
@@ -715,12 +719,39 @@ Sub ReadConfig()
 			Case &quot;bNewObjectsAsSeparateImages&quot;
 				bNewObjectsAsSeparateImages = StringToBool(sValue)
 				
-			Case &quot;bAskForEachObjectDefault&quot;
-				bAskForEachObjectDefault = StringToBool(sValue)
+			Case &quot;bAskForEachObjectDefault&quot;						&apos; Writer settings
+				bAskForEachObjectDefault (0) = StringToBool(sValue)
 			Case &quot;bCreateBackupDefault&quot;
-				bCreateBackupDefault = StringToBool(sValue)
+				bCreateBackupDefault	 (0) = StringToBool(sValue)
 			Case &quot;bBatchKeepCropDefault&quot;
-				bBatchKeepCropDefault = StringToBool(sValue)
+				bBatchKeepCropDefault	 (0) = StringToBool(sValue)
+				
+			Case &quot;bCalcBatchAllPagesDefault&quot;					&apos; Calc settings
+				bBatchAllPagesDefault	 (1) = StringToBool(sValue)
+			Case &quot;bCalcAskForEachObjectDefault&quot;	
+				bAskForEachObjectDefault (1) = StringToBool(sValue)
+			Case &quot;bCalcCreateBackupDefault&quot;
+				bCreateBackupDefault	 (1) = StringToBool(sValue)
+			Case &quot;bCalcBatchKeepCropDefault&quot;
+				bBatchKeepCropDefault	 (1) = StringToBool(sValue)
+		
+			Case &quot;bImpressBatchAllPagesDefault&quot;					&apos; Impress settings
+				bBatchAllPagesDefault	 (2) = StringToBool(sValue)
+			Case &quot;bImpressAskForEachObjectDefault&quot;	
+				bAskForEachObjectDefault (2) = StringToBool(sValue)
+			Case &quot;bImpressCreateBackupDefault&quot;
+				bCreateBackupDefault	 (2) = StringToBool(sValue)
+			Case &quot;bImpressBatchKeepCropDefault&quot;
+				bBatchKeepCropDefault	 (2) = StringToBool(sValue)
+		
+			Case &quot;bDrawBatchAllPagesDefault&quot;					&apos; Draw settings
+				bBatchAllPagesDefault	 (3) = StringToBool(sValue)
+			Case &quot;bDrawAskForEachObjectDefault&quot;	
+				bAskForEachObjectDefault (3) = StringToBool(sValue)
+			Case &quot;bDrawCreateBackupDefault&quot;
+				bCreateBackupDefault	 (3) = StringToBool(sValue)
+			Case &quot;bDrawBatchKeepCropDefault&quot;
+				bBatchKeepCropDefault	 (3) = StringToBool(sValue)
 		
 			
 			&apos; Calc specific settings
@@ -855,9 +886,40 @@ Sub SaveConfig
 	
 	oTextOutputStream.writeString(&quot;bNewObjectsAsSeparateImages=&quot; &amp; BoolToString(bNewObjectsAsSeparateImages) &amp; Chr(10))
 	
-	oTextOutputStream.writeString(&quot;bAskForEachObjectDefault=&quot; &amp; BoolToString(bAskForEachObjectDefault) &amp; Chr(10))
-	oTextOutputStream.writeString(&quot;bCreateBackupDefault=&quot; &amp; BoolToString(bCreateBackupDefault) &amp; Chr(10))
-	oTextOutputStream.writeString(&quot;bBatchKeepCropDefault=&quot; &amp; BoolToString(bBatchKeepCropDefault) &amp; Chr(10))
+	&apos; Writer has no BatchAllPages setting
+	oTextOutputStream.writeString (&quot;bAskForEachObjectDefault=&quot; &amp; _
+		BoolToString (bAskForEachObjectDefault (0)) &amp; Chr(10))
+	oTextOutputStream.writeString (&quot;bCreateBackupDefault=&quot; &amp; _
+		BoolToString (bCreateBackupDefault     (0)) &amp; Chr(10))
+	oTextOutputStream.writeString (&quot;bBatchKeepCropDefault=&quot; &amp; _
+		BoolToString (bBatchKeepCropDefault    (0)) &amp; Chr(10))
+	
+	oTextOutputStream.writeString (&quot;bCalcBatchAllPagesDefault=&quot; &amp; _
+		BoolToString (bBatchAllPagesDefault    (1)) &amp; Chr(10))
+	oTextOutputStream.writeString (&quot;bCalcAskForEachObjectDefault=&quot; &amp; _
+		BoolToString (bAskForEachObjectDefault (1)) &amp; Chr(10))
+	oTextOutputStream.writeString (&quot;bCalcCreateBackupDefault=&quot; &amp; _
+		BoolToString (bCreateBackupDefault     (1)) &amp; Chr(10))
+	oTextOutputStream.writeString (&quot;bCalcBatchKeepCropDefault=&quot; &amp; _
+		BoolToString (bBatchKeepCropDefault    (1)) &amp; Chr(10))
+	
+	oTextOutputStream.writeString (&quot;bImpressBatchAllPagesDefault=&quot; &amp; _
+		BoolToString (bBatchAllPagesDefault    (2)) &amp; Chr(10))
+	oTextOutputStream.writeString (&quot;bImpressAskForEachObjectDefault=&quot; &amp; _
+		BoolToString (bAskForEachObjectDefault (2)) &amp; Chr(10))
+	oTextOutputStream.writeString (&quot;bImpressCreateBackupDefault=&quot; &amp; _
+		BoolToString (bCreateBackupDefault     (2)) &amp; Chr(10))
+	oTextOutputStream.writeString (&quot;bImpressBatchKeepCropDefault=&quot; &amp; _
+		BoolToString (bBatchKeepCropDefault    (2)) &amp; Chr(10))
+	
+	oTextOutputStream.writeString (&quot;bDrawBatchAllPagesDefault=&quot; &amp; _
+		BoolToString (bBatchAllPagesDefault    (3)) &amp; Chr(10))
+	oTextOutputStream.writeString (&quot;bDrawAskForEachObjectDefault=&quot; &amp; _
+		BoolToString (bAskForEachObjectDefault (3)) &amp; Chr(10))
+	oTextOutputStream.writeString (&quot;bDrawCreateBackupDefault=&quot; &amp; _
+		BoolToString (bCreateBackupDefault     (3)) &amp; Chr(10))
+	oTextOutputStream.writeString (&quot;bDrawBatchKeepCropDefault=&quot; &amp; _
+		BoolToString (bBatchKeepCropDefault    (3)) &amp; Chr(10))
 	
 	&apos; Calc specific
 	oTextOutputStream.writeString(&quot;sCalcDefaultTemplate=&quot; &amp; sDefaultTemplate (1) &amp; Chr(10))
