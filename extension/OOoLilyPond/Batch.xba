@@ -45,7 +45,7 @@ End Sub
 
 Sub GoThroughDrawPage (oDrawPage As Object, bAsk As Boolean)
 &apos; This function is called by PerformBatchProcessing ().
-&apos; It creates a list of all OOoLilyPond objects, 
+&apos; It creates a list of all OOoLilyPond objects inside the given DrawPage, 
 &apos; checks if they match the search criteria, 
 &apos; performs the specified replacements
 &apos; and recompiles them without opening the editor dialog.

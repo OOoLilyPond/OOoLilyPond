@@ -47,23 +47,6 @@ Private bAskForEachObjectDefault (0 to 3) As Boolean  &apos; remembered state fo
 Private bCreateBackupDefault	 (0 to 3) As Boolean  &apos; remembered state for &quot;Create backup&quot; from Batch dialog
 Private bBatchKeepCropDefault	 (0 to 3) As Boolean  &apos; remembered state for &quot;Keep size &amp; crop settings&quot; from Batch dialog
 
-
-&apos; Private bWriterInsertViaClipboard As Boolean
-&apos; Private bImpressInsertViaClipboard As Boolean
-&apos; Private bWriterKeepCrop As Boolean
-&apos; Private bImpressKeepCrop As Boolean
-&apos; Private sWriterDefaultTemplate As String
-&apos; Private sImpressDefaultTemplate As String
-&apos; Private sWriterDefaultStaffSize As String
-&apos; Private sWriterDefaultLineWidth As String
-&apos; Private bWriterUseStaffSizeFromTemplate As Boolean
-&apos; Private bWriterUseLineWidthFromTemplate As Boolean
-&apos; Private sImpressDefaultStaffSize As String
-&apos; Private sImpressDefaultLineWidth As String
-&apos; Private bImpressUseStaffSizeFromTemplate As Boolean
-&apos; Private bImpressUseLineWidthFromTemplate As Boolean
-
-
 Private iCalcDefaultAnchor As Integer
 Private iWriterDefaultAnchor As Integer
 Private iWriterDefaultWrap As Integer
@@ -92,8 +75,6 @@ Private bUseSecondSvgParam As Boolean  &apos; insert &quot;filename.svg&quot; in
 
 &apos; Environment
 Private sOSType As String
-&apos; Private bInWriter As Boolean
-&apos; Private bInCalc   As Boolean
 Private iDocumentType As Integer
 Private sLilyPondVersionMajor As String
 Private sLilyPondVersionMinor As String
