@@ -43,7 +43,7 @@ Sub AskDlgAllButton ()
 End Sub
 
 
-Sub GoThroughDrawPage (oDrawPage As Object, bAsk As Boolean, bProgressBar As Boolean)
+Sub GoThroughDrawPage (oDrawPage As Object, bProgressBar As Boolean)
 &apos; This function is called by PerformBatchProcessing ().
 &apos; It creates a list of all OOoLilyPond objects inside the given DrawPage, 
 &apos; checks if they match the search criteria, 
@@ -105,13 +105,8 @@ Sub GoThroughDrawPage (oDrawPage As Object, bAsk As Boolean, bProgressBar As Boo
 		oProgressBar = oDocCtrl.StatusIndicator
 		oProgressBar.start (oMessages.getPropertyValue (&quot;sMsgBatchProcessing&quot;), iLastObject + 1)
 	End If
-	If bAsk Then
-		iAnswer = 2  &apos; &quot;No&quot;
-		iAskDialogReturnValue = 2
-	Else
-		iAnswer = 4  &apos; &quot;All&quot;
-		iAskDialogReturnValue = 4
-	End If
+	
+	iAnswer = iAskDialogReturnValue
 	
 	&apos; now process objects from the list:
 	For i = 0 to iLastObject
@@ -243,6 +238,12 @@ Sub PerformBatchProcessing ()
 		oDrawPage = oDocCtrl.CurrentPage
 	End Select
 	
+	If bAsk Then
+		iAskDialogReturnValue = 2  &apos; &quot;No&quot;
+	Else
+		iAskDialogReturnValue = 4  &apos; &quot;All&quot;
+	End If
+	
 	&apos; Scan DrawPage(s) for OLy objects and process them: 
 	If bAllPages Then
 		Dim i As Integer
@@ -258,11 +259,11 @@ Sub PerformBatchProcessing ()
 		For i = 0 To oPages.Count - 1
 			oProgressBar.setValue (i + 1)
 			oProgressBar.setText ( sProgressMessage &amp; i + 1 &amp; &quot;/&quot; &amp; oPages.Count)
-			If iAskDialogReturnValue &gt; 1 Then GoThroughDrawPage (oPages.getByIndex (i), bAsk, False)
+			If iAskDialogReturnValue &gt; 1 Then GoThroughDrawPage (oPages.getByIndex (i), False)
 		Next
 		oProgressBar.end()
 	Else
-		GoThroughDrawPage (oDrawPage, bAsk, True)
+		GoThroughDrawPage (oDrawPage, True)
 	End If
 	
 End Sub
