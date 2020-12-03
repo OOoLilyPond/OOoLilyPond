@@ -427,6 +427,14 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   &apos; Status bar message during batch processing: 
   oMessages.addProperty (&quot;sMsgBatchProcessing&quot;, BagAttr, &quot;Batch processing OOoLilyPond objects... &quot;)
   
+  
+  &apos; What the pages in different document types are called:
+  oMessages.addProperty (&quot;sMsgPageInWriter&quot;,  BagAttr, &quot;Page&quot;)
+  oMessages.addProperty (&quot;sMsgPageInCalc&quot;,    BagAttr, &quot;Sheet&quot;)
+  oMessages.addProperty (&quot;sMsgPageInImpress&quot;, BagAttr, &quot;Slide&quot;)
+  oMessages.addProperty (&quot;sMsgPageInDraw&quot;,    BagAttr, &quot;Page&quot;)
+ 
+  
 End Sub
 
 
