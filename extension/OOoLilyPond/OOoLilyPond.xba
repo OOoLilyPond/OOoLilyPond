@@ -61,19 +61,6 @@ Sub OOoLilyPondInit()
 		bWrongDocumentType = True
 	End Select
 	
-	&apos; If oDoc.getImplementationName() =  &quot;SwXTextDocument&quot; Then
-	&apos;	bInWriter = True
-	&apos; Elseif oDoc.getImplementationName() = &quot;SdXImpressDocument&quot; or oDoc.getImplementationName() = &quot;ScModelObj&quot; Then
-	&apos;	bInWriter = False
-	&apos;	if oDoc.getImplementationName() = &quot;ScModelObj&quot; Then
-	&apos;		bInCalc = True
-	&apos;	End If
-	&apos; Else
-	&apos;     bWrongDocumentType = True
-	&apos;	&apos; before displaying the error message, first care about config and translation stuff...
-	&apos;	Exit Sub
-	&apos; End If
-
 	&apos; Set configuration to &quot;factory default&quot;, is overwritten by settings from configuration file
 	DefaultConfig()
 	
@@ -172,21 +159,25 @@ Sub OOoLilyPondBatch()
 	Dim bHasURL As Boolean
 
 	OOoLilyPondInit ()
-	If (iDocumentType &lt;&gt; 0) Then Exit Sub  &apos; Only continue in Writer
-	
 	sURL = oDoc.getURL()  &apos; see GetRelativeIncludeStatement ()
 	bHasURL = (Not IsNull (sURL)) And Len (sURL) &gt; 0
 	
 	oBatchDialog = createUnoDialog (DialogLibraries.GetByName (constOLyLibraryName).GetByName(&quot;GUI_Batch&quot;))
 	
-	oBatchDialog.getControl(&quot;bAsk&quot;).setState (BoolToCheckBoxState (bAskForEachObjectDefault))
-	oBatchDialog.getControl(&quot;CreateBackup&quot;).setEnable (bHasURL)
+	oBatchDialog.Model.step = iDocumentType + 1
+	
+	oBatchDialog.getControl (   &quot;bCalcBatchAllPages&quot;).setState (BoolToCheckBoxState (bBatchAllPagesDefault (1)))
+	oBatchDialog.getControl (&quot;bImpressBatchAllPages&quot;).setState (BoolToCheckBoxState (bBatchAllPagesDefault (2)))
+	oBatchDialog.getControl (   &quot;bDrawBatchAllPages&quot;).setState (BoolToCheckBoxState (bBatchAllPagesDefault (3)))
+
+	oBatchDialog.getControl (&quot;bAsk&quot;).setState (BoolToCheckBoxState (bAskForEachObjectDefault (iDocumentType)))
+	oBatchDialog.getControl (&quot;CreateBackup&quot;).setEnable (bHasURL)
 	If bHasURL Then
-		oBatchDialog.getControl(&quot;CreateBackup&quot;).setState (BoolToCheckBoxState (bCreateBackupDefault))
+		oBatchDialog.getControl (&quot;CreateBackup&quot;).setState (BoolToCheckBoxState (bCreateBackupDefault (iDocumentType)))
 	Else
-		oBatchDialog.getControl(&quot;CreateBackup&quot;).setState (BoolToCheckBoxState (False))
+		oBatchDialog.getControl (&quot;CreateBackup&quot;).setState (BoolToCheckBoxState (False))
 	End If
-	oBatchDialog.getControl(&quot;bKeepCrop&quot;).setState (BoolToCheckBoxState (bBatchKeepCropDefault))
+	oBatchDialog.getControl (&quot;bKeepCrop&quot;).setState (BoolToCheckBoxState (bBatchKeepCropDefault (iDocumentType)))
 	ReadDialogStringsFromVar (oBatchDialog, sBatchDialogStrings, &quot;&quot;)
 	ReadDialogStringsFromVar (oBatchDialog, sBatchDialogRuleSetStrings, &quot;_A&quot;)
 	ReadDialogStringsFromVar (oBatchDialog, sBatchDialogRuleSetStrings, &quot;_B&quot;)
@@ -402,9 +393,10 @@ Function ReadSelectionObject () As Boolean
 	If Not IsEmpty (oDocCtrl.getSelection) Then &apos; Is only empty in Impress or Draw when nothing is selected
 		oCurrentGraphicObject = oDocCtrl.getSelection
 		ReadSelectionObject = ReadGraphicObject (oCurrentGraphicObject)
+		Exit Function
 	End If
-	ReadSelectionObject = True
 	
+	ReadSelectionObject = True
 	Exit Function
 	
 	ErrorHandler:
@@ -843,7 +835,7 @@ Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As Strin
 		oGraphic.Surround = iWrap			
 
 		&apos; To do:
-		&apos; The staff size is limitied to 19.5 cm
+		&apos; The line width is limitied to 19.5 cm
 		&apos; This is because the graphic is first loaded into a new draw document of format A4 portrait
 		oGraphic.TopMargin = 0
 		oGraphic.BottomMargin = 0
@@ -883,8 +875,17 @@ Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As Strin
 		oDispatcher.executeDispatch( oDocCtrl.Frame, &quot;.uno:Paste&quot;, &quot;&quot;, 0, Array())
 	  	oGraphic = oDocCtrl.getSelection().getByIndex(0)
 
+		If (iDocumentType = 1) then   &apos; in Calc
+			If iAnchor = 3 Then     &apos; &quot;To Page&quot;
+				oGraphic.Anchor = oAnchorSheetInCalc
+			Else
+				oGraphic.Anchor = oAnchorCellInCalc
+				If ResizeWithCellExists (oGraphic) Then
+					oGraphic.ResizeWithCell = (iAnchor = 2)
+				End If
+			End If
+		End If
 		if bShapeIsSelected then oGraphic.position = oShapePosition
-		if (iDocumentType = 1) then oGraphic.Anchor = oAnchorCellInCalc  &apos; in Calc
 
 	end if
 	
@@ -982,6 +983,7 @@ Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, sAddition
 					oGraphic.ResizeWithCell = (iAnchor = 2)
 				End If
 			End If
+			if bShapeIsSelected then oGraphic.position = oShapePosition  &apos; Only adjust in Calc, everything&apos;s fine in Impress and Draw.
 		End If
 	End If
 	

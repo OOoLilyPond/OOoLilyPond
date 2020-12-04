@@ -33,31 +33,19 @@ Private sTmpPath As String
 Private sTempLyFilePath As String		&apos; Path for tremp. file sent to external editor (sTmpPath or document path)
 Private bTempLyFileCreated As Boolean
 
-&apos; Document type-specific settings
-Private bInsertViaClipboard (4) As Boolean
-Private bKeepCrop (4) As Boolean
-Private sDefaultTemplate (4) As String
-Private sDefaultStaffSize (4) As String
-Private sDefaultLineWidth (4) As String
-Private bUseStaffSizeFromTemplate (4) As Boolean
-Private bUseLineWidthFromTemplate (4) As Boolean
+&apos; Document type-specific settings		&apos; Settings from Config dialog / config file
+Private bInsertViaClipboard (0 to 3) As Boolean
+Private bKeepCrop (0 to 3) As Boolean
+Private sDefaultTemplate (0 to 3) As String
+Private sDefaultStaffSize (0 to 3) As String
+Private sDefaultLineWidth (0 to 3) As String
+Private bUseStaffSizeFromTemplate (0 to 3) As Boolean
+Private bUseLineWidthFromTemplate (0 to 3) As Boolean
 
-
-&apos; Private bWriterInsertViaClipboard As Boolean
-&apos; Private bImpressInsertViaClipboard As Boolean
-&apos; Private bWriterKeepCrop As Boolean
-&apos; Private bImpressKeepCrop As Boolean
-&apos; Private sWriterDefaultTemplate As String
-&apos; Private sImpressDefaultTemplate As String
-&apos; Private sWriterDefaultStaffSize As String
-&apos; Private sWriterDefaultLineWidth As String
-&apos; Private bWriterUseStaffSizeFromTemplate As Boolean
-&apos; Private bWriterUseLineWidthFromTemplate As Boolean
-&apos; Private sImpressDefaultStaffSize As String
-&apos; Private sImpressDefaultLineWidth As String
-&apos; Private bImpressUseStaffSizeFromTemplate As Boolean
-&apos; Private bImpressUseLineWidthFromTemplate As Boolean
-
+Private bBatchAllPagesDefault	 (0 to 3) As Boolean  &apos; remembered state for &quot;Process all sheets/slides/pages&quot; from Batch dialog
+Private bAskForEachObjectDefault (0 to 3) As Boolean  &apos; remembered state for &quot;Ask for each object&quot; from Batch dialog
+Private bCreateBackupDefault	 (0 to 3) As Boolean  &apos; remembered state for &quot;Create backup&quot; from Batch dialog
+Private bBatchKeepCropDefault	 (0 to 3) As Boolean  &apos; remembered state for &quot;Keep size &amp; crop settings&quot; from Batch dialog
 
 Private iCalcDefaultAnchor As Integer
 Private iWriterDefaultAnchor As Integer
@@ -84,15 +72,9 @@ Private bSaveAsSeparateImages As Boolean  &apos; save current snippet as separat
 Private iFrom As Integer  &apos; if &gt; 0: first image to be inserted
 Private iTo As Integer    &apos; if &gt; 0: last image to be inserted
 Private bUseSecondSvgParam As Boolean  &apos; insert &quot;filename.svg&quot; into PdfToSvg command or not?
-Private bAskForEachObjectDefault As Boolean  &apos; remembered state for &quot;Ask for each object&quot; from Batch dialog
-Private bCreateBackupDefault	 As Boolean  &apos; remembered state for &quot;Create backup&quot; from Batch dialog
-Private bBatchKeepCropDefault	 As Boolean  &apos; remembered state for &quot;Keep size &amp; crop settings&quot; from Batch dialog
-
 
 &apos; Environment
 Private sOSType As String
-&apos; Private bInWriter As Boolean
-&apos; Private bInCalc   As Boolean
 Private iDocumentType As Integer
 Private sLilyPondVersionMajor As String
 Private sLilyPondVersionMinor As String
@@ -200,7 +182,7 @@ Private oShapeCrop As Object
 Private oAnchorCellInCalc As Object
 Private oAnchorSheetInCalc As Object
 Private bShapeIsSelected As Boolean
-Private bKeepCrop As Boolean
+Private bEditorKeepCrop As Boolean
 
 &apos; SimpleFileAccess Service
 Private oFileAccess As Object

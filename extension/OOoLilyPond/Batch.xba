@@ -5,9 +5,12 @@
 Option Explicit
 
 Private iAskDialogReturnValue As Integer
+&apos; Global variable, stores the last answer from ConfirmBatchOperation ()
+&apos; May be changed from 4 to 3 by other functions if errors occured during compilation of Ly files
 
 
 Function ConfirmBatchOperation () As Integer
+&apos; Displays oAskDialog and saves the user&apos;s answer in global variable.
 &apos; 1 = Abort
 &apos; 2 = No
 &apos; 3 = Yes
@@ -40,13 +43,13 @@ Sub AskDlgAllButton ()
 End Sub
 
 
-Sub PerformBatchProcessing ()
-&apos; This function is called when the &quot;Start&quot; button in the Batch dialog is pressed.
-&apos; It creates a list of all OOoLilyPond objects, 
+Sub GoThroughDrawPage (oDrawPage As Object, bProgressBar As Boolean)
+&apos; This function is called by PerformBatchProcessing ().
+&apos; It creates a list of all OOoLilyPond objects inside the given DrawPage, 
 &apos; checks if they match the search criteria, 
 &apos; performs the specified replacements
 &apos; and recompiles them without opening the editor dialog.
-	Dim oDrawPage As Object
+
 	Dim oCurrentObject As Object
 	Dim oProgressBar As Object
 	Dim iCount As Integer
@@ -54,55 +57,14 @@ Sub PerformBatchProcessing ()
 	Dim iLastObject As Integer
 	
 	Dim oGraphic As Object
-	&apos; Dim oDocCtrl As Object
 	Dim oGraphicObjects ()
 	Dim sIdentifiers ()
 	Dim sImageNums ()
 	Dim sCurrentImageNum As String
 	Dim sCurrentIdentifier As String
 	Dim iPosInList As Integer
-	Dim iAnswer As Integer
-	Dim bAsk As Boolean  			&apos; checkbox state from Batch dialog
-	Dim bCreateBackup As Boolean	&apos; checkbox state from Batch dialog
-	Dim bSaveConfig As Boolean
-	Dim sURL As String
-	
-	
-	oBatchDialog.getControl (&quot;Process&quot;).setEnable (False)  &apos; avoid multiple button presses
+	Dim iAnswer As Integer	
 
-	bSaveConfig = False
-	
-	bAsk = CheckBoxStateToBool (oBatchDialog.getControl(&quot;bAsk&quot;).getState())
-	if bAsk &lt;&gt; bAskForEachObjectDefault Then
-		bAskForEachObjectDefault = bAsk
-		bSaveConfig = True
-	End If
-
-	bCreateBackup = False
-	sURL = oDoc.getURL()  &apos; see GetRelativeIncludeStatement ()
-	If (Not IsNull (sURL)) And Len (sURL) &gt; 0 Then
-		bCreateBackup = CheckBoxStateToBool (oBatchDialog.getControl(&quot;CreateBackup&quot;).getState())
-		If bCreateBackup &lt;&gt; bCreateBackupDefault Then
-			bCreateBackupDefault = bCreateBackup
-			bSaveConfig = True
-		End If
-	End If
-	
-	bKeepCrop = CheckBoxStateToBool (oBatchDialog.getControl(&quot;bKeepCrop&quot;).getState())
-	if bKeepCrop &lt;&gt; bBatchKeepCropDefault Then
-		bBatchKeepCropDefault = bKeepCrop
-		bSaveConfig = True
-	End If
-	
-	If bSaveConfig Then SaveConfig()
-	
-	If bCreateBackup Then CreateBackup (&quot;_&quot; &amp; TimeStamp ())
-		
-	oBatchDialog.EndExecute()
-	oAskDialog = createUnoDialog (DialogLibraries.GetByName (constOLyLibraryName).GetByName(&quot;GUI_Ask&quot;))
-	ReadDialogStringsFromVar (oAskDialog, sAskDialogStrings, &quot;&quot;)
-
-	oDrawPage = oDoc.DrawPage
 	iCount = oDrawPage.Count
 	oGraphicObjects = DimArray (iCount) 
 	sIdentifiers = DimArray (iCount) 
@@ -113,7 +75,7 @@ Sub PerformBatchProcessing ()
 		oCurrentObject = oDrawPage.getByIndex (i)
 		If IsOLyObject (oCurrentObject) Then
 			sCurrentIdentifier = GetObjectIdentifier (oCurrentObject)
-			If sCurrentIdentifier = &quot;&quot; Then  &apos; not a multi-image object
+			If (sCurrentIdentifier = &quot;&quot;) Or (iDocumentType &lt;&gt; 0) Then  &apos; not a multi-image object OR not in Writer
 				iLastObject = iLastObject + 1
 				oGraphicObjects (iLastObject) = oCurrentObject
 				sIdentifiers (iLastObject) = &quot;&quot;
@@ -139,21 +101,19 @@ Sub PerformBatchProcessing ()
 		End If
 	next i
 	
-	oProgressBar = oDocCtrl.StatusIndicator
-	oProgressBar.start (oMessages.getPropertyValue (&quot;sMsgBatchProcessing&quot;), iLastObject + 1)
-	If bAsk Then
-		iAnswer = 2  &apos; &quot;No&quot;
-		iAskDialogReturnValue = 2
-	Else
-		iAnswer = 4  &apos; &quot;All&quot;
-		iAskDialogReturnValue = 4
+	If bProgressBar Then
+		oProgressBar = oDocCtrl.StatusIndicator
+		oProgressBar.start (oMessages.getPropertyValue (&quot;sMsgBatchProcessing&quot;), iLastObject + 1)
 	End If
+	
+	iAnswer = iAskDialogReturnValue
 	
 	&apos; now process objects from the list:
 	For i = 0 to iLastObject
-		
-		oProgressBar.setValue (i + 1)
-		oProgressBar.setText (oMessages.getPropertyValue (&quot;sMsgBatchProcessing&quot;) &amp; i + 1 &amp; &quot;/&quot; &amp; iLastObject + 1)
+		If bProgressBar Then
+			oProgressBar.setValue (i + 1)
+			oProgressBar.setText (oMessages.getPropertyValue (&quot;sMsgBatchProcessing&quot;) &amp; i + 1 &amp; &quot;/&quot; &amp; iLastObject + 1)
+		End If
 		
 		&apos; Objects from OLy versions prior to 1.0.0 have no Custom 3 and 4 values.
 		&apos; This might only be a problem when an existing template is changed to use these fields. 
@@ -189,7 +149,123 @@ Sub PerformBatchProcessing ()
 			End If
 		End If
 	next i
-	oProgressBar.end()
+	If bProgressBar Then oProgressBar.end()
+End Sub
+
+
+Sub PerformBatchProcessing ()
+&apos; This function is called when the &quot;Start&quot; button in the Batch dialog is pressed.
+&apos; It provides a DrawPage and calls the GoThroughDrawPage function.
+
+	Dim bSaveConfig As Boolean
+	Dim bAsk As Boolean  			&apos; checkbox state from Batch dialog
+	Dim bCreateBackup As Boolean	&apos; checkbox state from Batch dialog
+	Dim bAllPages As Boolean		&apos; checkbox state from Batch dialog
+	Dim sURL As String
+	Dim oDrawPage As Object	
+	Dim oPages As Object
+
+	oBatchDialog.getControl (&quot;Process&quot;).setEnable (False)  &apos; avoid multiple button presses
+
+	bSaveConfig = False
+	
+	Select Case iDocumentType
+		Case 1: bAllPages = CheckBoxStateToBool (oBatchDialog.getControl (   &quot;bCalcBatchAllPages&quot;).getState())
+		Case 2: bAllPages = CheckBoxStateToBool (oBatchDialog.getControl (&quot;bImpressBatchAllPages&quot;).getState())
+		Case 3: bAllPages = CheckBoxStateToBool (oBatchDialog.getControl (   &quot;bDrawBatchAllPages&quot;).getState())
+		Case Else: bAllPages = False
+	End Select
+	if bAllPages &lt;&gt; bBatchAllPagesDefault (iDocumentType) Then
+		bBatchAllPagesDefault (iDocumentType) = bAllPages
+		bSaveConfig = True
+	End If
+
+	bAsk = CheckBoxStateToBool (oBatchDialog.getControl (&quot;bAsk&quot;).getState())
+	if bAsk &lt;&gt; bAskForEachObjectDefault (iDocumentType) Then
+		bAskForEachObjectDefault (iDocumentType) = bAsk
+		bSaveConfig = True
+	End If
+
+	bCreateBackup = False
+	sURL = oDoc.getURL()  &apos; see GetRelativeIncludeStatement ()
+	If (Not IsNull (sURL)) And Len (sURL) &gt; 0 Then
+		bCreateBackup = CheckBoxStateToBool (oBatchDialog.getControl(&quot;CreateBackup&quot;).getState())
+		If bCreateBackup &lt;&gt; bCreateBackupDefault (iDocumentType) Then
+			bCreateBackupDefault (iDocumentType) = bCreateBackup
+			bSaveConfig = True
+		End If
+	End If
+	
+	bEditorKeepCrop = CheckBoxStateToBool (oBatchDialog.getControl(&quot;bKeepCrop&quot;).getState())
+	if bEditorKeepCrop &lt;&gt; bBatchKeepCropDefault (iDocumentType) Then
+		bBatchKeepCropDefault (iDocumentType) = bEditorKeepCrop
+		bSaveConfig = True
+	End If
+	
+	If bSaveConfig Then SaveConfig()
+	
+	If bCreateBackup Then CreateBackup (&quot;_&quot; &amp; TimeStamp ())
+		
+	oBatchDialog.EndExecute()
+	oAskDialog = createUnoDialog (DialogLibraries.GetByName (constOLyLibraryName).GetByName(&quot;GUI_Ask&quot;))
+	ReadDialogStringsFromVar (oAskDialog, sAskDialogStrings, &quot;&quot;)
+	
+	iAskDialogReturnValue = 2  &apos; 2 = &quot;No&quot; as initial value (Don&apos;t perform anything if set to 1 = &quot;Abort&quot;)
+	
+	oPages = oDoc.DrawPages
+
+	Select Case iDocumentType
+	Case 0  &apos; Writer
+		oDrawPage = oDoc.DrawPage
+	Case 1  &apos; Calc
+		Dim oSelectionObject As Object
+		Dim oShape As Object
+		Dim oRangeAddress As Object
+		Dim iCalcSheetNumber As Integer
+		
+		oSelectionObject = oDocCtrl.getSelection
+		Select Case oSelectionObject.getImplementationName()
+			Case &quot;com.sun.star.drawing.SvxShapeCollection&quot; 	&apos; inserted into Writer via Clipboard OR inserted into Draw/Impress OR into Calc
+				oShape = oSelectionObject.getByIndex(0)
+				&apos; the cell where the object is located, regardless whether it&apos;s anchored to that cell or to the page
+				oRangeAddress = oShape.getAnchor().getRangeAddress()
+			Case Else  &apos; ScCellObj (cell but no object selected) or ScCellRangeObj 
+				oRangeAddress = oSelectionObject.getRangeAddress()
+		End Select
+		iCalcSheetNumber = oRangeAddress.Sheet
+		oDrawPage = oPages.getByIndex (iCalcSheetNumber)
+	Case Else  &apos; 2 (Impress) or 3 (Draw)
+		oDrawPage = oDocCtrl.CurrentPage
+	End Select
+	
+	If bAsk Then
+		iAskDialogReturnValue = 2  &apos; &quot;No&quot;
+	Else
+		iAskDialogReturnValue = 4  &apos; &quot;All&quot;
+	End If
+	
+	&apos; Scan DrawPage(s) for OLy objects and process them: 
+	If bAllPages Then
+		Dim i As Integer
+		Dim sProgressMessage As String
+		Dim oProgressBar As Object
+		Select Case iDocumentType
+			Case 1: sProgressMessage = oMessages.getPropertyValue (&quot;sMsgBatchProcessing&quot;) &amp; &quot; &quot; &amp; oMessages.getPropertyValue (&quot;sMsgPageInCalc&quot;) &amp; &quot; &quot;
+			Case 2: sProgressMessage = oMessages.getPropertyValue (&quot;sMsgBatchProcessing&quot;) &amp; &quot; &quot; &amp; oMessages.getPropertyValue (&quot;sMsgPageInImpress&quot;) &amp; &quot; &quot;
+			Case 3: sProgressMessage = oMessages.getPropertyValue (&quot;sMsgBatchProcessing&quot;) &amp; &quot; &quot; &amp; oMessages.getPropertyValue (&quot;sMsgPageInDraw&quot;) &amp; &quot; &quot;
+		End Select
+		oProgressBar = oDocCtrl.StatusIndicator
+		oProgressBar.start (oMessages.getPropertyValue (&quot;sMsgBatchProcessing&quot;), oPages.Count)
+		For i = 0 To oPages.Count - 1
+			oProgressBar.setValue (i + 1)
+			oProgressBar.setText ( sProgressMessage &amp; i + 1 &amp; &quot;/&quot; &amp; oPages.Count)
+			If iAskDialogReturnValue &gt; 1 Then GoThroughDrawPage (oPages.getByIndex (i), False)
+		Next
+		oProgressBar.end()
+	Else
+		GoThroughDrawPage (oDrawPage, True)
+	End If
+	
 End Sub
 
 

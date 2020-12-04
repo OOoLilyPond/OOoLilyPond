@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE dlg:window PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "dialog.dtd">
-<dlg:window xmlns:dlg="http://openoffice.org/2000/dialog" xmlns:script="http://openoffice.org/2000/script" dlg:id="GUI_Config" dlg:tab-index="0" dlg:left="29" dlg:top="35" dlg:width="420" dlg:height="308" dlg:page="2" dlg:closeable="true" dlg:moveable="true" dlg:title="OOoLilyPond Configuration">
+<dlg:window xmlns:dlg="http://openoffice.org/2000/dialog" xmlns:script="http://openoffice.org/2000/script" dlg:id="GUI_Config" dlg:tab-index="0" dlg:left="29" dlg:top="35" dlg:width="420" dlg:height="308" dlg:page="4" dlg:closeable="true" dlg:moveable="true" dlg:title="OOoLilyPond Configuration">
  <dlg:bulletinboard>
   <dlg:radiogroup>
    <dlg:radio dlg:id="WriterAnchorAsCharacter" dlg:tab-index="8" dlg:left="10" dlg:top="108" dlg:width="60" dlg:height="8" dlg:page="1" dlg:help-text="The OOoLilyPond object is inserted into the Text like a character." dlg:tabstop="true" dlg:value="As character" dlg:checked="true"/>
@@ -172,11 +172,7 @@
   <dlg:checkbox dlg:id="bDrawKeepCrop" dlg:tab-index="89" dlg:left="10" dlg:top="210" dlg:width="147" dlg:height="9" dlg:page="4" dlg:help-text="When editing/replacing an existing object in Draw, preserve its current size and crop settings" dlg:value="Keep size &amp; crop settings" dlg:checked="false"/>
   <dlg:checkbox dlg:id="bCalcKeepCrop" dlg:tab-index="101" dlg:left="10" dlg:top="210" dlg:width="147" dlg:height="9" dlg:page="2" dlg:help-text="When editing/replacing an existing object in Calc, preserve its current size and crop settings" dlg:value="Keep size &amp; crop settings" dlg:checked="false"/>
   <dlg:textfield dlg:id="sCalcDefaultStaffSize" dlg:tab-index="96" dlg:left="53" dlg:top="80" dlg:width="38" dlg:height="12" dlg:page="2"/>
-  <dlg:fixedline dlg:id="WriterDefaultsLine" dlg:tab-index="109" dlg:left="9" dlg:top="35" dlg:width="146" dlg:height="9" dlg:page="1" dlg:value="Default values for Text documents"/>
   <dlg:titledbox dlg:id="DefaultsFrame" dlg:tab-index="1" dlg:left="6" dlg:top="31" dlg:width="155" dlg:height="192"/>
-  <dlg:fixedline dlg:id="CalcDefaultsLine" dlg:tab-index="110" dlg:left="9" dlg:top="35" dlg:width="149" dlg:height="9" dlg:page="2" dlg:value="Default values for Spreadsheets"/>
-  <dlg:fixedline dlg:id="ImpressDefaultsLine" dlg:tab-index="111" dlg:left="9" dlg:top="35" dlg:width="149" dlg:height="9" dlg:page="3" dlg:value="Default values for Presentations"/>
-  <dlg:fixedline dlg:id="DrawDefaultsLine" dlg:tab-index="112" dlg:left="9" dlg:top="35" dlg:width="149" dlg:height="9" dlg:page="4" dlg:value="Default values for Drawings"/>
   <dlg:radiogroup>
    <dlg:radio dlg:id="CalcAnchorToCell" dlg:tab-index="106" dlg:left="10" dlg:top="108" dlg:width="145" dlg:height="8" dlg:page="2" dlg:tabstop="true" dlg:value="To cell" dlg:checked="true"/>
    <dlg:radio dlg:id="CalcAnchorToCellResize" dlg:tab-index="107" dlg:left="10" dlg:top="118" dlg:width="145" dlg:height="8" dlg:page="2" dlg:tabstop="true" dlg:value="To cell (resize with cell)"/>
@@ -185,5 +181,9 @@
   <dlg:titledbox dlg:id="CalcAnchorFrameControl" dlg:tab-index="105" dlg:left="8" dlg:top="96" dlg:width="150" dlg:height="54" dlg:page="2">
    <dlg:title dlg:value="Anchor"/>
   </dlg:titledbox>
+  <dlg:fixedline dlg:id="CalcDefaultsFrame" dlg:tab-index="110" dlg:left="9" dlg:top="35" dlg:width="149" dlg:height="9" dlg:page="2" dlg:value="Default values for Spreadsheets"/>
+  <dlg:fixedline dlg:id="WriterDefaultsFrame" dlg:tab-index="109" dlg:left="9" dlg:top="35" dlg:width="146" dlg:height="9" dlg:page="1" dlg:value="Default values for Text documents"/>
+  <dlg:fixedline dlg:id="ImpressDefaultsFrame" dlg:tab-index="111" dlg:left="9" dlg:top="35" dlg:width="149" dlg:height="9" dlg:page="3" dlg:value="Default values for Presentations"/>
+  <dlg:fixedline dlg:id="DrawDefaultsFrame" dlg:tab-index="112" dlg:left="9" dlg:top="35" dlg:width="149" dlg:height="9" dlg:page="4" dlg:value="Default values for Drawings"/>
  </dlg:bulletinboard>
 </dlg:window>
