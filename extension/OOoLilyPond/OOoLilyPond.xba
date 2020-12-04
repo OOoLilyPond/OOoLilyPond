@@ -61,19 +61,6 @@ Sub OOoLilyPondInit()
 		bWrongDocumentType = True
 	End Select
 	
-	&apos; If oDoc.getImplementationName() =  &quot;SwXTextDocument&quot; Then
-	&apos;	bInWriter = True
-	&apos; Elseif oDoc.getImplementationName() = &quot;SdXImpressDocument&quot; or oDoc.getImplementationName() = &quot;ScModelObj&quot; Then
-	&apos;	bInWriter = False
-	&apos;	if oDoc.getImplementationName() = &quot;ScModelObj&quot; Then
-	&apos;		bInCalc = True
-	&apos;	End If
-	&apos; Else
-	&apos;     bWrongDocumentType = True
-	&apos;	&apos; before displaying the error message, first care about config and translation stuff...
-	&apos;	Exit Sub
-	&apos; End If
-
 	&apos; Set configuration to &quot;factory default&quot;, is overwritten by settings from configuration file
 	DefaultConfig()
 	
@@ -172,8 +159,6 @@ Sub OOoLilyPondBatch()
 	Dim bHasURL As Boolean
 
 	OOoLilyPondInit ()
-	&apos; If (iDocumentType &lt;&gt; 0) Then Exit Sub  &apos; Only continue in Writer
-	
 	sURL = oDoc.getURL()  &apos; see GetRelativeIncludeStatement ()
 	bHasURL = (Not IsNull (sURL)) And Len (sURL) &gt; 0
 	
@@ -850,7 +835,7 @@ Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As Strin
 		oGraphic.Surround = iWrap			
 
 		&apos; To do:
-		&apos; The staff size is limitied to 19.5 cm
+		&apos; The line width is limitied to 19.5 cm
 		&apos; This is because the graphic is first loaded into a new draw document of format A4 portrait
 		oGraphic.TopMargin = 0
 		oGraphic.BottomMargin = 0
