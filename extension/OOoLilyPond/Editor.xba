@@ -135,7 +135,7 @@ Sub EditorDialog()
 	If iAnchor = 2 Then oEditorDialog.getControl (&quot;CalcAnchorToCellResize&quot;).setState (true)
 	If iAnchor = 3 Then oEditorDialog.getControl (&quot;CalcAnchorToPage&quot;).setState (true)
 	
-	oEditorDialog.getControl(&quot;bKeepCrop&quot;).setState (BoolToCheckBoxState(bKeepCrop And bShapeIsSelected))
+	oEditorDialog.getControl(&quot;bKeepCrop&quot;).setState (BoolToCheckBoxState(bEditorKeepCrop And bShapeIsSelected))
 	oEditorDialog.getControl(&quot;bSaveAsSeparateImages&quot;).setState (BoolToCheckBoxState (bSaveAsSeparateImages And (iDocumentType = 0)))
 	If iFrom &gt; 0 Then oEditorDialog.getControl(&quot;iFrom&quot;).setValue (iFrom)
 	If iTo   &gt; 0 Then oEditorDialog.getControl(&quot;iTo&quot;).setValue (iTo)	
@@ -515,7 +515,7 @@ Sub LilyPondButton()
 	if oEditorDialog.getControl(&quot;CalcAnchorToCellResize&quot;).getState() then iAnchor = 2
 	if oEditorDialog.getControl(&quot;CalcAnchorToPage&quot;).getState() then iAnchor = 3
 	
-	bKeepCrop = CheckBoxStateToBool (oEditorDialog.getControl(&quot;bKeepCrop&quot;).getState())
+	bEditorKeepCrop = CheckBoxStateToBool (oEditorDialog.getControl(&quot;bKeepCrop&quot;).getState())
 	bSaveAsSeparateImages = CheckBoxStateToBool (oEditorDialog.getControl(&quot;bSaveAsSeparateImages&quot;).getState())
 	iFrom = oEditorDialog.getControl(&quot;iFrom&quot;).getValue()
 	iTo   = oEditorDialog.getControl(&quot;iTo&quot;).getValue()

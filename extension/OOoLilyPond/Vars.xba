@@ -33,7 +33,7 @@ Private sTmpPath As String
 Private sTempLyFilePath As String		&apos; Path for tremp. file sent to external editor (sTmpPath or document path)
 Private bTempLyFileCreated As Boolean
 
-&apos; Document type-specific settings
+&apos; Document type-specific settings		&apos; Settings from Config dialog / config file
 Private bInsertViaClipboard (0 to 3) As Boolean
 Private bKeepCrop (0 to 3) As Boolean
 Private sDefaultTemplate (0 to 3) As String
@@ -182,7 +182,7 @@ Private oShapeCrop As Object
 Private oAnchorCellInCalc As Object
 Private oAnchorSheetInCalc As Object
 Private bShapeIsSelected As Boolean
-Private bKeepCrop As Boolean
+Private bEditorKeepCrop As Boolean
 
 &apos; SimpleFileAccess Service
 Private oFileAccess As Object

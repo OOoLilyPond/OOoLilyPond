@@ -196,9 +196,9 @@ Sub PerformBatchProcessing ()
 		End If
 	End If
 	
-	bKeepCrop = CheckBoxStateToBool (oBatchDialog.getControl(&quot;bKeepCrop&quot;).getState())
-	if bKeepCrop &lt;&gt; bBatchKeepCropDefault (iDocumentType) Then
-		bBatchKeepCropDefault (iDocumentType) = bKeepCrop
+	bEditorKeepCrop = CheckBoxStateToBool (oBatchDialog.getControl(&quot;bKeepCrop&quot;).getState())
+	if bEditorKeepCrop &lt;&gt; bBatchKeepCropDefault (iDocumentType) Then
+		bBatchKeepCropDefault (iDocumentType) = bEditorKeepCrop
 		bSaveConfig = True
 	End If
 	
