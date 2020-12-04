@@ -37,7 +37,9 @@ Sub ConfigDialogUpdate()
 	oConfigDialog.getControl(&quot;sFormat&quot;).removeItems(0, oConfigDialog.getControl(&quot;sFormat&quot;).getItemCount)
 	oConfigDialog.getControl(&quot;sFormat&quot;).addItems (Array (&quot;png&quot;, &quot;eps&quot;, &quot;svg&quot;, &quot;svg [-dcrop]&quot;, &quot;pdf to svg&quot;), 0)
 	ListOfTemplates(oConfigDialog.getControl(&quot;sWriterDefaultTemplate&quot;))
+	ListOfTemplates(oConfigDialog.getControl(&quot;sCalcDefaultTemplate&quot;))
 	ListOfTemplates(oConfigDialog.getControl(&quot;sImpressDefaultTemplate&quot;))
+	ListOfTemplates(oConfigDialog.getControl(&quot;sDrawDefaultTemplate&quot;))
 	
 	ListOfLanguageFiles(oConfigDialog.getControl(&quot;sLanguageFileName&quot;))
 
