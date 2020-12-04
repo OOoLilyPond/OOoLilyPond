@@ -250,9 +250,9 @@ Sub PerformBatchProcessing ()
 		Dim sProgressMessage As String
 		Dim oProgressBar As Object
 		Select Case iDocumentType
-			Case 1: sProgressMessage = oMessages.getPropertyValue (&quot;sMsgBatchProcessing&quot;) &amp; &quot; &quot; &amp; oMessages.getPropertyValue (&quot;sMsgPagesInCalc&quot;) &amp; &quot; &quot;
-			Case 2: sProgressMessage = oMessages.getPropertyValue (&quot;sMsgBatchProcessing&quot;) &amp; &quot; &quot; &amp; oMessages.getPropertyValue (&quot;sMsgPagesInImpress&quot;) &amp; &quot; &quot;
-			Case 3: sProgressMessage = oMessages.getPropertyValue (&quot;sMsgBatchProcessing&quot;) &amp; &quot; &quot; &amp; oMessages.getPropertyValue (&quot;sMsgPagesInDraw&quot;) &amp; &quot; &quot;
+			Case 1: sProgressMessage = oMessages.getPropertyValue (&quot;sMsgBatchProcessing&quot;) &amp; &quot; &quot; &amp; oMessages.getPropertyValue (&quot;sMsgPageInCalc&quot;) &amp; &quot; &quot;
+			Case 2: sProgressMessage = oMessages.getPropertyValue (&quot;sMsgBatchProcessing&quot;) &amp; &quot; &quot; &amp; oMessages.getPropertyValue (&quot;sMsgPageInImpress&quot;) &amp; &quot; &quot;
+			Case 3: sProgressMessage = oMessages.getPropertyValue (&quot;sMsgBatchProcessing&quot;) &amp; &quot; &quot; &amp; oMessages.getPropertyValue (&quot;sMsgPageInDraw&quot;) &amp; &quot; &quot;
 		End Select
 		oProgressBar = oDocCtrl.StatusIndicator
 		oProgressBar.start (oMessages.getPropertyValue (&quot;sMsgBatchProcessing&quot;), oPages.Count)
