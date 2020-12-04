@@ -876,7 +876,16 @@ Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As Strin
 	  	oGraphic = oDocCtrl.getSelection().getByIndex(0)
 
 		if bShapeIsSelected then oGraphic.position = oShapePosition
-		if (iDocumentType = 1) then oGraphic.Anchor = oAnchorCellInCalc  &apos; in Calc
+		If (iDocumentType = 1) then   &apos; in Calc
+			If iAnchor = 3 Then     &apos; &quot;To Page&quot;
+				oGraphic.Anchor = oAnchorSheetInCalc
+			Else
+				oGraphic.Anchor = oAnchorCellInCalc
+				If ResizeWithCellExists (oGraphic) Then
+					oGraphic.ResizeWithCell = (iAnchor = 2)
+				End If
+			End If
+		End If
 
 	end if
 	
