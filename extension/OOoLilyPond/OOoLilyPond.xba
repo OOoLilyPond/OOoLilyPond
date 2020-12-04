@@ -875,7 +875,6 @@ Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As Strin
 		oDispatcher.executeDispatch( oDocCtrl.Frame, &quot;.uno:Paste&quot;, &quot;&quot;, 0, Array())
 	  	oGraphic = oDocCtrl.getSelection().getByIndex(0)
 
-		if bShapeIsSelected then oGraphic.position = oShapePosition
 		If (iDocumentType = 1) then   &apos; in Calc
 			If iAnchor = 3 Then     &apos; &quot;To Page&quot;
 				oGraphic.Anchor = oAnchorSheetInCalc
@@ -886,6 +885,7 @@ Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As Strin
 				End If
 			End If
 		End If
+		if bShapeIsSelected then oGraphic.position = oShapePosition
 
 	end if
 	
@@ -983,6 +983,7 @@ Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, sAddition
 					oGraphic.ResizeWithCell = (iAnchor = 2)
 				End If
 			End If
+			if bShapeIsSelected then oGraphic.position = oShapePosition  &apos; Only adjust in Calc, everything&apos;s fine in Impress and Draw.
 		End If
 	End If
 	
