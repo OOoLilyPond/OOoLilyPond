@@ -753,6 +753,7 @@ Sub AttachAttributes (oGraphic As Object, sIdentifier As String, sImageNum As St
 	InsertAttribute(oGraphic, &quot;OOoLilyPondOption2Value&quot;, BoolToString(bOption2))
 	InsertAttribute(oGraphic, &quot;OOoLilyPondOption3Value&quot;, BoolToString(bOption3))
 	InsertAttribute(oGraphic, &quot;OOoLilyPondOption4Value&quot;, BoolToString(bOption4))
+	InsertAttribute(oGraphic, &quot;OOoLilyPondKeepCrop&quot;, BoolToString(bEditorKeepCrop))
 	If bIncludeTemplate Then 
 		InsertAttribute (oGraphic, &quot;OOoLilyPondTemplateCode&quot;, sTemplateCode)
 	Else
@@ -1060,6 +1061,11 @@ Function ReadAttributes( oShape As Object ) As Boolean
 		bUseDefaultStaffSize=StringToBool(oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondUseDefaultStaffSize&quot;).Value)
 		bUseDefaultCustom1=StringToBool(oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondUseDefaultCustom1&quot;).Value)
 		bUseDefaultCustom2=StringToBool(oShape.UserDefinedAttributes().getByName(&quot;OOoLilyPondUseDefaultCustom2&quot;).Value)
+		
+		&apos; bKeepCrop attribute exists since OOoLilyPond 1.0.2-4:
+		If oShape.UserDefinedAttributes().hasByName (&quot;OOoLilyPondKeepCrop&quot;) Then
+			bEditorKeepCrop = StringToBool (oShape.UserDefinedAttributes().getByName (&quot;OOoLilyPondKeepCrop&quot;).Value)
+		End If
 		
 		&apos; Custom3 and Custom4 attributes exist since OOoLilyPond 1.0.0:
 		If oShape.UserDefinedAttributes().hasByName(&quot;OOoLilyPondCustom3&quot;) Then

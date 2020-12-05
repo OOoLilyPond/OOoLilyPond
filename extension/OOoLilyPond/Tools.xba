@@ -264,7 +264,7 @@ Sub ImportGraphicIntoClipboard (cURL)
 	&apos; if sExtension = &quot;emf&quot; then oShapeSize.Width = oShapeSize.Width * 1.13
 	&apos; if sExtension = &quot;emf&quot; then oShapeSize.Height = oShapeSize.Height * 1.1
 	
-	if bEditorKeepCrop Then
+	if bEditorKeepCrop and bShapeIsSelected Then
 		oImportShape.setSize (oShapeSize)							&apos; apply size of old graphics object
 		oImportShape.setPropertyValue (&quot;GraphicCrop&quot;, oShapeCrop)	&apos; apply crop settings of old graphics object
 	Else
@@ -343,7 +343,7 @@ Function ImportBitmapIntoDraw (sURL As String, Optional oGraphicShape) As Object
 	&apos; refresh the view
 	oDocCtrl.restoreViewData(oDocCtrl.getViewData)		
 	
-	If bEditorKeepCrop Then
+	If bEditorKeepCrop and bShapeIsSelected Then
 		oGraphicShape.setSize (oShapeSize)		&apos; apply size of old graphics object
 												&apos; Crop settings are already present, no need to do anything
 	Else
@@ -430,7 +430,7 @@ Function ImportBitmapIntoWriter (sFile As String, oTextGraphicOrCursor As Object
 	oTextGraphic.getPropertyValue(&quot;IsPixelContour&quot;)
 	&apos; set the original graphic size
 	
-	If bEditorKeepCrop Then
+	If bEditorKeepCrop and bShapeIsSelected Then
 		oTextGraphic.setSize (oShapeSize)		&apos; apply size of old graphics object
 												&apos; Crop settings are already present, no need to do anything
 	Else
