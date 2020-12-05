@@ -178,7 +178,7 @@ Sub OOoLilyPondBatch()
 	Else
 		oBatchDialog.getControl (&quot;CreateBackup&quot;).setState (BoolToCheckBoxState (False))
 	End If
-	oBatchDialog.getControl (&quot;bKeepCrop&quot;).setState (BoolToCheckBoxState (bBatchKeepCropDefault (iDocumentType)))
+	&apos; oBatchDialog.getControl (&quot;bKeepCrop&quot;).setState (BoolToCheckBoxState (bBatchKeepCropDefault (iDocumentType)))
 	ReadDialogStringsFromVar (oBatchDialog, sBatchDialogStrings, &quot;&quot;)
 	ReadDialogStringsFromVar (oBatchDialog, sBatchDialogRuleSetStrings, &quot;_A&quot;)
 	ReadDialogStringsFromVar (oBatchDialog, sBatchDialogRuleSetStrings, &quot;_B&quot;)

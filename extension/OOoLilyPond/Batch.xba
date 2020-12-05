@@ -121,6 +121,9 @@ Sub GoThroughDrawPage (oDrawPage As Object, bProgressBar As Boolean)
 		bUseDefaultCustom3 = True
 		bUseDefaultCustom4 = True
 		
+		bEditorKeepCrop = bKeepCrop (iDocumentType)  &apos; set to doc-specific default value from Config dialog
+													 &apos; Might be overwritten by ReadSelectionObject() if object has a dedicated setting in its attributes.
+		
 		oCurrentGraphicObject = oGraphicObjects (i)  &apos; global variable		
 		oDocCtrl.select (oCurrentGraphicObject)
 		If ReadSelectionObject () Then  &apos; create Cursor and read Attributes if Object is selected
@@ -130,6 +133,8 @@ Sub GoThroughDrawPage (oDrawPage As Object, bProgressBar As Boolean)
 			if bUseDefaultCustom3 Then sCustom3 = sDefaultCustom3
 			if bUseDefaultCustom4 Then sCustom4 = sDefaultCustom4
 			
+			If oBatchDialog.getControl(&quot;KeepCrop_Yes&quot;).getState() Then bEditorKeepCrop = True
+			If oBatchDialog.getControl(&quot;KeepCrop_No&quot;).getState() Then bEditorKeepCrop = False
 			bSaveAsSeparateImages = bHasSeparateImages
 			If oBatchDialog.getControl(&quot;SeparateImages_Yes&quot;).getState() Then bSaveAsSeparateImages = True
 			If oBatchDialog.getControl(&quot;SeparateImages_No&quot;).getState() Then bSaveAsSeparateImages = False
@@ -196,11 +201,11 @@ Sub PerformBatchProcessing ()
 		End If
 	End If
 	
-	bEditorKeepCrop = CheckBoxStateToBool (oBatchDialog.getControl(&quot;bKeepCrop&quot;).getState())
-	if bEditorKeepCrop &lt;&gt; bBatchKeepCropDefault (iDocumentType) Then
-		bBatchKeepCropDefault (iDocumentType) = bEditorKeepCrop
-		bSaveConfig = True
-	End If
+	&apos; bEditorKeepCrop = CheckBoxStateToBool (oBatchDialog.getControl(&quot;bKeepCrop&quot;).getState())
+	&apos; if bEditorKeepCrop &lt;&gt; bBatchKeepCropDefault (iDocumentType) Then
+	&apos; 	bBatchKeepCropDefault (iDocumentType) = bEditorKeepCrop
+	&apos; 	bSaveConfig = True
+	&apos; End If
 	
 	If bSaveConfig Then SaveConfig()
 	
