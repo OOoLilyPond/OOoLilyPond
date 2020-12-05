@@ -133,6 +133,7 @@ Sub OOoLilyPondInit()
 	bUseDefaultCustom2 = True
 	bUseDefaultCustom3 = True
 	bUseDefaultCustom4 = True
+	bEditorKeepCrop = bKeepCrop (iDocumentType)
 End Sub
 
 
