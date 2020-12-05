@@ -122,13 +122,13 @@
   <dlg:checkbox dlg:id="bDrawBatchAllPages" dlg:tab-index="44" dlg:left="274" dlg:top="14" dlg:width="132" dlg:height="8" dlg:page="4" dlg:value="Process all pages" dlg:checked="false"/>
   <dlg:checkbox dlg:id="bImpressBatchAllPages" dlg:tab-index="43" dlg:left="274" dlg:top="14" dlg:width="132" dlg:height="8" dlg:page="3" dlg:value="Process all slides" dlg:checked="false"/>
   <dlg:checkbox dlg:id="bCalcBatchAllPages" dlg:tab-index="42" dlg:left="274" dlg:top="14" dlg:width="132" dlg:height="8" dlg:page="2" dlg:value="Process all sheets" dlg:checked="false"/>
-  <dlg:titledbox dlg:id="bKeepCrop" dlg:tab-index="45" dlg:left="269" dlg:top="72" dlg:width="138" dlg:height="34" dlg:page="1">
+  <dlg:titledbox dlg:id="bKeepCrop" dlg:tab-index="45" dlg:left="269" dlg:top="72" dlg:width="138" dlg:height="34">
    <dlg:title dlg:value="Keep size &amp; crop settings?"/>
   </dlg:titledbox>
   <dlg:radiogroup>
-   <dlg:radio dlg:id="KeepCrop_Yes" dlg:tab-index="46" dlg:left="274" dlg:top="84" dlg:width="62" dlg:height="8" dlg:page="1" dlg:value="Yes"/>
-   <dlg:radio dlg:id="KeepCrop_No" dlg:tab-index="47" dlg:left="340" dlg:top="84" dlg:width="62" dlg:height="8" dlg:page="1" dlg:value="No"/>
-   <dlg:radio dlg:id="KeepCrop_DontChange" dlg:tab-index="48" dlg:left="274" dlg:top="94" dlg:width="128" dlg:height="8" dlg:page="1" dlg:value="Don&apos;t change" dlg:checked="true"/>
+   <dlg:radio dlg:id="KeepCrop_Yes" dlg:tab-index="46" dlg:left="274" dlg:top="84" dlg:width="62" dlg:height="8" dlg:value="Yes"/>
+   <dlg:radio dlg:id="KeepCrop_No" dlg:tab-index="47" dlg:left="340" dlg:top="84" dlg:width="62" dlg:height="8" dlg:value="No"/>
+   <dlg:radio dlg:id="KeepCrop_DontChange" dlg:tab-index="48" dlg:left="274" dlg:top="94" dlg:width="128" dlg:height="8" dlg:value="Don&apos;t change" dlg:checked="true"/>
   </dlg:radiogroup>
  </dlg:bulletinboard>
 </dlg:window>
