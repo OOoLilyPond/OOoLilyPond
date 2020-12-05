@@ -217,7 +217,7 @@ Sub PerformBatchProcessing ()
 	
 	iAskDialogReturnValue = 2  &apos; 2 = &quot;No&quot; as initial value (Don&apos;t perform anything if set to 1 = &quot;Abort&quot;)
 	
-	oPages = oDoc.DrawPages
+	
 
 	Select Case iDocumentType
 	Case 0  &apos; Writer
@@ -228,6 +228,7 @@ Sub PerformBatchProcessing ()
 		Dim oRangeAddress As Object
 		Dim iCalcSheetNumber As Integer
 		
+		oPages = oDoc.DrawPages
 		oSelectionObject = oDocCtrl.getSelection
 		Select Case oSelectionObject.getImplementationName()
 			Case &quot;com.sun.star.drawing.SvxShapeCollection&quot; 	&apos; inserted into Writer via Clipboard OR inserted into Draw/Impress OR into Calc
@@ -240,6 +241,7 @@ Sub PerformBatchProcessing ()
 		iCalcSheetNumber = oRangeAddress.Sheet
 		oDrawPage = oPages.getByIndex (iCalcSheetNumber)
 	Case Else  &apos; 2 (Impress) or 3 (Draw)
+		oPages = oDoc.DrawPages
 		oDrawPage = oDocCtrl.CurrentPage
 	End Select
 	
