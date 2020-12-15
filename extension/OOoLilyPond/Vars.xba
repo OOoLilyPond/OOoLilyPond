@@ -33,20 +33,31 @@ Private sTmpPath As String
 Private sTempLyFilePath As String		&apos; Path for tremp. file sent to external editor (sTmpPath or document path)
 Private bTempLyFileCreated As Boolean
 
+&apos; Document type-specific settings		&apos; Settings from Config dialog / config file
+Private bInsertViaClipboard (0 to 3) As Boolean
+Private bKeepCrop (0 to 3) As Boolean
+Private sDefaultTemplate (0 to 3) As String
+Private sDefaultStaffSize (0 to 3) As String
+Private sDefaultLineWidth (0 to 3) As String
+Private bUseStaffSizeFromTemplate (0 to 3) As Boolean
+Private bUseLineWidthFromTemplate (0 to 3) As Boolean
+
+Private bBatchAllPagesDefault	 (0 to 3) As Boolean  &apos; remembered state for &quot;Process all sheets/slides/pages&quot; from Batch dialog
+Private bAskForEachObjectDefault (0 to 3) As Boolean  &apos; remembered state for &quot;Ask for each object&quot; from Batch dialog
+Private bCreateBackupDefault	 (0 to 3) As Boolean  &apos; remembered state for &quot;Create backup&quot; from Batch dialog
+&apos; Private bBatchKeepCropDefault	 (0 to 3) As Boolean  &apos; remembered state for &quot;Keep size &amp; crop settings&quot; from Batch dialog  &apos; replaced by per-object setting
+
+Private iCalcDefaultAnchor As Integer
+Private iWriterDefaultAnchor As Integer
+Private iWriterDefaultWrap As Integer
+
+
 &apos; Settings
 Private sFormat As String
 Private sExtension As String  &apos; needed because sFormat = &quot;pdf to svg&quot; means sExtension = &quot;svg&quot;
 Private iGraphicDPI As Integer
 Private bTransparentBackground As Boolean
-Private sWriterDefaultTemplate As String
-Private sImpressDefaultTemplate As String
-Private iWriterDefaultAnchor As Integer
-Private iWriterDefaultWrap As Integer
 Private bIgnoreWarnings As Boolean
-Private bWriterInsertViaClipboard As Boolean
-Private bImpressInsertViaClipboard As Boolean
-Private bWriterKeepCrop As Boolean
-Private bImpressKeepCrop As Boolean
 Private sLanguageFileName As String
 Private bKeepTempFiles As Boolean
 Private bTempLyFileInDocFolder As Boolean  &apos; save temp. LY file for ext. editor into LO document folder? 
@@ -61,14 +72,10 @@ Private bSaveAsSeparateImages As Boolean  &apos; save current snippet as separat
 Private iFrom As Integer  &apos; if &gt; 0: first image to be inserted
 Private iTo As Integer    &apos; if &gt; 0: last image to be inserted
 Private bUseSecondSvgParam As Boolean  &apos; insert &quot;filename.svg&quot; into PdfToSvg command or not?
-Private bAskForEachObjectDefault As Boolean  &apos; remembered state for &quot;Ask for each object&quot; from Batch dialog
-Private bCreateBackupDefault	 As Boolean  &apos; remembered state for &quot;Create backup&quot; from Batch dialog
-Private bBatchKeepCropDefault	 As Boolean  &apos; remembered state for &quot;Keep size &amp; crop settings&quot; from Batch dialog
-
 
 &apos; Environment
 Private sOSType As String
-Private bInWriter As Boolean
+Private iDocumentType As Integer
 Private sLilyPondVersionMajor As String
 Private sLilyPondVersionMinor As String
 
@@ -106,8 +113,8 @@ Private sOption4False As String
 
 &apos; OOoLilyPond object default data
 Private sDefaultCode As String
-Private sDefaultLineWidth As String
-Private sDefaultStaffSize As String
+Private sEditorDefaultLineWidth As String
+Private sEditorDefaultStaffSize As String
 Private sDefaultCustom1 As String
 Private sDefaultCustom2 As String
 Private sDefaultCustom3 As String
@@ -143,6 +150,7 @@ Private iAnchor As Integer
 Private iOriginalAnchor As Integer
 Private iAnchorPageNo As Integer
 Private iWrap As Integer
+Private iCalcSheetNumber As Integer
 
 &apos; Use Default Flags
 Private bUseDefaultCode As Boolean
@@ -152,8 +160,8 @@ Private bUseDefaultCustom1 As Boolean
 Private bUseDefaultCustom2 As Boolean
 Private bUseDefaultCustom3 As Boolean
 Private bUseDefaultCustom4 As Boolean
-Private bUseLineWidthFromTemplate As String
-Private bUseStaffSizeFromTemplate As String
+&apos; Private bUseLineWidthFromTemplate As String    &apos; replaced by array with the same name, see above
+&apos; Private bUseStaffSizeFromTemplate As String    &apos; replaced by array with the same name, see above
 
 &apos; Code related strings
 Private sTemplateCode As String &apos; String containing the template 
@@ -171,8 +179,10 @@ Private iCustom4StartPos As Integer
 Private oShapeSize As Object
 Private oShapePosition As Object
 Private oShapeCrop As Object
+Private oAnchorCellInCalc As Object
+Private oAnchorSheetInCalc As Object
 Private bShapeIsSelected As Boolean
-Private bKeepCrop As Boolean
+Private bEditorKeepCrop As Boolean
 
 &apos; SimpleFileAccess Service
 Private oFileAccess As Object
