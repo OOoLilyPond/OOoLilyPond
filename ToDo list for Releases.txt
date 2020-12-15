@@ -16,7 +16,7 @@ Version history.txt
       of the "extension" subfolder
       and rename to *.OXT
     * for the OpenOffice version, use 
-      Addons.xcu from OLy 0.5.7
+      Addons.xcu from the AOO folder
 
 - add release-notes.txt
 - add same text as Release description

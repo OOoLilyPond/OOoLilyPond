@@ -5,6 +5,23 @@
 Option Explicit
 
 
+Function ResizeWithCellExists (oGraphicObject As Object) As Boolean
+	Dim bDummy As Boolean
+
+	On Error GoTo ErrorHandler
+	
+	bDummy = oGraphicObject.ResizeWithCell
+	&apos; This property is new in LibreOffice 7.
+	&apos; If a property with that name exists, the funcion continues with the following line:
+	ResizeWithCellExists = True
+	Exit Function
+
+	&apos; If not, it continues here:
+	ErrorHandler: 
+	ResizeWithCellExists = False
+End Function
+
+
 Sub CreateBackup (sSuffix As String)
 	Dim sURL
 	Dim sBackupURL As String
@@ -247,7 +264,7 @@ Sub ImportGraphicIntoClipboard (cURL)
 	&apos; if sExtension = &quot;emf&quot; then oShapeSize.Width = oShapeSize.Width * 1.13
 	&apos; if sExtension = &quot;emf&quot; then oShapeSize.Height = oShapeSize.Height * 1.1
 	
-	if bKeepCrop Then
+	if bEditorKeepCrop and bShapeIsSelected Then
 		oImportShape.setSize (oShapeSize)							&apos; apply size of old graphics object
 		oImportShape.setPropertyValue (&quot;GraphicCrop&quot;, oShapeCrop)	&apos; apply crop settings of old graphics object
 	Else
@@ -262,15 +279,14 @@ Sub ImportGraphicIntoClipboard (cURL)
 End Sub
 
 
-Function ImportBitmapIntoDraw(sURL As String, Optional oGraphicShape) As Object
-	&apos; Imports a bitmap into Draw or Impress
+Function ImportBitmapIntoDraw (sURL As String, Optional oGraphicShape) As Object
+	&apos; Imports a bitmap into Draw or Impress or Calc
+	Dim oPages As Object
 	Dim oDrawPage As Object
 	Dim oBitmaps As Object
 	Dim sNewUrl
 	Dim oSize As Object
 	Dim oShape As Object
-	&apos; Dim oDoc As Object
-	&apos; Dim oDocCtrl As Object
 	Dim oCrop As new com.sun.star.text.GraphicCrop
 	Const INCH = 2540
 	&apos; Const VECTORDPI = 120	&apos; Correction factor for vector graphics as they don&apos;t use PNG&apos;s dpi values
@@ -278,9 +294,6 @@ Function ImportBitmapIntoDraw(sURL As String, Optional oGraphicShape) As Object
 							&apos; Update: sometimes it looks like 96 is assumed 
 							&apos; ToDo: Find out what the hell is going on here...
 							&apos; Workaround: Use a better method   ;-)
-
-	&apos; oDoc = ThisComponent
-	&apos; oDocCtrl = oDoc.getCurrentController
 	
 	oBitmaps = oDoc.createInstance(&quot;com.sun.star.drawing.BitmapTable&quot;)
 	If oBitmaps.hasByName( &quot;OOoLilyPond&quot; ) Then
@@ -295,11 +308,16 @@ Function ImportBitmapIntoDraw(sURL As String, Optional oGraphicShape) As Object
 	&apos; https://bugs.documentfoundation.org/show_bug.cgi?id=120527#c13
 
 	&apos;Insert the Bitmap
-	If IsMissing(oGraphicShape) Then
-		oDrawPage=oDocCtrl.getCurrentPage()
-		oGraphicShape = oDoc.createInstance(&quot;com.sun.star.drawing.GraphicObjectShape&quot;)
-		oGraphicShape.graphicURL=sNewURL
-		oDrawPage.add(oGraphicShape)
+	If IsMissing (oGraphicShape) Then
+		If (iDocumentType = 1) Then  &apos;  we are in Calc
+			oPages = oDocCtrl.getModel().getDrawPages
+			oDrawPage = oPages.getByIndex (iCalcSheetNumber)
+		Else  &apos; we are in Impress or Draw
+			oDrawPage=oDocCtrl.getCurrentPage()
+		End If
+		oGraphicShape = oDoc.createInstance (&quot;com.sun.star.drawing.GraphicObjectShape&quot;)
+		oGraphicShape.graphicURL = sNewURL
+		oDrawPage.add (oGraphicShape)
 	Else
 		oGraphicShape.graphicURL=sNewURL
 	End If
@@ -325,7 +343,7 @@ Function ImportBitmapIntoDraw(sURL As String, Optional oGraphicShape) As Object
 	&apos; refresh the view
 	oDocCtrl.restoreViewData(oDocCtrl.getViewData)		
 	
-	If bKeepCrop Then
+	If bEditorKeepCrop and bShapeIsSelected Then
 		oGraphicShape.setSize (oShapeSize)		&apos; apply size of old graphics object
 												&apos; Crop settings are already present, no need to do anything
 	Else
@@ -412,7 +430,7 @@ Function ImportBitmapIntoWriter (sFile As String, oTextGraphicOrCursor As Object
 	oTextGraphic.getPropertyValue(&quot;IsPixelContour&quot;)
 	&apos; set the original graphic size
 	
-	If bKeepCrop Then
+	If bEditorKeepCrop and bShapeIsSelected Then
 		oTextGraphic.setSize (oShapeSize)		&apos; apply size of old graphics object
 												&apos; Crop settings are already present, no need to do anything
 	Else

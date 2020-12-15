@@ -1,0 +1,51 @@
+oDocCtrl
+
+Calc:
+	ScTabViewObj
+
+Draw:
+	DrawController
+		CurrentPage
+		SdDrawPage
+	
+
+
+
+oDoc (com.sun.star.uno.XInterface)
+	Identifier (String)
+			"com.sun.star.text.TextDocument"
+			"com.sun.star.drawing.DrawingDocument"
+			"com.sun.star.presentation.PresentationDocument"
+			"com.sun.star.sheet.SpreadsheetDocument"
+	Sheets (ScTableSheetsObj) Array
+		Count (Long)
+
+
+
+
+Calc:
+
+oDocCtrl
+	Model (ScModelObj)
+		DrawPages (ScDrawPagesObj) Array
+			Count (Long)
+	Selection (ScCellObj)
+		RangeAddress (com.sun.star.table.CellRangeAddress)
+			Sheet (Integer, 0-based)
+		Selection (ScTableSheetObj)
+			Sheets (ScTableSheetsObj) Array
+				Count (Long)
+			DrawPages (ScDrawPagesObj) Array
+				Count (Long)
+
+ScCellRangeObj
+	RangeAddress (com.sun.star.table.CellRangeAddress
+		Sheet (Integer, 0-based)
+	Columns (ScTableColumnsObj) Array
+		Count (Long)
+		
+
+ScTableColumnObj
+	RangeAddress (com.sun.star.table.CellRangeAddress)
+	Rows (ScTableRowsObj)
+	
