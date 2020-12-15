@@ -121,6 +121,9 @@ Sub GoThroughDrawPage (oDrawPage As Object, bProgressBar As Boolean)
 		bUseDefaultCustom3 = True
 		bUseDefaultCustom4 = True
 		
+		bEditorKeepCrop = bKeepCrop (iDocumentType)  &apos; set to doc-specific default value from Config dialog
+													 &apos; Might be overwritten by ReadSelectionObject() if object has a dedicated setting in its attributes.
+		
 		oCurrentGraphicObject = oGraphicObjects (i)  &apos; global variable		
 		oDocCtrl.select (oCurrentGraphicObject)
 		If ReadSelectionObject () Then  &apos; create Cursor and read Attributes if Object is selected
@@ -130,8 +133,10 @@ Sub GoThroughDrawPage (oDrawPage As Object, bProgressBar As Boolean)
 			if bUseDefaultCustom3 Then sCustom3 = sDefaultCustom3
 			if bUseDefaultCustom4 Then sCustom4 = sDefaultCustom4
 			
+			If oBatchDialog.getControl(&quot;KeepCrop_Yes&quot;).getState() Then bEditorKeepCrop = True
+			If oBatchDialog.getControl(&quot;KeepCrop_No&quot;).getState() Then bEditorKeepCrop = False
 			bSaveAsSeparateImages = bHasSeparateImages
-			If oBatchDialog.getControl(&quot;SeparateImages_Yes&quot;).getState() Then bSaveAsSeparateImages = True
+			If oBatchDialog.getControl(&quot;SeparateImages_Yes&quot;).getState() and (iAnchor = com.sun.star.text.TextContentAnchorType.AS_CHARACTER) Then bSaveAsSeparateImages = True
 			If oBatchDialog.getControl(&quot;SeparateImages_No&quot;).getState() Then bSaveAsSeparateImages = False
 			bIncludeTemplate = bContainsTemplate
 			If oBatchDialog.getControl(&quot;IncludeTemplate_Yes&quot;).getState() Then bIncludeTemplate = True
@@ -196,11 +201,11 @@ Sub PerformBatchProcessing ()
 		End If
 	End If
 	
-	bEditorKeepCrop = CheckBoxStateToBool (oBatchDialog.getControl(&quot;bKeepCrop&quot;).getState())
-	if bEditorKeepCrop &lt;&gt; bBatchKeepCropDefault (iDocumentType) Then
-		bBatchKeepCropDefault (iDocumentType) = bEditorKeepCrop
-		bSaveConfig = True
-	End If
+	&apos; bEditorKeepCrop = CheckBoxStateToBool (oBatchDialog.getControl(&quot;bKeepCrop&quot;).getState())
+	&apos; if bEditorKeepCrop &lt;&gt; bBatchKeepCropDefault (iDocumentType) Then
+	&apos; 	bBatchKeepCropDefault (iDocumentType) = bEditorKeepCrop
+	&apos; 	bSaveConfig = True
+	&apos; End If
 	
 	If bSaveConfig Then SaveConfig()
 	
@@ -212,7 +217,7 @@ Sub PerformBatchProcessing ()
 	
 	iAskDialogReturnValue = 2  &apos; 2 = &quot;No&quot; as initial value (Don&apos;t perform anything if set to 1 = &quot;Abort&quot;)
 	
-	oPages = oDoc.DrawPages
+	
 
 	Select Case iDocumentType
 	Case 0  &apos; Writer
@@ -223,6 +228,7 @@ Sub PerformBatchProcessing ()
 		Dim oRangeAddress As Object
 		Dim iCalcSheetNumber As Integer
 		
+		oPages = oDoc.DrawPages
 		oSelectionObject = oDocCtrl.getSelection
 		Select Case oSelectionObject.getImplementationName()
 			Case &quot;com.sun.star.drawing.SvxShapeCollection&quot; 	&apos; inserted into Writer via Clipboard OR inserted into Draw/Impress OR into Calc
@@ -235,6 +241,7 @@ Sub PerformBatchProcessing ()
 		iCalcSheetNumber = oRangeAddress.Sheet
 		oDrawPage = oPages.getByIndex (iCalcSheetNumber)
 	Case Else  &apos; 2 (Impress) or 3 (Draw)
+		oPages = oDoc.DrawPages
 		oDrawPage = oDocCtrl.CurrentPage
 	End Select
 	

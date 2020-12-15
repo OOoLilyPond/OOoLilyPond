@@ -135,7 +135,7 @@ Sub EditorDialog()
 	If iAnchor = 2 Then oEditorDialog.getControl (&quot;CalcAnchorToCellResize&quot;).setState (true)
 	If iAnchor = 3 Then oEditorDialog.getControl (&quot;CalcAnchorToPage&quot;).setState (true)
 	
-	oEditorDialog.getControl(&quot;bKeepCrop&quot;).setState (BoolToCheckBoxState(bEditorKeepCrop And bShapeIsSelected))
+	oEditorDialog.getControl(&quot;bKeepCrop&quot;).setState (BoolToCheckBoxState (bEditorKeepCrop))
 	oEditorDialog.getControl(&quot;bSaveAsSeparateImages&quot;).setState (BoolToCheckBoxState (bSaveAsSeparateImages And (iDocumentType = 0)))
 	If iFrom &gt; 0 Then oEditorDialog.getControl(&quot;iFrom&quot;).setValue (iFrom)
 	If iTo   &gt; 0 Then oEditorDialog.getControl(&quot;iTo&quot;).setValue (iTo)	
@@ -230,7 +230,7 @@ Sub GreyOut()
 	oEditorDialog.getControl (&quot;iTo&quot;).      setEnable (bEnableFromTo)
 	
 	&apos; grey out KeepCrop checkbox when no current OLy object is selected
-	oEditorDialog.getControl(&quot;bKeepCrop&quot;).setEnable(bShapeIsSelected)
+	&apos; oEditorDialog.getControl(&quot;bKeepCrop&quot;).setEnable(bShapeIsSelected)  &apos; not anymore, this is now a per-object setting
 	
 	&apos; Make sure sLineWidthLabel etc. are always usable: 
 	If Not bLineWidthLabelExists Then sLineWidthLabel = sDefaultLineWidthLabel

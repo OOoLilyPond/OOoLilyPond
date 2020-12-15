@@ -45,7 +45,7 @@ Private bUseLineWidthFromTemplate (0 to 3) As Boolean
 Private bBatchAllPagesDefault	 (0 to 3) As Boolean  &apos; remembered state for &quot;Process all sheets/slides/pages&quot; from Batch dialog
 Private bAskForEachObjectDefault (0 to 3) As Boolean  &apos; remembered state for &quot;Ask for each object&quot; from Batch dialog
 Private bCreateBackupDefault	 (0 to 3) As Boolean  &apos; remembered state for &quot;Create backup&quot; from Batch dialog
-Private bBatchKeepCropDefault	 (0 to 3) As Boolean  &apos; remembered state for &quot;Keep size &amp; crop settings&quot; from Batch dialog
+&apos; Private bBatchKeepCropDefault	 (0 to 3) As Boolean  &apos; remembered state for &quot;Keep size &amp; crop settings&quot; from Batch dialog  &apos; replaced by per-object setting
 
 Private iCalcDefaultAnchor As Integer
 Private iWriterDefaultAnchor As Integer
