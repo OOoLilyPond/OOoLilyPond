@@ -16,12 +16,9 @@ OOoLilyPond (OLy) is a LibreOffice/OpenOffice extension to include LilyPond musi
 * Being a [LibreOffice]/[OpenOffice] extension, you need a version of LibreOffice / OpenOffice installed on your computer, first.  
 * Second, the music engraving software [LilyPond] must be installed on your system.  
 * Then just download the latest OLy release from the [download] page.  
-* The extension can be installed either by opening it with LibreOffice or by following these steps in the menu:
-
-*Extras > Extension Manager… > Add…*
-
-and then choosing the downloaded extension file (.oxt).
-
+* The extension can be installed either by opening it with LibreOffice or by following these steps in the menu:  
+*Extras > Extension Manager… > Add…*  
+and then choosing the downloaded extension file (.oxt).  
 Your toolbars in Writer, Impress and Draw should now have a new "OLy" button which launches the extension.
 
 **You can find a detailed documentation [here in the wiki](https://github.com/OOoLilyPond/OOoLilyPond/wiki/Installation#installation).**
