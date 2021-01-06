@@ -43,6 +43,11 @@ Sub AskDlgAllButton ()
 End Sub
 
 
+Sub AbortDlgAbortButton ()
+	iAskDialogReturnValue = 1
+End Sub
+
+
 Sub GoThroughDrawPage (oDrawPage As Object, bProgressBar As Boolean)
 &apos; This function is called by PerformBatchProcessing ().
 &apos; It creates a list of all OOoLilyPond objects inside the given DrawPage, 
@@ -144,12 +149,19 @@ Sub GoThroughDrawPage (oDrawPage As Object, bProgressBar As Boolean)
 			
 			If MeetsCondition (&quot;A&quot;) And  MeetsCondition (&quot;B&quot;) Then
 				If (iAnswer = 4) And (iAskDialogReturnValue = 3) Then iAnswer = 3  &apos; Leave a chance to abort if errors have occured
-				If iAnswer &lt; 4 Then iAnswer = ConfirmBatchOperation ()
+				If iAnswer &lt; 4 Then 
+					&apos; oAbortDialog.SetVisible (False)
+					oAbortDialog.getControl(&quot;AbortButton&quot;).setEnable(False)
+					iAnswer = ConfirmBatchOperation ()
+					&apos; oAbortDialog.SetVisible (True)
+					oAbortDialog.getControl(&quot;AbortButton&quot;).setEnable(True)
+				End If
+				If (iAskDialogReturnValue = 1) Then iAnswer = 1  &apos; could be caused by &quot;Abort&quot; dialog
 				If iAnswer &lt; 2 Then Exit For	&apos;	&quot;Abort&quot;
 				If iAnswer &gt; 2 Then				&apos;	&quot;Yes&quot; or &quot;All&quot;
 					PerformReplacement (&quot;A&quot;)
 					PerformReplacement (&quot;B&quot;)
-					Make (true)
+					Make (true)  &apos; If errors occur, iAskDialogReturnValue is changed from 4 to 3
 				End If
 			End If
 		End If
@@ -212,12 +224,14 @@ Sub PerformBatchProcessing ()
 	If bCreateBackup Then CreateBackup (&quot;_&quot; &amp; TimeStamp ())
 		
 	oBatchDialog.EndExecute()
-	oAskDialog = createUnoDialog (DialogLibraries.GetByName (constOLyLibraryName).GetByName(&quot;GUI_Ask&quot;))
+	oAskDialog   = createUnoDialog (DialogLibraries.GetByName (constOLyLibraryName).GetByName(&quot;GUI_Ask&quot;))
+	oAbortDialog = createUnoDialog (DialogLibraries.GetByName (constOLyLibraryName).GetByName(&quot;GUI_Abort&quot;))
 	ReadDialogStringsFromVar (oAskDialog, sAskDialogStrings, &quot;&quot;)
 	
 	iAskDialogReturnValue = 2  &apos; 2 = &quot;No&quot; as initial value (Don&apos;t perform anything if set to 1 = &quot;Abort&quot;)
 	
-	
+	&apos; https://documentation.libreoffice.org/assets/Uploads/Documentation/en/MACROS/RefCards/LibOBasic-6-Dialogs-Flat-A4-EN-v103.pdf
+	oAbortDialog.SetVisible (True)
 
 	Select Case iDocumentType
 	Case 0  &apos; Writer
@@ -272,6 +286,8 @@ Sub PerformBatchProcessing ()
 	Else
 		GoThroughDrawPage (oDrawPage, True)
 	End If
+	
+	oAbortDialog.SetVisible (False)
 	
 End Sub
 

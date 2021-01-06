@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dlg:window PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "dialog.dtd">
+<dlg:window xmlns:dlg="http://openoffice.org/2000/dialog" xmlns:script="http://openoffice.org/2000/script" dlg:id="GUI_Abort" dlg:left="0" dlg:top="0" dlg:width="158" dlg:height="52" dlg:closeable="true" dlg:moveable="true" dlg:title="Batch processing OOoLilyPond objects...">
+ <dlg:bulletinboard>
+  <dlg:button dlg:id="AbortButton" dlg:tab-index="0" dlg:left="48" dlg:top="32" dlg:width="53" dlg:height="14" dlg:value="Abort">
+   <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Batch.AbortDlgAbortButton?language=Basic&amp;location=application" script:language="Script"/>
+  </dlg:button>
+ </dlg:bulletinboard>
+</dlg:window>
