@@ -284,10 +284,10 @@ Sub PerformBatchProcessing ()
 		oProgressBar.start (oMessages.getPropertyValue (&quot;sMsgBatchProcessing&quot;), oPages.Count)
 		oAbortDialog.getModel().getByName(&quot;PageProgressBar&quot;).ProgressValueMax = oPages.Count
 		For i = 0 To oPages.Count - 1
-			oAbortDialog.getModel().getByName(&quot;PageProgressBar&quot;).ProgressValue = i + 1
 			oProgressBar.setValue (i + 1)
 			oProgressBar.setText ( sProgressMessage &amp; i + 1 &amp; &quot;/&quot; &amp; oPages.Count)
 			If iAskDialogReturnValue &gt; 1 Then GoThroughDrawPage (oPages.getByIndex (i), False)
+			oAbortDialog.getModel().getByName(&quot;PageProgressBar&quot;).ProgressValue = i + 1
 		Next
 		oProgressBar.end()
 	Else
