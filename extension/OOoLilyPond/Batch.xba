@@ -230,6 +230,7 @@ Sub PerformBatchProcessing ()
 	oAskDialog   = createUnoDialog (DialogLibraries.GetByName (constOLyLibraryName).GetByName(&quot;GUI_Ask&quot;))
 	oAbortDialog = createUnoDialog (DialogLibraries.GetByName (constOLyLibraryName).GetByName(&quot;GUI_Abort&quot;))
 	ReadDialogStringsFromVar (oAskDialog, sAskDialogStrings, &quot;&quot;)
+	ReadDialogStringsFromVar (oAbortDialog, sAbortDialogStrings, &quot;&quot;)
 	
 	iAskDialogReturnValue = 2  &apos; 2 = &quot;No&quot; as initial value (Don&apos;t perform anything if set to 1 = &quot;Abort&quot;)
 	
