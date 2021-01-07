@@ -110,6 +110,8 @@ Sub GoThroughDrawPage (oDrawPage As Object, bProgressBar As Boolean)
 		oProgressBar = oDocCtrl.StatusIndicator
 		oProgressBar.start (oMessages.getPropertyValue (&quot;sMsgBatchProcessing&quot;), iLastObject + 1)
 	End If
+	oAbortDialog.getModel().getByName(&quot;ObjectProgressBar&quot;).ProgressValue = 0
+	oAbortDialog.getModel().getByName(&quot;ObjectProgressBar&quot;).ProgressValueMax = iLastObject + 1
 	
 	iAnswer = iAskDialogReturnValue
 	
@@ -165,6 +167,7 @@ Sub GoThroughDrawPage (oDrawPage As Object, bProgressBar As Boolean)
 				End If
 			End If
 		End If
+		oAbortDialog.getModel().getByName(&quot;ObjectProgressBar&quot;).ProgressValue = i + 1
 	next i
 	If bProgressBar Then oProgressBar.end()
 End Sub
@@ -230,6 +233,7 @@ Sub PerformBatchProcessing ()
 	
 	iAskDialogReturnValue = 2  &apos; 2 = &quot;No&quot; as initial value (Don&apos;t perform anything if set to 1 = &quot;Abort&quot;)
 	
+	oAbortDialog.Model.step = iDocumentType + 1
 	&apos; https://documentation.libreoffice.org/assets/Uploads/Documentation/en/MACROS/RefCards/LibOBasic-6-Dialogs-Flat-A4-EN-v103.pdf
 	oAbortDialog.SetVisible (True)
 
@@ -277,7 +281,9 @@ Sub PerformBatchProcessing ()
 		End Select
 		oProgressBar = oDocCtrl.StatusIndicator
 		oProgressBar.start (oMessages.getPropertyValue (&quot;sMsgBatchProcessing&quot;), oPages.Count)
+		oAbortDialog.getModel().getByName(&quot;PageProgressBar&quot;).ProgressValueMax = oPages.Count
 		For i = 0 To oPages.Count - 1
+			oAbortDialog.getModel().getByName(&quot;PageProgressBar&quot;).ProgressValue = i + 1
 			oProgressBar.setValue (i + 1)
 			oProgressBar.setText ( sProgressMessage &amp; i + 1 &amp; &quot;/&quot; &amp; oPages.Count)
 			If iAskDialogReturnValue &gt; 1 Then GoThroughDrawPage (oPages.getByIndex (i), False)
