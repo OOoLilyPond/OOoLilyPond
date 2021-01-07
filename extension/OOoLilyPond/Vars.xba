@@ -17,6 +17,7 @@ Private sOutputDialogStrings As String
 Private sBatchDialogStrings As String
 Private sBatchDialogRuleSetStrings As String
 Private sAskDialogStrings As String
+Private sAbortDialogStrings As String
 
 &apos; Paths
 Private sConfigFile As String
