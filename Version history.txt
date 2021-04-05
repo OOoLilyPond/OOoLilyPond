@@ -1,9 +1,16 @@
 ********************************************
-OOoLilyPond Version History (December 2020):
+OOoLilyPond Version History (April 2021):
 ********************************************
 
 Complete documentation: 
 https://github.com/OOoLilyPond/OOoLilyPond/wiki#ooolilypond
+
+
+Changes to OOoLilyPond 1.1.1 since 1.1.0 (April 2021):
+==========================================================
+
+* Improvement: During batch processing, there is a small window that displays the progress of the current operation. It also contains a button to abort batch processing.
+
 
 
 Changes to OOoLilyPond 1.1.0 since 1.0.1 (December 2020):
