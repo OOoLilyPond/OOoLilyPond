@@ -68,7 +68,7 @@
 				</node>
 				<node oor:name="OOoLilyPond.AddonMenu.m2" oor:op="replace">
 					<prop oor:name="Context" oor:type="xs:string">
-						<value>com.sun.star.text.TextDocument</value>
+						<value>com.sun.star.text.TextDocument,com.sun.star.drawing.DrawingDocument,com.sun.star.presentation.PresentationDocument,com.sun.star.sheet.SpreadsheetDocument</value>
 					</prop>
 					<prop oor:name="URL" oor:type="xs:string">
 						<value>vnd.sun.star.script:OOoLilyPond.OOoLilyPond.OOoLilyPondBatch?language=Basic&amp;location=application</value>
