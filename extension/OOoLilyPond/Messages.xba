@@ -773,6 +773,8 @@ Sub ReadLanguageFile()	&apos; If a language file is specified, read out its cont
 				ReadSection (sBatchDialogRuleSetStrings)
 			Case &quot;[AskDialog]&quot;
 				ReadSection (sAskDialogStrings)
+			Case &quot;[AbortDialog]&quot;
+				ReadSection (sAbortDialogStrings)
 			End Select			
 		End If		
 		iLineEndPos = TagPos (sLanguageCode, Chr(13), Chr(10))

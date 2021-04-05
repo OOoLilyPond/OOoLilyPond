@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dlg:window PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "dialog.dtd">
+<dlg:window xmlns:dlg="http://openoffice.org/2000/dialog" xmlns:script="http://openoffice.org/2000/script" dlg:id="GUI_Abort" dlg:left="0" dlg:top="0" dlg:width="158" dlg:height="70" dlg:closeable="true" dlg:moveable="true" dlg:title="Batch processing OOoLilyPond objects...">
+ <dlg:bulletinboard>
+  <dlg:button dlg:id="AbortButton" dlg:tab-index="0" dlg:left="48" dlg:top="4" dlg:width="53" dlg:height="14" dlg:value="Abort">
+   <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Batch.AbortDlgAbortButton?language=Basic&amp;location=application" script:language="Script"/>
+  </dlg:button>
+  <dlg:progressmeter dlg:id="PageProgressBar" dlg:tab-index="1" dlg:left="0" dlg:top="32" dlg:width="158" dlg:height="11" dlg:value="0"/>
+  <dlg:progressmeter dlg:id="ObjectProgressBar" dlg:tab-index="2" dlg:left="0" dlg:top="55" dlg:width="158" dlg:height="11" dlg:value="100"/>
+  <dlg:text dlg:id="ObjectLabel" dlg:tab-index="4" dlg:left="4" dlg:top="46" dlg:width="150" dlg:height="8" dlg:value="Object:"/>
+  <dlg:text dlg:id="PageLabel" dlg:tab-index="3" dlg:left="4" dlg:top="23" dlg:width="150" dlg:height="8" dlg:page="4" dlg:value="Page:"/>
+  <dlg:text dlg:id="SlideLabel" dlg:tab-index="5" dlg:left="4" dlg:top="23" dlg:width="150" dlg:height="8" dlg:page="3" dlg:value="Slide:"/>
+  <dlg:text dlg:id="SheetLabel" dlg:tab-index="6" dlg:left="4" dlg:top="23" dlg:width="150" dlg:height="8" dlg:page="2" dlg:value="Sheet:"/>
+ </dlg:bulletinboard>
+</dlg:window>
