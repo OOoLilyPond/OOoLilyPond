@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE script:module PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "module.dtd">
+<script:module xmlns:script="http://openoffice.org/2000/script" script:name="Clone" script:language="StarBasic" script:moduleType="normal">&apos; Subs and Functions related with list-based cloning of existing OLy objects in a Writer document
+
+Option Explicit
+
+
+Sub CloneDialog()
+
+End Sub
+</script:module>

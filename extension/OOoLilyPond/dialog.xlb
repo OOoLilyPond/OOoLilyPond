@@ -8,4 +8,5 @@
  <library:element library:name="GUI_Batch"/>
  <library:element library:name="GUI_Ask"/>
  <library:element library:name="GUI_Abort"/>
+ <library:element library:name="GUI_Clone"/>
 </library:library>
