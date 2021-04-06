@@ -7,9 +7,9 @@
   <dlg:button dlg:id="ListFilePickButton" dlg:tab-index="2" dlg:left="212" dlg:top="20" dlg:width="49" dlg:height="12" dlg:value="Select">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Clone.ListFilePickButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
-  <dlg:menulist dlg:id="ListBox1" dlg:tab-index="3" dlg:left="273" dlg:top="20" dlg:width="136" dlg:height="79"/>
   <dlg:text dlg:id="Label2" dlg:tab-index="4" dlg:left="274" dlg:top="10" dlg:width="76" dlg:height="8" dlg:value="List Preview:"/>
   <dlg:button dlg:id="CommandButton1" dlg:tab-index="5" dlg:left="274" dlg:top="232" dlg:width="58" dlg:height="16" dlg:value="Start"/>
   <dlg:button dlg:id="CommandButton2" dlg:tab-index="6" dlg:left="352" dlg:top="232" dlg:width="58" dlg:height="16" dlg:value="Cancel" dlg:button-type="cancel"/>
+  <dlg:menulist dlg:id="PreviewListBox" dlg:tab-index="3" dlg:left="273" dlg:top="20" dlg:width="136" dlg:height="79" dlg:readonly="true"/>
  </dlg:bulletinboard>
 </dlg:window>

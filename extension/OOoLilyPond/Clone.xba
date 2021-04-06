@@ -66,11 +66,56 @@ End Function
 
 Sub ListFilePickButton()
 	Dim sFile As String
+	Dim sList As String
+	Dim iItemCount As Integer
+	Dim iStartPtr As Integer
+	Dim iEndPtr As Integer
 	
+	&apos; get file name:
 	sFile = oCloneDialog.getModel().getByName (&quot;sListFile&quot;).Text
 	If PickTextFile (sFile) Then
 		oCloneDialog.getModel().getByName (&quot;sListFile&quot;).Text = sFile
 	End If
+	
+	&apos; read file:
+	If Not StringFromFile (sList, sFile) Then
+		&apos; Message: File not found
+		MsgBox (oMessages.getPropertyValue (&quot;sMsgFileNotFound1&quot;) &amp; ConvertFromURL(sFile) &amp; oMessages.getPropertyValue (&quot;sMsgFileNotFound2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		Exit Sub
+	End If
+	
+	&apos; clear list box:
+	iItemCount = oCloneDialog.getControl(&quot;PreviewListBox&quot;).getItemCount()
+	oCloneDialog.getControl(&quot;PreviewListBox&quot;).removeItems (0, iItemCount)
+	
+	&apos; insert file content into list box:
+	&apos;    (taken from &quot;ReadMessageStrings&quot;)
+	iStartPtr = 1
+	iEndPtr = TagPosIndexed (iStartPtr, sList, Chr(13), Chr(10))	&apos; indicates the line end character(s)
+	iItemCount = 0
+	While iEndPtr &gt; 0 	
+		If (iEndPtr-iStartPtr) &gt; 0  Then	&apos; not an empty line
+			&apos; insert next line from file content into list box:
+			oCloneDialog.getControl(&quot;PreviewListBox&quot;).addItem (Mid (sList, iStartPtr, iEndPtr-iStartPtr), iItemCount)
+			iItemCount = iItemCount + 1
+		End If	
+					
+		&apos; skip linebreaks:
+		If Mid (sList, iEndPtr, 1) = Chr(13) Then			&apos; If there is Chr(13)...
+			iEndPtr = iEndPtr+1								&apos;    ...skip it
+		End If
+		If Mid (sList, iEndPtr, 1) = Chr(10) Then			&apos; If there is Chr(10)...
+			iEndPtr = iEndPtr+1								&apos;    ...skip it
+		End If	
+		iStartPtr = iEndPtr
+		iEndPtr = TagPosIndexed (iStartPtr, sList, Chr(13), Chr(10))	&apos; search for next line break
+		If iEndPtr = 0 Then												&apos; no more line breaks?
+			If Len (sList) &gt; iStartPtr Then								&apos; There&apos;s a last line without line break at the end...
+				iEndPtr = Len (sList) + 1
+			End If
+		End If
+	WEnd
+	
 End Sub
 
 
