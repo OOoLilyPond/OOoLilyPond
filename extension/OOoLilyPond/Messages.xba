@@ -37,6 +37,7 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   &apos; Filters for file picking dialogs:
   &apos; ----------------------------------
   oMessages.addProperty (&quot;sFilterExecutableFiles&quot;, BagAttr,&quot;Executable files (*.exe)&quot;)
+  oMessages.addProperty (&quot;sFilterTextFiles&quot;, BagAttr,&quot;Text files (*.txt)&quot;)
   oMessages.addProperty (&quot;sFilterAllFiles&quot;, BagAttr,&quot;All files (*.*)&quot;)
 
   &apos; ------------------------------------------------------------------------------------------------------------

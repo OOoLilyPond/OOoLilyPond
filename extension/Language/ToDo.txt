@@ -1,0 +1,4 @@
+  ' Filters for file picking dialogs:
+  ' ----------------------------------
+  oMessages.addProperty ("sFilterTextFiles", BagAttr,"Text files (*.txt)")
+
