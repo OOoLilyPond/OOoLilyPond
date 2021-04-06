@@ -2,3 +2,16 @@
   ' ----------------------------------
   oMessages.addProperty ("sFilterTextFiles", BagAttr,"Text files (*.txt)")
 
+
+
+
+  ' "Clone" module
+  ' ---------------
+  
+  ' A file has not been found:
+  
+  oMessages.addProperty ("sMsgFileNotFound1", BagAttr, "The file " & Chr(10) & Chr(34))
+  ' (file name)
+  oMessages.addProperty ("sMsgFileNotFound2", BagAttr, Chr(34) & Chr(10) & "is not found.")
+
+

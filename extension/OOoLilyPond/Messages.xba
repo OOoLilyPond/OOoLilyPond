@@ -434,6 +434,18 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   oMessages.addProperty (&quot;sMsgPageInCalc&quot;,    BagAttr, &quot;Sheet&quot;)
   oMessages.addProperty (&quot;sMsgPageInImpress&quot;, BagAttr, &quot;Slide&quot;)
   oMessages.addProperty (&quot;sMsgPageInDraw&quot;,    BagAttr, &quot;Page&quot;)
+  
+  
+  &apos; &quot;Clone&quot; module
+  &apos; ---------------
+  
+  &apos; A file has not been found:
+  
+  oMessages.addProperty (&quot;sMsgFileNotFound1&quot;, BagAttr, &quot;The file &quot; &amp; Chr(10) &amp; Chr(34))
+  &apos; (file name)
+  oMessages.addProperty (&quot;sMsgFileNotFound2&quot;, BagAttr, Chr(34) &amp; Chr(10) &amp; &quot;is not found.&quot;)
+
+
  
   
 End Sub
