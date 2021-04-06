@@ -166,7 +166,7 @@ Sub OOoLilyPondClone()
 	If Not ReadSelectionObject () Then Exit Sub   &apos; create Cursor and read Attributes if Object is selected
 	&apos; Now we know which template to use
 	ReadTemplate (True)
-	&apos; Open the dialog box
+	
 	CloneDialog()
 End Sub
 

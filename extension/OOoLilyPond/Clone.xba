@@ -7,5 +7,71 @@ Option Explicit
 
 Sub CloneDialog()
 
+	oCloneDialog = createUnoDialog (DialogLibraries.GetByName (constOLyLibraryName).GetByName(&quot;GUI_Clone&quot;))
+	
+	&apos; Open the dialog box
+	oCloneDialog.Execute()
+	
 End Sub
+
+
+Function PickTextFile (sTextFileName As String) As Boolean
+&apos; a slightly modified version of PickExecutableFile()
+
+	Dim oFileDlg As Object
+	Dim oFiles
+	Dim sFile As String
+	Dim sDirectory As String
+	Dim sTemp As String
+	Dim iPos As Integer
+
+	On Error GoTo ErrorHandler
+	sFile = sTextFileName
+	PickTextFile = False
+	oFileDlg = CreateUnoService (&quot;com.sun.star.ui.dialogs.FilePicker&quot;)
+	&apos; oFileDlg.setMultiSelectionMode (False)	&apos; seems to crash LibO 5.3.0.3, so better don&apos;t use it, as default setting is &quot;False&quot; anyway
+	sFile = ConvertToURL (sFile)	&apos; will still be an empty string if it was before
+	iPos = InStr (sFile, &quot;/&quot;)		&apos; as long as there are slashes, cut off the substring up to the slash and attach it to sDirectory:
+	While iPos &gt; 0
+		sDirectory = sDirectory &amp; Left (sFile, iPos)
+		sFile = Mid (sFile, iPos + 1)
+		iPos = InStr (sFile, &quot;/&quot;)
+	Wend
+	If (Not oFileAccess.isFolder (sDirectory)) Or (sDirectory = &quot;file:///&quot;) Then	
+		If (sOSType = &quot;Unix&quot;) Or (sOSType = &quot;Mac&quot;) Then
+			sDirectory = ConvertToURL (&quot;/home&quot;)
+		Else	&apos; Windows
+			sDirectory = ConvertToURL (Environ (&quot;Documents&quot;))
+		End If
+	End If
+	oFileDlg.setDefaultName (sFile)
+	&apos; oFileDlg.setDisplayDirectory (sDirectory)		&apos; seems to crash LibO 5.3.1.2 (Win7 x64) unless LibO&apos;s own open/save dialogs are used, so better comment it out until the problem is found and fixed
+ 	oFileDlg.AppendFilter (oMessages.getPropertyValue (&quot;sFilterAllFiles&quot;), &quot;*.*&quot;)
+ 	oFileDlg.AppendFilter (oMessages.getPropertyValue (&quot;sFilterTextFiles&quot;), &quot;*.txt&quot;)
+ 	oFileDlg.SetCurrentFilter (oMessages.getPropertyValue (&quot;sFilterTextFiles&quot;))
+ 	If oFileDlg.execute() Then
+		oFiles = oFileDlg.getFiles()
+		If UBound(oFiles) &gt;= 0 Then
+			sTextFileName = ConvertFromURL(oFiles(0))
+			PickTextFile = True
+		End If
+	End If
+	Exit Function
+	
+	ErrorHandler:
+		MsgBox (Error)	&apos; There should be no error left for this...
+	Exit Function
+End Function
+
+
+Sub ListFilePickButton()
+	Dim sFile As String
+	
+	sFile = oCloneDialog.getModel().getByName (&quot;sListFile&quot;).Text
+	If PickTextFile (sFile) Then
+		oCloneDialog.getModel().getByName (&quot;sListFile&quot;).Text = sFile
+	End If
+End Sub
+
+
 </script:module>

@@ -91,6 +91,7 @@ Private oOutputDialog As Object &apos; LilyPond Output Dialog
 Private oBatchDialog As Object  &apos; Batch Processing Dialog
 Private oAskDialog As Object	&apos; Confirmation Dialog during batch processing
 Private oAbortDialog As Object  &apos; Small Dialog with &quot;Abort&quot; button during batch processing
+Private oCloneDialog As Object  &apos; List-based object cloning
 
 &apos; OOoLilyPond object data
 Private sTemplate As String		&apos; The name of the template used
