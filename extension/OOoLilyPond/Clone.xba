@@ -116,6 +116,30 @@ Sub ListFilePickButton()
 		End If
 	WEnd
 	
+	&apos; select first item in list box
+	&apos; If iItemCount &gt; 0 Then
+	&apos; 	oCloneDialog.getControl(&quot;PreviewListBox&quot;).selectItem (1, TRUE)  &apos; has no effect. Why?
+	&apos; End If
+	
+End Sub
+
+
+Sub UpdateFieldPreview ()
+	Dim iItemCount As Integer
+	Dim iItemPos As Integer
+
+	iItemCount = oCloneDialog.getControl(&quot;PreviewListBox&quot;).getItemCount()
+	If iItemCount &gt; 0 Then
+		iItemPos = oCloneDialog.getControl(&quot;PreviewListBox&quot;).getSelectedItemPos()
+		If iItemPos &lt; 0 Then	&apos; no item selected?
+			iItemPos = 0		&apos;   then take first one
+		End If
+		oCloneDialog.getControl(&quot;PreviewTextBox&quot;).setText ( _
+			oCloneDialog.getControl(&quot;BeforeTextField&quot;).getText() _ 
+			&amp; oCloneDialog.getControl(&quot;PreviewListBox&quot;).getItem (iItemPos) _
+			&amp; oCloneDialog.getControl(&quot;AfterTextField&quot;).getText() )
+	End If
+
 End Sub
 
 
