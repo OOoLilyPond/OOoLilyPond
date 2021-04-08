@@ -152,6 +152,8 @@ Sub PerformObjectCloning ()
 	Dim iLastItem As Integer
 	Dim iCurrentItem As Integer
 	Dim iReplaceField As Integer
+	Dim iLineBreaks As Integer
+	Dim i As Integer
 
 	oCloneDialog.getControl (&quot;Process&quot;).setEnable (False)				&apos; avoid multiple button presses
 	iAnchor = com.sun.star.text.TextContentAnchorType.AS_CHARACTER		&apos; the only way to insert multiple OLy objects subsequently
@@ -181,9 +183,9 @@ Sub PerformObjectCloning ()
 		iReplaceField = 7
 		bUseDefaultCustom4 = False
 	End If
-		
 	iLastItem = oCloneDialog.getControl (&quot;PreviewListBox&quot;).getItemCount() - 1
 	iCurrentItem = 0
+	iLineBreaks = oCloneDialog.getControl (&quot;iLineBreaks&quot;).getValue()
 	
 	While iCurrentItem &lt;= iLastItem
 		
@@ -208,7 +210,9 @@ Sub PerformObjectCloning ()
 		
 		&apos;	move Cursor right, insert line break, de-select object
 		oCurrentCursor.goRight (0, false)	
-		oCurrentCursor.getText.insertControlCharacter (oCurrentCursor.getStart(), com.sun.star.text.ControlCharacter.PARAGRAPH_BREAK, False)
+		For i = 1 to iLineBreaks
+			oCurrentCursor.getText.insertControlCharacter (oCurrentCursor.getStart(), com.sun.star.text.ControlCharacter.PARAGRAPH_BREAK, False)
+		Next
 		oDocCtrl.select (oCurrentCursor)
 		oCurrentGraphicObject = oDocCtrl.getSelection	&apos; &quot;normal text&quot; selection
 	

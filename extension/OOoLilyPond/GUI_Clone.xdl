@@ -25,7 +25,7 @@
   </dlg:radiogroup>
   <dlg:text dlg:id="Label3" dlg:tab-index="15" dlg:left="8" dlg:top="138" dlg:width="96" dlg:height="8" dlg:value="insert before list item:"/>
   <dlg:text dlg:id="Label4" dlg:tab-index="17" dlg:left="110" dlg:top="138" dlg:width="96" dlg:height="8" dlg:value="insert after list item:"/>
-  <dlg:checkbox dlg:id="CheckBox1" dlg:tab-index="19" dlg:left="6" dlg:top="183" dlg:width="155" dlg:height="8" dlg:value="PageBreak before object" dlg:checked="false"/>
+  <dlg:checkbox dlg:id="CheckBox1" dlg:tab-index="19" dlg:left="26" dlg:top="204" dlg:width="155" dlg:height="8" dlg:value="PageBreak after object" dlg:checked="false"/>
   <dlg:text dlg:id="Label5" dlg:tab-index="20" dlg:left="221" dlg:top="138" dlg:width="133" dlg:height="8" dlg:value="Field Preview:"/>
   <dlg:textfield dlg:id="PreviewTextBox" dlg:tab-index="21" dlg:left="220" dlg:top="150" dlg:width="136" dlg:height="41" dlg:multiline="true" dlg:readonly="true"/>
   <dlg:textfield dlg:id="BeforeTextField" dlg:tab-index="16" dlg:left="6" dlg:top="150" dlg:width="100" dlg:height="26" dlg:multiline="true">
@@ -38,5 +38,7 @@
   <dlg:button dlg:id="Process" dlg:tab-index="0" dlg:left="222" dlg:top="232" dlg:width="58" dlg:height="16" dlg:value="Start">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Clone.PerformObjectCloning?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
+  <dlg:numericfield dlg:id="iLineBreaks" dlg:tab-index="22" dlg:left="6" dlg:top="189" dlg:width="26" dlg:height="12" dlg:strict-format="true" dlg:decimal-accuracy="0" dlg:value="2" dlg:value-min="0" dlg:value-max="100" dlg:spin="true"/>
+  <dlg:text dlg:id="Label6" dlg:tab-index="23" dlg:left="33" dlg:top="191" dlg:width="89" dlg:height="8" dlg:value="Line break(s) after object"/>
  </dlg:bulletinboard>
 </dlg:window>
