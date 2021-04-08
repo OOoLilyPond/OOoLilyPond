@@ -155,7 +155,9 @@ Sub OOoLilyPondClone()
 	&apos; It initializes OOoLilyPond and opens the OOoLilyPond Clone dialog
 
 	OOoLilyPondInit()
-	If Not ReadSelectionObject () Then Exit Sub   &apos; create Cursor and read Attributes if Object is selected
+	If Not (iDocumentType = 0) Then Exit Sub		&apos; Don&apos;t continue in anything but Writer   (display error message?)
+	If Not ReadSelectionObject () Then Exit Sub		&apos; create Cursor and read Attributes if Object is selected
+	If Not bShapeIsSelected Then Exit Sub			&apos; Don&apos;t continue if no OLy object is selected (display error message?)
 	&apos; Now we know which template to use
 	ReadTemplate (True)
 	
