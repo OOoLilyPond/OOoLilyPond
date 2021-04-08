@@ -2,15 +2,13 @@
 <!DOCTYPE dlg:window PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "dialog.dtd">
 <dlg:window xmlns:dlg="http://openoffice.org/2000/dialog" xmlns:script="http://openoffice.org/2000/script" dlg:id="GUI_Clone" dlg:left="17" dlg:top="10" dlg:width="362" dlg:height="254" dlg:closeable="true" dlg:moveable="true" dlg:title="Clone OOoLilyPond object">
  <dlg:bulletinboard>
-  <dlg:text dlg:id="Label1" dlg:tab-index="0" dlg:left="6" dlg:top="10" dlg:width="134" dlg:height="8" dlg:value="List file:  [*.txt]"/>
-  <dlg:textfield dlg:id="sListFile" dlg:tab-index="1" dlg:left="6" dlg:top="22" dlg:width="150" dlg:height="12"/>
-  <dlg:button dlg:id="ListFilePickButton" dlg:tab-index="2" dlg:left="159" dlg:top="22" dlg:width="49" dlg:height="12" dlg:value="Select">
+  <dlg:text dlg:id="Label1" dlg:tab-index="2" dlg:left="6" dlg:top="10" dlg:width="134" dlg:height="8" dlg:value="List file:  [*.txt]"/>
+  <dlg:textfield dlg:id="sListFile" dlg:tab-index="3" dlg:left="6" dlg:top="22" dlg:width="150" dlg:height="12"/>
+  <dlg:button dlg:id="ListFilePickButton" dlg:tab-index="4" dlg:left="159" dlg:top="22" dlg:width="49" dlg:height="12" dlg:value="Select">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Clone.ListFilePickButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
-  <dlg:text dlg:id="Label2" dlg:tab-index="4" dlg:left="221" dlg:top="10" dlg:width="133" dlg:height="8" dlg:value="List Preview:"/>
-  <dlg:button dlg:id="CommandButton1" dlg:tab-index="5" dlg:left="222" dlg:top="232" dlg:width="58" dlg:height="16" dlg:value="Start"/>
-  <dlg:button dlg:id="CommandButton2" dlg:tab-index="6" dlg:left="299" dlg:top="232" dlg:width="58" dlg:height="16" dlg:value="Cancel" dlg:button-type="cancel"/>
-  <dlg:menulist dlg:id="PreviewListBox" dlg:tab-index="3" dlg:left="220" dlg:top="20" dlg:width="136" dlg:height="79">
+  <dlg:text dlg:id="Label2" dlg:tab-index="6" dlg:left="221" dlg:top="10" dlg:width="133" dlg:height="8" dlg:value="List Preview:"/>
+  <dlg:menulist dlg:id="PreviewListBox" dlg:tab-index="5" dlg:left="220" dlg:top="20" dlg:width="136" dlg:height="79">
    <script:event script:event-name="on-mousedown" script:macro-name="vnd.sun.star.script:OOoLilyPond.Clone.UpdateFieldPreview?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:menulist>
   <dlg:titledbox dlg:id="FieldsToReplaceFrame" dlg:tab-index="7" dlg:left="6" dlg:top="43" dlg:width="202" dlg:height="85">
@@ -36,5 +34,9 @@
   <dlg:textfield dlg:id="AfterTextField" dlg:tab-index="18" dlg:left="108" dlg:top="150" dlg:width="100" dlg:height="26" dlg:multiline="true">
    <script:event script:event-name="on-textchange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Clone.UpdateFieldPreview?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:textfield>
+  <dlg:button dlg:id="CancelButton" dlg:tab-index="1" dlg:left="299" dlg:top="232" dlg:width="58" dlg:height="16" dlg:value="Cancel" dlg:button-type="cancel"/>
+  <dlg:button dlg:id="Process" dlg:tab-index="0" dlg:left="222" dlg:top="232" dlg:width="58" dlg:height="16" dlg:value="Start">
+   <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Clone.PerformObjectCloning?language=Basic&amp;location=application" script:language="Script"/>
+  </dlg:button>
  </dlg:bulletinboard>
 </dlg:window>

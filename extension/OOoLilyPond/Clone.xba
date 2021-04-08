@@ -124,6 +124,14 @@ Sub ListFilePickButton()
 End Sub
 
 
+Function FieldStringAtPos (iPos As Integer) As String
+
+	FieldStringAtPos = oCloneDialog.getControl(&quot;BeforeTextField&quot;).getText() _ 
+		&amp; oCloneDialog.getControl(&quot;PreviewListBox&quot;).getItem (iPos) _
+		&amp; oCloneDialog.getControl(&quot;AfterTextField&quot;).getText()
+End Function
+
+
 Sub UpdateFieldPreview ()
 	Dim iItemCount As Integer
 	Dim iItemPos As Integer
@@ -134,11 +142,78 @@ Sub UpdateFieldPreview ()
 		If iItemPos &lt; 0 Then	&apos; no item selected?
 			iItemPos = 0		&apos;   then take first one
 		End If
-		oCloneDialog.getControl(&quot;PreviewTextBox&quot;).setText ( _
-			oCloneDialog.getControl(&quot;BeforeTextField&quot;).getText() _ 
-			&amp; oCloneDialog.getControl(&quot;PreviewListBox&quot;).getItem (iItemPos) _
-			&amp; oCloneDialog.getControl(&quot;AfterTextField&quot;).getText() )
+		oCloneDialog.getControl(&quot;PreviewTextBox&quot;).setText (FieldStringAtPos (iItemPos) )
 	End If
+
+End Sub
+
+
+Sub PerformObjectCloning ()
+	Dim iLastItem As Integer
+	Dim iCurrentItem As Integer
+	Dim iReplaceField As Integer
+
+	oCloneDialog.getControl (&quot;Process&quot;).setEnable (False)				&apos; avoid multiple button presses
+	iAnchor = com.sun.star.text.TextContentAnchorType.AS_CHARACTER		&apos; the only way to insert multiple OLy objects subsequently
+	
+	oCloneDialog.EndExecute()									&apos; Close &quot;Clone&quot; dialog
+	
+	&apos; Read settings from dialog:
+	If oCloneDialog.getControl     (&quot;OptionCode&quot;).getState() Then
+		iReplaceField = 1
+		bUseDefaultCode = False
+	ElseIf oCloneDialog.getControl (&quot;OptionLineWidth&quot;).getState() Then
+		iReplaceField = 2
+		bUseDefaultLineWidth = False
+	ElseIf oCloneDialog.getControl (&quot;OptionStaffSize&quot;).getState() Then
+		iReplaceField = 3
+		bUseDefaultStaffSize = False
+	ElseIf oCloneDialog.getControl (&quot;OptionCustom1&quot;).getState() Then
+		iReplaceField = 4
+		bUseDefaultCustom1 = False
+	ElseIf oCloneDialog.getControl (&quot;OptionCustom2&quot;).getState() Then
+		iReplaceField = 5
+		bUseDefaultCustom2 = False
+	ElseIf oCloneDialog.getControl (&quot;OptionCustom3&quot;).getState() Then
+		iReplaceField = 6
+		bUseDefaultCustom3 = False
+	ElseIf oCloneDialog.getControl (&quot;OptionCustom4&quot;).getState() Then
+		iReplaceField = 7
+		bUseDefaultCustom4 = False
+	End If
+		
+	iLastItem = oCloneDialog.getControl (&quot;PreviewListBox&quot;).getItemCount() - 1
+	iCurrentItem = 0
+	
+	While iCurrentItem &lt;= iLastItem
+		
+		Select Case iReplaceField
+		Case 1
+			sCode = FieldStringAtPos (iCurrentItem)
+		Case 2
+			sLineWidth = FieldStringAtPos (iCurrentItem)
+		Case 3
+			sStaffSize = FieldStringAtPos (iCurrentItem)
+		Case 4
+			sOption1 = FieldStringAtPos (iCurrentItem)
+		Case 5
+			sOption2 = FieldStringAtPos (iCurrentItem)
+		Case 6
+			sOption3 = FieldStringAtPos (iCurrentItem)
+		Case 7
+			sOption4 = FieldStringAtPos (iCurrentItem)
+		End Select
+			
+		make (TRUE)
+		
+		&apos;	move Cursor right, insert line break, de-select object
+		oCurrentCursor.goRight (0, false)	
+		oCurrentCursor.getText.insertControlCharacter (oCurrentCursor.getStart(), com.sun.star.text.ControlCharacter.PARAGRAPH_BREAK, False)
+		oDocCtrl.select (oCurrentCursor)
+		oCurrentGraphicObject = oDocCtrl.getSelection	&apos; &quot;normal text&quot; selection
+	
+		iCurrentItem = iCurrentItem + 1
+	Wend
 
 End Sub
 
