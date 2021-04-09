@@ -153,6 +153,7 @@ Sub PerformObjectCloning ()
 	Dim iCurrentItem As Integer
 	Dim iReplaceField As Integer
 	Dim iLineBreaks As Integer
+	Dim bInsertPageBreak As Boolean
 	Dim i As Integer
 
 	oCloneDialog.getControl (&quot;Process&quot;).setEnable (False)				&apos; avoid multiple button presses
@@ -186,6 +187,7 @@ Sub PerformObjectCloning ()
 	iLastItem = oCloneDialog.getControl (&quot;PreviewListBox&quot;).getItemCount() - 1
 	iCurrentItem = 0
 	iLineBreaks = oCloneDialog.getControl (&quot;iLineBreaks&quot;).getValue()
+	bInsertPageBreak = oCloneDialog.getControl (&quot;bPageBreak&quot;).getState()
 	
 	While iCurrentItem &lt;= iLastItem
 		
@@ -208,11 +210,14 @@ Sub PerformObjectCloning ()
 			
 		make (TRUE)
 		
-		&apos;	move Cursor right, insert line break, de-select object
+		&apos;	move Cursor right, insert line breaks etc., de-select object
 		oCurrentCursor.goRight (0, false)	
 		For i = 1 to iLineBreaks
 			oCurrentCursor.getText.insertControlCharacter (oCurrentCursor.getStart(), com.sun.star.text.ControlCharacter.PARAGRAPH_BREAK, False)
 		Next
+		If bInsertPageBreak Then
+			WriterInsertPageBreak ()
+		End If
 		oDocCtrl.select (oCurrentCursor)
 		oCurrentGraphicObject = oDocCtrl.getSelection	&apos; &quot;normal text&quot; selection
 	
