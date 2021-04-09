@@ -5,6 +5,13 @@
 Option Explicit
 
 
+Sub WriterInsertPageBreak ()
+	Dim oPar As Object
+	oPar = oCurrentCursor.TextParagraph
+	oPar.PageDescName = oPar.PageStyleName
+End Sub
+
+
 Function ResizeWithCellExists (oGraphicObject As Object) As Boolean
 	Dim bDummy As Boolean
 
