@@ -154,6 +154,7 @@ Sub PerformObjectCloning ()
 	Dim iReplaceField As Integer
 	Dim iLineBreaks As Integer
 	Dim bInsertPageBreak As Boolean
+	Dim bKeepOriginal As Boolean
 	Dim i As Integer
 
 	oCloneDialog.getControl (&quot;Process&quot;).setEnable (False)				&apos; avoid multiple button presses
@@ -185,32 +186,42 @@ Sub PerformObjectCloning ()
 		bUseDefaultCustom4 = False
 	End If
 	iLastItem = oCloneDialog.getControl (&quot;PreviewListBox&quot;).getItemCount() - 1
-	iCurrentItem = 0
 	iLineBreaks = oCloneDialog.getControl (&quot;iLineBreaks&quot;).getValue()
 	bInsertPageBreak = oCloneDialog.getControl (&quot;bPageBreak&quot;).getState()
+	bKeepOriginal = oCloneDialog.getControl (&quot;bKeepOriginal&quot;).getState()
+	If bKeepOriginal Then
+		iCurrentItem = -1
+	Else
+		iCurrentItem = 0
+	End If
 	
+	&apos; here we go: start big &quot;cloning&quot; loop
 	While iCurrentItem &lt;= iLastItem
 		
-		Select Case iReplaceField
-		Case 1
-			sCode = FieldStringAtPos (iCurrentItem)
-		Case 2
-			sLineWidth = FieldStringAtPos (iCurrentItem)
-		Case 3
-			sStaffSize = FieldStringAtPos (iCurrentItem)
-		Case 4
-			sOption1 = FieldStringAtPos (iCurrentItem)
-		Case 5
-			sOption2 = FieldStringAtPos (iCurrentItem)
-		Case 6
-			sOption3 = FieldStringAtPos (iCurrentItem)
-		Case 7
-			sOption4 = FieldStringAtPos (iCurrentItem)
-		End Select
-			
+		&apos; apply field changes from list:
+		If iCurrentItem &gt;= 0 Then	&apos; -1 means original to be unchanged but recompiled
+			Select Case iReplaceField
+			Case 1
+				sCode = FieldStringAtPos (iCurrentItem)
+			Case 2
+				sLineWidth = FieldStringAtPos (iCurrentItem)
+			Case 3
+				sStaffSize = FieldStringAtPos (iCurrentItem)
+			Case 4
+				sOption1 = FieldStringAtPos (iCurrentItem)
+			Case 5
+				sOption2 = FieldStringAtPos (iCurrentItem)
+			Case 6
+				sOption3 = FieldStringAtPos (iCurrentItem)
+			Case 7
+				sOption4 = FieldStringAtPos (iCurrentItem)
+			End Select
+		End If
+		
+		&apos; compile or create object with current settings
 		make (TRUE)
 		
-		&apos;	move Cursor right, insert line breaks etc., de-select object
+		&apos; move Cursor right, insert line breaks etc., de-select object
 		oCurrentCursor.goRight (0, false)	
 		For i = 1 to iLineBreaks
 			oCurrentCursor.getText.insertControlCharacter (oCurrentCursor.getStart(), com.sun.star.text.ControlCharacter.PARAGRAPH_BREAK, False)
@@ -220,7 +231,8 @@ Sub PerformObjectCloning ()
 		End If
 		oDocCtrl.select (oCurrentCursor)
 		oCurrentGraphicObject = oDocCtrl.getSelection	&apos; &quot;normal text&quot; selection
-	
+
+		&apos; count up for next pass...
 		iCurrentItem = iCurrentItem + 1
 	Wend
 
