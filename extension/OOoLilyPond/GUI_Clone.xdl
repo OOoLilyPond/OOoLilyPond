@@ -40,5 +40,6 @@
   <dlg:numericfield dlg:id="iLineBreaks" dlg:tab-index="22" dlg:left="6" dlg:top="189" dlg:width="26" dlg:height="12" dlg:strict-format="true" dlg:decimal-accuracy="0" dlg:value="2" dlg:value-min="0" dlg:value-max="100" dlg:spin="true"/>
   <dlg:text dlg:id="Label6" dlg:tab-index="23" dlg:left="33" dlg:top="191" dlg:width="89" dlg:height="8" dlg:value="Line break(s) after object"/>
   <dlg:checkbox dlg:id="bPageBreak" dlg:tab-index="19" dlg:left="26" dlg:top="204" dlg:width="155" dlg:height="8" dlg:value="PageBreak after object" dlg:checked="false"/>
+  <dlg:checkbox dlg:id="bKeepOriginal" dlg:tab-index="24" dlg:left="26" dlg:top="217" dlg:width="155" dlg:height="8" dlg:value="Keep original object" dlg:checked="false"/>
  </dlg:bulletinboard>
 </dlg:window>
