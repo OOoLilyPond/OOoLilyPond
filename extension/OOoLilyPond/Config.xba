@@ -628,29 +628,34 @@ Sub ReadConfig()
 	
 	Dim oTextInputStream As Object
 	Dim sLine As String
-	Dim sSplitLine(2) As String
+	Dim iEqPos As Integer
+	&apos; Dim sSplitLine(2) As String
 	Dim sName As String
 	Dim sValue As String
-	Dim sLength As Integer
+	&apos; Dim sLength As Integer
 	Dim bNoCalcAndDrawSettings As Boolean
 	
 	&apos; OLy versions up to 1.0.1 did not save dedicated settings for Calc and Draw. 
 	bNoCalcAndDrawSettings = True
 	
 	&apos; Open input stream
-	oTextInputStream  = createUnoService(&quot;com.sun.star.io.TextInputStream&quot;)
-    oTextInputStream.setInputStream(oFileAccess.openFileRead(sConfigFile))
+	oTextInputStream  = createUnoService (&quot;com.sun.star.io.TextInputStream&quot;)
+    oTextInputStream.setInputStream (oFileAccess.openFileRead (sConfigFile))
 	
 	While not oTextInputStream.isEof()
-		sLine=oTextInputStream.readLine()
+		sLine = oTextInputStream.readLine()
 		if sLine &lt;&gt; &quot;&quot; then 
+		
+			iEqPos = InStr (1, sLine, &quot;=&quot;, 0)
+			sName = Left (sLine, iEqPos - 1)
+			sValue = Mid (sLine, iEqPos + 1)
 
-			sSplitLine() = Split(sLine,&quot;=&quot;)
-			sName = sSplitLine(0)
-			If UBound(sSplitLine)&gt;=1 Then
-				sValue = sSplitLine(1)
-				sLength = Len(sValue)
-			End If
+		&apos;	sSplitLine() = Split(sLine,&quot;=&quot;)
+		&apos;	sName = sSplitLine(0)
+		&apos;	If UBound(sSplitLine)&gt;=1 Then
+		&apos;		sValue = sSplitLine(1)
+		&apos;		sLength = Len(sValue)
+		&apos;	End If
 
 			Select Case sName
 				
