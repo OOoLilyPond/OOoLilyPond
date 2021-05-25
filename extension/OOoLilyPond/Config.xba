@@ -647,6 +647,10 @@ Sub ReadConfig()
 		if sLine &lt;&gt; &quot;&quot; then 
 		
 			iEqPos = InStr (1, sLine, &quot;=&quot;, 0)
+			If iEqPos = 0 Then
+				iEqPos = 1
+				&apos; makes Left (sLine, 0) return a zero-length string for sName
+			End If
 			sName = Left (sLine, iEqPos - 1)
 			sValue = Mid (sLine, iEqPos + 1)
 
