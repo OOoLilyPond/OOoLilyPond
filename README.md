@@ -19,7 +19,7 @@ OOoLilyPond (OLy) is a LibreOffice/OpenOffice extension to include LilyPond musi
 * The extension can be installed either by opening it with LibreOffice or by following these steps in the menu:  
 *Extras > Extension Manager… > Add…*  
 and then choosing the downloaded extension file (.oxt).  
-Your toolbars in Writer, Impress and Draw should now have a new "OLy" button which launches the extension.
+Your toolbars in Writer, Calc, Impress and Draw should now have a new "OLy" button which launches the extension.
 
 **You can find a detailed documentation [here in the wiki](https://github.com/OOoLilyPond/OOoLilyPond/wiki/Installation#installation).**
 
@@ -29,7 +29,7 @@ Your toolbars in Writer, Impress and Draw should now have a new "OLy" button whi
 
 OOoLilyPond (OLy) enables you to enter LilyPond code from within your Office document.  
   Both the resulting image and its source code will be embedded within the document.  
-  No need to keep any additional files other than the Writer/Draw/Impress document itself.
+  No need to keep any additional files other than the Writer/Calc/Impress/Draw document itself.
 
 To create a new OLy object, just click the "OLy" button and an editor window will open. Enter some LilyPond code and click the "LilyPond" button. After successful compiling, the editor window will close and the resulting image will be visible in your document. 
 
