@@ -1,9 +1,16 @@
 ********************************************
-OOoLilyPond Version History (April 2021):
+OOoLilyPond Version History (May 2021):
 ********************************************
 
 Complete documentation: 
 https://github.com/OOoLilyPond/OOoLilyPond/wiki#ooolilypond
+
+
+Changes to OOoLilyPond 1.1.2 since 1.1.1 (May 2021):
+======================================================
+
+* Bugfix: Config entries that contain an "equal" sign are now correctly read from config file.
+
 
 
 Changes to OOoLilyPond 1.1.1 since 1.1.0 (April 2021):
