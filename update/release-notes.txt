@@ -21,3 +21,4 @@ Changes to OOoLilyPond 1.1.2 since 1.1.1 (May 2021):
 ======================================================
 
 * Bugfix: Config entries that contain an "equal" sign are now correctly read from config file.
+  This allows using Inkscape for PDF to SVG conversion.
