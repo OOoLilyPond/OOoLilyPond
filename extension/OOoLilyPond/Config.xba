@@ -537,7 +537,7 @@ Sub DefaultConfig()
  			sLilyPondExecutable = &quot;lilypond&quot;
  			sExtEditorExecutable = &quot;frescobaldi&quot;
  		Else	&apos; Mac
- 			sLilyPondExecutable = &quot;lilypond&quot;
+ 			sLilyPondExecutable = &quot;/Applications/LilyPond.app/Contents/Resources/bin/lilypond&quot;
  			sExtEditorExecutable = &quot;frescobaldi&quot;
  		End If
  		sPdfToSvgPrologue = &quot;pdf2svg&quot;
