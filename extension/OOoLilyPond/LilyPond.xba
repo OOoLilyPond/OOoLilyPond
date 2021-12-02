@@ -314,10 +314,13 @@ Function LilyPondVersion() As Boolean
 		
 		&apos; extract version number and split into main version, sub version and sub sub version
 		sWords = Split(sLine, &quot; &quot;)
-		sLilyPondVersion = Split(sWords(UBound(sWords)), &quot;.&quot;)
-		sLilyPondVersionMajor = sLilyPondVersion(LBound(sLilyPondVersion))
-		sLilyPondVersionMinor = sLilyPondVersion(LBound(sLilyPondVersion)+1)		
-		LilyPondVersion=True &apos;lilypond was executed
+		If UBound (sWords) &gt;= 2 Then
+			sLilyPondVersion = Split (sWords (2), &quot;.&quot;)
+			sLilyPondVersionMajor = sLilyPondVersion (LBound (sLilyPondVersion))
+			sLilyPondVersionMinor = sLilyPondVersion (LBound (sLilyPondVersion)+1)		
+			LilyPondVersion=True &apos;lilypond was executed
+		End If
+		
 	End If
 
 End Function
