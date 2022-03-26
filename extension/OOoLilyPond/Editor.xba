@@ -525,6 +525,7 @@ Sub LilyPondButton()
 	
 	If bSaveAsSeparateImages And (iTo &gt; 0) And (iTo &lt; iFrom) Then
 		MsgBox (oMessages.getPropertyValue (&quot;sMsgChangeFromTo&quot;), iMsgBox_O + iMsgBox_S, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		oEditorDialog.getControl (&quot;LilyPondButton&quot;).setEnable (True)
 		Exit Sub
 	End If
 
