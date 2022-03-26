@@ -2,9 +2,10 @@ OOoLilyPond enables the inclusion of music notation
 in OpenOffice.org or LibreOffice Writer, Calc, Impress and Draw documents.
 The music expression is entered as a text code and then
 translated to an image (png, eps or svg) using LilyPond.
+(You need to have LilyPond installed on your system.)
 
 https://github.com/OOoLilyPond
-http://lilypond.org
+https://lilypond.org
 
 Copyright (c) 2006-2009 Samuel Hartmann
 (samuel_hartmann@users.sourceforge.net)
