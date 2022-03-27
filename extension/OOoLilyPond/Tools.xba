@@ -225,7 +225,11 @@ Function GetOSType()
 	If GetPathSeparator() = &quot;\&quot; Then
 		GetOSType=&quot;Windows&quot;
 	Else
-		GetOSType=&quot;Unix&quot;
+	    If  oFileAccess.isFolder (ConvertToURL (&quot;/Applications/LilyPond.app/Contents/Resources/bin&quot;)) Then
+	    	GetOSType = &quot;Mac&quot;
+	    Else
+			GetOSType=&quot;Unix&quot;
+		End If
 	End If
 End Function
 
