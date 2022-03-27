@@ -408,9 +408,12 @@ End Function
 
 Sub ConvertSeparateImageFiles ()
 
-	Dim sDirEntry As String
+&apos;	Dim sDirEntry As String
 	Dim sCommand As String
 	Dim sConvTmpPath As String
+	
+	Dim sImageNum As String
+	Dim iImageNum As Integer
 
 	If sFormat &lt;&gt; &quot;pdf to svg&quot; Then Exit Sub
 
@@ -421,21 +424,50 @@ Sub ConvertSeparateImageFiles ()
 		sCommand = &quot;cd /d &quot; &amp; Chr(34) &amp; sConvTmpPath &amp; Chr(34) &amp; Chr(13) &amp; Chr(10) 	
 	End If
 	
-	sDirEntry = Dir (sTmpPath &amp; constOLyFileName &amp; &quot;-*.pdf&quot;)
-	Do While sDirEntry &lt;&gt; &quot;&quot;
+&apos;	sDirEntry = Dir (sTmpPath &amp; constOLyFileName &amp; &quot;-*.pdf&quot;)
+&apos;	Do While sDirEntry &lt;&gt; &quot;&quot;
+&apos;		If (sOSType = &quot;Unix&quot;) Or (sOSType = &quot;Mac&quot;) Then
+&apos;			sCommand = sCommand &amp; &quot;; &quot; 
+&apos;		ElseIf sOSType = &quot;Windows&quot; Then
+&apos;			sCommand = sCommand &amp; Chr(13) &amp; Chr(10)
+&apos;		End If
+&apos;		sCommand = sCommand &amp; sPdfToSvgPrologue &amp; &quot; &quot; &amp; Chr(34) &amp; sConvTmpPath &amp; sDirEntry &amp; Chr(34) 
+&apos;		
+&apos;		If bUseSecondSvgParam Then
+&apos;			sCommand = sCommand &amp; &quot; &quot; &amp; Chr(34) &amp; sConvTmpPath &amp; Left (sDirEntry, Len (sDirEntry) - 3) &amp; &quot;svg&quot; &amp; Chr(34)
+&apos;		End If
+&apos;		If Len (sPdfToSvgEpilogue) &gt; 0 Then
+&apos;			sCommand = sCommand &amp; &quot; &quot; &amp; sPdfToSvgEpilogue
+&apos;		End If
+&apos;	sDirEntry = Dir
+&apos;	Loop
+	
+	iImageNum = 1
+	sImageNum = &quot;-&quot; &amp; CStr (iImageNum)
+	
+	&apos; Only convert images within the range iFrom...iTo
+	&apos; but always convert the first image (to be sure to detect conversion failure)
+
+	Do While oFileAccess.exists (sTmpPath &amp; constOLyFileName &amp; sImageNum &amp; &quot;.pdf&quot;) And ( (iImageNum = 1) Or (iImageNum &lt;= iTo) Or (iTo = 0))
 		If (sOSType = &quot;Unix&quot;) Or (sOSType = &quot;Mac&quot;) Then
 			sCommand = sCommand &amp; &quot;; &quot; 
 		ElseIf sOSType = &quot;Windows&quot; Then
 			sCommand = sCommand &amp; Chr(13) &amp; Chr(10)
 		End If
-		sCommand = sCommand &amp; sPdfToSvgPrologue &amp; &quot; &quot; &amp; Chr(34) &amp; sConvTmpPath &amp; sDirEntry &amp; Chr(34) 
+		sCommand = sCommand &amp; sPdfToSvgPrologue &amp; &quot; &quot; &amp; Chr(34) &amp; sConvTmpPath &amp;  constOLyFileName &amp; sImageNum &amp; &quot;.pdf&quot; &amp; Chr(34) 
 		If bUseSecondSvgParam Then
-			sCommand = sCommand &amp; &quot; &quot; &amp; Chr(34) &amp; sConvTmpPath &amp; Left (sDirEntry, Len (sDirEntry) - 3) &amp; &quot;svg&quot; &amp; Chr(34)
+			sCommand = sCommand &amp; &quot; &quot; &amp; Chr(34) &amp; sConvTmpPath &amp;constOLyFileName &amp; sImageNum &amp; &quot;.svg&quot; &amp; Chr(34)
 		End If
 		If Len (sPdfToSvgEpilogue) &gt; 0 Then
 			sCommand = sCommand &amp; &quot; &quot; &amp; sPdfToSvgEpilogue
 		End If
-	sDirEntry = Dir
+		
+		If iImageNum &lt; iFrom Then
+			iImageNum = iFrom
+		Else
+			iImageNum = iImageNum + 1
+		End If
+		sImageNum = &quot;-&quot; &amp; CStr (iImageNum)
 	Loop
 	
 	If (sOSType = &quot;Unix&quot;) Or (sOSType = &quot;Mac&quot;) Then
