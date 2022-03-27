@@ -28,6 +28,7 @@ Version history.txt
 /update/ooolilypond-update.xml
   - update version number
   - update download link
+(same for https://github.com/openlilylib/LO-ly )
 
 /update/release-notes.txt
   - add current version info
