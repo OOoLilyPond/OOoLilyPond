@@ -295,6 +295,7 @@ Function LilyPondVersion() As Boolean
 	If oFileAccess.exists(sTmpPath &amp; &quot;LilyPond-cannot_execute&quot;) then
 		sLilyPondVersionMajor = &quot;&quot;
 		sLilyPondVersionMinor = &quot;&quot;
+		sLilyPondVersionPatch = &quot;&quot;
 		LilyPondVersion = False &apos;lilypond was not executed
 		&apos; MsgBox &quot;LilyPond cannot be executed.&quot; &amp; Chr(10) _
 		&apos; &amp; &quot;Check the path specified for the lilypond executable in the configuration dialog,&quot; &amp; Chr(10) _
@@ -317,7 +318,8 @@ Function LilyPondVersion() As Boolean
 		If UBound (sWords) &gt;= 2 Then
 			sLilyPondVersion = Split (sWords (2), &quot;.&quot;)
 			sLilyPondVersionMajor = sLilyPondVersion (LBound (sLilyPondVersion))
-			sLilyPondVersionMinor = sLilyPondVersion (LBound (sLilyPondVersion)+1)		
+			sLilyPondVersionMinor = sLilyPondVersion (LBound (sLilyPondVersion)+1)
+			sLilyPondVersionPatch = sLilyPondVersion (LBound (sLilyPondVersion)+2)
 			LilyPondVersion=True &apos;lilypond was executed
 		End If
 		

@@ -79,6 +79,7 @@ Private sOSType As String
 Private iDocumentType As Integer
 Private sLilyPondVersionMajor As String
 Private sLilyPondVersionMinor As String
+Private sLilyPondVersionPatch As String
 
 &apos; Dialog Objects
 Private oEditorDialog As Object &apos; OOoLilyPond Editor Dialog (Main Dialog)
