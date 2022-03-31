@@ -52,12 +52,10 @@ Function CallLilyPond() As Boolean
 	Dim sRelativeIncludeStatement As String
 	Dim sActualIncludeStatement As String
 	
-	Dim sCroppingOpt As String
 	Dim bNeedsAdditionalOption As Boolean
 	&apos; needs to be inserted as of LilyPond 2.23.5
 	&apos; https://gitlab.com/lilypond/lilypond/-/issues/6235#note_895130650
 	bNeedsAdditionalOption = LyVersionIsAtLeast (2, 23, 5)
-	sCroppingOpt = &quot;&quot;
 	
 	sRelativeIncludeStatement=GetRelativeIncludeStatement()
 	 
