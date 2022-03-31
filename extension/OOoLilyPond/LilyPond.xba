@@ -51,6 +51,14 @@ Function CallLilyPond() As Boolean
 
 	Dim sRelativeIncludeStatement As String
 	Dim sActualIncludeStatement As String
+	
+	Dim sCroppingOpt As String
+	Dim bNeedsAdditionalOption As Boolean
+	&apos; needs to be inserted as of LilyPond 2.23.5
+	&apos; https://gitlab.com/lilypond/lilypond/-/issues/6235#note_895130650
+	bNeedsAdditionalOption = LyVersionIsAtLeast (2, 23, 5)
+	sCroppingOpt = &quot;&quot;
+	
 	sRelativeIncludeStatement=GetRelativeIncludeStatement()
 	 
 	If Len(sRelativeIncludeStatement) &gt; 0 Then
@@ -82,6 +90,9 @@ Function CallLilyPond() As Boolean
 			sCommand = sCommand &amp; &quot; -dcrop&quot;
 		End If
 		If sFormat=&quot;png&quot; Then
+			If bNeedsAdditionalOption Then
+				sCommand = sCommand &amp; &quot; -dtall-page-formats=png -dseparate-page-formats=png&quot;
+			End If
 			If bTransparentBackground Then
 				sCommand = sCommand &amp; &quot; -dno-delete-intermediate-files -dpixmap-format=pngalpha --png &quot; &amp; sBackendOpt &amp; &quot; -dresolution=&quot; _
 				&amp; iGraphicDPI &amp; &quot; &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; constOLyFileName &amp; &quot;.ly&quot; &amp; Chr (34) _
@@ -92,10 +103,16 @@ Function CallLilyPond() As Boolean
 				&amp; &quot; &gt;&quot; &amp; constOLyFileName &amp; &quot;.out 2&gt;&amp;1; &quot;
 			End If
 		ElseIf sFormat=&quot;pdf to svg&quot; Then
+			If bNeedsAdditionalOption Then
+				sCommand = sCommand &amp; &quot; -dtall-page-formats=pdf -dseparate-page-formats=pdf&quot;
+			End If
 			sCommand = sCommand &amp; &quot; -dno-delete-intermediate-files --pdf &quot; &amp; sBackendOpt &amp; &quot; &quot; _
 			 &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; constOLyFileName &amp; &quot;.ly&quot; &amp; Chr (34) _
 			&amp; &quot; &gt;&quot; &amp; constOLyFileName &amp; &quot;.out 2&gt;&amp;1; &quot;
 		ElseIf sFormat=&quot;eps&quot; Then
+			If bNeedsAdditionalOption Then
+				sCommand = sCommand &amp; &quot; -dtall-page-formats=eps -dseparate-page-formats=eps&quot;
+			End If
 			sCommand = sCommand &amp; &quot; &quot; &amp; sBackendOpt &amp; &quot; -f eps &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; constOLyFileName &amp; &quot;.ly&quot; &amp; Chr (34) _
 			&amp; &quot; &gt;&quot; &amp; constOLyFileName &amp; &quot;.out 2&gt;&amp;1; &quot;
 		ElseIf sFormat=&quot;svg&quot; Or sFormat=&quot;svg [-dcrop]&quot; Then
@@ -128,6 +145,9 @@ Function CallLilyPond() As Boolean
 			sCommand = sCommand &amp; &quot; -dcrop&quot;
 		End If
 		If sFormat=&quot;png&quot; Then
+			If bNeedsAdditionalOption Then
+				sCommand = sCommand &amp; &quot; -dtall-page-formats=png -dseparate-page-formats=png&quot;
+			End If
 			If bTransparentBackground Then
 				sCommand = sCommand &amp; &quot; -dno-delete-intermediate-files -dpixmap-format=pngalpha --png &quot; &amp; sBackendOpt &amp; &quot; -dresolution=&quot; _
 				&amp; iGraphicDPI &amp; &quot; &quot;&amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; constOLyFileName &amp; &quot;.ly&quot; &amp; Chr (34) _
@@ -138,9 +158,15 @@ Function CallLilyPond() As Boolean
 			&amp; &quot; &gt;&quot; &amp; constOLyFileName &amp; &quot;.out 2&gt;&amp;1&quot; &amp; Chr(13) &amp; Chr(10)
 			End If
 		ElseIf sFormat=&quot;pdf to svg&quot; Then
+			If bNeedsAdditionalOption Then
+				sCommand = sCommand &amp; &quot; -dtall-page-formats=pdf -dseparate-page-formats=pdf&quot;
+			End If
 			sCommand = sCommand &amp; &quot; -dno-delete-intermediate-files --pdf &quot; &amp; sBackendOpt &amp; &quot; &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) _
 			&amp; constOLyFileName &amp; &quot;.ly&quot; &amp; Chr (34) &amp; &quot; &gt;&quot; &amp; constOLyFileName &amp; &quot;.out 2&gt;&amp;1&quot; &amp; Chr(13) &amp; Chr(10)
 		ElseIf sFormat=&quot;eps&quot; Then
+			If bNeedsAdditionalOption Then
+				sCommand = sCommand &amp; &quot; -dtall-page-formats=eps -dseparate-page-formats=eps&quot;
+			End If
 			sCommand = sCommand &amp; &quot; &quot; &amp; sBackendOpt &amp; &quot; -f eps &quot; &amp; Chr(34) &amp; ConvertFromURL(sTmpPath) &amp; constOLyFileName &amp; &quot;.ly&quot; &amp; Chr (34) _
 			&amp; &quot; &gt;&quot; &amp; constOLyFileName &amp; &quot;.out 2&gt;&amp;1&quot; &amp; Chr(13) &amp; Chr(10)
 		ElseIf sFormat=&quot;svg&quot; Or sFormat=&quot;svg [-dcrop]&quot; Then
