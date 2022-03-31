@@ -106,6 +106,7 @@ Sub OOoLilyPondInit()
 		End If
 		If Not oFileAccess.isFolder(sTemplatePath) Then CopyTemplates() &apos; For some reason the templates are not there
 	End If
+	bLy_2_23_5_OrLater = LyVersionIsAtLeast (2, 23, 5)
 
 	&apos; Initialize Anchor and Wrap settings, we already know that ;-)
 	If iDocumentType = 0 Then

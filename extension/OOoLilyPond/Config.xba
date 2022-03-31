@@ -1152,6 +1152,7 @@ Sub ConfigOKButton
 
 	&apos;Check wheter LilyPond can be executed and get version
 	LilyPondVersion()
+	bLy_2_23_5_OrLater = LyVersionIsAtLeast (2, 23, 5)
 	
 	&apos;Save the values to file and close dialog
 	SaveConfig()

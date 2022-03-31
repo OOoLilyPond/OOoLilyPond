@@ -73,6 +73,8 @@ Private bSaveAsSeparateImages As Boolean  &apos; save current snippet as separat
 Private iFrom As Integer  &apos; if &gt; 0: first image to be inserted
 Private iTo As Integer    &apos; if &gt; 0: last image to be inserted
 Private bUseSecondSvgParam As Boolean  &apos; insert &quot;filename.svg&quot; into PdfToSvg command or not?
+Private bLy_2_23_5_OrLater As Boolean  &apos; detected LilyPond version is 2.23.5 or later which...
+&apos;  ... requires additional command line option, see https://gitlab.com/lilypond/lilypond/-/issues/6235#note_895130650
 
 &apos; Environment
 Private sOSType As String
