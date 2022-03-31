@@ -657,4 +657,32 @@ Function BoolToCheckBoxState(bState As Boolean) As Integer
 	End If
 End Function
 
+
+Function LyVersionIsAtLeast (iMajor As Integer, iMinor As Integer, iPatch As Integer) As Boolean
+	&apos; return if the currently detected LilyPond version is at least iMajor.iMinor.iPatch
+
+	Dim iVersion As Integer
+	
+	LyVersionIsAtLeast = False
+	
+	iVersion = Val (sLilyPondVersionMajor)
+	If iVersion &lt; iMajor Then Exit Function
+	If iVersion &gt; iMajor Then
+		LyVersionIsAtLeast = True
+		Exit Function
+	End
+	
+	iVersion = Val (sLilyPondVersionMinor)
+	If iVersion &lt; iMinor Then Exit Function
+	If iVersion &gt; iMinor Then
+		LyVersionIsAtLeast = True
+		Exit Function
+	End
+	
+	iVersion = Val (sLilyPondVersionPatch)
+	If iVersion &lt; iPatch Then Exit Function
+
+	LyVersionIsAtLeast = True
+
+End Function
 </script:module>
