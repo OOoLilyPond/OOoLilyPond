@@ -670,14 +670,14 @@ Function LyVersionIsAtLeast (iMajor As Integer, iMinor As Integer, iPatch As Int
 	If iVersion &gt; iMajor Then
 		LyVersionIsAtLeast = True
 		Exit Function
-	End
+	End If
 	
 	iVersion = Val (sLilyPondVersionMinor)
 	If iVersion &lt; iMinor Then Exit Function
 	If iVersion &gt; iMinor Then
 		LyVersionIsAtLeast = True
 		Exit Function
-	End
+	End If
 	
 	iVersion = Val (sLilyPondVersionPatch)
 	If iVersion &lt; iPatch Then Exit Function
