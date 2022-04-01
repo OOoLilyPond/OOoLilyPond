@@ -6,6 +6,16 @@ Complete documentation:
 https://github.com/OOoLilyPond/OOoLilyPond/wiki#ooolilypond
 
 
+
+Changes to OOoLilyPond 1.1.5 since 1.1.4 (March 2022):
+========================================================
+
+* Improvement: cropping via \include "lilypond-book-preamble.ly" now also works with
+    Lilypond versions 2.23.5 and later.
+    (Those need an additional command line option.)
+
+
+
 Changes to OOoLilyPond 1.1.4 since 1.1.2 (March 2022):
 ========================================================
 

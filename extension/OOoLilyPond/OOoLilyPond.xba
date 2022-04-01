@@ -97,8 +97,16 @@ Sub OOoLilyPondInit()
             MsgBox (oMessages.getPropertyValue (&quot;sMsgLilypondNotFound&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 		End If
 	Else &apos; LilyPond has already once been called successfully
+		If sLilyPondVersionPatch=&quot;&quot; Then &apos; New: as of 1.1.5, OLy needs to know the &quot;patch&quot; part
+		    If LilyPondVersion() Then
+		    	SaveConfig()
+		    Else
+		    	MsgBox (oMessages.getPropertyValue (&quot;sMsgLilypondNotFound&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		    End If
+		End If
 		If Not oFileAccess.isFolder(sTemplatePath) Then CopyTemplates() &apos; For some reason the templates are not there
 	End If
+	bLy_2_23_5_OrLater = LyVersionIsAtLeast (2, 23, 5)
 
 	&apos; Initialize Anchor and Wrap settings, we already know that ;-)
 	If iDocumentType = 0 Then
