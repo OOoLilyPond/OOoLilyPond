@@ -225,6 +225,46 @@ Function GetReplaceField () As Integer
 End Function
 
 
+Sub ProcessPasteButton (iNumber As Integer)
+	Dim sContent As String
+	Dim iReplaceField As Integer
+	
+	iReplaceField = GetReplaceField ()
+	Select Case iReplaceField
+		Case 1
+			sContent = sCode
+		Case 2
+			sContent = sLineWidth
+		Case 3
+			sContent = sStaffSize
+		Case 4
+			sContent = sCustom1
+		Case 5
+			sContent = sCustom2
+		Case 6
+			sContent = sCustom3
+		Case 7
+			sContent = sCustom4
+	End Select
+	Select Case iNumber
+		Case 1
+			oCloneDialog.getControl(&quot;BeforeTextField&quot;).setText (sContent)
+		Case 2
+			oCloneDialog.getControl(&quot;AfterTextField&quot;).setText (sContent)
+		End Select
+	UpdateFieldPreview ()
+End Sub
+
+
+Sub PasteBeforeButtonClicked ()
+	ProcessPasteButton (1)
+End Sub
+
+Sub PasteAfterButtonClicked ()
+	ProcessPasteButton (2)
+End Sub
+
+
 Sub PerformObjectCloning ()
 	Dim iLastItem As Integer
 	Dim iCurrentItem As Integer
@@ -251,7 +291,7 @@ Sub PerformObjectCloning ()
 		Case 4
 			bUseDefaultCustom1 = False
 		Case 5
-			bUseDefaultCustom = False
+			bUseDefaultCustom2 = False
 		Case 6
 			bUseDefaultCustom3 = False
 		Case 7

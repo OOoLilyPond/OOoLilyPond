@@ -8,7 +8,7 @@
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Clone.ListFilePickButton?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
   <dlg:text dlg:id="Label2" dlg:tab-index="6" dlg:left="221" dlg:top="10" dlg:width="133" dlg:height="8" dlg:value="List Preview:"/>
-  <dlg:menulist dlg:id="PreviewListBox" dlg:tab-index="5" dlg:left="220" dlg:top="20" dlg:width="136" dlg:height="79">
+  <dlg:menulist dlg:id="PreviewListBox" dlg:tab-index="5" dlg:left="220" dlg:top="20" dlg:width="136" dlg:height="108">
    <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Clone.UpdateFieldPreview?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:menulist>
   <dlg:titledbox dlg:id="FieldsToReplaceFrame" dlg:tab-index="7" dlg:left="6" dlg:top="43" dlg:width="202" dlg:height="85">
@@ -26,7 +26,7 @@
   <dlg:text dlg:id="Label3" dlg:tab-index="15" dlg:left="8" dlg:top="138" dlg:width="96" dlg:height="8" dlg:value="insert before list item:"/>
   <dlg:text dlg:id="Label4" dlg:tab-index="17" dlg:left="110" dlg:top="138" dlg:width="96" dlg:height="8" dlg:value="insert after list item:"/>
   <dlg:text dlg:id="Label5" dlg:tab-index="20" dlg:left="221" dlg:top="138" dlg:width="133" dlg:height="8" dlg:value="Field Preview:"/>
-  <dlg:textfield dlg:id="PreviewTextBox" dlg:tab-index="21" dlg:left="220" dlg:top="150" dlg:width="136" dlg:height="41" dlg:multiline="true" dlg:readonly="true"/>
+  <dlg:textfield dlg:id="PreviewTextBox" dlg:tab-index="21" dlg:left="220" dlg:top="150" dlg:width="136" dlg:height="77" dlg:multiline="true" dlg:readonly="true"/>
   <dlg:textfield dlg:id="BeforeTextField" dlg:tab-index="16" dlg:left="6" dlg:top="150" dlg:width="100" dlg:height="26" dlg:multiline="true">
    <script:event script:event-name="on-textchange" script:macro-name="vnd.sun.star.script:OOoLilyPond.Clone.UpdateFieldPreview?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:textfield>
@@ -41,7 +41,11 @@
   <dlg:text dlg:id="Label6" dlg:tab-index="23" dlg:left="33" dlg:top="203" dlg:width="89" dlg:height="8" dlg:value="Line break(s) after object"/>
   <dlg:checkbox dlg:id="bPageBreak" dlg:tab-index="19" dlg:left="26" dlg:top="217" dlg:width="155" dlg:height="8" dlg:value="PageBreak after object" dlg:checked="false"/>
   <dlg:checkbox dlg:id="bKeepOriginal" dlg:tab-index="24" dlg:left="26" dlg:top="230" dlg:width="155" dlg:height="8" dlg:value="Keep original object" dlg:checked="false"/>
-  <dlg:button dlg:id="PasteBeforeButton" dlg:tab-index="25" dlg:left="6" dlg:top="178" dlg:width="100" dlg:height="11" dlg:value="Paste from object"/>
-  <dlg:button dlg:id="PasteAfterButton" dlg:tab-index="26" dlg:left="108" dlg:top="178" dlg:width="100" dlg:height="11" dlg:value="Paste from object"/>
+  <dlg:button dlg:id="PasteBeforeButton" dlg:tab-index="25" dlg:left="6" dlg:top="178" dlg:width="100" dlg:height="11" dlg:value="Paste from object">
+   <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Clone.PasteBeforeButtonClicked?language=Basic&amp;location=application" script:language="Script"/>
+  </dlg:button>
+  <dlg:button dlg:id="PasteAfterButton" dlg:tab-index="26" dlg:left="108" dlg:top="178" dlg:width="100" dlg:height="11" dlg:value="Paste from object">
+   <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Clone.PasteAfterButtonClicked?language=Basic&amp;location=application" script:language="Script"/>
+  </dlg:button>
  </dlg:bulletinboard>
 </dlg:window>
