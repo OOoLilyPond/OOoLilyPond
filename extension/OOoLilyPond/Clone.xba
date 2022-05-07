@@ -281,13 +281,13 @@ Sub PerformObjectCloning ()
 			Case 3
 				sStaffSize = FieldStringAtPos (iCurrentItem)
 			Case 4
-				sOption1 = FieldStringAtPos (iCurrentItem)
+				sCustom1 = FieldStringAtPos (iCurrentItem)
 			Case 5
-				sOption2 = FieldStringAtPos (iCurrentItem)
+				sCustom2 = FieldStringAtPos (iCurrentItem)
 			Case 6
-				sOption3 = FieldStringAtPos (iCurrentItem)
+				sCustom3 = FieldStringAtPos (iCurrentItem)
 			Case 7
-				sOption4 = FieldStringAtPos (iCurrentItem)
+				sCustom4 = FieldStringAtPos (iCurrentItem)
 			End Select
 		End If
 		
