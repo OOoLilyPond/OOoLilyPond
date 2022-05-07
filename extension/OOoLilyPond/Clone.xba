@@ -4,6 +4,9 @@
 
 Option Explicit
 
+Private bCloningAborted As Boolean
+	&apos; Will be set to TRUE if &quot;Abort&quot; button is clicked while cloning
+
 
 Sub CloneDialog()
 	Dim sDefaultLineWidthLabel As String
@@ -265,6 +268,11 @@ Sub PasteAfterButtonClicked ()
 End Sub
 
 
+Sub AbortCloningButtonClicked ()
+	bCloningAborted = TRUE
+End Sub
+
+
 Sub PerformObjectCloning ()
 	Dim iLastItem As Integer
 	Dim iCurrentItem As Integer
@@ -278,6 +286,9 @@ Sub PerformObjectCloning ()
 	iAnchor = com.sun.star.text.TextContentAnchorType.AS_CHARACTER		&apos; the only way to insert multiple OLy objects subsequently
 	
 	oCloneDialog.EndExecute()									&apos; Close &quot;Clone&quot; dialog
+	bCloningAborted = False
+	oAbortCloningDialog = createUnoDialog (DialogLibraries.GetByName (constOLyLibraryName).GetByName (&quot;GUI_Abort_Cloning&quot;))
+	oAbortCloningDialog.SetVisible (True)
 	
 	&apos; Read settings from dialog:
 	iReplaceField = GetReplaceField ()
@@ -309,7 +320,7 @@ Sub PerformObjectCloning ()
 	End If
 	
 	&apos; here we go: start big &quot;cloning&quot; loop
-	While iCurrentItem &lt;= iLastItem
+	While (iCurrentItem &lt;= iLastItem) And Not bCloningAborted
 		
 		&apos; apply field changes from list:
 		If iCurrentItem &gt;= 0 Then	&apos; -1 means original to be unchanged but recompiled
@@ -349,6 +360,7 @@ Sub PerformObjectCloning ()
 		iCurrentItem = iCurrentItem + 1
 	Wend
 
+	oAbortCloningDialog.SetVisible (False)
 End Sub
 
 

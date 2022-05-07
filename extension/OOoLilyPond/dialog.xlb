@@ -9,4 +9,5 @@
  <library:element library:name="GUI_Ask"/>
  <library:element library:name="GUI_Abort"/>
  <library:element library:name="GUI_Clone"/>
+ <library:element library:name="GUI_Abort_Cloning"/>
 </library:library>

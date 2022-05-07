@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dlg:window PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "dialog.dtd">
+<dlg:window xmlns:dlg="http://openoffice.org/2000/dialog" xmlns:script="http://openoffice.org/2000/script" dlg:id="GUI_Abort_Cloning" dlg:left="0" dlg:top="0" dlg:width="158" dlg:height="70" dlg:closeable="true" dlg:moveable="true" dlg:title="Creating OOoLilyPond objects...">
+ <dlg:bulletinboard>
+  <dlg:button dlg:id="AbortButton" dlg:tab-index="0" dlg:left="52" dlg:top="4" dlg:width="53" dlg:height="14" dlg:value="Abort">
+   <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Clone.AbortCloningButtonClicked?language=Basic&amp;location=application" script:language="Script"/>
+  </dlg:button>
+  <dlg:progressmeter dlg:id="ObjectProgressBar" dlg:tab-index="1" dlg:left="0" dlg:top="55" dlg:width="158" dlg:height="11" dlg:value="100"/>
+  <dlg:text dlg:id="ObjectLabel" dlg:tab-index="2" dlg:left="4" dlg:top="46" dlg:width="150" dlg:height="8" dlg:value="Object:"/>
+ </dlg:bulletinboard>
+</dlg:window>
