@@ -191,6 +191,40 @@ Sub UpdateFieldPreview ()
 End Sub
 
 
+Function GetReplaceField () As Integer
+&apos; Read from dialog: field to be replaced
+
+
+	If oCloneDialog.getControl     (&quot;OptionCode&quot;).getState() Then
+		GetReplaceField = 1
+		Exit Function
+	End If
+		bUseDefaultCode = False
+	If oCloneDialog.getControl (&quot;OptionLineWidth&quot;).getState() Then
+		GetReplaceField = 2
+		Exit Function
+	End If
+	If oCloneDialog.getControl (&quot;OptionStaffSize&quot;).getState() Then
+		GetReplaceField = 3
+		Exit Function
+	End If
+	If oCloneDialog.getControl (&quot;OptionCustom1&quot;).getState() Then
+		GetReplaceField = 4
+		Exit Function
+	End If
+	If oCloneDialog.getControl (&quot;OptionCustom2&quot;).getState() Then
+		GetReplaceField = 5
+		Exit Function
+	End If
+	If oCloneDialog.getControl (&quot;OptionCustom3&quot;).getState() Then
+		GetReplaceField = 6
+		Exit Function
+	End If
+	&apos; oCloneDialog.getControl (&quot;OptionCustom4&quot;).getState() now must be TRUE:
+	iReplaceField = 7
+End Function
+
+
 Sub PerformObjectCloning ()
 	Dim iLastItem As Integer
 	Dim iCurrentItem As Integer
@@ -206,28 +240,24 @@ Sub PerformObjectCloning ()
 	oCloneDialog.EndExecute()									&apos; Close &quot;Clone&quot; dialog
 	
 	&apos; Read settings from dialog:
-	If oCloneDialog.getControl     (&quot;OptionCode&quot;).getState() Then
-		iReplaceField = 1
-		bUseDefaultCode = False
-	ElseIf oCloneDialog.getControl (&quot;OptionLineWidth&quot;).getState() Then
-		iReplaceField = 2
-		bUseDefaultLineWidth = False
-	ElseIf oCloneDialog.getControl (&quot;OptionStaffSize&quot;).getState() Then
-		iReplaceField = 3
-		bUseDefaultStaffSize = False
-	ElseIf oCloneDialog.getControl (&quot;OptionCustom1&quot;).getState() Then
-		iReplaceField = 4
-		bUseDefaultCustom1 = False
-	ElseIf oCloneDialog.getControl (&quot;OptionCustom2&quot;).getState() Then
-		iReplaceField = 5
-		bUseDefaultCustom2 = False
-	ElseIf oCloneDialog.getControl (&quot;OptionCustom3&quot;).getState() Then
-		iReplaceField = 6
-		bUseDefaultCustom3 = False
-	ElseIf oCloneDialog.getControl (&quot;OptionCustom4&quot;).getState() Then
-		iReplaceField = 7
-		bUseDefaultCustom4 = False
-	End If
+	iReplaceField = GetReplaceField ()
+	Select Case iReplaceField
+		Case 1
+			bUseDefaultCode = False
+		Case 2
+			bUseDefaultLineWidth = False
+		Case 3
+			bUseDefaultStaffSize = False
+		Case 4
+			bUseDefaultCustom1 = False
+		Case 5
+			bUseDefaultCustom = False
+		Case 6
+			bUseDefaultCustom3 = False
+		Case 7
+			bUseDefaultCustom4 = False
+	End Select
+	
 	iLastItem = oCloneDialog.getControl (&quot;PreviewListBox&quot;).getItemCount() - 1
 	iLineBreaks = oCloneDialog.getControl (&quot;iLineBreaks&quot;).getValue()
 	bInsertPageBreak = oCloneDialog.getControl (&quot;bPageBreak&quot;).getState()
