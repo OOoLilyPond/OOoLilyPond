@@ -288,6 +288,9 @@ Sub PerformObjectCloning ()
 	oCloneDialog.EndExecute()									&apos; Close &quot;Clone&quot; dialog
 	bCloningAborted = False
 	oAbortCloningDialog = createUnoDialog (DialogLibraries.GetByName (constOLyLibraryName).GetByName (&quot;GUI_Abort_Cloning&quot;))
+	oAbortCloningDialog.getModel().getByName (&quot;ObjectProgressBar&quot;).ProgressValue = 0
+	iLastItem = oCloneDialog.getControl (&quot;PreviewListBox&quot;).getItemCount() - 1
+	oAbortCloningDialog.getModel().getByName (&quot;ObjectProgressBar&quot;).ProgressValueMax = iLastItem + 1
 	oAbortCloningDialog.SetVisible (True)
 	
 	&apos; Read settings from dialog:
@@ -309,7 +312,6 @@ Sub PerformObjectCloning ()
 			bUseDefaultCustom4 = False
 	End Select
 	
-	iLastItem = oCloneDialog.getControl (&quot;PreviewListBox&quot;).getItemCount() - 1
 	iLineBreaks = oCloneDialog.getControl (&quot;iLineBreaks&quot;).getValue()
 	bInsertPageBreak = oCloneDialog.getControl (&quot;bPageBreak&quot;).getState()
 	bKeepOriginal = oCloneDialog.getControl (&quot;bKeepOriginal&quot;).getState()
@@ -358,6 +360,7 @@ Sub PerformObjectCloning ()
 
 		&apos; count up for next pass...
 		iCurrentItem = iCurrentItem + 1
+		oAbortCloningDialog.getModel().getByName (&quot;ObjectProgressBar&quot;).ProgressValue = iCurrentItem
 	Wend
 
 	oAbortCloningDialog.SetVisible (False)
