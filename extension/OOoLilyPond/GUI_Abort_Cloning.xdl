@@ -6,6 +6,8 @@
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Clone.AbortCloningButtonClicked?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
   <dlg:progressmeter dlg:id="ObjectProgressBar" dlg:tab-index="1" dlg:left="0" dlg:top="55" dlg:width="158" dlg:height="11" dlg:value="100"/>
-  <dlg:text dlg:id="ObjectLabel" dlg:tab-index="2" dlg:left="4" dlg:top="46" dlg:width="150" dlg:height="8" dlg:value="Object:"/>
+  <dlg:text dlg:id="ObjectLabel" dlg:tab-index="2" dlg:left="4" dlg:top="36" dlg:width="150" dlg:height="8" dlg:value="Object:"/>
+  <dlg:text dlg:id="sCurrentItem" dlg:tab-index="3" dlg:left="4" dlg:top="46" dlg:width="74" dlg:height="8" dlg:value="123" dlg:align="right"/>
+  <dlg:text dlg:id="sLastItem" dlg:tab-index="4" dlg:left="79" dlg:top="46" dlg:width="75" dlg:height="8" dlg:value="/456"/>
  </dlg:bulletinboard>
 </dlg:window>

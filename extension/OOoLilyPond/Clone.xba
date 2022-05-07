@@ -291,6 +291,8 @@ Sub PerformObjectCloning ()
 	oAbortCloningDialog.getModel().getByName (&quot;ObjectProgressBar&quot;).ProgressValue = 0
 	iLastItem = oCloneDialog.getControl (&quot;PreviewListBox&quot;).getItemCount() - 1
 	oAbortCloningDialog.getModel().getByName (&quot;ObjectProgressBar&quot;).ProgressValueMax = iLastItem + 1
+	oAbortCloningDialog.getModel().getByName (&quot;sLastItem&quot;).Label = &quot;/&quot; &amp; Val (iLastItem + 1)
+	oAbortCloningDialog.getModel().getByName (&quot;sCurrentItem&quot;).Label = &quot;0&quot;
 	oAbortCloningDialog.SetVisible (True)
 	
 	&apos; Read settings from dialog:
@@ -323,7 +325,8 @@ Sub PerformObjectCloning ()
 	
 	&apos; here we go: start big &quot;cloning&quot; loop
 	While (iCurrentItem &lt;= iLastItem) And Not bCloningAborted
-		
+		oAbortCloningDialog.getModel().getByName (&quot;sCurrentItem&quot;).Label = Val (iCurrentItem + 1)
+		oAbortCloningDialog.getModel().getByName (&quot;ObjectProgressBar&quot;).ProgressValue = iCurrentItem + 1
 		&apos; apply field changes from list:
 		If iCurrentItem &gt;= 0 Then	&apos; -1 means original to be unchanged but recompiled
 			Select Case iReplaceField
@@ -360,7 +363,6 @@ Sub PerformObjectCloning ()
 
 		&apos; count up for next pass...
 		iCurrentItem = iCurrentItem + 1
-		oAbortCloningDialog.getModel().getByName (&quot;ObjectProgressBar&quot;).ProgressValue = iCurrentItem
 	Wend
 
 	oAbortCloningDialog.SetVisible (False)
