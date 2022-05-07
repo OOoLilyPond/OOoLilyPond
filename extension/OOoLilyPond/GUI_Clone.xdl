@@ -37,7 +37,7 @@
   <dlg:button dlg:id="Process" dlg:tab-index="0" dlg:left="222" dlg:top="232" dlg:width="58" dlg:height="16" dlg:value="Start">
    <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:OOoLilyPond.Clone.PerformObjectCloning?language=Basic&amp;location=application" script:language="Script"/>
   </dlg:button>
-  <dlg:numericfield dlg:id="iLineBreaks" dlg:tab-index="22" dlg:left="6" dlg:top="201" dlg:width="26" dlg:height="12" dlg:strict-format="true" dlg:decimal-accuracy="0" dlg:value="2" dlg:value-min="0" dlg:value-max="100" dlg:spin="true"/>
+  <dlg:numericfield dlg:id="iLineBreaks" dlg:tab-index="22" dlg:left="6" dlg:top="201" dlg:width="26" dlg:height="12" dlg:strict-format="true" dlg:decimal-accuracy="0" dlg:value="2" dlg:value-min="1" dlg:value-max="100" dlg:spin="true"/>
   <dlg:text dlg:id="Label6" dlg:tab-index="23" dlg:left="33" dlg:top="203" dlg:width="89" dlg:height="8" dlg:value="Line break(s) after object"/>
   <dlg:checkbox dlg:id="bPageBreak" dlg:tab-index="19" dlg:left="26" dlg:top="217" dlg:width="155" dlg:height="8" dlg:value="PageBreak after object" dlg:checked="false"/>
   <dlg:checkbox dlg:id="bKeepOriginal" dlg:tab-index="24" dlg:left="26" dlg:top="230" dlg:width="155" dlg:height="8" dlg:value="Keep original object" dlg:checked="false"/>
