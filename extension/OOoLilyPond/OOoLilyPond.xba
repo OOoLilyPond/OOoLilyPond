@@ -830,6 +830,9 @@ Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As Strin
 	Dim oGraphic As Object
 	Dim oLilyPondAttribute As Object
 	Dim oText as Object
+	
+	Dim sFileURL As String
+	sFileURL = ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension)
 		
 	oDispatcher = createUnoService(&quot;com.sun.star.frame.DispatchHelper&quot;)
 
@@ -848,7 +851,7 @@ Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As Strin
 		oText = oDoc.Text
 		
 		&apos;Import the new image to the clipboard and paste it...
-   		ImportGraphicIntoClipboard (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension))	
+   		ImportGraphicIntoClipboard (sFileURL)	
 		oDispatcher.executeDispatch (oDocCtrl.Frame, &quot;.uno:Paste&quot;, &quot;&quot;, 0, Array())
 		&apos; Wait (100)	&apos; doesn&apos;t help against strange LO behavior  :(
 	  	oGraphic = oDocCtrl.getSelection().GetByIndex(0)
@@ -913,7 +916,7 @@ Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As Strin
 		
 		&apos; Import the new image to the clipboard and paste it...
 		&apos; To do: don&apos;t use dispatcher
-   		ImportGraphicIntoClipboard(ConvertToURL( sTmpPath &amp; constOLyFileName &amp; sAddition &amp; &quot;.&quot; &amp; sExtension))	
+   		ImportGraphicIntoClipboard (sFileURL)	
 		oDispatcher.executeDispatch( oDocCtrl.Frame, &quot;.uno:Paste&quot;, &quot;&quot;, 0, Array())
 	  	oGraphic = oDocCtrl.getSelection().getByIndex(0)
 
@@ -943,8 +946,11 @@ Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, sAddition
 	Dim oLilyPondAttribute As Object
 	Dim sImplementationName As String
 	&apos; Dim oCursor As Object		&apos; not in use
-
+	
 	On Error GoTo ErrorHandler
+	
+	Dim sFileURL As String
+	sFileURL = ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension)
 
 	&apos; insert the Bitmap
 	If (iDocumentType = 0) Then  &apos; we are in Writer
@@ -953,9 +959,9 @@ Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, sAddition
 		Case &quot;com.sun.star.drawing.SvxShapeCollection&quot;  &apos; OLy &lt; 0.4 in Writer or inserted &quot;via clipboard&quot;
 			If bFirstCall Then oCurrentGraphicObject(0).getParent().remove(oCurrentGraphicObject(0)) &apos; Delete old OLyObject
 			If Not IsNull (oCurrentCursor) Then
-				oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), oCurrentCursor, true)
+				oGraphic = ImportBitmapIntoWriter (sFileURL, oCurrentCursor, true)
 			Else &apos; should never be the case
-				oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), oCurrentGraphicObject(0), true)
+				oGraphic = ImportBitmapIntoWriter (sFileURL, oCurrentGraphicObject(0), true)
 			End If
 			oGraphic.VertOrient = 0
 			if bShapeIsSelected And (iAnchor = iOriginalAnchor) And Not IsNull (oShapePosition) Then
@@ -970,19 +976,19 @@ Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, sAddition
 
 		Case &quot;SwXTextGraphicObject&quot; &apos; Graphic is selected in Writer
 			If bFirstCall Then
-				oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), oCurrentGraphicObject, false)
+				oGraphic = ImportBitmapIntoWriter (sFileURL, oCurrentGraphicObject, false)
 				If Not IsNull (oCurrentCursor) Then oCurrentCursor.goRight (1, false)
 			Else
 				If Not IsNull (oCurrentCursor) Then
-					oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), oCurrentCursor, true)
+					oGraphic = ImportBitmapIntoWriter (sFileURL, oCurrentCursor, true)
 				Else
-					oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), oCurrentGraphicObject, true)
+					oGraphic = ImportBitmapIntoWriter (sFileURL, oCurrentGraphicObject, true)
 				End If
 			End If
 			oGraphic.VertOrient = 0
 			
 		Case &quot;SwXTextRanges&quot; &apos; Nothing or normal text selection in Writer
-			oGraphic = ImportBitmapIntoWriter (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), oCurrentCursor, false)
+			oGraphic = ImportBitmapIntoWriter (sFileURL, oCurrentCursor, false)
 			oGraphic.VertOrient = 0
 
 		End Select
@@ -1006,14 +1012,14 @@ Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, sAddition
 
 		If  IsNull (oCurrentGraphicObject) Then
 			&apos; Nothing is selected
-			oGraphic = ImportBitmapIntoDraw (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension))
+			oGraphic = ImportBitmapIntoDraw (sFileURL)
 		Else
 			sImplementationName = oCurrentGraphicObject.getImplementationName()
 			If (sImplementationName = &quot;ScCellObj&quot;) or (sImplementationName = &quot;ScCellRangeObj&quot;) Then &apos; Cell or cell range in Calc selected, but no graphic object
-				oGraphic = ImportBitmapIntoDraw (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension))
+				oGraphic = ImportBitmapIntoDraw (sFileURL)
 			Else
 				&apos; OlyObject is selected
-				oGraphic = ImportBitmapIntoDraw (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), oCurrentGraphicObject.getByIndex(0))
+				oGraphic = ImportBitmapIntoDraw (sFileURL, oCurrentGraphicObject.getByIndex(0))
 			End If
 		End If
 		If (iDocumentType = 1) then   &apos; in Calc
