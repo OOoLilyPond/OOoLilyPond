@@ -822,7 +822,7 @@ Sub AttachAttributes (oGraphic As Object, sIdentifier As String, sImageNum As St
 End Sub
 
 
-Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As String, sAddition As String, bFirstCall As Boolean)
+Sub InsertFileURLObjectViaClipboard (sFileURL As String, sIdentifier As String, sNumber As String, bFirstCall As Boolean)
 	&apos; Dim oDoc, oDocCtrl
 	Dim oDispatcher As Object
 	Dim oAttributes As Object
@@ -831,9 +831,6 @@ Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As Strin
 	Dim oLilyPondAttribute As Object
 	Dim oText as Object
 	
-	Dim sFileURL As String
-	sFileURL = ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension)
-		
 	oDispatcher = createUnoService(&quot;com.sun.star.frame.DispatchHelper&quot;)
 
 	if (iDocumentType = 0) then  &apos; we are in Writer
@@ -938,7 +935,14 @@ Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As Strin
 End Sub
 
 
-Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, sAddition As String, bFirstCall)
+Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As String, sAddition As String, bFirstCall As Boolean)
+	&apos; bFirstCall: (True)  = existing object is replaced
+	&apos;			  (False) = new object is created
+	InsertFileURLObjectViaClipboard (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), sIdentifier, sNumber, bFirstCall)
+End Sub
+
+
+Sub InsertFileURLObject (sFileURL As String, sIdentifier As String, sNumber As String, bFirstCall As Boolean)
 	&apos; bFirstCall: (True)  = existing object is replaced
 	&apos;			  (False) = new object is created
 	Dim oAttributes As Object
@@ -949,9 +953,6 @@ Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, sAddition
 	
 	On Error GoTo ErrorHandler
 	
-	Dim sFileURL As String
-	sFileURL = ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension)
-
 	&apos; insert the Bitmap
 	If (iDocumentType = 0) Then  &apos; we are in Writer
 
@@ -1054,6 +1055,12 @@ Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, sAddition
 
 End Sub
 
+
+Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, sAddition As String, bFirstCall As Boolean)
+	&apos; bFirstCall: (True)  = existing object is replaced
+	&apos;			  (False) = new object is created
+	InsertFileURLObject (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), sIdentifier, sNumber, bFirstCall)
+End Sub
 
 
 Function ReadAttributes( oShape As Object ) As Boolean
