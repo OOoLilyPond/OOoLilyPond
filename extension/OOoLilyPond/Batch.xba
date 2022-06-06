@@ -380,6 +380,74 @@ Function MeetsCondition (sID As String) As Boolean
 End Function
 
 
+Sub ExchangeTemplate ()
+&apos; If a Batch operation changes the template name, it is necessary to know which fields were in use. 
+&apos; Any field that has not been used by the old template must be filled with its default value. 
+
+	Dim bStaffSizeFieldWasThere as Boolean
+	bStaffSizeFieldWasThere = bStaffSizeFieldExists
+	Dim bLineWidthFieldWasThere as Boolean
+	bLineWidthFieldWasThere = bLineWidthFieldExists
+	Dim bCustom1FieldWasThere as Boolean
+	bCustom1FieldWasThere = bCustom1FieldExists
+	Dim bCustom2FieldWasThere as Boolean
+	bCustom2FieldWasThere = bCustom2FieldExists
+	Dim bCustom3FieldWasThere as Boolean
+	bCustom3FieldWasThere = bCustom3FieldExists
+	Dim bCustom4FieldWasThere as Boolean
+	bCustom4FieldWasThere = bCustom4FieldExists
+	Dim bOption1FieldWasThere as Boolean
+	bOption1FieldWasThere = bOption1FieldExists
+	Dim bOption2FieldWasThere as Boolean
+	bOption2FieldWasThere = bOption2FieldExists
+	Dim bOption3FieldWasThere as Boolean
+	bOption3FieldWasThere = bOption3FieldExists
+	Dim bOption4FieldWasThere as Boolean
+	bOption4FieldWasThere = bOption4FieldExists
+
+	ReadTemplate (True)
+	
+	if bStaffSizeFieldExists and (not bStaffSizeFieldWasThere) Then
+		sStaffSize = sEditorDefaultStaffSize
+		bUseDefaultStaffSize = True
+	end if
+	if bLineWidthFieldExists and (not bLineWidthFieldWasThere) Then
+		sLineWidth = sEditorDefaultLineWidth
+		bUseDefaultLineWidth = True
+	end if
+	if bCustom1FieldExists and (not bCustom1FieldWasThere) Then
+		sCustom1 = sDefaultCustom1
+		bUseDefaultCustom1 = True
+	end if
+	if bCustom2FieldExists and (not bCustom2FieldWasThere) Then
+		sCustom2 = sDefaultCustom2
+		bUseDefaultCustom2 = True
+	end if
+	if bCustom3FieldExists and (not bCustom3FieldWasThere) Then
+		sCustom3 = sDefaultCustom3
+		bUseDefaultCustom3 = True
+	end if
+	if bCustom4FieldExists and (not bCustom4FieldWasThere) Then
+		sCustom4 = sDefaultCustom4
+		bUseDefaultCustom4 = True
+	end if
+	if bOption1FieldExists and (not bOption1FieldWasThere) Then
+		bOption1 = bDefaultOption1
+	end if
+	if bOption2FieldExists and (not bOption2FieldWasThere) Then
+		bOption2 = bDefaultOption2
+	end if
+	if bOption3FieldExists and (not bOption3FieldWasThere) Then
+		bOption3 = bDefaultOption3
+	end if
+	if bOption4FieldExists and (not bOption4FieldWasThere) Then
+		bOption4 = bDefaultOption4
+	end if
+	
+	
+End Sub
+
+
 Sub PerformReplacement (sID As String)
 &apos; Perform the changes set in a rule in the Batch dialogue.
 &apos; sID = &quot;A&quot;: rule 1
@@ -461,7 +529,7 @@ Sub PerformReplacement (sID As String)
 			bUseDefaultCustom4 = False
 		Case &quot;Template name&quot;
 			sTemplate = sReplaceString
-			ReadTemplate (True)
+			ExchangeTemplate ()
 		Case &quot;Option 1&quot;
 			If bOption1FieldExists Then bOption1 = LyStringToBool (sReplaceString)
 		Case &quot;Option 2&quot;
@@ -504,7 +572,7 @@ Sub PerformReplacement (sID As String)
 			bUseDefaultCustom4 = False
 		Case &quot;Template name&quot;
 			ReplaceSubStrings (sTemplate, oBatchDialog.getControl (&quot;sSearch_&quot; &amp; sID).getText(), sReplaceString, iSearchMode)
-			ReadTemplate (True)
+			ExchangeTemplate ()
 		&apos; &quot;Option 1&quot; ... &quot;Option 4&quot; not available
 		End Select
 		Exit Sub

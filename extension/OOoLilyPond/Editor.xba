@@ -655,7 +655,7 @@ Sub TemplateChanged()
 		If bUseDefaultCustom3 Then UseDefaultCustom3()
 		If bUseDefaultCustom4 Then UseDefaultCustom4()
 		
-		UseDefaultOptions()   &apos; better don&apos;t do that?
+		&apos; UseDefaultOptions()   &apos; better don&apos;t do that?
 
 		GreyOut()
 	End If
