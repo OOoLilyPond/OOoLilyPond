@@ -625,7 +625,7 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
  	 		iErrNum = 1
   			DisplayError()
  		End If
-  		&apos; Exit Sub	&apos; Don not quit anymore, instead use a default &quot;OLy&quot; image for AttachAttributes()
+  		&apos; Exit Sub	&apos; Do not quit anymore, instead use a default &quot;OLy&quot; image for AttachAttributes()
  	End If
  	
 	If (iDocumentType = 0) Then	&apos; We are in Writer...
