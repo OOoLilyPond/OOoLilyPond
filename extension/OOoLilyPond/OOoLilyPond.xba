@@ -625,7 +625,7 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
  	 		iErrNum = 1
   			DisplayError()
  		End If
-  		Exit Sub
+  		&apos; Exit Sub	&apos; Don not quit anymore, instead use a default &quot;OLy&quot; image for AttachAttributes()
  	End If
  	
 	If (iDocumentType = 0) Then	&apos; We are in Writer...
@@ -671,7 +671,7 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 			EraseImageSiblings ()
 		End If
 		
-		If bSaveAsSeparateImages Then
+		If bSaveAsSeparateImages and (not bNoFileCreated) Then   &apos; no OLyDefault-image needed...
 
 			sIdentifier = TimeStamp ()
 			iImageNum = iFirstImageNum
@@ -699,19 +699,35 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 				iImageNum = iImageNum + 1
 				sImageNum = &quot;-&quot; &amp; CStr (iImageNum)
 			Loop
-		Else	&apos; not bSaveAsSeparateImages
+		Else	&apos; i.e. (not bSaveAsSeparateImages) or bNoFileCreated
 			If bInsertViaClipboard (0) Then
-				InsertOOoLilyPondObjectViaClipboard (&quot;&quot;, &quot;&quot;, sFileNameAddition, true)
+				If bNoFileCreated Then
+					InsertDefaultImageObjectViaClipboard (true)
+				Else
+					InsertOOoLilyPondObjectViaClipboard (&quot;&quot;, &quot;&quot;, sFileNameAddition, true)
+				End If
 			Else
-				InsertOOoLilyPondObject (&quot;&quot;, &quot;&quot;, sFileNameAddition, true)
+				If bNoFileCreated Then
+					InsertDefaultImageObject (true)
+				Else
+					InsertOOoLilyPondObject (&quot;&quot;, &quot;&quot;, sFileNameAddition, true)
+				End If
 			End If
 		End If
 	Else				&apos; We are in Calc of Impress or Draw...
 		If bInsertViaClipboard (iDocumentType) Then
-			InsertOOoLilyPondObjectViaClipboard (&quot;&quot;, &quot;&quot;, sFileNameAddition, true)
-		Else
-			InsertOOoLilyPondObject (&quot;&quot;, &quot;&quot;, sFileNameAddition, true)
-		End If
+			If bNoFileCreated Then
+					InsertDefaultImageObjectViaClipboard (true)
+				Else
+					InsertOOoLilyPondObjectViaClipboard (&quot;&quot;, &quot;&quot;, sFileNameAddition, true)
+				End If
+			Else
+				If bNoFileCreated Then
+					InsertDefaultImageObject (true)
+				Else
+					InsertOOoLilyPondObject (&quot;&quot;, &quot;&quot;, sFileNameAddition, true)
+				End If
+			End If
 	End If
 	
 	If Not bKeepTempFiles Then CleanUpAfterwards()
@@ -935,13 +951,6 @@ Sub InsertFileURLObjectViaClipboard (sFileURL As String, sIdentifier As String, 
 End Sub
 
 
-Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As String, sAddition As String, bFirstCall As Boolean)
-	&apos; bFirstCall: (True)  = existing object is replaced
-	&apos;			  (False) = new object is created
-	InsertFileURLObjectViaClipboard (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), sIdentifier, sNumber, bFirstCall)
-End Sub
-
-
 Sub InsertFileURLObject (sFileURL As String, sIdentifier As String, sNumber As String, bFirstCall As Boolean)
 	&apos; bFirstCall: (True)  = existing object is replaced
 	&apos;			  (False) = new object is created
@@ -1056,10 +1065,35 @@ Sub InsertFileURLObject (sFileURL As String, sIdentifier As String, sNumber As S
 End Sub
 
 
+Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As String, sAddition As String, bFirstCall As Boolean)
+	&apos; bFirstCall: (True)  = existing object is replaced
+	&apos;			  (False) = new object is created
+	InsertFileURLObjectViaClipboard (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), sIdentifier, sNumber, bFirstCall)
+End Sub
+
+
 Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, sAddition As String, bFirstCall As Boolean)
 	&apos; bFirstCall: (True)  = existing object is replaced
 	&apos;			  (False) = new object is created
 	InsertFileURLObject (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), sIdentifier, sNumber, bFirstCall)
+End Sub
+
+
+Sub InsertDefaultImageObjectViaClipboard (bFirstCall As Boolean)
+	&apos; bFirstCall: (True)  = existing object is replaced
+	&apos;			  (False) = new object is created
+	Dim sDefaultImagePath As String
+	sDefaultImagePath = GetOlyPckPath () &amp; &quot;Default-Images/&quot;
+	InsertFileURLObjectViaClipboard (ConvertToURL (sDefaultImagePath &amp; &quot;OLyDefault.&quot; &amp; sExtension), &quot;&quot;, &quot;&quot;, bFirstCall)
+End Sub
+
+
+Sub InsertDefaultImageObject (bFirstCall As Boolean)
+	&apos; bFirstCall: (True)  = existing object is replaced
+	&apos;			  (False) = new object is created
+	Dim sDefaultImagePath As String
+	sDefaultImagePath = GetOlyPckPath () &amp; &quot;Default-Images/&quot;
+	InsertFileURLObject (ConvertToURL (sDefaultImagePath &amp; &quot;OLyDefault.&quot; &amp; sExtension), &quot;&quot;, &quot;&quot;, bFirstCall)
 End Sub
 
 
