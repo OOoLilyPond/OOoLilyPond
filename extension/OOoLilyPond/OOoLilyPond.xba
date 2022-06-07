@@ -744,7 +744,7 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
  	End If
 
 	&apos; Close the dialog
-	If Not bSilent Then oEditorDialog.endExecute()
+	If (not bSilent) and (not bNoFileCreated) Then oEditorDialog.endExecute()
 	
 	Exit Sub
 	
