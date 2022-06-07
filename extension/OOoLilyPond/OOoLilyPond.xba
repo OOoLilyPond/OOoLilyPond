@@ -555,9 +555,7 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 	If Not CallLilyPond() Then 
 		Exit Sub
 	End If
-	
-	
-	
+
 
   	ParseOutput(sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;)
   	
@@ -632,9 +630,9 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 	
 		oCurrentCursor = GetCursorForWriter (oCurrentGraphicObject)
 		
-		If bSaveAsSeparateImages Then
+		If bSaveAsSeparateImages and (not bNoFileCreated) Then
 			ConvertSeparateImageFiles ()
-			&apos; abort if no OOoLilyPond-1 image file exists
+			&apos; check if no OOoLilyPond-1 image file exists
 			If Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; &quot;-1.&quot; &amp; sExtension) Then
  				&apos; MsgBox(&quot;No eps output is found&quot;, 0, &quot;Error&quot;)
  				MsgBox (oMessages.getPropertyValue (&quot;sMsgNoFirstFileFound&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
@@ -644,8 +642,12 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
  			 		iErrNum = 1
   					DisplayError()
  				End If
- 				Exit Sub
+ 				&apos; Exit Sub   &apos; don&apos;t quit anymore, but remember the problem:
+ 				bNoFileCreated = true
  			End If
+ 		End If
+ 		
+ 		If bSaveAsSeparateImages and (not bNoFileCreated) Then
  			If iFrom &lt; 2 Then
  				iFirstImageNum = 1
  			Else
@@ -663,7 +665,8 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
  			 		iErrNum = 1
   					DisplayError()
  				End If
- 				Exit Sub
+ 				&apos; Exit Sub   &apos; don&apos;t quit anymore, but remember the problem:
+ 				bNoFileCreated = true
  			End If
 		End If
 
@@ -1083,8 +1086,17 @@ Sub InsertDefaultImageObjectViaClipboard (bFirstCall As Boolean)
 	&apos; bFirstCall: (True)  = existing object is replaced
 	&apos;			  (False) = new object is created
 	Dim sDefaultImagePath As String
+	Dim sIdentifier As String
+	Dim sNumber As String
+	if bSaveAsSeparateImages then
+		sIdentifier = TimeStamp ()
+		sNumber = &quot;-1&quot;
+	else
+		sIdentifier = &quot;&quot;
+		sNumber = &quot;&quot;
+	end if
 	sDefaultImagePath = GetOlyPckPath () &amp; &quot;Default-Images/&quot;
-	InsertFileURLObjectViaClipboard (ConvertToURL (sDefaultImagePath &amp; &quot;OLyDefault.&quot; &amp; sExtension), &quot;&quot;, &quot;&quot;, bFirstCall)
+	InsertFileURLObjectViaClipboard (ConvertToURL (sDefaultImagePath &amp; &quot;OLyDefault.&quot; &amp; sExtension), sIdentifier, sNumber, bFirstCall)
 End Sub
 
 
@@ -1092,8 +1104,17 @@ Sub InsertDefaultImageObject (bFirstCall As Boolean)
 	&apos; bFirstCall: (True)  = existing object is replaced
 	&apos;			  (False) = new object is created
 	Dim sDefaultImagePath As String
+	Dim sIdentifier As String
+	Dim sNumber As String
+	if bSaveAsSeparateImages then
+		sIdentifier = TimeStamp ()
+		sNumber = &quot;-1&quot;
+	else
+		sIdentifier = &quot;&quot;
+		sNumber = &quot;&quot;
+	end if
 	sDefaultImagePath = GetOlyPckPath () &amp; &quot;Default-Images/&quot;
-	InsertFileURLObject (ConvertToURL (sDefaultImagePath &amp; &quot;OLyDefault.&quot; &amp; sExtension), &quot;&quot;, &quot;&quot;, bFirstCall)
+	InsertFileURLObject (ConvertToURL (sDefaultImagePath &amp; &quot;OLyDefault.&quot; &amp; sExtension), sIdentifier, sNumber, bFirstCall)
 End Sub
 
 
