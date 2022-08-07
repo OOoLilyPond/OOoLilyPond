@@ -186,29 +186,34 @@ Sub DrawTabButton ()
 End Sub
 
 
+Function GetOlyPckPath () As String
+	&apos; This function is built upon CopyTemplates()
+
+	Dim sPkgPath As String &apos; Path to the OOoLilyPond extension package
+	
+	&apos; Get the package path
+	sPkgPath=GetPackagePath(&quot;net.sourceforge.ooolilypond&quot;)
+	
+	&apos; Expand env variables in path using MacroExpander...
+	Dim oCtx as object
+	Dim oMacroExpander as object
+	oCtx = getProcessServiceManager().DefaultContext
+	oMacroExpander = oCtx.getValueByName (&quot;/singletons/com.sun.star.util.theMacroExpander&quot;)
+	GetOlyPckPath = AddSlash (oMacroExpander.ExpandMacros (sPkgPath))
+End Function
+
 
 Sub CopyTemplates()
 	&apos; Copy original templates to the user templates dir.
 	&apos; User template files are backed up in a subfolder.
 
-	Dim sPkgPath As String &apos; Path to the OOoLilyPond extension package
 	Dim sTemplateSourcePath As String &apos; Path within sPkgPath where the original templates are located
 	Dim sBackupPath As String &apos; Backup Dir for existing user templates
 	Dim sFiles As Variant &apos; String Array, output of oFileAccess.getFolderContents()
 	Dim i As Integer
 
-   	&apos; Get the package path
-   	sPkgPath=GetPackagePath(&quot;net.sourceforge.ooolilypond&quot;)
-
-	&apos; Expand env variables in path using MacroExpander...
-	Dim oCtx as object
-	Dim oMacroExpander as object
-	oCtx = getProcessServiceManager().DefaultContext
-	oMacroExpander = oCtx.getValueByName(&quot;/singletons/com.sun.star.util.theMacroExpander&quot;)
-	sPkgPath = AddSlash(oMacroExpander.ExpandMacros(sPkgPath))
-
 	&apos;Set the template source path
-	sTemplateSourcePath = sPkgPath &amp; &quot;templates/2.12/&quot;
+	sTemplateSourcePath = GetOlyPckPath () &amp; &quot;templates/2.12/&quot;
 
 	&apos; Check the destination template path, try to create it.
 	If Not oFileAccess.isFolder(sTemplatePath) Then
@@ -256,24 +261,14 @@ Sub CopyLanguageFiles()
 	&apos; User language files are backed up in a subfolder.
 	&apos; This function is built upon CopyTemplates()
 
-	Dim sPkgPath As String &apos; Path to the OOoLilyPond extension package
+	
 	Dim sLanguageSourcePath As String &apos; Path within sPkgPath where the original language files are located
 	Dim sBackupPath As String &apos; Backup Dir for existing user language files
 	Dim sFiles As Variant &apos; String Array, output of oFileAccess.getFolderContents()
 	Dim i As Integer
 
-   	&apos; Get the package path
-   	sPkgPath=GetPackagePath(&quot;net.sourceforge.ooolilypond&quot;)
-
-	&apos; Expand env variables in path using MacroExpander...
-	Dim oCtx as object
-	Dim oMacroExpander as object
-	oCtx = getProcessServiceManager().DefaultContext
-	oMacroExpander = oCtx.getValueByName(&quot;/singletons/com.sun.star.util.theMacroExpander&quot;)
-	sPkgPath = AddSlash(oMacroExpander.ExpandMacros(sPkgPath))
-
 	&apos;Set the language source path
-	sLanguageSourcePath = sPkgPath &amp; &quot;Language/&quot;
+	sLanguageSourcePath = GetOlyPckPath () &amp; &quot;Language/&quot;
 
 	&apos; Check the destination language path, try to create it.
 	If Not oFileAccess.isFolder(sLanguagePath) Then
