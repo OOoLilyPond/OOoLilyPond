@@ -1126,6 +1126,7 @@ End Sub
 
 Sub ConfigOKButton
 	Dim sCommand As String
+	Dim bNoLyVersionYet As Boolean
 
 	&apos;Read the values from the dialog
 	ApplyConfig()
@@ -1144,10 +1145,21 @@ Sub ConfigOKButton
 	
 	&apos;Read translation strings from language file, in case another language has been chosen
 	&apos; ReadLanguageFile()	&apos; already called at the end of ApplyConfig()
-
+	
+	bNoLyVersionYet = (sLilyPondVersionMajor = &quot;&quot;) &apos; LilyPond has never been (successfully) called yet
+	
 	&apos;Check wheter LilyPond can be executed and get version
 	LilyPondVersion()
 	bLy_2_23_5_OrLater = LyVersionIsAtLeast (2, 23, 5)
+
+	&apos; If this is the first time a Ly version is detected, check if 2.23.12 or later. 
+	&apos; If (and ONLY if) yes, change image format &quot;png&quot; to &quot;svg [cairo]&quot; as better default
+	&apos; (even if this might once ingore the user&apos;s &quot;png&quot; choice...)
+	If bNoLyVersionYet And LyVersionIsAtLeast (2, 23, 12) And (sFormat = &quot;png&quot;) Then
+		&apos; set default image format to &quot;svg [cairo]&quot; instead of &quot;png&quot;
+		sFormat = &quot;svg [cairo]&quot;
+		sExtension = &quot;svg&quot;
+	End If
 	
 	&apos;Save the values to file and close dialog
 	SaveConfig()
