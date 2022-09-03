@@ -94,7 +94,7 @@ Sub OOoLilyPondInit()
 				sFormat = &quot;svg [cairo]&quot;
 				sExtension = &quot;svg&quot;
 			End If
-			CopyTemplates()
+			If Not oFileAccess.isFolder(sTemplatePath) Then CopyTemplates() &apos; copy templates only if missing (don&apos;t replace existing ones)
 			SaveConfig()
 		Else
 			&apos; MsgBox(&quot;LilyPond can not be found. Please check whether LilyPond is properly installed&quot; &amp; Chr(10) _
