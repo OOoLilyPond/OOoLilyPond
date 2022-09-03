@@ -198,7 +198,7 @@ Sub GreyOut()
 
 	bWrapSettings = (Not oEditorDialog.getControl(&quot;AnchorAsCharacter&quot;).getState()) And (iDocumentType = 0)
 	bEnableSeparateImages = oEditorDialog.getControl(&quot;AnchorAsCharacter&quot;).getState() And (iDocumentType = 0) And _
-		(sFormat = &quot;eps&quot; Or sFormat = &quot;pdf to svg&quot; Or sFormat = &quot;pdf&quot; Or ((sFormat = &quot;png&quot;) And bLy_2_23_5_OrLater) )  &apos; hopefully one day &quot;pdf&quot; will come true
+		(sFormat = &quot;eps&quot; Or sFormat = &quot;pdf to svg&quot; Or sFormat = &quot;svg [cairo]&quot; Or sFormat = &quot;pdf&quot; Or ((sFormat = &quot;png&quot;) And bLy_2_23_5_OrLater) )  &apos; hopefully one day &quot;pdf&quot; will come true
 
 	&apos; grey out Anchor and Wrap radio buttons when we are not in Writer
 	oEditorDialog.getControl(&quot;AnchorFrameControl&quot;).setEnable (iDocumentType = 0)
