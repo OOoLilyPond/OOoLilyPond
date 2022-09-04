@@ -22,7 +22,7 @@ Changes to OOoLilyPond 1.1.6 since 1.1.5 (September 2022):
     (In prior versions, no image was inserted and the snippet code was lost when the OLy editor window was closed.)
 * small bug fixes
 
-This release includes some changes to the language files. So, after updating to 1.1.0, please open the config dialog and click the "Restore language files" button. 
+This release includes some changes to the language files. So, after updating to 1.1.6, please open the config dialog and click the "Restore language files" button. 
 (Your current language files will be backed up in a subfolder. If you like, you can delete that subfolder.)
 
 OLy 1.1.6 is still published as development version. 
