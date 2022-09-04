@@ -14,7 +14,8 @@ Changes to OOoLilyPond 1.1.6 since 1.1.5 (September 2022):
     LilyPond 2.23.12 has a new option to use the cairo backend. 
     This allows to get SVG images without external conversion software. It can be an easier alternative to the "pdf to svg" format. 
     OLy supports that if you choose the new "svg [cairo]" format option from the config dialog. 
-    If installed for the first time, OLy will choose "svg [cairo]" as default format if Ly 2.23.12 or later is detected.
+    If installed for the first time, OLy will choose "svg [cairo]" as default format 
+    instead of "png" if Ly 2.23.12 or later is detected.
     
 * Improvement: Insert default "OLy" image if no LilyPond output available
     If LilyPond cannot produce an image due to severe errors in the snippet code, a default "OLy" image is inserted into the document. 
@@ -22,7 +23,9 @@ Changes to OOoLilyPond 1.1.6 since 1.1.5 (September 2022):
 * small bug fixes
 
 OLy 1.1.6 is still published as development version. 
-It will be released as a regular version if everything works as expected (in particular: if the cairo backend from Ly 2.23.12 remains part of all future versions).
+It will be released as a regular version if everything works as expected 
+(in particular: if the cairo backend from Ly 2.23.12 remains part of all future versions).
+
 
 
 Changes to OOoLilyPond 1.1.5 since 1.1.4 (March 2022):
