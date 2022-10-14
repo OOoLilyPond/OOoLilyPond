@@ -89,7 +89,12 @@ Sub OOoLilyPondInit()
 	&apos; Copy Templates If needed
 	If sLilyPondVersionMajor=&quot;&quot; Then &apos; LilyPond has never been (successfully) called yet
 		If LilyPondVersion() Then
-			CopyTemplates()
+			If LyVersionIsAtLeast (2, 23, 12) Then
+				&apos; set default image format to &quot;svg [cairo]&quot; instead of &quot;png&quot;
+				sFormat = &quot;svg [cairo]&quot;
+				sExtension = &quot;svg&quot;
+			End If
+			If Not oFileAccess.isFolder(sTemplatePath) Then CopyTemplates() &apos; copy templates only if missing (don&apos;t replace existing ones)
 			SaveConfig()
 		Else
 			&apos; MsgBox(&quot;LilyPond can not be found. Please check whether LilyPond is properly installed&quot; &amp; Chr(10) _
