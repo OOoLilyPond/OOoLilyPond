@@ -50,7 +50,7 @@ ScTableColumnObj
 	Rows (ScTableRowsObj)
 
 
-SwXTextGraphicObject
+SwXTextGraphicObject			WRITER
 	ActualSize (com.sun.star.awt.Size)
 		Width  (Long)  5
 		Height (Long)  5
@@ -74,7 +74,26 @@ SwXTextGraphicObject
 		Height (Long)  5
 
 
-SwXShapeText
+com.sun.star.comp.sc.ScShapeObj		CALC
+	FrameRect (com.sun.star.awt.Rectangle)
+		Width  (Long)  7
+		Height (Long)  7
+	Graphic (com.sun.star.comp.graphic.Graphic)
+		SizePixel		(com.sun.star.awt.Size)
+			Width  (Long)  0
+			Height (Long)  0
+		Size100thMM		(com.sun.star.awt.Size)
+			Width  (Long)  6
+			Height (Long)  6
+		Size			(com.sun.star.awt.Size)
+			Width  (Long)  0
+			Height (Long)  0
+	Size (com.sun.star.awt.Size)
+		Width  (Long)  6
+		Height (Long)  6
+
+
+SvXShapeText				IMPRESS, DRAW
 	FrameRect (com.sun.star.awt.Rectangle)
 		Width  (Long)  10
 		Height (Long)  10
@@ -91,3 +110,4 @@ SwXShapeText
 	Size (com.sun.star.awt.Size)
 		Width  (Long)  9
 		Height (Long)  9
+
