@@ -725,17 +725,17 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 	Else				&apos; We are in Calc of Impress or Draw...
 		If bInsertViaClipboard (iDocumentType) Then
 			If bNoFileCreated Then
-					InsertDefaultImageObjectViaClipboard (true)
-				Else
-					InsertOOoLilyPondObjectViaClipboard (&quot;&quot;, &quot;&quot;, sFileNameAddition, true)
-				End If
+				InsertDefaultImageObjectViaClipboard (true)
 			Else
-				If bNoFileCreated Then
-					InsertDefaultImageObject (true)
-				Else
-					InsertOOoLilyPondObject (&quot;&quot;, &quot;&quot;, sFileNameAddition, true)
-				End If
+				InsertOOoLilyPondObjectViaClipboard (&quot;&quot;, &quot;&quot;, sFileNameAddition, true)
 			End If
+		Else
+			If bNoFileCreated Then
+				InsertDefaultImageObject (true)
+			Else
+					InsertOOoLilyPondObject (&quot;&quot;, &quot;&quot;, sFileNameAddition, true)
+			End If
+		End If
 	End If
 	
 	If Not bKeepTempFiles Then CleanUpAfterwards()
@@ -1080,6 +1080,22 @@ End Function
 
 Function GetDefaultImageFileName () As String
 	GetDefaultImageFileName = GetOlyPckPath () &amp; &quot;Default-Images/&quot; &amp; &quot;OLyDefault.&quot; &amp; sExtension
+End Function
+
+
+Function IsEmptyImage  (oGraphic As Object) As Boolean
+	Dim Height As Long
+	Dim Width As Long
+	IsEmptyImage = False
+	If oGraphic.hasByName (&quot;Graphic&quot;) Then
+		Height = oGraphic.Graphic.Size100thMM.Height
+		Width  = oGraphic.Graphic.Size100thMM.Width
+		
+		Select Case oGraphic.getImplementationName()		
+		Case &quot;SwXTextGraphicObject&quot;
+		Case &quot;SwXShapeText&quot;  
+		End Select
+	End If
 End Function
 
 
