@@ -1073,6 +1073,12 @@ Sub InsertFileURLObject (sFileURL As String, sIdentifier As String, sNumber As S
 End Sub
 
 
+Function GetDefaultImageFileName () As String
+
+	GetDefaultImageFileName = GetOlyPckPath () &amp; &quot;Default-Images/&quot; &amp; &quot;OLyDefault.&quot; &amp; sExtension
+End Function
+
+
 Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As String, sAddition As String, bFirstCall As Boolean)
 	&apos; bFirstCall: (True)  = existing object is replaced
 	&apos;			  (False) = new object is created
@@ -1090,7 +1096,6 @@ End Sub
 Sub InsertDefaultImageObjectViaClipboard (bFirstCall As Boolean)
 	&apos; bFirstCall: (True)  = existing object is replaced
 	&apos;			  (False) = new object is created
-	Dim sDefaultImagePath As String
 	Dim sIdentifier As String
 	Dim sNumber As String
 	if bSaveAsSeparateImages then
@@ -1100,15 +1105,13 @@ Sub InsertDefaultImageObjectViaClipboard (bFirstCall As Boolean)
 		sIdentifier = &quot;&quot;
 		sNumber = &quot;&quot;
 	end if
-	sDefaultImagePath = GetOlyPckPath () &amp; &quot;Default-Images/&quot;
-	InsertFileURLObjectViaClipboard (ConvertToURL (sDefaultImagePath &amp; &quot;OLyDefault.&quot; &amp; sExtension), sIdentifier, sNumber, bFirstCall)
+	InsertFileURLObjectViaClipboard (ConvertToURL (GetDefaultImageFileName), sIdentifier, sNumber, bFirstCall)
 End Sub
 
 
 Sub InsertDefaultImageObject (bFirstCall As Boolean)
 	&apos; bFirstCall: (True)  = existing object is replaced
 	&apos;			  (False) = new object is created
-	Dim sDefaultImagePath As String
 	Dim sIdentifier As String
 	Dim sNumber As String
 	if bSaveAsSeparateImages then
@@ -1118,8 +1121,7 @@ Sub InsertDefaultImageObject (bFirstCall As Boolean)
 		sIdentifier = &quot;&quot;
 		sNumber = &quot;&quot;
 	end if
-	sDefaultImagePath = GetOlyPckPath () &amp; &quot;Default-Images/&quot;
-	InsertFileURLObject (ConvertToURL (sDefaultImagePath &amp; &quot;OLyDefault.&quot; &amp; sExtension), sIdentifier, sNumber, bFirstCall)
+	InsertFileURLObject (ConvertToURL (GetDefaultImageFileName ()), sIdentifier, sNumber, bFirstCall)
 End Sub
 
 
