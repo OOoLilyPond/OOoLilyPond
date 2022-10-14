@@ -722,7 +722,7 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 				End If
 			End If
 		End If
-	Else				&apos; We are in Calc of Impress or Draw...
+	Else				&apos; We are in Calc or Impress or Draw...
 		If bInsertViaClipboard (iDocumentType) Then
 			If bNoFileCreated Then
 				InsertDefaultImageObjectViaClipboard (true)
@@ -733,7 +733,7 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 			If bNoFileCreated Then
 				InsertDefaultImageObject (true)
 			Else
-					InsertOOoLilyPondObject (&quot;&quot;, &quot;&quot;, sFileNameAddition, true)
+				InsertOOoLilyPondObject (&quot;&quot;, &quot;&quot;, sFileNameAddition, true)
 			End If
 		End If
 	End If
