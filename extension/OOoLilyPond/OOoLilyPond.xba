@@ -578,7 +578,7 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
  	End If
  
 	&apos;If there is no svg output
- 	If (sFormat = &quot;svg&quot; Or sFormat = &quot;svg [-dcrop]&quot;) And (Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; sFileNameAddition &amp; &quot;.svg&quot;)) Then
+ 	If (sFormat = &quot;svg&quot; Or sFormat = &quot;svg [-dcrop]&quot; Or sFormat = &quot;svg [cairo]&quot;) And (Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; sFileNameAddition &amp; &quot;.svg&quot;)) Then
  		&apos; MsgBox(&quot;No svg output is found&quot;, 0, &quot;Error&quot;)
  		MsgBox (oMessages.getPropertyValue (&quot;sMsgNoSvgOutputFound&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
  		bNoFileCreated = True
