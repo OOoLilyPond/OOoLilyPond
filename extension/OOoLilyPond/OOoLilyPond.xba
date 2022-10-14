@@ -1084,18 +1084,27 @@ End Function
 
 
 Function IsEmptyImage  (oGraphic As Object) As Boolean
+	&apos; If due to an error in Ly code no valid image can be produced, lilypond-book-preamble still produces a tiny empty image. 
+	&apos; This function tries to detect such images.
+	
 	Dim Height As Long
 	Dim Width As Long
 	IsEmptyImage = False
-	If oGraphic.hasByName (&quot;Graphic&quot;) Then
+	Select Case oGraphic.getImplementationName()		
+	Case &quot;SwXTextGraphicObject&quot;  &apos; Writer
 		Height = oGraphic.Graphic.Size100thMM.Height
 		Width  = oGraphic.Graphic.Size100thMM.Width
-		
-		Select Case oGraphic.getImplementationName()		
-		Case &quot;SwXTextGraphicObject&quot;
-		Case &quot;SwXShapeText&quot;  
-		End Select
-	End If
+		IsEmptyImage = (Height = 6) And (Width = 6)
+	Case &quot;SvXShapeText&quot;   &apos; Impress, Draw
+		Height = oGraphic.Graphic.Size100thMM.Height
+		Width  = oGraphic.Graphic.Size100thMM.Width
+		IsEmptyImage = (Height = 9) And (Width = 9)
+	Case &quot;com.sun.star.comp.sc.ScShapeObj&quot;  &apos; Calc
+		Height = oGraphic.Graphic.Size100thMM.Height
+		Width  = oGraphic.Graphic.Size100thMM.Width
+		IsEmptyImage = (Height = 6) And (Width = 6)
+	End Select
+
 End Function
 
 
@@ -1112,6 +1121,10 @@ Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, sAddition
 	&apos;			  (False) = new object is created
 	Dim oGraphic As Object
 	oGraphic = InsertFileURLObject (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), sIdentifier, sNumber, bFirstCall)
+	If IsEmptyImage (oGraphic) Then   &apos; invalid empty image?
+		&apos; insert DefaultImage instead
+		oGraphic = InsertFileURLObject (ConvertToURL (GetDefaultImageFileName ()), sIdentifier, sNumber, True)
+	End If
 End Sub
 
 
