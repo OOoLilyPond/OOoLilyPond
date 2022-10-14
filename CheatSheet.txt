@@ -48,4 +48,46 @@ ScCellRangeObj
 ScTableColumnObj
 	RangeAddress (com.sun.star.table.CellRangeAddress)
 	Rows (ScTableRowsObj)
-	
+
+
+SwXTextGraphicObject
+	ActualSize (com.sun.star.awt.Size)
+		Width  (Long)  5
+		Height (Long)  5
+	Graphic (com.sun.star.comp.graphic.Graphic)
+		SizePixel		(com.sun.star.awt.Size)
+			Width  (Long)  0
+			Height (Long)  0
+		Size100thMM		(com.sun.star.awt.Size)
+			Width  (Long)  6
+			Height (Long)  6
+		Size			(com.sun.star.awt.Size)
+			Width  (Long)  0
+			Height (Long)  0
+	Height  (Long)  41
+	Width   (Long)  5
+	LayoutSize (com.sun.star.awt.Size)
+		Width  (Long)  41
+		Height (Long)  41
+	Size (com.sun.star.awt.Size)
+		Width  (Long)  5
+		Height (Long)  5
+
+
+SwXShapeText
+	FrameRect (com.sun.star.awt.Rectangle)
+		Width  (Long)  10
+		Height (Long)  10
+	Graphic   (com.sun.star.comp.graphic.Graphic)
+		SizePixel		(com.sun.star.awt.Size)
+			Width  (Long)  0
+			Height (Long)  0
+		Size100thMM		(com.sun.star.awt.Size)
+			Width  (Long)  9
+			Height (Long)  9
+		Size			(com.sun.star.awt.Size)
+			Width  (Long)  0
+			Height (Long)  0
+	Size (com.sun.star.awt.Size)
+		Width  (Long)  9
+		Height (Long)  9
