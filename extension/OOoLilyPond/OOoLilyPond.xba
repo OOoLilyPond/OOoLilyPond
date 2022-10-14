@@ -846,7 +846,7 @@ Sub AttachAttributes (oGraphic As Object, sIdentifier As String, sImageNum As St
 End Sub
 
 
-Sub InsertFileURLObjectViaClipboard (sFileURL As String, sIdentifier As String, sNumber As String, bFirstCall As Boolean)
+Function InsertFileURLObjectViaClipboard (sFileURL As String, sIdentifier As String, sNumber As String, bFirstCall As Boolean)
 	&apos; Dim oDoc, oDocCtrl
 	Dim oDispatcher As Object
 	Dim oAttributes As Object
@@ -880,7 +880,8 @@ Sub InsertFileURLObjectViaClipboard (sFileURL As String, sIdentifier As String, 
 	  	If oGraphic.getImplementationName() = &quot;SwXTextRange&quot; Then
 	  		&apos; Now this should never happen again...
 	  		Msgbox (oMessages.getPropertyValue (&quot;sMsgPasteError&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
-	  		Exit Sub
+	  		InsertFileURLObjectViaClipboard = oGraphic
+	  		Exit Function
 	  	End If
 
 		&apos; set image properties
@@ -956,10 +957,11 @@ Sub InsertFileURLObjectViaClipboard (sFileURL As String, sIdentifier As String, 
 	end if
 	
 	AttachAttributes (oGraphic, sIdentifier, sNumber)
-End Sub
+	InsertFileURLObjectViaClipboard = oGraphic
+End Function
 
 
-Sub InsertFileURLObject (sFileURL As String, sIdentifier As String, sNumber As String, bFirstCall As Boolean)
+Function InsertFileURLObject (sFileURL As String, sIdentifier As String, sNumber As String, bFirstCall As Boolean)
 	&apos; bFirstCall: (True)  = existing object is replaced
 	&apos;			  (False) = new object is created
 	Dim oAttributes As Object
@@ -1058,7 +1060,9 @@ Sub InsertFileURLObject (sFileURL As String, sIdentifier As String, sNumber As S
 	oDocCtrl.select (oGraphic)
 	AttachAttributes (oGraphic, sIdentifier, sNumber)
 
-	Exit Sub
+	InsertFileURLObject = oGraphic
+	
+	Exit Function
 	
 	ErrorHandler:
 		Select Case Err
@@ -1068,13 +1072,13 @@ Sub InsertFileURLObject (sFileURL As String, sIdentifier As String, sNumber As S
 		Case Else
 			Msgbox (Error, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 		End Select
-	Exit Sub
+	InsertFileURLObject = oGraphic
+	Exit Function
 
-End Sub
+End Function
 
 
 Function GetDefaultImageFileName () As String
-
 	GetDefaultImageFileName = GetOlyPckPath () &amp; &quot;Default-Images/&quot; &amp; &quot;OLyDefault.&quot; &amp; sExtension
 End Function
 
@@ -1082,14 +1086,16 @@ End Function
 Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As String, sAddition As String, bFirstCall As Boolean)
 	&apos; bFirstCall: (True)  = existing object is replaced
 	&apos;			  (False) = new object is created
-	InsertFileURLObjectViaClipboard (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), sIdentifier, sNumber, bFirstCall)
+	Dim oGraphic As Object	
+	oGraphic = InsertFileURLObjectViaClipboard (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), sIdentifier, sNumber, bFirstCall)
 End Sub
 
 
 Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, sAddition As String, bFirstCall As Boolean)
 	&apos; bFirstCall: (True)  = existing object is replaced
 	&apos;			  (False) = new object is created
-	InsertFileURLObject (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), sIdentifier, sNumber, bFirstCall)
+	Dim oGraphic As Object
+	oGraphic = InsertFileURLObject (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), sIdentifier, sNumber, bFirstCall)
 End Sub
 
 
@@ -1098,6 +1104,7 @@ Sub InsertDefaultImageObjectViaClipboard (bFirstCall As Boolean)
 	&apos;			  (False) = new object is created
 	Dim sIdentifier As String
 	Dim sNumber As String
+	Dim oGraphic As Object &apos; here this is just a dummy
 	if bSaveAsSeparateImages then
 		sIdentifier = TimeStamp ()
 		sNumber = &quot;-1&quot;
@@ -1105,7 +1112,7 @@ Sub InsertDefaultImageObjectViaClipboard (bFirstCall As Boolean)
 		sIdentifier = &quot;&quot;
 		sNumber = &quot;&quot;
 	end if
-	InsertFileURLObjectViaClipboard (ConvertToURL (GetDefaultImageFileName ()), sIdentifier, sNumber, bFirstCall)
+	oGraphic = InsertFileURLObjectViaClipboard (ConvertToURL (GetDefaultImageFileName ()), sIdentifier, sNumber, bFirstCall)
 End Sub
 
 
@@ -1114,6 +1121,7 @@ Sub InsertDefaultImageObject (bFirstCall As Boolean)
 	&apos;			  (False) = new object is created
 	Dim sIdentifier As String
 	Dim sNumber As String
+	Dim oGraphic As Object &apos; here this is just a dummy
 	if bSaveAsSeparateImages then
 		sIdentifier = TimeStamp ()
 		sNumber = &quot;-1&quot;
@@ -1121,7 +1129,7 @@ Sub InsertDefaultImageObject (bFirstCall As Boolean)
 		sIdentifier = &quot;&quot;
 		sNumber = &quot;&quot;
 	end if
-	InsertFileURLObject (ConvertToURL (GetDefaultImageFileName ()), sIdentifier, sNumber, bFirstCall)
+	oGraphic = InsertFileURLObject (ConvertToURL (GetDefaultImageFileName ()), sIdentifier, sNumber, bFirstCall)
 End Sub
 
 
