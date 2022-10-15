@@ -1095,7 +1095,7 @@ Function IsEmptyImage  (oGraphic As Object) As Boolean
 		Height = oGraphic.Graphic.Size100thMM.Height
 		Width  = oGraphic.Graphic.Size100thMM.Width
 		IsEmptyImage = (Height = 6) And (Width = 6)
-	Case &quot;SvXShapeText&quot;   &apos; Impress, Draw
+	Case &quot;SvxShapeText&quot;   &apos; Impress, Draw
 		Height = oGraphic.Graphic.Size100thMM.Height
 		Width  = oGraphic.Graphic.Size100thMM.Width
 		IsEmptyImage = (Height = 9) And (Width = 9)

@@ -93,7 +93,7 @@ com.sun.star.comp.sc.ScShapeObj		CALC
 		Height (Long)  6
 
 
-SvXShapeText				IMPRESS, DRAW
+SvxShapeText				IMPRESS, DRAW
 	FrameRect (com.sun.star.awt.Rectangle)
 		Width  (Long)  10
 		Height (Long)  10
