@@ -871,8 +871,11 @@ Function InsertFileURLObjectViaClipboard (sFileURL As String, sIdentifier As Str
 		oViewCursor =  oDocCtrl.ViewCursor
 		oText = oDoc.Text
 		
-		&apos;Import the new image to the clipboard and paste it...
-   		ImportGraphicIntoClipboard (sFileURL)	
+		&apos; Import the new image to the clipboard and paste it...
+		If Not ImportGraphicIntoClipboard (sFileURL)	 Then  &apos; this might happen with an empty svg image
+   			&apos; use Default image instead...
+   			ImportGraphicIntoClipboard (ConvertToURL (GetDefaultImageFileName ()))	
+   		End If
 		oDispatcher.executeDispatch (oDocCtrl.Frame, &quot;.uno:Paste&quot;, &quot;&quot;, 0, Array())
 		&apos; Wait (100)	&apos; doesn&apos;t help against strange LO behavior  :(
 	  	oGraphic = oDocCtrl.getSelection().GetByIndex(0)
@@ -938,8 +941,11 @@ Function InsertFileURLObjectViaClipboard (sFileURL As String, sIdentifier As Str
 		
 		&apos; Import the new image to the clipboard and paste it...
 		&apos; To do: don&apos;t use dispatcher
-   		ImportGraphicIntoClipboard (sFileURL)	
-		oDispatcher.executeDispatch( oDocCtrl.Frame, &quot;.uno:Paste&quot;, &quot;&quot;, 0, Array())
+		If Not ImportGraphicIntoClipboard (sFileURL)	 Then  &apos; this might happen with an empty svg image
+   			&apos; use Default image instead...
+   			ImportGraphicIntoClipboard (ConvertToURL (GetDefaultImageFileName ()))	
+   		End If
+   		oDispatcher.executeDispatch( oDocCtrl.Frame, &quot;.uno:Paste&quot;, &quot;&quot;, 0, Array())
 	  	oGraphic = oDocCtrl.getSelection().getByIndex(0)
 
 		If (iDocumentType = 1) then   &apos; in Calc

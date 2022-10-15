@@ -234,10 +234,11 @@ Function GetOSType()
 End Function
 
 
-Sub ImportGraphicIntoClipboard (cURL)
+Function ImportGraphicIntoClipboard (cURL)
 	&apos; Import graphic from URL into the clipboard.
 	&apos; Inspired from OOoForums Danny&apos;s code 
 	&apos; To do: don&apos;t use dispatcher
+	&apos; new: returns TRUE if successful, FALSE if not
 	
 	Dim oDispatcher As Object
 	Dim oDrawDoc As Object
@@ -257,6 +258,11 @@ Sub ImportGraphicIntoClipboard (cURL)
 	
 	&apos; Get the shape...
 	oDrawPage = oDrawDoc.DrawPages(0)
+	If oDrawPage.Count = 0 Then
+		&apos; This might happen if an svg image is empty...
+		ImportGraphicIntoClipboard = False  &apos; follow-up functions will have to check for this
+		Exit Function
+	End If
     oImportShape = oDrawPage(0)
 	
 	&apos; Get the dimension of the image...
@@ -280,7 +286,8 @@ Sub ImportGraphicIntoClipboard (cURL)
 	Dim Array()
 	oDispatcher.executeDispatch( oDrawDocCtrl.Frame, &quot;.uno:Copy&quot;, &quot;&quot;, 0, Array() )
 	oDrawDoc.dispose()
-End Sub
+	ImportGraphicIntoClipboard	 = True
+End Function
 
 
 Function ImportBitmapIntoDraw (sURL As String, Optional oGraphicShape) As Object
