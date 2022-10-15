@@ -304,7 +304,7 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   oMessages.addProperty (&quot;sMsgNoPngOutputFound&quot;, BagAttr, &quot;No png output is found.&quot;)
   oMessages.addProperty (&quot;sMsgNoFirstFileFound&quot;, BagAttr, &quot;No OOoLilyPond-1.* file is found.&quot; &amp; Chr(10) _
   		&amp; &quot;Please make sure you meet all requirements for inserting as separate images:&quot; &amp; Chr(10) &amp; Chr(10) _
-  		&amp; &quot;1.) File type must be pdf_to_svg or eps&quot; &amp; Chr(10) _
+  		&amp; &quot;1.) File type must be svg [cairo] or pdf_to_svg or eps&quot; &amp; Chr(10) _
   		&amp; &quot;2.) The template or code must include lilypond-book-preamble.ly&quot;)
   
   &apos; InsertOOoLilyPondObject caused runtime error 1: &quot;End of content node doesn&apos;t have the proper start node&quot;
