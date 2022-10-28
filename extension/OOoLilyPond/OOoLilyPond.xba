@@ -578,7 +578,7 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
  	End If
  
 	&apos;If there is no svg output
- 	If (sFormat = &quot;svg&quot; Or sFormat = &quot;svg [-dcrop]&quot;) And (Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; sFileNameAddition &amp; &quot;.svg&quot;)) Then
+ 	If (sFormat = &quot;svg&quot; Or sFormat = &quot;svg [-dcrop]&quot; Or sFormat = &quot;svg [cairo]&quot;) And (Not oFileAccess.exists(sTmpPath &amp; constOLyFileName &amp; sFileNameAddition &amp; &quot;.svg&quot;)) Then
  		&apos; MsgBox(&quot;No svg output is found&quot;, 0, &quot;Error&quot;)
  		MsgBox (oMessages.getPropertyValue (&quot;sMsgNoSvgOutputFound&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
  		bNoFileCreated = True
@@ -722,20 +722,20 @@ Sub Make (bSilent As Boolean)  &apos; silent: without displaying errors; oEditor
 				End If
 			End If
 		End If
-	Else				&apos; We are in Calc of Impress or Draw...
+	Else				&apos; We are in Calc or Impress or Draw...
 		If bInsertViaClipboard (iDocumentType) Then
 			If bNoFileCreated Then
-					InsertDefaultImageObjectViaClipboard (true)
-				Else
-					InsertOOoLilyPondObjectViaClipboard (&quot;&quot;, &quot;&quot;, sFileNameAddition, true)
-				End If
+				InsertDefaultImageObjectViaClipboard (true)
 			Else
-				If bNoFileCreated Then
-					InsertDefaultImageObject (true)
-				Else
-					InsertOOoLilyPondObject (&quot;&quot;, &quot;&quot;, sFileNameAddition, true)
-				End If
+				InsertOOoLilyPondObjectViaClipboard (&quot;&quot;, &quot;&quot;, sFileNameAddition, true)
 			End If
+		Else
+			If bNoFileCreated Then
+				InsertDefaultImageObject (true)
+			Else
+				InsertOOoLilyPondObject (&quot;&quot;, &quot;&quot;, sFileNameAddition, true)
+			End If
+		End If
 	End If
 	
 	If Not bKeepTempFiles Then CleanUpAfterwards()
@@ -846,7 +846,7 @@ Sub AttachAttributes (oGraphic As Object, sIdentifier As String, sImageNum As St
 End Sub
 
 
-Sub InsertFileURLObjectViaClipboard (sFileURL As String, sIdentifier As String, sNumber As String, bFirstCall As Boolean)
+Function InsertFileURLObjectViaClipboard (sFileURL As String, sIdentifier As String, sNumber As String, bFirstCall As Boolean)
 	&apos; Dim oDoc, oDocCtrl
 	Dim oDispatcher As Object
 	Dim oAttributes As Object
@@ -871,8 +871,11 @@ Sub InsertFileURLObjectViaClipboard (sFileURL As String, sIdentifier As String, 
 		oViewCursor =  oDocCtrl.ViewCursor
 		oText = oDoc.Text
 		
-		&apos;Import the new image to the clipboard and paste it...
-   		ImportGraphicIntoClipboard (sFileURL)	
+		&apos; Import the new image to the clipboard and paste it...
+		If Not ImportGraphicIntoClipboard (sFileURL)	 Then  &apos; this might happen with an empty svg image
+   			&apos; use Default image instead...
+   			ImportGraphicIntoClipboard (ConvertToURL (GetDefaultImageFileName ()))	
+   		End If
 		oDispatcher.executeDispatch (oDocCtrl.Frame, &quot;.uno:Paste&quot;, &quot;&quot;, 0, Array())
 		&apos; Wait (100)	&apos; doesn&apos;t help against strange LO behavior  :(
 	  	oGraphic = oDocCtrl.getSelection().GetByIndex(0)
@@ -880,7 +883,8 @@ Sub InsertFileURLObjectViaClipboard (sFileURL As String, sIdentifier As String, 
 	  	If oGraphic.getImplementationName() = &quot;SwXTextRange&quot; Then
 	  		&apos; Now this should never happen again...
 	  		Msgbox (oMessages.getPropertyValue (&quot;sMsgPasteError&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
-	  		Exit Sub
+	  		InsertFileURLObjectViaClipboard = oGraphic
+	  		Exit Function
 	  	End If
 
 		&apos; set image properties
@@ -937,8 +941,11 @@ Sub InsertFileURLObjectViaClipboard (sFileURL As String, sIdentifier As String, 
 		
 		&apos; Import the new image to the clipboard and paste it...
 		&apos; To do: don&apos;t use dispatcher
-   		ImportGraphicIntoClipboard (sFileURL)	
-		oDispatcher.executeDispatch( oDocCtrl.Frame, &quot;.uno:Paste&quot;, &quot;&quot;, 0, Array())
+		If Not ImportGraphicIntoClipboard (sFileURL)	 Then  &apos; this might happen with an empty svg image
+   			&apos; use Default image instead...
+   			ImportGraphicIntoClipboard (ConvertToURL (GetDefaultImageFileName ()))	
+   		End If
+   		oDispatcher.executeDispatch( oDocCtrl.Frame, &quot;.uno:Paste&quot;, &quot;&quot;, 0, Array())
 	  	oGraphic = oDocCtrl.getSelection().getByIndex(0)
 
 		If (iDocumentType = 1) then   &apos; in Calc
@@ -956,10 +963,11 @@ Sub InsertFileURLObjectViaClipboard (sFileURL As String, sIdentifier As String, 
 	end if
 	
 	AttachAttributes (oGraphic, sIdentifier, sNumber)
-End Sub
+	InsertFileURLObjectViaClipboard = oGraphic
+End Function
 
 
-Sub InsertFileURLObject (sFileURL As String, sIdentifier As String, sNumber As String, bFirstCall As Boolean)
+Function InsertFileURLObject (sFileURL As String, sIdentifier As String, sNumber As String, bFirstCall As Boolean)
 	&apos; bFirstCall: (True)  = existing object is replaced
 	&apos;			  (False) = new object is created
 	Dim oAttributes As Object
@@ -1058,7 +1066,9 @@ Sub InsertFileURLObject (sFileURL As String, sIdentifier As String, sNumber As S
 	oDocCtrl.select (oGraphic)
 	AttachAttributes (oGraphic, sIdentifier, sNumber)
 
-	Exit Sub
+	InsertFileURLObject = oGraphic
+	
+	Exit Function
 	
 	ErrorHandler:
 		Select Case Err
@@ -1068,31 +1078,68 @@ Sub InsertFileURLObject (sFileURL As String, sIdentifier As String, sNumber As S
 		Case Else
 			Msgbox (Error, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 		End Select
-	Exit Sub
+	InsertFileURLObject = oGraphic
+	Exit Function
 
-End Sub
+End Function
+
+
+Function GetDefaultImageFileName () As String
+	GetDefaultImageFileName = GetOlyPckPath () &amp; &quot;Default-Images/&quot; &amp; &quot;OLyDefault.&quot; &amp; sExtension
+End Function
+
+
+Function IsEmptyImage  (oGraphic As Object) As Boolean
+	&apos; If due to an error in Ly code no valid image can be produced, lilypond-book-preamble still produces a tiny empty image. 
+	&apos; This function tries to detect such images.
+	
+	Dim Height As Long
+	Dim Width As Long
+	IsEmptyImage = False
+	Select Case oGraphic.getImplementationName()		
+	Case &quot;SwXTextGraphicObject&quot;  &apos; Writer
+		Height = oGraphic.Graphic.Size100thMM.Height
+		Width  = oGraphic.Graphic.Size100thMM.Width
+		IsEmptyImage = (Height = 6) And (Width = 6)
+	Case &quot;SvxShapeText&quot;   &apos; Impress, Draw
+		Height = oGraphic.Graphic.Size100thMM.Height
+		Width  = oGraphic.Graphic.Size100thMM.Width
+		IsEmptyImage = (Height = 9) And (Width = 9)
+	Case &quot;com.sun.star.comp.sc.ScShapeObj&quot;  &apos; Calc
+		Height = oGraphic.Graphic.Size100thMM.Height
+		Width  = oGraphic.Graphic.Size100thMM.Width
+		IsEmptyImage = (Height = 6) And (Width = 6)
+	End Select
+
+End Function
 
 
 Sub InsertOOoLilyPondObjectViaClipboard (sIdentifier As String, sNumber As String, sAddition As String, bFirstCall As Boolean)
 	&apos; bFirstCall: (True)  = existing object is replaced
 	&apos;			  (False) = new object is created
-	InsertFileURLObjectViaClipboard (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), sIdentifier, sNumber, bFirstCall)
+	Dim oGraphic As Object	
+	oGraphic = InsertFileURLObjectViaClipboard (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), sIdentifier, sNumber, bFirstCall)
 End Sub
 
 
 Sub InsertOOoLilyPondObject (sIdentifier As String, sNumber As String, sAddition As String, bFirstCall As Boolean)
 	&apos; bFirstCall: (True)  = existing object is replaced
 	&apos;			  (False) = new object is created
-	InsertFileURLObject (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), sIdentifier, sNumber, bFirstCall)
+	Dim oGraphic As Object
+	oGraphic = InsertFileURLObject (ConvertToURL (sTmpPath &amp; constOLyFileName &amp; sNumber &amp; sAddition &amp; &quot;.&quot; &amp; sExtension), sIdentifier, sNumber, bFirstCall)
+	If IsEmptyImage (oGraphic) Then   &apos; invalid empty image?
+		&apos; insert DefaultImage instead
+		oGraphic = InsertFileURLObject (ConvertToURL (GetDefaultImageFileName ()), sIdentifier, sNumber, True)
+	End If
 End Sub
 
 
 Sub InsertDefaultImageObjectViaClipboard (bFirstCall As Boolean)
 	&apos; bFirstCall: (True)  = existing object is replaced
 	&apos;			  (False) = new object is created
-	Dim sDefaultImagePath As String
 	Dim sIdentifier As String
 	Dim sNumber As String
+	Dim oGraphic As Object &apos; here this is just a dummy
 	if bSaveAsSeparateImages then
 		sIdentifier = TimeStamp ()
 		sNumber = &quot;-1&quot;
@@ -1100,17 +1147,16 @@ Sub InsertDefaultImageObjectViaClipboard (bFirstCall As Boolean)
 		sIdentifier = &quot;&quot;
 		sNumber = &quot;&quot;
 	end if
-	sDefaultImagePath = GetOlyPckPath () &amp; &quot;Default-Images/&quot;
-	InsertFileURLObjectViaClipboard (ConvertToURL (sDefaultImagePath &amp; &quot;OLyDefault.&quot; &amp; sExtension), sIdentifier, sNumber, bFirstCall)
+	oGraphic = InsertFileURLObjectViaClipboard (ConvertToURL (GetDefaultImageFileName ()), sIdentifier, sNumber, bFirstCall)
 End Sub
 
 
 Sub InsertDefaultImageObject (bFirstCall As Boolean)
 	&apos; bFirstCall: (True)  = existing object is replaced
 	&apos;			  (False) = new object is created
-	Dim sDefaultImagePath As String
 	Dim sIdentifier As String
 	Dim sNumber As String
+	Dim oGraphic As Object &apos; here this is just a dummy
 	if bSaveAsSeparateImages then
 		sIdentifier = TimeStamp ()
 		sNumber = &quot;-1&quot;
@@ -1118,8 +1164,7 @@ Sub InsertDefaultImageObject (bFirstCall As Boolean)
 		sIdentifier = &quot;&quot;
 		sNumber = &quot;&quot;
 	end if
-	sDefaultImagePath = GetOlyPckPath () &amp; &quot;Default-Images/&quot;
-	InsertFileURLObject (ConvertToURL (sDefaultImagePath &amp; &quot;OLyDefault.&quot; &amp; sExtension), sIdentifier, sNumber, bFirstCall)
+	oGraphic = InsertFileURLObject (ConvertToURL (GetDefaultImageFileName ()), sIdentifier, sNumber, bFirstCall)
 End Sub
 
 

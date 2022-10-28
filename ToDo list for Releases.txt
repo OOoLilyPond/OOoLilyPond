@@ -36,3 +36,5 @@ Version history.txt
 (branch can now be merged into master)
 
 - update links in /wiki/downloads
+- update /wiki/Version-history
+- update /wiki/News
