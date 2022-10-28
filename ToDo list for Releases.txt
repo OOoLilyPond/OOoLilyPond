@@ -38,3 +38,7 @@ Version history.txt
 - update links in /wiki/downloads
 - update /wiki/Version-history
 - update /wiki/News
+
+- upload to https://extensions.openoffice.org/en/project/OOoLilyPond
+- upload to https://extensions.libreoffice.org/en/extensions/show/ooolilypond
+- Info on FB?
