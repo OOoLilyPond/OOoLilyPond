@@ -42,6 +42,15 @@ Sub ConfigDialogUpdate()
 	ListOfTemplates(oConfigDialog.getControl(&quot;sDrawDefaultTemplate&quot;))
 	
 	ListOfLanguageFiles(oConfigDialog.getControl(&quot;sLanguageFileName&quot;))
+	
+	&apos; display detected LilyPond version: 
+	If sLilyPondVersionMajor=&quot;&quot; Then &apos; LilyPond has never been (successfully) called yet
+		oConfigDialog.getModel ().getByName (&quot;LabelLilyPondVersion&quot;).Label = &quot;&quot;
+	Else
+		oConfigDialog.getModel ().getByName (&quot;LabelLilyPondVersion&quot;).Label = oMessages.getPropertyValue (&quot;sMsgLilyPondVersionDetected1&quot;) &amp; _
+			sLilyPondVersionMajor &amp; &quot;.&quot; &amp; sLilyPondVersionMinor &amp; &quot;.&quot; &amp; sLilyPondVersionPatch &amp; _
+			oMessages.getPropertyValue (&quot;sMsgLilyPondVersionDetected2&quot;)
+	End If
 
 	&apos; general settings
 	oConfigDialog.getControl(&quot;sTemplatePath&quot;).setText(ConvertFromURL(sTemplatePath))

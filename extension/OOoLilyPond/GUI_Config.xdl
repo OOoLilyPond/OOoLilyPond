@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE dlg:window PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "dialog.dtd">
 <dlg:window xmlns:dlg="http://openoffice.org/2000/dialog" xmlns:script="http://openoffice.org/2000/script" dlg:id="GUI_Config" dlg:tab-index="0" dlg:left="29" dlg:top="35" dlg:width="420" dlg:height="308" dlg:closeable="true" dlg:moveable="true" dlg:title="OOoLilyPond Configuration">
+ <dlg:styles>
+  <dlg:style dlg:style-id="0" dlg:font-slant="italic"/>
+ </dlg:styles>
  <dlg:bulletinboard>
   <dlg:radiogroup>
    <dlg:radio dlg:id="WriterAnchorAsCharacter" dlg:tab-index="12" dlg:left="10" dlg:top="108" dlg:width="60" dlg:height="8" dlg:page="1" dlg:help-text="The OOoLilyPond object is inserted into the Text like a character." dlg:tabstop="true" dlg:value="As character" dlg:checked="true"/>
@@ -77,7 +80,7 @@
   <dlg:text dlg:id="ExampleIncludeStatement" dlg:tab-index="92" dlg:left="327" dlg:top="61" dlg:width="81" dlg:height="9" dlg:value="-I&quot;path1&quot; -I&quot;path2&quot; ... " dlg:align="right" dlg:nolabel="true"/>
   <dlg:text dlg:id="LabelExtEditorExecutable" dlg:tab-index="90" dlg:left="173" dlg:top="150" dlg:width="199" dlg:height="9" dlg:value="External editor executable:"/>
   <dlg:text dlg:id="LabelTemplatePath" dlg:tab-index="86" dlg:left="173" dlg:top="113" dlg:width="201" dlg:height="9" dlg:value="Template path:"/>
-  <dlg:text dlg:id="LabelLilyPondExecutable" dlg:tab-index="87" dlg:left="173" dlg:top="216" dlg:width="201" dlg:height="9" dlg:value="LilyPond executable:"/>
+  <dlg:text dlg:id="LabelLilyPondExecutable" dlg:tab-index="87" dlg:left="173" dlg:top="216" dlg:width="129" dlg:height="9" dlg:value="LilyPond executable:"/>
   <dlg:text dlg:id="LabelFormat" dlg:tab-index="88" dlg:left="6" dlg:top="228" dlg:width="51" dlg:height="9" dlg:value="Format:"/>
   <dlg:text dlg:id="LabelDPI" dlg:tab-index="80" dlg:left="92" dlg:top="241" dlg:width="16" dlg:height="9" dlg:help-text="dots per inch" dlg:value="dpi"/>
   <dlg:text dlg:id="LabelGraphicDPIResolution" dlg:tab-index="89" dlg:left="61" dlg:top="228" dlg:width="67" dlg:height="9" dlg:value="Resolution (png):"/>
@@ -185,5 +188,6 @@
   <dlg:fixedline dlg:id="WriterDefaultsFrame" dlg:tab-index="109" dlg:left="9" dlg:top="35" dlg:width="146" dlg:height="9" dlg:page="1" dlg:value="Default values for Text documents"/>
   <dlg:fixedline dlg:id="ImpressDefaultsFrame" dlg:tab-index="111" dlg:left="9" dlg:top="35" dlg:width="149" dlg:height="9" dlg:page="3" dlg:value="Default values for Presentations"/>
   <dlg:fixedline dlg:id="DrawDefaultsFrame" dlg:tab-index="112" dlg:left="9" dlg:top="35" dlg:width="149" dlg:height="9" dlg:page="4" dlg:value="Default values for Drawings"/>
+  <dlg:text dlg:style-id="0" dlg:id="LabelLilyPondVersion" dlg:tab-index="113" dlg:left="304" dlg:top="216" dlg:width="107" dlg:height="9" dlg:help-text="The LilyPond version will be determined when you click the OK button." dlg:align="right"/>
  </dlg:bulletinboard>
 </dlg:window>

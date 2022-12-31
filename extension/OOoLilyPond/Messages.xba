@@ -105,6 +105,12 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   &apos; &quot;sLanguagePath&quot;
   oMessages.addProperty (&quot;sMsgLanguagePathFail2&quot;, BagAttr, Chr(34) &amp; &quot;.&quot;)
   
+  &apos; Label in Config dialog shows which LilyPond version has been detected: 
+  
+  oMessages.addProperty (&quot;sMsgLilyPondVersionDetected1&quot;, BagAttr, &quot;LilyPond &quot;)
+  &apos; 2.24.0 or whatever...
+  oMessages.addProperty (&quot;sMsgLilyPondVersionDetected2&quot;, BagAttr, &quot; detected&quot;)
+  
 
   
   &apos; &quot;Editor&quot; module
