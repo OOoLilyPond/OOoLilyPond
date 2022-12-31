@@ -1135,7 +1135,6 @@ End Sub
 
 Sub ConfigOKButton
 	Dim sCommand As String
-	Dim bNoLyVersionYet As Boolean
 
 	&apos;Read the values from the dialog
 	ApplyConfig()
@@ -1154,8 +1153,6 @@ Sub ConfigOKButton
 	
 	&apos;Read translation strings from language file, in case another language has been chosen
 	&apos; ReadLanguageFile()	&apos; already called at the end of ApplyConfig()
-	
-	bNoLyVersionYet = (sLilyPondVersionMajor = &quot;&quot;) &apos; LilyPond has never been (successfully) called yet
 	
 	&apos;Check wheter LilyPond can be executed and get version
 	LilyPondVersion()
