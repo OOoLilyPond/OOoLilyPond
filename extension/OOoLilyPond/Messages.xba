@@ -114,7 +114,7 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   &apos; LilyPond version too old for &quot;svg [cairo]&quot; image format: 
   
   oMessages.addProperty (&quot;sMsgTooOldForCairo&quot;, BagAttr, &quot;Your LilyPond version is too old for the &quot; &amp; Chr (34) &amp; &quot;svg [cairo]&quot; &amp; Chr (34) &amp; &quot;format. &quot; &amp; (Chr (10) &amp;_
-    &quot;Please update LilyPond (at least to version 2.23.12)&quot; &amp; Chr (10) &amp; &quot;or choose another image format in the config dialogue.&quot; )
+    &quot;Please update LilyPond (at least to version 2.23.12)&quot; &amp; Chr (10) &amp; &quot;or choose another image format in the config dialogue.&quot;)
   
 
   
