@@ -35,7 +35,7 @@ Sub ConfigDialogUpdate()
 	&apos; To do: don&apos;t read the template list twice
 	&apos; just copy it instead.
 	oConfigDialog.getControl(&quot;sFormat&quot;).removeItems(0, oConfigDialog.getControl(&quot;sFormat&quot;).getItemCount)
-	oConfigDialog.getControl(&quot;sFormat&quot;).addItems (Array (&quot;png&quot;, &quot;eps&quot;, &quot;svg&quot;, &quot;svg [-dcrop]&quot;, &quot;svg [cairo]&quot;, &quot;pdf to svg&quot;), 0)
+	oConfigDialog.getControl(&quot;sFormat&quot;).addItems (Array (&quot;svg [cairo]&quot;, &quot;pdf to svg&quot;, &quot;png&quot;, &quot;svg [-dcrop]&quot;, &quot;svg&quot;, &quot;eps&quot;), 0)
 	ListOfTemplates(oConfigDialog.getControl(&quot;sWriterDefaultTemplate&quot;))
 	ListOfTemplates(oConfigDialog.getControl(&quot;sCalcDefaultTemplate&quot;))
 	ListOfTemplates(oConfigDialog.getControl(&quot;sImpressDefaultTemplate&quot;))
