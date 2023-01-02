@@ -4,39 +4,29 @@ https://github.com/OOoLilyPond/OOoLilyPond/wiki/Downloads
 and open it in LibreOffice / OpenOffice.
 
 direct link for LibreOffice:
-https://github.com/OOoLilyPond/OOoLilyPond/releases/download/v1.1.7/OOoLilyPond-1.1.7.oxt
+https://github.com/OOoLilyPond/OOoLilyPond/releases/download/v1.1.8/OOoLilyPond-1.1.8.oxt
 direct link for OpenOffice:
-https://github.com/OOoLilyPond/OOoLilyPond/releases/download/v1.1.7/OOoLilyPond-1.1.7_for_Apache_OpenOffice.oxt
+https://github.com/OOoLilyPond/OOoLilyPond/releases/download/v1.1.8/OOoLilyPond-1.1.8_for_Apache_OpenOffice.oxt
 
 
 ********************************************
-OOoLilyPond Version History (October 2022):
+OOoLilyPond Version History (Januuary 2023):
 ********************************************
 
 Complete documentation: 
 https://github.com/OOoLilyPond/OOoLilyPond/wiki#ooolilypond
 
 
-Changes to OOoLilyPond 1.1.7 since 1.1.5 (October 2022):
-==========================================================
+Changes to OOoLilyPond 1.1.8 since 1.1.7 (January 2023):
+=========================================================
 
-* Improvement: Support for cairo backend
-    LilyPond 2.23.12 has a new option to use the cairo backend. 
-    This allows to get SVG images without external conversion software and without dedicated svg templates (along with their restrictions). 
-    It can be an easier alternative to the "pdf to svg" format. 
-    OLy supports that if you choose the new "svg [cairo]" format option from the config dialog. 
-    If installed for the first time, OLy will choose "svg [cairo]" as default format 
-    instead of "png" if Ly 2.23.12 or later is detected.
-    
-* Improvement: Insert default "OLy" image if no LilyPond output available
-    If LilyPond cannot produce an image due to severe errors in the snippet code, a default "OLy" image is inserted into the document. 
-    (In prior versions, no image was inserted and the snippet code was lost when the OLy editor window was closed.)
-    
-    In some cases (pdf-to-svg format or svg [cairo] format and with the use of lilypond-book-preamble) LilyPond produces
-    very small images (less than 1mm) that would be hard to discover in the document. 
-    Now OLy even tries to recognize these and replace them by the default "OLy" image before inserting.
+Small improvements, mainly useful for new users who install OLy for the first time:  
 
-* small bug fixes
+* In its Config dialogue, OLy now displays the LilyPond version for the specified executable. 
+* Default graphic format is now svg [cairo].  
+* "SVG" and "SVG [-dcrop]" templates are now located in a subfolder by default.  
+  Thus they won't clutter up the template list, but OLy still finds them if they are used by a document. 
+* Backup folders of templates and language files will now be created at the same location, not in a subfolder.
 
-This release includes some changes to the language files. So, after updating to 1.1.7, please open the config dialog and click the "Restore language files" button. 
-(Your current language files will be backed up in a subfolder. If you like, you can delete that subfolder.)
+This release includes some changes to the language files. So, after updating to 1.1.8, please open the config dialog and click the "Restore language files" button. 
+(Your current language files will be backed up in a new folder. If you like, you can delete that backup folder.)
