@@ -239,22 +239,31 @@ Sub CopyTemplates()
 	End If
 
 	&apos; Backup .ly files
-	&apos; Subdir named according to actual date and time in format YYYY-MM-DD_hh-mm-ss
-	sBackupPath = sTemplatePath &amp; TimeStamp () &amp; &quot;/&quot;
-	sFiles = oFileAccess.getFolderContents (sTemplatePath, False)
+	&apos; Folder named &quot;Templates_&quot; + actual date and time in format YYYY-MM-DD_hh-mm-ss
+	sBackupPath = Left (sTemplatePath, Len (sTemplatePath) - 1) &amp; &quot;_&quot; &amp; TimeStamp () &amp; &quot;/&quot;
+	
+	&apos; check / create backup folder:
+	If Not oFileAccess.isFolder(sBackupPath) Then
+		oFileAccess.createFolder(sBackupPath)
+	End If
+	&apos; MsgBox(&quot;Your old templates are backed up under &quot; &amp; Chr(34) &amp; ConvertFromURL(sBackupPath) &amp; Chr(34) &amp; &quot;.&quot;, iMsgBox_I, &quot;Templates Backup&quot;)
+	MsgBox (oMessages.getPropertyValue (&quot;sMsgTemplatesBackedUp1&quot;) &amp; ConvertFromURL(sBackupPath) &amp; oMessages.getPropertyValue (&quot;sMsgTemplatesBackedUp2&quot;), iMsgBox_I, oMessages.getPropertyValue (&quot;sCaptionTemplatesBackup&quot;))	
+
+	&apos; move existing .ly files from template folder to backup folder:
+	sFiles = oFileAccess.getFolderContents (sTemplatePath, True)
+	dim temp_s_files_i as string
+	dim temp_b_isFolder as boolean
+	dim temp_s_contentType as string
 	For i=LBound (sFiles) To UBound (sFiles)
-		If Right (sFiles (i),3)=&quot;.ly&quot; Then
-			If Not oFileAccess.isFolder(sBackupPath) Then
-				oFileAccess.createFolder(sBackupPath)
-				&apos; MsgBox(&quot;Your old templates are backed up under &quot; &amp; Chr(34) &amp; ConvertFromURL(sBackupPath) &amp; Chr(34) &amp; &quot;.&quot;, iMsgBox_I, &quot;Templates Backup&quot;)
-				MsgBox (oMessages.getPropertyValue (&quot;sMsgTemplatesBackedUp1&quot;) &amp; ConvertFromURL(sBackupPath) &amp; oMessages.getPropertyValue (&quot;sMsgTemplatesBackedUp2&quot;), iMsgBox_I, oMessages.getPropertyValue (&quot;sCaptionTemplatesBackup&quot;))
-				
-			End If
-			oFileAccess.copy( sFiles(i), sBackupPath &amp; GetLastFromURL(sFiles(i)) )
+		temp_s_files_i = sFiles (i)
+		temp_b_isFolder = oFileAccess.isFolder (temp_s_files_i)
+		temp_s_contentType = oFileAccess.getContentType (temp_s_files_i)
+		If Right (sFiles (i),3)=&quot;.ly&quot; or temp_b_isFolder Then
+			oFileAccess.move (sFiles(i), sBackupPath &amp; GetLastFromURL (sFiles(i)))
 		End If
 	Next
 
-	&apos; Copy .ly files
+	&apos; Copy default .ly files to template folder:
 	sFiles=oFileAccess.getFolderContents(sTemplateSourcePath, False)
 	For i=LBound(sFiles) To UBound(sFiles)
 		If Right(sFiles(i),3)=&quot;.ly&quot; Then
