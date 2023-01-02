@@ -35,7 +35,7 @@ Sub ConfigDialogUpdate()
 	&apos; To do: don&apos;t read the template list twice
 	&apos; just copy it instead.
 	oConfigDialog.getControl(&quot;sFormat&quot;).removeItems(0, oConfigDialog.getControl(&quot;sFormat&quot;).getItemCount)
-	oConfigDialog.getControl(&quot;sFormat&quot;).addItems (Array (&quot;png&quot;, &quot;eps&quot;, &quot;svg&quot;, &quot;svg [-dcrop]&quot;, &quot;svg [cairo]&quot;, &quot;pdf to svg&quot;), 0)
+	oConfigDialog.getControl(&quot;sFormat&quot;).addItems (Array (&quot;svg [cairo]&quot;, &quot;pdf to svg&quot;, &quot;png&quot;, &quot;svg [-dcrop]&quot;, &quot;svg&quot;, &quot;eps&quot;), 0)
 	ListOfTemplates(oConfigDialog.getControl(&quot;sWriterDefaultTemplate&quot;))
 	ListOfTemplates(oConfigDialog.getControl(&quot;sCalcDefaultTemplate&quot;))
 	ListOfTemplates(oConfigDialog.getControl(&quot;sImpressDefaultTemplate&quot;))
@@ -214,7 +214,7 @@ End Function
 
 Sub CopyTemplates()
 	&apos; Copy original templates to the user templates dir.
-	&apos; User template files are backed up in a subfolder.
+	&apos; User template files and subfolders are backed up in a new folder.
 
 	Dim sTemplateSourcePath As String &apos; Path within sPkgPath where the original templates are located
 	Dim sBackupPath As String &apos; Backup Dir for existing user templates
@@ -238,27 +238,30 @@ Sub CopyTemplates()
 		Exit Sub
 	End If
 
-	&apos; Backup .ly files
-	&apos; Subdir named according to actual date and time in format YYYY-MM-DD_hh-mm-ss
-	sBackupPath = sTemplatePath &amp; TimeStamp () &amp; &quot;/&quot;
-	sFiles = oFileAccess.getFolderContents (sTemplatePath, False)
-	For i=LBound (sFiles) To UBound (sFiles)
-		If Right (sFiles (i),3)=&quot;.ly&quot; Then
-			If Not oFileAccess.isFolder(sBackupPath) Then
-				oFileAccess.createFolder(sBackupPath)
-				&apos; MsgBox(&quot;Your old templates are backed up under &quot; &amp; Chr(34) &amp; ConvertFromURL(sBackupPath) &amp; Chr(34) &amp; &quot;.&quot;, iMsgBox_I, &quot;Templates Backup&quot;)
-				MsgBox (oMessages.getPropertyValue (&quot;sMsgTemplatesBackedUp1&quot;) &amp; ConvertFromURL(sBackupPath) &amp; oMessages.getPropertyValue (&quot;sMsgTemplatesBackedUp2&quot;), iMsgBox_I, oMessages.getPropertyValue (&quot;sCaptionTemplatesBackup&quot;))
-				
-			End If
-			oFileAccess.copy( sFiles(i), sBackupPath &amp; GetLastFromURL(sFiles(i)) )
+	&apos; Backup .ly files and subfolders:
+	
+	&apos; Folder named &quot;Templates_&quot; + actual date and time in format YYYY-MM-DD_hh-mm-ss
+	sBackupPath = Left (sTemplatePath, Len (sTemplatePath) - 1) &amp; &quot;_&quot; &amp; TimeStamp () &amp; &quot;/&quot;
+	&apos; check / create backup folder:
+	If Not oFileAccess.isFolder(sBackupPath) Then
+		oFileAccess.createFolder(sBackupPath)
+	End If
+	&apos; MsgBox(&quot;Your old templates are backed up under &quot; &amp; Chr(34) &amp; ConvertFromURL(sBackupPath) &amp; Chr(34) &amp; &quot;.&quot;, iMsgBox_I, &quot;Templates Backup&quot;)
+	MsgBox (oMessages.getPropertyValue (&quot;sMsgTemplatesBackedUp1&quot;) &amp; ConvertFromURL(sBackupPath) &amp; oMessages.getPropertyValue (&quot;sMsgTemplatesBackedUp2&quot;), iMsgBox_I, oMessages.getPropertyValue (&quot;sCaptionTemplatesBackup&quot;))	
+
+	&apos; move existing .ly files and subfolders from template folder to backup folder:
+	sFiles = oFileAccess.getFolderContents (sTemplatePath, True)
+	For i = LBound (sFiles) To UBound (sFiles)
+		If Right (sFiles (i),3) = &quot;.ly&quot; Or oFileAccess.isFolder (sFiles (i)) Then  &apos; LY file or subfolder?
+			oFileAccess.move (sFiles(i), sBackupPath &amp; GetLastFromURL (sFiles(i)))
 		End If
 	Next
 
-	&apos; Copy .ly files
-	sFiles=oFileAccess.getFolderContents(sTemplateSourcePath, False)
-	For i=LBound(sFiles) To UBound(sFiles)
-		If Right(sFiles(i),3)=&quot;.ly&quot; Then
-			FileCopy( sFiles(i), sTemplatePath &amp; GetLastFromURL(sFiles(i)) )
+	&apos; Copy default .ly files and subfolders to template folder:
+	sFiles = oFileAccess.getFolderContents (sTemplateSourcePath, True)
+	For i = LBound (sFiles) To UBound (sFiles)
+		If Right (sFiles(i),3) = &quot;.ly&quot; Or oFileAccess.isFolder (sFiles (i)) Then
+			oFileAccess.copy (sFiles(i), sTemplatePath &amp; GetLastFromURL (sFiles(i)))
 		End If
 	Next
 
@@ -267,10 +270,9 @@ End Sub
 
 Sub CopyLanguageFiles()
 	&apos; Copy original language files to the user language dir.
-	&apos; User language files are backed up in a subfolder.
+	&apos; User language files are backed up in a new folder.
 	&apos; This function is built upon CopyTemplates()
 
-	
 	Dim sLanguageSourcePath As String &apos; Path within sPkgPath where the original language files are located
 	Dim sBackupPath As String &apos; Backup Dir for existing user language files
 	Dim sFiles As Variant &apos; String Array, output of oFileAccess.getFolderContents()
@@ -292,26 +294,29 @@ Sub CopyLanguageFiles()
 		Exit Sub
 	End If
 
-	&apos; Backup .ini files
-	&apos; Subdir named according to current date and time in format YYYYMMDDhhmmss
-	sBackupPath = sLanguagePath &amp; TimeStamp () &amp; &quot;/&quot;
-	sFiles = oFileAccess.getFolderContents(sLanguagePath, False)
-	For i=LBound(sFiles) To UBound(sFiles)
-		If Right(sFiles(i),4)=&quot;.ini&quot; Then
-			If Not oFileAccess.isFolder(sBackupPath) Then
-				oFileAccess.createFolder(sBackupPath)
-				&apos; MsgBox &quot;Your old language files are backed up under ...&quot;
-				MsgBox (oMessages.getPropertyValue (&quot;sMsgLanguageFilesBackedUp1&quot;) &amp; ConvertFromURL(sBackupPath) &amp; oMessages.getPropertyValue (&quot;sMsgLanguageFilesBackedUp2&quot;), iMsgBox_I, oMessages.getPropertyValue (&quot;sCaptionInfo&quot;))
-			End If
-			oFileAccess.copy( sFiles(i), sBackupPath &amp; GetLastFromURL(sFiles(i)) )
+	&apos; Backup .ini files:
+	
+	&apos; Folder named &quot;Language_&quot; + actual date and time in format YYYY-MM-DD_hh-mm-ss
+	sBackupPath = Left (sLanguagePath, Len (sLanguagePath) - 1) &amp; &quot;_&quot; &amp; TimeStamp () &amp; &quot;/&quot;
+	&apos; check / create backup folder:
+	If Not oFileAccess.isFolder (sBackupPath) Then
+		oFileAccess.createFolder (sBackupPath)
+	End If
+	&apos; MsgBox &quot;Your old language files are backed up under ...&quot;
+	MsgBox (oMessages.getPropertyValue (&quot;sMsgLanguageFilesBackedUp1&quot;) &amp; ConvertFromURL(sBackupPath) &amp; oMessages.getPropertyValue (&quot;sMsgLanguageFilesBackedUp2&quot;), iMsgBox_I, oMessages.getPropertyValue (&quot;sCaptionInfo&quot;))
+	&apos; move existing .ini files from language folder to backup folder:
+	sFiles = oFileAccess.getFolderContents (sLanguagePath, False)
+	For i = LBound (sFiles) To UBound (sFiles)
+		If Right (sFiles (i), 4) = &quot;.ini&quot; Then
+			oFileAccess.move (sFiles(i), sBackupPath &amp; GetLastFromURL(sFiles(i)))
 		End If
 	Next
 
-	&apos; Copy .ini files
-	sFiles=oFileAccess.getFolderContents(sLanguageSourcePath, False)
-	For i=LBound(sFiles) To UBound(sFiles)
-		If Right(sFiles(i),4)=&quot;.ini&quot; Then
-			FileCopy( sFiles(i), sLanguagePath &amp; GetLastFromURL(sFiles(i)) )
+	&apos; Copy default .ini files into language folder:
+	sFiles = oFileAccess.getFolderContents (sLanguageSourcePath, False)
+	For i = LBound (sFiles) To UBound (sFiles)
+		If Right (sFiles (i), 4) = &quot;.ini&quot; Then
+			FileCopy (sFiles (i), sLanguagePath &amp; GetLastFromURL (sFiles (i)))
 		End If
 	Next
 
@@ -607,8 +612,8 @@ Sub DefaultConfig()
 
 
 	&apos; General Settings
-	sFormat = &quot;png&quot;
-	sExtension = &quot;png&quot;
+	sFormat = &quot;svg [cairo]&quot;
+	sExtension = &quot;svg&quot;
 	iGraphicDPI = 300
 	bTransparentBackground = False
 	sEditorFontName = &quot;Courier&quot;
@@ -1135,7 +1140,6 @@ End Sub
 
 Sub ConfigOKButton
 	Dim sCommand As String
-	Dim bNoLyVersionYet As Boolean
 
 	&apos;Read the values from the dialog
 	ApplyConfig()
@@ -1155,19 +1159,13 @@ Sub ConfigOKButton
 	&apos;Read translation strings from language file, in case another language has been chosen
 	&apos; ReadLanguageFile()	&apos; already called at the end of ApplyConfig()
 	
-	bNoLyVersionYet = (sLilyPondVersionMajor = &quot;&quot;) &apos; LilyPond has never been (successfully) called yet
-	
 	&apos;Check wheter LilyPond can be executed and get version
 	LilyPondVersion()
 	bLy_2_23_5_OrLater = LyVersionIsAtLeast (2, 23, 5)
 
-	&apos; If this is the first time a Ly version is detected, check if 2.23.12 or later. 
-	&apos; If (and ONLY if) yes, change image format &quot;png&quot; to &quot;svg [cairo]&quot; as better default
-	&apos; (even if this might once ingore the user&apos;s &quot;png&quot; choice...)
-	If bNoLyVersionYet And LyVersionIsAtLeast (2, 23, 12) And (sFormat = &quot;png&quot;) Then
-		&apos; set default image format to &quot;svg [cairo]&quot; instead of &quot;png&quot;
-		sFormat = &quot;svg [cairo]&quot;
-		sExtension = &quot;svg&quot;
+	If (Not (LyVersionIsAtLeast (2, 23, 12))) And (sFormat = &quot;svg [cairo]&quot;) Then
+		&apos; Complain about Ly version being too old
+		MsgBox (oMessages.getPropertyValue (&quot;sMsgTooOldForCairo&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 	End If
 	
 	&apos;Save the values to file and close dialog
