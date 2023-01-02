@@ -214,7 +214,7 @@ End Function
 
 Sub CopyTemplates()
 	&apos; Copy original templates to the user templates dir.
-	&apos; User template files are backed up in a subfolder.
+	&apos; User template files and subfolder are backed up in a new folder.
 
 	Dim sTemplateSourcePath As String &apos; Path within sPkgPath where the original templates are located
 	Dim sBackupPath As String &apos; Backup Dir for existing user templates
@@ -238,10 +238,10 @@ Sub CopyTemplates()
 		Exit Sub
 	End If
 
-	&apos; Backup .ly files
+	&apos; Backup .ly files and subfolders
+	
 	&apos; Folder named &quot;Templates_&quot; + actual date and time in format YYYY-MM-DD_hh-mm-ss
 	sBackupPath = Left (sTemplatePath, Len (sTemplatePath) - 1) &amp; &quot;_&quot; &amp; TimeStamp () &amp; &quot;/&quot;
-	
 	&apos; check / create backup folder:
 	If Not oFileAccess.isFolder(sBackupPath) Then
 		oFileAccess.createFolder(sBackupPath)
@@ -249,25 +249,19 @@ Sub CopyTemplates()
 	&apos; MsgBox(&quot;Your old templates are backed up under &quot; &amp; Chr(34) &amp; ConvertFromURL(sBackupPath) &amp; Chr(34) &amp; &quot;.&quot;, iMsgBox_I, &quot;Templates Backup&quot;)
 	MsgBox (oMessages.getPropertyValue (&quot;sMsgTemplatesBackedUp1&quot;) &amp; ConvertFromURL(sBackupPath) &amp; oMessages.getPropertyValue (&quot;sMsgTemplatesBackedUp2&quot;), iMsgBox_I, oMessages.getPropertyValue (&quot;sCaptionTemplatesBackup&quot;))	
 
-	&apos; move existing .ly files from template folder to backup folder:
+	&apos; move existing .ly files and subfolders from template folder to backup folder:
 	sFiles = oFileAccess.getFolderContents (sTemplatePath, True)
-	dim temp_s_files_i as string
-	dim temp_b_isFolder as boolean
-	dim temp_s_contentType as string
-	For i=LBound (sFiles) To UBound (sFiles)
-		temp_s_files_i = sFiles (i)
-		temp_b_isFolder = oFileAccess.isFolder (temp_s_files_i)
-		temp_s_contentType = oFileAccess.getContentType (temp_s_files_i)
-		If Right (sFiles (i),3)=&quot;.ly&quot; or temp_b_isFolder Then
+	For i = LBound (sFiles) To UBound (sFiles)
+		If Right (sFiles (i),3) = &quot;.ly&quot; Or oFileAccess.isFolder (sFiles (i)) Then  &apos; LY file or subfolder?
 			oFileAccess.move (sFiles(i), sBackupPath &amp; GetLastFromURL (sFiles(i)))
 		End If
 	Next
 
-	&apos; Copy default .ly files to template folder:
-	sFiles=oFileAccess.getFolderContents(sTemplateSourcePath, False)
-	For i=LBound(sFiles) To UBound(sFiles)
-		If Right(sFiles(i),3)=&quot;.ly&quot; Then
-			FileCopy( sFiles(i), sTemplatePath &amp; GetLastFromURL(sFiles(i)) )
+	&apos; Copy default .ly files and subfolders to template folder:
+	sFiles = oFileAccess.getFolderContents (sTemplateSourcePath, True)
+	For i = LBound (sFiles) To UBound (sFiles)
+		If Right (sFiles(i),3) = &quot;.ly&quot; Or oFileAccess.isFolder (sFiles (i)) Then
+			oFileAccess.copy (sFiles(i), sTemplatePath &amp; GetLastFromURL (sFiles(i)))
 		End If
 	Next
 
