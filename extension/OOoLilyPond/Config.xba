@@ -214,7 +214,7 @@ End Function
 
 Sub CopyTemplates()
 	&apos; Copy original templates to the user templates dir.
-	&apos; User template files and subfolder are backed up in a new folder.
+	&apos; User template files and subfolders are backed up in a new folder.
 
 	Dim sTemplateSourcePath As String &apos; Path within sPkgPath where the original templates are located
 	Dim sBackupPath As String &apos; Backup Dir for existing user templates
