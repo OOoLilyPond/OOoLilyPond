@@ -238,7 +238,7 @@ Sub CopyTemplates()
 		Exit Sub
 	End If
 
-	&apos; Backup .ly files and subfolders
+	&apos; Backup .ly files and subfolders:
 	
 	&apos; Folder named &quot;Templates_&quot; + actual date and time in format YYYY-MM-DD_hh-mm-ss
 	sBackupPath = Left (sTemplatePath, Len (sTemplatePath) - 1) &amp; &quot;_&quot; &amp; TimeStamp () &amp; &quot;/&quot;
@@ -270,10 +270,9 @@ End Sub
 
 Sub CopyLanguageFiles()
 	&apos; Copy original language files to the user language dir.
-	&apos; User language files are backed up in a subfolder.
+	&apos; User language files are backed up in a new folder.
 	&apos; This function is built upon CopyTemplates()
 
-	
 	Dim sLanguageSourcePath As String &apos; Path within sPkgPath where the original language files are located
 	Dim sBackupPath As String &apos; Backup Dir for existing user language files
 	Dim sFiles As Variant &apos; String Array, output of oFileAccess.getFolderContents()
@@ -295,26 +294,29 @@ Sub CopyLanguageFiles()
 		Exit Sub
 	End If
 
-	&apos; Backup .ini files
-	&apos; Subdir named according to current date and time in format YYYY-MM-DD_hh-mm-ss
-	sBackupPath = sLanguagePath &amp; TimeStamp () &amp; &quot;/&quot;
-	sFiles = oFileAccess.getFolderContents(sLanguagePath, False)
-	For i=LBound(sFiles) To UBound(sFiles)
-		If Right(sFiles(i),4)=&quot;.ini&quot; Then
-			If Not oFileAccess.isFolder(sBackupPath) Then
-				oFileAccess.createFolder(sBackupPath)
-				&apos; MsgBox &quot;Your old language files are backed up under ...&quot;
-				MsgBox (oMessages.getPropertyValue (&quot;sMsgLanguageFilesBackedUp1&quot;) &amp; ConvertFromURL(sBackupPath) &amp; oMessages.getPropertyValue (&quot;sMsgLanguageFilesBackedUp2&quot;), iMsgBox_I, oMessages.getPropertyValue (&quot;sCaptionInfo&quot;))
-			End If
-			oFileAccess.copy( sFiles(i), sBackupPath &amp; GetLastFromURL(sFiles(i)) )
+	&apos; Backup .ini files:
+	
+	&apos; Folder named &quot;Language_&quot; + actual date and time in format YYYY-MM-DD_hh-mm-ss
+	sBackupPath = Left (sLanguagePath, Len (sLanguagePath) - 1) &amp; &quot;_&quot; &amp; TimeStamp () &amp; &quot;/&quot;
+	&apos; check / create backup folder:
+	If Not oFileAccess.isFolder (sBackupPath) Then
+		oFileAccess.createFolder (sBackupPath)
+	End If
+	&apos; MsgBox &quot;Your old language files are backed up under ...&quot;
+	MsgBox (oMessages.getPropertyValue (&quot;sMsgLanguageFilesBackedUp1&quot;) &amp; ConvertFromURL(sBackupPath) &amp; oMessages.getPropertyValue (&quot;sMsgLanguageFilesBackedUp2&quot;), iMsgBox_I, oMessages.getPropertyValue (&quot;sCaptionInfo&quot;))
+	&apos; move existing .ini files from language folder to backup folder:
+	sFiles = oFileAccess.getFolderContents (sLanguagePath, False)
+	For i = LBound (sFiles) To UBound (sFiles)
+		If Right (sFiles (i), 4) = &quot;.ini&quot; Then
+			oFileAccess.move (sFiles(i), sBackupPath &amp; GetLastFromURL(sFiles(i)))
 		End If
 	Next
 
-	&apos; Copy .ini files
-	sFiles=oFileAccess.getFolderContents(sLanguageSourcePath, False)
-	For i=LBound(sFiles) To UBound(sFiles)
-		If Right(sFiles(i),4)=&quot;.ini&quot; Then
-			FileCopy( sFiles(i), sLanguagePath &amp; GetLastFromURL(sFiles(i)) )
+	&apos; Copy default .ini files into language folder:
+	sFiles = oFileAccess.getFolderContents (sLanguageSourcePath, False)
+	For i = LBound (sFiles) To UBound (sFiles)
+		If Right (sFiles (i), 4) = &quot;.ini&quot; Then
+			FileCopy (sFiles (i), sLanguagePath &amp; GetLastFromURL (sFiles (i)))
 		End If
 	Next
 
