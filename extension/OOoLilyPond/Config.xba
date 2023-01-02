@@ -293,7 +293,7 @@ Sub CopyLanguageFiles()
 	End If
 
 	&apos; Backup .ini files
-	&apos; Subdir named according to current date and time in format YYYYMMDDhhmmss
+	&apos; Subdir named according to current date and time in format YYYY-MM-DD_hh-mm-ss
 	sBackupPath = sLanguagePath &amp; TimeStamp () &amp; &quot;/&quot;
 	sFiles = oFileAccess.getFolderContents(sLanguagePath, False)
 	For i=LBound(sFiles) To UBound(sFiles)
