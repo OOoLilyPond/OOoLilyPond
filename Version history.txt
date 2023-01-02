@@ -1,9 +1,25 @@
 **********************************************
-OOoLilyPond Version History (October 2022):
+OOoLilyPond Version History (January 2023):
 **********************************************
 
 Complete documentation: 
 https://github.com/OOoLilyPond/OOoLilyPond/wiki#ooolilypond
+
+
+
+Changes to OOoLilyPond 1.1.8 since 1.1.7 (January 2023):
+=========================================================
+
+Small improvements, mainly useful for new users who install OLy for the first time:  
+
+* In its Config dialogue, OLy now displays the LilyPond version for the specified executable. 
+* Default graphic format is now svg [cairo].  
+* "SVG" and "SVG [-dcrop]" templates are now located in a subfolder by default.  
+  Thus they won't clutter up the template list, but OLy still finds them if they are used by a document. 
+* Backup folders of templates and language files will now be created at the same location, not in a subfolder.
+
+This release includes some changes to the language files. So, after updating to 1.1.8, please open the config dialog and click the "Restore language files" button. 
+(Your current language files will be backed up in a new folder. If you like, you can delete that backup folder.)
 
 
 
