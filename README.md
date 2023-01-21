@@ -35,7 +35,7 @@ To create a new OLy object, just click the "OLy" button and an editor window wil
 
 To edit an existing object, select it first and then click the "OLy" button. In the editor window you will have access to your code again.
 
-Read more about how to use OLy: [Tutorial](https://github.com/OOoLilyPond/OOoLilyPond/wiki/Tutorial#tutorial)
+**Read more about how to use OLy: [Tutorial](https://github.com/OOoLilyPond/OOoLilyPond/wiki/Tutorial#tutorial)**
 
 If you want to get to know LilyPond, a good place to start is the [introduction] into LilyPond.
 
