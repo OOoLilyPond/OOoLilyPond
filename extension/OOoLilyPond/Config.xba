@@ -625,6 +625,7 @@ Sub DefaultConfig()
 	SetDocTypeSpecificDefaults()
 	
 	bKeepTempFiles = False
+	
 	bIncludeTemplate = False
 	bTempLyFileInDocFolder = False
 End Sub
