@@ -847,8 +847,9 @@ Function AddMissingUnit (sFileURL As String) As Boolean
 
 	Dim sCodeToParse As String
 	Dim sOutput          As String
-	Dim iTagPos As Integer
-	Dim i           As Integer
+	Dim iTagPos     As Integer
+	Dim i               As Integer
+	Dim iNextChar As Integer
 	
 &apos;	ToDo: Use proper message strings via oMessages.getPropertyValue...
 	
@@ -883,22 +884,27 @@ Function AddMissingUnit (sFileURL As String) As Boolean
 		&apos; search for (opening) quotation mark
 		iTagPos =  InStr (sCodeToParse, Chr(34))
 		If (iTagPos = 0) Then Exit Function
-		&apos; move EQUAL sign
-		sOutput = sOutput &amp; Left (sCodeToParse, iTagPos - 1)
-		sCodeToParse = Mid (sCodeToParse, iTagPos)
+		&apos; move EQUAL sign  *and*  (opening) quotation mark
+		sOutput = sOutput &amp; Left (sCodeToParse, iTagPos)
+		sCodeToParse = Mid (sCodeToParse, iTagPos + 1)
+		
+		&apos; move all numbers that are following here
+		iNextChar = Asc (sCodeToParse)
+		While (iNextChar &gt;= 48) And (iNextChar &lt;= 57)   &apos; a number from 0 to 9
+			&apos; move it from sCodeToParse to sOutput:
+			sOutput = sOutput &amp; Left (sCodeToParse, 1)
+			sCodeToParse = Mid (sCodeToParse, 2)
+			iNextChar = Asc (sCodeToParse)
+		Wend
 		
 		&apos; search for either (closing) quotation mark or &quot;pt&quot;
-		&apos; start from position 2 because there&apos;s still the (opening) quot. mark on pos. 1
-		iTagPos = TagPosIndexed (2, sCodeToParse, Chr(34), &quot;pt&quot;)
+		iTagPos = TagPosIndexed (1, sCodeToParse, Chr(34), &quot;pt&quot;)
 		If (iTagPos = 0) Then Exit Function
-		&apos; move (opening) quotation mark
-		sOutput = sOutput &amp; Left (sCodeToParse, iTagPos - 1)
-		sCodeToParse = Mid (sCodeToParse, iTagPos)
 		
-		&apos; test if there ist &quot;pt&quot; at this point
-		iTagPos = InStr (sCodeToParse, &quot;pt&quot;)
-		&apos; if not: add it in sOutput
-		If Not (iTagPos = 1) Then sOutput = sOutput &amp; &quot;pt&quot;
+		&apos; test if sCodeToParse starts witz a (closing) quot. mark
+		iTagPos = InStr (sCodeToParse, Chr(34))
+		&apos; if so: add &quot;pt&quot; in sOutput
+		If (iTagPos = 1) Then sOutput = sOutput &amp; &quot;pt&quot;
 	Next i
 	
 	&apos; add the remaining contents to sOutput:
