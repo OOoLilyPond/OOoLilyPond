@@ -855,7 +855,7 @@ Function AddMissingUnit (sFileURL As String) As Boolean
 	
 	AddMissingUnit = False
 	If Not StringFromFile (sCodeToParse, sFileURL) Then
-		If bShowError Then MsgBox (&quot;Could not read from file &quot; &amp; ConvertFromURL(sTemplateFile) &amp; &quot;...&quot;, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		If bShowError Then MsgBox (oMessages.getPropertyValue (&quot;sMsgCannotOpenFile1&quot;) &amp; ConvertFromURL(sFileURL) &amp; oMessages.getPropertyValue (&quot;sMsgCannotOpenFile2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 		Exit Function
 	End If
 	
@@ -912,7 +912,7 @@ Function AddMissingUnit (sFileURL As String) As Boolean
 	
 	&apos; write sOutput into svg file:
 	If Not StringToFile (sOutput, sFileURL) Then
-		If bShowError Then MsgBox (&quot;Could not write to file &quot; &amp; ConvertFromURL(sTemplateFile) &amp; &quot;...&quot;, iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		If bShowError Then MsgBox (oMessages.getPropertyValue (&quot;sMsgCouldNotWriteToFile1&quot;) &amp; ConvertFromURL(sFileURL) &amp; oMessages.getPropertyValue (&quot;sMsgCouldNotWriteToFile2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 		Exit Function
 	End If
 
