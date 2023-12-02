@@ -58,6 +58,7 @@ Private sFormat As String
 Private sExtension As String  &apos; needed because sFormat = &quot;pdf to svg&quot; means sExtension = &quot;svg&quot;
 Private iGraphicDPI As Integer
 Private bTransparentBackground As Boolean
+Private bAddMissingPtUnit As Boolean
 Private bIgnoreWarnings As Boolean
 Private sLanguageFileName As String
 Private bKeepTempFiles As Boolean

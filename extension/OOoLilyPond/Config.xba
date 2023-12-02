@@ -59,6 +59,7 @@ Sub ConfigDialogUpdate()
 	oConfigDialog.getControl(&quot;sFormat&quot;).setText(sFormat)
 	oConfigDialog.getControl(&quot;iGraphicDPI&quot;).setValue(iGraphicDPI)
 	oConfigDialog.getControl(&quot;bTransparentBackground&quot;).setState(BoolToCheckBoxState(bTransparentBackground))
+	oConfigDialog.getControl(&quot;bAddMissingPtUnit&quot;).setState(BoolToCheckBoxState(bAddMissingPtUnit))
 	oConfigDialog.getControl(&quot;sEditorFontName&quot;).setText(sEditorFontName)
 	oConfigDialog.getControl(&quot;sEditorFontSize&quot;).setText(sEditorFontSize)
 	oConfigDialog.getControl(&quot;sExtEditorExecutable&quot;).setText(ConvertFromURL(sExtEditorExecutable))
@@ -388,6 +389,7 @@ Sub ApplyConfig
 	End If
 	iGraphicDPI = oConfigDialog.getControl(&quot;iGraphicDPI&quot;).getValue()
 	bTransparentBackground = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bTransparentBackground&quot;).getState())
+	bAddMissingPtUnit = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bAddMissingPtUnit&quot;).getState())
 	bIgnoreWarnings = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bIgnoreWarnings&quot;).getState())
 	sEditorFontName = oConfigDialog.getControl(&quot;sEditorFontName&quot;).getText()
 	sEditorFontSize = oConfigDialog.getControl(&quot;sEditorFontSize&quot;).getText()
@@ -616,6 +618,7 @@ Sub DefaultConfig()
 	sExtension = &quot;svg&quot;
 	iGraphicDPI = 300
 	bTransparentBackground = False
+	bAddMissingPtUnit = False
 	sEditorFontName = &quot;Courier&quot;
 	sEditorFontSize = &quot;8&quot;
 	
@@ -716,6 +719,8 @@ Sub ReadConfig()
 				End If
 			Case &quot;bTransparentBackground&quot;
 				bTransparentBackground = StringToBool(sValue)
+			Case &quot;bAddMissingPtUnit&quot;
+				bAddMissingPtUnit = StringToBool(sValue)
 			Case &quot;bIgnoreWarnings&quot;
 				bIgnoreWarnings = StringToBool(sValue)
 				
@@ -887,6 +892,7 @@ Sub SaveConfig
 	oTextOutputStream.writeString(&quot;iGraphicDPI=&quot; &amp; iGraphicDPI &amp; Chr(10))
 	oTextOutputStream.writeString(&quot;sFormat=&quot; &amp; sFormat &amp; Chr(10))	
 	oTextOutputStream.writeString(&quot;bTransparentBackground=&quot; &amp; BoolToString(bTransparentBackground) &amp; Chr(10))	
+	oTextOutputStream.writeString(&quot;bAddMissingPtUnit=&quot; &amp; BoolToString(bAddMissingPtUnit) &amp; Chr(10))	
 	oTextOutputStream.writeString(&quot;bIgnoreWarnings=&quot; &amp; BoolToString(bIgnoreWarnings) &amp; Chr(10))	
 	oTextOutputStream.writeString(&quot;sEditorFontName=&quot; &amp; sEditorFontName &amp; Chr(10) )
 	oTextOutputStream.writeString(&quot;sEditorFontSize=&quot; &amp; sEditorFontSize &amp; Chr(10) )

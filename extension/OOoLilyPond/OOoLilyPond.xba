@@ -930,7 +930,7 @@ Function InsertFileURLObjectViaClipboard (sFileURL As String, sIdentifier As Str
 	
 	oDispatcher = createUnoService(&quot;com.sun.star.frame.DispatchHelper&quot;)
 	
-	If (sExtension =&quot;svg&quot;) Then AddMissingUnit (sFileURL)
+	If (bAddMissingPtUnit And (sExtension =&quot;svg&quot;)) Then AddMissingUnit (sFileURL)
 
 	if (iDocumentType = 0) then  &apos; we are in Writer
 
@@ -1053,7 +1053,7 @@ Function InsertFileURLObject (sFileURL As String, sIdentifier As String, sNumber
 	
 	On Error GoTo ErrorHandler
 	
-	If (sExtension =&quot;svg&quot;) Then AddMissingUnit (sFileURL)
+	If (bAddMissingPtUnit And (sExtension =&quot;svg&quot;)) Then AddMissingUnit (sFileURL)
 	
 	&apos; insert the Bitmap
 	If (iDocumentType = 0) Then  &apos; we are in Writer
