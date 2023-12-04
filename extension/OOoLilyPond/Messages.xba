@@ -360,6 +360,12 @@ Sub DefaultMessageStrings()	&apos; Compose the default strings needed for messag
   &apos; sTemplateFile
   oMessages.addProperty (&quot;sMsgCannotOpenTempfile2&quot;, BagAttr, &quot;&quot;)
 
+ &apos; The file could not be opened:
+  
+  oMessages.addProperty (&quot;sMsgCannotOpenFile1&quot;, BagAttr, &quot;Cannot open the file:&quot; &amp; Chr(10))
+  &apos; sTemplateFile
+  oMessages.addProperty (&quot;sMsgCannotOpenFile2&quot;, BagAttr, &quot;&quot;)
+
   &apos; End tag is missing or misspelled (because the beginning of another tag has been found):
   
   oMessages.addProperty (&quot;sMsgMisspelledEndTag1&quot;, BagAttr, &quot;The corresponding end tag &quot; &amp; Chr(34))

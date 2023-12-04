@@ -841,6 +841,84 @@ Sub AttachAttributes (oGraphic As Object, sIdentifier As String, sImageNum As St
 End Sub
 
 
+Function AddMissingUnit (sFileURL As String) As Boolean
+&apos;	Check SVG file for missing &quot;pt&quot; unit and add it if necessary
+&apos;	returns TRUE if successful
+
+	Dim sCodeToParse As String
+	Dim sOutput          As String
+	Dim iTagPos     As Integer
+	Dim i               As Integer
+	Dim iNextChar As Integer
+	
+&apos;	ToDo: Use proper message strings via oMessages.getPropertyValue...
+	
+	AddMissingUnit = False
+	If Not StringFromFile (sCodeToParse, sFileURL) Then
+		If bShowError Then MsgBox (oMessages.getPropertyValue (&quot;sMsgCannotOpenFile1&quot;) &amp; ConvertFromURL(sFileURL) &amp; oMessages.getPropertyValue (&quot;sMsgCannotOpenFile2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		Exit Function
+	End If
+	
+	iTagPos = InStr (sCodeToParse, &quot;&lt;svg&quot;)
+	If (iTagPos = 0) Then Exit Function	&apos; nothing can be done if &quot;&lt;svg&quot; tag is missing
+	
+	&apos; cut off the beginning including &quot;&lt;svg&quot;
+	sOutput = Left (sCodeToParse, iTagPos + 3)
+	sCodeToParse = Mid (sCodeToParse, iTagPos + 4)
+	
+	For i = 1 to 2
+		&apos; search for either &apos;height&apos; or &apos;width&apos;
+		iTagPos = TagPosIndexed (1, sCodeToParse, &quot;height&quot;, &quot;width&quot;)
+		If (iTagPos = 0) Then Exit Function
+		&apos; move anything before it:
+		sOutput = sOutput &amp; Left (sCodeToParse, iTagPos - 1)
+		sCodeToParse = Mid (sCodeToParse, iTagPos)
+		
+		&apos; search for EQUAL sign
+		iTagPos =  InStr (sCodeToParse, &quot;=&quot;)
+		If (iTagPos = 0) Then Exit Function
+		&apos; move &apos;height&apos; or &apos;width&apos;
+		sOutput = sOutput &amp; Left (sCodeToParse, iTagPos - 1)
+		sCodeToParse = Mid (sCodeToParse, iTagPos)
+		
+		&apos; search for (opening) quotation mark
+		iTagPos =  InStr (sCodeToParse, Chr(34))
+		If (iTagPos = 0) Then Exit Function
+		&apos; move EQUAL sign  *and*  (opening) quotation mark
+		sOutput = sOutput &amp; Left (sCodeToParse, iTagPos)
+		sCodeToParse = Mid (sCodeToParse, iTagPos + 1)
+		
+		&apos; move all numbers that are following here
+		iNextChar = Asc (sCodeToParse)
+		While (iNextChar &gt;= 48) And (iNextChar &lt;= 57)   &apos; a number from 0 to 9
+			&apos; move it from sCodeToParse to sOutput:
+			sOutput = sOutput &amp; Left (sCodeToParse, 1)
+			sCodeToParse = Mid (sCodeToParse, 2)
+			iNextChar = Asc (sCodeToParse)
+		Wend
+		
+		&apos; search for either (closing) quotation mark or &quot;pt&quot;
+		iTagPos = TagPosIndexed (1, sCodeToParse, Chr(34), &quot;pt&quot;)
+		If (iTagPos = 0) Then Exit Function
+		
+		&apos; test if sCodeToParse starts witz a (closing) quot. mark
+		iTagPos = InStr (sCodeToParse, Chr(34))
+		&apos; if so: add &quot;pt&quot; in sOutput
+		If (iTagPos = 1) Then sOutput = sOutput &amp; &quot;pt&quot;
+	Next i
+	
+	&apos; add the remaining contents to sOutput:
+	sOutput = sOutput &amp; sCodeToParse
+	
+	&apos; write sOutput into svg file:
+	If Not StringToFile (sOutput, sFileURL) Then
+		If bShowError Then MsgBox (oMessages.getPropertyValue (&quot;sMsgCouldNotWriteToFile1&quot;) &amp; ConvertFromURL(sFileURL) &amp; oMessages.getPropertyValue (&quot;sMsgCouldNotWriteToFile2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
+		Exit Function
+	End If
+
+End Function
+
+
 Function InsertFileURLObjectViaClipboard (sFileURL As String, sIdentifier As String, sNumber As String, bFirstCall As Boolean)
 	&apos; Dim oDoc, oDocCtrl
 	Dim oDispatcher As Object
@@ -851,6 +929,8 @@ Function InsertFileURLObjectViaClipboard (sFileURL As String, sIdentifier As Str
 	Dim oText as Object
 	
 	oDispatcher = createUnoService(&quot;com.sun.star.frame.DispatchHelper&quot;)
+	
+	If (bAddMissingPtUnit And (sExtension =&quot;svg&quot;)) Then AddMissingUnit (sFileURL)
 
 	if (iDocumentType = 0) then  &apos; we are in Writer
 
@@ -972,6 +1052,8 @@ Function InsertFileURLObject (sFileURL As String, sIdentifier As String, sNumber
 	&apos; Dim oCursor As Object		&apos; not in use
 	
 	On Error GoTo ErrorHandler
+	
+	If (bAddMissingPtUnit And (sExtension =&quot;svg&quot;)) Then AddMissingUnit (sFileURL)
 	
 	&apos; insert the Bitmap
 	If (iDocumentType = 0) Then  &apos; we are in Writer
