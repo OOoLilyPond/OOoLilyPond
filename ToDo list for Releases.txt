@@ -18,7 +18,7 @@ Version history.txt
     * for the OpenOffice version, use 
       Addons.xcu from the AOO folder
 
-- add release-notes.txt
+- add (file) version-history.txt
 - add same text as Release description
 
 - now publish Release
