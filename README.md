@@ -21,7 +21,7 @@ OOoLilyPond (OLy) is a LibreOffice/OpenOffice extension to include LilyPond musi
 and then choosing the downloaded extension file (.oxt).  
 Your toolbars in Writer, Calc, Impress and Draw should now have a new "OLy" button which launches the extension.
 
-**You can find a detailed documentation [here in the wiki](https://github.com/OOoLilyPond/OOoLilyPond/wiki/Installation#installation).**
+**You can find a detailed installation guide [here in the wiki](https://github.com/OOoLilyPond/OOoLilyPond/wiki/Installation#installation).**
 
 ## Usage
 
