@@ -1,5 +1,5 @@
 **********************************************
-OOoLilyPond Version History (January 2023):
+OOoLilyPond Version History (December 2023):
 **********************************************
 
 Complete documentation: 
