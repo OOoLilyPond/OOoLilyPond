@@ -847,7 +847,7 @@ Function AddMissingUnit (sFileURL As String) As Boolean
 
 	Dim sCodeToParse As String
 	Dim sOutput          As String
-	Dim iTagPos     As Integer
+	Dim iTagPos     As Long
 	Dim i               As Integer
 	Dim iNextChar As Integer
 	

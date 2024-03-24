@@ -473,7 +473,7 @@ Sub ReadMessageStrings()	&apos; Called from ReadLanguageFile() if the following 
 	Dim sName As String
 	Dim sValue As String
 	Dim iStartPtr As Integer
-	Dim iEndPtr As Integer
+	Dim iEndPtr As Long
 	
 	On Error GoTo ErrorHandler
 	
@@ -532,7 +532,7 @@ End Sub
 Sub ReadDialogStrings (oDialog As Object)	&apos; Called from ReadLanguageFile() if the following contents of sLanguageCode belongs to the dialog 
 											&apos; specified in the [xxxDialog] section command
 
-	Dim iLineEndPos As Integer		&apos; position of the first sign that terminates a line from the text file. Can be Chr(13) or Chr(10) or both.
+	Dim iLineEndPos As Long		&apos; position of the first sign that terminates a line from the text file. Can be Chr(13) or Chr(10) or both.
 	Dim iEqPos As Integer			&apos; position of the first &quot;equal&quot; sign
 	Dim iDotPos As Integer			&apos; position of the first dot in sKey
 	Dim iBreakPos As Integer		&apos; position of intended line break in strings
@@ -604,7 +604,7 @@ Sub ReadDialogStringsFromVar (oDialog As Object, sSource As String, sID As Strin
 	Dim sCodeToParse As String		&apos; the current line that has been read out of sSource (the file contents)
 	Dim sKey As String, sValue As String, sName As String, sPart As String
 	Dim iStartPtr As Integer
-	Dim iEndPtr As Integer
+	Dim iEndPtr As Long
 	
 	On Error Goto LocalErrorHandler
 	
@@ -678,7 +678,7 @@ Sub ReadSection (sDestination As String)	&apos; Called from ReadLanguageFile() i
 											&apos; other than oEditorDialog
 											&apos; Contents of the section will be stored in sDestination.
 
-	Dim iSectionEndPos As Integer	&apos; position of the next &quot;[&quot; sign at the beginning of a line. Might be zero if no other section follows.
+	Dim iSectionEndPos As Long	&apos; position of the next &quot;[&quot; sign at the beginning of a line. Might be zero if no other section follows.
 	
 	iSectionEndPos = TagPos (sLanguageCode, Chr(10) &amp; &quot;[&quot;, Chr(13) &amp; &quot;[&quot;)	&apos; indicates the start of another section
 	If iSectionEndPos = 0 Then
@@ -747,7 +747,7 @@ End Sub
 Sub ReadLanguageFile()	&apos; If a language file is specified, read out its contents to replace the message strings, dialog labels etc.
 
 	Dim sLanguageFile As String		&apos; path and file name
-	Dim iLineEndPos As Integer		&apos; position of the first sign that terminates a line from the text file. Can be Chr(13) or Chr(10) or both.
+	Dim iLineEndPos As Long			&apos; position of the first sign that terminates a line from the text file. Can be Chr(13) or Chr(10) or both.
 	Dim sCodeToParse As String		&apos; the current line that has been read out of sLanguageCode (the file contents)
 	
 	If Right (sLanguageFileName, 4) &lt;&gt; &quot;.ini&quot; Then	&apos; If no valid &quot;*.ini&quot; file name is specified...

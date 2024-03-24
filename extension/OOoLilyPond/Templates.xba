@@ -16,16 +16,16 @@ Const sEndTagScm = &quot;#!OOoLilyPondEnd!#&quot;
 &apos; (must have the same length as their siblings above in order to avoid problems in ApplyTemplate)
 
 
-Function TagPos(sText, sA, sB As String) As Integer
+Function TagPos (sText, sA, sB As String) As Long
 	&apos; indicates the nearest position of either argument &quot;sA&quot; or &quot;sB&quot; in &quot;sText&quot;.
 	&apos; Will be used for locating both versions of a start/end tag and other stuff
 	
-	Dim posA As Integer
-	Dim posB As Integer
+	Dim posA As Long
+	Dim posB As Long
 	
 	
-	posA = InStr(sText, sA)
-	posB = InStr(sText, sB)
+	posA = InStr (sText, sA)
+	posB = InStr (sText, sB)
 	
 	&apos; If posA and PosB both are zero, none of the search items is contained in sText:
 	If (posA = 0) And (posB = 0) Then
@@ -53,14 +53,14 @@ Function TagPos(sText, sA, sB As String) As Integer
 End Function
 
 
-Function TagPosIndexed (iStart As Integer, sText, sA, sB As String) As Integer
+Function TagPosIndexed (iStart As Integer, sText, sA, sB As String) As Long
 	&apos; indicates the nearest position of either argument &quot;sA&quot; or &quot;sB&quot; in &quot;sText&quot;, 
 	&apos; starting search from iStart.
 	&apos; Fourth parameter for InStr set to 0 to keep search case-sensitive (maybe faster?).
 	&apos; Will be used for locating both versions of a start/end tag and other stuff.
 	
-	Dim posA As Integer
-	Dim posB As Integer
+	Dim posA As Long
+	Dim posB As Long
 	
 	
 	posA = InStr (iStart, sText, sA, 0)
@@ -97,7 +97,7 @@ Function ApplyTemplate() As Boolean
 	&apos; Input from sTemplateCode, OOoLilyPond data vars
 	&apos; Output into sLilyPondCode
 
-	Dim iTagPos As Integer
+	Dim iTagPos As Long
 	Dim sFieldName As String &apos; Code, StaffSize, LineWidth, Custom1 ... Custom4
 	Dim sCodeToParse As String &apos; copy of sTemplateCode
 	Dim sTemplateFile As String &apos; path to template file, only needed for error message
@@ -350,7 +350,7 @@ Function ReadTemplate (bShowError As Boolean) As Boolean
 	&apos; for being used as template specific default values.
 
 	Dim sDefaultValue As String
-	Dim iTagPos As Integer
+	Dim iTagPos As Long
 	Dim sFieldName As String &apos; Code, StaffSize, LineWidth, Custom1 ... Custom4
 	Dim sCodeToParse As String &apos; copy of sTemplateCode
 	Dim sStaffSizeFromTemplate As String	
@@ -577,7 +577,7 @@ Function ReadTempLyFile() As Boolean
 	&apos; This function is an adapted version of ReadTemplate()
 
 	Dim sDefaultValue As String
-	Dim iTagPos As Integer
+	Dim iTagPos As Long
 	Dim sFieldName As String &apos; Code, StaffSize, LineWidth, Custom1 ... Custom4
 	Dim sTempLyFile As String &apos; path to temporary file
 	Dim sCodeToParse As String &apos; contents of temporary file
