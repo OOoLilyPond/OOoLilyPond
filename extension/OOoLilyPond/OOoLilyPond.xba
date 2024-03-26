@@ -850,10 +850,12 @@ Function AddMissingUnit (sFileURL As String) As Boolean
 	Dim iTagPos     As Long
 	Dim i               As Integer
 	Dim iNextChar As Integer
+	Dim bUnitMissing As Boolean
 	
 &apos;	ToDo: Use proper message strings via oMessages.getPropertyValue...
 	
 	AddMissingUnit = False
+	bUnitMissing = False
 	If Not StringFromFile (sCodeToParse, sFileURL) Then
 		If bShowError Then MsgBox (oMessages.getPropertyValue (&quot;sMsgCannotOpenFile1&quot;) &amp; ConvertFromURL(sFileURL) &amp; oMessages.getPropertyValue (&quot;sMsgCannotOpenFile2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 		Exit Function
@@ -904,8 +906,16 @@ Function AddMissingUnit (sFileURL As String) As Boolean
 		&apos; test if sCodeToParse starts witz a (closing) quot. mark
 		iTagPos = InStr (sCodeToParse, Chr(34))
 		&apos; if so: add &quot;pt&quot; in sOutput
-		If (iTagPos = 1) Then sOutput = sOutput &amp; &quot;pt&quot;
+		If (iTagPos = 1) Then 
+			sOutput = sOutput &amp; &quot;pt&quot;
+			bUnitMissing = True
+		End If
 	Next i
+	
+	If Not bUnitMissing Then
+		AddMissingUnit = True	&apos; return TRUE for successful execution
+		Exit Function					&apos; nothing else to do
+	End If
 	
 	&apos; add the remaining contents to sOutput:
 	sOutput = sOutput &amp; sCodeToParse
@@ -915,6 +925,9 @@ Function AddMissingUnit (sFileURL As String) As Boolean
 		If bShowError Then MsgBox (oMessages.getPropertyValue (&quot;sMsgCouldNotWriteToFile1&quot;) &amp; ConvertFromURL(sFileURL) &amp; oMessages.getPropertyValue (&quot;sMsgCouldNotWriteToFile2&quot;), iMsgBox_E, oMessages.getPropertyValue (&quot;sCaptionError&quot;))
 		Exit Function
 	End If
+	
+	&apos; return TRUE for successful execution:
+	AddMissingUnit = True
 
 End Function
 
@@ -1173,7 +1186,8 @@ Function IsEmptyImage  (oGraphic As Object) As Boolean
 	Dim Height As Long
 	Dim Width As Long
 	IsEmptyImage = False
-	Select Case oGraphic.getImplementationName()		
+	On Error GoTo ErrorHandler
+	Select Case oGraphic.getImplementationName()	&apos; will raise an error if oGraphic is Null
 	Case &quot;SwXTextGraphicObject&quot;  &apos; Writer
 		Height = oGraphic.Graphic.Size100thMM.Height
 		Width  = oGraphic.Graphic.Size100thMM.Width
@@ -1187,7 +1201,10 @@ Function IsEmptyImage  (oGraphic As Object) As Boolean
 		Width  = oGraphic.Graphic.Size100thMM.Width
 		IsEmptyImage = (Height = 6) And (Width = 6)
 	End Select
-
+	Exit Function
+	
+	ErrorHandler:
+	IsEmptyImage = True
 End Function
 
 
