@@ -7,6 +7,14 @@ https://github.com/OOoLilyPond/OOoLilyPond/wiki#ooolilypond
 
 
 
+Changes to OOoLilyPond 1.1.10 since 1.1.9 (March 2024):
+=======================================================
+
+* Bugfix: When using the 'add missing "pt" unit' feature, certain svg files larger than 32767 bytes 
+    could cause OLy to abort with an "Overflow" runtime error. 
+
+
+
 Changes to OOoLilyPond 1.1.9 since 1.1.8 (December 2023):
 =========================================================
 
