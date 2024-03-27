@@ -4,13 +4,13 @@ https://github.com/OOoLilyPond/OOoLilyPond/wiki/Downloads
 and open it in LibreOffice / OpenOffice.
 
 direct link for LibreOffice:
-https://github.com/OOoLilyPond/OOoLilyPond/releases/download/v1.1.9/OOoLilyPond-1.1.9.oxt
+https://github.com/OOoLilyPond/OOoLilyPond/releases/download/v1.1.10/OOoLilyPond-1.1.10.oxt
 direct link for OpenOffice:
-https://github.com/OOoLilyPond/OOoLilyPond/releases/download/v1.1.9/OOoLilyPond-1.1.9_for_Apache_OpenOffice.oxt
+https://github.com/OOoLilyPond/OOoLilyPond/releases/download/v1.1.10/OOoLilyPond-1.1.10_for_Apache_OpenOffice.oxt
 
 
 **********************************************
-OOoLilyPond Version History (December 2023):
+OOoLilyPond Version History (March 2024):
 **********************************************
 
 Complete documentation: 
@@ -18,19 +18,9 @@ https://github.com/OOoLilyPond/OOoLilyPond/wiki#ooolilypond
 
 
 
-Changes to OOoLilyPond 1.1.9 since 1.1.8 (December 2023):
-=========================================================
+Changes to OOoLilyPond 1.1.10 since 1.1.9 (March 2024):
+=======================================================
 
-* Improvement: Option to add missing "pt" unit to SVG files
-    In some cases, SVG images produced by LilyPond (via Cairo library) are incorrectly scaled. 
-    This happens if their height and width statement does not contain any unit. 
-    For details see: 
-    https://github.com/OOoLilyPond/OOoLilyPond/issues/10
-    
-    OLy now offers an option to pre-scan SVG files before importing 
-    and add "pt" as unit if necessary. 
-    To activate this feature, open the config dialogue and 
-    activate the 'add missing "pt" unit' checkbox. 
+* Bugfix: When using the 'add missing "pt" unit' feature, certain svg files larger than 32767 bytes 
+    could cause OLy to abort with an "Overflow" runtime error. 
 
-This release includes some changes to the language files. So, after updating to 1.1.9, please open the config dialog and click the "Restore language files" button. 
-(Your current language files will be backed up in a new folder. If you like, you can delete that backup folder.)
