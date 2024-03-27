@@ -24,3 +24,7 @@ Changes to OOoLilyPond 1.1.10 since 1.1.9 (March 2024):
 * Bugfix: When using the 'add missing "pt" unit' feature, certain svg files larger than 32767 bytes 
     could cause OLy to abort with an "Overflow" runtime error. 
 
+* Improvement: An svg file is only re-written if a "pt" unit had to be added.  
+    If nothing has been changed, there are no more unnecessary write operations.
+
+
