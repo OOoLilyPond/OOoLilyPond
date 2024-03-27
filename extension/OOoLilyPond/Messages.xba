@@ -467,12 +467,12 @@ End Sub
 
 Sub ReadMessageStrings()	&apos; Called from ReadLanguageFile() if the following contents of sLanguageCode belongs to the [Messages] section
 
-	Dim iEqPos As Integer			&apos; position of the first &quot;equal&quot; sign
-	Dim iBreakPos As Integer		&apos; position of intended line break in strings
-	Dim sCodeToParse As String		&apos; the current line that has been read out of sLanguageCode (the file contents)
+	Dim iEqPos As Long 				&apos; position of the first &quot;equal&quot; sign
+	Dim iBreakPos As Long			&apos; position of intended line break in strings
+	Dim sCodeToParse As String	&apos; the current line that has been read out of sLanguageCode (the file contents)
 	Dim sName As String
 	Dim sValue As String
-	Dim iStartPtr As Integer
+	Dim iStartPtr As Long
 	Dim iEndPtr As Long
 	
 	On Error GoTo ErrorHandler
@@ -533,10 +533,10 @@ Sub ReadDialogStrings (oDialog As Object)	&apos; Called from ReadLanguageFile() 
 											&apos; specified in the [xxxDialog] section command
 
 	Dim iLineEndPos As Long		&apos; position of the first sign that terminates a line from the text file. Can be Chr(13) or Chr(10) or both.
-	Dim iEqPos As Integer			&apos; position of the first &quot;equal&quot; sign
-	Dim iDotPos As Integer			&apos; position of the first dot in sKey
-	Dim iBreakPos As Integer		&apos; position of intended line break in strings
-	Dim sCodeToParse As String		&apos; the current line that has been read out of sLanguageCode (the file contents)
+	Dim iEqPos As Long				&apos; position of the first &quot;equal&quot; sign
+	Dim iDotPos As Long				&apos; position of the first dot in sKey
+	Dim iBreakPos As Long			&apos; position of intended line break in strings
+	Dim sCodeToParse As String	&apos; the current line that has been read out of sLanguageCode (the file contents)
 	Dim sKey As String, sValue As String, sName As String, sPart As String
 	
 	iLineEndPos = TagPos (sLanguageCode, Chr(13), Chr(10))	&apos; indicates the line end character(s)
@@ -598,12 +598,12 @@ Sub ReadDialogStringsFromVar (oDialog As Object, sSource As String, sID As Strin
 																	&apos; sID will be added to the dialog control&apos;s names
 
 	&apos; Dim iLineEndPos As Integer		&apos; position of the first sign that terminates a line from the text file. Can be Chr(13) or Chr(10) or both.
-	Dim iEqPos As Integer			&apos; position of the first &quot;equal&quot; sign
-	Dim iDotPos As Integer			&apos; position of the first dot in sKey
-	Dim iBreakPos As Integer		&apos; position of intended line break in strings
+	Dim iEqPos As Long				&apos; position of the first &quot;equal&quot; sign
+	Dim iDotPos As Long				&apos; position of the first dot in sKey
+	Dim iBreakPos As Long			&apos; position of intended line break in strings
 	Dim sCodeToParse As String		&apos; the current line that has been read out of sSource (the file contents)
 	Dim sKey As String, sValue As String, sName As String, sPart As String
-	Dim iStartPtr As Integer
+	Dim iStartPtr As Long
 	Dim iEndPtr As Long
 	
 	On Error Goto LocalErrorHandler

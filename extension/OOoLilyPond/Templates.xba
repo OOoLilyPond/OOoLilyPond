@@ -53,7 +53,7 @@ Function TagPos (sText, sA, sB As String) As Long
 End Function
 
 
-Function TagPosIndexed (iStart As Integer, sText, sA, sB As String) As Long
+Function TagPosIndexed (iStart As Long, sText, sA, sB As String) As Long
 	&apos; indicates the nearest position of either argument &quot;sA&quot; or &quot;sB&quot; in &quot;sText&quot;, 
 	&apos; starting search from iStart.
 	&apos; Fourth parameter for InStr set to 0 to keep search case-sensitive (maybe faster?).

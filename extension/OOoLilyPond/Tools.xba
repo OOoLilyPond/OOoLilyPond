@@ -63,8 +63,8 @@ Sub ReplaceSubStrings (sProcess As String, sFind As String, sReplace As String, 
 &apos; ... a little more complicated because iSearchMode allows case-insensitive searching
 
 	Dim iPos As Long
-	Dim iStartPos As Integer
-	Dim iLen As Integer
+	Dim iStartPos As Long
+	Dim iLen As Long
 	Dim sResult As String
 	
 	iStartPos = 1
