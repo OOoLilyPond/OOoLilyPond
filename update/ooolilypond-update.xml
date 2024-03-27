@@ -2,9 +2,9 @@
 <description xmlns="http://openoffice.org/extensions/update/2006"
   xmlns:xlink="http://www.w3.org/1999/xlink">
   <identifier value="net.sourceforge.ooolilypond"/>
-  <version value="1.1.9" /> 
+  <version value="1.1.10" /> 
   <update-download>
-    <src xlink:href="https://github.com/OOoLilyPond/OOoLilyPond/releases/download/v1.1.9/OOoLilyPond-1.1.9.oxt" />
+    <src xlink:href="https://github.com/OOoLilyPond/OOoLilyPond/releases/download/v1.1.10/OOoLilyPond-1.1.10.oxt" />
   </update-download>
   <release-notes>
     <src xlink:href="https://raw.githubusercontent.com/OOoLilyPond/OOoLilyPond/master/update/release-notes.txt" />
