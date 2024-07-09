@@ -40,9 +40,6 @@
 %{OOoLilyPondEnd%}
 % ------------------------------------------------------------
 
-\include "lilypond-book-preamble.ly"
-#(set-global-staff-size #!OOoLilyPondStaffSize!# 20 #!OOoLilyPondEnd!#)
-
 %                         #!  and  !#  enclose block comments in scheme.
 %                                      just as  
 %                         %{  and  %}  do in LilyPond expressions.
