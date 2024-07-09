@@ -447,27 +447,27 @@ Function ReadTemplate (bShowError As Boolean) As Boolean
 				sDefaultCode = sDefaultValue
 				bCodeFieldExists = True
 			Case &quot;LineWidth&quot;
-				RemoveSpaces (sDefaultValue)
+				&apos; RemoveSpaces (sDefaultValue)
 				sLineWidthFromTemplate = sDefaultValue
 				bLineWidthFieldExists = True
 			Case &quot;StaffSize&quot;
-				RemoveSpaces (sDefaultValue)
+				&apos; RemoveSpaces (sDefaultValue)
 				sStaffSizeFromTemplate = sDefaultValue
 				bStaffSizeFieldExists = True
 			Case &quot;Custom1&quot;
-				RemoveSpaces (sDefaultValue)
+				&apos; RemoveSpaces (sDefaultValue)
 				sDefaultCustom1 = sDefaultValue
 				bCustom1FieldExists = True
 			Case &quot;Custom2&quot;
-				RemoveSpaces (sDefaultValue)
+				&apos; RemoveSpaces (sDefaultValue)
 				sDefaultCustom2 = sDefaultValue
 				bCustom2FieldExists = True
 			Case &quot;Custom3&quot;
-				RemoveSpaces (sDefaultValue)
+				&apos; RemoveSpaces (sDefaultValue)
 				sDefaultCustom3 = sDefaultValue
 				bCustom3FieldExists = True
 			Case &quot;Custom4&quot;
-				RemoveSpaces (sDefaultValue)
+				&apos; RemoveSpaces (sDefaultValue)
 				sDefaultCustom4 = sDefaultValue
 				bCustom4FieldExists = True
 			&apos; Option CheckBoxes (have no default setting)
