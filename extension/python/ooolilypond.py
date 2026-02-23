@@ -27,7 +27,7 @@ class ContextMenuInterceptor(unohelper.Base, XContextMenuInterceptor):
             separator.SeparatorType = ATST_LINE
             item = menu.createInstance("com.sun.star.ui.ActionTrigger")
             url = "vnd.sun.star.script:OOoLilyPond.OOoLilyPond.OOoLilyPond?language=Basic&location=application"
-            item.setPropertyValues(("CommandURL", "Text"), (url, "OOoLilypond"))
+            item.setPropertyValues(("CommandURL", "Text"), (url, "OOoLilyPond"))
             menu.insertByIndex(0, separator)
             menu.insertByIndex(0, item)
             return EXECUTE_MODIFIED
