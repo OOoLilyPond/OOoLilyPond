@@ -12,7 +12,7 @@ Changes to OOoLilyPond 1.1.11 since 1.1.10 (February 2026):
 
 * Improvement: When right-clicking on an OLy object, the context menu now contains an "OOoLilyPond" entry
     which launches the extension. This can be used as an alternative to (first) selecting the object and 
-    (second) click the OLy button. 
+    (second) clicking the OLy button. 
 
 Thanks a lot to J. M. Zambon for this contribution! 
 
