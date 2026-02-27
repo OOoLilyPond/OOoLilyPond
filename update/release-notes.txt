@@ -4,13 +4,13 @@ https://github.com/OOoLilyPond/OOoLilyPond/wiki/Downloads
 and open it in LibreOffice / OpenOffice.
 
 direct link for LibreOffice:
-https://github.com/OOoLilyPond/OOoLilyPond/releases/download/v1.1.10/OOoLilyPond-1.1.10.oxt
+https://github.com/OOoLilyPond/OOoLilyPond/releases/download/v1.1.11/OOoLilyPond-1.1.11.oxt
 direct link for OpenOffice:
-https://github.com/OOoLilyPond/OOoLilyPond/releases/download/v1.1.10/OOoLilyPond-1.1.10_for_Apache_OpenOffice.oxt
+https://github.com/OOoLilyPond/OOoLilyPond/releases/download/v1.1.11/OOoLilyPond-1.1.11_for_Apache_OpenOffice.oxt
 
 
 **********************************************
-OOoLilyPond Version History (March 2024):
+OOoLilyPond Version History (February 2026):
 **********************************************
 
 Complete documentation: 
@@ -18,13 +18,11 @@ https://github.com/OOoLilyPond/OOoLilyPond/wiki#ooolilypond
 
 
 
-Changes to OOoLilyPond 1.1.10 since 1.1.9 (March 2024):
-=======================================================
+Changes to OOoLilyPond 1.1.11 since 1.1.10 (February 2026):
+===========================================================
 
-* Bugfix: When using the 'add missing "pt" unit' feature, certain svg files larger than 32767 bytes 
-    could cause OLy to abort with an "Overflow" runtime error. 
+* Improvement: When right-clicking on an OLy object, the context menu now contains an "OOoLilyPond" entry
+    which launches the extension. This can be used as an alternative to (first) selecting the object and 
+    (second) click the OLy button. 
 
-* Improvement: An svg file is only re-written if a "pt" unit had to be added.  
-    If nothing has been changed, there are no more unnecessary write operations.
-
-
+Thanks a lot to J. M. Zambon for this contribution! 
