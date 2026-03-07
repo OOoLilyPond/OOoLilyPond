@@ -9,7 +9,7 @@ OOoLilyPond (OLy) is a LibreOffice/OpenOffice extension to include LilyPond musi
 * presentations (Impress) and  
 * drawings (Draw).
 
-![editor object](https://raw.githubusercontent.com/OOoLilyPond/wiki-resources/master/images/editor-object-03.gif)
+![editor object](https://raw.githubusercontent.com/OOoLilyPond/wiki-resources/master/images/editor-object-03.png)
 
 ## Installation
 
