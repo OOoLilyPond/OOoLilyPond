@@ -504,6 +504,7 @@ Sub DefaultConfig()
 	sLilyPondVersionMajor = &quot;&quot;
 	sLilyPondVersionMinor = &quot;&quot;
 	sLilyPondVersionPatch = &quot;&quot;
+	iWindowsShellMethod = 2
 
 	sOSType=GetOSType()
 

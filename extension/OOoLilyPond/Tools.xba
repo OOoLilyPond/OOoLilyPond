@@ -525,32 +525,32 @@ Sub WindowsCommand(sCommand as String)
 	oTextStream.writeString( Chr(13) &amp; Chr(10) )
 	oTextStream.writeString(&quot;chcp 65001&quot; &amp; Chr(13) &amp; Chr(10) &amp; sCommand)
 	oTextStream.closeOutput()
-
-	&apos; &apos; Option 1:
-	&apos; Shell (sBatFile, 6, &quot;&quot;, True) &apos; Window-code 6 : only show symbol and leave focus on the current window
 	
-    &apos; Option 2:
-    Dim oWsh As Object
-    Dim nRet As Long
-    oWsh = CreateObject(&quot;WScript.Shell&quot;)
-    &apos; Parameter: Befehl, Fenstermodus (0 = versteckt), Warten (True)
-    nRet = oWsh.Run ( sBatFile, 4, True)
-    
-	&apos; &apos; Option 3:
-	&apos; Dim oShell As Object
-    &apos; oShell = CreateUnoService (&quot;com.sun.star.system.SystemShellExecute&quot;)
-    &apos; &apos; Dieser Aufruf wartet nicht auf das Ende der bat-Datei
-    &apos; oShell.execute ( sBatFile, &quot;&quot;, 0 )
-    &apos; &apos; Warten, bis die Signaldatei existiert
-    &apos; Dim t As Double
-    &apos; Dim tstart As Double
-    &apos; tstart = Timer
-    &apos; Do 
-    &apos;     Wait 200   &apos; Millisekunden, entlastet die CPU
-    &apos;     t = Timer - tstart
-    &apos;     If  (t &lt; 0) Then t = t + 3600 * 24 
-    &apos; Loop Until (Dir (sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;) &lt;&gt; &quot;&quot;) Or ( t &gt; 10  )
-   &apos;  Wait 800 
+	Select Case iWindowsShellMethod
+		Case 3
+			Dim oShell As Object
+   			oShell = CreateUnoService (&quot;com.sun.star.system.SystemShellExecute&quot;)
+    		 &apos; does NOT wait until the end of batch file execution!
+    		oShell.execute ( sBatFile, &quot;&quot;, 0 )
+    		&apos; wait until OOoLilyPond.out exists
+    		Dim t As Double
+    		Dim tstart As Double
+    		tstart = Timer
+    		Do 
+    		    Wait 200   &apos; milliseconds
+				t = Timer - tstart    &apos; seconds already elapsed
+    		    If  (t &lt; 0) Then t = t + 3600 * 24   &apos; round midnight?
+    		Loop Until (Dir (sTmpPath &amp; constOLyFileName &amp; &quot;.out&quot;) &lt;&gt; &quot;&quot;) Or ( t &gt; 10  )   &apos; timeout: 10 seconds
+   			Wait 800 
+   		Case 2
+   			Dim oWsh As Object
+    		Dim nRet As Long
+    		oWsh = CreateObject(&quot;WScript.Shell&quot;)
+    		&apos; Parameters: command, window mode (0 = versteckt), wait (True)
+    		nRet = oWsh.Run ( sBatFile, 4, True)
+    	Case Else  &apos;  1 and any other value (the latter should not happen...)
+    		Shell (sBatFile, 6, &quot;&quot;, True) &apos; Window-code 6 : only show symbol and leave focus on the current window
+	End Select
     
 	Kill(sBatFile)
 	
