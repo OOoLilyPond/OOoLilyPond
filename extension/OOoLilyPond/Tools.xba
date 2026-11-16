@@ -533,8 +533,8 @@ Sub WindowsCommand(sCommand as String)
     		 &apos; does NOT wait until the end of batch file execution!
     		oShell.execute ( sBatFile, &quot;&quot;, 0 )
     		&apos; wait until OOoLilyPond.out exists
-    		Dim t As Double
-    		Dim tstart As Double
+    		Dim t As Long
+    		Dim tstart As Long
     		tstart = Timer
     		Do 
     		    Wait 200   &apos; milliseconds
