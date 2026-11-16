@@ -42,6 +42,30 @@ Sub ConfigDialogUpdate()
 	ListOfTemplates(oConfigDialog.getControl(&quot;sDrawDefaultTemplate&quot;))
 	
 	ListOfLanguageFiles(oConfigDialog.getControl(&quot;sLanguageFileName&quot;))
+
+	&apos; general settings, left column
+	oConfigDialog.getControl(&quot;iGraphicDPI&quot;).setValue(iGraphicDPI)
+	oConfigDialog.getControl(&quot;bTransparentBackground&quot;).setState(BoolToCheckBoxState(bTransparentBackground))
+	oConfigDialog.getControl(&quot;bAddMissingPtUnit&quot;).setState(BoolToCheckBoxState(bAddMissingPtUnit))
+	
+	&apos; general settings, right column
+	oConfigDialog.getControl(&quot;sLanguageFileName&quot;).setText(sLanguageFileName)
+	oConfigDialog.getControl(&quot;sEditorFontName&quot;).setText(sEditorFontName)
+	oConfigDialog.getControl(&quot;sEditorFontSize&quot;).setText(sEditorFontSize)	
+	oConfigDialog.getControl(&quot;sFormat&quot;).setText(sFormat)
+	oConfigDialog.getControl(&quot;sIncludeStatement&quot;).setText(sIncludeStatement)
+	oConfigDialog.getControl(&quot;sLanguagePath&quot;).setText(ConvertFromURL(sLanguagePath))
+	oConfigDialog.getControl(&quot;sTemplatePath&quot;).setText(ConvertFromURL(sTemplatePath))
+	oConfigDialog.getControl(&quot;bIncludeTemplate&quot;).setState(BoolToCheckBoxState(bIncludeTemplate))
+	oConfigDialog.getControl(&quot;sExtEditorExecutable&quot;).setText(ConvertFromURL(sExtEditorExecutable))
+	oConfigDialog.getControl(&quot;bTempLyFileInDocFolder&quot;).setState(BoolToCheckBoxState(bTempLyFileInDocFolder))
+	oConfigDialog.getControl(&quot;sPdfToSvgPrologue&quot;).setText(sPdfToSvgPrologue)
+	oConfigDialog.getControl(&quot;sPdfToSvgEpilogue&quot;).setText(sPdfToSvgEpilogue)
+	oConfigDialog.getControl(&quot;bUseSecondSvgParam&quot;).setState(BoolToCheckBoxState(bUseSecondSvgParam))
+	oConfigDialog.getControl(&quot;sLilyPondExecutable&quot;).setText(ConvertFromURL(sLilyPondExecutable))	
+	If iWindowsShellMethod = 1 Then oConfigDialog.getControl (&quot;WinShellMethod1&quot;).setState (true)
+	If iWindowsShellMethod = 2 Then oConfigDialog.getControl (&quot;WinShellMethod2&quot;).setState (true)
+	If iWindowsShellMethod = 3 Then oConfigDialog.getControl (&quot;WinShellMethod3&quot;).setState (true)
 	
 	&apos; display detected LilyPond version: 
 	If sLilyPondVersionMajor=&quot;&quot; Then &apos; LilyPond has never been (successfully) called yet
@@ -51,24 +75,6 @@ Sub ConfigDialogUpdate()
 			sLilyPondVersionMajor &amp; &quot;.&quot; &amp; sLilyPondVersionMinor &amp; &quot;.&quot; &amp; sLilyPondVersionPatch &amp; _
 			oMessages.getPropertyValue (&quot;sMsgLilyPondVersionDetected2&quot;)
 	End If
-
-	&apos; general settings
-	oConfigDialog.getControl(&quot;sTemplatePath&quot;).setText(ConvertFromURL(sTemplatePath))
-	oConfigDialog.getControl(&quot;sLanguagePath&quot;).setText(ConvertFromURL(sLanguagePath))
-	oConfigDialog.getControl(&quot;sLilyPondExecutable&quot;).setText(ConvertFromURL(sLilyPondExecutable))
-	oConfigDialog.getControl(&quot;sFormat&quot;).setText(sFormat)
-	oConfigDialog.getControl(&quot;iGraphicDPI&quot;).setValue(iGraphicDPI)
-	oConfigDialog.getControl(&quot;bTransparentBackground&quot;).setState(BoolToCheckBoxState(bTransparentBackground))
-	oConfigDialog.getControl(&quot;bAddMissingPtUnit&quot;).setState(BoolToCheckBoxState(bAddMissingPtUnit))
-	oConfigDialog.getControl(&quot;sEditorFontName&quot;).setText(sEditorFontName)
-	oConfigDialog.getControl(&quot;sEditorFontSize&quot;).setText(sEditorFontSize)
-	oConfigDialog.getControl(&quot;sExtEditorExecutable&quot;).setText(ConvertFromURL(sExtEditorExecutable))
-	oConfigDialog.getControl(&quot;bTempLyFileInDocFolder&quot;).setState(BoolToCheckBoxState(bTempLyFileInDocFolder))
-	oConfigDialog.getControl(&quot;sIncludeStatement&quot;).setText(sIncludeStatement)
-	oConfigDialog.getControl(&quot;sPdfToSvgPrologue&quot;).setText(sPdfToSvgPrologue)
-	oConfigDialog.getControl(&quot;sPdfToSvgEpilogue&quot;).setText(sPdfToSvgEpilogue)
-	oConfigDialog.getControl(&quot;bUseSecondSvgParam&quot;).setState(BoolToCheckBoxState(bUseSecondSvgParam))
-	oConfigDialog.getControl(&quot;sLanguageFileName&quot;).setText(sLanguageFileName)
 
 	&apos; Writer configuration
 	oConfigDialog.getControl (&quot;sWriterDefaultTemplate&quot;).setText (sDefaultTemplate (0))
@@ -135,9 +141,6 @@ Sub ConfigDialogUpdate()
 	Else
 		oConfigDialog.getControl (&quot;DrawInsertDirect&quot;).setState (true)
 	End If 
-
-	&apos; Include Template:
-	oConfigDialog.getControl(&quot;bIncludeTemplate&quot;).setState(BoolToCheckBoxState(bIncludeTemplate))
 
 	&apos; Warnings
 	If bIgnoreWarnings Then
@@ -344,7 +347,7 @@ Sub ConfigDialogGrayOut()
 	oConfigDialog.getControl(&quot;sDrawDefaultStaffSize&quot;).setEnable( _
 	Not CheckBoxStateToBool(oConfigDialog.getControl(&quot;bDrawUseStaffSizeFromTemplate&quot;).getState()))
 
-	&apos; Gray out lables
+	&apos; Gray out labels
 	oConfigDialog.getControl(&quot;LabelWriterLineWidth&quot;).setEnable( _
 	Not CheckBoxStateToBool(oConfigDialog.getControl(&quot;bWriterUseLineWidthFromTemplate&quot;).getState()))
 	oConfigDialog.getControl(&quot;LabelWriterStaffSize&quot;).setEnable( _
@@ -362,6 +365,12 @@ Sub ConfigDialogGrayOut()
 	oConfigDialog.getControl(&quot;LabelDrawStaffSize&quot;).setEnable( _
 	Not CheckBoxStateToBool(oConfigDialog.getControl(&quot;bDrawUseStaffSizeFromTemplate&quot;).getState()))
 	
+	If (sOSType = &quot;Unix&quot;) Or (sOSType = &quot;Mac&quot;) Then
+		oConfigDialog.getControl(&quot;WinShellMethod1&quot;).setEnable (FALSE)
+		oConfigDialog.getControl(&quot;WinShellMethod2&quot;).setEnable (FALSE)
+		oConfigDialog.getControl(&quot;WinShellMethod3&quot;).setEnable (FALSE)
+	End If
+	
 	oConfigDialog.getControl(&quot;LabelSvgFilename&quot;).setEnable( _
 	CheckBoxStateToBool(oConfigDialog.getControl(&quot;bUseSecondSvgParam&quot;).getState()))
 End Sub
@@ -378,9 +387,6 @@ Sub ApplyConfig
 	Dim myFont As New com.sun.star.awt.FontDescriptor
 
 	&apos; General settings
-	sLilyPondExecutable = oConfigDialog.getControl(&quot;sLilyPondExecutable&quot;).getText()
-	sTemplatePath = AddSlash(ConvertToURL(oConfigDialog.getControl(&quot;sTemplatePath&quot;).getText()))
-	sLanguagePath = AddSlash(ConvertToURL(oConfigDialog.getControl(&quot;sLanguagePath&quot;).getText()))
 	sFormat = oConfigDialog.getControl(&quot;sFormat&quot;).getText()
 	If sFormat = &quot;pdf to svg&quot; Or sFormat = &quot;svg [-dcrop]&quot; Or sFormat = &quot;svg [cairo]&quot; Then
 		sExtension = &quot;svg&quot;
@@ -390,19 +396,27 @@ Sub ApplyConfig
 	iGraphicDPI = oConfigDialog.getControl(&quot;iGraphicDPI&quot;).getValue()
 	bTransparentBackground = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bTransparentBackground&quot;).getState())
 	bAddMissingPtUnit = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bAddMissingPtUnit&quot;).getState())
-	bIgnoreWarnings = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bIgnoreWarnings&quot;).getState())
+	
+	sLanguageFileName = oConfigDialog.getControl(&quot;sLanguageFileName&quot;).getText()
 	sEditorFontName = oConfigDialog.getControl(&quot;sEditorFontName&quot;).getText()
 	sEditorFontSize = oConfigDialog.getControl(&quot;sEditorFontSize&quot;).getText()
+	sIncludeStatement = oConfigDialog.getControl(&quot;sIncludeStatement&quot;).getText()
+	While InStr (sIncludeStatement, &quot;\&quot;) &gt; 0	&apos;  replace &quot;\&quot; by &quot;/&quot;, even in Windows LilyPond expects paths to be written with forward slashes
+		Mid (sIncludeStatement, InStr (sIncludeStatement, &quot;\&quot;), 1, &quot;/&quot;)
+	Wend
+	sLanguagePath = AddSlash(ConvertToURL(oConfigDialog.getControl(&quot;sLanguagePath&quot;).getText()))
+	sTemplatePath = AddSlash(ConvertToURL(oConfigDialog.getControl(&quot;sTemplatePath&quot;).getText()))
+	bIncludeTemplate = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bIncludeTemplate&quot;).getState())
 	sExtEditorExecutable = oConfigDialog.getControl(&quot;sExtEditorExecutable&quot;).getText()
 	bTempLyFileInDocFolder = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bTempLyFileInDocFolder&quot;).getState())
 	sPdfToSvgPrologue = oConfigDialog.getControl(&quot;sPdfToSvgPrologue&quot;).getText()
 	sPdfToSvgEpilogue = oConfigDialog.getControl(&quot;sPdfToSvgEpilogue&quot;).getText()
 	bUseSecondSvgParam = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bUseSecondSvgParam&quot;).getState())
-	sLanguageFileName = oConfigDialog.getControl(&quot;sLanguageFileName&quot;).getText()
-	sIncludeStatement = oConfigDialog.getControl(&quot;sIncludeStatement&quot;).getText()
-	While InStr (sIncludeStatement, &quot;\&quot;) &gt; 0	&apos;  replace &quot;\&quot; by &quot;/&quot;, even in Windows LilyPond expects paths to be written with forward slashes
-		Mid (sIncludeStatement, InStr (sIncludeStatement, &quot;\&quot;), 1, &quot;/&quot;)
-	Wend
+	sLilyPondExecutable = oConfigDialog.getControl(&quot;sLilyPondExecutable&quot;).getText()
+	bIgnoreWarnings = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bIgnoreWarnings&quot;).getState())
+	iWindowsShellMethod = 1
+	if oConfigDialog.getControl(&quot;WinShellMethod2&quot;).getState() then iWindowsShellMethod = 2
+	if oConfigDialog.getControl(&quot;WinShellMethod3&quot;).getState() then iWindowsShellMethod = 3
 	
 	&apos; Writer specific settings
 	sDefaultTemplate (0) =  oConfigDialog.getControl (&quot;sWriterDefaultTemplate&quot;).getText ()
@@ -456,10 +470,6 @@ Sub ApplyConfig
 	bUseStaffSizeFromTemplate (3) = CheckBoxStateToBool (oConfigDialog.getControl (&quot;bDrawUseStaffSizeFromTemplate&quot;).getState ())
 	bKeepCrop (3) = CheckBoxStateToBool (oConfigDialog.getControl (&quot;bDrawKeepCrop&quot;).getState ())
 	bInsertViaClipboard (3) = oConfigDialog.getControl (&quot;DrawInsertViaClipboard&quot;).getState ()
-	
-	
-	
-	bIncludeTemplate = CheckBoxStateToBool(oConfigDialog.getControl(&quot;bIncludeTemplate&quot;).getState())
 	
 	SetDocTypeSpecificDefaults()
 	
@@ -679,36 +689,6 @@ Sub ReadConfig()
 			Select Case sName
 				
 			&apos; general settings
-			Case &quot;sLanguageFileName&quot;
-				sLanguageFileName = sValue
-			Case &quot;sLilyPondExecutable&quot;
-				sLilyPondExecutable = sValue
-			Case &quot;sLilyPondVersionMajor&quot;
-				sLilyPondVersionMajor = sValue
-			Case &quot;sLilyPondVersionMinor&quot;
-				sLilyPondVersionMinor = sValue
-			Case &quot;sLilyPondVersionPatch&quot;
-				sLilyPondVersionPatch = sValue
-			Case &quot;sTemplatePath&quot;
-				sTemplatePath = AddSlash(sValue)
-			Case &quot;sLanguagePath&quot;
-				sLanguagePath = AddSlash(sValue)
-			Case &quot;sEditorFontName&quot;
-				sEditorFontName = sValue
-			Case &quot;sEditorFontSize&quot;
-				sEditorFontSize = sValue
-			Case &quot;sExtEditorExecutable&quot;
-				sExtEditorExecutable = sValue
-			Case &quot;bTempLyFileInDocFolder&quot;
-				bTempLyFileInDocFolder = StringToBool(sValue)
-			Case &quot;sPdfToSvgPrologue&quot;
-				sPdfToSvgPrologue = sValue
-			Case &quot;sPdfToSvgEpilogue&quot;
-				sPdfToSvgEpilogue = sValue
-			Case &quot;bUseSecondSvgParam&quot;
-				bUseSecondSvgParam = StringToBool(sValue)
-			Case &quot;sIncludeStatement&quot;
-				sIncludeStatement = sValue
 			Case &quot;iGraphicDPI&quot;
 				iGraphicDPI = sValue
 			Case &quot;sFormat&quot;
@@ -722,8 +702,43 @@ Sub ReadConfig()
 				bTransparentBackground = StringToBool(sValue)
 			Case &quot;bAddMissingPtUnit&quot;
 				bAddMissingPtUnit = StringToBool(sValue)
+			
+			Case &quot;sLanguageFileName&quot;
+				sLanguageFileName = sValue
+			Case &quot;sEditorFontName&quot;
+				sEditorFontName = sValue
+			Case &quot;sEditorFontSize&quot;
+				sEditorFontSize = sValue
+			Case &quot;sIncludeStatement&quot;
+				sIncludeStatement = sValue
+			Case &quot;sLanguagePath&quot;
+				sLanguagePath = AddSlash(sValue)
+			Case &quot;sTemplatePath&quot;
+				sTemplatePath = AddSlash(sValue)
+			Case &quot;bIncludeTemplate&quot;
+				bIncludeTemplate = StringToBool(sValue)
+			Case &quot;sExtEditorExecutable&quot;
+				sExtEditorExecutable = sValue
+			Case &quot;bTempLyFileInDocFolder&quot;
+				bTempLyFileInDocFolder = StringToBool(sValue)
+			Case &quot;sPdfToSvgPrologue&quot;
+				sPdfToSvgPrologue = sValue
+			Case &quot;sPdfToSvgEpilogue&quot;
+				sPdfToSvgEpilogue = sValue
+			Case &quot;bUseSecondSvgParam&quot;
+				bUseSecondSvgParam = StringToBool(sValue)
+			Case &quot;sLilyPondExecutable&quot;
+				sLilyPondExecutable = sValue
+			Case &quot;sLilyPondVersionMajor&quot;
+				sLilyPondVersionMajor = sValue
+			Case &quot;sLilyPondVersionMinor&quot;
+				sLilyPondVersionMinor = sValue
+			Case &quot;sLilyPondVersionPatch&quot;
+				sLilyPondVersionPatch = sValue
 			Case &quot;bIgnoreWarnings&quot;
 				bIgnoreWarnings = StringToBool(sValue)
+			Case &quot;iWindowsShellMethod&quot;
+				iWindowsShellMethod = sValue
 				
 			&apos; Writer specific settings
 			Case &quot;sWriterDefaultTemplate&quot;
@@ -834,9 +849,6 @@ Sub ReadConfig()
 				bInsertViaClipboard (3) = StringToBool(sValue)
 			Case &quot;bDrawKeepCrop&quot;
 				bKeepCrop (3) = StringToBool(sValue)
-
-			Case &quot;bIncludeTemplate&quot;
-				bIncludeTemplate = StringToBool(sValue)
 				
 			
 			End Select
@@ -884,25 +896,29 @@ Sub SaveConfig
     oTextOutputStream.writeString(&quot;*** Configuration file of &quot; &amp; constOLyLibraryName &amp; &quot; ***&quot; &amp; Chr(10) )
 	&apos; general settings
 	oTextOutputStream.writeString(&quot;sLanguageFileName=&quot; &amp; sLanguageFileName &amp; Chr(10) )
-	oTextOutputStream.writeString(&quot;sLilyPondExecutable=&quot; &amp; sLilyPondExecutable &amp; Chr(10) )
-	oTextOutputStream.writeString(&quot;sLilyPondVersionMajor=&quot; &amp; sLilyPondVersionMajor &amp; Chr(10) )
-	oTextOutputStream.writeString(&quot;sLilyPondVersionMinor=&quot; &amp; sLilyPondVersionMinor &amp; Chr(10) )
-	oTextOutputStream.writeString(&quot;sLilyPondVersionPatch=&quot; &amp; sLilyPondVersionPatch &amp; Chr(10) )
-	oTextOutputStream.writeString(&quot;sTemplatePath=&quot; &amp; sTemplatePath &amp; Chr(10) )
-	oTextOutputStream.writeString(&quot;sLanguagePath=&quot; &amp; sLanguagePath &amp; Chr(10) )
-	oTextOutputStream.writeString(&quot;iGraphicDPI=&quot; &amp; iGraphicDPI &amp; Chr(10))
-	oTextOutputStream.writeString(&quot;sFormat=&quot; &amp; sFormat &amp; Chr(10))	
-	oTextOutputStream.writeString(&quot;bTransparentBackground=&quot; &amp; BoolToString(bTransparentBackground) &amp; Chr(10))	
-	oTextOutputStream.writeString(&quot;bAddMissingPtUnit=&quot; &amp; BoolToString(bAddMissingPtUnit) &amp; Chr(10))	
-	oTextOutputStream.writeString(&quot;bIgnoreWarnings=&quot; &amp; BoolToString(bIgnoreWarnings) &amp; Chr(10))	
 	oTextOutputStream.writeString(&quot;sEditorFontName=&quot; &amp; sEditorFontName &amp; Chr(10) )
 	oTextOutputStream.writeString(&quot;sEditorFontSize=&quot; &amp; sEditorFontSize &amp; Chr(10) )
+	oTextOutputStream.writeString(&quot;sLanguagePath=&quot; &amp; sLanguagePath &amp; Chr(10) )
+	oTextOutputStream.writeString(&quot;sTemplatePath=&quot; &amp; sTemplatePath &amp; Chr(10) )
+	oTextOutputStream.writeString(&quot;bIncludeTemplate=&quot; &amp; BoolToString(bIncludeTemplate) &amp; Chr(10))
 	oTextOutputStream.writeString(&quot;sExtEditorExecutable=&quot; &amp; sExtEditorExecutable &amp; Chr(10) )
 	oTextOutputStream.writeString(&quot;bTempLyFileInDocFolder=&quot; &amp; BoolToString(bTempLyFileInDocFolder) &amp; Chr(10))	
 	oTextOutputStream.writeString(&quot;sPdfToSvgPrologue=&quot; &amp; sPdfToSvgPrologue &amp; Chr(10) )
 	oTextOutputStream.writeString(&quot;sPdfToSvgEpilogue=&quot; &amp; sPdfToSvgEpilogue &amp; Chr(10) )
 	oTextOutputStream.writeString(&quot;bUseSecondSvgParam=&quot; &amp; BoolToString(bUseSecondSvgParam) &amp; Chr(10))	
 	oTextOutputStream.writeString(&quot;sIncludeStatement=&quot; &amp; sIncludeStatement &amp; Chr(10) )
+	oTextOutputStream.writeString(&quot;sLilyPondExecutable=&quot; &amp; sLilyPondExecutable &amp; Chr(10) )
+	oTextOutputStream.writeString(&quot;bIgnoreWarnings=&quot; &amp; BoolToString(bIgnoreWarnings) &amp; Chr(10))	
+	oTextOutputStream.writeString(&quot;sLilyPondVersionMajor=&quot; &amp; sLilyPondVersionMajor &amp; Chr(10) )
+	oTextOutputStream.writeString(&quot;sLilyPondVersionMinor=&quot; &amp; sLilyPondVersionMinor &amp; Chr(10) )
+	oTextOutputStream.writeString(&quot;sLilyPondVersionPatch=&quot; &amp; sLilyPondVersionPatch &amp; Chr(10) )
+	oTextOutputStream.writeString(&quot;iWindowsShellMethod=&quot; &amp; iWindowsShellMethod &amp; Chr(10) )
+	
+	oTextOutputStream.writeString(&quot;sFormat=&quot; &amp; sFormat &amp; Chr(10))	
+	oTextOutputStream.writeString(&quot;iGraphicDPI=&quot; &amp; iGraphicDPI &amp; Chr(10))
+	oTextOutputStream.writeString(&quot;bTransparentBackground=&quot; &amp; BoolToString(bTransparentBackground) &amp; Chr(10))	
+	oTextOutputStream.writeString(&quot;bAddMissingPtUnit=&quot; &amp; BoolToString(bAddMissingPtUnit) &amp; Chr(10))	
+	
 	
 	&apos; Writer specific
 	oTextOutputStream.writeString(&quot;sWriterDefaultTemplate=&quot; &amp; sDefaultTemplate (0) &amp; Chr(10))
@@ -981,8 +997,6 @@ Sub SaveConfig
 	oTextOutputStream.writeString(&quot;bDrawInsertViaClipboard=&quot; &amp; BoolToString (bInsertViaClipboard (3)) &amp; Chr(10))
 	oTextOutputStream.writeString(&quot;bDrawKeepCrop=&quot; &amp; BoolToString (bKeepCrop (3)) &amp; Chr(10))
 
-	oTextOutputStream.writeString(&quot;bIncludeTemplate=&quot; &amp; BoolToString(bIncludeTemplate) &amp; Chr(10))
-	
 	oTextOutputStream.writeString(&quot;*** End of configuration file ***&quot; &amp; Chr(10) )
 		
 	oTextOutputStream.closeOutput()
